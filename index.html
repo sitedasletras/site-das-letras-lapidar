@@ -187,6 +187,16 @@ line-height:1.9;
 white-space:pre-line;
 text-align:center;
 }
+
+.tabela-capa{
+margin-top:15px;
+background:#fff;
+border:1px solid #ccc;
+border-radius:10px;
+padding:18px;
+line-height:1.9;
+white-space:pre-line;
+}
 </style>
 </head>
 
@@ -296,20 +306,20 @@ Preencha a Ficha Global Lapidar para iniciar a preparação editorial da obra.
 <div class="linha">
 <div>
 <label>Formato do livro</label>
-<select>
-<option>A5</option>
-<option>14x21 cm</option>
-<option>16x23 cm</option>
-<option>16x27 cm</option>
-<option>6x9 pol</option>
-<option>A4 vertical</option>
-<option>A4 horizontal</option>
+<select id="formatoLivro" onchange="calcularCapaCompleta()">
+<option value="14.8|21.0">A5</option>
+<option value="14|21">14x21 cm</option>
+<option value="16|23">16x23 cm</option>
+<option value="16|27">16x27 cm</option>
+<option value="15.24|22.86">6x9 pol</option>
+<option value="21|29.7">A4 vertical</option>
+<option value="29.7|21">A4 horizontal</option>
 </select>
 </div>
 
 <div>
 <label>Tipo de papel</label>
-<select id="papel" onchange="calcularLombada()">
+<select id="papel" onchange="calcularLombada(); calcularCapaCompleta();">
 <option value="0.045">Offset 63g (editorial leve)</option>
 <option value="0.050">Offset 75g (padrão UICLAP)</option>
 <option value="0.055">Pólen 80g</option>
@@ -333,7 +343,7 @@ Preencha a Ficha Global Lapidar para iniciar a preparação editorial da obra.
 
 <div>
 <label>Número de páginas</label>
-<input type="number" id="paginas" min="1" value="100" oninput="calcularLombada()">
+<input type="number" id="paginas" min="1" value="100" oninput="calcularLombada(); calcularCapaCompleta();">
 </div>
 </div>
 
@@ -458,6 +468,40 @@ Ele servirá como base da trilha editorial, certificação estrutural e assinatu
 </div>
 </fieldset>
 
+<fieldset>
+<legend>Bloco 8 — Cálculo Editorial da Lombada</legend>
+
+<p>
+Este bloco utiliza a espessura editorial do papel e um coeficiente técnico de cola para estimar a lombada da obra com padrão gráfico.
+</p>
+
+<div class="resultado">
+<strong>Lombada técnica atual:</strong>
+<div class="fichaBox" id="lombadaTecnicaBox"></div>
+</div>
+</fieldset>
+
+<fieldset>
+<legend>Bloco 9 — Cálculo da Capa Completa</legend>
+
+<div class="linha">
+<div>
+<label>Orelha esquerda (cm)</label>
+<input type="number" id="orelhaEsquerda" value="7" step="0.1" oninput="calcularCapaCompleta()">
+</div>
+
+<div>
+<label>Orelha direita (cm)</label>
+<input type="number" id="orelhaDireita" value="7" step="0.1" oninput="calcularCapaCompleta()">
+</div>
+</div>
+
+<div class="resultado">
+<strong>Estrutura calculada da arte da capa:</strong>
+<div id="capaCalculada" class="tabela-capa"></div>
+</div>
+</fieldset>
+
 <div class="topo-acoes">
 <button type="button" onclick="alert('Próximo passo: bloco seguinte da Ficha Global.')">Salvar e continuar</button>
 </div>
@@ -490,8 +534,42 @@ function calcularLombada(){
 var paginas = parseFloat(document.getElementById("paginas").value) || 0;
 var espessura = parseFloat(document.getElementById("papel").value) || 0;
 var coeficienteCola = 0.20;
-var lombada = (paginas * espessura) + coeficienteCola;
-document.getElementById("lombada").innerText = lombada.toFixed(2) + " mm (estimativa editorial Lapidar)";
+var lombadaMm = (paginas * espessura) + coeficienteCola;
+document.getElementById("lombada").innerText = lombadaMm.toFixed(2) + " mm (estimativa editorial Lapidar)";
+document.getElementById("lombadaTecnicaBox").innerText =
+"Páginas: " + paginas + "\n" +
+"Espessura do papel selecionado: " + espessura.toFixed(3) + " mm\n" +
+"Coeficiente técnico de cola: 0.20 mm\n" +
+"Lombada final estimada: " + lombadaMm.toFixed(2) + " mm";
+return lombadaMm;
+}
+
+function calcularCapaCompleta(){
+var formato = document.getElementById("formatoLivro").value.split("|");
+var larguraFrente = parseFloat(formato[0]) || 0;
+var altura = parseFloat(formato[1]) || 0;
+
+var lombadaMm = calcularLombada();
+var lombadaCm = lombadaMm / 10;
+
+var orelhaEsquerda = parseFloat(document.getElementById("orelhaEsquerda").value) || 0;
+var orelhaDireita = parseFloat(document.getElementById("orelhaDireita").value) || 0;
+
+var contracapa = larguraFrente;
+var capa = larguraFrente;
+
+var larguraTotal = orelhaEsquerda + contracapa + lombadaCm + capa + orelhaDireita;
+
+var texto = "";
+texto += "Altura da arte: " + altura.toFixed(2) + " cm\n";
+texto += "Orelha esquerda: " + orelhaEsquerda.toFixed(2) + " cm\n";
+texto += "Contracapa: " + contracapa.toFixed(2) + " cm\n";
+texto += "Lombada: " + lombadaCm.toFixed(2) + " cm\n";
+texto += "Capa: " + capa.toFixed(2) + " cm\n";
+texto += "Orelha direita: " + orelhaDireita.toFixed(2) + " cm\n\n";
+texto += "Largura total da arte: " + larguraTotal.toFixed(2) + " cm";
+
+document.getElementById("capaCalculada").innerText = texto;
 }
 
 function analisarObra(){
@@ -584,6 +662,7 @@ document.getElementById("resultadoCertificado").style.display = "block";
 
 function gerarRegistro(){
 var titulo = document.getElementById("tituloObra").value.trim();
+var subtitulo = document.getElementById("subtituloObra").value.trim();
 var autor = document.getElementById("autorCapa").value.trim();
 
 if(titulo === "") titulo = "Título não informado";
@@ -601,6 +680,7 @@ var codigo = "LAP-" + ano + "-" + mes + dia + "-" + hora + minuto;
 var registro = "";
 registro += "REGISTRO EDITORIAL INTERNO LAPIDAR\n\n";
 registro += "Obra: " + titulo + "\n";
+if(subtitulo !== "") registro += "Subtítulo: " + subtitulo + "\n";
 registro += "Autor: " + autor + "\n\n";
 registro += "Código editorial interno:\n";
 registro += codigo + "\n\n";
@@ -614,6 +694,7 @@ document.getElementById("resultadoRegistro").style.display = "block";
 }
 
 calcularLombada();
+calcularCapaCompleta();
 </script>
 
 </body>
