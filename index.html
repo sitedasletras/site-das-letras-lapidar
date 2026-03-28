@@ -426,6 +426,72 @@ Preencha a Ficha Global Lapidar para iniciar a preparação editorial da obra.
 
 <fieldset>
 <legend>Bloco 6 — Certificado Editorial Lapidar</legend>
+<fieldset>
+<legend>Bloco 7 — Registro Editorial Interno Lapidar</legend>
 
+<p>
+Este registro cria o identificador editorial interno da obra dentro do sistema Lapidar.
+Ele servirá como base da trilha editorial, certificação estrutural e assinatura futura do arquivo final.
+</p>
+
+<div class="topo-acoes">
+<button type="button" onclick="gerarRegistro()">Gerar registro editorial da obra</button>
+</div>
+
+<div id="resultadoRegistro" class="resultado" style="display:none;">
+<strong>Registro Editorial Lapidar:</strong>
+
+<div id="registroGerado" class="certificado"></div>
+
+</div>
+</fieldset>
+  <div class="topo-acoes">
+<button type="button" onclick="alert('Próximo passo: bloco seguinte da Ficha Global.')">Salvar e continuar</button>
+</div>
+
+</form>
+</div>
+
+</div>
+
+<script>
+function abrirProjetoCompleto(){
+document.getElementById("home").style.display="none";
+document.getElementById("projetoCompleto").style.display="block";
+}
+
+function voltarInicio(){
+document.getElementById("projetoCompleto").style.display="none";
+document.getElementById("home").style.display="block";
+}
+
+function mostrarHeteronimo(valor){
+if(valor==="Heterônimo"){
+document.getElementById("heteronimoCampo").style.display="block";
+}else{
+document.getElementById("heteronimoCampo").style.display="none";
+}
+}
+
+function calcularLombada(){
+var paginas = parseFloat(document.getElementById("paginas").value) || 0;
+var fator = parseFloat(document.getElementById("papel").value) || 0;
+var lombada = paginas * fator;
+document.getElementById("lombada").innerText = lombada.toFixed(2) + " mm";
+}
+
+function analisarObra(){
+var resumo = document.getElementById("resumoObra").value.toLowerCase();
+var tags = [];
+var texto = "";
+
+if(resumo.includes("poema") || resumo.includes("poesia") || resumo.includes("verso") || resumo.includes("estrofe")) tags.push("Poesia");
+if(resumo.includes("conto") || resumo.includes("romance") || resumo.includes("capítulo") || resumo.includes("narrativa")) tags.push("Prosa");
+if(resumo.includes("aluno") || resumo.includes("escola") || resumo.includes("turma") || resumo.includes("professora")) tags.push("Projeto escolar");
+if(resumo.includes("família") || resumo.includes("filho") || resumo.includes("neto") || resumo.includes("memória") || resumo.includes("legado")) tags.push("Modo Momentos");
+if(resumo.includes("antologia") || resumo.includes("coletânea")) tags.push("Antologia");
+if(resumo.includes("miscelânea") || resumo.includes("misto") || resumo.includes("poesia e conto") || resumo.includes("redações")) tags.push("Miscelânea");
+if(resumo.includes("medieval") || resumo.includes("rei") || resumo.includes("castelo") || resumo.includes("abadia")) tags.push("Narrativa medieval");
+if(resumo.includes("suspense") || resumo.includes("mistério")
 <div class="topo-acoes">
 <button
