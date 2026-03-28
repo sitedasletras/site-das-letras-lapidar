@@ -197,6 +197,51 @@ padding:18px;
 line-height:1.9;
 white-space:pre-line;
 }
+
+#areaImpressaoPDF{
+display:none;
+}
+
+@media print{
+body{
+background:white;
+padding:0;
+}
+
+.container{
+display:none;
+}
+
+#areaImpressaoPDF{
+display:block;
+padding:30px;
+font-family:Arial,sans-serif;
+color:#111;
+}
+
+.pdf-box{
+border:2px solid #333;
+padding:28px;
+border-radius:12px;
+white-space:pre-line;
+line-height:1.8;
+font-size:16px;
+}
+
+.pdf-titulo{
+font-size:26px;
+font-weight:bold;
+margin-bottom:18px;
+text-align:center;
+}
+
+.pdf-sub{
+font-size:14px;
+margin-top:18px;
+text-align:center;
+color:#444;
+}
+}
 </style>
 </head>
 
@@ -501,7 +546,8 @@ Este bloco utiliza a espessura editorial do papel e um coeficiente técnico de c
 <div id="capaCalculada" class="tabela-capa"></div>
 </div>
 </fieldset>
-  <fieldset>
+
+<fieldset>
 <legend>Bloco 10 — Exportador Técnico da Capa</legend>
 
 <p>
@@ -511,13 +557,13 @@ pronto para envio ao capista, designer ou gráfica.
 
 <div class="topo-acoes">
 <button type="button" onclick="exportarCapa()">Gerar relatório técnico da capa</button>
+<button type="button" class="secundario" onclick="exportarCapaPDF()">Exportar relatório técnico em PDF</button>
 </div>
 
 <div id="resultadoExportacao" class="resultado" style="display:none;">
 <strong>Relatório técnico da capa:</strong>
 <div id="relatorioCapaGerado" class="certificado"></div>
 </div>
-
 </fieldset>
 
 <div class="topo-acoes">
@@ -527,6 +573,12 @@ pronto para envio ao capista, designer ou gráfica.
 </form>
 </div>
 
+</div>
+
+<div id="areaImpressaoPDF">
+<div class="pdf-titulo">RELATÓRIO TÉCNICO DE CAPA</div>
+<div id="pdfConteudo" class="pdf-box"></div>
+<div class="pdf-sub">Site das Letras — Lapidar —</div>
 </div>
 
 <script>
@@ -710,8 +762,8 @@ registro += "Site das Letras Edições Literárias — Lapidar";
 document.getElementById("registroGerado").innerText = registro;
 document.getElementById("resultadoRegistro").style.display = "block";
 }
-function exportarCapa(){
 
+function exportarCapa(){
 var titulo = document.getElementById("tituloObra").value.trim();
 var subtitulo = document.getElementById("subtituloObra").value.trim();
 var autor = document.getElementById("autorCapa").value.trim();
@@ -739,37 +791,35 @@ var capa = larguraFrente;
 var larguraTotal = orelhaEsquerda + contracapa + lombadaCm + capa + orelhaDireita;
 
 var papelSelecionado = document.getElementById("papel").selectedOptions[0].text;
-var destino = document.querySelector("select").value;
 
 var relatorio = "";
-
 relatorio += "RELATÓRIO TÉCNICO DE CAPA\n\n";
-
 relatorio += "Obra: " + titulo + "\n";
-
-if(subtitulo !== ""){
-relatorio += "Subtítulo: " + subtitulo + "\n";
-}
-
+if(subtitulo !== "") relatorio += "Subtítulo: " + subtitulo + "\n";
 relatorio += "Autor: " + autor + "\n\n";
-
 relatorio += "Formato: " + larguraFrente.toFixed(2) + " x " + altura.toFixed(2) + " cm\n";
 relatorio += "Contracapa: " + contracapa.toFixed(2) + " cm\n";
 relatorio += "Lombada: " + lombadaCm.toFixed(2) + " cm\n";
 relatorio += "Capa: " + capa.toFixed(2) + " cm\n";
 relatorio += "Orelha esquerda: " + orelhaEsquerda.toFixed(2) + " cm\n";
 relatorio += "Orelha direita: " + orelhaDireita.toFixed(2) + " cm\n\n";
-
 relatorio += "Largura total da arte: " + larguraTotal.toFixed(2) + " cm\n\n";
-
 relatorio += "Papel: " + papelSelecionado + "\n";
 relatorio += "Sistema editorial: Site das Letras — Lapidar —";
 
 document.getElementById("relatorioCapaGerado").innerText = relatorio;
-
 document.getElementById("resultadoExportacao").style.display = "block";
-
+return relatorio;
 }
+
+function exportarCapaPDF(){
+var relatorio = exportarCapa();
+document.getElementById("pdfConteudo").innerText = relatorio;
+setTimeout(function(){
+window.print();
+}, 200);
+}
+
 calcularLombada();
 calcularCapaCompleta();
 </script>
