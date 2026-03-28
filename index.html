@@ -16,7 +16,31 @@ p{color:#555;line-height:1.6;}
 .btn:hover{background:#444;}
 .note{margin-top:30px;padding:18px;border:1px solid #ddd;border-radius:14px;background:#fcfcfc;text-align:left;}
 small{color:#666;}
-@media (max-width:800px){.grid{grid-template-columns:1fr;}}
+#contadorApoioLapidar{
+position:fixed;
+right:14px;
+bottom:74px;
+z-index:9999;
+background:rgba(255,255,255,0.95);
+border:1px solid #d9d9d9;
+border-radius:14px;
+padding:10px 12px;
+box-shadow:0 4px 14px rgba(0,0,0,0.10);
+min-width:190px;
+text-align:left;
+font-size:13px;
+line-height:1.35;
+color:#333;
+backdrop-filter:blur(3px);
+}
+#contadorApoioLapidar strong{display:block;margin-bottom:4px;}
+#contadorApoioLapidar.encerrado{border-color:#d8b4b4;background:rgba(255,248,248,0.96);}
+#contadorApoioLapidar.alerta{border-color:#e4d38f;background:rgba(255,252,240,0.96);}
+#contadorApoioLapidar.urgente{border-color:#d7a2a2;background:rgba(255,244,244,0.96);}
+@media (max-width:800px){
+  .grid{grid-template-columns:1fr;}
+  #contadorApoioLapidar{right:10px;left:10px;bottom:72px;min-width:auto;}
+}
 </style>
 </head>
 <body>
@@ -27,28 +51,14 @@ small{color:#666;}
 <div class="grid">
   <div class="card">
     <h2>Processar livro completo</h2>
-    <p>Entrada para o fluxo editorial total do manuscrito:</p>
-    <p>• upload do arquivo<br>
-    • higienização do texto<br>
-    • análise narrativa<br>
-    • Cutter e ID SDL<br>
-    • relatórios editoriais<br>
-    • PDF final<br>
-    • DOCX final apenas para heterônimos internos SDL</p>
+    <p>Entrada para o fluxo editorial total do manuscrito.</p>
     <a class="btn" href="#">Entrar no — Lapidar —</a>
-    <small>Valor base do processamento editorial: R$ 19,90</small>
+    <small>Doação sugerida: R$ 19,90</small>
   </div>
 
   <div class="card">
     <h2>Criar apenas a capa</h2>
-    <p>Entrada direta para o Projeto OCapista:</p>
-    <p>• capa digital ou física<br>
-    • escolha da gráfica ou plataforma<br>
-    • lombada automática<br>
-    • contra-capa<br>
-    • orelhas opcionais<br>
-    • tipografia editorial livre<br>
-    • PDF pronto para upload</p>
+    <p>Entrada direta para o Projeto OCapista.</p>
     <a class="btn" href="#">Entrar no Projeto OCapista</a>
     <small>Digital: R$ 10 / R$ 40 • Físico: R$ 18 / R$ 48</small>
   </div>
@@ -58,12 +68,91 @@ small{color:#666;}
   <strong>Fluxo geral do sistema</strong>
   <p style="margin-bottom:0;">
   1. Escolha se o projeto é livro completo ou só capa.<br>
-  2. Se for livro completo, siga o fluxo do — Lapidar —.<br>
-  3. Se for só capa, entre direto no Projeto OCapista.<br>
-  4. O sistema mostra preview antes do pagamento e libera download final após confirmação.
+  2. O contador de apoio aparece em todas as páginas.<br>
+  3. O sistema mostra preview antes da doação e libera download final após confirmação.
   </p>
 </div>
 
 </div>
+
+<div id="contadorApoioLapidar" aria-live="polite">
+  <strong>⏳ Apoio inativo</strong>
+  <div>Ative uma doação para iniciar o período.</div>
+</div>
+
+<script>
+function obterApoioLapidar(){
+  return JSON.parse(localStorage.getItem("APOIO_LAPIDAR_GLOBAL") || "null");
+}
+
+function salvarApoioLapidar(dados){
+  localStorage.setItem("APOIO_LAPIDAR_GLOBAL", JSON.stringify(dados));
+}
+
+function criarApoioDemoSeNaoExistir(){
+  const apoio = obterApoioLapidar();
+  if(apoio) return;
+  const agora = Date.now();
+  const trintaDias = 30 * 24 * 60 * 60 * 1000;
+  salvarApoioLapidar({
+    ativo: true,
+    inicio: agora,
+    fim: agora + trintaDias,
+    livrosTotal: 10,
+    livrosUsados: 0
+  });
+}
+
+function formatarTempo(ms){
+  if(ms <= 0) return "0d 0h 0m 0s";
+  const totalSeg = Math.floor(ms / 1000);
+  const dias = Math.floor(totalSeg / 86400);
+  const horas = Math.floor((totalSeg % 86400) / 3600);
+  const minutos = Math.floor((totalSeg % 3600) / 60);
+  const segundos = totalSeg % 60;
+  return dias + "d " + horas + "h " + minutos + "m " + segundos + "s";
+}
+
+function atualizarContadorApoioLapidar(){
+  const box = document.getElementById("contadorApoioLapidar");
+  const apoio = obterApoioLapidar();
+
+  if(!apoio || !apoio.ativo){
+    box.className = "";
+    box.innerHTML = "<strong>⏳ Apoio inativo</strong><div>Ative uma doação para iniciar o período.</div>";
+    return;
+  }
+
+  const agora = Date.now();
+  const restante = apoio.fim - agora;
+  const livrosRestantes = Math.max(0, (apoio.livrosTotal || 0) - (apoio.livrosUsados || 0));
+
+  box.className = "";
+  if(restante <= 0){
+    box.classList.add("encerrado");
+    box.innerHTML =
+      "<strong>⏳ Apoio encerrado</strong>" +
+      "<div>📚 Livros restantes: " + livrosRestantes + "/" + (apoio.livrosTotal || 0) + "</div>" +
+      "<div>Clique para continuar apoiando o projeto.</div>";
+    return;
+  }
+
+  const diasRestantes = restante / (24 * 60 * 60 * 1000);
+  if(diasRestantes <= 2){
+    box.classList.add("urgente");
+  }else if(diasRestantes <= 7){
+    box.classList.add("alerta");
+  }
+
+  box.innerHTML =
+    "<strong>⏳ Apoio ativo</strong>" +
+    "<div>Tempo restante: " + formatarTempo(restante) + "</div>" +
+    "<div>📚 Livros restantes: " + livrosRestantes + "/" + (apoio.livrosTotal || 0) + "</div>";
+}
+
+criarApoioDemoSeNaoExistir();
+atualizarContadorApoioLapidar();
+setInterval(atualizarContadorApoioLapidar, 1000);
+</script>
 </body>
 </html>
