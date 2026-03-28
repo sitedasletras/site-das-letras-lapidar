@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lapidar — Site das Letras — V42</title>
+<title>Lapidar — Site das Letras — V45</title>
 
 <style>
 body{margin:0;font-family:Arial;background:#f4f4f4;text-align:center;padding:40px;}
-.container{max-width:1000px;margin:auto;background:white;padding:35px;border-radius:18px;box-shadow:0 6px 18px rgba(0,0,0,0.08);}
-input,button{margin-top:10px;padding:12px;font-size:16px;border-radius:8px;border:1px solid #ccc;width:100%;box-sizing:border-box;}
+.container{max-width:1100px;margin:auto;background:white;padding:35px;border-radius:18px;box-shadow:0 6px 18px rgba(0,0,0,0.08);}
+textarea,input,button{margin-top:10px;padding:12px;font-size:16px;border-radius:8px;border:1px solid #ccc;width:100%;box-sizing:border-box;}
 button{background:#222;color:white;cursor:pointer;}
 button:hover{background:#444;}
 .relatorio{margin-top:20px;border:2px solid #bbb;border-radius:10px;padding:25px;white-space:pre-line;text-align:left;}
@@ -19,96 +19,101 @@ button:hover{background:#444;}
 
 <div class="container">
 
-<h2>Site das Letras — Lapidar V42</h2>
-<p>Nome automático inteligente do arquivo final da obra.</p>
+<h2>Site das Letras — Lapidar V45</h2>
+<p>Recomposição narrativa automática com variação inteligente de conectores temporais.</p>
 
-<label>Autor</label>
-<input id="autor" placeholder="Ex: Aurora Wings">
+<label>Texto após limpeza do V44</label>
+<textarea id="textoEntrada" rows="16" placeholder="Cole aqui o texto já higienizado."></textarea>
 
-<label>Título da obra</label>
-<input id="titulo" placeholder="Ex: Crônicas da Persida">
+<button onclick="recomporNarrativa()">Aplicar recomposição narrativa inteligente</button>
 
-<button onclick="gerarNomeArquivo()">Gerar nome automático do arquivo final</button>
+<label>Texto recomposto</label>
+<textarea id="textoSaida" rows="16"></textarea>
 
-<div id="saida" class="relatorio"></div>
+<div id="relatorio" class="relatorio"></div>
 
 </div>
 
 <script>
 
-function limpar(txt){
-return (txt||"")
-.normalize("NFD")
-.replace(/[\u0300-\u036f]/g,"")
-.replace(/[^a-zA-Z0-9 ]/g,"")
-.trim()
-}
+let conectoresDisponiveis=[
+"Pouco depois",
+"Instantes mais tarde",
+"Na sequência dos acontecimentos",
+"Mais adiante",
+"Algum tempo depois",
+"Momentos depois",
+"Horas mais tarde",
+"Logo depois",
+"Em seguida",
+"No desenrolar daquele instante narrativo"
+];
 
-function formatoArquivo(txt){
-return limpar(txt)
-.replace(/\s+/g,"_")
-}
+function limparConectorInicial(frase){
 
-function obterBancoHeteronimosSDL(){
-return JSON.parse(localStorage.getItem("BANCO_HETERONIMOS_SDL")||"[]")
-}
-
-function autorEhSDL(nome){
-
-var banco=obterBancoHeteronimosSDL()
-
-var autor=limpar(nome).toUpperCase()
-
-for(var i=0;i<banco.length;i++){
-
-if(limpar(banco[i].nome).toUpperCase()==autor){
-
-return true
+return frase.replace(/^\s*(Agora|Então|Assim|Logo|Depois|Em seguida|A seguir|Nesse momento)[,\s]+/i,"");
 
 }
 
+function selecionarConector(usados){
+
+for(let i=0;i<conectoresDisponiveis.length;i++){
+
+if(!usados.includes(conectoresDisponiveis[i])){
+
+return conectoresDisponiveis[i]
+
 }
 
-return false
+}
+
+return "Momentos depois"
 
 }
 
-function gerarNomeArquivo(){
+function recomporNarrativa(){
 
-var autor=document.getElementById("autor").value.trim()
-var titulo=document.getElementById("titulo").value.trim()
+let texto=document.getElementById("textoEntrada").value.trim()
 
-if(!autor || !titulo){
+if(!texto){
 
-alert("Preencha autor e título.")
+alert("Cole um texto primeiro.")
 return
 
 }
 
-var tituloFormatado=formatoArquivo(titulo)
+let linhas=texto.split("\n")
+let usados=[]
+let substituicoes=0
 
-var interno=autorEhSDL(autor)
+for(let i=0;i<linhas.length;i++){
 
-var resultado=""
+let linhaOriginal=linhas[i]
 
-if(interno){
+if(/^(Agora|Então|Assim|Logo|Depois|Em seguida|A seguir|Nesse momento)[,\s]/i.test(linhaOriginal)){
 
-resultado=
-"Autor identificado como heterônimo SDL\n\n"+
-"Arquivos gerados automaticamente:\n"+
-tituloFormatado+".pdf\n"+
-tituloFormatado+".docx"
+let conectorNovo=selecionarConector(usados)
 
-}else{
+let fraseLimpa=limparConectorInicial(linhaOriginal)
 
-resultado=
-"Autor externo identificado\n\n"+
-"Arquivo gerado automaticamente:\n"+
-tituloFormatado+".pdf"
+linhas[i]=conectorNovo + ", " + fraseLimpa
+
+usados.push(conectorNovo)
+
+substituicoes++
 
 }
 
-document.getElementById("saida").innerText=resultado
+}
+
+let textoFinal=linhas.join("\n")
+
+document.getElementById("textoSaida").value=textoFinal
+
+document.getElementById("relatorio").innerText=
+"RECOMPOSIÇÃO NARRATIVA EXECUTADA\n\n"+
+"Conectores substituídos: "+substituicoes+"\n"+
+"Variação automática aplicada conforme regra editorial do Prompt 001."
 
 }
 
