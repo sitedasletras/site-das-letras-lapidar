@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lapidar — Site das Letras — V35</title>
+<title>Lapidar — Site das Letras — V36</title>
 
 <style>
 body{margin:0;font-family:Arial;background:#f4f4f4;text-align:center;padding:40px;}
@@ -12,6 +12,7 @@ input,select,button{margin-top:10px;padding:12px;font-size:16px;border-radius:8p
 button{background:#222;color:white;cursor:pointer;}
 button:hover{background:#444;}
 .relatorio{margin-top:20px;border:2px solid #bbb;border-radius:10px;padding:25px;white-space:pre-line;text-align:left;}
+small{display:block;color:#666;margin-top:6px;}
 </style>
 </head>
 
@@ -19,7 +20,7 @@ button:hover{background:#444;}
 
 <div class="container">
 
-<h2>Site das Letras — Lapidar V35</h2>
+<h2>Site das Letras — Lapidar V36</h2>
 
 <label>Conta editorial</label>
 <input id="conta" placeholder="Ex: Site das Letras">
@@ -27,111 +28,187 @@ button:hover{background:#444;}
 <label>Autor</label>
 <input id="autor" placeholder="Ex: Aurora Wings">
 
-<label>Título da obra</label>
-<input id="titulo" placeholder="Ex: Crônicas da Persida">
-
 <label>Código Cutter</label>
 <input id="cutter" placeholder="Ex: L953-01">
 
-<label>Coleção</label>
-<input id="colecao" placeholder="Ex: CDP">
-
-<label>Selo editorial</label>
-<input id="selo" placeholder="Ex: SDL">
+<label>Coleção editorial (opcional)</label>
+<input id="colecao" placeholder="Ex: Crônicas da Persida">
 
 <label>Formato</label>
 <select id="formato">
-<option>A5</option>
-<option>16x23</option>
-<option>16x27</option>
-<option>A4</option>
-<option>6x9</option>
-<option>Infantil Quadrado</option>
+<option value="A5">A5</option>
+<option value="1623">16x23</option>
+<option value="1627">16x27</option>
+<option value="A4">A4</option>
+<option value="69">6x9</option>
+<option value="INFQ">Infantil Quadrado</option>
+</select>
+
+<label>Tipo da obra</label>
+<select id="tipoObra">
+<option value="RMN">Romance</option>
+<option value="CNT">Contos</option>
+<option value="PES">Poesia</option>
+<option value="INF">Infantil</option>
+<option value="ANT">Antologia</option>
+<option value="TEC">Técnico</option>
+<option value="ENS">Ensaio</option>
+<option value="BIO">Biografia</option>
+<option value="ESP">Espiritual</option>
+<option value="HIS">Histórico</option>
+<option value="FAN">Fantasia</option>
+<option value="HOR">Horror</option>
+<option value="MIS">Miscelânea</option>
 </select>
 
 <label>Edição</label>
 <select id="edicao">
-<option>1ª edição</option>
-<option>2ª edição</option>
-<option>Edição revista</option>
-<option>Edição ampliada</option>
-<option>Edição definitiva</option>
-<option>Edição comemorativa</option>
-<option>Reimpressão</option>
+<option value="1ED">1ª edição</option>
+<option value="2ED">2ª edição</option>
+<option value="REV">Edição revista</option>
+<option value="AMP">Edição ampliada</option>
+<option value="DEF">Edição definitiva</option>
+<option value="COM">Edição comemorativa</option>
+<option value="REI">Reimpressão</option>
 </select>
 
-<label>ID institucional SDL</label>
-<input id="idSDL" placeholder="Ex: SDL-BR-2026-RMN-L953-CDP-A5-0001">
+<label>País (automático)</label>
+<input id="pais" readonly>
 
-<button onclick="gerarRegistroFinal()">Gerar ficha técnica institucional final</button>
+<button onclick="gerarIDSDLCompleto()">Gerar ID institucional SDL completo</button>
+<small>Estrutura: SDL-PAIS-ANO-EDITORA-AUTOR-CUTTER-COLECAO-FORMATO-TIPO-EDICAO-SEQUENCIAL</small>
 
-<button onclick="exportarRegistroFinal()">Exportar ficha técnica (TXT)</button>
-
-<div id="saidaRegistroFinal" class="relatorio"></div>
+<div id="saidaID" class="relatorio"></div>
 
 </div>
 
 <script>
 
-function gerarRegistroFinal(){
+function detectarPaisAutomatico(){
+var idioma=(navigator.language||"pt-BR").toUpperCase();
+if(idioma.includes("-BR")) return "BR";
+if(idioma.includes("-PT")) return "PT";
+if(idioma.includes("-US")) return "US";
+if(idioma.includes("-CH")) return "CH";
+if(idioma.includes("-FR")) return "FR";
+if(idioma.includes("-ES")) return "ES";
+if(idioma.includes("-IT")) return "IT";
+return "BR";
+}
 
-var conta=document.getElementById("conta").value.trim();
-var autor=document.getElementById("autor").value.trim();
-var titulo=document.getElementById("titulo").value.trim();
-var cutter=document.getElementById("cutter").value.trim();
-var colecao=document.getElementById("colecao").value.trim() || "—";
-var selo=document.getElementById("selo").value.trim() || "—";
-var formato=document.getElementById("formato").value;
-var edicao=document.getElementById("edicao").value;
-var idSDL=document.getElementById("idSDL").value.trim();
+function preencherPais(){
+document.getElementById("pais").value = detectarPaisAutomatico();
+}
 
-if(!conta || !autor || !titulo || !cutter || !idSDL){
+function limparSigla(txt){
+return (txt || "")
+.toUpperCase()
+.normalize("NFD")
+.replace(/[\u0300-\u036f]/g,"")
+.replace(/[^A-Z0-9 ]/g,"")
+.trim();
+}
 
-alert("Preencha todos os campos obrigatórios.");
+function siglaConta(conta){
+var limpa = limparSigla(conta);
+if(!limpa) return "SDL";
+var palavras = limpa.split(/\s+/).filter(Boolean);
+if(palavras.length === 1){
+return palavras[0].substring(0,4);
+}
+return palavras.map(p => p.charAt(0)).join("").substring(0,4);
+}
+
+function siglaAutor(autor){
+var limpa = limparSigla(autor);
+if(!limpa) return "AUT";
+var palavras = limpa.split(/\s+/).filter(Boolean);
+if(palavras.length === 1){
+return palavras[0].substring(0,2);
+}
+return palavras.map(p => p.charAt(0)).join("").substring(0,3);
+}
+
+function siglaColecao(colecao){
+var limpa = limparSigla(colecao);
+if(!limpa) return "";
+var palavras = limpa.split(/\s+/).filter(Boolean);
+if(palavras.length === 1){
+return palavras[0].substring(0,4);
+}
+return palavras.map(p => p.charAt(0)).join("").substring(0,4);
+}
+
+function sequencialPorConta(conta){
+var chave = "SEQ_SDL_COMPLETO_" + limparSigla(conta);
+var atual = parseInt(localStorage.getItem(chave) || "0", 10);
+atual += 1;
+localStorage.setItem(chave, String(atual));
+return String(atual).padStart(4,"0");
+}
+
+function gerarIDSDLCompleto(){
+
+var conta = document.getElementById("conta").value.trim();
+var autor = document.getElementById("autor").value.trim();
+var cutter = document.getElementById("cutter").value.trim();
+var colecao = document.getElementById("colecao").value.trim();
+var formato = document.getElementById("formato").value;
+var tipo = document.getElementById("tipoObra").value;
+var edicao = document.getElementById("edicao").value;
+var pais = detectarPaisAutomatico();
+var ano = new Date().getFullYear();
+
+if(!conta || !autor || !cutter){
+alert("Preencha conta, autor e Cutter.");
 return;
+}
+
+var contaSigla = siglaConta(conta);
+var autorSigla = siglaAutor(autor);
+var colecaoSigla = siglaColecao(colecao);
+var seq = sequencialPorConta(conta);
+
+var partes = [
+"SDL",
+pais,
+ano,
+contaSigla,
+autorSigla,
+cutter.toUpperCase()
+];
+
+if(colecaoSigla){
+partes.push(colecaoSigla);
+}
+
+partes.push(formato);
+partes.push(tipo);
+partes.push(edicao);
+partes.push(seq);
+
+var id = partes.join("-");
+
+var texto =
+"ID INSTITUCIONAL SDL COMPLETO\n\n" +
+"País: " + pais + "\n" +
+"Ano: " + ano + "\n" +
+"Conta editorial: " + conta + " → " + contaSigla + "\n" +
+"Autor: " + autor + " → " + autorSigla + "\n" +
+"Cutter: " + cutter.toUpperCase() + "\n" +
+"Coleção: " + (colecao ? colecao + " → " + colecaoSigla : "—") + "\n" +
+"Formato: " + formato + "\n" +
+"Tipo: " + tipo + "\n" +
+"Edição: " + edicao + "\n" +
+"Sequencial da conta: " + seq + "\n\n" +
+"Código:\n" + id;
+
+document.getElementById("saidaID").innerText = texto;
+localStorage.setItem("ULTIMO_ID_SDL_COMPLETO", id);
 
 }
 
-var data=new Date().toLocaleString("pt-BR");
-
-var ficha=
-"REGISTRO EDITORIAL INSTITUCIONAL SDL\n\n"+
-"Conta editorial:\n"+conta+"\n\n"+
-"Autor:\n"+autor+"\n\n"+
-"Título:\n"+titulo+"\n\n"+
-"Código Cutter:\n"+cutter+"\n\n"+
-"Coleção:\n"+colecao+"\n\n"+
-"Selo editorial:\n"+selo+"\n\n"+
-"Formato:\n"+formato+"\n\n"+
-"Edição:\n"+edicao+"\n\n"+
-"ID institucional SDL:\n"+idSDL+"\n\n"+
-"Certificação institucional:\nLapidar SDL\n\n"+
-"Status catalográfico:\nRegistro ativo no sistema editorial SDL\n\n"+
-"Data de emissão:\n"+data;
-
-document.getElementById("saidaRegistroFinal").innerText=ficha;
-
-}
-
-function exportarRegistroFinal(){
-
-var texto=document.getElementById("saidaRegistroFinal").innerText;
-
-if(!texto){
-
-alert("Gere a ficha técnica primeiro.");
-return;
-
-}
-
-var blob=new Blob([texto],{type:"text/plain"});
-var link=document.createElement("a");
-
-link.href=URL.createObjectURL(blob);
-link.download="registro_editorial_institucional_SDL.txt";
-link.click();
-
-}
+preencherPais();
 
 </script>
 
