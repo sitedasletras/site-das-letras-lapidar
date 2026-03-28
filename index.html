@@ -12,34 +12,56 @@ p{color:#555;line-height:1.6;}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:30px;}
 .card{border:1px solid #ddd;border-radius:18px;padding:28px;text-align:left;background:#fafafa;}
 .card h2{margin-top:0;color:#222;}
-.btn{display:block;width:100%;margin-top:18px;padding:14px 18px;background:#222;color:#fff;text-decoration:none;border-radius:10px;text-align:center;font-weight:bold;}
+.btn{display:block;width:100%;margin-top:18px;padding:14px 18px;background:#222;color:#fff;text-decoration:none;border-radius:10px;text-align:center;font-weight:bold;border:none;cursor:pointer;}
 .btn:hover{background:#444;}
 .note{margin-top:30px;padding:18px;border:1px solid #ddd;border-radius:14px;background:#fcfcfc;text-align:left;}
 small{color:#666;}
-#contadorApoioLapidar{
+#contadorGlobal{
 position:fixed;
 right:14px;
 bottom:74px;
 z-index:9999;
-background:rgba(255,255,255,0.95);
+background:rgba(255,255,255,0.96);
 border:1px solid #d9d9d9;
 border-radius:14px;
 padding:10px 12px;
 box-shadow:0 4px 14px rgba(0,0,0,0.10);
-min-width:190px;
+min-width:220px;
 text-align:left;
 font-size:13px;
 line-height:1.35;
 color:#333;
 backdrop-filter:blur(3px);
+cursor:pointer;
 }
-#contadorApoioLapidar strong{display:block;margin-bottom:4px;}
-#contadorApoioLapidar.encerrado{border-color:#d8b4b4;background:rgba(255,248,248,0.96);}
-#contadorApoioLapidar.alerta{border-color:#e4d38f;background:rgba(255,252,240,0.96);}
-#contadorApoioLapidar.urgente{border-color:#d7a2a2;background:rgba(255,244,244,0.96);}
+#contadorGlobal strong{display:block;margin-bottom:4px;}
+#contadorGlobal.encerrado{border-color:#d8b4b4;background:rgba(255,248,248,0.96);}
+#contadorGlobal.alerta{border-color:#e4d38f;background:rgba(255,252,240,0.96);}
+#contadorGlobal.urgente{border-color:#d7a2a2;background:rgba(255,244,244,0.96);}
+#painelResumo{
+position:fixed;
+right:14px;
+bottom:170px;
+z-index:10000;
+width:290px;
+background:#fff;
+border:1px solid #d9d9d9;
+border-radius:16px;
+box-shadow:0 8px 24px rgba(0,0,0,0.14);
+padding:16px;
+text-align:left;
+display:none;
+}
+#painelResumo h3{margin:0 0 10px 0;color:#222;font-size:18px;}
+#painelResumo p{margin:6px 0;color:#444;font-size:14px;line-height:1.45;}
+.linha{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;}
+.btn-mini{flex:1;padding:10px 12px;border:none;border-radius:10px;background:#222;color:#fff;cursor:pointer;}
+.btn-mini.sec{background:#e9e9e9;color:#333;}
+.badge{display:inline-block;padding:4px 8px;border-radius:999px;background:#f0f0f0;color:#333;font-size:12px;margin-bottom:6px;}
 @media (max-width:800px){
   .grid{grid-template-columns:1fr;}
-  #contadorApoioLapidar{right:10px;left:10px;bottom:72px;min-width:auto;}
+  #contadorGlobal{right:10px;left:10px;bottom:72px;min-width:auto;}
+  #painelResumo{right:10px;left:10px;bottom:164px;width:auto;}
 }
 </style>
 </head>
@@ -52,14 +74,14 @@ backdrop-filter:blur(3px);
   <div class="card">
     <h2>Processar livro completo</h2>
     <p>Entrada para o fluxo editorial total do manuscrito.</p>
-    <a class="btn" href="#">Entrar no — Lapidar —</a>
+    <button class="btn" type="button">Entrar no — Lapidar —</button>
     <small>Doação sugerida: R$ 19,90</small>
   </div>
 
   <div class="card">
     <h2>Criar apenas a capa</h2>
     <p>Entrada direta para o Projeto OCapista.</p>
-    <a class="btn" href="#">Entrar no Projeto OCapista</a>
+    <button class="btn" type="button">Entrar no Projeto OCapista</button>
     <small>Digital: R$ 10 / R$ 40 • Físico: R$ 18 / R$ 48</small>
   </div>
 </div>
@@ -68,19 +90,34 @@ backdrop-filter:blur(3px);
   <strong>Fluxo geral do sistema</strong>
   <p style="margin-bottom:0;">
   1. Escolha se o projeto é livro completo ou só capa.<br>
-  2. O contador de apoio aparece em todas as páginas.<br>
-  3. O sistema mostra preview antes da doação e libera download final após confirmação.
+  2. O contador aparece em todas as páginas.<br>
+  3. Usuário comum vê apoio ativo. Administrador vê cronômetro de produção.<br>
+  4. O sistema mostra preview antes da doação e libera download final após confirmação.
   </p>
 </div>
 
 </div>
 
-<div id="contadorApoioLapidar" aria-live="polite">
-  <strong>⏳ Apoio inativo</strong>
-  <div>Ative uma doação para iniciar o período.</div>
+<div id="contadorGlobal" aria-live="polite"></div>
+
+<div id="painelResumo" aria-live="polite">
+  <h3>Resumo</h3>
+  <div id="conteudoPainel"></div>
+  <div class="linha">
+    <button class="btn-mini" type="button" onclick="acaoPrimariaPainel()">Ação principal</button>
+    <button class="btn-mini sec" type="button" onclick="fecharPainel()">Fechar</button>
+  </div>
 </div>
 
 <script>
+function obterModoSistema(){
+  return localStorage.getItem("MODO_SISTEMA_LAPIDAR") || "administrador";
+}
+
+function definirModoSistema(modo){
+  localStorage.setItem("MODO_SISTEMA_LAPIDAR", modo);
+}
+
 function obterApoioLapidar(){
   return JSON.parse(localStorage.getItem("APOIO_LAPIDAR_GLOBAL") || "null");
 }
@@ -99,7 +136,32 @@ function criarApoioDemoSeNaoExistir(){
     inicio: agora,
     fim: agora + trintaDias,
     livrosTotal: 10,
-    livrosUsados: 0
+    livrosUsados: 0,
+    plano: "Apoio mensal básico"
+  });
+}
+
+function obterProducaoAdmin(){
+  return JSON.parse(localStorage.getItem("PRODUCAO_ADMIN_LAPIDAR") || "null");
+}
+
+function salvarProducaoAdmin(dados){
+  localStorage.setItem("PRODUCAO_ADMIN_LAPIDAR", JSON.stringify(dados));
+}
+
+function criarProducaoDemoSeNaoExistir(){
+  const prod = obterProducaoAdmin();
+  if(prod) return;
+  const agora = Date.now();
+  const inicioHoje = agora - (2 * 60 * 60 * 1000 + 14 * 60 * 1000 + 33 * 1000);
+  const inicioLivroAtual = agora - (36 * 60 * 1000 + 21 * 1000);
+  salvarProducaoAdmin({
+    ativo: true,
+    inicioHoje: inicioHoje,
+    inicioLivroAtual: inicioLivroAtual,
+    totalMesSegundos: 43 * 3600 + 22 * 60,
+    livrosConcluidosHoje: 3,
+    livrosConcluidosMes: 17
   });
 }
 
@@ -113,10 +175,16 @@ function formatarTempo(ms){
   return dias + "d " + horas + "h " + minutos + "m " + segundos + "s";
 }
 
-function atualizarContadorApoioLapidar(){
-  const box = document.getElementById("contadorApoioLapidar");
-  const apoio = obterApoioLapidar();
+function formatarTempoCurtoSegundos(totalSeg){
+  totalSeg = Math.max(0, Math.floor(totalSeg));
+  const horas = Math.floor(totalSeg / 3600);
+  const minutos = Math.floor((totalSeg % 3600) / 60);
+  const segundos = totalSeg % 60;
+  return horas + "h " + minutos + "m " + segundos + "s";
+}
 
+function atualizarContadorUsuario(box){
+  const apoio = obterApoioLapidar();
   if(!apoio || !apoio.ativo){
     box.className = "";
     box.innerHTML = "<strong>⏳ Apoio inativo</strong><div>Ative uma doação para iniciar o período.</div>";
@@ -133,7 +201,7 @@ function atualizarContadorApoioLapidar(){
     box.innerHTML =
       "<strong>⏳ Apoio encerrado</strong>" +
       "<div>📚 Livros restantes: " + livrosRestantes + "/" + (apoio.livrosTotal || 0) + "</div>" +
-      "<div>Clique para continuar apoiando o projeto.</div>";
+      "<div>Toque para continuar apoiando o projeto.</div>";
     return;
   }
 
@@ -150,9 +218,112 @@ function atualizarContadorApoioLapidar(){
     "<div>📚 Livros restantes: " + livrosRestantes + "/" + (apoio.livrosTotal || 0) + "</div>";
 }
 
+function atualizarContadorAdministrador(box){
+  const prod = obterProducaoAdmin();
+  if(!prod || !prod.ativo){
+    box.className = "";
+    box.innerHTML = "<strong>⏱ Produção SDL inativa</strong><div>Ative o cronômetro de produção.</div>";
+    return;
+  }
+
+  const agora = Date.now();
+  const livroAtualSeg = Math.floor((agora - prod.inicioLivroAtual) / 1000);
+  const hojeSeg = Math.floor((agora - prod.inicioHoje) / 1000);
+
+  box.className = "";
+  box.innerHTML =
+    "<strong>⏱ Produção SDL ativa</strong>" +
+    "<div>Livro atual: " + formatarTempoCurtoSegundos(livroAtualSeg) + "</div>" +
+    "<div>Hoje: " + formatarTempoCurtoSegundos(hojeSeg) + "</div>" +
+    "<div>📚 Hoje: " + (prod.livrosConcluidosHoje || 0) + " | Mês: " + (prod.livrosConcluidosMes || 0) + "</div>";
+}
+
+function atualizarContadorGlobal(){
+  const box = document.getElementById("contadorGlobal");
+  const modo = obterModoSistema();
+  if(modo === "administrador"){
+    atualizarContadorAdministrador(box);
+  }else{
+    atualizarContadorUsuario(box);
+  }
+  if(document.getElementById("painelResumo").style.display === "block"){
+    renderizarPainel();
+  }
+}
+
+function renderizarPainel(){
+  const alvo = document.getElementById("conteudoPainel");
+  const modo = obterModoSistema();
+
+  if(modo === "administrador"){
+    const prod = obterProducaoAdmin();
+    const agora = Date.now();
+    const livroAtualSeg = Math.floor((agora - prod.inicioLivroAtual) / 1000);
+    const hojeSeg = Math.floor((agora - prod.inicioHoje) / 1000);
+    alvo.innerHTML =
+      '<div class="badge">Modo administrador</div>' +
+      '<p><strong>Status:</strong> Produção SDL ativa</p>' +
+      '<p><strong>Livro atual:</strong> ' + formatarTempoCurtoSegundos(livroAtualSeg) + '</p>' +
+      '<p><strong>Total de hoje:</strong> ' + formatarTempoCurtoSegundos(hojeSeg) + '</p>' +
+      '<p><strong>Total do mês:</strong> ' + formatarTempoCurtoSegundos(prod.totalMesSegundos || 0) + '</p>' +
+      '<p><strong>Livros concluídos hoje:</strong> ' + (prod.livrosConcluidosHoje || 0) + '</p>' +
+      '<p><strong>Livros concluídos no mês:</strong> ' + (prod.livrosConcluidosMes || 0) + '</p>';
+  }else{
+    const apoio = obterApoioLapidar();
+    const agora = Date.now();
+    const restante = Math.max(0, apoio.fim - agora);
+    const livrosRestantes = Math.max(0, (apoio.livrosTotal || 0) - (apoio.livrosUsados || 0));
+    alvo.innerHTML =
+      '<div class="badge">Modo usuário</div>' +
+      '<p><strong>Plano atual:</strong> ' + (apoio.plano || 'Apoio ativo') + '</p>' +
+      '<p><strong>Tempo restante:</strong> ' + formatarTempo(restante) + '</p>' +
+      '<p><strong>Livros disponíveis:</strong> ' + (apoio.livrosTotal || 0) + '</p>' +
+      '<p><strong>Livros utilizados:</strong> ' + (apoio.livrosUsados || 0) + '</p>' +
+      '<p><strong>Livros restantes:</strong> ' + livrosRestantes + '</p>';
+  }
+}
+
+function togglePainel(){
+  const painel = document.getElementById("painelResumo");
+  if(painel.style.display === "block"){
+    painel.style.display = "none";
+  }else{
+    renderizarPainel();
+    painel.style.display = "block";
+  }
+}
+
+function fecharPainel(){
+  document.getElementById("painelResumo").style.display = "none";
+}
+
+function acaoPrimariaPainel(){
+  const modo = obterModoSistema();
+  if(modo === "administrador"){
+    alert("Aqui entraremos depois com os botões: iniciar produção, concluir livro e ver relatório mensal.");
+  }else{
+    alert("Aqui entraremos depois com a tela de apoio/doação para renovação do acesso.");
+  }
+}
+
+document.addEventListener("click", function(e){
+  const painel = document.getElementById("painelResumo");
+  const contador = document.getElementById("contadorGlobal");
+  if(!painel.contains(e.target) && !contador.contains(e.target)){
+    painel.style.display = "none";
+  }
+});
+
+document.getElementById("contadorGlobal").addEventListener("click", function(e){
+  e.stopPropagation();
+  togglePainel();
+});
+
 criarApoioDemoSeNaoExistir();
-atualizarContadorApoioLapidar();
-setInterval(atualizarContadorApoioLapidar, 1000);
+criarProducaoDemoSeNaoExistir();
+definirModoSistema("administrador");
+atualizarContadorGlobal();
+setInterval(atualizarContadorGlobal, 1000);
 </script>
 </body>
 </html>
