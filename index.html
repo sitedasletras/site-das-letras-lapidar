@@ -3,15 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lapidar — Site das Letras — V34</title>
+<title>Lapidar — Site das Letras — V35</title>
 
 <style>
 body{margin:0;font-family:Arial;background:#f4f4f4;text-align:center;padding:40px;}
 .container{max-width:980px;margin:auto;background:white;padding:35px;border-radius:18px;box-shadow:0 6px 18px rgba(0,0,0,0.08);}
-input,button{margin-top:10px;padding:12px;font-size:16px;border-radius:8px;border:1px solid #ccc;width:100%;box-sizing:border-box;}
+input,select,button{margin-top:10px;padding:12px;font-size:16px;border-radius:8px;border:1px solid #ccc;width:100%;box-sizing:border-box;}
 button{background:#222;color:white;cursor:pointer;}
 button:hover{background:#444;}
-.relatorio{margin-top:20px;border:2px solid #bbb;border-radius:10px;padding:20px;white-space:pre-line;text-align:left;}
+.relatorio{margin-top:20px;border:2px solid #bbb;border-radius:10px;padding:25px;white-space:pre-line;text-align:left;}
 </style>
 </head>
 
@@ -19,7 +19,7 @@ button:hover{background:#444;}
 
 <div class="container">
 
-<h2>Site das Letras — Lapidar V34</h2>
+<h2>Site das Letras — Lapidar V35</h2>
 
 <label>Conta editorial</label>
 <input id="conta" placeholder="Ex: Site das Letras">
@@ -30,62 +30,96 @@ button:hover{background:#444;}
 <label>Título da obra</label>
 <input id="titulo" placeholder="Ex: Crônicas da Persida">
 
+<label>Código Cutter</label>
+<input id="cutter" placeholder="Ex: L953-01">
+
+<label>Coleção</label>
+<input id="colecao" placeholder="Ex: CDP">
+
 <label>Selo editorial</label>
 <input id="selo" placeholder="Ex: SDL">
+
+<label>Formato</label>
+<select id="formato">
+<option>A5</option>
+<option>16x23</option>
+<option>16x27</option>
+<option>A4</option>
+<option>6x9</option>
+<option>Infantil Quadrado</option>
+</select>
+
+<label>Edição</label>
+<select id="edicao">
+<option>1ª edição</option>
+<option>2ª edição</option>
+<option>Edição revista</option>
+<option>Edição ampliada</option>
+<option>Edição definitiva</option>
+<option>Edição comemorativa</option>
+<option>Reimpressão</option>
+</select>
 
 <label>ID institucional SDL</label>
 <input id="idSDL" placeholder="Ex: SDL-BR-2026-RMN-L953-CDP-A5-0001">
 
-<button onclick="gerarCreditos()">Gerar créditos editoriais automáticos</button>
+<button onclick="gerarRegistroFinal()">Gerar ficha técnica institucional final</button>
 
-<button onclick="exportarCreditos()">Exportar créditos (TXT)</button>
+<button onclick="exportarRegistroFinal()">Exportar ficha técnica (TXT)</button>
 
-<div id="saidaCreditos" class="relatorio"></div>
+<div id="saidaRegistroFinal" class="relatorio"></div>
 
 </div>
 
 <script>
 
-function gerarCreditos(){
+function gerarRegistroFinal(){
 
 var conta=document.getElementById("conta").value.trim();
 var autor=document.getElementById("autor").value.trim();
 var titulo=document.getElementById("titulo").value.trim();
-var selo=document.getElementById("selo").value.trim();
+var cutter=document.getElementById("cutter").value.trim();
+var colecao=document.getElementById("colecao").value.trim() || "—";
+var selo=document.getElementById("selo").value.trim() || "—";
+var formato=document.getElementById("formato").value;
+var edicao=document.getElementById("edicao").value;
 var idSDL=document.getElementById("idSDL").value.trim();
 
-if(!conta||!autor||!titulo||!idSDL){
+if(!conta || !autor || !titulo || !cutter || !idSDL){
 
 alert("Preencha todos os campos obrigatórios.");
 return;
 
 }
 
-var data=new Date().getFullYear();
+var data=new Date().toLocaleString("pt-BR");
 
-var texto=
-"CRÉDITOS EDITORIAIS — SITE DAS LETRAS\n\n"+
-"Título da obra:\n"+titulo+"\n\n"+
+var ficha=
+"REGISTRO EDITORIAL INSTITUCIONAL SDL\n\n"+
+"Conta editorial:\n"+conta+"\n\n"+
 "Autor:\n"+autor+"\n\n"+
-"Coordenação editorial:\n"+conta+"\n\n"+
-"Diagramação:\nLapidar SDL\n\n"+
-"Revisão:\nLapidar SDL\n\n"+
-"Capa:\n"+conta+"\n\n"+
-"Selo editorial:\n"+(selo||"—")+"\n\n"+
-"Registro institucional SDL:\n"+idSDL+"\n\n"+
-"Ano de produção editorial:\n"+data;
+"Título:\n"+titulo+"\n\n"+
+"Código Cutter:\n"+cutter+"\n\n"+
+"Coleção:\n"+colecao+"\n\n"+
+"Selo editorial:\n"+selo+"\n\n"+
+"Formato:\n"+formato+"\n\n"+
+"Edição:\n"+edicao+"\n\n"+
+"ID institucional SDL:\n"+idSDL+"\n\n"+
+"Certificação institucional:\nLapidar SDL\n\n"+
+"Status catalográfico:\nRegistro ativo no sistema editorial SDL\n\n"+
+"Data de emissão:\n"+data;
 
-document.getElementById("saidaCreditos").innerText=texto;
+document.getElementById("saidaRegistroFinal").innerText=ficha;
 
 }
 
-function exportarCreditos(){
+function exportarRegistroFinal(){
 
-var texto=document.getElementById("saidaCreditos").innerText;
+var texto=document.getElementById("saidaRegistroFinal").innerText;
 
 if(!texto){
 
-alert("Gere os créditos primeiro.");
+alert("Gere a ficha técnica primeiro.");
 return;
 
 }
@@ -94,7 +128,7 @@ var blob=new Blob([texto],{type:"text/plain"});
 var link=document.createElement("a");
 
 link.href=URL.createObjectURL(blob);
-link.download="creditos_editoriais_SDL.txt";
+link.download="registro_editorial_institucional_SDL.txt";
 link.click();
 
 }
