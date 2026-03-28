@@ -166,6 +166,16 @@ border-radius:999px;
 font-size:14px;
 margin:4px 6px 0 0;
 }
+
+.fichaBox{
+margin-top:15px;
+background:#fff;
+border:1px solid #ccc;
+border-radius:10px;
+padding:18px;
+line-height:1.8;
+white-space:pre-line;
+}
 </style>
 </head>
 
@@ -237,13 +247,13 @@ Preencha a Ficha Global Lapidar para iniciar a preparação editorial da obra.
 <legend>Bloco 1 — Identidade da Obra</legend>
 
 <label>Título da obra</label>
-<input type="text" placeholder="Digite o título">
+<input type="text" id="tituloObra" placeholder="Digite o título">
 
 <label>Subtítulo (opcional)</label>
-<input type="text" placeholder="Digite o subtítulo">
+<input type="text" id="subtituloObra" placeholder="Digite o subtítulo">
 
 <label>Nome do autor na capa</label>
-<input type="text" placeholder="Digite o nome autoral da capa">
+<input type="text" id="autorCapa" placeholder="Digite o nome autoral da capa">
 
 <div class="linha">
 <div>
@@ -387,6 +397,22 @@ Preencha a Ficha Global Lapidar para iniciar a preparação editorial da obra.
 </div>
 </fieldset>
 
+<fieldset>
+<legend>Bloco 5 — Ficha de Dados da Obra</legend>
+
+<label>Classificações temáticas da obra</label>
+<input type="text" id="temasObra" placeholder="Ex.: Romance, Drama, Suspense">
+
+<div class="topo-acoes">
+<button type="button" onclick="gerarFicha()">Gerar ficha da obra</button>
+</div>
+
+<div id="resultadoFicha" class="resultado" style="display:none;">
+<strong>Prévia da Ficha de Dados da Obra:</strong>
+<div id="fichaGerada" class="fichaBox"></div>
+</div>
+</fieldset>
+
 <div class="topo-acoes">
 <button type="button" onclick="alert('Próximo passo: bloco seguinte da Ficha Global.')">Salvar e continuar</button>
 </div>
@@ -482,6 +508,41 @@ tagsHtml += '<span class=\"tag\">' + tags[i] + '</span>';
 document.getElementById("tagsAnalise").innerHTML = tagsHtml;
 document.getElementById("textoAnalise").innerText = texto;
 document.getElementById("resultadoAnalise").style.display = "block";
+}
+
+function gerarFicha(){
+var titulo = document.getElementById("tituloObra").value.trim();
+var subtitulo = document.getElementById("subtituloObra").value.trim();
+var autor = document.getElementById("autorCapa").value.trim();
+var temas = document.getElementById("temasObra").value.trim();
+
+if(titulo === ""){
+titulo = "Título não informado";
+}
+if(autor === ""){
+autor = "Autor não informado";
+}
+if(temas === ""){
+temas = "1. Literatura brasileira.";
+}
+
+var primeiraLetraAutor = autor.charAt(0).toUpperCase() || "L";
+var primeiraLetraTitulo = titulo.charAt(0).toLowerCase() || "l";
+var cutter = primeiraLetraAutor + "953" + primeiraLetraTitulo;
+
+var fichaTexto = "";
+fichaTexto += cutter + " – " + autor + "\\n";
+fichaTexto += titulo;
+if(subtitulo !== ""){
+fichaTexto += " : " + subtitulo;
+}
+fichaTexto += " / " + autor + ".\\n";
+fichaTexto += "Santo André, SP : Site das Letras Edições Literárias, 2026.\\n\\n";
+fichaTexto += "Registro Editorial Lapidar — LAP-2026-000001\\n\\n";
+fichaTexto += temas;
+
+document.getElementById("fichaGerada").innerText = fichaTexto;
+document.getElementById("resultadoFicha").style.display = "block";
 }
 
 calcularLombada();
