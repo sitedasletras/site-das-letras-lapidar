@@ -3,18 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lapidar — Site das Letras — V41</title>
+<title>Lapidar — Site das Letras — V42</title>
 
 <style>
 body{margin:0;font-family:Arial;background:#f4f4f4;text-align:center;padding:40px;}
-.container{max-width:1020px;margin:auto;background:white;padding:35px;border-radius:18px;box-shadow:0 6px 18px rgba(0,0,0,0.08);}
-input,select,textarea,button{margin-top:10px;padding:12px;font-size:16px;border-radius:8px;border:1px solid #ccc;width:100%;box-sizing:border-box;}
+.container{max-width:1000px;margin:auto;background:white;padding:35px;border-radius:18px;box-shadow:0 6px 18px rgba(0,0,0,0.08);}
+input,button{margin-top:10px;padding:12px;font-size:16px;border-radius:8px;border:1px solid #ccc;width:100%;box-sizing:border-box;}
 button{background:#222;color:white;cursor:pointer;}
 button:hover{background:#444;}
 .relatorio{margin-top:20px;border:2px solid #bbb;border-radius:10px;padding:25px;white-space:pre-line;text-align:left;}
-small{display:block;color:#666;margin-top:6px;}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
-@media (max-width:800px){.grid{grid-template-columns:1fr;}}
 </style>
 </head>
 
@@ -22,13 +19,8 @@ small{display:block;color:#666;margin-top:6px;}
 
 <div class="container">
 
-<h2>Site das Letras — Lapidar V41</h2>
-<p>Registro automático com reconhecimento direto do banco oficial de heterônimos SDL.</p>
-
-<div class="grid">
-<div>
-<label>Conta editorial</label>
-<input id="conta" placeholder="Ex: Site das Letras">
+<h2>Site das Letras — Lapidar V42</h2>
+<p>Nome automático inteligente do arquivo final da obra.</p>
 
 <label>Autor</label>
 <input id="autor" placeholder="Ex: Aurora Wings">
@@ -36,301 +28,89 @@ small{display:block;color:#666;margin-top:6px;}
 <label>Título da obra</label>
 <input id="titulo" placeholder="Ex: Crônicas da Persida">
 
-<label>Subtítulo (opcional)</label>
-<input id="subtitulo" placeholder="Ex: As origens do reino">
+<button onclick="gerarNomeArquivo()">Gerar nome automático do arquivo final</button>
 
-<label>Trecho ou resumo (opcional)</label>
-<textarea id="trecho" rows="8" placeholder="Cole um trecho para o sistema sugerir o tipo da obra."></textarea>
-
-<label>Formato</label>
-<select id="formato">
-<option value="A5">A5</option>
-<option value="1623">16x23</option>
-<option value="1627">16x27</option>
-<option value="A4">A4</option>
-<option value="69">6x9</option>
-<option value="INFQ">Infantil Quadrado</option>
-</select>
-
-<label>Selo editorial (opcional)</label>
-<input id="selo" placeholder="Ex: SDL">
-</div>
-
-<div>
-<label>País (automático)</label>
-<input id="pais" readonly>
-
-<label>Tipo sugerido</label>
-<input id="tipoSugerido" readonly>
-
-<label>Edição padrão</label>
-<input id="edicaoPadrao" readonly>
-
-<label>Cutter gerado / recuperado</label>
-<input id="cutterGerado" readonly>
-
-<label>ID SDL completo</label>
-<input id="idGerado" readonly>
-
-<label>Modo de exportação</label>
-<input id="modoExportacao" readonly>
-
-<label>Status do heterônimo</label>
-<input id="statusHeteronimo" readonly>
-</div>
-</div>
-
-<button onclick="gerarRegistroAutomatico()">Gerar registro automático com reconhecimento SDL</button>
-<small>Se o autor estiver cadastrado no banco oficial de heterônimos SDL, o sistema ativa automaticamente PDF + Word. Caso contrário, ativa apenas PDF.</small>
-
-<div id="saidaAuto" class="relatorio"></div>
+<div id="saida" class="relatorio"></div>
 
 </div>
 
 <script>
 
-function detectarPaisAutomatico(){
-var idioma=(navigator.language||"pt-BR").toUpperCase();
-if(idioma.includes("-BR")) return "BR";
-if(idioma.includes("-PT")) return "PT";
-if(idioma.includes("-US")) return "US";
-if(idioma.includes("-CH")) return "CH";
-if(idioma.includes("-FR")) return "FR";
-if(idioma.includes("-ES")) return "ES";
-if(idioma.includes("-IT")) return "IT";
-return "BR";
-}
-
-function preencherPais(){
-document.getElementById("pais").value = detectarPaisAutomatico();
-}
-
-function limparSigla(txt){
-return (txt || "")
-.toUpperCase()
+function limpar(txt){
+return (txt||"")
 .normalize("NFD")
 .replace(/[\u0300-\u036f]/g,"")
-.replace(/[^A-Z0-9 ]/g,"")
-.trim();
+.replace(/[^a-zA-Z0-9 ]/g,"")
+.trim()
 }
 
-function siglaConta(conta){
-var limpa = limparSigla(conta);
-if(!limpa) return "SDL";
-var palavras = limpa.split(/\s+/).filter(Boolean);
-if(palavras.length === 1) return palavras[0].substring(0,4);
-return palavras.map(p => p.charAt(0)).join("").substring(0,4);
-}
-
-function siglaAutor(autor){
-var limpa = limparSigla(autor);
-if(!limpa) return "AUT";
-var palavras = limpa.split(/\s+/).filter(Boolean);
-if(palavras.length === 1) return palavras[0].substring(0,2);
-return palavras.map(p => p.charAt(0)).join("").substring(0,3);
-}
-
-function gerarCutterBase(nome){
-nome = limparSigla(nome);
-var letra = nome.charAt(0) || "X";
-var soma = 0;
-for(var i=0;i<nome.length;i++){
-soma += nome.charCodeAt(i);
-}
-var numero = String(soma % 1000).padStart(3,"0");
-return letra + numero;
-}
-
-function chaveContaAutores(conta){
-return "AUTORES_V41_" + limparSigla(conta);
-}
-
-function obterBancoAutores(conta){
-var chave = chaveContaAutores(conta);
-var banco = JSON.parse(localStorage.getItem(chave) || "[]");
-return {chave, banco};
-}
-
-function salvarBancoAutores(chave,banco){
-localStorage.setItem(chave, JSON.stringify(banco));
+function formatoArquivo(txt){
+return limpar(txt)
+.replace(/\s+/g,"_")
 }
 
 function obterBancoHeteronimosSDL(){
-return JSON.parse(localStorage.getItem("BANCO_HETERONIMOS_SDL") || "[]");
+return JSON.parse(localStorage.getItem("BANCO_HETERONIMOS_SDL")||"[]")
 }
 
-function autorEhHeteronimoSDL(nomeAutor){
-var banco = obterBancoHeteronimosSDL();
-var procurado = limparSigla(nomeAutor);
-return banco.find(function(item){
-return limparSigla(item.nome) === procurado;
-}) || null;
-}
+function autorEhSDL(nome){
 
-function localizarOuCriarAutor(conta, autor){
-var pacote = obterBancoAutores(conta);
-var banco = pacote.banco;
+var banco=obterBancoHeteronimosSDL()
+
+var autor=limpar(nome).toUpperCase()
 
 for(var i=0;i<banco.length;i++){
-if(banco[i].nomeAutor === autor){
-return banco[i];
-}
-}
 
-var cutter = gerarCutterBase(autor);
-var iguais = banco.filter(function(a){ return a.cutterBase === cutter; });
-var sufixo = iguais.length === 0 ? 0 : iguais.length;
-var cutterCompleto = sufixo === 0 ? cutter : cutter + "-" + String(sufixo).padStart(2,"0");
+if(limpar(banco[i].nome).toUpperCase()==autor){
 
-var novo = {
-idInterno: "SDL-AUTOR-" + String(banco.length + 1).padStart(4,"0"),
-nomeAutor: autor,
-cutterBase: cutter,
-cutterCompleto: cutterCompleto
-};
+return true
 
-banco.push(novo);
-salvarBancoAutores(pacote.chave, banco);
-return novo;
 }
 
-function sugerirTipoDaObra(titulo, subtitulo, trecho){
-var base = (titulo + " " + subtitulo + " " + trecho).toLowerCase();
-
-if(base.includes("poema") || base.includes("poesia") || base.includes("verso")) return {sigla:"PES", nome:"Poesia"};
-if(base.includes("conto") || base.includes("contos")) return {sigla:"CNT", nome:"Contos"};
-if(base.includes("infantil") || base.includes("criança") || base.includes("criancas")) return {sigla:"INF", nome:"Infantil"};
-if(base.includes("ensaio")) return {sigla:"ENS", nome:"Ensaio"};
-if(base.includes("biografia") || base.includes("memórias") || base.includes("memorias")) return {sigla:"BIO", nome:"Biografia"};
-if(base.includes("fantasia")) return {sigla:"FAN", nome:"Fantasia"};
-if(base.includes("histórico") || base.includes("historico") || base.includes("história") || base.includes("historia")) return {sigla:"HIS", nome:"Histórico"};
-if(base.includes("espiritual")) return {sigla:"ESP", nome:"Espiritual"};
-if(base.includes("terror") || base.includes("horror")) return {sigla:"HOR", nome:"Horror"};
-if(base.includes("antologia")) return {sigla:"ANT", nome:"Antologia"};
-if(base.includes("técnico") || base.includes("tecnico") || base.includes("manual")) return {sigla:"TEC", nome:"Técnico"};
-
-return {sigla:"RMN", nome:"Romance"};
 }
 
-function siglaColecaoAutomatica(titulo){
-var limpa = limparSigla(titulo);
-if(!limpa) return "";
-var palavras = limpa.split(/\s+/).filter(Boolean);
-if(palavras.length === 1) return palavras[0].substring(0,4);
-return palavras.map(p => p.charAt(0)).join("").substring(0,4);
+return false
+
 }
 
-function sequencialPorConta(conta){
-var chave = "SEQ_V41_" + limparSigla(conta);
-var atual = parseInt(localStorage.getItem(chave) || "0", 10);
-atual += 1;
-localStorage.setItem(chave, String(atual));
-return String(atual).padStart(4,"0");
+function gerarNomeArquivo(){
+
+var autor=document.getElementById("autor").value.trim()
+var titulo=document.getElementById("titulo").value.trim()
+
+if(!autor || !titulo){
+
+alert("Preencha autor e título.")
+return
+
 }
 
-function anoBrasil(){
-return new Intl.DateTimeFormat("en-CA", {timeZone:"America/Sao_Paulo", year:"numeric"}).format(new Date());
+var tituloFormatado=formatoArquivo(titulo)
+
+var interno=autorEhSDL(autor)
+
+var resultado=""
+
+if(interno){
+
+resultado=
+"Autor identificado como heterônimo SDL\n\n"+
+"Arquivos gerados automaticamente:\n"+
+tituloFormatado+".pdf\n"+
+tituloFormatado+".docx"
+
+}else{
+
+resultado=
+"Autor externo identificado\n\n"+
+"Arquivo gerado automaticamente:\n"+
+tituloFormatado+".pdf"
+
 }
 
-function dataBrasil(){
-return new Date().toLocaleString("pt-BR", {timeZone:"America/Sao_Paulo"});
+document.getElementById("saida").innerText=resultado
+
 }
-
-function gerarRegistroAutomatico(){
-var conta = document.getElementById("conta").value.trim();
-var autor = document.getElementById("autor").value.trim();
-var titulo = document.getElementById("titulo").value.trim();
-var subtitulo = document.getElementById("subtitulo").value.trim();
-var trecho = document.getElementById("trecho").value.trim();
-var formato = document.getElementById("formato").value;
-var selo = document.getElementById("selo").value.trim() || "SDL";
-var pais = detectarPaisAutomatico();
-
-if(!conta || !autor || !titulo){
-alert("Preencha conta editorial, autor e título.");
-return;
-}
-
-var cadastroAutor = localizarOuCriarAutor(conta, autor);
-var tipo = sugerirTipoDaObra(titulo, subtitulo, trecho);
-var edicao = "1ED";
-var contaSigla = siglaConta(conta);
-var autorSigla = siglaAutor(autor);
-var colecaoSigla = siglaColecaoAutomatica(titulo);
-var seq = sequencialPorConta(conta);
-var ano = anoBrasil();
-var heteronimo = autorEhHeteronimoSDL(autor);
-
-var idPartes = ["SDL", pais, ano, contaSigla, autorSigla, cadastroAutor.cutterCompleto];
-if(colecaoSigla) idPartes.push(colecaoSigla);
-idPartes.push(formato);
-idPartes.push(tipo.sigla);
-idPartes.push(edicao);
-idPartes.push(seq);
-
-var idSDL = idPartes.join("-");
-var modoExportacao = heteronimo ? "PDF + Word" : "PDF";
-var statusHeteronimo = heteronimo ? "Heterônimo SDL reconhecido automaticamente" : "Autor externo ao banco SDL";
-
-document.getElementById("tipoSugerido").value = tipo.nome + " (" + tipo.sigla + ")";
-document.getElementById("edicaoPadrao").value = "1ª edição (1ED)";
-document.getElementById("cutterGerado").value = cadastroAutor.cutterCompleto;
-document.getElementById("idGerado").value = idSDL;
-document.getElementById("modoExportacao").value = modoExportacao;
-document.getElementById("statusHeteronimo").value = statusHeteronimo;
-
-var saida =
-"REGISTRO AUTOMÁTICO COM RECONHECIMENTO SDL\n\n" +
-"Conta editorial: " + conta + "\n" +
-"Autor: " + autor + "\n" +
-"Título: " + titulo + "\n" +
-"Subtítulo: " + (subtitulo || "—") + "\n" +
-"País detectado: " + pais + "\n" +
-"Tipo sugerido: " + tipo.nome + " (" + tipo.sigla + ")\n" +
-"Edição padrão: 1ª edição (1ED)\n" +
-"Cutter gerado / recuperado: " + cadastroAutor.cutterCompleto + "\n" +
-"Coleção automática: " + (colecaoSigla || "—") + "\n" +
-"Selo editorial: " + selo + "\n" +
-"Formato: " + formato + "\n" +
-"Sequencial da conta: " + seq + "\n" +
-"Status do heterônimo: " + statusHeteronimo + "\n" +
-"Modo de exportação final: " + modoExportacao + "\n\n" +
-"ID SDL completo:\n" + idSDL + "\n\n" +
-"CRÉDITOS EDITORIAIS AUTOMÁTICOS\n\n" +
-"Coordenação editorial: " + conta + "\n" +
-"Diagramação: Lapidar SDL\n" +
-"Revisão: Lapidar SDL\n" +
-"Capa: " + conta + "\n" +
-"Selo editorial: " + selo + "\n\n" +
-"FICHA TÉCNICA INSTITUCIONAL FINAL\n\n" +
-"Registro institucional SDL: " + idSDL + "\n" +
-"Status catalográfico: Registro ativo no sistema editorial SDL\n" +
-"Data de emissão: " + dataBrasil();
-
-document.getElementById("saidaAuto").innerText = saida;
-
-localStorage.setItem("ULTIMO_REGISTRO_AUTO_V41", JSON.stringify({
-conta: conta,
-autor: autor,
-titulo: titulo,
-subtitulo: subtitulo,
-pais: pais,
-tipoSigla: tipo.sigla,
-tipoNome: tipo.nome,
-edicao: edicao,
-cutter: cadastroAutor.cutterCompleto,
-colecaoSigla: colecaoSigla,
-selo: selo,
-formato: formato,
-sequencial: seq,
-idSDL: idSDL,
-data: dataBrasil(),
-modoExportacao: modoExportacao,
-heteronimoReconhecido: !!heteronimo
-}));
-}
-
-preencherPais();
 
 </script>
 
