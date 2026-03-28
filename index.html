@@ -12,7 +12,7 @@ button{margin-top:20px;padding:14px 22px;font-size:17px;border:none;border-radiu
 button:hover{background:#444;}
 .modulo{display:none;text-align:left;margin-top:10px;}
 fieldset{border:1px solid #ddd;border-radius:12px;padding:20px;margin-top:20px;}
-input,select{width:100%;padding:10px;margin-top:5px;border-radius:6px;border:1px solid #ccc;font-size:16px;}
+input{width:100%;padding:10px;margin-top:5px;border-radius:6px;border:1px solid #ccc;font-size:16px;}
 .certificado{margin-top:15px;background:#fff;border:2px solid #bbb;border-radius:12px;padding:24px;white-space:pre-line;text-align:center;}
 </style>
 </head>
@@ -43,6 +43,11 @@ input,select{width:100%;padding:10px;margin-top:5px;border-radius:6px;border:1px
 <fieldset>
 <button onclick="registrarNoCatalogo()">Registrar obra no catálogo institucional SDL</button>
 <div id="catalogoGerado" class="certificado"></div>
+</fieldset>
+
+<fieldset>
+<button onclick="exportarCatalogoPDF()">Exportar catálogo institucional SDL (PDF)</button>
+<div id="exportacaoCatalogoStatus" class="certificado"></div>
 </fieldset>
 
 </div>
@@ -102,6 +107,39 @@ localStorage.setItem("catalogoSDL",JSON.stringify(catalogo));
 
 document.getElementById("catalogoGerado").innerText=
 "CATÁLOGO INSTITUCIONAL SDL\n\nObras registradas nesta sessão:\n\n"+catalogo.join("\n");
+
+}
+
+function exportarCatalogoPDF(){
+
+var catalogo=JSON.parse(localStorage.getItem("catalogoSDL")||"[]");
+
+if(catalogo.length===0){
+
+alert("Nenhuma obra registrada ainda no catálogo.");
+
+return;
+
+}
+
+var agora=new Date().toLocaleString("pt-BR");
+
+var conteudo=
+"CATÁLOGO EDITORIAL\nSite das Letras Edições Literárias\n\n"+
+"Registro institucional interno\n\n"+
+catalogo.join("\n")+
+"\n\nExportado em:\n"+agora;
+
+var janela=window.open("","_blank");
+
+janela.document.write("<pre style='font-family:Arial;font-size:14px;'>"+conteudo+"</pre>");
+
+janela.document.close();
+
+janela.print();
+
+document.getElementById("exportacaoCatalogoStatus").innerText=
+"Catálogo preparado para exportação PDF com sucesso.";
 
 }
 
