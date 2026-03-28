@@ -3,15 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lapidar — Site das Letras — V32</title>
+<title>Lapidar — Site das Letras — V33</title>
 
 <style>
 body{margin:0;font-family:Arial;background:#f4f4f4;text-align:center;padding:40px;}
 .container{max-width:980px;margin:auto;background:white;padding:35px;border-radius:18px;box-shadow:0 6px 18px rgba(0,0,0,0.08);}
-input,select,button{margin-top:10px;padding:12px;font-size:16px;border-radius:8px;border:1px solid #ccc;width:100%;box-sizing:border-box;}
+input,textarea,button{margin-top:10px;padding:12px;font-size:16px;border-radius:8px;border:1px solid #ccc;width:100%;box-sizing:border-box;}
 button{background:#222;color:white;cursor:pointer;}
 button:hover{background:#444;}
-.cert{margin-top:20px;border:2px solid #bbb;border-radius:10px;padding:25px;white-space:pre-line;text-align:left;}
+.relatorio{margin-top:20px;border:2px solid #bbb;border-radius:10px;padding:20px;white-space:pre-line;text-align:left;}
 </style>
 </head>
 
@@ -19,115 +19,82 @@ button:hover{background:#444;}
 
 <div class="container">
 
-<h2>Site das Letras — Lapidar V32</h2>
+<h2>Site das Letras — Lapidar V33</h2>
 
 <label>Conta editorial</label>
-<input id="conta" placeholder="Ex: Site das Letras">
+<input id="contaCliente" placeholder="Ex: Site das Letras">
 
 <label>Autor</label>
-<input id="autor" placeholder="Ex: Aurora Wings">
+<input id="autorNome" placeholder="Ex: Aurora Wings">
 
 <label>Título da obra</label>
-<input id="titulo" placeholder="Ex: Crônicas da Persida">
+<input id="tituloObra" placeholder="Ex: Crônicas da Persida">
 
-<label>Código Cutter</label>
-<input id="cutter" placeholder="Ex: L953-01">
+<label>Biografia do autor</label>
+<textarea id="biografiaAutor" rows="6" placeholder="Insira aqui a biografia institucional do autor"></textarea>
 
-<label>Coleção (opcional)</label>
-<input id="colecao" placeholder="Ex: CDP">
+<button onclick="salvarBiografia()">Salvar biografia vinculada</button>
 
-<label>Selo editorial (opcional)</label>
-<input id="selo" placeholder="Ex: SDL">
+<button onclick="verBiografia()">Ver biografia vinculada</button>
 
-<label>Formato</label>
-<select id="formato">
-<option>A5</option>
-<option>16x23</option>
-<option>16x27</option>
-<option>A4</option>
-<option>6x9</option>
-<option>Infantil Quadrado</option>
-</select>
-
-<label>Edição</label>
-<select id="edicao">
-<option>1ª edição</option>
-<option>2ª edição</option>
-<option>Edição revista</option>
-<option>Edição ampliada</option>
-<option>Edição definitiva</option>
-<option>Edição comemorativa</option>
-<option>Reimpressão</option>
-</select>
-
-<label>ID institucional SDL</label>
-<input id="idSDL" placeholder="Ex: SDL-BR-2026-RMN-L953-CDP-A5-0001">
-
-<button onclick="gerarCertificado()">Gerar certificado institucional SDL</button>
-
-<button onclick="exportarCertificado()">Exportar certificado (TXT)</button>
-
-<div id="saidaCertificado" class="cert"></div>
+<div id="saidaBiografia" class="relatorio"></div>
 
 </div>
 
 <script>
 
-function gerarCertificado(){
+function chaveBiografia(conta,autor,titulo){
+return "BIOGRAFIA_VINCULADA_"+conta.toUpperCase()+"_"+autor.toUpperCase()+"_"+titulo.toUpperCase();
+}
 
-var conta=document.getElementById("conta").value.trim();
-var autor=document.getElementById("autor").value.trim();
-var titulo=document.getElementById("titulo").value.trim();
-var cutter=document.getElementById("cutter").value.trim();
-var colecao=document.getElementById("colecao").value.trim()||"—";
-var selo=document.getElementById("selo").value.trim()||"—";
-var formato=document.getElementById("formato").value;
-var edicao=document.getElementById("edicao").value;
-var idSDL=document.getElementById("idSDL").value.trim();
+function salvarBiografia(){
 
-if(!conta||!autor||!titulo||!cutter||!idSDL){
+var conta=document.getElementById("contaCliente").value.trim();
+var autor=document.getElementById("autorNome").value.trim();
+var titulo=document.getElementById("tituloObra").value.trim();
+var bio=document.getElementById("biografiaAutor").value.trim();
 
-alert("Preencha todos os campos obrigatórios.");
+if(!conta||!autor||!titulo||!bio){
+
+alert("Preencha todos os campos.");
 return;
 
 }
 
-var data=new Date().toLocaleString("pt-BR");
+var chave=chaveBiografia(conta,autor,titulo);
 
-var certificado=
-"CERTIFICADO INSTITUCIONAL SDL\n\n"+
-"Conta editorial:\n"+conta+"\n\n"+
-"Autor:\n"+autor+"\n\n"+
-"Título:\n"+titulo+"\n\n"+
-"Código Cutter:\n"+cutter+"\n\n"+
-"Coleção:\n"+colecao+"\n\n"+
-"Selo editorial:\n"+selo+"\n\n"+
-"Formato:\n"+formato+"\n\n"+
-"Edição:\n"+edicao+"\n\n"+
-"ID institucional SDL:\n"+idSDL+"\n\n"+
-"Data de registro:\n"+data;
+localStorage.setItem(chave,bio);
 
-document.getElementById("saidaCertificado").innerText=certificado;
+alert("Biografia vinculada com sucesso.");
 
 }
 
-function exportarCertificado(){
+function verBiografia(){
 
-var texto=document.getElementById("saidaCertificado").innerText;
+var conta=document.getElementById("contaCliente").value.trim();
+var autor=document.getElementById("autorNome").value.trim();
+var titulo=document.getElementById("tituloObra").value.trim();
 
-if(!texto){
+if(!conta||!autor||!titulo){
 
-alert("Gere o certificado primeiro.");
+alert("Informe conta, autor e título.");
 return;
 
 }
 
-var blob=new Blob([texto],{type:"text/plain"});
-var link=document.createElement("a");
+var chave=chaveBiografia(conta,autor,titulo);
 
-link.href=URL.createObjectURL(blob);
-link.download="certificado_institucional_SDL.txt";
-link.click();
+var bio=localStorage.getItem(chave);
+
+if(!bio){
+
+document.getElementById("saidaBiografia").innerText="Nenhuma biografia vinculada encontrada.";
+return;
+
+}
+
+document.getElementById("saidaBiografia").innerText=
+"BIOGRAFIA VINCULADA À OBRA\n\n"+bio;
 
 }
 
