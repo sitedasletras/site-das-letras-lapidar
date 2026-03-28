@@ -3,18 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lapidar — Site das Letras — V37</title>
+<title>Lapidar — Site das Letras — V38</title>
 
 <style>
 body{margin:0;font-family:Arial;background:#f4f4f4;text-align:center;padding:40px;}
-.container{max-width:1020px;margin:auto;background:white;padding:35px;border-radius:18px;box-shadow:0 6px 18px rgba(0,0,0,0.08);}
-input,select,textarea,button{margin-top:10px;padding:12px;font-size:16px;border-radius:8px;border:1px solid #ccc;width:100%;box-sizing:border-box;}
+.container{max-width:980px;margin:auto;background:white;padding:35px;border-radius:18px;box-shadow:0 6px 18px rgba(0,0,0,0.08);}
+input,textarea,button{margin-top:10px;padding:12px;font-size:16px;border-radius:8px;border:1px solid #ccc;width:100%;box-sizing:border-box;}
 button{background:#222;color:white;cursor:pointer;}
 button:hover{background:#444;}
 .relatorio{margin-top:20px;border:2px solid #bbb;border-radius:10px;padding:25px;white-space:pre-line;text-align:left;}
 small{display:block;color:#666;margin-top:6px;}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
-@media (max-width:800px){.grid{grid-template-columns:1fr;}}
 </style>
 </head>
 
@@ -22,290 +20,92 @@ small{display:block;color:#666;margin-top:6px;}
 
 <div class="container">
 
-<h2>Site das Letras — Lapidar V37</h2>
-<p>Modo automático editorial — autor trouxe o Word, o Lapidar organiza o resto.</p>
+<h2>Site das Letras — Lapidar V38</h2>
+<p>Importar dados iniciais automaticamente a partir do arquivo do autor</p>
 
-<div class="grid">
-<div>
-<label>Conta editorial</label>
-<input id="conta" placeholder="Ex: Site das Letras">
+<label>Selecionar arquivo do autor (.txt recomendado / .docx permitido)</label>
+<input type="file" id="arquivoAutor">
 
-<label>Autor</label>
-<input id="autor" placeholder="Ex: Pyetra Luyza">
+<button onclick="extrairDados()">Extrair dados automaticamente</button>
 
-<label>Título da obra</label>
-<input id="titulo" placeholder="Ex: Entre Véus e Gatas">
+<label>Título sugerido</label>
+<input id="tituloSug" placeholder="Resultado automático">
 
-<label>Subtítulo (opcional)</label>
-<input id="subtitulo" placeholder="Ex: poemas e encantamentos">
+<label>Subtítulo sugerido</label>
+<input id="subtituloSug" placeholder="Resultado automático">
 
-<label>Trecho ou resumo do Word (opcional)</label>
-<textarea id="trecho" rows="8" placeholder="Cole aqui um trecho do Word para o Lapidar sugerir o tipo da obra."></textarea>
+<label>Autor sugerido</label>
+<input id="autorSug" placeholder="Resultado automático">
 
-<label>Formato padrão</label>
-<select id="formato">
-<option value="A5">A5</option>
-<option value="1623">16x23</option>
-<option value="1627">16x27</option>
-<option value="A4">A4</option>
-<option value="69">6x9</option>
-<option value="INFQ">Infantil Quadrado</option>
-</select>
-
-<label>Selo editorial (opcional)</label>
-<input id="selo" placeholder="Ex: SDL">
-</div>
-
-<div>
-<label>País (automático)</label>
-<input id="pais" readonly>
-
-<label>Tipo sugerido da obra</label>
-<input id="tipoSugerido" readonly>
-
-<label>Edição padrão</label>
-<input id="edicaoPadrao" readonly>
-
-<label>Cutter gerado</label>
-<input id="cutterGerado" readonly>
-
-<label>ID SDL automático</label>
-<input id="idGerado" readonly>
-
-<label>Status do processamento</label>
-<input id="statusAuto" readonly>
-</div>
-</div>
-
-<button onclick="gerarRegistroAutomatico()">Gerar registro editorial automático completo</button>
-<small>O sistema gera automaticamente Cutter, tipo da obra, edição padrão, ID SDL completo, créditos editoriais e ficha técnica final.</small>
+<label>Tipo provável</label>
+<input id="tipoSug" placeholder="Resultado automático">
 
 <div id="saidaAuto" class="relatorio"></div>
 
+</div>
+
 <script>
 
-function detectarPaisAutomatico(){
-var idioma=(navigator.language||"pt-BR").toUpperCase();
-if(idioma.includes("-BR")) return "BR";
-if(idioma.includes("-PT")) return "PT";
-if(idioma.includes("-US")) return "US";
-if(idioma.includes("-CH")) return "CH";
-if(idioma.includes("-FR")) return "FR";
-if(idioma.includes("-ES")) return "ES";
-if(idioma.includes("-IT")) return "IT";
-return "BR";
+function sugerirTipo(texto){
+
+texto = texto.toLowerCase()
+
+if(texto.includes("poema") || texto.includes("poesia")) return "Poesia"
+if(texto.includes("conto")) return "Contos"
+if(texto.includes("infantil") || texto.includes("criança")) return "Infantil"
+if(texto.includes("ensaio")) return "Ensaio"
+if(texto.includes("biografia")) return "Biografia"
+if(texto.includes("fantasia")) return "Fantasia"
+if(texto.includes("história") || texto.includes("historia")) return "Histórico"
+if(texto.includes("espiritual")) return "Espiritual"
+if(texto.includes("terror") || texto.includes("horror")) return "Horror"
+
+return "Romance"
+
 }
 
-function preencherPais(){
-document.getElementById("pais").value = detectarPaisAutomatico();
+function extrairDados(){
+
+var arquivo = document.getElementById("arquivoAutor").files[0]
+
+if(!arquivo){
+
+alert("Selecione um arquivo primeiro.")
+return
+
 }
 
-function limparSigla(txt){
-return (txt || "")
-.toUpperCase()
-.normalize("NFD")
-.replace(/[\u0300-\u036f]/g,"")
-.replace(/[^A-Z0-9 ]/g,"")
-.trim();
-}
+var leitor = new FileReader()
 
-function siglaConta(conta){
-var limpa = limparSigla(conta);
-if(!limpa) return "SDL";
-var palavras = limpa.split(/\s+/).filter(Boolean);
-if(palavras.length === 1) return palavras[0].substring(0,4);
-return palavras.map(p => p.charAt(0)).join("").substring(0,4);
-}
+leitor.onload = function(e){
 
-function siglaAutor(autor){
-var limpa = limparSigla(autor);
-if(!limpa) return "AUT";
-var palavras = limpa.split(/\s+/).filter(Boolean);
-if(palavras.length === 1) return palavras[0].substring(0,2);
-return palavras.map(p => p.charAt(0)).join("").substring(0,3);
-}
+var conteudo = e.target.result
 
-function gerarCutterBase(nome){
-nome = limparSigla(nome);
-var letra = nome.charAt(0) || "X";
-var soma = 0;
-for(var i=0;i<nome.length;i++){
-soma += nome.charCodeAt(i);
-}
-var numero = String(soma % 1000).padStart(3,"0");
-return letra + numero;
-}
+var linhas = conteudo.split("\n").filter(l => l.trim() !== "")
 
-function chaveContaAutores(conta){
-return "AUTORES_V37_" + limparSigla(conta);
-}
+var titulo = linhas[0] || ""
+var subtitulo = linhas[1] || ""
+var autor = linhas[2] || ""
 
-function obterBancoAutores(conta){
-var chave = chaveContaAutores(conta);
-var banco = JSON.parse(localStorage.getItem(chave) || "[]");
-return {chave, banco};
-}
+var tipo = sugerirTipo(conteudo)
 
-function salvarBancoAutores(chave,banco){
-localStorage.setItem(chave, JSON.stringify(banco));
-}
+document.getElementById("tituloSug").value = titulo
+document.getElementById("subtituloSug").value = subtitulo
+document.getElementById("autorSug").value = autor
+document.getElementById("tipoSug").value = tipo
 
-function localizarOuCriarAutor(conta, autor){
-var pacote = obterBancoAutores(conta);
-var banco = pacote.banco;
-
-for(var i=0;i<banco.length;i++){
-if(banco[i].nomeAutor === autor){
-return banco[i];
-}
-}
-
-var cutter = gerarCutterBase(autor);
-var iguais = banco.filter(a => a.cutterBase === cutter);
-var sufixo = iguais.length === 0 ? 0 : iguais.length;
-var cutterCompleto = sufixo === 0 ? cutter : cutter + "-" + String(sufixo).padStart(2,"0");
-
-var novo = {
-idInterno: "SDL-AUTOR-" + String(banco.length + 1).padStart(4,"0"),
-nomeAutor: autor,
-cutterBase: cutter,
-cutterCompleto: cutterCompleto
-};
-
-banco.push(novo);
-salvarBancoAutores(pacote.chave, banco);
-return novo;
-}
-
-function sugerirTipoDaObra(titulo, subtitulo, trecho){
-var base = (titulo + " " + subtitulo + " " + trecho).toLowerCase();
-
-if(base.includes("poema") || base.includes("poesia") || base.includes("verso")) return {sigla:"PES", nome:"Poesia"};
-if(base.includes("conto") || base.includes("contos")) return {sigla:"CNT", nome:"Contos"};
-if(base.includes("infantil") || base.includes("criança") || base.includes("crianças")) return {sigla:"INF", nome:"Infantil"};
-if(base.includes("ensaio")) return {sigla:"ENS", nome:"Ensaio"};
-if(base.includes("biografia") || base.includes("memórias")) return {sigla:"BIO", nome:"Biografia"};
-if(base.includes("fantasia")) return {sigla:"FAN", nome:"Fantasia"};
-if(base.includes("histórico") || base.includes("historia")) return {sigla:"HIS", nome:"Histórico"};
-if(base.includes("espiritual")) return {sigla:"ESP", nome:"Espiritual"};
-if(base.includes("horror") || base.includes("terror")) return {sigla:"HOR", nome:"Horror"};
-if(base.includes("antologia")) return {sigla:"ANT", nome:"Antologia"};
-if(base.includes("técnico") || base.includes("manual")) return {sigla:"TEC", nome:"Técnico"};
-
-return {sigla:"RMN", nome:"Romance"};
-}
-
-function siglaColecaoAutomatica(titulo){
-var limpa = limparSigla(titulo);
-if(!limpa) return "";
-var palavras = limpa.split(/\s+/).filter(Boolean);
-if(palavras.length === 1) return palavras[0].substring(0,4);
-return palavras.map(p => p.charAt(0)).join("").substring(0,4);
-}
-
-function sequencialPorConta(conta){
-var chave = "SEQ_V37_" + limparSigla(conta);
-var atual = parseInt(localStorage.getItem(chave) || "0", 10);
-atual += 1;
-localStorage.setItem(chave, String(atual));
-return String(atual).padStart(4,"0");
-}
-
-function anoBrasil(){
-return new Intl.DateTimeFormat("en-CA", {timeZone:"America/Sao_Paulo", year:"numeric"}).format(new Date());
-}
-
-function dataBrasil(){
-return new Date().toLocaleString("pt-BR", {timeZone:"America/Sao_Paulo"});
-}
-
-function gerarRegistroAutomatico(){
-var conta = document.getElementById("conta").value.trim();
-var autor = document.getElementById("autor").value.trim();
-var titulo = document.getElementById("titulo").value.trim();
-var subtitulo = document.getElementById("subtitulo").value.trim();
-var trecho = document.getElementById("trecho").value.trim();
-var formato = document.getElementById("formato").value;
-var selo = document.getElementById("selo").value.trim() || "SDL";
-var pais = detectarPaisAutomatico();
-
-if(!conta || !autor || !titulo){
-alert("Preencha conta editorial, autor e título.");
-return;
-}
-
-var cadastroAutor = localizarOuCriarAutor(conta, autor);
-var tipo = sugerirTipoDaObra(titulo, subtitulo, trecho);
-var edicao = "1ED";
-var contaSigla = siglaConta(conta);
-var autorSigla = siglaAutor(autor);
-var colecaoSigla = siglaColecaoAutomatica(titulo);
-var seq = sequencialPorConta(conta);
-var ano = anoBrasil();
-
-var idPartes = ["SDL", pais, ano, contaSigla, autorSigla, cadastroAutor.cutterCompleto];
-if(colecaoSigla) idPartes.push(colecaoSigla);
-idPartes.push(formato);
-idPartes.push(tipo.sigla);
-idPartes.push(edicao);
-idPartes.push(seq);
-
-var idSDL = idPartes.join("-");
-
-document.getElementById("tipoSugerido").value = tipo.nome + " (" + tipo.sigla + ")";
-document.getElementById("edicaoPadrao").value = "1ª edição (1ED)";
-document.getElementById("cutterGerado").value = cadastroAutor.cutterCompleto;
-document.getElementById("idGerado").value = idSDL;
-document.getElementById("statusAuto").value = "Registro automático concluído";
-
-var saida =
-"REGISTRO EDITORIAL AUTOMÁTICO COMPLETO\n\n" +
-"Conta editorial: " + conta + "\n" +
-"Autor: " + autor + "\n" +
+document.getElementById("saidaAuto").innerText =
+"DADOS EXTRAÍDOS AUTOMATICAMENTE\n\n" +
 "Título: " + titulo + "\n" +
-"Subtítulo: " + (subtitulo || "—") + "\n" +
-"País detectado: " + pais + "\n" +
-"Tipo sugerido: " + tipo.nome + " (" + tipo.sigla + ")\n" +
-"Edição padrão: 1ª edição (1ED)\n" +
-"Cutter gerado: " + cadastroAutor.cutterCompleto + "\n" +
-"Coleção automática: " + (colecaoSigla || "—") + "\n" +
-"Selo editorial: " + selo + "\n" +
-"Formato: " + formato + "\n" +
-"Sequencial da conta: " + seq + "\n\n" +
-"ID SDL completo:\n" + idSDL + "\n\n" +
-"CRÉDITOS EDITORIAIS AUTOMÁTICOS\n\n" +
-"Coordenação editorial: " + conta + "\n" +
-"Diagramação: Lapidar SDL\n" +
-"Revisão: Lapidar SDL\n" +
-"Capa: " + conta + "\n" +
-"Selo editorial: " + selo + "\n\n" +
-"FICHA TÉCNICA INSTITUCIONAL FINAL\n\n" +
-"Registro institucional SDL: " + idSDL + "\n" +
-"Status catalográfico: Registro ativo no sistema editorial SDL\n" +
-"Data de emissão: " + dataBrasil();
+"Subtítulo: " + subtitulo + "\n" +
+"Autor: " + autor + "\n" +
+"Tipo sugerido: " + tipo
 
-document.getElementById("saidaAuto").innerText = saida;
-
-localStorage.setItem("ULTIMO_REGISTRO_AUTO_V37", JSON.stringify({
-conta: conta,
-autor: autor,
-titulo: titulo,
-subtitulo: subtitulo,
-pais: pais,
-tipoSigla: tipo.sigla,
-tipoNome: tipo.nome,
-edicao: edicao,
-cutter: cadastroAutor.cutterCompleto,
-colecaoSigla: colecaoSigla,
-selo: selo,
-formato: formato,
-sequencial: seq,
-idSDL: idSDL,
-data: dataBrasil()
-}));
 }
 
-preencherPais();
+leitor.readAsText(arquivo)
+
+}
 
 </script>
 
