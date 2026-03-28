@@ -1,4 +1,4 @@
-   <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
@@ -11,42 +11,59 @@ h1{margin-top:0;color:#222;}
 .card{border:1px solid #ddd;border-radius:18px;padding:28px;text-align:left;background:#fafafa;margin-top:20px;}
 .btn{display:block;width:100%;margin-top:14px;padding:14px;background:#222;color:#fff;border-radius:10px;text-decoration:none;border:none;cursor:pointer;font-weight:bold;}
 .btn:hover{background:#444;}
+.btn.sec{background:#efefef;color:#333;}
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:20px;}
 .box{border:1px solid #ddd;border-radius:14px;padding:16px;background:#fff;text-align:left;}
 .box h3{margin-top:0;}
 .hidden{display:none;}
-.log{margin-top:18px;padding:16px;border-radius:12px;background:#fcfcfc;border:1px solid #e6e6e6;text-align:left;white-space:pre-line;}
-.ranking{margin-top:18px;padding:16px;border-radius:12px;background:#fffdf6;border:1px solid #eadcb4;text-align:left;}
-.ranking h3{margin-top:0;}
+.log,.ranking,.adminpanel,.sugestao{margin-top:18px;padding:16px;border-radius:12px;text-align:left;}
+.log{background:#fcfcfc;border:1px solid #e6e6e6;white-space:pre-line;}
+.ranking{background:#fffdf6;border:1px solid #eadcb4;}
+.adminpanel{background:#f7fbff;border:1px solid #cfe0f2;}
+.sugestao{background:#f8fff7;border:1px solid #d7ead2;}
 .row{margin:10px 0;}
 .barwrap{height:10px;background:#ececec;border-radius:999px;overflow:hidden;margin-top:4px;}
 .bar{height:10px;background:#222;border-radius:999px;}
 small{color:#666;}
+.mini{font-size:12px;color:#888;margin-top:6px;}
+#adminToggle{
+position:fixed;left:12px;bottom:12px;z-index:9999;width:18px;height:18px;opacity:0.08;border-radius:50%;background:#000;cursor:pointer;
+}
 @media (max-width:900px){.grid{grid-template-columns:1fr;}}
 </style>
 </head>
 <body>
 <div class="container">
   <h1>— Lapidar —</h1>
+
   <div class="card">
     <h2>📦 Onde publicar seu livro?</h2>
-    <p>Escolha primeiro o tipo de publicação. O sistema registra o clique da categoria e depois o clique da plataforma escolhida.</p>
+    <p>O bloco fica visível para todos. Quem quiser, entra por conta própria. O sistema também pode sugerir opções recomendadas quando fizer sentido.</p>
+
+    <div class="sugestao">
+      <strong>Sugestão editorial do — Lapidar —</strong>
+      <p style="margin-bottom:10px;">Se desejar, o Site das Letras pode mostrar opções recomendadas para publicação ou impressão da sua obra.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <button class="btn" style="flex:1;min-width:180px;margin-top:0;" onclick="abrirSugestaoPublicacao()">Quero ver opções recomendadas</button>
+        <button class="btn sec" style="flex:1;min-width:180px;margin-top:0;" onclick="fecharSugestaoPublicacao()">Agora não</button>
+      </div>
+    </div>
 
     <div class="grid">
       <div class="box">
         <h3>📘 Livro físico</h3>
         <p>Plataformas e editoras para livro impresso.</p>
-        <button class="btn" onclick="abrirCategoria('fisico')">Ver opções físicas</button>
+        <button class="btn" onclick="abrirCategoria('fisico','direto')">Ver opções físicas</button>
       </div>
       <div class="box">
         <h3>📱 EPUB / Ebook</h3>
         <p>Plataformas para publicação digital.</p>
-        <button class="btn" onclick="abrirCategoria('epub')">Ver opções digitais</button>
+        <button class="btn" onclick="abrirCategoria('epub','direto')">Ver opções digitais</button>
       </div>
       <div class="box">
         <h3>🖨️ Gráficas</h3>
         <p>Empresas gráficas para impressão sem editora.</p>
-        <button class="btn" onclick="abrirCategoria('grafica')">Ver opções gráficas</button>
+        <button class="btn" onclick="abrirCategoria('grafica','direto')">Ver opções gráficas</button>
       </div>
     </div>
 
@@ -81,24 +98,42 @@ small{color:#666;}
 
     <div class="log" id="logCliques">Nenhum clique registrado ainda.</div>
 
-    <div class="card" style="margin-top:20px;background:#fffdf6;border-color:#eadcb4;">
-      <h3 style="margin-top:0;">💛 Apoiar o projeto</h3>
-      <p>Este roteiro editorial é mantido pelo projeto — Lapidar —. Se ele ajudou você, considere apoiar o desenvolvimento da plataforma.</p>
-      <button class="btn" onclick="alert('Aqui você pode ligar o painel de apoio/doação já criado no sistema.')">Apoiar o projeto</button>
-      <small>O apoio mantém a plataforma ativa e em evolução.</small>
+    <div id="adminPanel" class="adminpanel hidden">
+      <h3>🔒 Painel administrativo SDL</h3>
+      <div id="adminConteudo">Nenhum dado ainda.</div>
+      <div class="mini">Acesso oculto para acompanhamento institucional das escolhas de publicação.</div>
     </div>
   </div>
 </div>
 
+<div id="adminToggle" title="SDL"></div>
+
 <script>
-function abrirCategoria(tipo){
+let origemAcessoAtual = 'direto';
+
+function abrirSugestaoPublicacao(){
+  origemAcessoAtual = 'sugerido';
+  localStorage.setItem('SDL_ORIGEM_ACESSO_PUBLICACAO', 'sugerido');
+  alert('As opções recomendadas já estão disponíveis abaixo. O acesso será registrado como sugestão do — Lapidar —.');
+}
+function fecharSugestaoPublicacao(){
+  origemAcessoAtual = 'direto';
+  localStorage.setItem('SDL_ORIGEM_ACESSO_PUBLICACAO', 'direto');
+}
+
+function obterOrigemAtual(){
+  return localStorage.getItem('SDL_ORIGEM_ACESSO_PUBLICACAO') || origemAcessoAtual || 'direto';
+}
+
+function abrirCategoria(tipo, origem){
+  if(origem){ localStorage.setItem('SDL_ORIGEM_ACESSO_PUBLICACAO', origem); }
   const categorias = {
     fisico: 'categoriaFisico',
     epub: 'categoriaEpub',
     grafica: 'categoriaGrafica'
   };
 
-  registrarEventoTipo(tipo);
+  registrarEventoTipo(tipo, obterOrigemAtual());
 
   Object.values(categorias).forEach(function(id){
     document.getElementById(id).classList.add('hidden');
@@ -107,6 +142,7 @@ function abrirCategoria(tipo){
   document.getElementById(categorias[tipo]).classList.remove('hidden');
   atualizarLog();
   atualizarRanking();
+  atualizarPainelAdmin();
 }
 
 function obterLogCliques(){
@@ -117,12 +153,13 @@ function salvarLogCliques(log){
   localStorage.setItem('LAPIDAR_CLIQUES_PUBLICACAO', JSON.stringify(log));
 }
 
-function registrarEventoTipo(tipo){
+function registrarEventoTipo(tipo, origem){
   const log = obterLogCliques();
   log.push({
     etapa: 'tipo_publicacao',
     tipo: tipo,
     plataforma: '',
+    origem: origem,
     data: new Date().toLocaleString('pt-BR')
   });
   salvarLogCliques(log);
@@ -134,11 +171,13 @@ function registrarClique(tipo, plataforma, url){
     etapa: 'plataforma_publicacao',
     tipo: tipo,
     plataforma: plataforma,
+    origem: obterOrigemAtual(),
     data: new Date().toLocaleString('pt-BR')
   });
   salvarLogCliques(log);
   atualizarLog();
   atualizarRanking();
+  atualizarPainelAdmin();
   window.open(url, '_blank');
 }
 
@@ -149,13 +188,12 @@ function atualizarLog(){
     alvo.innerText = 'Nenhum clique registrado ainda.';
     return;
   }
-
   const ultimos = log.slice(-12).reverse();
   alvo.innerText = '📊 Cliques registrados\n\n' + ultimos.map(function(item){
     if(item.etapa === 'tipo_publicacao'){
-      return 'Tipo escolhido: ' + item.tipo + ' — ' + item.data;
+      return 'Tipo escolhido: ' + item.tipo + ' | origem: ' + item.origem + ' — ' + item.data;
     }
-    return 'Plataforma: ' + item.plataforma + ' (' + item.tipo + ') — ' + item.data;
+    return 'Plataforma: ' + item.plataforma + ' (' + item.tipo + ') | origem: ' + item.origem + ' — ' + item.data;
   }).join('\n');
 }
 
@@ -178,9 +216,7 @@ function atualizarRanking(){
 
   alvo.innerHTML = ordem.map(([plataforma, qtd]) => {
     const perc = ((qtd / total) * 100).toFixed(1);
-    const titulo = plataforma
-      .replaceAll('_',' ')
-      .replace(/\b\w/g, l => l.toUpperCase());
+    const titulo = plataforma.replaceAll('_',' ').replace(/\b\w/g, l => l.toUpperCase());
     return `
       <div class="row">
         <strong>${titulo}</strong> — ${perc}% (${qtd} clique(s))
@@ -190,8 +226,43 @@ function atualizarRanking(){
   }).join('');
 }
 
+function atualizarPainelAdmin(){
+  const log = obterLogCliques();
+  const admin = document.getElementById('adminConteudo');
+  const plataformas = log.filter(x => x.etapa === 'plataforma_publicacao');
+  const tipos = log.filter(x => x.etapa === 'tipo_publicacao');
+
+  const direto = plataformas.filter(x => x.origem === 'direto').length;
+  const sugerido = plataformas.filter(x => x.origem === 'sugerido').length;
+  const fisico = plataformas.filter(x => x.tipo === 'fisico').length;
+  const epub = plataformas.filter(x => x.tipo === 'epub').length;
+  const grafica = plataformas.filter(x => x.tipo === 'grafica').length;
+
+  admin.innerHTML = `
+    <p><strong>Sessões registradas:</strong> ${tipos.length}</p>
+    <p><strong>Cliques em plataformas:</strong> ${plataformas.length}</p>
+    <p><strong>Origem direta:</strong> ${direto}</p>
+    <p><strong>Origem sugerida pelo — Lapidar —:</strong> ${sugerido}</p>
+    <p><strong>Escolhas por trilha:</strong></p>
+    <p>📘 Físico: ${fisico}</p>
+    <p>📱 EPUB / Ebook: ${epub}</p>
+    <p>🖨️ Gráficas: ${grafica}</p>
+  `;
+}
+
+let toquesAdmin = 0;
+document.getElementById('adminToggle').addEventListener('click', function(){
+  toquesAdmin++;
+  if(toquesAdmin >= 5){
+    document.getElementById('adminPanel').classList.toggle('hidden');
+    toquesAdmin = 0;
+  }
+  setTimeout(() => { toquesAdmin = 0; }, 2000);
+});
+
 atualizarLog();
 atualizarRanking();
+atualizarPainelAdmin();
 </script>
 </body>
-</html>  
+</html>
