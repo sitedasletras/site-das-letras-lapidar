@@ -3,16 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lapidar — Site das Letras — V21</title>
+<title>Lapidar — Site das Letras — V23</title>
 
 <style>
-body{margin:0;font-family:Arial;background:#f4f4f4;text-align:center;padding:50px 20px;}
-.container{max-width:980px;margin:auto;background:white;padding:40px;border-radius:18px;box-shadow:0 6px 18px rgba(0,0,0,0.08);}
-button{margin-top:20px;padding:14px 22px;font-size:17px;border:none;border-radius:10px;background:#222;color:white;cursor:pointer;}
+body{margin:0;font-family:Arial;background:#f4f4f4;text-align:center;padding:40px;}
+.container{max-width:900px;margin:auto;background:white;padding:35px;border-radius:18px;box-shadow:0 6px 18px rgba(0,0,0,0.08);}
+input,button{margin-top:10px;padding:10px;font-size:16px;border-radius:8px;border:1px solid #ccc;width:100%;}
+button{background:#222;color:white;cursor:pointer;}
 button:hover{background:#444;}
-.modulo{display:none;text-align:left;margin-top:10px;}
-fieldset{border:1px solid #ddd;border-radius:12px;padding:20px;margin-top:20px;}
-.certificado{margin-top:15px;background:#fff;border:2px solid #bbb;border-radius:12px;padding:24px;white-space:pre-line;text-align:center;}
+.cert{margin-top:15px;border:2px solid #bbb;border-radius:10px;padding:20px;white-space:pre-line;}
 </style>
 </head>
 
@@ -20,109 +19,126 @@ fieldset{border:1px solid #ddd;border-radius:12px;padding:20px;margin-top:20px;}
 
 <div class="container">
 
-<h1>Site das Letras<br>Lapidar V21</h1>
+<h2>Site das Letras — Lapidar V23</h2>
 
-<button onclick="abrirSistema()">Entrar</button>
+<label>Nome da Conta (diagramador / editora / autor)</label>
+<input id="contaCliente" placeholder="Ex: Editora Horizonte">
 
-<div id="sistema" class="modulo">
+<label>Nome Autoral</label>
+<input id="autorNome" placeholder="Ex: Pyetra Luyza">
 
-<fieldset>
-<button onclick="gerarRelatorioHistorico()">Gerar relatório histórico geral SDL</button>
-<div id="saidaHistorico" class="certificado"></div>
-</fieldset>
+<button onclick="gerarOuRecuperarCutter()">Gerar ou recuperar Código Cutter</button>
 
-<fieldset>
-<button onclick="exportarHistoricoPDF()">Exportar relatório histórico SDL (PDF)</button>
-<div id="saidaHistoricoPDF" class="certificado"></div>
-</fieldset>
+<div id="saidaCutter" class="cert"></div>
 
-</div>
+<button onclick="verBancoConta()">Ver banco Cutter da conta</button>
+
+<div id="bancoConta" class="cert"></div>
+
 </div>
 
 <script>
 
-function abrirSistema(){
-document.getElementById("sistema").style.display="block";
+function gerarBaseConta(conta){
+return "CUTTER_DB_" + conta.trim().toUpperCase();
 }
 
-function dataBrasil(){
-return new Date().toLocaleString("pt-BR",{timeZone:"America/Sao_Paulo"});
+function gerarCutter(nome){
+
+nome = nome.trim().toUpperCase();
+
+var letra = nome.charAt(0);
+
+var soma = 0;
+
+for(var i=0;i<nome.length;i++){
+soma += nome.charCodeAt(i);
 }
 
-function gerarRelatorioHistorico(){
+var numero = String(soma % 1000).padStart(3,"0");
 
-var dados=JSON.parse(localStorage.getItem("relatorioMensalSDL")||"{}");
+return letra + numero;
 
-var totalPais={};
+}
 
-Object.keys(dados).forEach(mes=>{
+function gerarOuRecuperarCutter(){
 
-Object.keys(dados[mes]).forEach(pais=>{
+var conta = document.getElementById("contaCliente").value.trim();
 
-if(!totalPais[pais]) totalPais[pais]=0;
+var autor = document.getElementById("autorNome").value.trim();
 
-totalPais[pais]+=dados[mes][pais];
+if(!conta || !autor){
 
-});
-
-});
-
-var paises=Object.keys(totalPais);
-
-if(paises.length===0){
-
-document.getElementById("saidaHistorico").innerText=
-"RELATÓRIO HISTÓRICO SDL\n\nNenhum registro encontrado ainda.";
+alert("Informe conta e autor.");
 
 return;
 
 }
 
-var total=0;
+var chaveConta = gerarBaseConta(conta);
 
-var texto="RELATÓRIO HISTÓRICO EDITORIAL SDL\n";
-texto+="Site das Letras Edições Literárias\n\n";
-texto+="Período: desde o início do catálogo\n";
-texto+="Horário oficial: Brasil\n\n";
+var banco = JSON.parse(localStorage.getItem(chaveConta) || "{}");
 
-paises.forEach(p=>{
+if(banco[autor]){
 
-texto+=p+" — "+totalPais[p]+" registros\n";
-
-total+=totalPais[p];
-
-});
-
-texto+="\nTotal geral: "+total+" obras registradas";
-
-document.getElementById("saidaHistorico").innerText=texto;
-
-localStorage.setItem("relatorioHistoricoTextoAtual",texto);
-
-}
-
-function exportarHistoricoPDF(){
-
-var texto=localStorage.getItem("relatorioHistoricoTextoAtual");
-
-if(!texto){
-
-alert("Gere o relatório histórico primeiro.");
+document.getElementById("saidaCutter").innerText =
+"CUTTER RECUPERADO DA CONTA\n\nAutor: " + autor +
+"\nConta: " + conta +
+"\nCódigo Cutter: " + banco[autor];
 
 return;
 
 }
 
-var janela=window.open("","_blank");
+var cutterNovo = gerarCutter(autor);
 
-janela.document.write("<pre style='font-family:Arial;font-size:14px'>"+texto+"</pre>");
+banco[autor] = cutterNovo;
 
-janela.document.close();
+localStorage.setItem(chaveConta, JSON.stringify(banco));
 
-janela.print();
+document.getElementById("saidaCutter").innerText =
+"CUTTER NOVO GERADO E SALVO\n\nAutor: " + autor +
+"\nConta: " + conta +
+"\nCódigo Cutter: " + cutterNovo;
 
-document.getElementById("saidaHistoricoPDF").innerText=
-"Relatório histórico preparado para exportação.";
+}
+
+function verBancoConta(){
+
+var conta = document.getElementById("contaCliente").value.trim();
+
+if(!conta){
+
+alert("Informe a conta primeiro.");
+
+return;
+
+}
+
+var chaveConta = gerarBaseConta(conta);
+
+var banco = JSON.parse(localStorage.getItem(chaveConta) || "{}");
+
+var autores = Object.keys(banco);
+
+if(autores.length === 0){
+
+document.getElementById("bancoConta").innerText =
+"Esta conta ainda não possui Cutters cadastrados.";
+
+return;
+
+}
+
+var texto = "BANCO CUTTER DA CONTA\n\n";
+
+autores.forEach(function(a){
+
+texto += a + " → " + banco[a] + "\n";
+
+});
+
+document.getElementById("bancoConta").innerText = texto;
 
 }
 
