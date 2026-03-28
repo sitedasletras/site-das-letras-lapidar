@@ -147,6 +147,7 @@ padding:15px;
 background:#f8f8f8;
 border-radius:8px;
 border:1px solid #ddd;
+line-height:1.7;
 }
 
 .topo-acoes{
@@ -154,6 +155,16 @@ display:flex;
 gap:12px;
 flex-wrap:wrap;
 margin-top:20px;
+}
+
+.tag{
+display:inline-block;
+background:#222;
+color:white;
+padding:6px 10px;
+border-radius:999px;
+font-size:14px;
+margin:4px 6px 0 0;
 }
 </style>
 </head>
@@ -336,7 +347,17 @@ Preencha a Ficha Global Lapidar para iniciar a preparação editorial da obra.
 </div>
 
 <label>Resumo da obra</label>
-<textarea rows="5" placeholder="Descreva sua obra para ajudar o Lapidar a sugerir a classificação editorial."></textarea>
+<textarea id="resumoObra" rows="6" placeholder="Descreva sua obra para ajudar o Lapidar a sugerir a classificação editorial."></textarea>
+
+<div class="topo-acoes">
+<button type="button" onclick="analisarObra()">Analisar resumo da obra</button>
+</div>
+
+<div id="resultadoAnalise" class="resultado" style="display:none;">
+<strong>Sugestões do Lapidar:</strong>
+<div id="tagsAnalise" style="margin-top:10px;"></div>
+<div id="textoAnalise" style="margin-top:12px;"></div>
+</div>
 </fieldset>
 
 <fieldset>
@@ -399,6 +420,68 @@ var paginas = parseFloat(document.getElementById("paginas").value) || 0;
 var fator = parseFloat(document.getElementById("papel").value) || 0;
 var lombada = paginas * fator;
 document.getElementById("lombada").innerText = lombada.toFixed(2) + " mm";
+}
+
+function analisarObra(){
+var resumo = document.getElementById("resumoObra").value.toLowerCase();
+var tags = [];
+var texto = "";
+
+if(resumo.includes("poema") || resumo.includes("poesia") || resumo.includes("verso") || resumo.includes("estrofe")){
+tags.push("Poesia");
+}
+if(resumo.includes("conto") || resumo.includes("romance") || resumo.includes("capítulo") || resumo.includes("narrativa")){
+tags.push("Prosa");
+}
+if(resumo.includes("aluno") || resumo.includes("escola") || resumo.includes("turma") || resumo.includes("professora")){
+tags.push("Projeto escolar");
+}
+if(resumo.includes("família") || resumo.includes("filho") || resumo.includes("neto") || resumo.includes("memória") || resumo.includes("legado")){
+tags.push("Modo Momentos");
+}
+if(resumo.includes("antologia") || resumo.includes("coletânea")){
+tags.push("Antologia");
+}
+if(resumo.includes("miscelânea") || resumo.includes("misto") || resumo.includes("poesia e conto") || resumo.includes("redações")){
+tags.push("Miscelânea");
+}
+if(resumo.includes("medieval") || resumo.includes("rei") || resumo.includes("castelo") || resumo.includes("abadia")){
+tags.push("Narrativa medieval");
+}
+if(resumo.includes("suspense") || resumo.includes("mistério") || resumo.includes("segredo") || resumo.includes("crime")){
+tags.push("Suspense");
+}
+if(resumo.includes("amor") || resumo.includes("traição") || resumo.includes("drama")){
+tags.push("Drama");
+}
+if(resumo.includes("haicai")){
+tags.push("Haicai");
+}
+if(resumo.includes("soneto")){
+tags.push("Soneto");
+}
+if(resumo.includes("cordel")){
+tags.push("Cordel");
+}
+if(resumo.includes("acróst") || resumo.includes("acrost")){
+tags.push("Acróstico");
+}
+
+if(tags.length === 0){
+tags.push("Classificação inicial indefinida");
+texto = "O Lapidar ainda não identificou uma categoria forte. Escreva mais detalhes para melhorar a leitura editorial automática.";
+}else{
+texto = "Sua obra apresenta características compatíveis com: " + tags.join(", ") + ". Deseja confirmar essa direção editorial?";
+}
+
+var tagsHtml = "";
+for(var i = 0; i < tags.length; i++){
+tagsHtml += '<span class=\"tag\">' + tags[i] + '</span>';
+}
+
+document.getElementById("tagsAnalise").innerHTML = tagsHtml;
+document.getElementById("textoAnalise").innerText = texto;
+document.getElementById("resultadoAnalise").style.display = "block";
 }
 
 calcularLombada();
