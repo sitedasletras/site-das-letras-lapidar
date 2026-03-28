@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lapidar — Site das Letras — V30</title>
+<title>Lapidar — Site das Letras — V31</title>
 
 <style>
 body{margin:0;font-family:Arial;background:#f4f4f4;text-align:center;padding:40px;}
 .container{max-width:980px;margin:auto;background:white;padding:35px;border-radius:18px;box-shadow:0 6px 18px rgba(0,0,0,0.08);}
-input,button{margin-top:10px;padding:12px;font-size:16px;border-radius:8px;border:1px solid #ccc;width:100%;box-sizing:border-box;}
+input,select,button{margin-top:10px;padding:12px;font-size:16px;border-radius:8px;border:1px solid #ccc;width:100%;box-sizing:border-box;}
 button{background:#222;color:white;cursor:pointer;}
 button:hover{background:#444;}
 .relatorio{margin-top:20px;border:2px solid #bbb;border-radius:10px;padding:20px;white-space:pre-line;text-align:left;}
@@ -19,82 +19,102 @@ button:hover{background:#444;}
 
 <div class="container">
 
-<h2>Site das Letras — Lapidar V30</h2>
+<h2>Site das Letras — Lapidar V31</h2>
 
 <label>Conta editorial</label>
 <input id="contaCliente" placeholder="Ex: Site das Letras">
 
-<button onclick="gerarCatalogo()">Gerar catálogo institucional SDL</button>
+<label>Título da obra</label>
+<input id="tituloObra" placeholder="Ex: Crônicas da Persida">
 
-<button onclick="exportarCatalogo()">Exportar catálogo (TXT)</button>
+<label>Tipo de edição</label>
+<select id="tipoEdicao">
+<option>1ª edição</option>
+<option>2ª edição</option>
+<option>Edição revista</option>
+<option>Edição ampliada</option>
+<option>Edição definitiva</option>
+<option>Edição comemorativa</option>
+<option>Reimpressão</option>
+</select>
 
-<div id="saidaCatalogo" class="relatorio"></div>
+<button onclick="registrarEdicao()">Registrar edição da obra</button>
+
+<button onclick="verHistorico()">Ver histórico editorial</button>
+
+<div id="saidaHistorico" class="relatorio"></div>
 
 </div>
 
 <script>
 
-function chaveCatalogo(conta){
-return "CATALOGO_OBRAS_" + conta.toUpperCase();
+function chaveEdicao(conta,titulo){
+return "HISTORICO_EDICOES_"+conta.toUpperCase()+"_"+titulo.toUpperCase();
 }
 
-function gerarCatalogo(){
+function registrarEdicao(){
 
 var conta=document.getElementById("contaCliente").value.trim();
+var titulo=document.getElementById("tituloObra").value.trim();
+var tipo=document.getElementById("tipoEdicao").value;
 
-if(!conta){
+if(!conta||!titulo){
 
-alert("Informe a conta editorial.");
+alert("Conta editorial e título são obrigatórios.");
 return;
 
 }
 
-var chave=chaveCatalogo(conta);
+var chave=chaveEdicao(conta,titulo);
+
+var banco=JSON.parse(localStorage.getItem(chave)||"[]");
+
+var registro={
+edicao:tipo,
+data:new Date().toLocaleString("pt-BR")
+};
+
+banco.push(registro);
+
+localStorage.setItem(chave,JSON.stringify(banco));
+
+alert("Edição registrada com sucesso.");
+
+}
+
+function verHistorico(){
+
+var conta=document.getElementById("contaCliente").value.trim();
+var titulo=document.getElementById("tituloObra").value.trim();
+
+if(!conta||!titulo){
+
+alert("Informe conta editorial e título.");
+return;
+
+}
+
+var chave=chaveEdicao(conta,titulo);
 
 var banco=JSON.parse(localStorage.getItem(chave)||"[]");
 
 if(banco.length===0){
 
-document.getElementById("saidaCatalogo").innerText="Nenhuma obra registrada nesta conta.";
+document.getElementById("saidaHistorico").innerText="Nenhuma edição registrada para esta obra.";
 return;
 
 }
 
-var texto="CATÁLOGO INSTITUCIONAL — "+conta.toUpperCase()+"\n\n";
+var texto="HISTÓRICO EDITORIAL — "+titulo+"\n\n";
 
 banco.forEach(function(item,index){
 
 texto+=
-(index+1)+". "+item.titulo+"\n"+
-"Autor: "+item.autor+"\n"+
-"Coleção: "+item.colecao+"\n"+
-"Selo: "+item.selo+"\n"+
-"Formato: "+item.formato+"\n"+
-"Registro: "+item.data+"\n\n";
+(index+1)+". "+item.edicao+" — "+item.data+"\n";
 
 });
 
-document.getElementById("saidaCatalogo").innerText=texto;
-
-}
-
-function exportarCatalogo(){
-
-var texto=document.getElementById("saidaCatalogo").innerText;
-
-if(!texto){
-
-alert("Gere o catálogo primeiro.");
-return;
-
-}
-
-var blob=new Blob([texto],{type:"text/plain"});
-var link=document.createElement("a");
-
-link.href=URL.createObjectURL(blob);
-link.download="catalogo_SDL.txt";
-link.click();
+document.getElementById("saidaHistorico").innerText=texto;
 
 }
 
