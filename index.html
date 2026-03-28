@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lapidar — Site das Letras — V31</title>
+<title>Lapidar — Site das Letras — V32</title>
 
 <style>
 body{margin:0;font-family:Arial;background:#f4f4f4;text-align:center;padding:40px;}
@@ -11,7 +11,7 @@ body{margin:0;font-family:Arial;background:#f4f4f4;text-align:center;padding:40p
 input,select,button{margin-top:10px;padding:12px;font-size:16px;border-radius:8px;border:1px solid #ccc;width:100%;box-sizing:border-box;}
 button{background:#222;color:white;cursor:pointer;}
 button:hover{background:#444;}
-.relatorio{margin-top:20px;border:2px solid #bbb;border-radius:10px;padding:20px;white-space:pre-line;text-align:left;}
+.cert{margin-top:20px;border:2px solid #bbb;border-radius:10px;padding:25px;white-space:pre-line;text-align:left;}
 </style>
 </head>
 
@@ -19,16 +19,38 @@ button:hover{background:#444;}
 
 <div class="container">
 
-<h2>Site das Letras — Lapidar V31</h2>
+<h2>Site das Letras — Lapidar V32</h2>
 
 <label>Conta editorial</label>
-<input id="contaCliente" placeholder="Ex: Site das Letras">
+<input id="conta" placeholder="Ex: Site das Letras">
+
+<label>Autor</label>
+<input id="autor" placeholder="Ex: Aurora Wings">
 
 <label>Título da obra</label>
-<input id="tituloObra" placeholder="Ex: Crônicas da Persida">
+<input id="titulo" placeholder="Ex: Crônicas da Persida">
 
-<label>Tipo de edição</label>
-<select id="tipoEdicao">
+<label>Código Cutter</label>
+<input id="cutter" placeholder="Ex: L953-01">
+
+<label>Coleção (opcional)</label>
+<input id="colecao" placeholder="Ex: CDP">
+
+<label>Selo editorial (opcional)</label>
+<input id="selo" placeholder="Ex: SDL">
+
+<label>Formato</label>
+<select id="formato">
+<option>A5</option>
+<option>16x23</option>
+<option>16x27</option>
+<option>A4</option>
+<option>6x9</option>
+<option>Infantil Quadrado</option>
+</select>
+
+<label>Edição</label>
+<select id="edicao">
 <option>1ª edição</option>
 <option>2ª edição</option>
 <option>Edição revista</option>
@@ -38,83 +60,74 @@ button:hover{background:#444;}
 <option>Reimpressão</option>
 </select>
 
-<button onclick="registrarEdicao()">Registrar edição da obra</button>
+<label>ID institucional SDL</label>
+<input id="idSDL" placeholder="Ex: SDL-BR-2026-RMN-L953-CDP-A5-0001">
 
-<button onclick="verHistorico()">Ver histórico editorial</button>
+<button onclick="gerarCertificado()">Gerar certificado institucional SDL</button>
 
-<div id="saidaHistorico" class="relatorio"></div>
+<button onclick="exportarCertificado()">Exportar certificado (TXT)</button>
+
+<div id="saidaCertificado" class="cert"></div>
 
 </div>
 
 <script>
 
-function chaveEdicao(conta,titulo){
-return "HISTORICO_EDICOES_"+conta.toUpperCase()+"_"+titulo.toUpperCase();
-}
+function gerarCertificado(){
 
-function registrarEdicao(){
+var conta=document.getElementById("conta").value.trim();
+var autor=document.getElementById("autor").value.trim();
+var titulo=document.getElementById("titulo").value.trim();
+var cutter=document.getElementById("cutter").value.trim();
+var colecao=document.getElementById("colecao").value.trim()||"—";
+var selo=document.getElementById("selo").value.trim()||"—";
+var formato=document.getElementById("formato").value;
+var edicao=document.getElementById("edicao").value;
+var idSDL=document.getElementById("idSDL").value.trim();
 
-var conta=document.getElementById("contaCliente").value.trim();
-var titulo=document.getElementById("tituloObra").value.trim();
-var tipo=document.getElementById("tipoEdicao").value;
+if(!conta||!autor||!titulo||!cutter||!idSDL){
 
-if(!conta||!titulo){
-
-alert("Conta editorial e título são obrigatórios.");
+alert("Preencha todos os campos obrigatórios.");
 return;
 
 }
 
-var chave=chaveEdicao(conta,titulo);
+var data=new Date().toLocaleString("pt-BR");
 
-var banco=JSON.parse(localStorage.getItem(chave)||"[]");
+var certificado=
+"CERTIFICADO INSTITUCIONAL SDL\n\n"+
+"Conta editorial:\n"+conta+"\n\n"+
+"Autor:\n"+autor+"\n\n"+
+"Título:\n"+titulo+"\n\n"+
+"Código Cutter:\n"+cutter+"\n\n"+
+"Coleção:\n"+colecao+"\n\n"+
+"Selo editorial:\n"+selo+"\n\n"+
+"Formato:\n"+formato+"\n\n"+
+"Edição:\n"+edicao+"\n\n"+
+"ID institucional SDL:\n"+idSDL+"\n\n"+
+"Data de registro:\n"+data;
 
-var registro={
-edicao:tipo,
-data:new Date().toLocaleString("pt-BR")
-};
-
-banco.push(registro);
-
-localStorage.setItem(chave,JSON.stringify(banco));
-
-alert("Edição registrada com sucesso.");
+document.getElementById("saidaCertificado").innerText=certificado;
 
 }
 
-function verHistorico(){
+function exportarCertificado(){
 
-var conta=document.getElementById("contaCliente").value.trim();
-var titulo=document.getElementById("tituloObra").value.trim();
+var texto=document.getElementById("saidaCertificado").innerText;
 
-if(!conta||!titulo){
+if(!texto){
 
-alert("Informe conta editorial e título.");
+alert("Gere o certificado primeiro.");
 return;
 
 }
 
-var chave=chaveEdicao(conta,titulo);
+var blob=new Blob([texto],{type:"text/plain"});
+var link=document.createElement("a");
 
-var banco=JSON.parse(localStorage.getItem(chave)||"[]");
-
-if(banco.length===0){
-
-document.getElementById("saidaHistorico").innerText="Nenhuma edição registrada para esta obra.";
-return;
-
-}
-
-var texto="HISTÓRICO EDITORIAL — "+titulo+"\n\n";
-
-banco.forEach(function(item,index){
-
-texto+=
-(index+1)+". "+item.edicao+" — "+item.data+"\n";
-
-});
-
-document.getElementById("saidaHistorico").innerText=texto;
+link.href=URL.createObjectURL(blob);
+link.download="certificado_institucional_SDL.txt";
+link.click();
 
 }
 
