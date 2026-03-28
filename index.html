@@ -3,19 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Site das Letras — Lapidar</title>
+<title>Lapidar — Sistema Editorial</title>
 
 <style>
+
 body{
 margin:0;
 font-family:Arial,sans-serif;
 background:#f4f4f4;
 text-align:center;
-padding:60px 20px;
+padding:50px 20px;
 }
 
 .container{
-max-width:760px;
+max-width:900px;
 margin:auto;
 background:white;
 padding:40px;
@@ -23,18 +24,37 @@ border-radius:18px;
 box-shadow:0 6px 18px rgba(0,0,0,0.08);
 }
 
-button{
-margin-top:25px;
-padding:14px 24px;
-font-size:18px;
-border:none;
-border-radius:10px;
-background:#222;
-color:white;
-cursor:pointer;
+h1{
+margin-bottom:10px;
 }
 
-form{
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:20px;
+margin-top:30px;
+}
+
+.card{
+background:#fafafa;
+padding:25px;
+border-radius:14px;
+border:1px solid #ddd;
+cursor:pointer;
+transition:0.2s;
+}
+
+.card:hover{
+background:#f0f0f0;
+}
+
+.card strong{
+display:block;
+font-size:18px;
+margin-bottom:10px;
+}
+
+.modulo{
 display:none;
 margin-top:30px;
 text-align:left;
@@ -42,14 +62,14 @@ text-align:left;
 
 fieldset{
 border:1px solid #ddd;
-border-radius:12px;
 padding:20px;
-margin-top:25px;
+border-radius:10px;
+margin-top:20px;
 }
 
 label{
 display:block;
-margin-top:15px;
+margin-top:12px;
 font-weight:bold;
 }
 
@@ -62,11 +82,12 @@ border:1px solid #ccc;
 }
 
 .resultado{
-margin-top:25px;
-padding:18px;
+margin-top:20px;
+padding:15px;
 background:#f8f8f8;
-border-radius:10px;
+border-radius:8px;
 }
+
 </style>
 </head>
 
@@ -74,61 +95,136 @@ border-radius:10px;
 
 <div class="container">
 
-<h1>Site das Letras — Lapidar</h1>
+<h1>Lapidar</h1>
+<p>Sistema editorial Site das Letras</p>
 
-<button onclick="abrirFicha()">Iniciar Ficha Global</button>
+<div class="grid">
 
-<form id="ficha">
+<div class="card" onclick="abrir('ficha')">
+<strong>Ficha Global</strong>
+Identidade da obra
+</div>
+
+<div class="card" onclick="abrir('estrutura')">
+<strong>Estrutura Física</strong>
+Formato e papel
+</div>
+
+<div class="card" onclick="abrir('lombada')">
+<strong>Cálculo de Lombada</strong>
+Espessura automática
+</div>
+
+<div class="card" onclick="abrir('ocapista')">
+<strong>Projeto Ocapista</strong>
+Capas automáticas
+</div>
+
+</div>
+
+<div id="ficha" class="modulo">
 
 <fieldset>
-<legend>Bloco 1 — Identidade da Obra</legend>
 
-<label>Título da obra</label>
-<input type="text">
+<legend>Ficha Global</legend>
 
-<label>Autor civil</label>
-<input type="text">
+<label>Título</label>
+<input>
+
+<label>Autor</label>
+<input>
 
 </fieldset>
 
-<fieldset>
-<legend>Bloco 2 — Formato e Estrutura Física</legend>
+</div>
 
-<label>Número de páginas</label>
-<input type="number" id="paginas" value="100" oninput="calcularLombada()">
+<div id="estrutura" class="modulo">
+
+<fieldset>
+
+<legend>Estrutura Física</legend>
+
+<label>Formato</label>
+
+<select>
+<option>A5</option>
+<option>16x23</option>
+<option>16x27</option>
+</select>
+
+</fieldset>
+
+</div>
+
+<div id="lombada" class="modulo">
+
+<fieldset>
+
+<legend>Cálculo da Lombada</legend>
+
+<label>Páginas</label>
+<input type="number" id="pag" value="100" oninput="calc()">
 
 <label>Papel</label>
-<select id="papel" onchange="calcularLombada()">
-<option value="0.05">Offset 75g</option>
-<option value="0.06">Offset 90g</option>
+
+<select id="papel" onchange="calc()">
+<option value="0.05">75g</option>
+<option value="0.06">90g</option>
 </select>
 
 <div class="resultado">
-<strong>Lombada estimada:</strong>
-<span id="lombada">5.00 mm</span>
+
+Espessura:
+
+<span id="resp">5.00 mm</span>
+
 </div>
 
 </fieldset>
 
-</form>
+</div>
+
+<div id="ocapista" class="modulo">
+
+<fieldset>
+
+<legend>Projeto Ocapista</legend>
+
+Em breve: geração automática de capas técnicas.
+
+</fieldset>
+
+</div>
 
 </div>
 
 <script>
 
-function abrirFicha(){
-document.getElementById("ficha").style.display="block";
+function abrir(id){
+
+document.querySelectorAll('.modulo').forEach(m=>{
+
+m.style.display='none'
+
+})
+
+document.getElementById(id).style.display='block'
+
 }
 
-function calcularLombada(){
-var paginas = document.getElementById("paginas").value;
-var fator = document.getElementById("papel").value;
-var lombada = paginas * fator;
-document.getElementById("lombada").innerText =
-lombada.toFixed(2) + " mm";
+function calc(){
+
+let p=document.getElementById("pag").value
+
+let f=document.getElementById("papel").value
+
+document.getElementById("resp").innerText=
+
+(p*f).toFixed(2)+" mm"
+
 }
 
-calcularLombada();
+calc()
 
 </script>
 
