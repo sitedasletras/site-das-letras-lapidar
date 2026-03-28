@@ -119,4 +119,290 @@ font-weight:bold;
 color:#333;
 }
 
-input,select,textarea
+input,select,textarea{
+width:100%;
+padding:10px;
+margin-top:5px;
+border-radius:6px;
+border:1px solid #ccc;
+box-sizing:border-box;
+font-size:16px;
+}
+
+.linha{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:18px;
+}
+
+@media(max-width:700px){
+.linha{
+grid-template-columns:1fr;
+}
+}
+
+.resultado{
+margin-top:20px;
+padding:15px;
+background:#f8f8f8;
+border-radius:8px;
+border:1px solid #ddd;
+}
+
+.topo-acoes{
+display:flex;
+gap:12px;
+flex-wrap:wrap;
+margin-top:20px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div id="home">
+<h1>Site das Letras — Lapidar</h1>
+
+<p class="sub">
+Lapidar é o primeiro passo na jornada de quem decide escrever suas próprias histórias.
+Escolha abaixo como deseja iniciar seu projeto editorial.
+</p>
+
+<div class="grid">
+
+<div class="card">
+<h2>Projeto Completo da Obra</h2>
+<p>
+Para quem deseja estruturar o livro inteiro dentro do Lapidar, com ficha global,
+formato, lombada, partes técnicas e evolução editorial completa.
+</p>
+<ul>
+<li>Ficha Global da Obra</li>
+<li>Estrutura física do livro</li>
+<li>Cálculo de lombada</li>
+<li>Fluxo editorial completo</li>
+</ul>
+<button onclick="abrirProjetoCompleto()">Entrar no Projeto Completo</button>
+</div>
+
+<div class="card">
+<h2>Projeto Ocapista</h2>
+<p>
+Para quem já possui o miolo pronto e deseja criar apenas a capa, contracapa,
+lombada e estrutura técnica externa da obra.
+</p>
+<ul>
+<li>Leitura do miolo pronto</li>
+<li>Cálculo automático da lombada</li>
+<li>Capa técnica editorial</li>
+<li>Fluxo direto para capistas e autores</li>
+</ul>
+<button onclick="alert('Próximo passo: abrir acesso direto ao Projeto Ocapista.')">Entrar no Projeto Ocapista</button>
+</div>
+
+</div>
+
+<div class="footer">
+Sistema editorial do Site das Letras Edições Literárias<br>
+Lapidar + Projeto Ocapista
+</div>
+</div>
+
+<div id="projetoCompleto" class="modulo">
+<h1>Lapidar — Projeto Completo da Obra</h1>
+<p class="sub">
+Preencha a Ficha Global Lapidar para iniciar a preparação editorial da obra.
+</p>
+
+<div class="topo-acoes">
+<button class="secundario" onclick="voltarInicio()">Voltar ao início</button>
+</div>
+
+<form id="fichaGlobal">
+
+<fieldset>
+<legend>Bloco 1 — Identidade da Obra</legend>
+
+<label>Título da obra</label>
+<input type="text" placeholder="Digite o título">
+
+<label>Subtítulo (opcional)</label>
+<input type="text" placeholder="Digite o subtítulo">
+
+<label>Nome do autor na capa</label>
+<input type="text" placeholder="Digite o nome autoral da capa">
+
+<div class="linha">
+<div>
+<label>Identidade autoral</label>
+<select onchange="mostrarHeteronimo(this.value)">
+<option>Autor civil</option>
+<option>Heterônimo</option>
+<option>Pseudônimo</option>
+<option>Nome social</option>
+</select>
+</div>
+
+<div id="heteronimoCampo" style="display:none;">
+<label>Nome do heterônimo</label>
+<input type="text" placeholder="Digite o heterônimo">
+</div>
+</div>
+
+<label>Coleção (opcional)</label>
+<input type="text" placeholder="Digite a coleção">
+
+<label>Selo editorial</label>
+<input type="text" value="Site das Letras Edições Literárias">
+</fieldset>
+
+<fieldset>
+<legend>Bloco 2 — Estrutura Física</legend>
+
+<div class="linha">
+<div>
+<label>Formato do livro</label>
+<select>
+<option>A5</option>
+<option>14x21 cm</option>
+<option>16x23 cm</option>
+<option>16x27 cm</option>
+<option>6x9 pol</option>
+<option>A4 vertical</option>
+<option>A4 horizontal</option>
+</select>
+</div>
+
+<div>
+<label>Tipo de papel</label>
+<select id="papel" onchange="calcularLombada()">
+<option value="0.05">Offset 75g</option>
+<option value="0.06">Offset 90g</option>
+<option value="0.055">Pólen</option>
+<option value="0.05">Personalizado simples</option>
+</select>
+</div>
+</div>
+
+<div class="linha">
+<div>
+<label>Miolo</label>
+<select>
+<option>Preto e branco</option>
+<option>Colorido</option>
+<option>Misto</option>
+</select>
+</div>
+
+<div>
+<label>Número de páginas</label>
+<input type="number" id="paginas" min="1" value="100" oninput="calcularLombada()">
+</div>
+</div>
+
+<div class="resultado">
+<strong>Lombada estimada:</strong>
+<span id="lombada">5.00 mm</span>
+</div>
+</fieldset>
+
+<fieldset>
+<legend>Bloco 3 — Classificação Inicial da Obra</legend>
+
+<div class="linha">
+<div>
+<label>Tipo da obra</label>
+<select>
+<option>Poesia</option>
+<option>Prosa</option>
+<option>Mista</option>
+<option>Antologia</option>
+<option>Miscelânea</option>
+<option>Não sei ainda</option>
+</select>
+</div>
+
+<div>
+<label>Modo editorial</label>
+<select>
+<option>Projeto completo</option>
+<option>Modo Momentos</option>
+<option>Projeto escolar</option>
+<option>Projeto familiar</option>
+</select>
+</div>
+</div>
+
+<label>Resumo da obra</label>
+<textarea rows="5" placeholder="Descreva sua obra para ajudar o Lapidar a sugerir a classificação editorial."></textarea>
+</fieldset>
+
+<fieldset>
+<legend>Bloco 4 — Destino Editorial</legend>
+
+<div class="linha">
+<div>
+<label>Livro físico</label>
+<select>
+<option>UICLAP</option>
+<option>Clube de Autores</option>
+<option>Amazon KDP (impresso)</option>
+<option>Gráfica local</option>
+<option>Editora própria</option>
+</select>
+</div>
+
+<div>
+<label>Livro digital / e-book</label>
+<select>
+<option>Amazon Kindle (ePUB)</option>
+<option>Google Play Livros</option>
+<option>PDF leitura digital</option>
+<option>Outra plataforma digital</option>
+</select>
+</div>
+</div>
+</fieldset>
+
+<div class="topo-acoes">
+<button type="button" onclick="alert('Próximo passo: bloco seguinte da Ficha Global.')">Salvar e continuar</button>
+</div>
+
+</form>
+</div>
+
+</div>
+
+<script>
+function abrirProjetoCompleto(){
+document.getElementById("home").style.display="none";
+document.getElementById("projetoCompleto").style.display="block";
+}
+
+function voltarInicio(){
+document.getElementById("projetoCompleto").style.display="none";
+document.getElementById("home").style.display="block";
+}
+
+function mostrarHeteronimo(valor){
+if(valor==="Heterônimo"){
+document.getElementById("heteronimoCampo").style.display="block";
+}else{
+document.getElementById("heteronimoCampo").style.display="none";
+}
+}
+
+function calcularLombada(){
+var paginas = parseFloat(document.getElementById("paginas").value) || 0;
+var fator = parseFloat(document.getElementById("papel").value) || 0;
+var lombada = paginas * fator;
+document.getElementById("lombada").innerText = lombada.toFixed(2) + " mm";
+}
+
+calcularLombada();
+</script>
+
+</body>
+</html>
