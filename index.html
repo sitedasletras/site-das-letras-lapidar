@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lapidar — Site das Letras — V45</title>
+<title>— Lapidar —</title>
 
 <style>
 body{margin:0;font-family:Arial;background:#f4f4f4;text-align:center;padding:40px;}
@@ -12,23 +12,25 @@ textarea,input,button{margin-top:10px;padding:12px;font-size:16px;border-radius:
 button{background:#222;color:white;cursor:pointer;}
 button:hover{background:#444;}
 .relatorio{margin-top:20px;border:2px solid #bbb;border-radius:10px;padding:25px;white-space:pre-line;text-align:left;}
+small{display:block;color:#666;margin-top:6px;}
 </style>
+
 </head>
 
 <body>
 
 <div class="container">
 
-<h2>Site das Letras — Lapidar V45</h2>
-<p>Recomposição narrativa automática com variação inteligente de conectores temporais.</p>
+<h2>— Lapidar —</h2>
+<p>Memória narrativa global com variação automática de conectores temporais (integra V44 + V45).</p>
 
-<label>Texto após limpeza do V44</label>
-<textarea id="textoEntrada" rows="16" placeholder="Cole aqui o texto já higienizado."></textarea>
+<label>Texto da obra (ou capítulo)</label>
+<textarea id="textoEntrada" rows="18" placeholder="Cole aqui o texto já higienizado pelo módulo anterior."></textarea>
 
-<button onclick="recomporNarrativa()">Aplicar recomposição narrativa inteligente</button>
+<button onclick="processarMemoriaNarrativa()">Aplicar recomposição com memória global</button>
 
 <label>Texto recomposto</label>
-<textarea id="textoSaida" rows="16"></textarea>
+<textarea id="textoSaida" rows="18"></textarea>
 
 <div id="relatorio" class="relatorio"></div>
 
@@ -36,84 +38,85 @@ button:hover{background:#444;}
 
 <script>
 
-let conectoresDisponiveis=[
+function limpar(txt){
+return (txt||"").trim();
+}
+
+function bancoConectoresUsados(){
+return JSON.parse(localStorage.getItem("MEMORIA_CONECTORES_LAPIDAR")||"[]");
+}
+
+function salvarBanco(conectores){
+localStorage.setItem("MEMORIA_CONECTORES_LAPIDAR",JSON.stringify(conectores));
+}
+
+function escolherConector(usados){
+
+const lista=[
 "Pouco depois",
 "Instantes mais tarde",
-"Na sequência dos acontecimentos",
-"Mais adiante",
 "Algum tempo depois",
 "Momentos depois",
 "Horas mais tarde",
-"Logo depois",
-"Em seguida",
-"No desenrolar daquele instante narrativo"
+"Mais adiante",
+"Na sequência dos acontecimentos",
+"No desenrolar daquele instante narrativo",
+"Posteriormente",
+"Na continuidade daquele período narrativo"
 ];
 
-function limparConectorInicial(frase){
-
-return frase.replace(/^\s*(Agora|Então|Assim|Logo|Depois|Em seguida|A seguir|Nesse momento)[,\s]+/i,"");
-
+for(let c of lista){
+if(!usados.includes(c)) return c;
 }
 
-function selecionarConector(usados){
-
-for(let i=0;i<conectoresDisponiveis.length;i++){
-
-if(!usados.includes(conectoresDisponiveis[i])){
-
-return conectoresDisponiveis[i]
-
+return "Momentos depois";
 }
 
+function removerConectorOrfao(linha){
+return linha.replace(/^\s*(Agora|Então|Assim|Logo|Depois|Em seguida|A seguir|Nesse momento)[,\s]+/i,"");
 }
 
-return "Momentos depois"
+function processarMemoriaNarrativa(){
 
-}
-
-function recomporNarrativa(){
-
-let texto=document.getElementById("textoEntrada").value.trim()
+let texto=limpar(document.getElementById("textoEntrada").value);
 
 if(!texto){
-
-alert("Cole um texto primeiro.")
-return
-
+alert("Cole o texto primeiro.");
+return;
 }
 
-let linhas=texto.split("\n")
-let usados=[]
-let substituicoes=0
+let usados=bancoConectoresUsados();
+
+let linhas=texto.split("\n");
+let substituicoes=0;
 
 for(let i=0;i<linhas.length;i++){
 
-let linhaOriginal=linhas[i]
+if(/^(Agora|Então|Assim|Logo|Depois|Em seguida|A seguir|Nesse momento)[,\s]/i.test(linhas[i])){
 
-if(/^(Agora|Então|Assim|Logo|Depois|Em seguida|A seguir|Nesse momento)[,\s]/i.test(linhaOriginal)){
+let novo=escolherConector(usados);
 
-let conectorNovo=selecionarConector(usados)
+linhas[i]=novo+", "+removerConectorOrfao(linhas[i]);
 
-let fraseLimpa=limparConectorInicial(linhaOriginal)
+usados.push(novo);
 
-linhas[i]=conectorNovo + ", " + fraseLimpa
-
-usados.push(conectorNovo)
-
-substituicoes++
+substituicoes++;
 
 }
 
 }
 
-let textoFinal=linhas.join("\n")
+salvarBanco(usados);
 
-document.getElementById("textoSaida").value=textoFinal
+let final=linhas.join("\n");
+
+document.getElementById("textoSaida").value=final;
 
 document.getElementById("relatorio").innerText=
-"RECOMPOSIÇÃO NARRATIVA EXECUTADA\n\n"+
-"Conectores substituídos: "+substituicoes+"\n"+
-"Variação automática aplicada conforme regra editorial do Prompt 001."
+"MEMÓRIA NARRATIVA GLOBAL ATUALIZADA\n\n"+
+"Conectores substituídos nesta execução: "+substituicoes+"\n"+
+"Total de conectores já registrados na obra: "+usados.length+"\n"+
+"Repetição futura automaticamente evitada conforme Prompt 001.";
 
 }
 
