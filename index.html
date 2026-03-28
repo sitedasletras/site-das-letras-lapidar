@@ -12,7 +12,7 @@ button{margin-top:20px;padding:14px 22px;font-size:17px;border:none;border-radiu
 button:hover{background:#444;}
 .modulo{display:none;text-align:left;margin-top:10px;}
 fieldset{border:1px solid #ddd;border-radius:12px;padding:20px;margin-top:20px;}
-input{width:100%;padding:10px;margin-top:5px;border-radius:6px;border:1px solid #ccc;font-size:16px;}
+input,select{width:100%;padding:10px;margin-top:5px;border-radius:6px;border:1px solid #ccc;font-size:16px;}
 .certificado{margin-top:15px;background:#fff;border:2px solid #bbb;border-radius:12px;padding:24px;white-space:pre-line;text-align:center;}
 </style>
 </head>
@@ -33,6 +33,32 @@ input{width:100%;padding:10px;margin-top:5px;border-radius:6px;border:1px solid 
 
 <label>Autor</label>
 <input id="autorCapa">
+
+<label>Tipo da obra</label>
+<select id="tipoObra">
+<option value="RMN">Romance</option>
+<option value="CNT">Contos</option>
+<option value="PES">Poesia</option>
+<option value="INF">Infantil</option>
+<option value="ANT">Antologia</option>
+<option value="TEC">Técnico</option>
+<option value="ENS">Ensaio</option>
+<option value="BIO">Biografia</option>
+<option value="ESP">Espiritual</option>
+<option value="HIS">Histórico</option>
+<option value="FAN">Fantasia</option>
+<option value="HOR">Horror</option>
+</select>
+
+<label>Formato</label>
+<select id="formatoObra">
+<option value="A5">A5</option>
+<option value="1623">16x23</option>
+<option value="1627">16x27</option>
+<option value="A4">A4</option>
+<option value="69">6x9</option>
+<option value="INFQ">Infantil Quadrado</option>
+</select>
 </fieldset>
 
 <fieldset>
@@ -50,6 +76,11 @@ input{width:100%;padding:10px;margin-top:5px;border-radius:6px;border:1px solid 
 <div id="exportacaoCatalogoStatus" class="certificado"></div>
 </fieldset>
 
+<fieldset>
+<button onclick="gerarRelatorioMensalPorPais()">Gerar relatório mensal por país</button>
+<div id="relatorioPaisGerado" class="certificado"></div>
+</fieldset>
+
 </div>
 </div>
 
@@ -59,88 +90,158 @@ function abrirProjetoCompleto(){
 document.getElementById("projetoCompleto").style.display="block";
 }
 
-function gerarCodigoEditorialSDL(){
+function dataHoraBrasil(){
+return new Date().toLocaleString("pt-BR",{timeZone:"America/Sao_Paulo"});
+}
 
-var titulo=document.getElementById("tituloObra").value||"obra";
-var autor=document.getElementById("autorCapa").value||"autor";
+function dataBrasilComponentes(){
+var agora = new Date();
+var formatter = new Intl.DateTimeFormat("en-CA", {
+timeZone:"America/Sao_Paulo",
+year:"numeric",
+month:"2-digit",
+day:"2-digit",
+hour:"2-digit",
+minute:"2-digit",
+second:"2-digit",
+hour12:false
+});
+var parts = formatter.formatToParts(agora);
+var map = {};
+parts.forEach(function(p){ map[p.type]=p.value; });
+return map;
+}
 
-var agora=new Date();
+function detectarPaisAutomatico(){
+var idioma = (navigator.language || "pt-BR").toUpperCase();
 
-var ano=agora.getFullYear();
-var mes=String(agora.getMonth()+1).padStart(2,"0");
-var dia=String(agora.getDate()).padStart(2,"0");
-var hora=String(agora.getHours()).padStart(2,"0");
-var minuto=String(agora.getMinutes()).padStart(2,"0");
+if(idioma.includes("-BR")) return "BR";
+if(idioma.includes("-PT")) return "PT";
+if(idioma.includes("-US")) return "US";
+if(idioma.includes("-CH")) return "CH";
+if(idioma.includes("-FR")) return "FR";
+if(idioma.includes("-ES")) return "ES";
+if(idioma.includes("-IT")) return "IT";
 
-var hashBase=titulo+autor+agora.getTime();
-var hash=btoa(hashBase).replace(/[^A-Z0-9]/gi,"").substring(0,6).toUpperCase();
+return "BR";
+}
 
-return "SDL-"+ano+"-"+mes+"-"+dia+"-"+hora+"-"+minuto+"-"+hash;
+function gerarCodigoAutor(){
+var autor=document.getElementById("autorCapa").value||"AUTOR";
+var limpo=autor.replace(/[^A-Za-z0-9]/g,"").toUpperCase();
+if(limpo.length>=4) return limpo.substring(0,4);
+return (limpo+"XXXX").substring(0,4);
+}
+
+function gerarSequencialSDL(){
+var sequencial = parseInt(localStorage.getItem("sequencialSDLGlobal") || "0", 10);
+sequencial += 1;
+localStorage.setItem("sequencialSDLGlobal", String(sequencial));
+return String(sequencial).padStart(4,"0");
+}
+
+function montarIDSDL(sequencial){
+var partes = dataBrasilComponentes();
+var pais = detectarPaisAutomatico();
+var ano = partes.year;
+var tipo = document.getElementById("tipoObra").value || "RMN";
+var autor = gerarCodigoAutor();
+var formato = document.getElementById("formatoObra").value || "A5";
+return "SDL-" + pais + "-" + ano + "-" + tipo + "-" + autor + "-" + formato + "-" + sequencial;
 }
 
 function gerarIDEditorialInstitucional(){
-
-var codigoSDL=gerarCodigoEditorialSDL();
-
-document.getElementById("idEditorialGerado").innerText=
-"ID EDITORIAL INSTITUCIONAL LAPIDAR\n\nCódigo:\n"+codigoSDL;
-
+var sequencial = gerarSequencialSDL();
+var codigoSDL = montarIDSDL(sequencial);
 localStorage.setItem("ultimoIDSDL",codigoSDL);
 
+var pais = detectarPaisAutomatico();
+var data = dataHoraBrasil();
+
+document.getElementById("idEditorialGerado").innerText =
+"ID EDITORIAL INSTITUCIONAL LAPIDAR\n\nCódigo:\n" + codigoSDL +
+"\n\nPaís detectado automaticamente:\n" + pais +
+"\n\nHorário oficial do sistema (Brasil):\n" + data;
 }
 
 function registrarNoCatalogo(){
-
 var codigoSDL=localStorage.getItem("ultimoIDSDL");
 
 if(!codigoSDL){
-
-codigoSDL=gerarCodigoEditorialSDL();
-
+var sequencial = gerarSequencialSDL();
+codigoSDL = montarIDSDL(sequencial);
+localStorage.setItem("ultimoIDSDL", codigoSDL);
 }
 
 var catalogo=JSON.parse(localStorage.getItem("catalogoSDL")||"[]");
-
 catalogo.push(codigoSDL);
-
 localStorage.setItem("catalogoSDL",JSON.stringify(catalogo));
+
+var pais = codigoSDL.split("-")[1];
+var partes = dataBrasilComponentes();
+var chaveMes = partes.year + "-" + partes.month;
+
+var relatorioMensal = JSON.parse(localStorage.getItem("relatorioMensalSDL") || "{}");
+if(!relatorioMensal[chaveMes]) relatorioMensal[chaveMes] = {};
+if(!relatorioMensal[chaveMes][pais]) relatorioMensal[chaveMes][pais] = 0;
+relatorioMensal[chaveMes][pais] += 1;
+localStorage.setItem("relatorioMensalSDL", JSON.stringify(relatorioMensal));
 
 document.getElementById("catalogoGerado").innerText=
 "CATÁLOGO INSTITUCIONAL SDL\n\nObras registradas nesta sessão:\n\n"+catalogo.join("\n");
-
 }
 
 function exportarCatalogoPDF(){
-
 var catalogo=JSON.parse(localStorage.getItem("catalogoSDL")||"[]");
 
 if(catalogo.length===0){
-
 alert("Nenhuma obra registrada ainda no catálogo.");
-
 return;
-
 }
 
-var agora=new Date().toLocaleString("pt-BR");
+var agora=dataHoraBrasil();
 
 var conteudo=
 "CATÁLOGO EDITORIAL\nSite das Letras Edições Literárias\n\n"+
 "Registro institucional interno\n\n"+
 catalogo.join("\n")+
-"\n\nExportado em:\n"+agora;
+"\n\nExportado em (hora Brasil):\n"+agora;
 
 var janela=window.open("","_blank");
-
-janela.document.write("<pre style='font-family:Arial;font-size:14px;'>"+conteudo+"</pre>");
-
+janela.document.write("<pre style='font-family:Arial;font-size:14px;white-space:pre-wrap;'>" + conteudo + "</pre>");
 janela.document.close();
-
 janela.print();
 
 document.getElementById("exportacaoCatalogoStatus").innerText=
 "Catálogo preparado para exportação PDF com sucesso.";
+}
 
+function gerarRelatorioMensalPorPais(){
+var partes = dataBrasilComponentes();
+var chaveMes = partes.year + "-" + partes.month;
+var relatorioMensal = JSON.parse(localStorage.getItem("relatorioMensalSDL") || "{}");
+var dadosMes = relatorioMensal[chaveMes] || {};
+
+var paises = Object.keys(dadosMes);
+if(paises.length === 0){
+document.getElementById("relatorioPaisGerado").innerText =
+"RELATÓRIO MENSAL DE USO INTERNACIONAL — SDL\n\nNenhum registro encontrado no mês atual.";
+return;
+}
+
+var total = 0;
+var texto = "RELATÓRIO MENSAL DE USO INTERNACIONAL — SDL\n\n";
+texto += "Mês: " + partes.month + "/" + partes.year + "\n";
+texto += "Horário de referência: Brasil\n\n";
+
+paises.forEach(function(pais){
+texto += pais + " — " + dadosMes[pais] + " registros\n";
+total += dadosMes[pais];
+});
+
+texto += "\nTotal de obras registradas no mês: " + total;
+
+document.getElementById("relatorioPaisGerado").innerText = texto;
 }
 
 </script>
