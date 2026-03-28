@@ -3,15 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lapidar — Site das Letras — V24</title>
+<title>Lapidar — Site das Letras — V25</title>
 
 <style>
 body{margin:0;font-family:Arial;background:#f4f4f4;text-align:center;padding:40px;}
 .container{max-width:920px;margin:auto;background:white;padding:35px;border-radius:18px;box-shadow:0 6px 18px rgba(0,0,0,0.08);}
-input,select,button{margin-top:10px;padding:12px;font-size:16px;border-radius:8px;border:1px solid #ccc;width:100%;box-sizing:border-box;}
+input,select,button,textarea{margin-top:10px;padding:12px;font-size:16px;border-radius:8px;border:1px solid #ccc;width:100%;box-sizing:border-box;}
 button{background:#222;color:white;cursor:pointer;}
 button:hover{background:#444;}
 .cert{margin-top:15px;border:2px solid #bbb;border-radius:10px;padding:20px;white-space:pre-line;}
+small{display:block;color:#666;margin-top:6px;}
 </style>
 </head>
 
@@ -19,16 +20,16 @@ button:hover{background:#444;}
 
 <div class="container">
 
-<h2>Site das Letras — Lapidar V24</h2>
+<h2>Site das Letras — Lapidar V25</h2>
 
 <label>Nome da Conta (diagramador / editora / autor)</label>
 <input id="contaCliente" placeholder="Ex: Editora Horizonte">
 
 <label>Nome Autoral</label>
-<input id="autorNome" placeholder="Ex: Pyetra Luyza">
+<input id="autorNome" placeholder="Ex: José da Silva">
 
-<label>País (automático)</label>
-<input id="paisDetectado" readonly>
+<label>Biografia do autor (opcional)</label>
+<textarea id="biografiaAutor" rows="4" placeholder="Digite a biografia para vincular ao cadastro autoral interno."></textarea>
 
 <label>Tipo da obra</label>
 <select id="tipoObra">
@@ -56,7 +57,11 @@ button:hover{background:#444;}
 <option value="INFQ">Infantil Quadrado</option>
 </select>
 
-<button onclick="gerarOuRecuperarCutter()">Gerar ou recuperar Código Cutter</button>
+<label>País (automático)</label>
+<input id="paisDetectado" readonly>
+
+<button onclick="gerarOuRecuperarAutorCutter()">Gerar ou recuperar Código Cutter</button>
+<small>Se houver homônimo na mesma conta, o sistema criará sufixo incremental: S586-01, S586-02...</small>
 <div id="saidaCutter" class="cert"></div>
 
 <button onclick="verBancoConta()">Ver banco Cutter da conta</button>
@@ -93,7 +98,11 @@ function normalizarNome(nome){
 return nome.trim();
 }
 
-function gerarCutter(nome){
+function normalizarBiografia(texto){
+return (texto || "").trim();
+}
+
+function gerarCutterBase(nome){
 nome = nome.trim().toUpperCase();
 var letra = nome.charAt(0) || "X";
 var soma = 0;
@@ -104,37 +113,128 @@ var numero = String(soma % 1000).padStart(3,"0");
 return letra + numero;
 }
 
-function gerarOuRecuperarCutter(){
+function gerarChaveAutoralInterna(conta, nome, indice){
+var contaLimpa = conta.trim().toUpperCase().replace(/[^A-Z0-9]/g,"").substring(0,6) || "CONTA";
+var nomeLimpo = nome.trim().toUpperCase().replace(/[^A-Z0-9]/g,"").substring(0,6) || "AUTOR";
+return "SDL-AUTOR-" + contaLimpa + "-" + nomeLimpo + "-" + String(indice).padStart(4,"0");
+}
+
+function proximoIndiceAutor(banco){
+var maior = 0;
+banco.autores.forEach(function(item){
+if(item.indiceAutor > maior) maior = item.indiceAutor;
+});
+return maior + 1;
+}
+
+function proximoSufixoHomonimo(banco, nome, cutterBase){
+var maior = 0;
+banco.autores.forEach(function(item){
+if(item.nomeAutor === nome && item.cutterBase === cutterBase){
+if(item.sufixoHomonimo > maior) maior = item.sufixoHomonimo;
+}
+});
+return maior + 1;
+}
+
+function obterBancoConta(conta){
+var chaveConta = gerarBaseConta(conta);
+var banco = JSON.parse(localStorage.getItem(chaveConta) || "{}");
+if(!banco.autores) banco.autores = [];
+return { chaveConta: chaveConta, banco: banco };
+}
+
+function salvarBancoConta(chaveConta, banco){
+localStorage.setItem(chaveConta, JSON.stringify(banco));
+}
+
+function formatarCutter(cutterBase, sufixo){
+if(!sufixo || sufixo <= 0) return cutterBase;
+return cutterBase + "-" + String(sufixo).padStart(2,"0");
+}
+
+function buscarAutorNaConta(banco, nome, biografia){
+var bio = normalizarBiografia(biografia);
+for(var i=0;i<banco.autores.length;i++){
+var item = banco.autores[i];
+if(item.nomeAutor === nome){
+if(bio === ""){
+return item;
+}
+if(item.biografiaAutor === bio){
+return item;
+}
+}
+}
+return null;
+}
+
+function gerarOuRecuperarAutorCutter(){
 
 var conta = document.getElementById("contaCliente").value.trim();
 var autor = normalizarNome(document.getElementById("autorNome").value);
+var biografia = normalizarBiografia(document.getElementById("biografiaAutor").value);
 
 if(!conta || !autor){
 alert("Informe conta e autor.");
-return;
+return null;
 }
 
-var chaveConta = gerarBaseConta(conta);
-var banco = JSON.parse(localStorage.getItem(chaveConta) || "{}");
+var pacote = obterBancoConta(conta);
+var chaveConta = pacote.chaveConta;
+var banco = pacote.banco;
 
-if(banco[autor]){
+var existente = buscarAutorNaConta(banco, autor, biografia);
+
+if(existente){
 document.getElementById("saidaCutter").innerText =
-"CUTTER RECUPERADO DA CONTA\n\nAutor: " + autor +
-"\nConta: " + conta +
-"\nCódigo Cutter: " + banco[autor];
-return banco[autor];
+"CUTTER RECUPERADO DA CONTA\n\n" +
+"Autor: " + existente.nomeAutor + "\n" +
+"Conta: " + conta + "\n" +
+"ID autoral interno: " + existente.idAutoralInterno + "\n" +
+"Código Cutter: " + existente.cutterCompleto +
+(existente.biografiaAutor ? "\nBiografia vinculada: SIM" : "\nBiografia vinculada: NÃO");
+return existente;
 }
 
-var cutterNovo = gerarCutter(autor);
-banco[autor] = cutterNovo;
-localStorage.setItem(chaveConta, JSON.stringify(banco));
+var cutterBase = gerarCutterBase(autor);
+
+var mesmoBaseMesmoNome = banco.autores.filter(function(item){
+return item.nomeAutor === autor && item.cutterBase === cutterBase;
+});
+
+var sufixo = 0;
+if(mesmoBaseMesmoNome.length > 0){
+sufixo = proximoSufixoHomonimo(banco, autor, cutterBase);
+}
+
+var cutterCompleto = formatarCutter(cutterBase, sufixo);
+var indiceAutor = proximoIndiceAutor(banco);
+var idAutoralInterno = gerarChaveAutoralInterna(conta, autor, indiceAutor);
+
+var cadastro = {
+indiceAutor: indiceAutor,
+idAutoralInterno: idAutoralInterno,
+nomeAutor: autor,
+biografiaAutor: biografia,
+cutterBase: cutterBase,
+sufixoHomonimo: sufixo,
+cutterCompleto: cutterCompleto,
+dataCadastro: new Date().toLocaleString("pt-BR")
+};
+
+banco.autores.push(cadastro);
+salvarBancoConta(chaveConta, banco);
 
 document.getElementById("saidaCutter").innerText =
-"CUTTER NOVO GERADO E SALVO\n\nAutor: " + autor +
-"\nConta: " + conta +
-"\nCódigo Cutter: " + cutterNovo;
+"CUTTER NOVO GERADO E SALVO\n\n" +
+"Autor: " + autor + "\n" +
+"Conta: " + conta + "\n" +
+"ID autoral interno: " + idAutoralInterno + "\n" +
+"Código Cutter: " + cutterCompleto +
+(biografia ? "\nBiografia vinculada: SIM" : "\nBiografia vinculada: NÃO");
 
-return cutterNovo;
+return cadastro;
 }
 
 function verBancoConta(){
@@ -146,19 +246,21 @@ alert("Informe a conta primeiro.");
 return;
 }
 
-var chaveConta = gerarBaseConta(conta);
-var banco = JSON.parse(localStorage.getItem(chaveConta) || "{}");
-var autores = Object.keys(banco);
+var pacote = obterBancoConta(conta);
+var banco = pacote.banco;
 
-if(autores.length === 0){
+if(banco.autores.length === 0){
 document.getElementById("bancoConta").innerText =
 "Esta conta ainda não possui Cutters cadastrados.";
 return;
 }
 
 var texto = "BANCO CUTTER DA CONTA\n\n";
-autores.forEach(function(a){
-texto += a + " → " + banco[a] + "\n";
+
+banco.autores.forEach(function(item){
+texto += item.nomeAutor + " → " + item.cutterCompleto + "\n";
+texto += "ID interno: " + item.idAutoralInterno + "\n";
+texto += "Biografia: " + (item.biografiaAutor ? "Vinculada" : "Não vinculada") + "\n\n";
 });
 
 document.getElementById("bancoConta").innerText = texto;
@@ -177,10 +279,11 @@ parts.forEach(function(p){ map[p.type]=p.value; });
 return map;
 }
 
-function gerarSequencialSDL(){
-var sequencial = parseInt(localStorage.getItem("sequencialSDLGlobal") || "0", 10);
+function gerarSequencialSDLPorConta(conta){
+var chave = "SEQUENCIAL_SDL_CONTA_" + conta.trim().toUpperCase();
+var sequencial = parseInt(localStorage.getItem(chave) || "0", 10);
 sequencial += 1;
-localStorage.setItem("sequencialSDLGlobal", String(sequencial));
+localStorage.setItem(chave, String(sequencial));
 return String(sequencial).padStart(4,"0");
 }
 
@@ -197,19 +300,23 @@ alert("Informe conta e autor.");
 return;
 }
 
-var cutter = gerarOuRecuperarCutter();
+var cadastro = gerarOuRecuperarAutorCutter();
+if(!cadastro) return;
+
 var partes = dataBrasilComponentes();
 var ano = partes.year;
-var sequencial = gerarSequencialSDL();
+var sequencial = gerarSequencialSDLPorConta(conta);
 
-var idSDL = "SDL-" + pais + "-" + ano + "-" + tipo + "-" + cutter + "-" + formato + "-" + sequencial;
+var idSDL = "SDL-" + pais + "-" + ano + "-" + tipo + "-" + cadastro.cutterCompleto + "-" + formato + "-" + sequencial;
 
 document.getElementById("saidaIDSDL").innerText =
 "ID INSTITUCIONAL SDL COM CUTTER\n\n" +
 "Conta: " + conta + "\n" +
-"Autor: " + autor + "\n" +
+"Autor: " + cadastro.nomeAutor + "\n" +
+"ID autoral interno: " + cadastro.idAutoralInterno + "\n" +
 "País detectado: " + pais + "\n" +
-"Cutter: " + cutter + "\n\n" +
+"Cutter: " + cadastro.cutterCompleto + "\n" +
+"Sequencial da conta: " + sequencial + "\n\n" +
 "Código:\n" + idSDL;
 
 localStorage.setItem("ultimoIDSDLComCutter", idSDL);
