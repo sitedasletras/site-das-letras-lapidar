@@ -100,6 +100,11 @@ Sistema editorial estruturador do Site das Letras Edições Literárias.
 <div id="assinaturaGerada" class="certificado"></div>
 </fieldset>
 
+<fieldset>
+<button onclick="gerarIDEditorialInstitucional()">Gerar ID editorial institucional da obra</button>
+<div id="idEditorialGerado" class="certificado"></div>
+</fieldset>
+
 </div>
 </div>
 
@@ -134,13 +139,35 @@ document.getElementById("capaCalculada").innerText=
 "Altura: "+altura.toFixed(2)+" cm | Largura total: "+total.toFixed(2)+" cm";
 }
 
+function gerarCodigoEditorialSDL(){
+var titulo=document.getElementById("tituloObra").value||"obra";
+var autor=document.getElementById("autorCapa").value||"autor";
+
+var agora=new Date();
+
+var ano=agora.getFullYear();
+var mes=String(agora.getMonth()+1).padStart(2,"0");
+var dia=String(agora.getDate()).padStart(2,"0");
+var hora=String(agora.getHours()).padStart(2,"0");
+var minuto=String(agora.getMinutes()).padStart(2,"0");
+
+var hashBase=titulo+autor+agora.getTime();
+var hash=btoa(hashBase).replace(/[^A-Z0-9]/gi,"").substring(0,6).toUpperCase();
+
+return "SDL-"+ano+"-"+mes+"-"+dia+"-"+hora+"-"+minuto+"-"+hash;
+}
+
 function gerarCertificado(){
 const data=new Date().toLocaleString("pt-BR");
+const codigoSDL=gerarCodigoEditorialSDL();
 
 const certificado=`
 CERTIFICADO EDITORIAL – SISTEMA LAPIDAR
 
 Projeto editorial processado com sucesso.
+
+ID editorial institucional:
+${codigoSDL}
 
 Data:
 ${data}
@@ -154,9 +181,13 @@ var titulo=document.getElementById("tituloObra").value||"Título não informado"
 var autor=document.getElementById("autorCapa").value||"Autor não informado";
 
 var agora=new Date();
+var codigoSDL=gerarCodigoEditorialSDL();
 
 var registro=`
 REGISTRO EDITORIAL INTERNO LAPIDAR
+
+ID editorial institucional:
+${codigoSDL}
 
 Obra: ${titulo}
 Autor: ${autor}
@@ -171,11 +202,15 @@ function gerarRegistroPDF(){
 
 var titulo=document.getElementById("tituloObra").value||"Título não informado";
 var autor=document.getElementById("autorCapa").value||"Autor não informado";
+var codigoSDL=gerarCodigoEditorialSDL();
 
 var data=new Date().toLocaleString("pt-BR");
 
 var texto=`
 REGISTRO EDITORIAL PERMANENTE — LAPIDAR
+
+ID editorial institucional:
+${codigoSDL}
 
 Obra: ${titulo}
 Autor: ${autor}
@@ -186,8 +221,14 @@ Gerado em:
 ${data}
 `;
 
-window.print();
+var area=document.createElement("textarea");
+area.value=texto;
+document.body.appendChild(area);
+area.select();
+document.execCommand("copy");
+document.body.removeChild(area);
 
+alert("Registro permanente copiado com ID editorial institucional.");
 }
 
 function gerarAssinaturaEstrutural(){
@@ -196,13 +237,16 @@ var titulo=document.getElementById("tituloObra").value||"obra";
 var autor=document.getElementById("autorCapa").value||"autor";
 
 var agora=new Date();
+var codigoSDL=gerarCodigoEditorialSDL();
 
 var hashBase=titulo+autor+agora.getTime();
-
 var assinatura=btoa(hashBase).substring(0,24);
 
 var resultado=`
 ASSINATURA ESTRUTURAL INVISÍVEL LAPIDAR
+
+ID editorial institucional:
+${codigoSDL}
 
 Código estrutural:
 ${assinatura}
@@ -211,7 +255,22 @@ Gerado automaticamente para rastreabilidade editorial.
 `;
 
 document.getElementById("assinaturaGerada").innerText=resultado;
+}
 
+function gerarIDEditorialInstitucional(){
+
+var codigoSDL=gerarCodigoEditorialSDL();
+
+var resultado=`
+ID EDITORIAL INSTITUCIONAL LAPIDAR
+
+Código:
+${codigoSDL}
+
+Gerado automaticamente para rastreabilidade editorial permanente.
+`;
+
+document.getElementById("idEditorialGerado").innerText=resultado;
 }
 
 calcularLombada();
