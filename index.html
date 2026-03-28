@@ -501,6 +501,24 @@ Este bloco utiliza a espessura editorial do papel e um coeficiente técnico de c
 <div id="capaCalculada" class="tabela-capa"></div>
 </div>
 </fieldset>
+  <fieldset>
+<legend>Bloco 10 — Exportador Técnico da Capa</legend>
+
+<p>
+Este bloco gera automaticamente o relatório técnico completo da capa da obra,
+pronto para envio ao capista, designer ou gráfica.
+</p>
+
+<div class="topo-acoes">
+<button type="button" onclick="exportarCapa()">Gerar relatório técnico da capa</button>
+</div>
+
+<div id="resultadoExportacao" class="resultado" style="display:none;">
+<strong>Relatório técnico da capa:</strong>
+<div id="relatorioCapaGerado" class="certificado"></div>
+</div>
+
+</fieldset>
 
 <div class="topo-acoes">
 <button type="button" onclick="alert('Próximo passo: bloco seguinte da Ficha Global.')">Salvar e continuar</button>
@@ -692,7 +710,66 @@ registro += "Site das Letras Edições Literárias — Lapidar";
 document.getElementById("registroGerado").innerText = registro;
 document.getElementById("resultadoRegistro").style.display = "block";
 }
+function exportarCapa(){
 
+var titulo = document.getElementById("tituloObra").value.trim();
+var subtitulo = document.getElementById("subtituloObra").value.trim();
+var autor = document.getElementById("autorCapa").value.trim();
+
+if(titulo === "") titulo = "Título não informado";
+if(autor === "") autor = "Autor não informado";
+
+var formato = document.getElementById("formatoLivro").value.split("|");
+var larguraFrente = parseFloat(formato[0]) || 0;
+var altura = parseFloat(formato[1]) || 0;
+
+var paginas = parseFloat(document.getElementById("paginas").value) || 0;
+var espessura = parseFloat(document.getElementById("papel").value) || 0;
+
+var coeficienteCola = 0.20;
+var lombadaMm = (paginas * espessura) + coeficienteCola;
+var lombadaCm = lombadaMm / 10;
+
+var orelhaEsquerda = parseFloat(document.getElementById("orelhaEsquerda").value) || 0;
+var orelhaDireita = parseFloat(document.getElementById("orelhaDireita").value) || 0;
+
+var contracapa = larguraFrente;
+var capa = larguraFrente;
+
+var larguraTotal = orelhaEsquerda + contracapa + lombadaCm + capa + orelhaDireita;
+
+var papelSelecionado = document.getElementById("papel").selectedOptions[0].text;
+var destino = document.querySelector("select").value;
+
+var relatorio = "";
+
+relatorio += "RELATÓRIO TÉCNICO DE CAPA\n\n";
+
+relatorio += "Obra: " + titulo + "\n";
+
+if(subtitulo !== ""){
+relatorio += "Subtítulo: " + subtitulo + "\n";
+}
+
+relatorio += "Autor: " + autor + "\n\n";
+
+relatorio += "Formato: " + larguraFrente.toFixed(2) + " x " + altura.toFixed(2) + " cm\n";
+relatorio += "Contracapa: " + contracapa.toFixed(2) + " cm\n";
+relatorio += "Lombada: " + lombadaCm.toFixed(2) + " cm\n";
+relatorio += "Capa: " + capa.toFixed(2) + " cm\n";
+relatorio += "Orelha esquerda: " + orelhaEsquerda.toFixed(2) + " cm\n";
+relatorio += "Orelha direita: " + orelhaDireita.toFixed(2) + " cm\n\n";
+
+relatorio += "Largura total da arte: " + larguraTotal.toFixed(2) + " cm\n\n";
+
+relatorio += "Papel: " + papelSelecionado + "\n";
+relatorio += "Sistema editorial: Site das Letras — Lapidar —";
+
+document.getElementById("relatorioCapaGerado").innerText = relatorio;
+
+document.getElementById("resultadoExportacao").style.display = "block";
+
+}
 calcularLombada();
 calcularCapaCompleta();
 </script>
