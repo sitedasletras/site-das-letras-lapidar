@@ -8,15 +8,11 @@
 <style>
 body{margin:0;font-family:Arial;background:#f4f4f4;text-align:center;padding:50px 20px;}
 .container{max-width:980px;margin:auto;background:white;padding:40px;border-radius:18px;box-shadow:0 6px 18px rgba(0,0,0,0.08);}
-h1,h2{color:#222;margin-top:0;}
-.sub{color:#666;font-size:18px;line-height:1.6;max-width:760px;margin:0 auto 30px;}
 button{margin-top:20px;padding:14px 22px;font-size:17px;border:none;border-radius:10px;background:#222;color:white;cursor:pointer;}
 button:hover{background:#444;}
 .modulo{display:none;text-align:left;margin-top:10px;}
 fieldset{border:1px solid #ddd;border-radius:12px;padding:20px;margin-top:20px;}
-label{display:block;margin-top:14px;font-weight:bold;color:#333;}
 input,select{width:100%;padding:10px;margin-top:5px;border-radius:6px;border:1px solid #ccc;font-size:16px;}
-.resultado{margin-top:20px;padding:15px;background:#f8f8f8;border-radius:8px;border:1px solid #ddd;}
 .certificado{margin-top:15px;background:#fff;border:2px solid #bbb;border-radius:12px;padding:24px;white-space:pre-line;text-align:center;}
 </style>
 </head>
@@ -27,10 +23,6 @@ input,select{width:100%;padding:10px;margin-top:5px;border-radius:6px;border:1px
 
 <h1>Site das Letras<br>— Lapidar —</h1>
 
-<p class="sub">
-Sistema editorial estruturador do Site das Letras Edições Literárias.
-</p>
-
 <button onclick="abrirProjetoCompleto()">Entrar no Projeto Completo</button>
 
 <div id="projetoCompleto" class="modulo">
@@ -39,70 +31,18 @@ Sistema editorial estruturador do Site das Letras Edições Literárias.
 <label>Título</label>
 <input id="tituloObra">
 
-<label>Subtítulo</label>
-<input id="subtituloObra">
-
 <label>Autor</label>
 <input id="autorCapa">
 </fieldset>
 
 <fieldset>
-<label>Páginas</label>
-<input id="paginas" type="number" value="100" oninput="calcularLombada(); calcularCapaCompleta();">
-
-<label>Papel</label>
-<select id="papel" onchange="calcularLombada(); calcularCapaCompleta();">
-<option value="0.050">Offset 75g</option>
-<option value="0.060">Offset 90g</option>
-</select>
-
-<div class="resultado">
-<strong>Lombada:</strong>
-<span id="lombada"></span>
-</div>
-</fieldset>
-
-<fieldset>
-<label>Formato</label>
-<select id="formatoLivro" onchange="calcularCapaCompleta()">
-<option value="14.8|21">A5</option>
-<option value="16|23">16x23</option>
-</select>
-
-<label>Orelha esquerda</label>
-<input id="orelhaEsquerda" value="7" oninput="calcularCapaCompleta()">
-
-<label>Orelha direita</label>
-<input id="orelhaDireita" value="7" oninput="calcularCapaCompleta()">
-
-<div class="resultado">
-<strong>Capa completa:</strong>
-<div id="capaCalculada"></div>
-</div>
-</fieldset>
-
-<fieldset>
-<button onclick="gerarCertificado()">Gerar certificado editorial</button>
-<div id="certificadoGerado" class="certificado"></div>
-</fieldset>
-
-<fieldset>
-<button onclick="gerarRegistro()">Gerar registro editorial</button>
-<div id="registroGerado" class="certificado"></div>
-</fieldset>
-
-<fieldset>
-<button onclick="gerarRegistroPDF()">Gerar registro editorial permanente (PDF)</button>
-</fieldset>
-
-<fieldset>
-<button onclick="gerarAssinaturaEstrutural()">Gerar assinatura estrutural invisível</button>
-<div id="assinaturaGerada" class="certificado"></div>
-</fieldset>
-
-<fieldset>
 <button onclick="gerarIDEditorialInstitucional()">Gerar ID editorial institucional da obra</button>
 <div id="idEditorialGerado" class="certificado"></div>
+</fieldset>
+
+<fieldset>
+<button onclick="registrarNoCatalogo()">Registrar obra no catálogo institucional SDL</button>
+<div id="catalogoGerado" class="certificado"></div>
 </fieldset>
 
 </div>
@@ -114,32 +54,8 @@ function abrirProjetoCompleto(){
 document.getElementById("projetoCompleto").style.display="block";
 }
 
-function calcularLombada(){
-var paginas=parseFloat(document.getElementById("paginas").value)||0;
-var espessura=parseFloat(document.getElementById("papel").value)||0;
-var lombadaMm=(paginas*espessura)+0.20;
-document.getElementById("lombada").innerText=lombadaMm.toFixed(2)+" mm";
-return lombadaMm;
-}
-
-function calcularCapaCompleta(){
-var formato=document.getElementById("formatoLivro").value.split("|");
-var largura=parseFloat(formato[0])||0;
-var altura=parseFloat(formato[1])||0;
-
-var lombadaMm=calcularLombada();
-var lombadaCm=lombadaMm/10;
-
-var orelhaE=parseFloat(document.getElementById("orelhaEsquerda").value)||0;
-var orelhaD=parseFloat(document.getElementById("orelhaDireita").value)||0;
-
-var total=orelhaE+largura+lombadaCm+largura+orelhaD;
-
-document.getElementById("capaCalculada").innerText=
-"Altura: "+altura.toFixed(2)+" cm | Largura total: "+total.toFixed(2)+" cm";
-}
-
 function gerarCodigoEditorialSDL(){
+
 var titulo=document.getElementById("tituloObra").value||"obra";
 var autor=document.getElementById("autorCapa").value||"autor";
 
@@ -157,124 +73,37 @@ var hash=btoa(hashBase).replace(/[^A-Z0-9]/gi,"").substring(0,6).toUpperCase();
 return "SDL-"+ano+"-"+mes+"-"+dia+"-"+hora+"-"+minuto+"-"+hash;
 }
 
-function gerarCertificado(){
-const data=new Date().toLocaleString("pt-BR");
-const codigoSDL=gerarCodigoEditorialSDL();
-
-const certificado=`
-CERTIFICADO EDITORIAL – SISTEMA LAPIDAR
-
-Projeto editorial processado com sucesso.
-
-ID editorial institucional:
-${codigoSDL}
-
-Data:
-${data}
-`;
-
-document.getElementById("certificadoGerado").innerText=certificado;
-}
-
-function gerarRegistro(){
-var titulo=document.getElementById("tituloObra").value||"Título não informado";
-var autor=document.getElementById("autorCapa").value||"Autor não informado";
-
-var agora=new Date();
-var codigoSDL=gerarCodigoEditorialSDL();
-
-var registro=`
-REGISTRO EDITORIAL INTERNO LAPIDAR
-
-ID editorial institucional:
-${codigoSDL}
-
-Obra: ${titulo}
-Autor: ${autor}
-
-Data: ${agora.toLocaleDateString("pt-BR")}
-`;
-
-document.getElementById("registroGerado").innerText=registro;
-}
-
-function gerarRegistroPDF(){
-
-var titulo=document.getElementById("tituloObra").value||"Título não informado";
-var autor=document.getElementById("autorCapa").value||"Autor não informado";
-var codigoSDL=gerarCodigoEditorialSDL();
-
-var data=new Date().toLocaleString("pt-BR");
-
-var texto=`
-REGISTRO EDITORIAL PERMANENTE — LAPIDAR
-
-ID editorial institucional:
-${codigoSDL}
-
-Obra: ${titulo}
-Autor: ${autor}
-
-Documento técnico permanente exportável
-
-Gerado em:
-${data}
-`;
-
-var area=document.createElement("textarea");
-area.value=texto;
-document.body.appendChild(area);
-area.select();
-document.execCommand("copy");
-document.body.removeChild(area);
-
-alert("Registro permanente copiado com ID editorial institucional.");
-}
-
-function gerarAssinaturaEstrutural(){
-
-var titulo=document.getElementById("tituloObra").value||"obra";
-var autor=document.getElementById("autorCapa").value||"autor";
-
-var agora=new Date();
-var codigoSDL=gerarCodigoEditorialSDL();
-
-var hashBase=titulo+autor+agora.getTime();
-var assinatura=btoa(hashBase).substring(0,24);
-
-var resultado=`
-ASSINATURA ESTRUTURAL INVISÍVEL LAPIDAR
-
-ID editorial institucional:
-${codigoSDL}
-
-Código estrutural:
-${assinatura}
-
-Gerado automaticamente para rastreabilidade editorial.
-`;
-
-document.getElementById("assinaturaGerada").innerText=resultado;
-}
-
 function gerarIDEditorialInstitucional(){
 
 var codigoSDL=gerarCodigoEditorialSDL();
 
-var resultado=`
-ID EDITORIAL INSTITUCIONAL LAPIDAR
+document.getElementById("idEditorialGerado").innerText=
+"ID EDITORIAL INSTITUCIONAL LAPIDAR\n\nCódigo:\n"+codigoSDL;
 
-Código:
-${codigoSDL}
+localStorage.setItem("ultimoIDSDL",codigoSDL);
 
-Gerado automaticamente para rastreabilidade editorial permanente.
-`;
-
-document.getElementById("idEditorialGerado").innerText=resultado;
 }
 
-calcularLombada();
-calcularCapaCompleta();
+function registrarNoCatalogo(){
+
+var codigoSDL=localStorage.getItem("ultimoIDSDL");
+
+if(!codigoSDL){
+
+codigoSDL=gerarCodigoEditorialSDL();
+
+}
+
+var catalogo=JSON.parse(localStorage.getItem("catalogoSDL")||"[]");
+
+catalogo.push(codigoSDL);
+
+localStorage.setItem("catalogoSDL",JSON.stringify(catalogo));
+
+document.getElementById("catalogoGerado").innerText=
+"CATÁLOGO INSTITUCIONAL SDL\n\nObras registradas nesta sessão:\n\n"+catalogo.join("\n");
+
+}
 
 </script>
 
