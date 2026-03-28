@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
@@ -11,292 +11,135 @@ h1{margin-top:0;color:#222;}
 .card{border:1px solid #ddd;border-radius:18px;padding:28px;text-align:left;background:#fafafa;margin-top:20px;}
 .btn{display:block;width:100%;margin-top:18px;padding:14px;background:#222;color:#fff;border-radius:10px;text-decoration:none;border:none;cursor:pointer;font-weight:bold;}
 .btn:hover{background:#444;}
-
-#contadorGlobal{
-position:fixed;
-right:14px;
-bottom:74px;
-z-index:9999;
-background:white;
-border:1px solid #ddd;
-border-radius:14px;
-padding:12px;
-font-size:13px;
-box-shadow:0 4px 14px rgba(0,0,0,0.10);
-cursor:pointer;
-min-width:220px;
-text-align:left;
-}
-#contadorGlobal.alerta{border-color:#e4d38f;background:#fffcef;}
-#contadorGlobal.urgente{border-color:#e0b17a;background:#fff6ee;}
-#contadorGlobal.encerrado{border-color:#d8b4b4;background:#fff7f7;}
-
-#painelResumo{
-position:fixed;
-right:14px;
-bottom:170px;
-z-index:10000;
-width:340px;
-background:#fff;
-border:1px solid #ddd;
-border-radius:16px;
-box-shadow:0 8px 24px rgba(0,0,0,0.14);
-padding:18px;
-text-align:left;
-display:none;
-max-height:72vh;
-overflow:auto;
-}
-.badge{font-size:12px;background:#eee;padding:4px 8px;border-radius:999px;display:inline-block;margin-bottom:8px;}
-.tituloPlano{font-weight:bold;margin-top:12px;}
-.plano{margin:8px 0 0 0;padding:10px;border:1px solid #ececec;border-radius:10px;background:#fafafa;}
-.px{background:#fdf7e8;border-color:#eadcb4;}
-.linha{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;}
-.btn-mini{flex:1;padding:10px 12px;border:none;border-radius:10px;background:#222;color:#fff;cursor:pointer;}
-.btn-mini.sec{background:#e9e9e9;color:#333;}
-.btn-copiar{margin-top:8px;width:100%;padding:10px 12px;border:none;border-radius:10px;background:#222;color:#fff;cursor:pointer;}
-#popupLembrete{
-position:fixed;
-left:50%;
-top:50%;
-transform:translate(-50%,-50%);
-z-index:12000;
-width:min(92vw,420px);
-background:#fff;
-border:1px solid #ddd;
-border-radius:18px;
-box-shadow:0 14px 40px rgba(0,0,0,0.18);
-padding:22px;
-display:none;
-text-align:left;
-}
-#popupLembrete h3{margin:0 0 10px 0;color:#222;}
-#popupLembrete p{margin:0 0 14px 0;color:#444;line-height:1.45;}
-#fundoPopup{
-position:fixed;inset:0;background:rgba(0,0,0,0.22);z-index:11999;display:none;
-}
-small{color:#666;}
-@media (max-width:800px){
-  #contadorGlobal{right:10px;left:10px;bottom:72px;min-width:auto;}
-  #painelResumo{right:10px;left:10px;bottom:164px;width:auto;}
-}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:20px;}
+.box{border:1px solid #ddd;border-radius:14px;padding:16px;background:#fff;text-align:left;}
+.box h3{margin-top:0;}
+.hidden{display:none;}
+.log{margin-top:18px;padding:16px;border-radius:12px;background:#fcfcfc;border:1px solid #e6e6e6;text-align:left;white-space:pre-line;}
+@media (max-width:900px){.grid{grid-template-columns:1fr;}}
 </style>
 </head>
 <body>
-
 <div class="container">
   <h1>— Lapidar —</h1>
-
   <div class="card">
-    <h2>Hub editorial</h2>
-    <p>Contador global com apoio ativo, painel de apoio e lembretes automáticos integrados.</p>
-    <button class="btn" type="button" onclick="abrirPainelApoio()">💛 Apoiar o projeto</button>
-  </div>
-</div>
+    <h2>📦 Onde publicar seu livro?</h2>
+    <p>Escolha primeiro o tipo de publicação. O sistema registra o clique da categoria e depois o clique da plataforma escolhida.</p>
 
-<div id="contadorGlobal" aria-live="polite"></div>
+    <div class="grid">
+      <div class="box">
+        <h3>📘 Livro físico</h3>
+        <p>Plataformas e editoras para livro impresso.</p>
+        <button class="btn" onclick="abrirCategoria('fisico')">Ver opções físicas</button>
+      </div>
+      <div class="box">
+        <h3>📱 EPUB / Ebook</h3>
+        <p>Plataformas para publicação digital.</p>
+        <button class="btn" onclick="abrirCategoria('epub')">Ver opções digitais</button>
+      </div>
+      <div class="box">
+        <h3>🖨️ Gráficas</h3>
+        <p>Empresas gráficas para impressão sem editora.</p>
+        <button class="btn" onclick="abrirCategoria('grafica')">Ver opções gráficas</button>
+      </div>
+    </div>
 
-<div id="painelResumo" aria-live="polite">
-  <h3>💛 Apoiar o projeto</h3>
-  <div id="conteudoPainel"></div>
-  <button class="btn-copiar" onclick="copiarPix()">Copiar chave PIX</button>
-  <div class="linha">
-    <button class="btn-mini" type="button" onclick="fecharPainel()">Fechar</button>
-  </div>
-</div>
+    <div id="categoriaFisico" class="box hidden" style="margin-top:20px;">
+      <h3>📘 Publicação física</h3>
+      <p>Escolha uma plataforma para livros impressos:</p>
+      <button class="btn" onclick="registrarClique('fisico','amazon_impresso','https://kdp.amazon.com/pt_BR/')">Amazon KDP (impresso)</button>
+      <button class="btn" onclick="registrarClique('fisico','uiclap','https://www.uiclap.com/')">UICLAP</button>
+      <button class="btn" onclick="registrarClique('fisico','clube_dos_autores','https://clubedeautores.com.br/')">Clube dos Autores</button>
+    </div>
 
-<div id="fundoPopup" onclick="fecharPopup()"></div>
-<div id="popupLembrete" aria-live="polite">
-  <h3 id="tituloPopup">Lembrete</h3>
-  <p id="textoPopup"></p>
-  <div class="linha">
-    <button class="btn-mini" type="button" onclick="abrirPainelDoPopup()">Apoiar agora</button>
-    <button class="btn-mini sec" type="button" onclick="fecharPopup()">Lembrar depois</button>
+    <div id="categoriaEpub" class="box hidden" style="margin-top:20px;">
+      <h3>📱 EPUB / Ebook</h3>
+      <p>Escolha uma plataforma para publicação digital:</p>
+      <button class="btn" onclick="registrarClique('epub','amazon_ebook','https://kdp.amazon.com/pt_BR/')">Amazon KDP (ebook)</button>
+      <button class="btn" onclick="registrarClique('epub','kobo_writing_life','https://www.kobo.com/writinglife')">Kobo Writing Life</button>
+      <button class="btn" onclick="registrarClique('epub','draft2digital','https://www.draft2digital.com/')">Draft2Digital</button>
+    </div>
+
+    <div id="categoriaGrafica" class="box hidden" style="margin-top:20px;">
+      <h3>🖨️ Gráficas</h3>
+      <p>Escolha uma gráfica para impressão do PDF final:</p>
+      <button class="btn" onclick="registrarClique('grafica','printi','https://www.printi.com.br/')">Printi</button>
+      <button class="btn" onclick="registrarClique('grafica','grafica_santa_marta','https://www.graficasantamarta.com.br/')">Gráfica Santa Marta</button>
+      <button class="btn" onclick="registrarClique('grafica','grafica_eskenazi','https://www.eskenazi.com.br/')">Gráfica Eskenazi</button>
+    </div>
+
+    <div class="log" id="logCliques">Nenhum clique registrado ainda.</div>
   </div>
 </div>
 
 <script>
-const PIX_CHAVE = "sitedasletrasedicoesliterarias@gmail.com";
-const FAVORECIDO = "Wagner dos Santos Planas";
-const BANCO = "Santander";
-const AGENCIA = "0346";
-const CONTA = "01047190-3";
+function abrirCategoria(tipo){
+  const categorias = {
+    fisico: 'categoriaFisico',
+    epub: 'categoriaEpub',
+    grafica: 'categoriaGrafica'
+  };
 
-function obterModoSistema(){
-  return localStorage.getItem("MODO_SISTEMA_LAPIDAR") || "usuario";
-}
-function definirModoSistema(modo){
-  localStorage.setItem("MODO_SISTEMA_LAPIDAR", modo);
-}
-function obterApoioLapidar(){
-  return JSON.parse(localStorage.getItem("APOIO_LAPIDAR_GLOBAL") || "null");
-}
-function salvarApoioLapidar(dados){
-  localStorage.setItem("APOIO_LAPIDAR_GLOBAL", JSON.stringify(dados));
-}
-function criarApoioDemoSeNaoExistir(){
-  const apoio = obterApoioLapidar();
-  if(apoio) return;
-  const agora = Date.now();
-  const trintaDias = 30 * 24 * 60 * 60 * 1000;
-  salvarApoioLapidar({
-    ativo: true,
-    inicio: agora,
-    fim: agora + trintaDias,
-    livrosTotal: 10,
-    livrosUsados: 0,
-    plano: "R$ 19,90 — até 10 livros durante 30 dias"
+  registrarEventoTipo(tipo);
+
+  Object.values(categorias).forEach(function(id){
+    document.getElementById(id).classList.add('hidden');
   });
+
+  document.getElementById(categorias[tipo]).classList.remove('hidden');
+  atualizarLog();
 }
-function formatarTempo(ms){
-  if(ms <= 0) return "0d 0h 0m 0s";
-  const totalSeg = Math.floor(ms / 1000);
-  const dias = Math.floor(totalSeg / 86400);
-  const horas = Math.floor((totalSeg % 86400) / 3600);
-  const minutos = Math.floor((totalSeg % 3600) / 60);
-  const segundos = totalSeg % 60;
-  return dias + "d " + horas + "h " + minutos + "m " + segundos + "s";
+
+function obterLogCliques(){
+  return JSON.parse(localStorage.getItem('LAPIDAR_CLIQUES_PUBLICACAO') || '[]');
 }
-function formatarData(ts){
-  return new Date(ts).toLocaleString("pt-BR");
+
+function salvarLogCliques(log){
+  localStorage.setItem('LAPIDAR_CLIQUES_PUBLICACAO', JSON.stringify(log));
 }
-function atualizarContadorUsuario(box){
-  const apoio = obterApoioLapidar();
-  if(!apoio || !apoio.ativo){
-    box.className = "";
-    box.innerHTML = "<strong>⏳ Apoio inativo</strong><div>Ative uma doação para iniciar o período.</div>";
+
+function registrarEventoTipo(tipo){
+  const log = obterLogCliques();
+  log.push({
+    etapa: 'tipo_publicacao',
+    tipo: tipo,
+    plataforma: '',
+    data: new Date().toLocaleString('pt-BR')
+  });
+  salvarLogCliques(log);
+}
+
+function registrarClique(tipo, plataforma, url){
+  const log = obterLogCliques();
+  log.push({
+    etapa: 'plataforma_publicacao',
+    tipo: tipo,
+    plataforma: plataforma,
+    data: new Date().toLocaleString('pt-BR')
+  });
+  salvarLogCliques(log);
+  atualizarLog();
+  window.open(url, '_blank');
+}
+
+function atualizarLog(){
+  const log = obterLogCliques();
+  const alvo = document.getElementById('logCliques');
+  if(log.length === 0){
+    alvo.innerText = 'Nenhum clique registrado ainda.';
     return;
   }
-  const agora = Date.now();
-  const restante = apoio.fim - agora;
-  const livrosRestantes = Math.max(0, (apoio.livrosTotal || 0) - (apoio.livrosUsados || 0));
-  box.className = "";
-  if(restante <= 0){
-    box.classList.add("encerrado");
-    box.innerHTML =
-      "<strong>⏳ Apoio encerrado</strong>" +
-      "<div>📚 Livros restantes: " + livrosRestantes + "/" + (apoio.livrosTotal || 0) + "</div>" +
-      "<div>Toque para apoiar novamente.</div>";
-    return;
-  }
-  const diasRestantes = restante / (24 * 60 * 60 * 1000);
-  if(diasRestantes <= 2){ box.classList.add("urgente"); }
-  else if(diasRestantes <= 7){ box.classList.add("alerta"); }
 
-  box.innerHTML =
-    "<strong>⏳ Apoio ativo</strong>" +
-    "<div>Tempo restante: " + formatarTempo(restante) + "</div>" +
-    "<div>📚 Livros restantes: " + livrosRestantes + "/" + (apoio.livrosTotal || 0) + "</div>";
-}
-function atualizarContadorGlobal(){
-  const box = document.getElementById("contadorGlobal");
-  atualizarContadorUsuario(box);
-  if(document.getElementById("painelResumo").style.display === "block"){ renderizarPainel(); }
-}
-function renderizarPainel(){
-  const apoio = obterApoioLapidar();
-  const agora = Date.now();
-  const restante = apoio ? Math.max(0, apoio.fim - agora) : 0;
-  const livrosRestantes = apoio ? Math.max(0, (apoio.livrosTotal || 0) - (apoio.livrosUsados || 0)) : 0;
-  document.getElementById("conteudoPainel").innerHTML =
-    '<div class="badge">Apoio ao Site das Letras</div>' +
-    '<p><strong>PIX:</strong><br>' + PIX_CHAVE + '</p>' +
-    '<p><strong>Favorecido:</strong><br>' + FAVORECIDO + '</p>' +
-    '<p><strong>Banco:</strong><br>' + BANCO + ' — Agência ' + AGENCIA + ' — C/C ' + CONTA + '</p>' +
-    '<p><strong>Status atual:</strong><br>' + (apoio && apoio.ativo && restante > 0 ? 'Apoio ativo' : 'Apoio inativo') + '</p>' +
-    (apoio && apoio.ativo ? '<p><strong>Tempo restante:</strong><br>' + formatarTempo(restante) + '</p><p><strong>Livros restantes:</strong><br>' + livrosRestantes + '/' + apoio.livrosTotal + '</p>' : '') +
-
-    '<div class="tituloPlano">— Lapidar —</div>' +
-    '<div class="plano px"><strong>R$ 1,99</strong><br>Ajude no desenvolvimento de 1 livro</div>' +
-    '<div class="plano"><strong>R$ 19,90</strong><br>Ajude no desenvolvimento de até 10 livros durante 30 dias</div>' +
-    '<div class="plano"><strong>R$ 39,90</strong><br>Ajude no desenvolvimento de até 30 livros durante 30 dias</div>' +
-    '<div class="plano"><strong>R$ 59,90</strong><br>Ajude no desenvolvimento de até 50 livros durante 30 dias</div>' +
-    '<div class="plano"><strong>R$ 99,90</strong><br>Ajude no desenvolvimento de até 90 livros durante 30 dias</div>' +
-    '<div class="plano"><strong>R$ 299,90</strong><br>Ajude no desenvolvimento editorial ilimitado durante 30 dias</div>' +
-
-    '<div class="tituloPlano">Projeto OCapista</div>' +
-    '<div class="plano"><strong>R$ 10</strong><br>Capa digital simples — e-book, livro online e plataformas digitais</div>' +
-    '<div class="plano"><strong>R$ 18</strong><br>Capa física simples — frente, contra e lombada</div>' +
-    '<div class="plano"><strong>R$ 40</strong><br>Capa digital profissional</div>' +
-    '<div class="plano"><strong>R$ 48</strong><br>Capa física profissional completa — frente, contra, lombada e orelhas</div>';
-}
-function abrirPainelApoio(){
-  renderizarPainel();
-  document.getElementById("painelResumo").style.display = "block";
-}
-function fecharPainel(){
-  document.getElementById("painelResumo").style.display = "none";
-}
-function copiarPix(){
-  navigator.clipboard.writeText(PIX_CHAVE).then(function(){
-    alert("Chave PIX copiada.");
-  }).catch(function(){
-    alert("Não foi possível copiar automaticamente. Chave PIX: " + PIX_CHAVE);
-  });
-}
-function mostrarPopup(titulo, texto){
-  document.getElementById("tituloPopup").innerText = titulo;
-  document.getElementById("textoPopup").innerText = texto;
-  document.getElementById("fundoPopup").style.display = "block";
-  document.getElementById("popupLembrete").style.display = "block";
-}
-function fecharPopup(){
-  document.getElementById("fundoPopup").style.display = "none";
-  document.getElementById("popupLembrete").style.display = "none";
-}
-function abrirPainelDoPopup(){
-  fecharPopup();
-  abrirPainelApoio();
-}
-function verificarLembretes(){
-  const apoio = obterApoioLapidar();
-  if(!apoio || !apoio.ativo) return;
-  const agora = Date.now();
-  const restante = apoio.fim - agora;
-  const dias = restante / (24 * 60 * 60 * 1000);
-  const horas = restante / (60 * 60 * 1000);
-
-  let flags = JSON.parse(localStorage.getItem("LEMBRETES_APOIO_FLAGS") || "{}");
-
-  if(restante <= 0 && !flags.expirado){
-    mostrarPopup("💛 Apoio encerrado", "Seu período de apoio terminou. Se quiser continuar usando os recursos completos do sistema, apoie novamente o projeto.");
-    flags.expirado = true;
-  } else if(horas <= 6 && horas > 0 && !flags.seisHoras){
-    mostrarPopup("⏰ Apoio quase no fim", "Seu apoio está quase no fim. Se desejar continuar com acesso completo, não esqueça de apoiar o projeto.");
-    flags.seisHoras = true;
-  } else if(horas <= 48 && horas > 6 && !flags.quarentaEOito){
-    mostrarPopup("⏳ Faltam 48 horas", "Faltam 48 horas para o fim do seu período atual. Não esqueça de apoiar o projeto para continuar com os recursos completos.");
-    flags.quarentaEOito = true;
-  } else if(dias <= 7 && dias > 2 && !flags.seteDias){
-    mostrarPopup("💛 Lembrete de apoio", "Não esqueça de apoiar o projeto — Lapidar —, se ele estiver ajudando você. Seu período atual termina em 7 dias.");
-    flags.seteDias = true;
-  }
-
-  localStorage.setItem("LEMBRETES_APOIO_FLAGS", JSON.stringify(flags));
+  const ultimos = log.slice(-12).reverse();
+  alvo.innerText = '📊 Cliques registrados\n\n' + ultimos.map(function(item){
+    if(item.etapa === 'tipo_publicacao'){
+      return 'Tipo escolhido: ' + item.tipo + ' — ' + item.data;
+    }
+    return 'Plataforma: ' + item.plataforma + ' (' + item.tipo + ') — ' + item.data;
+  }).join('\n');
 }
 
-document.addEventListener("click", function(e){
-  const painel = document.getElementById("painelResumo");
-  const contador = document.getElementById("contadorGlobal");
-  if(!painel.contains(e.target) && !contador.contains(e.target)){
-    painel.style.display = "none";
-  }
-});
-document.getElementById("contadorGlobal").addEventListener("click", function(e){
-  e.stopPropagation();
-  const painel = document.getElementById("painelResumo");
-  if(painel.style.display === "block") fecharPainel();
-  else abrirPainelApoio();
-});
-
-criarApoioDemoSeNaoExistir();
-definirModoSistema("usuario");
-atualizarContadorGlobal();
-verificarLembretes();
-setInterval(function(){
-  atualizarContadorGlobal();
-  verificarLembretes();
-}, 1000);
+atualizarLog();
 </script>
 </body>
-</html>
+</html> 
