@@ -23,17 +23,6 @@ border-radius:18px;
 box-shadow:0 6px 18px rgba(0,0,0,0.08);
 }
 
-h1{
-color:#222;
-margin-bottom:10px;
-}
-
-p{
-color:#555;
-font-size:18px;
-line-height:1.6;
-}
-
 button{
 margin-top:25px;
 padding:14px 24px;
@@ -45,10 +34,6 @@ color:white;
 cursor:pointer;
 }
 
-button:hover{
-background:#444;
-}
-
 form{
 display:none;
 margin-top:30px;
@@ -57,4 +42,95 @@ text-align:left;
 
 fieldset{
 border:1px solid #ddd;
-border-radius
+border-radius:12px;
+padding:20px;
+margin-top:25px;
+}
+
+label{
+display:block;
+margin-top:15px;
+font-weight:bold;
+}
+
+input,select{
+width:100%;
+padding:10px;
+margin-top:5px;
+border-radius:6px;
+border:1px solid #ccc;
+}
+
+.resultado{
+margin-top:25px;
+padding:18px;
+background:#f8f8f8;
+border-radius:10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Site das Letras — Lapidar</h1>
+
+<button onclick="abrirFicha()">Iniciar Ficha Global</button>
+
+<form id="ficha">
+
+<fieldset>
+<legend>Bloco 1 — Identidade da Obra</legend>
+
+<label>Título da obra</label>
+<input type="text">
+
+<label>Autor civil</label>
+<input type="text">
+
+</fieldset>
+
+<fieldset>
+<legend>Bloco 2 — Formato e Estrutura Física</legend>
+
+<label>Número de páginas</label>
+<input type="number" id="paginas" value="100" oninput="calcularLombada()">
+
+<label>Papel</label>
+<select id="papel" onchange="calcularLombada()">
+<option value="0.05">Offset 75g</option>
+<option value="0.06">Offset 90g</option>
+</select>
+
+<div class="resultado">
+<strong>Lombada estimada:</strong>
+<span id="lombada">5.00 mm</span>
+</div>
+
+</fieldset>
+
+</form>
+
+</div>
+
+<script>
+
+function abrirFicha(){
+document.getElementById("ficha").style.display="block";
+}
+
+function calcularLombada(){
+var paginas = document.getElementById("paginas").value;
+var fator = document.getElementById("papel").value;
+var lombada = paginas * fator;
+document.getElementById("lombada").innerText =
+lombada.toFixed(2) + " mm";
+}
+
+calcularLombada();
+
+</script>
+
+</body>
+</html>
