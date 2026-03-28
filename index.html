@@ -9,27 +9,26 @@ body{font-family:Arial;background:#f4f4f4;margin:0;padding:40px 20px;text-align:
 .container{max-width:1100px;margin:auto;background:#fff;padding:40px;border-radius:20px;box-shadow:0 6px 18px rgba(0,0,0,0.08);}
 h1{margin-top:0;color:#222;}
 .card{border:1px solid #ddd;border-radius:18px;padding:28px;text-align:left;background:#fafafa;margin-top:20px;}
-.btn{display:block;width:100%;margin-top:14px;padding:14px;background:#222;color:#fff;border-radius:10px;text-decoration:none;border:none;cursor:pointer;font-weight:bold;}
+.btn{display:block;width:100%;margin-top:14px;padding:14px;background:#222;color:#fff;border-radius:10px;border:none;cursor:pointer;font-weight:bold;}
 .btn:hover{background:#444;}
-.btn.sec{background:#efefef;color:#333;}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:20px;}
-.box{border:1px solid #ddd;border-radius:14px;padding:16px;background:#fff;text-align:left;}
-.box h3{margin-top:0;}
 .hidden{display:none;}
-.log,.ranking,.adminpanel,.sugestao{margin-top:18px;padding:16px;border-radius:12px;text-align:left;}
-.log{background:#fcfcfc;border:1px solid #e6e6e6;white-space:pre-line;}
-.ranking{background:#fffdf6;border:1px solid #eadcb4;}
+.notice,.adminpanel,.securitylog{margin-top:18px;padding:16px;border-radius:12px;text-align:left;}
+.notice{background:#fffdf6;border:1px solid #eadcb4;}
 .adminpanel{background:#f7fbff;border:1px solid #cfe0f2;}
-.sugestao{background:#f8fff7;border:1px solid #d7ead2;}
-.row{margin:10px 0;}
-.barwrap{height:10px;background:#ececec;border-radius:999px;overflow:hidden;margin-top:4px;}
-.bar{height:10px;background:#222;border-radius:999px;}
-small{color:#666;}
-.mini{font-size:12px;color:#888;margin-top:6px;}
-#adminToggle{
-position:fixed;left:12px;bottom:12px;z-index:9999;width:18px;height:18px;opacity:0.08;border-radius:50%;background:#000;cursor:pointer;
+.securitylog{background:#fff7f7;border:1px solid #e6c9c9;white-space:pre-line;}
+#contadorAdmin{
+position:fixed;right:14px;bottom:74px;z-index:9999;background:white;border:1px solid #ddd;border-radius:14px;
+padding:12px;font-size:13px;box-shadow:0 4px 14px rgba(0,0,0,0.10);min-width:240px;text-align:left;cursor:pointer;
 }
-@media (max-width:900px){.grid{grid-template-columns:1fr;}}
+#contadorAdmin.alerta{border-color:#d8b4b4;background:#fff7f7;}
+#popupSeguranca{
+position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);
+width:min(92vw,420px);background:#fff;border:1px solid #ddd;border-radius:18px;
+box-shadow:0 14px 40px rgba(0,0,0,0.18);padding:22px;display:none;text-align:left;z-index:12000;
+}
+#overlaySeguranca{position:fixed;inset:0;background:rgba(0,0,0,0.22);display:none;z-index:11999;}
+small{color:#666;}
+#adminToggle{position:fixed;left:12px;bottom:12px;width:18px;height:18px;opacity:0.08;border-radius:50%;background:#000;cursor:pointer;}
 </style>
 </head>
 <body>
@@ -37,232 +36,143 @@ position:fixed;left:12px;bottom:12px;z-index:9999;width:18px;height:18px;opacity
   <h1>— Lapidar —</h1>
 
   <div class="card">
-    <h2>📦 Onde publicar seu livro?</h2>
-    <p>O bloco fica visível para todos. Quem quiser, entra por conta própria. O sistema também pode sugerir opções recomendadas quando fizer sentido.</p>
+    <h2>🔒 Segurança SDL — nível profissional</h2>
+    <p>Esta versão prepara o sistema para alerta multicanal com popup, bip, log interno, e-mail institucional e WhatsApp para dois números.</p>
 
-    <div class="sugestao">
-      <strong>Sugestão editorial do — Lapidar —</strong>
-      <p style="margin-bottom:10px;">Se desejar, o Site das Letras pode mostrar opções recomendadas para publicação ou impressão da sua obra.</p>
-      <div style="display:flex;gap:10px;flex-wrap:wrap;">
-        <button class="btn" style="flex:1;min-width:180px;margin-top:0;" onclick="abrirSugestaoPublicacao()">Quero ver opções recomendadas</button>
-        <button class="btn sec" style="flex:1;min-width:180px;margin-top:0;" onclick="fecharSugestaoPublicacao()">Agora não</button>
-      </div>
+    <div class="notice">
+      <strong>Canais configurados</strong>
+      <p style="margin-bottom:0;">
+      E-mail institucional: sitedasletrasedicoesliterarias@gmail.com<br>
+      WhatsApp 1: +55 11 98678-0971<br>
+      WhatsApp 2: +55 11 96161-2377
+      </p>
     </div>
-
-    <div class="grid">
-      <div class="box">
-        <h3>📘 Livro físico</h3>
-        <p>Plataformas e editoras para livro impresso.</p>
-        <button class="btn" onclick="abrirCategoria('fisico','direto')">Ver opções físicas</button>
-      </div>
-      <div class="box">
-        <h3>📱 EPUB / Ebook</h3>
-        <p>Plataformas para publicação digital.</p>
-        <button class="btn" onclick="abrirCategoria('epub','direto')">Ver opções digitais</button>
-      </div>
-      <div class="box">
-        <h3>🖨️ Gráficas</h3>
-        <p>Empresas gráficas para impressão sem editora.</p>
-        <button class="btn" onclick="abrirCategoria('grafica','direto')">Ver opções gráficas</button>
-      </div>
-    </div>
-
-    <div id="categoriaFisico" class="box hidden" style="margin-top:20px;">
-      <h3>📘 Publicação física</h3>
-      <p>Escolha uma plataforma para livros impressos:</p>
-      <button class="btn" onclick="registrarClique('fisico','amazon_impresso','https://kdp.amazon.com/pt_BR/')">Amazon KDP (impresso)</button>
-      <button class="btn" onclick="registrarClique('fisico','uiclap','https://www.uiclap.com/')">UICLAP</button>
-      <button class="btn" onclick="registrarClique('fisico','clube_dos_autores','https://clubedeautores.com.br/')">Clube dos Autores</button>
-    </div>
-
-    <div id="categoriaEpub" class="box hidden" style="margin-top:20px;">
-      <h3>📱 EPUB / Ebook</h3>
-      <p>Escolha uma plataforma para publicação digital:</p>
-      <button class="btn" onclick="registrarClique('epub','amazon_ebook','https://kdp.amazon.com/pt_BR/')">Amazon KDP (ebook)</button>
-      <button class="btn" onclick="registrarClique('epub','kobo_writing_life','https://www.kobo.com/writinglife')">Kobo Writing Life</button>
-      <button class="btn" onclick="registrarClique('epub','draft2digital','https://www.draft2digital.com/')">Draft2Digital</button>
-    </div>
-
-    <div id="categoriaGrafica" class="box hidden" style="margin-top:20px;">
-      <h3>🖨️ Gráficas</h3>
-      <p>Escolha uma gráfica para impressão do PDF final:</p>
-      <button class="btn" onclick="registrarClique('grafica','printi','https://www.printi.com.br/')">Printi</button>
-      <button class="btn" onclick="registrarClique('grafica','grafica_santa_marta','https://www.graficasantamarta.com.br/')">Gráfica Santa Marta</button>
-      <button class="btn" onclick="registrarClique('grafica','grafica_eskenazi','https://www.eskenazi.com.br/')">Gráfica Eskenazi</button>
-    </div>
-
-    <div class="ranking" id="rankingPlataformas">
-      <h3>📊 Plataformas mais escolhidas no — Lapidar —</h3>
-      <div id="rankingConteudo">Nenhum clique registrado ainda.</div>
-    </div>
-
-    <div class="log" id="logCliques">Nenhum clique registrado ainda.</div>
 
     <div id="adminPanel" class="adminpanel hidden">
       <h3>🔒 Painel administrativo SDL</h3>
-      <div id="adminConteudo">Nenhum dado ainda.</div>
-      <div class="mini">Acesso oculto para acompanhamento institucional das escolhas de publicação.</div>
+      <p><strong>Status:</strong> monitoramento ativo</p>
+      <p><strong>Modo atual:</strong> administrador</p>
+      <button class="btn" onclick="simularTentativaSuspeita()">Simular tentativa suspeita</button>
+      <small>Use este botão apenas para testar o fluxo local de segurança.</small>
     </div>
+
+    <div class="securitylog" id="securityLog">Nenhum evento de segurança registrado ainda.</div>
   </div>
+</div>
+
+<div id="contadorAdmin" aria-live="polite">
+  <strong>🔒 Segurança SDL ativa</strong>
+  <div>Monitoramento multicanal preparado</div>
+  <div class="mini">Toque para ver status</div>
+</div>
+
+<div id="overlaySeguranca" onclick="fecharPopupSeguranca()"></div>
+<div id="popupSeguranca" aria-live="assertive">
+  <h3 id="tituloSeguranca">Alerta SDL</h3>
+  <p id="textoSeguranca"></p>
+  <button class="btn" onclick="fecharPopupSeguranca()">Fechar</button>
 </div>
 
 <div id="adminToggle" title="SDL"></div>
 
 <script>
-let origemAcessoAtual = 'direto';
+const SDL_ALERT_EMAIL = "sitedasletrasedicoesliterarias@gmail.com";
+const SDL_WHATSAPP_1 = "5511986780971";
+const SDL_WHATSAPP_2 = "5511961612377";
 
-function abrirSugestaoPublicacao(){
-  origemAcessoAtual = 'sugerido';
-  localStorage.setItem('SDL_ORIGEM_ACESSO_PUBLICACAO', 'sugerido');
-  alert('As opções recomendadas já estão disponíveis abaixo. O acesso será registrado como sugestão do — Lapidar —.');
+function obterSecurityLog(){
+  return JSON.parse(localStorage.getItem("SDL_SECURITY_LOG") || "[]");
 }
-function fecharSugestaoPublicacao(){
-  origemAcessoAtual = 'direto';
-  localStorage.setItem('SDL_ORIGEM_ACESSO_PUBLICACAO', 'direto');
+function salvarSecurityLog(log){
+  localStorage.setItem("SDL_SECURITY_LOG", JSON.stringify(log));
 }
-
-function obterOrigemAtual(){
-  return localStorage.getItem('SDL_ORIGEM_ACESSO_PUBLICACAO') || origemAcessoAtual || 'direto';
-}
-
-function abrirCategoria(tipo, origem){
-  if(origem){ localStorage.setItem('SDL_ORIGEM_ACESSO_PUBLICACAO', origem); }
-  const categorias = {
-    fisico: 'categoriaFisico',
-    epub: 'categoriaEpub',
-    grafica: 'categoriaGrafica'
-  };
-
-  registrarEventoTipo(tipo, obterOrigemAtual());
-
-  Object.values(categorias).forEach(function(id){
-    document.getElementById(id).classList.add('hidden');
-  });
-
-  document.getElementById(categorias[tipo]).classList.remove('hidden');
-  atualizarLog();
-  atualizarRanking();
-  atualizarPainelAdmin();
-}
-
-function obterLogCliques(){
-  return JSON.parse(localStorage.getItem('LAPIDAR_CLIQUES_PUBLICACAO') || '[]');
-}
-
-function salvarLogCliques(log){
-  localStorage.setItem('LAPIDAR_CLIQUES_PUBLICACAO', JSON.stringify(log));
-}
-
-function registrarEventoTipo(tipo, origem){
-  const log = obterLogCliques();
+function registrarEventoSeguranca(tipo, status){
+  const log = obterSecurityLog();
   log.push({
-    etapa: 'tipo_publicacao',
-    tipo: tipo,
-    plataforma: '',
-    origem: origem,
-    data: new Date().toLocaleString('pt-BR')
+    tipo,
+    status,
+    data: new Date().toLocaleString("pt-BR"),
+    navegador: navigator.userAgent,
+    origem: window.location.href
   });
-  salvarLogCliques(log);
+  salvarSecurityLog(log);
+  atualizarLogSeguranca();
 }
-
-function registrarClique(tipo, plataforma, url){
-  const log = obterLogCliques();
-  log.push({
-    etapa: 'plataforma_publicacao',
-    tipo: tipo,
-    plataforma: plataforma,
-    origem: obterOrigemAtual(),
-    data: new Date().toLocaleString('pt-BR')
-  });
-  salvarLogCliques(log);
-  atualizarLog();
-  atualizarRanking();
-  atualizarPainelAdmin();
-  window.open(url, '_blank');
-}
-
-function atualizarLog(){
-  const log = obterLogCliques();
-  const alvo = document.getElementById('logCliques');
-  if(log.length === 0){
-    alvo.innerText = 'Nenhum clique registrado ainda.';
+function atualizarLogSeguranca(){
+  const log = obterSecurityLog();
+  const alvo = document.getElementById("securityLog");
+  if(!log.length){
+    alvo.innerText = "Nenhum evento de segurança registrado ainda.";
     return;
   }
-  const ultimos = log.slice(-12).reverse();
-  alvo.innerText = '📊 Cliques registrados\n\n' + ultimos.map(function(item){
-    if(item.etapa === 'tipo_publicacao'){
-      return 'Tipo escolhido: ' + item.tipo + ' | origem: ' + item.origem + ' — ' + item.data;
-    }
-    return 'Plataforma: ' + item.plataforma + ' (' + item.tipo + ') | origem: ' + item.origem + ' — ' + item.data;
-  }).join('\n');
+  alvo.innerText = log.slice(-10).reverse().map(item =>
+    "Tipo: " + item.tipo + " | Status: " + item.status + " | Data: " + item.data
+  ).join("\n");
 }
-
-function atualizarRanking(){
-  const log = obterLogCliques().filter(item => item.etapa === 'plataforma_publicacao');
-  const alvo = document.getElementById('rankingConteudo');
-
-  if(log.length === 0){
-    alvo.innerText = 'Nenhum clique registrado ainda.';
-    return;
+function tocarBip(){
+  try{
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const oscillator = ctx.createOscillator();
+    const gainNode = ctx.createGain();
+    oscillator.connect(gainNode);
+    gainNode.connect(ctx.destination);
+    oscillator.type = "sine";
+    oscillator.frequency.value = 880;
+    gainNode.gain.value = 0.06;
+    oscillator.start();
+    setTimeout(() => {
+      oscillator.stop();
+      ctx.close();
+    }, 180);
+  }catch(e){
+    console.log("Bip não disponível neste navegador.");
   }
-
-  const contagem = {};
-  log.forEach(item => {
-    contagem[item.plataforma] = (contagem[item.plataforma] || 0) + 1;
-  });
-
-  const total = log.length;
-  const ordem = Object.entries(contagem).sort((a,b) => b[1] - a[1]);
-
-  alvo.innerHTML = ordem.map(([plataforma, qtd]) => {
-    const perc = ((qtd / total) * 100).toFixed(1);
-    const titulo = plataforma.replaceAll('_',' ').replace(/\b\w/g, l => l.toUpperCase());
-    return `
-      <div class="row">
-        <strong>${titulo}</strong> — ${perc}% (${qtd} clique(s))
-        <div class="barwrap"><div class="bar" style="width:${perc}%"></div></div>
-      </div>
-    `;
-  }).join('');
+}
+function abrirPopupSeguranca(titulo, texto){
+  document.getElementById("tituloSeguranca").innerText = titulo;
+  document.getElementById("textoSeguranca").innerText = texto;
+  document.getElementById("overlaySeguranca").style.display = "block";
+  document.getElementById("popupSeguranca").style.display = "block";
+}
+function fecharPopupSeguranca(){
+  document.getElementById("overlaySeguranca").style.display = "none";
+  document.getElementById("popupSeguranca").style.display = "none";
+}
+function prepararMensagemAlerta(){
+  const data = new Date().toLocaleString("pt-BR");
+  return "🔒 ALERTA DE SEGURANÇA — LAPIDAR\n\n" +
+         "Tentativa de acesso administrativo detectada\n\n" +
+         "Data/Hora: " + data + "\n" +
+         "Origem: dispositivo/sessão em monitoramento\n" +
+         "Status: bloqueado automaticamente";
+}
+function simularTentativaSuspeita(){
+  tocarBip();
+  registrarEventoSeguranca("tentativa_admin_suspeita", "bloqueado_automaticamente");
+  abrirPopupSeguranca(
+    "🔒 Segurança SDL",
+    "Movimento incomum detectado. Sistema protegido automaticamente. O alerta foi preparado para e-mail institucional e WhatsApp dos dois números configurados."
+  );
+  console.log("Enviar alerta para e-mail:", SDL_ALERT_EMAIL);
+  console.log("Enviar alerta para WhatsApp 1:", SDL_WHATSAPP_1);
+  console.log("Enviar alerta para WhatsApp 2:", SDL_WHATSAPP_2);
+  console.log(prepararMensagemAlerta());
 }
 
-function atualizarPainelAdmin(){
-  const log = obterLogCliques();
-  const admin = document.getElementById('adminConteudo');
-  const plataformas = log.filter(x => x.etapa === 'plataforma_publicacao');
-  const tipos = log.filter(x => x.etapa === 'tipo_publicacao');
-
-  const direto = plataformas.filter(x => x.origem === 'direto').length;
-  const sugerido = plataformas.filter(x => x.origem === 'sugerido').length;
-  const fisico = plataformas.filter(x => x.tipo === 'fisico').length;
-  const epub = plataformas.filter(x => x.tipo === 'epub').length;
-  const grafica = plataformas.filter(x => x.tipo === 'grafica').length;
-
-  admin.innerHTML = `
-    <p><strong>Sessões registradas:</strong> ${tipos.length}</p>
-    <p><strong>Cliques em plataformas:</strong> ${plataformas.length}</p>
-    <p><strong>Origem direta:</strong> ${direto}</p>
-    <p><strong>Origem sugerida pelo — Lapidar —:</strong> ${sugerido}</p>
-    <p><strong>Escolhas por trilha:</strong></p>
-    <p>📘 Físico: ${fisico}</p>
-    <p>📱 EPUB / Ebook: ${epub}</p>
-    <p>🖨️ Gráficas: ${grafica}</p>
-  `;
-}
-
-let toquesAdmin = 0;
-document.getElementById('adminToggle').addEventListener('click', function(){
-  toquesAdmin++;
-  if(toquesAdmin >= 5){
-    document.getElementById('adminPanel').classList.toggle('hidden');
-    toquesAdmin = 0;
+let taps = 0;
+document.getElementById("adminToggle").addEventListener("click", () => {
+  taps++;
+  if(taps >= 5){
+    document.getElementById("adminPanel").classList.toggle("hidden");
+    taps = 0;
   }
-  setTimeout(() => { toquesAdmin = 0; }, 2000);
+  setTimeout(() => { taps = 0; }, 2000);
+});
+document.getElementById("contadorAdmin").addEventListener("click", () => {
+  document.getElementById("adminPanel").classList.toggle("hidden");
 });
 
-atualizarLog();
-atualizarRanking();
-atualizarPainelAdmin();
+atualizarLogSeguranca();
 </script>
 </body>
 </html>
