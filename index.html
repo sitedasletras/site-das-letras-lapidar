@@ -4,123 +4,66 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>— Lapidar —</title>
-
 <style>
-body{margin:0;font-family:Arial;background:#f4f4f4;text-align:center;padding:40px;}
-.container{max-width:1100px;margin:auto;background:white;padding:35px;border-radius:18px;box-shadow:0 6px 18px rgba(0,0,0,0.08);}
-textarea,input,button{margin-top:10px;padding:12px;font-size:16px;border-radius:8px;border:1px solid #ccc;width:100%;box-sizing:border-box;}
-button{background:#222;color:white;cursor:pointer;}
-button:hover{background:#444;}
-.relatorio{margin-top:20px;border:2px solid #bbb;border-radius:10px;padding:25px;white-space:pre-line;text-align:left;}
-small{display:block;color:#666;margin-top:6px;}
+body{margin:0;font-family:Arial;background:#f4f4f4;padding:40px 20px;text-align:center;}
+.container{max-width:1100px;margin:auto;background:#fff;padding:40px;border-radius:20px;box-shadow:0 6px 18px rgba(0,0,0,0.08);}
+h1{margin-top:0;color:#222;}
+p{color:#555;line-height:1.6;}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:30px;}
+.card{border:1px solid #ddd;border-radius:18px;padding:28px;text-align:left;background:#fafafa;}
+.card h2{margin-top:0;color:#222;}
+.btn{display:block;width:100%;margin-top:18px;padding:14px 18px;background:#222;color:#fff;text-decoration:none;border-radius:10px;text-align:center;font-weight:bold;}
+.btn:hover{background:#444;}
+.note{margin-top:30px;padding:18px;border:1px solid #ddd;border-radius:14px;background:#fcfcfc;text-align:left;}
+small{color:#666;}
+@media (max-width:800px){.grid{grid-template-columns:1fr;}}
 </style>
-
 </head>
-
 <body>
-
 <div class="container">
+<h1>— Lapidar —</h1>
+<p>Plataforma editorial inteligente do Site das Letras.</p>
 
-<h2>— Lapidar —</h2>
-<p>Memória narrativa global com variação automática de conectores temporais (integra V44 + V45).</p>
+<div class="grid">
+  <div class="card">
+    <h2>Processar livro completo</h2>
+    <p>Entrada para o fluxo editorial total do manuscrito:</p>
+    <p>• upload do arquivo<br>
+    • higienização do texto<br>
+    • análise narrativa<br>
+    • Cutter e ID SDL<br>
+    • relatórios editoriais<br>
+    • PDF final<br>
+    • DOCX final apenas para heterônimos internos SDL</p>
+    <a class="btn" href="#">Entrar no — Lapidar —</a>
+    <small>Valor base do processamento editorial: R$ 19,90</small>
+  </div>
 
-<label>Texto da obra (ou capítulo)</label>
-<textarea id="textoEntrada" rows="18" placeholder="Cole aqui o texto já higienizado pelo módulo anterior."></textarea>
-
-<button onclick="processarMemoriaNarrativa()">Aplicar recomposição com memória global</button>
-
-<label>Texto recomposto</label>
-<textarea id="textoSaida" rows="18"></textarea>
-
-<div id="relatorio" class="relatorio"></div>
-
+  <div class="card">
+    <h2>Criar apenas a capa</h2>
+    <p>Entrada direta para o Projeto OCapista:</p>
+    <p>• capa digital ou física<br>
+    • escolha da gráfica ou plataforma<br>
+    • lombada automática<br>
+    • contra-capa<br>
+    • orelhas opcionais<br>
+    • tipografia editorial livre<br>
+    • PDF pronto para upload</p>
+    <a class="btn" href="#">Entrar no Projeto OCapista</a>
+    <small>Digital: R$ 10 / R$ 40 • Físico: R$ 18 / R$ 48</small>
+  </div>
 </div>
 
-<script>
+<div class="note">
+  <strong>Fluxo geral do sistema</strong>
+  <p style="margin-bottom:0;">
+  1. Escolha se o projeto é livro completo ou só capa.<br>
+  2. Se for livro completo, siga o fluxo do — Lapidar —.<br>
+  3. Se for só capa, entre direto no Projeto OCapista.<br>
+  4. O sistema mostra preview antes do pagamento e libera download final após confirmação.
+  </p>
+</div>
 
-function limpar(txt){
-return (txt||"").trim();
-}
-
-function bancoConectoresUsados(){
-return JSON.parse(localStorage.getItem("MEMORIA_CONECTORES_LAPIDAR")||"[]");
-}
-
-function salvarBanco(conectores){
-localStorage.setItem("MEMORIA_CONECTORES_LAPIDAR",JSON.stringify(conectores));
-}
-
-function escolherConector(usados){
-
-const lista=[
-"Pouco depois",
-"Instantes mais tarde",
-"Algum tempo depois",
-"Momentos depois",
-"Horas mais tarde",
-"Mais adiante",
-"Na sequência dos acontecimentos",
-"No desenrolar daquele instante narrativo",
-"Posteriormente",
-"Na continuidade daquele período narrativo"
-];
-
-for(let c of lista){
-if(!usados.includes(c)) return c;
-}
-
-return "Momentos depois";
-}
-
-function removerConectorOrfao(linha){
-return linha.replace(/^\s*(Agora|Então|Assim|Logo|Depois|Em seguida|A seguir|Nesse momento)[,\s]+/i,"");
-}
-
-function processarMemoriaNarrativa(){
-
-let texto=limpar(document.getElementById("textoEntrada").value);
-
-if(!texto){
-alert("Cole o texto primeiro.");
-return;
-}
-
-let usados=bancoConectoresUsados();
-
-let linhas=texto.split("\n");
-let substituicoes=0;
-
-for(let i=0;i<linhas.length;i++){
-
-if(/^(Agora|Então|Assim|Logo|Depois|Em seguida|A seguir|Nesse momento)[,\s]/i.test(linhas[i])){
-
-let novo=escolherConector(usados);
-
-linhas[i]=novo+", "+removerConectorOrfao(linhas[i]);
-
-usados.push(novo);
-
-substituicoes++;
-
-}
-
-}
-
-salvarBanco(usados);
-
-let final=linhas.join("\n");
-
-document.getElementById("textoSaida").value=final;
-
-document.getElementById("relatorio").innerText=
-"MEMÓRIA NARRATIVA GLOBAL ATUALIZADA\n\n"+
-"Conectores substituídos nesta execução: "+substituicoes+"\n"+
-"Total de conectores já registrados na obra: "+usados.length+"\n"+
-"Repetição futura automaticamente evitada conforme Prompt 001.";
-
-}
-
-</script>
-
+</div>
 </body>
 </html>
