@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lapidar — Site das Letras — V27</title>
+<title>Lapidar — Site das Letras — V29</title>
 
 <style>
 body{margin:0;font-family:Arial;background:#f4f4f4;text-align:center;padding:40px;}
@@ -19,35 +19,22 @@ button:hover{background:#444;}
 
 <div class="container">
 
-<h2>Site das Letras — Lapidar V27</h2>
+<h2>Site das Letras — Lapidar V29</h2>
 
-<label>Nome da Conta</label>
+<label>Conta editorial</label>
 <input id="contaCliente" placeholder="Ex: Site das Letras">
 
-<label>Nome Autoral</label>
+<label>Autor</label>
 <input id="autorNome" placeholder="Ex: Aurora Wings">
 
-<label>Coleção editorial (opcional)</label>
-<input id="colecaoEditorial" placeholder="Ex: Biblioteca SDL">
+<label>Título da obra</label>
+<input id="tituloObra" placeholder="Ex: Crônicas da Persida">
 
-<label>Biografia do autor (opcional)</label>
-<textarea id="biografiaAutor" rows="4"></textarea>
+<label>Coleção (opcional)</label>
+<input id="colecaoEditorial" placeholder="Ex: CDP">
 
-<label>Tipo da obra</label>
-<select id="tipoObra">
-<option value="RMN">Romance</option>
-<option value="CNT">Contos</option>
-<option value="PES">Poesia</option>
-<option value="INF">Infantil</option>
-<option value="ANT">Antologia</option>
-<option value="TEC">Técnico</option>
-<option value="ENS">Ensaio</option>
-<option value="BIO">Biografia</option>
-<option value="ESP">Espiritual</option>
-<option value="HIS">Histórico</option>
-<option value="FAN">Fantasia</option>
-<option value="HOR">Horror</option>
-</select>
+<label>Selo editorial (opcional)</label>
+<input id="seloEditorial" placeholder="Ex: SIGMAL">
 
 <label>Formato</label>
 <select id="formatoObra">
@@ -59,166 +46,60 @@ button:hover{background:#444;}
 <option value="INFQ">Infantil Quadrado</option>
 </select>
 
-<label>País (automático)</label>
-<input id="paisDetectado" readonly>
+<button onclick="registrarObra()">Registrar obra no catálogo institucional</button>
 
-<button onclick="gerarOuRecuperarAutor()">Gerar / recuperar autor</button>
-<div id="saidaAutor" class="cert"></div>
-
-<button onclick="gerarIDSDL()">Gerar ID institucional SDL</button>
-<div id="saidaIDSDL" class="cert"></div>
+<div id="saidaRegistro" class="cert"></div>
 
 </div>
 
 <script>
 
-function detectarPaisAutomatico(){
-var idioma=(navigator.language||"pt-BR").toUpperCase();
-if(idioma.includes("-BR")) return "BR";
-if(idioma.includes("-PT")) return "PT";
-if(idioma.includes("-US")) return "US";
-if(idioma.includes("-CH")) return "CH";
-if(idioma.includes("-FR")) return "FR";
-if(idioma.includes("-ES")) return "ES";
-if(idioma.includes("-IT")) return "IT";
-return "BR";
+function chaveCatalogo(conta){
+return "CATALOGO_OBRAS_" + conta.toUpperCase();
 }
 
-function preencherPais(){
-document.getElementById("paisDetectado").value = detectarPaisAutomatico();
-}
-
-function gerarBaseConta(conta){
-return "CUTTER_DB_" + conta.trim().toUpperCase();
-}
-
-function gerarCutterBase(nome){
-nome = nome.trim().toUpperCase();
-var letra = nome.charAt(0) || "X";
-var soma = 0;
-for(var i=0;i<nome.length;i++){
-soma += nome.charCodeAt(i);
-}
-var numero = String(soma % 1000).padStart(3,"0");
-return letra + numero;
-}
-
-function obterBancoConta(conta){
-var chave = gerarBaseConta(conta);
-var banco = JSON.parse(localStorage.getItem(chave) || "{}");
-if(!banco.autores) banco.autores = [];
-return { chave, banco };
-}
-
-function salvarBanco(chave,banco){
-localStorage.setItem(chave,JSON.stringify(banco));
-}
-
-function gerarOuRecuperarAutor(){
+function registrarObra(){
 
 var conta=document.getElementById("contaCliente").value.trim();
 var autor=document.getElementById("autorNome").value.trim();
-var bio=document.getElementById("biografiaAutor").value.trim();
-
-if(!conta||!autor){alert("Informe conta e autor");return null;}
-
-var pacote=obterBancoConta(conta);
-var banco=pacote.banco;
-
-var existente=banco.autores.find(a=>a.nomeAutor===autor&&a.biografiaAutor===bio);
-
-if(existente){
-
-document.getElementById("saidaAutor").innerText=
-"AUTOR RECUPERADO\n\n"+
-"Autor: "+existente.nomeAutor+"\n"+
-"Cutter: "+existente.cutter;
-
-return existente;
-
-}
-
-var cutter=gerarCutterBase(autor);
-
-var indice=banco.autores.length+1;
-
-var registro={
-id:"SDL-AUTOR-"+String(indice).padStart(4,"0"),
-nomeAutor:autor,
-biografiaAutor:bio,
-cutter:cutter
-};
-
-banco.autores.push(registro);
-
-salvarBanco(pacote.chave,banco);
-
-document.getElementById("saidaAutor").innerText=
-"AUTOR NOVO CADASTRADO\n\n"+
-"Autor: "+autor+"\n"+
-"Cutter: "+cutter;
-
-return registro;
-
-}
-
-function gerarSequencialConta(conta){
-
-var chave="SEQ_SDL_"+conta.toUpperCase();
-
-var n=parseInt(localStorage.getItem(chave)||"0");
-
-n++;
-
-localStorage.setItem(chave,n);
-
-return String(n).padStart(4,"0");
-
-}
-
-function gerarSiglaColecao(nome){
-
-if(!nome)return "";
-
-return nome
-.split(" ")
-.map(p=>p.substring(0,3).toUpperCase())
-.join("");
-
-}
-
-function gerarIDSDL(){
-
-var conta=document.getElementById("contaCliente").value.trim();
-var autor=document.getElementById("autorNome").value.trim();
+var titulo=document.getElementById("tituloObra").value.trim();
 var colecao=document.getElementById("colecaoEditorial").value.trim();
-
-if(!conta||!autor){alert("Informe conta e autor");return;}
-
-var cadastro=gerarOuRecuperarAutor();
-
-var pais=detectarPaisAutomatico();
-
-var tipo=document.getElementById("tipoObra").value;
-
+var selo=document.getElementById("seloEditorial").value.trim();
 var formato=document.getElementById("formatoObra").value;
 
-var ano=new Date().getFullYear();
+if(!conta||!autor||!titulo){
 
-var seq=gerarSequencialConta(conta);
-
-var siglaColecao=gerarSiglaColecao(colecao);
-
-var id="SDL-"+pais+"-"+ano+"-"+tipo+"-"+cadastro.cutter+
-(siglaColecao?("-"+siglaColecao):"")+
-"-"+formato+"-"+seq;
-
-document.getElementById("saidaIDSDL").innerText=
-"ID SDL GERADO\n\n"+id;
+alert("Conta, autor e título são obrigatórios.");
+return;
 
 }
 
-preencherPais();
+var chave=chaveCatalogo(conta);
+
+var banco=JSON.parse(localStorage.getItem(chave)||"[]");
+
+var registro={
+titulo:titulo,
+autor:autor,
+colecao:colecao||"—",
+selo:selo||"—",
+formato:formato,
+data:new Date().toLocaleString("pt-BR")
+};
+
+banco.push(registro);
+
+localStorage.setItem(chave,JSON.stringify(banco));
+
+document.getElementById("saidaRegistro").innerText=
+"OBRA REGISTRADA COM SUCESSO NO CATÁLOGO SDL\n\n"+
+"Título: "+titulo+"\n"+
+"Autor: "+autor+"\n"+
+"Coleção: "+(colecao||"—")+"\n"+
+"Selo: "+(selo||"—")+"\n"+
+"Formato: "+formato;
+
+}
 
 </script>
 
