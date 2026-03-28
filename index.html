@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+   <!DOCTYPE html>
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
@@ -9,13 +9,19 @@ body{font-family:Arial;background:#f4f4f4;margin:0;padding:40px 20px;text-align:
 .container{max-width:1100px;margin:auto;background:#fff;padding:40px;border-radius:20px;box-shadow:0 6px 18px rgba(0,0,0,0.08);}
 h1{margin-top:0;color:#222;}
 .card{border:1px solid #ddd;border-radius:18px;padding:28px;text-align:left;background:#fafafa;margin-top:20px;}
-.btn{display:block;width:100%;margin-top:18px;padding:14px;background:#222;color:#fff;border-radius:10px;text-decoration:none;border:none;cursor:pointer;font-weight:bold;}
+.btn{display:block;width:100%;margin-top:14px;padding:14px;background:#222;color:#fff;border-radius:10px;text-decoration:none;border:none;cursor:pointer;font-weight:bold;}
 .btn:hover{background:#444;}
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:20px;}
 .box{border:1px solid #ddd;border-radius:14px;padding:16px;background:#fff;text-align:left;}
 .box h3{margin-top:0;}
 .hidden{display:none;}
 .log{margin-top:18px;padding:16px;border-radius:12px;background:#fcfcfc;border:1px solid #e6e6e6;text-align:left;white-space:pre-line;}
+.ranking{margin-top:18px;padding:16px;border-radius:12px;background:#fffdf6;border:1px solid #eadcb4;text-align:left;}
+.ranking h3{margin-top:0;}
+.row{margin:10px 0;}
+.barwrap{height:10px;background:#ececec;border-radius:999px;overflow:hidden;margin-top:4px;}
+.bar{height:10px;background:#222;border-radius:999px;}
+small{color:#666;}
 @media (max-width:900px){.grid{grid-template-columns:1fr;}}
 </style>
 </head>
@@ -68,7 +74,19 @@ h1{margin-top:0;color:#222;}
       <button class="btn" onclick="registrarClique('grafica','grafica_eskenazi','https://www.eskenazi.com.br/')">Gráfica Eskenazi</button>
     </div>
 
+    <div class="ranking" id="rankingPlataformas">
+      <h3>📊 Plataformas mais escolhidas no — Lapidar —</h3>
+      <div id="rankingConteudo">Nenhum clique registrado ainda.</div>
+    </div>
+
     <div class="log" id="logCliques">Nenhum clique registrado ainda.</div>
+
+    <div class="card" style="margin-top:20px;background:#fffdf6;border-color:#eadcb4;">
+      <h3 style="margin-top:0;">💛 Apoiar o projeto</h3>
+      <p>Este roteiro editorial é mantido pelo projeto — Lapidar —. Se ele ajudou você, considere apoiar o desenvolvimento da plataforma.</p>
+      <button class="btn" onclick="alert('Aqui você pode ligar o painel de apoio/doação já criado no sistema.')">Apoiar o projeto</button>
+      <small>O apoio mantém a plataforma ativa e em evolução.</small>
+    </div>
   </div>
 </div>
 
@@ -88,6 +106,7 @@ function abrirCategoria(tipo){
 
   document.getElementById(categorias[tipo]).classList.remove('hidden');
   atualizarLog();
+  atualizarRanking();
 }
 
 function obterLogCliques(){
@@ -119,6 +138,7 @@ function registrarClique(tipo, plataforma, url){
   });
   salvarLogCliques(log);
   atualizarLog();
+  atualizarRanking();
   window.open(url, '_blank');
 }
 
@@ -139,7 +159,39 @@ function atualizarLog(){
   }).join('\n');
 }
 
+function atualizarRanking(){
+  const log = obterLogCliques().filter(item => item.etapa === 'plataforma_publicacao');
+  const alvo = document.getElementById('rankingConteudo');
+
+  if(log.length === 0){
+    alvo.innerText = 'Nenhum clique registrado ainda.';
+    return;
+  }
+
+  const contagem = {};
+  log.forEach(item => {
+    contagem[item.plataforma] = (contagem[item.plataforma] || 0) + 1;
+  });
+
+  const total = log.length;
+  const ordem = Object.entries(contagem).sort((a,b) => b[1] - a[1]);
+
+  alvo.innerHTML = ordem.map(([plataforma, qtd]) => {
+    const perc = ((qtd / total) * 100).toFixed(1);
+    const titulo = plataforma
+      .replaceAll('_',' ')
+      .replace(/\b\w/g, l => l.toUpperCase());
+    return `
+      <div class="row">
+        <strong>${titulo}</strong> — ${perc}% (${qtd} clique(s))
+        <div class="barwrap"><div class="bar" style="width:${perc}%"></div></div>
+      </div>
+    `;
+  }).join('');
+}
+
 atualizarLog();
+atualizarRanking();
 </script>
 </body>
-</html> 
+</html>  
