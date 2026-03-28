@@ -310,10 +310,13 @@ Preencha a Ficha Global Lapidar para iniciar a preparação editorial da obra.
 <div>
 <label>Tipo de papel</label>
 <select id="papel" onchange="calcularLombada()">
-<option value="0.05">Offset 75g</option>
-<option value="0.06">Offset 90g</option>
-<option value="0.055">Pólen</option>
-<option value="0.05">Personalizado simples</option>
+<option value="0.045">Offset 63g (editorial leve)</option>
+<option value="0.050">Offset 75g (padrão UICLAP)</option>
+<option value="0.055">Pólen 80g</option>
+<option value="0.060">Offset 90g</option>
+<option value="0.070">Couchê leve</option>
+<option value="0.080">Couchê pesado</option>
+<option value="0.050">Personalizado simples</option>
 </select>
 </div>
 </div>
@@ -336,7 +339,7 @@ Preencha a Ficha Global Lapidar para iniciar a preparação editorial da obra.
 
 <div class="resultado">
 <strong>Lombada estimada:</strong>
-<span id="lombada">5.00 mm</span>
+<span id="lombada">5.20 mm (estimativa editorial Lapidar)</span>
 </div>
 </fieldset>
 
@@ -485,9 +488,10 @@ document.getElementById("heteronimoCampo").style.display = "none";
 
 function calcularLombada(){
 var paginas = parseFloat(document.getElementById("paginas").value) || 0;
-var fator = parseFloat(document.getElementById("papel").value) || 0;
-var lombada = paginas * fator;
-document.getElementById("lombada").innerText = lombada.toFixed(2) + " mm";
+var espessura = parseFloat(document.getElementById("papel").value) || 0;
+var coeficienteCola = 0.20;
+var lombada = (paginas * espessura) + coeficienteCola;
+document.getElementById("lombada").innerText = lombada.toFixed(2) + " mm (estimativa editorial Lapidar)";
 }
 
 function analisarObra(){
