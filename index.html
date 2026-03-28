@@ -566,6 +566,33 @@ pronto para envio ao capista, designer ou gráfica.
 </div>
 </fieldset>
 
+<fieldset>
+<legend>Bloco 11 — Destino Técnico da Capa</legend>
+
+<div class="linha">
+<div>
+<label>Destino da capa</label>
+<select id="destinoCapa" onchange="aplicarDestinoCapa()">
+<option value="uiclap">UICLAP</option>
+<option value="amazon">Amazon KDP</option>
+<option value="grafica">Gráfica local</option>
+<option value="simples">Capa simples</option>
+<option value="orelhas">Capa com orelhas</option>
+</select>
+</div>
+
+<div>
+<label>Modo técnico aplicado</label>
+<input type="text" id="modoTecnicoCapa" value="UICLAP com orelhas de 7 cm" readonly>
+</div>
+</div>
+
+<div class="resultado">
+<strong>Observações técnicas do destino:</strong>
+<div id="observacoesDestinoCapa" class="fichaBox"></div>
+</div>
+</fieldset>
+
 <div class="topo-acoes">
 <button type="button" onclick="alert('Próximo passo: bloco seguinte da Ficha Global.')">Salvar e continuar</button>
 </div>
@@ -791,6 +818,8 @@ var capa = larguraFrente;
 var larguraTotal = orelhaEsquerda + contracapa + lombadaCm + capa + orelhaDireita;
 
 var papelSelecionado = document.getElementById("papel").selectedOptions[0].text;
+var destinoSelecionado = document.getElementById("destinoCapa").selectedOptions[0].text;
+var observacoes = document.getElementById("observacoesDestinoCapa").innerText;
 
 var relatorio = "";
 relatorio += "RELATÓRIO TÉCNICO DE CAPA\n\n";
@@ -805,6 +834,8 @@ relatorio += "Orelha esquerda: " + orelhaEsquerda.toFixed(2) + " cm\n";
 relatorio += "Orelha direita: " + orelhaDireita.toFixed(2) + " cm\n\n";
 relatorio += "Largura total da arte: " + larguraTotal.toFixed(2) + " cm\n\n";
 relatorio += "Papel: " + papelSelecionado + "\n";
+relatorio += "Destino técnico: " + destinoSelecionado + "\n\n";
+relatorio += "Observações técnicas:\n" + observacoes + "\n\n";
 relatorio += "Sistema editorial: Site das Letras — Lapidar —";
 
 document.getElementById("relatorioCapaGerado").innerText = relatorio;
@@ -820,8 +851,54 @@ window.print();
 }, 200);
 }
 
+function aplicarDestinoCapa(){
+var destino = document.getElementById("destinoCapa").value;
+var observacoes = "";
+var modo = "";
+
+if(destino === "uiclap"){
+document.getElementById("orelhaEsquerda").value = 7;
+document.getElementById("orelhaDireita").value = 7;
+modo = "UICLAP com orelhas de 7 cm";
+observacoes = "Usar arte completa com orelhas. Validar lombada final conforme papel e total de páginas. Conferir margem de segurança.";
+}
+
+if(destino === "amazon"){
+document.getElementById("orelhaEsquerda").value = 0;
+document.getElementById("orelhaDireita").value = 0;
+modo = "Amazon KDP sem orelhas";
+observacoes = "Usar capa completa sem orelhas. Conferir template específico da Amazon KDP antes da finalização.";
+}
+
+if(destino === "grafica"){
+document.getElementById("orelhaEsquerda").value = 7;
+document.getElementById("orelhaDireita").value = 7;
+modo = "Gráfica local com personalização";
+observacoes = "Confirmar com a gráfica a necessidade de sangria, marcas de corte, área de segurança e variação de papel.";
+}
+
+if(destino === "simples"){
+document.getElementById("orelhaEsquerda").value = 0;
+document.getElementById("orelhaDireita").value = 0;
+modo = "Capa simples sem orelhas";
+observacoes = "Projeto técnico simplificado: contracapa + lombada + capa, sem orelhas.";
+}
+
+if(destino === "orelhas"){
+document.getElementById("orelhaEsquerda").value = 7;
+document.getElementById("orelhaDireita").value = 7;
+modo = "Capa com orelhas";
+observacoes = "Projeto completo com orelhas editoriais. Ajustar texto interno das abas conforme biografia, sinopse ou frases.";
+}
+
+document.getElementById("modoTecnicoCapa").value = modo;
+document.getElementById("observacoesDestinoCapa").innerText = observacoes;
+calcularCapaCompleta();
+}
+
 calcularLombada();
 calcularCapaCompleta();
+aplicarDestinoCapa();
 </script>
 
 </body>
