@@ -3,15 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lapidar — Site das Letras — V38</title>
+<title>Lapidar — Site das Letras — V40</title>
 
 <style>
 body{margin:0;font-family:Arial;background:#f4f4f4;text-align:center;padding:40px;}
-.container{max-width:980px;margin:auto;background:white;padding:35px;border-radius:18px;box-shadow:0 6px 18px rgba(0,0,0,0.08);}
-input,textarea,button{margin-top:10px;padding:12px;font-size:16px;border-radius:8px;border:1px solid #ccc;width:100%;box-sizing:border-box;}
+.container{max-width:1000px;margin:auto;background:white;padding:35px;border-radius:18px;box-shadow:0 6px 18px rgba(0,0,0,0.08);}
+input,button{margin-top:10px;padding:12px;font-size:16px;border-radius:8px;border:1px solid #ccc;width:100%;box-sizing:border-box;}
 button{background:#222;color:white;cursor:pointer;}
 button:hover{background:#444;}
-.relatorio{margin-top:20px;border:2px solid #bbb;border-radius:10px;padding:25px;white-space:pre-line;text-align:left;}
+.lista{margin-top:25px;text-align:left;border:2px solid #bbb;border-radius:10px;padding:20px;}
+.item{padding:6px 0;border-bottom:1px solid #eee;}
 small{display:block;color:#666;margin-top:6px;}
 </style>
 </head>
@@ -20,92 +21,142 @@ small{display:block;color:#666;margin-top:6px;}
 
 <div class="container">
 
-<h2>Site das Letras — Lapidar V38</h2>
-<p>Importar dados iniciais automaticamente a partir do arquivo do autor</p>
+<h2>Site das Letras — Lapidar V40</h2>
+<p>Banco oficial ilimitado de heterônimos SDL</p>
 
-<label>Selecionar arquivo do autor (.txt recomendado / .docx permitido)</label>
-<input type="file" id="arquivoAutor">
+<label>Nome do heterônimo</label>
+<input id="heteronimoNome" placeholder="Ex: Aurora Wings">
 
-<button onclick="extrairDados()">Extrair dados automaticamente</button>
+<button onclick="cadastrarHeteronimo()">Cadastrar heterônimo</button>
 
-<label>Título sugerido</label>
-<input id="tituloSug" placeholder="Resultado automático">
+<button onclick="listarHeteronimos()">Atualizar lista</button>
 
-<label>Subtítulo sugerido</label>
-<input id="subtituloSug" placeholder="Resultado automático">
+<button onclick="exportarLista()">Exportar lista de heterônimos</button>
 
-<label>Autor sugerido</label>
-<input id="autorSug" placeholder="Resultado automático">
+<small>Autores cadastrados aqui recebem automaticamente exportação PDF + Word.</small>
 
-<label>Tipo provável</label>
-<input id="tipoSug" placeholder="Resultado automático">
-
-<div id="saidaAuto" class="relatorio"></div>
+<div id="listaHeteronimos" class="lista"></div>
 
 </div>
 
 <script>
 
-function sugerirTipo(texto){
-
-texto = texto.toLowerCase()
-
-if(texto.includes("poema") || texto.includes("poesia")) return "Poesia"
-if(texto.includes("conto")) return "Contos"
-if(texto.includes("infantil") || texto.includes("criança")) return "Infantil"
-if(texto.includes("ensaio")) return "Ensaio"
-if(texto.includes("biografia")) return "Biografia"
-if(texto.includes("fantasia")) return "Fantasia"
-if(texto.includes("história") || texto.includes("historia")) return "Histórico"
-if(texto.includes("espiritual")) return "Espiritual"
-if(texto.includes("terror") || texto.includes("horror")) return "Horror"
-
-return "Romance"
-
+function limpar(txt){
+return (txt||"")
+.trim()
+.toUpperCase()
+.normalize("NFD")
+.replace(/[\u0300-\u036f]/g,"")
 }
 
-function extrairDados(){
+function chaveBanco(){
+return "BANCO_HETERONIMOS_SDL"
+}
 
-var arquivo = document.getElementById("arquivoAutor").files[0]
+function obterBanco(){
+return JSON.parse(localStorage.getItem(chaveBanco())||"[]")
+}
 
-if(!arquivo){
+function salvarBanco(banco){
+localStorage.setItem(chaveBanco(),JSON.stringify(banco))
+}
 
-alert("Selecione um arquivo primeiro.")
+function cadastrarHeteronimo(){
+
+var nome=document.getElementById("heteronimoNome").value.trim()
+
+if(!nome){
+
+alert("Digite o nome do heterônimo.")
 return
 
 }
 
-var leitor = new FileReader()
+var banco=obterBanco()
 
-leitor.onload = function(e){
+var existe=banco.find(a=>limpar(a.nome)==limpar(nome))
 
-var conteudo = e.target.result
+if(existe){
 
-var linhas = conteudo.split("\n").filter(l => l.trim() !== "")
-
-var titulo = linhas[0] || ""
-var subtitulo = linhas[1] || ""
-var autor = linhas[2] || ""
-
-var tipo = sugerirTipo(conteudo)
-
-document.getElementById("tituloSug").value = titulo
-document.getElementById("subtituloSug").value = subtitulo
-document.getElementById("autorSug").value = autor
-document.getElementById("tipoSug").value = tipo
-
-document.getElementById("saidaAuto").innerText =
-"DADOS EXTRAÍDOS AUTOMATICAMENTE\n\n" +
-"Título: " + titulo + "\n" +
-"Subtítulo: " + subtitulo + "\n" +
-"Autor: " + autor + "\n" +
-"Tipo sugerido: " + tipo
+alert("Heterônimo já cadastrado.")
+return
 
 }
 
-leitor.readAsText(arquivo)
+var novo={
+
+id:"SDL-AUTOR-"+String(banco.length+1).padStart(4,"0"),
+nome:nome,
+dataCadastro:new Date().toLocaleString("pt-BR")
 
 }
+
+banco.push(novo)
+
+salvarBanco(banco)
+
+document.getElementById("heteronimoNome").value=""
+
+listarHeteronimos()
+
+}
+
+function listarHeteronimos(){
+
+var banco=obterBanco()
+
+var html=""
+
+if(banco.length==0){
+
+html="Nenhum heterônimo cadastrado ainda."
+
+}else{
+
+banco.forEach(function(a){
+
+html+="<div class='item'><b>"+a.nome+"</b><br>ID: "+a.id+"<br>Cadastrado em: "+a.dataCadastro+"</div>"
+
+})
+
+}
+
+document.getElementById("listaHeteronimos").innerHTML=html
+
+}
+
+function exportarLista(){
+
+var banco=obterBanco()
+
+if(banco.length==0){
+
+alert("Nenhum heterônimo para exportar.")
+return
+
+}
+
+var texto="BANCO OFICIAL DE HETERÔNIMOS SDL\n\n"
+
+banco.forEach(function(a){
+
+texto+=a.nome+" — "+a.id+"\n"
+
+})
+
+var blob=new Blob([texto],{type:"text/plain"})
+
+var link=document.createElement("a")
+
+link.href=URL.createObjectURL(blob)
+
+link.download="heteronimos_SDL.txt"
+
+link.click()
+
+}
+
+listarHeteronimos()
 
 </script>
 
