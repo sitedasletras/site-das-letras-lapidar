@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lapidar — Site das Letras — V23</title>
+<title>Lapidar — Site das Letras — V24</title>
 
 <style>
 body{margin:0;font-family:Arial;background:#f4f4f4;text-align:center;padding:40px;}
-.container{max-width:900px;margin:auto;background:white;padding:35px;border-radius:18px;box-shadow:0 6px 18px rgba(0,0,0,0.08);}
-input,button{margin-top:10px;padding:10px;font-size:16px;border-radius:8px;border:1px solid #ccc;width:100%;}
+.container{max-width:920px;margin:auto;background:white;padding:35px;border-radius:18px;box-shadow:0 6px 18px rgba(0,0,0,0.08);}
+input,select,button{margin-top:10px;padding:12px;font-size:16px;border-radius:8px;border:1px solid #ccc;width:100%;box-sizing:border-box;}
 button{background:#222;color:white;cursor:pointer;}
 button:hover{background:#444;}
 .cert{margin-top:15px;border:2px solid #bbb;border-radius:10px;padding:20px;white-space:pre-line;}
@@ -19,7 +19,7 @@ button:hover{background:#444;}
 
 <div class="container">
 
-<h2>Site das Letras — Lapidar V23</h2>
+<h2>Site das Letras — Lapidar V24</h2>
 
 <label>Nome da Conta (diagramador / editora / autor)</label>
 <input id="contaCliente" placeholder="Ex: Editora Horizonte">
@@ -27,73 +27,106 @@ button:hover{background:#444;}
 <label>Nome Autoral</label>
 <input id="autorNome" placeholder="Ex: Pyetra Luyza">
 
-<button onclick="gerarOuRecuperarCutter()">Gerar ou recuperar Código Cutter</button>
+<label>País (automático)</label>
+<input id="paisDetectado" readonly>
 
+<label>Tipo da obra</label>
+<select id="tipoObra">
+<option value="RMN">Romance</option>
+<option value="CNT">Contos</option>
+<option value="PES">Poesia</option>
+<option value="INF">Infantil</option>
+<option value="ANT">Antologia</option>
+<option value="TEC">Técnico</option>
+<option value="ENS">Ensaio</option>
+<option value="BIO">Biografia</option>
+<option value="ESP">Espiritual</option>
+<option value="HIS">Histórico</option>
+<option value="FAN">Fantasia</option>
+<option value="HOR">Horror</option>
+</select>
+
+<label>Formato</label>
+<select id="formatoObra">
+<option value="A5">A5</option>
+<option value="1623">16x23</option>
+<option value="1627">16x27</option>
+<option value="A4">A4</option>
+<option value="69">6x9</option>
+<option value="INFQ">Infantil Quadrado</option>
+</select>
+
+<button onclick="gerarOuRecuperarCutter()">Gerar ou recuperar Código Cutter</button>
 <div id="saidaCutter" class="cert"></div>
 
 <button onclick="verBancoConta()">Ver banco Cutter da conta</button>
-
 <div id="bancoConta" class="cert"></div>
+
+<button onclick="gerarIDSDLComCutter()">Gerar ID institucional SDL com Cutter</button>
+<div id="saidaIDSDL" class="cert"></div>
 
 </div>
 
 <script>
 
+function detectarPaisAutomatico(){
+var idioma=(navigator.language||"pt-BR").toUpperCase();
+if(idioma.includes("-BR")) return "BR";
+if(idioma.includes("-PT")) return "PT";
+if(idioma.includes("-US")) return "US";
+if(idioma.includes("-CH")) return "CH";
+if(idioma.includes("-FR")) return "FR";
+if(idioma.includes("-ES")) return "ES";
+if(idioma.includes("-IT")) return "IT";
+return "BR";
+}
+
+function preencherPais(){
+document.getElementById("paisDetectado").value = detectarPaisAutomatico();
+}
+
 function gerarBaseConta(conta){
 return "CUTTER_DB_" + conta.trim().toUpperCase();
 }
 
+function normalizarNome(nome){
+return nome.trim();
+}
+
 function gerarCutter(nome){
-
 nome = nome.trim().toUpperCase();
-
-var letra = nome.charAt(0);
-
+var letra = nome.charAt(0) || "X";
 var soma = 0;
-
 for(var i=0;i<nome.length;i++){
 soma += nome.charCodeAt(i);
 }
-
 var numero = String(soma % 1000).padStart(3,"0");
-
 return letra + numero;
-
 }
 
 function gerarOuRecuperarCutter(){
 
 var conta = document.getElementById("contaCliente").value.trim();
-
-var autor = document.getElementById("autorNome").value.trim();
+var autor = normalizarNome(document.getElementById("autorNome").value);
 
 if(!conta || !autor){
-
 alert("Informe conta e autor.");
-
 return;
-
 }
 
 var chaveConta = gerarBaseConta(conta);
-
 var banco = JSON.parse(localStorage.getItem(chaveConta) || "{}");
 
 if(banco[autor]){
-
 document.getElementById("saidaCutter").innerText =
 "CUTTER RECUPERADO DA CONTA\n\nAutor: " + autor +
 "\nConta: " + conta +
 "\nCódigo Cutter: " + banco[autor];
-
-return;
-
+return banco[autor];
 }
 
 var cutterNovo = gerarCutter(autor);
-
 banco[autor] = cutterNovo;
-
 localStorage.setItem(chaveConta, JSON.stringify(banco));
 
 document.getElementById("saidaCutter").innerText =
@@ -101,6 +134,7 @@ document.getElementById("saidaCutter").innerText =
 "\nConta: " + conta +
 "\nCódigo Cutter: " + cutterNovo;
 
+return cutterNovo;
 }
 
 function verBancoConta(){
@@ -108,39 +142,80 @@ function verBancoConta(){
 var conta = document.getElementById("contaCliente").value.trim();
 
 if(!conta){
-
 alert("Informe a conta primeiro.");
-
 return;
-
 }
 
 var chaveConta = gerarBaseConta(conta);
-
 var banco = JSON.parse(localStorage.getItem(chaveConta) || "{}");
-
 var autores = Object.keys(banco);
 
 if(autores.length === 0){
-
 document.getElementById("bancoConta").innerText =
 "Esta conta ainda não possui Cutters cadastrados.";
-
 return;
-
 }
 
 var texto = "BANCO CUTTER DA CONTA\n\n";
-
 autores.forEach(function(a){
-
 texto += a + " → " + banco[a] + "\n";
-
 });
 
 document.getElementById("bancoConta").innerText = texto;
-
 }
+
+function dataBrasilComponentes(){
+var agora = new Date();
+var formatter = new Intl.DateTimeFormat("en-CA", {
+timeZone:"America/Sao_Paulo",
+year:"numeric",
+month:"2-digit"
+});
+var parts = formatter.formatToParts(agora);
+var map = {};
+parts.forEach(function(p){ map[p.type]=p.value; });
+return map;
+}
+
+function gerarSequencialSDL(){
+var sequencial = parseInt(localStorage.getItem("sequencialSDLGlobal") || "0", 10);
+sequencial += 1;
+localStorage.setItem("sequencialSDLGlobal", String(sequencial));
+return String(sequencial).padStart(4,"0");
+}
+
+function gerarIDSDLComCutter(){
+
+var conta = document.getElementById("contaCliente").value.trim();
+var autor = normalizarNome(document.getElementById("autorNome").value);
+var tipo = document.getElementById("tipoObra").value || "RMN";
+var formato = document.getElementById("formatoObra").value || "A5";
+var pais = detectarPaisAutomatico();
+
+if(!conta || !autor){
+alert("Informe conta e autor.");
+return;
+}
+
+var cutter = gerarOuRecuperarCutter();
+var partes = dataBrasilComponentes();
+var ano = partes.year;
+var sequencial = gerarSequencialSDL();
+
+var idSDL = "SDL-" + pais + "-" + ano + "-" + tipo + "-" + cutter + "-" + formato + "-" + sequencial;
+
+document.getElementById("saidaIDSDL").innerText =
+"ID INSTITUCIONAL SDL COM CUTTER\n\n" +
+"Conta: " + conta + "\n" +
+"Autor: " + autor + "\n" +
+"País detectado: " + pais + "\n" +
+"Cutter: " + cutter + "\n\n" +
+"Código:\n" + idSDL;
+
+localStorage.setItem("ultimoIDSDLComCutter", idSDL);
+}
+
+preencherPais();
 
 </script>
 
