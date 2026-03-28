@@ -216,7 +216,7 @@ formato, lombada, partes técnicas e evolução editorial completa.
 <li>Cálculo de lombada</li>
 <li>Fluxo editorial completo</li>
 </ul>
-<button onclick="abrirProjetoCompleto()">Entrar no Projeto Completo</button>
+<button type="button" onclick="abrirProjetoCompleto()">Entrar no Projeto Completo</button>
 </div>
 
 <div class="card">
@@ -231,7 +231,7 @@ lombada e estrutura técnica externa da obra.
 <li>Capa técnica editorial</li>
 <li>Fluxo direto para capistas e autores</li>
 </ul>
-<button onclick="alert('Próximo passo: abrir acesso direto ao Projeto Ocapista.')">Entrar no Projeto Ocapista</button>
+<button type="button" onclick="alert('Próximo passo: abrir acesso direto ao Projeto Ocapista.')">Entrar no Projeto Ocapista</button>
 </div>
 
 </div>
@@ -249,7 +249,7 @@ Preencha a Ficha Global Lapidar para iniciar a preparação editorial da obra.
 </p>
 
 <div class="topo-acoes">
-<button class="secundario" onclick="voltarInicio()">Voltar ao início</button>
+<button type="button" class="secundario" onclick="voltarInicio()">Voltar ao início</button>
 </div>
 
 <form id="fichaGlobal">
@@ -426,6 +426,17 @@ Preencha a Ficha Global Lapidar para iniciar a preparação editorial da obra.
 
 <fieldset>
 <legend>Bloco 6 — Certificado Editorial Lapidar</legend>
+
+<div class="topo-acoes">
+<button type="button" onclick="gerarCertificado()">Gerar certificado editorial</button>
+</div>
+
+<div id="resultadoCertificado" class="resultado" style="display:none;">
+<strong>Prévia do Certificado Editorial:</strong>
+<div id="certificadoGerado" class="certificado"></div>
+</div>
+</fieldset>
+
 <fieldset>
 <legend>Bloco 7 — Registro Editorial Interno Lapidar</legend>
 
@@ -440,12 +451,11 @@ Ele servirá como base da trilha editorial, certificação estrutural e assinatu
 
 <div id="resultadoRegistro" class="resultado" style="display:none;">
 <strong>Registro Editorial Lapidar:</strong>
-
 <div id="registroGerado" class="certificado"></div>
-
 </div>
 </fieldset>
-  <div class="topo-acoes">
+
+<div class="topo-acoes">
 <button type="button" onclick="alert('Próximo passo: bloco seguinte da Ficha Global.')">Salvar e continuar</button>
 </div>
 
@@ -456,20 +466,20 @@ Ele servirá como base da trilha editorial, certificação estrutural e assinatu
 
 <script>
 function abrirProjetoCompleto(){
-document.getElementById("home").style.display="none";
-document.getElementById("projetoCompleto").style.display="block";
+document.getElementById("home").style.display = "none";
+document.getElementById("projetoCompleto").style.display = "block";
 }
 
 function voltarInicio(){
-document.getElementById("projetoCompleto").style.display="none";
-document.getElementById("home").style.display="block";
+document.getElementById("projetoCompleto").style.display = "none";
+document.getElementById("home").style.display = "block";
 }
 
 function mostrarHeteronimo(valor){
-if(valor==="Heterônimo"){
-document.getElementById("heteronimoCampo").style.display="block";
+if(valor === "Heterônimo"){
+document.getElementById("heteronimoCampo").style.display = "block";
 }else{
-document.getElementById("heteronimoCampo").style.display="none";
+document.getElementById("heteronimoCampo").style.display = "none";
 }
 }
 
@@ -492,6 +502,115 @@ if(resumo.includes("família") || resumo.includes("filho") || resumo.includes("n
 if(resumo.includes("antologia") || resumo.includes("coletânea")) tags.push("Antologia");
 if(resumo.includes("miscelânea") || resumo.includes("misto") || resumo.includes("poesia e conto") || resumo.includes("redações")) tags.push("Miscelânea");
 if(resumo.includes("medieval") || resumo.includes("rei") || resumo.includes("castelo") || resumo.includes("abadia")) tags.push("Narrativa medieval");
-if(resumo.includes("suspense") || resumo.includes("mistério")
-<div class="topo-acoes">
-<button
+if(resumo.includes("suspense") || resumo.includes("mistério") || resumo.includes("segredo") || resumo.includes("crime")) tags.push("Suspense");
+if(resumo.includes("amor") || resumo.includes("traição") || resumo.includes("drama")) tags.push("Drama");
+if(resumo.includes("haicai")) tags.push("Haicai");
+if(resumo.includes("soneto")) tags.push("Soneto");
+if(resumo.includes("cordel")) tags.push("Cordel");
+if(resumo.includes("acróst") || resumo.includes("acrost")) tags.push("Acróstico");
+
+if(tags.length === 0){
+tags.push("Classificação inicial indefinida");
+texto = "O Lapidar ainda não identificou uma categoria forte. Escreva mais detalhes para melhorar a leitura editorial automática.";
+}else{
+texto = "Sua obra apresenta características compatíveis com: " + tags.join(", ") + ". Deseja confirmar essa direção editorial?";
+}
+
+var tagsHtml = "";
+for(var i = 0; i < tags.length; i++){
+tagsHtml += '<span class="tag">' + tags[i] + '</span>';
+}
+
+document.getElementById("tagsAnalise").innerHTML = tagsHtml;
+document.getElementById("textoAnalise").innerText = texto;
+document.getElementById("resultadoAnalise").style.display = "block";
+}
+
+function gerarFicha(){
+var titulo = document.getElementById("tituloObra").value.trim();
+var subtitulo = document.getElementById("subtituloObra").value.trim();
+var autor = document.getElementById("autorCapa").value.trim();
+var temas = document.getElementById("temasObra").value.trim();
+
+if(titulo === "") titulo = "Título não informado";
+if(autor === "") autor = "Autor não informado";
+if(temas === "") temas = "1. Literatura brasileira.";
+
+var primeiraLetraAutor = autor.charAt(0).toUpperCase() || "L";
+var primeiraLetraTitulo = titulo.charAt(0).toLowerCase() || "l";
+var cutter = primeiraLetraAutor + "953" + primeiraLetraTitulo;
+
+var fichaTexto = "";
+fichaTexto += cutter + " – " + autor + "\n";
+fichaTexto += titulo;
+if(subtitulo !== "") fichaTexto += " : " + subtitulo;
+fichaTexto += " / " + autor + ".\n";
+fichaTexto += "Santo André, SP : Site das Letras Edições Literárias, 2026.\n\n";
+fichaTexto += "Registro Editorial Lapidar — LAP-2026-000001\n\n";
+fichaTexto += temas;
+
+document.getElementById("fichaGerada").innerText = fichaTexto;
+document.getElementById("resultadoFicha").style.display = "block";
+}
+
+function gerarCertificado(){
+var titulo = document.getElementById("tituloObra").value.trim();
+var subtitulo = document.getElementById("subtituloObra").value.trim();
+var autor = document.getElementById("autorCapa").value.trim();
+
+if(titulo === "") titulo = "Título não informado";
+if(autor === "") autor = "Autor não informado";
+
+var certificado = "";
+certificado += "CERTIFICADO EDITORIAL LAPIDAR\n\n";
+certificado += "Certificamos que\n\n";
+certificado += autor + "\n\n";
+certificado += "concluiu a preparação integral da obra\n\n";
+certificado += titulo;
+if(subtitulo !== "") certificado += "\n" + subtitulo;
+certificado += "\n\n";
+certificado += "por meio do sistema — Lapidar —\n";
+certificado += "ferramenta editorial do Site das Letras Edições Literárias\n\n";
+certificado += "Registro nº: LAP-2026-000001\n";
+certificado += "Data: 27 de março de 2026";
+
+document.getElementById("certificadoGerado").innerText = certificado;
+document.getElementById("resultadoCertificado").style.display = "block";
+}
+
+function gerarRegistro(){
+var titulo = document.getElementById("tituloObra").value.trim();
+var autor = document.getElementById("autorCapa").value.trim();
+
+if(titulo === "") titulo = "Título não informado";
+if(autor === "") autor = "Autor não informado";
+
+var agora = new Date();
+var ano = agora.getFullYear();
+var mes = String(agora.getMonth() + 1).padStart(2,"0");
+var dia = String(agora.getDate()).padStart(2,"0");
+var hora = String(agora.getHours()).padStart(2,"0");
+var minuto = String(agora.getMinutes()).padStart(2,"0");
+
+var codigo = "LAP-" + ano + "-" + mes + dia + "-" + hora + minuto;
+
+var registro = "";
+registro += "REGISTRO EDITORIAL INTERNO LAPIDAR\n\n";
+registro += "Obra: " + titulo + "\n";
+registro += "Autor: " + autor + "\n\n";
+registro += "Código editorial interno:\n";
+registro += codigo + "\n\n";
+registro += "Data do registro:\n";
+registro += dia + "/" + mes + "/" + ano + "\n\n";
+registro += "Sistema:\n";
+registro += "Site das Letras Edições Literárias — Lapidar";
+
+document.getElementById("registroGerado").innerText = registro;
+document.getElementById("resultadoRegistro").style.display = "block";
+}
+
+calcularLombada();
+</script>
+
+</body>
+</html>
