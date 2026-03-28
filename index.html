@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lapidar — Site das Letras — V33</title>
+<title>Lapidar — Site das Letras — V34</title>
 
 <style>
 body{margin:0;font-family:Arial;background:#f4f4f4;text-align:center;padding:40px;}
 .container{max-width:980px;margin:auto;background:white;padding:35px;border-radius:18px;box-shadow:0 6px 18px rgba(0,0,0,0.08);}
-input,textarea,button{margin-top:10px;padding:12px;font-size:16px;border-radius:8px;border:1px solid #ccc;width:100%;box-sizing:border-box;}
+input,button{margin-top:10px;padding:12px;font-size:16px;border-radius:8px;border:1px solid #ccc;width:100%;box-sizing:border-box;}
 button{background:#222;color:white;cursor:pointer;}
 button:hover{background:#444;}
 .relatorio{margin-top:20px;border:2px solid #bbb;border-radius:10px;padding:20px;white-space:pre-line;text-align:left;}
@@ -19,82 +19,83 @@ button:hover{background:#444;}
 
 <div class="container">
 
-<h2>Site das Letras — Lapidar V33</h2>
+<h2>Site das Letras — Lapidar V34</h2>
 
 <label>Conta editorial</label>
-<input id="contaCliente" placeholder="Ex: Site das Letras">
+<input id="conta" placeholder="Ex: Site das Letras">
 
 <label>Autor</label>
-<input id="autorNome" placeholder="Ex: Aurora Wings">
+<input id="autor" placeholder="Ex: Aurora Wings">
 
 <label>Título da obra</label>
-<input id="tituloObra" placeholder="Ex: Crônicas da Persida">
+<input id="titulo" placeholder="Ex: Crônicas da Persida">
 
-<label>Biografia do autor</label>
-<textarea id="biografiaAutor" rows="6" placeholder="Insira aqui a biografia institucional do autor"></textarea>
+<label>Selo editorial</label>
+<input id="selo" placeholder="Ex: SDL">
 
-<button onclick="salvarBiografia()">Salvar biografia vinculada</button>
+<label>ID institucional SDL</label>
+<input id="idSDL" placeholder="Ex: SDL-BR-2026-RMN-L953-CDP-A5-0001">
 
-<button onclick="verBiografia()">Ver biografia vinculada</button>
+<button onclick="gerarCreditos()">Gerar créditos editoriais automáticos</button>
 
-<div id="saidaBiografia" class="relatorio"></div>
+<button onclick="exportarCreditos()">Exportar créditos (TXT)</button>
+
+<div id="saidaCreditos" class="relatorio"></div>
 
 </div>
 
 <script>
 
-function chaveBiografia(conta,autor,titulo){
-return "BIOGRAFIA_VINCULADA_"+conta.toUpperCase()+"_"+autor.toUpperCase()+"_"+titulo.toUpperCase();
-}
+function gerarCreditos(){
 
-function salvarBiografia(){
+var conta=document.getElementById("conta").value.trim();
+var autor=document.getElementById("autor").value.trim();
+var titulo=document.getElementById("titulo").value.trim();
+var selo=document.getElementById("selo").value.trim();
+var idSDL=document.getElementById("idSDL").value.trim();
 
-var conta=document.getElementById("contaCliente").value.trim();
-var autor=document.getElementById("autorNome").value.trim();
-var titulo=document.getElementById("tituloObra").value.trim();
-var bio=document.getElementById("biografiaAutor").value.trim();
+if(!conta||!autor||!titulo||!idSDL){
 
-if(!conta||!autor||!titulo||!bio){
-
-alert("Preencha todos os campos.");
+alert("Preencha todos os campos obrigatórios.");
 return;
 
 }
 
-var chave=chaveBiografia(conta,autor,titulo);
+var data=new Date().getFullYear();
 
-localStorage.setItem(chave,bio);
+var texto=
+"CRÉDITOS EDITORIAIS — SITE DAS LETRAS\n\n"+
+"Título da obra:\n"+titulo+"\n\n"+
+"Autor:\n"+autor+"\n\n"+
+"Coordenação editorial:\n"+conta+"\n\n"+
+"Diagramação:\nLapidar SDL\n\n"+
+"Revisão:\nLapidar SDL\n\n"+
+"Capa:\n"+conta+"\n\n"+
+"Selo editorial:\n"+(selo||"—")+"\n\n"+
+"Registro institucional SDL:\n"+idSDL+"\n\n"+
+"Ano de produção editorial:\n"+data;
 
-alert("Biografia vinculada com sucesso.");
+document.getElementById("saidaCreditos").innerText=texto;
 
 }
 
-function verBiografia(){
+function exportarCreditos(){
 
-var conta=document.getElementById("contaCliente").value.trim();
-var autor=document.getElementById("autorNome").value.trim();
-var titulo=document.getElementById("tituloObra").value.trim();
+var texto=document.getElementById("saidaCreditos").innerText;
 
-if(!conta||!autor||!titulo){
+if(!texto){
 
-alert("Informe conta, autor e título.");
+alert("Gere os créditos primeiro.");
 return;
 
 }
 
-var chave=chaveBiografia(conta,autor,titulo);
+var blob=new Blob([texto],{type:"text/plain"});
+var link=document.createElement("a");
 
-var bio=localStorage.getItem(chave);
-
-if(!bio){
-
-document.getElementById("saidaBiografia").innerText="Nenhuma biografia vinculada encontrada.";
-return;
-
-}
-
-document.getElementById("saidaBiografia").innerText=
-"BIOGRAFIA VINCULADA À OBRA\n\n"+bio;
+link.href=URL.createObjectURL(blob);
+link.download="creditos_editoriais_SDL.txt";
+link.click();
 
 }
 
