@@ -10,16 +10,12 @@ body{margin:0;font-family:Arial;background:#f4f4f4;text-align:center;padding:50p
 .container{max-width:980px;margin:auto;background:white;padding:40px;border-radius:18px;box-shadow:0 6px 18px rgba(0,0,0,0.08);}
 h1,h2{color:#222;margin-top:0;}
 .sub{color:#666;font-size:18px;line-height:1.6;max-width:760px;margin:0 auto 30px;}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;margin-top:30px;}
-.card{background:#fafafa;border:1px solid #ddd;border-radius:16px;padding:30px 24px;text-align:left;}
 button{margin-top:20px;padding:14px 22px;font-size:17px;border:none;border-radius:10px;background:#222;color:white;cursor:pointer;}
 button:hover{background:#444;}
-.secundario{background:#777;}
-.secundario:hover{background:#666;}
 .modulo{display:none;text-align:left;margin-top:10px;}
 fieldset{border:1px solid #ddd;border-radius:12px;padding:20px;margin-top:20px;}
 label{display:block;margin-top:14px;font-weight:bold;color:#333;}
-input,select,textarea{width:100%;padding:10px;margin-top:5px;border-radius:6px;border:1px solid #ccc;font-size:16px;}
+input,select{width:100%;padding:10px;margin-top:5px;border-radius:6px;border:1px solid #ccc;font-size:16px;}
 .resultado{margin-top:20px;padding:15px;background:#f8f8f8;border-radius:8px;border:1px solid #ddd;}
 .certificado{margin-top:15px;background:#fff;border:2px solid #bbb;border-radius:12px;padding:24px;white-space:pre-line;text-align:center;}
 </style>
@@ -32,7 +28,7 @@ input,select,textarea{width:100%;padding:10px;margin-top:5px;border-radius:6px;b
 <h1>Site das Letras<br>— Lapidar —</h1>
 
 <p class="sub">
-Lapidar é o primeiro passo na jornada de quem decide escrever suas próprias histórias.
+Sistema editorial estruturador do Site das Letras Edições Literárias.
 </p>
 
 <button onclick="abrirProjetoCompleto()">Entrar no Projeto Completo</button>
@@ -97,6 +93,11 @@ Lapidar é o primeiro passo na jornada de quem decide escrever suas próprias hi
 
 <fieldset>
 <button onclick="gerarRegistroPDF()">Gerar registro editorial permanente (PDF)</button>
+</fieldset>
+
+<fieldset>
+<button onclick="gerarAssinaturaEstrutural()">Gerar assinatura estrutural invisível</button>
+<div id="assinaturaGerada" class="certificado"></div>
 </fieldset>
 
 </div>
@@ -185,14 +186,32 @@ Gerado em:
 ${data}
 `;
 
-var area=document.createElement("textarea");
-area.value=texto;
-document.body.appendChild(area);
-area.select();
-document.execCommand("copy");
-document.body.removeChild(area);
+window.print();
 
-alert("Registro permanente copiado e pronto para impressão/PDF.");
+}
+
+function gerarAssinaturaEstrutural(){
+
+var titulo=document.getElementById("tituloObra").value||"obra";
+var autor=document.getElementById("autorCapa").value||"autor";
+
+var agora=new Date();
+
+var hashBase=titulo+autor+agora.getTime();
+
+var assinatura=btoa(hashBase).substring(0,24);
+
+var resultado=`
+ASSINATURA ESTRUTURAL INVISÍVEL LAPIDAR
+
+Código estrutural:
+${assinatura}
+
+Gerado automaticamente para rastreabilidade editorial.
+`;
+
+document.getElementById("assinaturaGerada").innerText=resultado;
+
 }
 
 calcularLombada();
