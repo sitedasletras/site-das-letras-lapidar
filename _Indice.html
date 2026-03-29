@@ -1,43 +1,42 @@
+// CONTADOR DE ACESSO BETA 60 DIAS
 
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-<meta charset="UTF-8">
-<title>Carregando...</title>
-</head>
+const DURACAO_ACESSO = 60 * 24 * 60 * 60 * 1000;
+const PRAZO_DOWNLOAD = 7 * 24 * 60 * 60 * 1000;
 
-<body>
+let primeiroAcesso = localStorage.getItem("SDL_primeiro_acesso");
 
-<script>
+if (!primeiroAcesso) {
+primeiroAcesso = Date.now();
+localStorage.setItem("SDL_primeiro_acesso", primeiroAcesso);
+}
 
-const inicioSessao = Date.now();
+const agora = Date.now();
+const tempoRestante = (parseInt(primeiroAcesso) + DURACAO_ACESSO) - agora;
 
-function registrarEvento(tipo){
+if (tempoRestante <= 0) {
 
-const registro = {
-evento: tipo,
-data: new Date().toLocaleString("pt-BR"),
-navegador: navigator.userAgent,
-pagina: window.location.href
-};
+let prazoFinalDownload = localStorage.getItem("SDL_prazo_download");
 
-console.log("Registro:", registro);
+if (!prazoFinalDownload) {
 
-localStorage.setItem("SDL_registro", JSON.stringify(registro));
+prazoFinalDownload = Date.now();
+localStorage.setItem("SDL_prazo_download", prazoFinalDownload);
 
 }
 
-registrarEvento("acesso_inicial");
+const restanteDownload = (parseInt(prazoFinalDownload) + PRAZO_DOWNLOAD) - Date.now();
 
-window.addEventListener("beforeunload", () => {
+if (restanteDownload <= 0) {
 
-const tempoSessao = Date.now() - inicioSessao;
+document.body.innerHTML = `
+<h2>Seu acesso foi encerrado.</h2>
+<p>Agradecemos a sua participação durante esse período.</p>
+`;
 
-localStorage.setItem("SDL_tempo_sessao", tempoSessao);
+} else {
 
-});
+console.log("Modo download ativo");
 
-</script>
+}
 
-</body>
-</html>
+}
