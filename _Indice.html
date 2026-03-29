@@ -1,244 +1,141 @@
-
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Controle de Acesso</title>
+
+<title>Painel Lapidar</title>
 
 <style>
 
 body{
 margin:0;
 font-family:Arial,sans-serif;
-background:#f4f4f4;
-color:#333;
+background:#0d0603;
+color:white;
 display:flex;
-align-items:center;
 justify-content:center;
-min-height:100vh;
+align-items:center;
+height:100vh;
+}
+
+.container{
 text-align:center;
-padding:20px;
 }
 
-.box{
-background:white;
-border-radius:14px;
-padding:30px;
-max-width:650px;
-width:100%;
-box-shadow:0 6px 18px rgba(0,0,0,0.08);
-}
-
-.timer{
-font-size:22px;
+.logo{
+font-size:32px;
 font-weight:bold;
-margin-top:15px;
+margin-bottom:10px;
 }
 
-.small{
+.sublogo{
 font-size:14px;
-margin-top:12px;
-color:#666;
+letter-spacing:4px;
+color:#ff7b2c;
+margin-bottom:40px;
+}
+
+.botao{
+
+display:block;
+
+width:260px;
+
+margin:10px auto;
+
+padding:16px;
+
+border-radius:30px;
+
+border:none;
+
+background:#ff5a00;
+
+color:white;
+
+font-size:18px;
+
+font-weight:bold;
+
+cursor:pointer;
+
+}
+
+.sair{
+
+background:#444;
+
 }
 
 </style>
+
 </head>
 
 <body>
 
-<div class="box" id="conteudo">
+<div class="container">
 
-<h1>Controle de acesso</h1>
+<div class="logo">
 
-<p>Verificando período de acesso...</p>
+PROJETO LAPIDAR
 
-<div class="timer" id="contador"></div>
+</div>
 
-<p class="small" id="observacao"></p>
+<div class="sublogo">
+
+PAINEL DE CONTROLE
+
+</div>
+
+<button class="botao">
+
+Abrir Bloco 11
+
+</button>
+
+<button class="botao">
+
+Abrir Bloco 12
+
+</button>
+
+<button class="botao">
+
+Abrir Bloco 13
+
+</button>
+
+<button class="botao sair" onclick="logout()">
+
+Sair
+
+</button>
 
 </div>
 
 <script>
 
-async function obterTempoServidor(){
+const usuarioLogado = localStorage.getItem("SDL_usuario_logado");
 
-try{
+if(!usuarioLogado){
 
-const resposta = await fetch("tempo-oficial.json",{
-method:"HEAD",
-cache:"no-store"
-});
-
-const dataServidor = resposta.headers.get("date");
-
-return new Date(dataServidor).getTime();
-
-}catch{
-
-return Date.now();
+window.location.href="index.html";
 
 }
 
-}
+function logout(){
 
-const DURACAO_ACESSO = 60*24*60*60*1000;
-const PRAZO_DOWNLOAD = 7*24*60*60*1000;
+localStorage.removeItem("SDL_usuario_logado");
 
-const CHAVE_PRIMEIRO_ACESSO="SDL_primeiro_acesso";
-const CHAVE_PRAZO_DOWNLOAD="SDL_prazo_download";
-const CHAVE_REGISTRO="SDL_registro";
-const CHAVE_TEMPO_TOTAL="SDL_tempo_total_uso";
-
-const inicioSessao=Date.now();
-
-function registrarEvento(tipo){
-
-const registro={
-evento:tipo,
-data:new Date().toLocaleString("pt-BR"),
-navegador:navigator.userAgent,
-pagina:window.location.href
-};
-
-let logs=[];
-
-try{
-
-logs=JSON.parse(localStorage.getItem(CHAVE_REGISTRO))||[];
-
-}catch{
-
-logs=[];
+window.location.href="index.html";
 
 }
-
-logs.push(registro);
-
-localStorage.setItem(CHAVE_REGISTRO,JSON.stringify(logs));
-
-}
-
-function formatarTempo(ms){
-
-const totalSegundos=Math.max(0,Math.floor(ms/1000));
-
-const dias=Math.floor(totalSegundos/86400);
-const horas=Math.floor((totalSegundos%86400)/3600);
-const minutos=Math.floor((totalSegundos%3600)/60);
-const segundos=totalSegundos%60;
-
-if(dias>1){
-return dias+" dias restantes";
-}
-
-if(dias===1){
-return "Último dia disponível";
-}
-
-const hh=String(horas).padStart(2,"0");
-const mm=String(minutos).padStart(2,"0");
-const ss=String(segundos).padStart(2,"0");
-
-return hh+":"+mm+":"+ss;
-
-}
-
-async function atualizarTela(){
-
-let primeiroAcesso=localStorage.getItem(CHAVE_PRIMEIRO_ACESSO);
-
-if(!primeiroAcesso){
-
-primeiroAcesso=await obterTempoServidor();
-
-localStorage.setItem(CHAVE_PRIMEIRO_ACESSO,primeiroAcesso);
-
-registrarEvento("primeiro_acesso_beta");
-
-}
-
-const agora=await obterTempoServidor();
-
-const fimAcesso=parseInt(primeiroAcesso)+DURACAO_ACESSO;
-
-const tempoRestante=fimAcesso-agora;
-
-const contador=document.getElementById("contador");
-
-const observacao=document.getElementById("observacao");
-
-if(tempoRestante>0){
-
-contador.textContent=formatarTempo(tempoRestante);
-
-if(tempoRestante<=86400000){
-observacao.textContent="Seu acesso termina em breve.";
-}else{
-observacao.textContent="Seu acesso beta está ativo.";
-}
-
-return;
-
-}
-
-let prazoFinalDownload=localStorage.getItem(CHAVE_PRAZO_DOWNLOAD);
-
-if(!prazoFinalDownload){
-
-prazoFinalDownload=await obterTempoServidor();
-
-localStorage.setItem(CHAVE_PRAZO_DOWNLOAD,prazoFinalDownload);
-
-registrarEvento("inicio_periodo_download");
-
-}
-
-const restanteDownload=parseInt(prazoFinalDownload)+PRAZO_DOWNLOAD-(await obterTempoServidor());
-
-if(restanteDownload>0){
-
-document.getElementById("conteudo").innerHTML=
-
-"<h1>Seu acesso foi encerrado.</h1>"+
-"<p>Agradecemos a sua participação durante esse período.</p>"+
-"<p>A partir deste momento você tem 7 dias para realizar o download dos materiais produzidos.</p>"+
-"<div class='timer'>"+formatarTempo(restanteDownload)+"</div>"+
-"<p class='small'>Após esse prazo o período de download também será encerrado.</p>";
-
-return;
-
-}
-
-document.getElementById("conteudo").innerHTML=
-
-"<h1>Seu acesso foi encerrado.</h1>"+
-"<p>Agradecemos a sua participação durante esse período.</p>"+
-"<p class='small'>O período de download também foi encerrado.</p>";
-
-}
-
-registrarEvento("acesso_inicial");
-
-atualizarTela();
-
-setInterval(atualizarTela,1000);
-
-window.addEventListener("beforeunload",()=>{
-
-const tempoSessao=Date.now()-inicioSessao;
-
-let total=parseInt(localStorage.getItem(CHAVE_TEMPO_TOTAL))||0;
-
-total+=tempoSessao;
-
-localStorage.setItem(CHAVE_TEMPO_TOTAL,total);
-
-registrarEvento("encerramento_sessao");
-
-});
 
 </script>
 
 </body>
+
 </html>
