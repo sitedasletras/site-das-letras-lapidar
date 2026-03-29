@@ -1,193 +1,321 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Controle de Acesso</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f4f4f4;
-      color: #333;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      text-align: center;
-      padding: 20px;
-      box-sizing: border-box;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Controle de Acesso</title>
 
-    .box {
-      background: #fff;
-      border: 1px solid #ddd;
-      border-radius: 14px;
-      padding: 32px 24px;
-      max-width: 680px;
-      width: 100%;
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
-    }
+<style>
 
-    h1 {
-      margin-top: 0;
-      color: #222;
-      font-size: 28px;
-    }
+body {
+margin:0;
+font-family:Arial,sans-serif;
+background:#f4f4f4;
+color:#333;
+display:flex;
+align-items:center;
+justify-content:center;
+min-height:100vh;
+text-align:center;
+padding:20px;
+}
 
-    p {
-      font-size: 17px;
-      line-height: 1.6;
-      margin: 12px 0;
-    }
+.box {
+background:white;
+border-radius:14px;
+padding:30px;
+max-width:650px;
+width:100%;
+box-shadow:0 6px 18px rgba(0,0,0,0.08);
+}
 
-    .timer {
-      margin-top: 18px;
-      font-size: 22px;
-      font-weight: bold;
-      color: #111;
-    }
+.timer {
+font-size:22px;
+font-weight:bold;
+margin-top:15px;
+}
 
-    .small {
-      font-size: 14px;
-      color: #666;
-      margin-top: 18px;
-    }
-  </style>
+.small {
+font-size:14px;
+margin-top:12px;
+color:#666;
+}
+
+</style>
 </head>
+
 <body>
-  <div class="box" id="conteudo">
-    <h1>Controle de acesso</h1>
-    <p>Verificando período de acesso...</p>
-    <div class="timer" id="contador"></div>
-    <p class="small" id="observacao"></p>
-  </div>
 
-  <script>
-    const DURACAO_ACESSO = 60 * 24 * 60 * 60 * 1000; // 60 dias
-    const PRAZO_DOWNLOAD = 7 * 24 * 60 * 60 * 1000;  // 7 dias
-    const CHAVE_PRIMEIRO_ACESSO = "SDL_primeiro_acesso";
-    const CHAVE_PRAZO_DOWNLOAD = "SDL_prazo_download";
-    const CHAVE_REGISTRO = "SDL_registro";
-    const CHAVE_TEMPO_SESSAO = "SDL_tempo_sessao";
+<div class="box" id="conteudo">
 
-    const inicioSessao = Date.now();
+<h1>Controle de acesso</h1>
 
-    function registrarEvento(tipo) {
-      const registro = {
-        evento: tipo,
-        data: new Date().toLocaleString("pt-BR"),
-        navegador: navigator.userAgent,
-        pagina: window.location.href
-      };
+<p>Verificando período de acesso...</p>
 
-      let logs = [];
-      try {
-        logs = JSON.parse(localStorage.getItem(CHAVE_REGISTRO)) || [];
-      } catch (e) {
-        logs = [];
-      }
+<div class="timer" id="contador"></div>
 
-      logs.push(registro);
-      localStorage.setItem(CHAVE_REGISTRO, JSON.stringify(logs));
-    }
+<p class="small" id="observacao"></p>
 
-    function formatarTempo(ms) {
-      const totalSegundos = Math.max(0, Math.floor(ms / 1000));
-      const dias = Math.floor(totalSegundos / 86400);
-      const horas = Math.floor((totalSegundos % 86400) / 3600);
-      const minutos = Math.floor((totalSegundos % 3600) / 60);
-      const segundos = totalSegundos % 60;
+</div>
 
-      if (dias > 1) {
-        return `${dias} dias restantes`;
-      }
+<script>
 
-      if (dias === 1) {
-        return `1 dia restante`;
-      }
+// =========================
+// CONFIGURAÇÃO PRINCIPAL
+// =========================
 
-      const hh = String(horas).padStart(2, "0");
-      const mm = String(minutos).padStart(2, "0");
-      const ss = String(segundos).padStart(2, "0");
-      return `${hh}:${mm}:${ss}`;
-    }
+const DURACAO_ACESSO = 60 * 24 * 60 * 60 * 1000;
+const PRAZO_DOWNLOAD = 7 * 24 * 60 * 60 * 1000;
 
-    function mostrarMensagem(titulo, texto, observacao = "") {
-      document.getElementById("conteudo").innerHTML = `
-        <h1>${titulo}</h1>
-        <p>${texto}</p>
-        <p class="small">${observacao}</p>
-      `;
-    }
 
-    function atualizarTela() {
-      let primeiroAcesso = localStorage.getItem(CHAVE_PRIMEIRO_ACESSO);
+// =========================
+// CHAVES DE CONTROLE
+// =========================
 
-      if (!primeiroAcesso) {
-        primeiroAcesso = Date.now();
-        localStorage.setItem(CHAVE_PRIMEIRO_ACESSO, primeiroAcesso);
-        registrarEvento("primeiro_acesso_beta");
-      }
+const CHAVE_PRIMEIRO_ACESSO = "SDL_primeiro_acesso";
+const CHAVE_PRAZO_DOWNLOAD = "SDL_prazo_download";
+const CHAVE_REGISTRO = "SDL_registro";
+const CHAVE_TEMPO_TOTAL = "SDL_tempo_total_uso";
 
-      const agora = Date.now();
-      const fimAcesso = parseInt(primeiroAcesso, 10) + DURACAO_ACESSO;
-      const tempoRestante = fimAcesso - agora;
 
-      const contador = document.getElementById("contador");
-      const observacao = document.getElementById("observacao");
+// =========================
+// INÍCIO DA SESSÃO
+// =========================
 
-      if (tempoRestante > 0) {
-        contador.textContent = formatarTempo(tempoRestante);
+const inicioSessao = Date.now();
 
-        if (tempoRestante <= 24 * 60 * 60 * 1000) {
-          observacao.textContent = "Seu acesso termina em breve.";
-        } else {
-          observacao.textContent = "Seu acesso beta está ativo.";
-        }
 
-        return;
-      }
+// =========================
+// REGISTRO DE EVENTOS
+// =========================
 
-      let prazoFinalDownload = localStorage.getItem(CHAVE_PRAZO_DOWNLOAD);
+function registrarEvento(tipo){
 
-      if (!prazoFinalDownload) {
-        prazoFinalDownload = Date.now();
-        localStorage.setItem(CHAVE_PRAZO_DOWNLOAD, prazoFinalDownload);
-        registrarEvento("inicio_periodo_download");
-      }
+const registro = {
 
-      const fimDownload = parseInt(prazoFinalDownload, 10) + PRAZO_DOWNLOAD;
-      const restanteDownload = fimDownload - Date.now();
+evento:tipo,
+data:new Date().toLocaleString("pt-BR"),
+navegador:navigator.userAgent,
+pagina:window.location.href
 
-      if (restanteDownload > 0) {
-        document.getElementById("conteudo").innerHTML = `
-          <h1>Seu acesso foi encerrado.</h1>
-          <p>Agradecemos a sua participação durante esse período.</p>
-          <p>A partir deste momento, você tem 7 dias para realizar o download dos materiais produzidos.</p>
-          <div class="timer">${formatarTempo(restanteDownload)}</div>
-          <p class="small">Após esse prazo, o período de download também será encerrado.</p>
-        `;
-        return;
-      }
+};
 
-      mostrarMensagem(
-        "Seu acesso foi encerrado.",
-        "Agradecemos a sua participação durante esse período.",
-        "O período de download também foi encerrado."
-      );
-    }
+let logs=[];
 
-    registrarEvento("acesso_inicial");
+try{
 
-    atualizarTela();
-    setInterval(atualizarTela, 1000);
+logs = JSON.parse(localStorage.getItem(CHAVE_REGISTRO)) || [];
 
-    window.addEventListener("beforeunload", () => {
-      const tempoSessao = Date.now() - inicioSessao;
-      localStorage.setItem(CHAVE_TEMPO_SESSAO, String(tempoSessao));
-      registrarEvento("encerramento_sessao");
-    });
-  </script>
+}catch{
+
+logs=[];
+
+}
+
+logs.push(registro);
+
+localStorage.setItem(CHAVE_REGISTRO,JSON.stringify(logs));
+
+}
+
+
+// =========================
+// FORMATADOR INTELIGENTE
+// =========================
+
+function formatarTempo(ms){
+
+const totalSegundos=Math.max(0,Math.floor(ms/1000));
+
+const dias=Math.floor(totalSegundos/86400);
+const horas=Math.floor((totalSegundos%86400)/3600);
+const minutos=Math.floor((totalSegundos%3600)/60);
+const segundos=totalSegundos%60;
+
+
+if(dias>1){
+
+return dias+" dias restantes";
+
+}
+
+
+if(dias===1){
+
+return "Último dia disponível";
+
+}
+
+
+const hh=String(horas).padStart(2,"0");
+const mm=String(minutos).padStart(2,"0");
+const ss=String(segundos).padStart(2,"0");
+
+return hh+":"+mm+":"+ss;
+
+}
+
+
+// =========================
+// EXIBIÇÃO FINAL
+// =========================
+
+function mostrarMensagem(titulo,texto,obs=""){
+
+document.getElementById("conteudo").innerHTML=
+
+"<h1>"+titulo+"</h1>"+
+"<p>"+texto+"</p>"+
+"<p class='small'>"+obs+"</p>";
+
+}
+
+
+// =========================
+// MOTOR PRINCIPAL
+// =========================
+
+function atualizarTela(){
+
+let primeiroAcesso=localStorage.getItem(CHAVE_PRIMEIRO_ACESSO);
+
+
+if(!primeiroAcesso){
+
+primeiroAcesso=Date.now();
+
+localStorage.setItem(CHAVE_PRIMEIRO_ACESSO,primeiroAcesso);
+
+registrarEvento("primeiro_acesso_beta");
+
+}
+
+
+const agora=Date.now();
+
+const fimAcesso=parseInt(primeiroAcesso)+DURACAO_ACESSO;
+
+const tempoRestante=fimAcesso-agora;
+
+
+const contador=document.getElementById("contador");
+
+const observacao=document.getElementById("observacao");
+
+
+// =========================
+// ACESSO NORMAL
+// =========================
+
+if(tempoRestante>0){
+
+contador.textContent=formatarTempo(tempoRestante);
+
+
+if(tempoRestante<=86400000){
+
+observacao.textContent="Seu acesso termina em breve.";
+
+}else{
+
+observacao.textContent="Seu acesso beta está ativo.";
+
+}
+
+return;
+
+}
+
+
+// =========================
+// JANELA DOWNLOAD 7 DIAS
+// =========================
+
+let prazoFinalDownload=localStorage.getItem(CHAVE_PRAZO_DOWNLOAD);
+
+
+if(!prazoFinalDownload){
+
+prazoFinalDownload=Date.now();
+
+localStorage.setItem(CHAVE_PRAZO_DOWNLOAD,prazoFinalDownload);
+
+registrarEvento("inicio_periodo_download");
+
+}
+
+
+const restanteDownload=
+
+parseInt(prazoFinalDownload)+PRAZO_DOWNLOAD-Date.now();
+
+
+// =========================
+// PERÍODO DOWNLOAD
+// =========================
+
+if(restanteDownload>0){
+
+document.getElementById("conteudo").innerHTML=
+
+"<h1>Seu acesso foi encerrado.</h1>"+
+"<p>Agradecemos a sua participação durante esse período.</p>"+
+"<p>A partir deste momento você tem 7 dias para realizar o download dos materiais produzidos.</p>"+
+"<div class='timer'>"+formatarTempo(restanteDownload)+"</div>"+
+"<p class='small'>Após esse prazo o período de download também será encerrado.</p>";
+
+return;
+
+}
+
+
+// =========================
+// ENCERRAMENTO DEFINITIVO
+// =========================
+
+mostrarMensagem(
+
+"Seu acesso foi encerrado.",
+
+"Agradecemos a sua participação durante esse período.",
+
+"O período de download também foi encerrado."
+
+);
+
+}
+
+
+// =========================
+// EXECUÇÃO AUTOMÁTICA
+// =========================
+
+registrarEvento("acesso_inicial");
+
+atualizarTela();
+
+setInterval(atualizarTela,1000);
+
+
+// =========================
+// REGISTRO TEMPO TOTAL USO
+// =========================
+
+window.addEventListener("beforeunload",()=>{
+
+const tempoSessao=Date.now()-inicioSessao;
+
+let total=parseInt(localStorage.getItem(CHAVE_TEMPO_TOTAL))||0;
+
+total+=tempoSessao;
+
+localStorage.setItem(CHAVE_TEMPO_TOTAL,total);
+
+registrarEvento("encerramento_sessao");
+
+});
+
+</script>
+
 </body>
 </html>
