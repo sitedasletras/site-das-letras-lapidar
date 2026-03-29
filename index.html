@@ -1,67 +1,96 @@
-
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Projeto Lapidar â€” Acesso</title>
+
+<title>Projeto Lapidar — Acesso</title>
 
 <style>
 
 body{
+
 margin:0;
-font-family:Arial, sans-serif;
+font-family:Arial,sans-serif;
 background:#0d0603;
-color:#fff;
+color:white;
+
 display:flex;
 justify-content:center;
 align-items:center;
+
 height:100vh;
+
 }
 
 .container{
+
 width:90%;
 max-width:420px;
 text-align:center;
+
 }
 
 .logo{
-font-size:28px;
+
+font-size:32px;
 font-weight:bold;
-margin-bottom:20px;
+margin-bottom:10px;
+
+}
+
+.sublogo{
+
+font-size:14px;
+letter-spacing:4px;
+color:#ff7b2c;
+margin-bottom:40px;
+
 }
 
 input{
+
 width:100%;
 padding:16px;
-margin:10px 0;
+
+margin-top:12px;
+
 border-radius:30px;
 border:none;
+
 font-size:18px;
+
 text-transform:none !important;
+
 }
 
 button{
+
 width:100%;
-padding:16px;
-margin-top:20px;
+padding:18px;
+
+margin-top:25px;
+
 border-radius:30px;
 border:none;
+
 background:#ff5a00;
 color:white;
+
 font-size:18px;
 font-weight:bold;
-cursor:pointer;
-}
 
-button:hover{
-background:#e24d00;
+cursor:pointer;
+
 }
 
 .erro{
+
 margin-top:15px;
 color:#ff8080;
-font-size:14px;
+
 }
 
 </style>
@@ -73,75 +102,141 @@ font-size:14px;
 <div class="container">
 
 <div class="logo">
-PROJETO LAPIDAR<br>
-<span style="font-size:14px;color:#ff7b2c;">
-EXCELÃŠNCIA TÃ‰CNICA
-</span>
+
+PROJETO LAPIDAR
+
 </div>
 
-<input id="usuario" placeholder="Utilizador">
+<div class="sublogo">
 
-<input id="senha" type="password" placeholder="Senha">
+EXCELÊNCIA TÉCNICA
 
-<button onclick="login()">ACEDER AO ELENCO</button>
+</div>
+
+
+<input
+
+id="usuario"
+
+placeholder="UTILIZADOR"
+
+autocapitalize="off"
+autocomplete="username"
+autocorrect="off"
+spellcheck="false"
+
+oninput="this.value=this.value.toLowerCase()"
+
+>
+
+
+<input
+
+id="senha"
+
+type="password"
+
+placeholder="SENHA"
+
+autocapitalize="off"
+autocomplete="current-password"
+autocorrect="off"
+spellcheck="false"
+
+oninput="this.value=this.value.toLowerCase()"
+
+>
+
+
+<button onclick="login()">
+
+ACEDER AO ELENCO
+
+</button>
+
 
 <div id="erro" class="erro"></div>
 
 </div>
 
+
 <script>
 
-async function obterTempoServidor(){
 
-try{
+const usuariosPermitidos = {
 
-const resposta = await fetch("tempo-oficial.json",{
-method:"HEAD",
-cache:"no-store"
-});
+admin:"lapidar2026",
 
-const dataServidor = resposta.headers.get("date");
+autor:"lapidar2026"
 
-return new Date(dataServidor).getTime();
+};
 
-}catch{
+
+
+function tempoServidor(){
 
 return Date.now();
 
 }
 
-}
 
-const usuariosPermitidos = {
-
-admin:"lapidar2026",
-autor:"lapidar2026"
-
-};
 
 async function login(){
 
-const usuario=document.getElementById("usuario").value.trim().toLowerCase();
-const senha=document.getElementById("senha").value.trim();
 
-if(usuariosPermitidos[usuario]===senha){
+const usuario = document
+.getElementById("usuario")
+.value
+.trim()
+.toLowerCase();
 
-const agoraServidor = await obterTempoServidor();
 
-localStorage.setItem("SDL_usuario_logado",usuario);
-localStorage.setItem("SDL_login_time",agoraServidor);
+const senha = document
+.getElementById("senha")
+.value
+.trim()
+.toLowerCase();
+
+
+
+if(usuariosPermitidos[usuario] === senha){
+
+localStorage.setItem(
+
+"SDL_usuario_logado",
+
+usuario
+
+);
+
+
+localStorage.setItem(
+
+"SDL_login_time",
+
+tempoServidor()
+
+);
+
 
 window.location.href="_Indice.html";
 
+
 }else{
 
-document.getElementById("erro").innerText="Utilizador ou senha invÃ¡lidos.";
+
+document.getElementById("erro")
+.innerText="Utilizador ou senha inválidos.";
+
 
 }
 
+
 }
+
 
 </script>
 
 </body>
+
 </html>
