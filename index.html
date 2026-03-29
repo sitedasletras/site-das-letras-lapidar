@@ -1,230 +1,123 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Projeto Lapidar — Acesso</title>
 
 <style>
-
 body{
-
 margin:0;
 font-family:Arial,sans-serif;
 background:#0d0603;
-color:white;
-
+color:#fff;
 display:flex;
 justify-content:center;
 align-items:center;
-
 height:100vh;
-
 }
 
 .container{
-
 width:90%;
 max-width:420px;
 text-align:center;
-
 }
 
 .logo{
-
 font-size:32px;
 font-weight:bold;
 margin-bottom:10px;
-
 }
 
 .sublogo{
-
 font-size:14px;
 letter-spacing:4px;
 color:#ff7b2c;
 margin-bottom:40px;
-
 }
 
 input{
-
 width:100%;
 padding:16px;
-
 margin-top:12px;
-
 border-radius:30px;
 border:none;
-
 font-size:18px;
-
 text-transform:none !important;
-
+box-sizing:border-box;
 }
 
 button{
-
 width:100%;
 padding:18px;
-
 margin-top:25px;
-
 border-radius:30px;
 border:none;
-
 background:#ff5a00;
 color:white;
-
 font-size:18px;
 font-weight:bold;
-
 cursor:pointer;
-
 }
 
 .erro{
-
 margin-top:15px;
 color:#ff8080;
-
 }
-
 </style>
-
 </head>
 
 <body>
-
 <div class="container">
 
-<div class="logo">
-
-PROJETO LAPIDAR
-
-</div>
-
-<div class="sublogo">
-
-EXCELÊNCIA TÉCNICA
-
-</div>
-
+<div class="logo">PROJETO LAPIDAR</div>
+<div class="sublogo">EXCELÊNCIA TÉCNICA</div>
 
 <input
-
 id="usuario"
-
-type="email"
-
-placeholder="E-MAIL"
-
+type="text"
+placeholder="UTILIZADOR"
 autocapitalize="off"
 autocomplete="username"
 autocorrect="off"
 spellcheck="false"
-
 oninput="this.value=this.value.toLowerCase()"
-
 >
 
-
 <input
-
 id="senha"
-
 type="password"
-
 placeholder="SENHA"
-
 autocapitalize="off"
 autocomplete="current-password"
 autocorrect="off"
 spellcheck="false"
-
+oninput="this.value=this.value.toLowerCase()"
 >
 
-
-<button onclick="login()">
-
-ACEDER AO ELENCO
-
-</button>
-
+<button onclick="login()">ACEDER AO ELENCO</button>
 
 <div id="erro" class="erro"></div>
 
 </div>
 
+<script>
+function login(){
 
-<script type="module">
+const usuario = document.getElementById("usuario").value.trim().toLowerCase();
+const senha = document.getElementById("senha").value.trim().toLowerCase();
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-
-import {
-
-getAuth,
-
-signInWithEmailAndPassword
-
+if(
+(usuario === "admin" && senha === "lapidar2026") ||
+(usuario === "autor" && senha === "lapidar2026")
+){
+localStorage.setItem("SDL_usuario_logado", usuario);
+window.location.href = "_Indice.html";
+}else{
+document.getElementById("erro").innerText = "Utilizador ou senha inválidos.";
 }
 
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
-
-const firebaseConfig = {
-
-apiKey: "AIzaSyD1cb5_w9DPlVk8x0UnxzhoT8kjIrEo04c",
-authDomain: "lapidar-sdl.firebaseapp.com",
-projectId: "lapidar-sdl",
-storageBucket: "lapidar-sdl.firebasestorage.app",
-messagingSenderId: "244671943540",
-appId: "1:244671943540:web:ca1803afca7849ccca9221"
-
-};
-
-
-const app = initializeApp(firebaseConfig);
-
-const auth = getAuth(app);
-
-
-window.login = async function(){
-
-const email = document
-.getElementById("usuario")
-.value
-.trim()
-.toLowerCase();
-
-
-const senha = document
-.getElementById("senha")
-.value
-.trim();
-
-
-try{
-
-await signInWithEmailAndPassword(auth,email,senha);
-
-window.location.href="_Indice.html";
-
 }
-
-catch(error){
-
-document.getElementById("erro").innerText="E-mail ou senha inválidos.";
-
-}
-
-};
-
 </script>
-
 </body>
-
 </html>
