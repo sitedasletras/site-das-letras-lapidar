@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Carregando...</title>
+
+<script>
+
+const sessaoInicio = Date.now();
+
+function registrarAcesso(){
+
+const log = {
+
+data: new Date().toLocaleString("pt-BR"),
+pagina: window.location.href,
+navegador: navigator.userAgent,
+tempo: "entrada"
+
+};
+
+let auditoria = JSON.parse(localStorage.getItem("SDL_LOG") || "[]");
+
+auditoria.push(log);
+
+localStorage.setItem("SDL_LOG", JSON.stringify(auditoria));
+
+}
+
+window.onload = registrarAcesso;
+
+window.onbeforeunload = () => {
+
+let tempoSessao = Math.floor((Date.now() - sessaoInicio)/1000);
+
+let log = {
+
+data: new Date().toLocaleString("pt-BR"),
+tempoSessao: tempoSessao + " segundos"
+
+};
+
+let auditoria = JSON.parse(localStorage.getItem("SDL_LOG") || "[]");
+
+auditoria.push(log);
+
+localStorage.setItem("SDL_LOG", JSON.stringify(auditoria));
+
+};
+
+</script>
+
+<style>
+
+body{
+
+font-family: Arial;
+background:#f5f5f5;
+display:flex;
+align-items:center;
+justify-content:center;
+height:100vh;
+color:#777;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+Conteúdo indisponível no momento.
+
+</body>
+
+</html>
