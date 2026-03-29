@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -7,7 +8,7 @@
 
 <style>
 
-body {
+body{
 margin:0;
 font-family:Arial,sans-serif;
 background:#f4f4f4;
@@ -20,7 +21,7 @@ text-align:center;
 padding:20px;
 }
 
-.box {
+.box{
 background:white;
 border-radius:14px;
 padding:30px;
@@ -29,13 +30,13 @@ width:100%;
 box-shadow:0 6px 18px rgba(0,0,0,0.08);
 }
 
-.timer {
+.timer{
 font-size:22px;
 font-weight:bold;
 margin-top:15px;
 }
 
-.small {
+.small{
 font-size:14px;
 margin-top:12px;
 color:#666;
@@ -60,51 +61,51 @@ color:#666;
 
 <script>
 
-// =========================
-// CONFIGURAÇÃO PRINCIPAL
-// =========================
+async function obterTempoServidor(){
 
-const DURACAO_ACESSO = 60 * 24 * 60 * 60 * 1000;
-const PRAZO_DOWNLOAD = 7 * 24 * 60 * 60 * 1000;
+try{
 
+const resposta = await fetch("tempo-oficial.json",{
+method:"HEAD",
+cache:"no-store"
+});
 
-// =========================
-// CHAVES DE CONTROLE
-// =========================
+const dataServidor = resposta.headers.get("date");
 
-const CHAVE_PRIMEIRO_ACESSO = "SDL_primeiro_acesso";
-const CHAVE_PRAZO_DOWNLOAD = "SDL_prazo_download";
-const CHAVE_REGISTRO = "SDL_registro";
-const CHAVE_TEMPO_TOTAL = "SDL_tempo_total_uso";
+return new Date(dataServidor).getTime();
 
+}catch{
 
-// =========================
-// INÍCIO DA SESSÃO
-// =========================
+return Date.now();
 
-const inicioSessao = Date.now();
+}
 
+}
 
-// =========================
-// REGISTRO DE EVENTOS
-// =========================
+const DURACAO_ACESSO = 60*24*60*60*1000;
+const PRAZO_DOWNLOAD = 7*24*60*60*1000;
+
+const CHAVE_PRIMEIRO_ACESSO="SDL_primeiro_acesso";
+const CHAVE_PRAZO_DOWNLOAD="SDL_prazo_download";
+const CHAVE_REGISTRO="SDL_registro";
+const CHAVE_TEMPO_TOTAL="SDL_tempo_total_uso";
+
+const inicioSessao=Date.now();
 
 function registrarEvento(tipo){
 
-const registro = {
-
+const registro={
 evento:tipo,
 data:new Date().toLocaleString("pt-BR"),
 navegador:navigator.userAgent,
 pagina:window.location.href
-
 };
 
 let logs=[];
 
 try{
 
-logs = JSON.parse(localStorage.getItem(CHAVE_REGISTRO)) || [];
+logs=JSON.parse(localStorage.getItem(CHAVE_REGISTRO))||[];
 
 }catch{
 
@@ -118,11 +119,6 @@ localStorage.setItem(CHAVE_REGISTRO,JSON.stringify(logs));
 
 }
 
-
-// =========================
-// FORMATADOR INTELIGENTE
-// =========================
-
 function formatarTempo(ms){
 
 const totalSegundos=Math.max(0,Math.floor(ms/1000));
@@ -132,20 +128,13 @@ const horas=Math.floor((totalSegundos%86400)/3600);
 const minutos=Math.floor((totalSegundos%3600)/60);
 const segundos=totalSegundos%60;
 
-
 if(dias>1){
-
 return dias+" dias restantes";
-
 }
-
 
 if(dias===1){
-
 return "Último dia disponível";
-
 }
-
 
 const hh=String(horas).padStart(2,"0");
 const mm=String(minutos).padStart(2,"0");
@@ -155,34 +144,13 @@ return hh+":"+mm+":"+ss;
 
 }
 
-
-// =========================
-// EXIBIÇÃO FINAL
-// =========================
-
-function mostrarMensagem(titulo,texto,obs=""){
-
-document.getElementById("conteudo").innerHTML=
-
-"<h1>"+titulo+"</h1>"+
-"<p>"+texto+"</p>"+
-"<p class='small'>"+obs+"</p>";
-
-}
-
-
-// =========================
-// MOTOR PRINCIPAL
-// =========================
-
-function atualizarTela(){
+async function atualizarTela(){
 
 let primeiroAcesso=localStorage.getItem(CHAVE_PRIMEIRO_ACESSO);
 
-
 if(!primeiroAcesso){
 
-primeiroAcesso=Date.now();
+primeiroAcesso=await obterTempoServidor();
 
 localStorage.setItem(CHAVE_PRIMEIRO_ACESSO,primeiroAcesso);
 
@@ -190,53 +158,35 @@ registrarEvento("primeiro_acesso_beta");
 
 }
 
-
-const agora=Date.now();
+const agora=await obterTempoServidor();
 
 const fimAcesso=parseInt(primeiroAcesso)+DURACAO_ACESSO;
 
 const tempoRestante=fimAcesso-agora;
 
-
 const contador=document.getElementById("contador");
 
 const observacao=document.getElementById("observacao");
-
-
-// =========================
-// ACESSO NORMAL
-// =========================
 
 if(tempoRestante>0){
 
 contador.textContent=formatarTempo(tempoRestante);
 
-
 if(tempoRestante<=86400000){
-
 observacao.textContent="Seu acesso termina em breve.";
-
 }else{
-
 observacao.textContent="Seu acesso beta está ativo.";
-
 }
 
 return;
 
 }
 
-
-// =========================
-// JANELA DOWNLOAD 7 DIAS
-// =========================
-
 let prazoFinalDownload=localStorage.getItem(CHAVE_PRAZO_DOWNLOAD);
-
 
 if(!prazoFinalDownload){
 
-prazoFinalDownload=Date.now();
+prazoFinalDownload=await obterTempoServidor();
 
 localStorage.setItem(CHAVE_PRAZO_DOWNLOAD,prazoFinalDownload);
 
@@ -244,15 +194,7 @@ registrarEvento("inicio_periodo_download");
 
 }
 
-
-const restanteDownload=
-
-parseInt(prazoFinalDownload)+PRAZO_DOWNLOAD-Date.now();
-
-
-// =========================
-// PERÍODO DOWNLOAD
-// =========================
+const restanteDownload=parseInt(prazoFinalDownload)+PRAZO_DOWNLOAD-(await obterTempoServidor());
 
 if(restanteDownload>0){
 
@@ -268,38 +210,19 @@ return;
 
 }
 
+document.getElementById("conteudo").innerHTML=
 
-// =========================
-// ENCERRAMENTO DEFINITIVO
-// =========================
-
-mostrarMensagem(
-
-"Seu acesso foi encerrado.",
-
-"Agradecemos a sua participação durante esse período.",
-
-"O período de download também foi encerrado."
-
-);
+"<h1>Seu acesso foi encerrado.</h1>"+
+"<p>Agradecemos a sua participação durante esse período.</p>"+
+"<p class='small'>O período de download também foi encerrado.</p>";
 
 }
-
-
-// =========================
-// EXECUÇÃO AUTOMÁTICA
-// =========================
 
 registrarEvento("acesso_inicial");
 
 atualizarTela();
 
 setInterval(atualizarTela,1000);
-
-
-// =========================
-// REGISTRO TEMPO TOTAL USO
-// =========================
 
 window.addEventListener("beforeunload",()=>{
 
