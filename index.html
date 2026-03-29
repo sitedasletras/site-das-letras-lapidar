@@ -6,98 +6,86 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Projeto Lapidar — Acesso</title>
+<title>Lapidar — Site das Letras</title>
 
 <style>
 
 body{
-
 margin:0;
 font-family:Arial,sans-serif;
 background:#0d0603;
 color:white;
-
 display:flex;
 justify-content:center;
 align-items:center;
-
-height:100vh;
-
+min-height:100vh;
 }
 
 .container{
-
 width:90%;
-max-width:420px;
+max-width:430px;
 text-align:center;
-
-}
-
-.logo{
-
-font-size:32px;
-font-weight:bold;
-margin-bottom:10px;
-
-}
-
-.sublogo{
-
-font-size:15px;
-letter-spacing:1px;
-color:#ff7b2c;
-margin-bottom:40px;
-
+padding:30px 0;
 }
 
 .simbolo{
+font-size:74px;
+line-height:1;
+margin-bottom:16px;
+}
 
-font-size:48px;
-margin-bottom:15px;
+.logo{
+font-size:34px;
+font-weight:bold;
+letter-spacing:1px;
+margin-bottom:10px;
+}
 
+.projeto{
+font-size:14px;
+letter-spacing:1px;
+color:#ff7b2c;
+line-height:1.6;
+margin-bottom:28px;
+}
+
+.sublogo{
+font-size:15px;
+letter-spacing:0.5px;
+color:#ff7b2c;
+line-height:1.5;
+margin-bottom:38px;
 }
 
 input{
-
 width:100%;
 padding:16px;
-
 margin-top:12px;
-
 border-radius:30px;
 border:none;
-
 font-size:18px;
-
 text-transform:none !important;
-
+box-sizing:border-box;
 }
 
 button{
-
 width:100%;
 padding:18px;
-
 margin-top:25px;
-
 border-radius:30px;
 border:none;
-
 background:#ff5a00;
 color:white;
-
 font-size:18px;
 font-weight:bold;
-
 cursor:pointer;
-
+line-height:1.4;
 }
 
 .erro{
-
 margin-top:15px;
 color:#ff8080;
-
+font-size:15px;
 }
 
 </style>
@@ -109,69 +97,50 @@ color:#ff8080;
 <div class="container">
 
 <div class="simbolo">
-🪶
+🪶📜
 </div>
 
 <div class="logo">
+— LAPIDAR —
+</div>
 
-PROJETO LAPIDAR
-
+<div class="projeto">
+Um projeto do Site das Letras Edições Literárias
 </div>
 
 <div class="sublogo">
-
 Aqui os escritores têm a oportunidade de realizar seus sonhos
-
 </div>
 
-
 <input
-
 id="usuario"
-
 type="text"
-
 placeholder="UTILIZADOR"
-
 autocapitalize="off"
 autocomplete="username"
 autocorrect="off"
 spellcheck="false"
-
 oninput="this.value=this.value.toLowerCase()"
-
 >
 
-
 <input
-
 id="senha"
-
 type="password"
-
 placeholder="SENHA"
-
 autocapitalize="off"
 autocomplete="current-password"
 autocorrect="off"
 spellcheck="false"
-
 oninput="this.value=this.value.toLowerCase()"
-
 >
 
-
 <button onclick="login()">
-
-ENTRAR PARA DIAGRAMAR SEU LIVRO
-
+ENTRE PARA DIAGRAMAR<br>O SEU LIVRO
 </button>
-
 
 <div id="erro" class="erro"></div>
 
 </div>
-
 
 <script>
 
@@ -181,23 +150,13 @@ const usuario = document.getElementById("usuario").value.trim().toLowerCase();
 const senha = document.getElementById("senha").value.trim().toLowerCase();
 
 if(
-
 (usuario === "admin" && senha === "lapidar2026") ||
-
 (usuario === "autor" && senha === "lapidar2026")
-
 ){
-
 localStorage.setItem("SDL_usuario_logado", usuario);
-
 window.location.href="_Indice.html";
-
-}
-
-else{
-
+}else{
 document.getElementById("erro").innerText="Utilizador ou senha inválidos.";
-
 }
 
 }
