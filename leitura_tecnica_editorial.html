@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leitura Técnica Editorial — Lapidar — Site das Letras</title>
+
+<style>
+body{
+margin:0;
+font-family:Arial, sans-serif;
+background:#0d0603;
+color:white;
+display:flex;
+justify-content:center;
+}
+
+.container{
+max-width:760px;
+width:92%;
+padding:40px 0 60px 0;
+}
+
+.titulo{
+font-size:34px;
+text-align:center;
+font-weight:bold;
+line-height:1.4;
+}
+
+.subtitulo{
+text-align:center;
+color:#ff7b2c;
+margin-top:10px;
+margin-bottom:28px;
+line-height:1.6;
+}
+
+.card{
+background:#140c08;
+border-radius:14px;
+padding:22px;
+margin-top:18px;
+}
+
+label{
+display:block;
+margin-bottom:6px;
+font-weight:bold;
+color:#ffd2b3;
+}
+
+input[type="text"],
+input[type="file"],
+select,
+textarea{
+width:100%;
+padding:12px;
+border-radius:10px;
+border:none;
+box-sizing:border-box;
+font-size:15px;
+margin-bottom:18px;
+}
+
+textarea{
+min-height:120px;
+resize:vertical;
+}
+
+.botao{
+width:100%;
+padding:18px;
+margin-top:18px;
+border:none;
+border-radius:40px;
+background:#ff5a00;
+color:white;
+font-size:18px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.botao:hover{
+background:#ff6f1a;
+}
+
+.botaoCinza{
+background:#444;
+}
+
+.botaoCinza:hover{
+background:#666;
+}
+
+.info{
+margin-top:18px;
+line-height:1.7;
+color:#ffd2b3;
+}
+
+.destaque{
+color:#9cffb2;
+font-weight:bold;
+}
+
+.sucesso{
+margin-top:18px;
+text-align:center;
+color:#9cffb2;
+line-height:1.7;
+font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="titulo" id="tituloPagina">
+Leitura Técnica Editorial — Lapidar — Site das Letras
+</div>
+
+<div class="subtitulo" id="subtituloPagina">
+Envie sua obra para receber uma leitura editorial técnica, acolhedora e profissional
+</div>
+
+<div class="card">
+
+<label for="idiomaLeitura">Idioma da obra</label>
+<select id="idiomaLeitura">
+<option value="pt">Português</option>
+<option value="en">English</option>
+<option value="es">Español</option>
+<option value="it">Italiano</option>
+<option value="fr">Français</option>
+<option value="de">Deutsch</option>
+</select>
+
+<label for="tituloObra">Título da obra</label>
+<input type="text" id="tituloObra" placeholder="Digite o título da obra">
+
+<label for="nomeAutor">Nome do autor</label>
+<input type="text" id="nomeAutor" placeholder="Digite o nome do autor">
+
+<label for="tipoMaterial">Tipo de obra</label>
+<select id="tipoMaterial">
+<option value="">Selecione</option>
+<option value="Romance">Romance</option>
+<option value="Conto">Conto</option>
+<option value="Poesia">Poesia</option>
+<option value="Infantil">Infantil</option>
+<option value="Acadêmico">Acadêmico</option>
+<option value="Biografia">Biografia</option>
+<option value="Religioso">Religioso</option>
+<option value="Outro">Outro</option>
+</select>
+
+<label for="arquivoObra">Arquivo da obra</label>
+<input type="file" id="arquivoObra">
+
+<label for="observacoesLeitura">Observações para a leitura (opcional)</label>
+<textarea id="observacoesLeitura" placeholder="Exemplo: quero uma segunda opinião, quero saber se a obra tem força para continuação, quero entender melhor o potencial editorial do texto."></textarea>
+
+</div>
+
+<div class="info" id="infoPreco">
+Valor desta leitura técnica editorial: <span class="destaque">R$ 4,99</span>
+</div>
+
+<div class="info" id="infoEntrega">
+Você receberá uma análise editorial com linguagem clara, nota da obra, pontos fortes, pontos de atenção e potencial de crescimento.
+</div>
+
+<button class="botao" onclick="salvarLeituraTecnica()">
+Salvar pedido de leitura técnica
+</button>
+
+<button class="botao" onclick="seguirPagamentoLeitura()">
+Seguir para pagamento
+</button>
+
+<button class="botao botaoCinza" onclick="window.location.href='_Indice.html'">
+Voltar para a casa do seu original
+</button>
+
+<div id="mensagemSucesso" class="sucesso"></div>
+
+</div>
+
+<script>
+
+let idiomaInterface = "pt";
+
+function detectarIdioma(){
+const idioma = (navigator.language || "pt-BR").toLowerCase();
+
+if(idioma.startsWith("en")) return "en";
+if(idioma.startsWith("es")) return "es";
+if(idioma.startsWith("it")) return "it";
+if(idioma.startsWith("fr")) return "fr";
+if(idioma.startsWith("de")) return "de";
+
+return "pt";
+}
+
+function aplicarIdiomaInterface(){
+
+idiomaInterface = detectarIdioma();
+
+if(idiomaInterface === "en"){
+document.documentElement.lang = "en";
+document.getElementById("tituloPagina").innerText = "Technical Editorial Reading — Lapidar — Site das Letras";
+document.getElementById("subtituloPagina").innerText = "Send your work to receive a professional, careful and editorial reading";
+document.getElementById("infoPreco").innerHTML = 'Value of this technical editorial reading: <span class="destaque">$ 4.99</span>';
+document.getElementById("infoEntrega").innerText = "You will receive an editorial analysis with clear language, score, strengths, attention points and growth potential.";
+}
+
+if(idiomaInterface === "es"){
+document.documentElement.lang = "es";
+document.getElementById("tituloPagina").innerText = "Lectura Técnica Editorial — Lapidar — Site das Letras";
+document.getElementById("subtituloPagina").innerText = "Envía tu obra para recibir una lectura editorial profesional y cuidadosa";
+document.getElementById("infoPreco").innerHTML = 'Valor de esta lectura técnica editorial: <span class="destaque">$ 4.99</span>';
+document.getElementById("infoEntrega").innerText = "Recibirás un análisis editorial con lenguaje claro, nota de la obra, puntos fuertes, puntos de atención y potencial de crecimiento.";
+}
+
+if(idiomaInterface === "it"){
+document.documentElement.lang = "it";
+document.getElementById("tituloPagina").innerText = "Lettura Tecnica Editoriale — Lapidar — Site das Letras";
+document.getElementById("subtituloPagina").innerText = "Invia la tua opera per ricevere una lettura editoriale professionale e attenta";
+document.getElementById("infoPreco").innerHTML = 'Valore di questa lettura tecnica editoriale: <span class="destaque">$ 4.99</span>';
+document.getElementById("infoEntrega").innerText = "Riceverai un’analisi editoriale con linguaggio chiaro, valutazione dell’opera, punti forti, punti di attenzione e potenziale di crescita.";
+}
+
+if(idiomaInterface === "fr"){
+document.documentElement.lang = "fr";
+document.getElementById("tituloPagina").innerText = "Lecture Technique Éditoriale — Lapidar — Site das Letras";
+document.getElementById("subtituloPagina").innerText = "Envoyez votre œuvre pour recevoir une lecture éditoriale professionnelle et attentive";
+document.getElementById("infoPreco").innerHTML = 'Valeur de cette lecture technique éditoriale : <span class="destaque">$ 4.99</span>';
+document.getElementById("infoEntrega").innerText = "Vous recevrez une analyse éditoriale avec un langage clair, une note de l’œuvre, les points forts, les points d’attention et le potentiel de croissance.";
+}
+
+if(idiomaInterface === "de"){
+document.documentElement.lang = "de";
+document.getElementById("tituloPagina").innerText = "Technische Redaktionelle Lesung — Lapidar — Site das Letras";
+document.getElementById("subtituloPagina").innerText = "Senden Sie Ihr Werk, um eine professionelle und sorgfältige redaktionelle Lesung zu erhalten";
+document.getElementById("infoPreco").innerHTML = 'Wert dieser technischen redaktionellen Lesung: <span class="destaque">$ 4.99</span>';
+document.getElementById("infoEntrega").innerText = "Sie erhalten eine redaktionelle Analyse in klarer Sprache, mit Werkbewertung, Stärken, Aufmerksamkeitspunkten und Wachstumspotenzial.";
+}
+
+}
+
+function salvarLeituraTecnica(){
+
+const idiomaObra = document.getElementById("idiomaLeitura").value;
+const titulo = document.getElementById("tituloObra").value.trim();
+const autor = document.getElementById("nomeAutor").value.trim();
+const tipo = document.getElementById("tipoMaterial").value;
+const observacoes = document.getElementById("observacoesLeitura").value.trim();
+
+if(!titulo){
+alert(idiomaInterface === "en" ? "Enter the title of the work." :
+idiomaInterface === "es" ? "Ingrese el título de la obra." :
+idiomaInterface === "it" ? "Inserisci il titolo dell'opera." :
+idiomaInterface === "fr" ? "Saisissez le titre de l'œuvre." :
+idiomaInterface === "de" ? "Geben Sie den Titel des Werkes ein." :
+"Digite o título da obra.");
+return;
+}
+
+if(!autor){
+alert(idiomaInterface === "en" ? "Enter the author's name." :
+idiomaInterface === "es" ? "Ingrese el nombre del autor." :
+idiomaInterface === "it" ? "Inserisci il nome dell'autore." :
+idiomaInterface === "fr" ? "Saisissez le nom de l'auteur." :
+idiomaInterface === "de" ? "Geben Sie den Namen des Autors ein." :
+"Digite o nome do autor.");
+return;
+}
+
+if(!tipo){
+alert(idiomaInterface === "en" ? "Select the type of work." :
+idiomaInterface === "es" ? "Seleccione el tipo de obra." :
+idiomaInterface === "it" ? "Seleziona il tipo di opera." :
+idiomaInterface === "fr" ? "Sélectionnez le type d'œuvre." :
+idiomaInterface === "de" ? "Wählen Sie die Art des Werkes." :
+"Selecione o tipo de obra.");
+return;
+}
+
+localStorage.setItem("LTE_idioma_obra", idiomaObra);
+localStorage.setItem("LTE_titulo_obra", titulo);
+localStorage.setItem("LTE_nome_autor", autor);
+localStorage.setItem("LTE_tipo_obra", tipo);
+localStorage.setItem("LTE_observacoes", observacoes);
+localStorage.setItem("LTE_preco", idiomaInterface === "pt" ? "R$ 4,99" : "$ 4.99");
+localStorage.setItem("LTE_pedido_salvo", "sim");
+
+document.getElementById("mensagemSucesso").innerText =
+idiomaInterface === "en" ? "Technical editorial reading request saved successfully." :
+idiomaInterface === "es" ? "Solicitud de lectura técnica editorial guardada con éxito." :
+idiomaInterface === "it" ? "Richiesta di lettura tecnica editoriale salvata con successo." :
+idiomaInterface === "fr" ? "Demande de lecture technique éditoriale enregistrée avec succès." :
+idiomaInterface === "de" ? "Anfrage für technische redaktionelle Lesung erfolgreich gespeichert." :
+"Pedido de leitura técnica editorial salvo com sucesso.";
+
+}
+
+function seguirPagamentoLeitura(){
+
+const salvo = localStorage.getItem("LTE_pedido_salvo");
+
+if(salvo !== "sim"){
+alert(idiomaInterface === "en" ? "Save the request before proceeding to payment." :
+idiomaInterface === "es" ? "Guarde la solicitud antes de continuar al pago." :
+idiomaInterface === "it" ? "Salva la richiesta prima di procedere al pagamento." :
+idiomaInterface === "fr" ? "Enregistrez la demande avant de passer au paiement." :
+idiomaInterface === "de" ? "Speichern Sie die Anfrage, bevor Sie zur Zahlung gehen." :
+"Salve o pedido antes de seguir para o pagamento.");
+return;
+}
+
+localStorage.setItem("LTE_modulo", "leitura_tecnica_editorial");
+window.location.href = "pagamento.html";
+}
+
+aplicarIdiomaInterface();
+
+</script>
+
+</body>
+</html>
