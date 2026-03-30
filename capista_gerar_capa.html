@@ -2,17 +2,15 @@
 <html lang="pt-br">
 
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Gerar capa — Projeto Capista</title>
 
 <style>
 
 body{
 margin:0;
-font-family:Arial;
+font-family:Arial, sans-serif;
 background:#0d0603;
 color:white;
 display:flex;
@@ -31,12 +29,38 @@ text-align:center;
 font-weight:bold;
 }
 
+.subtitulo{
+text-align:center;
+color:#ff7b2c;
+margin-top:10px;
+margin-bottom:28px;
+line-height:1.6;
+}
+
 .card{
 background:#140c08;
 border-radius:14px;
 padding:22px;
 margin-top:18px;
 line-height:1.8;
+}
+
+.linha{
+margin-top:14px;
+}
+
+.label{
+color:#ff7b2c;
+font-weight:bold;
+}
+
+.valor{
+color:#ffd2b3;
+}
+
+.destaque{
+color:#9cffb2;
+font-weight:bold;
 }
 
 .botao{
@@ -64,9 +88,11 @@ background:#444;
 background:#666;
 }
 
-.destaque{
-color:#9cffb2;
-font-weight:bold;
+.aviso{
+margin-top:24px;
+text-align:center;
+color:#ffd2b3;
+line-height:1.7;
 }
 
 </style>
@@ -77,120 +103,289 @@ font-weight:bold;
 
 <div class="container">
 
-<div class="titulo">
+<div class="titulo" id="tituloPagina">
 Gerador de capa editorial
 </div>
 
-<div class="card" id="resumoTecnico">
+<div class="subtitulo" id="subtituloPagina">
+Confira os dados finais antes de enviar sua capa para processamento
+</div>
 
-Carregando dados da capa...
+<div class="card">
+
+<div class="linha">
+<span class="label" id="lblPlano">Plano selecionado</span><br>
+<span id="planoSelecionado" class="valor">—</span>
+</div>
+
+<div class="linha">
+<span class="label" id="lblFormato">Formato</span><br>
+<span id="formatoSelecionado" class="valor">—</span>
+</div>
+
+<div class="linha">
+<span class="label" id="lblAcabamento">Acabamento</span><br>
+<span id="acabamentoSelecionado" class="valor">—</span>
+</div>
+
+<div class="linha">
+<span class="label" id="lblOrelha">Orelha</span><br>
+<span id="orelhaSelecionada" class="valor">—</span>
+</div>
+
+<div class="linha">
+<span class="label" id="lblCor">Modo da capa</span><br>
+<span id="corSelecionada" class="valor">—</span>
+</div>
+
+<div class="linha">
+<span class="label" id="lblIdiomaEntrada">Idioma do texto enviado</span><br>
+<span id="idiomaEntradaSelecionado" class="valor">—</span>
+</div>
+
+<div class="linha">
+<span class="label" id="lblIdiomaSaida">Idioma final da capa</span><br>
+<span id="idiomaSaidaSelecionado" class="valor">—</span>
+</div>
+
+<div class="linha">
+<span class="label" id="lblExportacao">Exportação final</span><br>
+<span id="exportacaoSelecionada" class="valor">—</span>
+</div>
+
+<div class="linha">
+<span class="label" id="lblTitulo">Título</span><br>
+<span id="tituloCapa" class="valor">—</span>
+</div>
+
+<div class="linha">
+<span class="label" id="lblAutor">Autor</span><br>
+<span id="autorCapa" class="valor">—</span>
+</div>
+
+<div class="linha">
+<span class="label" id="lblTraducao">Preparação multilíngue</span><br>
+<span id="statusTraducao" class="destaque">—</span>
+</div>
 
 </div>
 
+<div class="aviso" id="avisoFinal">
+Se estiver tudo certo, envie agora a capa para processamento editorial.
+</div>
 
-<button class="botao" onclick="gerarCapaFinal()">
-
+<button class="botao" id="btnGerar" onclick="gerarCapaFinal()">
 Gerar capa agora
-
 </button>
 
-
-<button class="botao botaoCinza"
-
-onclick="window.location.href='capista_configurar_capa.html'">
-
+<button class="botao botaoCinza" id="btnVoltar" onclick="window.location.href='capista_configurar_capa.html'">
 Voltar para configuração
-
 </button>
-
 
 </div>
-
 
 <script>
 
-function montarResumo(){
+let textos = {};
+let idiomaInterface = "pt";
 
-const plano =
-localStorage.getItem("CAPISTA_plano");
+function detectarIdioma(){
+const idiomaNavegador = (navigator.language || "pt-BR").toLowerCase();
 
-const formato =
-localStorage.getItem("CAPISTA_formato");
+if(idiomaNavegador.startsWith("en")) return "en";
+if(idiomaNavegador.startsWith("it")) return "it";
+if(idiomaNavegador.startsWith("es")) return "es";
+if(idiomaNavegador.startsWith("fr")) return "fr";
 
-const acabamento =
-localStorage.getItem("CAPISTA_acabamento");
-
-const orelha =
-localStorage.getItem("CAPISTA_orelha");
-
-const idiomaEntrada =
-localStorage.getItem("CAPISTA_idioma_texto");
-
-const idiomaSaida =
-localStorage.getItem("CAPISTA_idioma_saida");
-
-const exportacao =
-localStorage.getItem("CAPISTA_exportacao");
-
-document.getElementById("resumoTecnico").innerHTML =
-
-`
-Resumo técnico da capa:
-
-Plano selecionado:
-<span class="destaque">${plano}</span>
-
-Formato:
-<span class="destaque">${formato}</span>
-
-Acabamento:
-<span class="destaque">${acabamento}</span>
-
-Orelha:
-<span class="destaque">${orelha}</span>
-
-Idioma de entrada:
-<span class="destaque">${idiomaEntrada}</span>
-
-Idioma final:
-<span class="destaque">${idiomaSaida}</span>
-
-Exportação:
-<span class="destaque">${exportacao}</span>
-`;
-
+return "pt";
 }
 
+function traduzirNomeIdioma(codigo){
+
+if(codigo === "pt") return "Português";
+if(codigo === "en") return "English";
+if(codigo === "es") return "Español";
+if(codigo === "it") return "Italiano";
+if(codigo === "fr") return "Français";
+if(codigo === "de") return "Deutsch";
+
+return "Português";
+}
+
+function aplicarTextosCapista(){
+
+if(idiomaInterface === "en"){
+document.documentElement.lang = "en";
+document.getElementById("tituloPagina").innerText = "Editorial cover generator";
+document.getElementById("subtituloPagina").innerText = "Review the final data before sending your cover to processing";
+document.getElementById("lblPlano").innerText = "Selected plan";
+document.getElementById("lblFormato").innerText = "Format";
+document.getElementById("lblAcabamento").innerText = "Finish";
+document.getElementById("lblOrelha").innerText = "Flap";
+document.getElementById("lblCor").innerText = "Cover mode";
+document.getElementById("lblIdiomaEntrada").innerText = "Input text language";
+document.getElementById("lblIdiomaSaida").innerText = "Final cover language";
+document.getElementById("lblExportacao").innerText = "Final export";
+document.getElementById("lblTitulo").innerText = "Title";
+document.getElementById("lblAutor").innerText = "Author";
+document.getElementById("lblTraducao").innerText = "Multilingual preparation";
+document.getElementById("avisoFinal").innerText = "If everything is correct, send the cover now for editorial processing.";
+document.getElementById("btnGerar").innerText = "Generate cover now";
+document.getElementById("btnVoltar").innerText = "Back to configuration";
+return;
+}
+
+if(idiomaInterface === "es"){
+document.documentElement.lang = "es";
+document.getElementById("tituloPagina").innerText = "Generador editorial de portada";
+document.getElementById("subtituloPagina").innerText = "Revise los datos finales antes de enviar su portada al procesamiento";
+document.getElementById("lblPlano").innerText = "Plan seleccionado";
+document.getElementById("lblFormato").innerText = "Formato";
+document.getElementById("lblAcabamento").innerText = "Acabado";
+document.getElementById("lblOrelha").innerText = "Solapa";
+document.getElementById("lblCor").innerText = "Modo de la portada";
+document.getElementById("lblIdiomaEntrada").innerText = "Idioma del texto enviado";
+document.getElementById("lblIdiomaSaida").innerText = "Idioma final de la portada";
+document.getElementById("lblExportacao").innerText = "Exportación final";
+document.getElementById("lblTitulo").innerText = "Título";
+document.getElementById("lblAutor").innerText = "Autor";
+document.getElementById("lblTraducao").innerText = "Preparación multilingüe";
+document.getElementById("avisoFinal").innerText = "Si todo está correcto, envíe ahora la portada para procesamiento editorial.";
+document.getElementById("btnGerar").innerText = "Generar portada ahora";
+document.getElementById("btnVoltar").innerText = "Volver a configuración";
+return;
+}
+
+if(idiomaInterface === "it"){
+document.documentElement.lang = "it";
+document.getElementById("tituloPagina").innerText = "Generatore editoriale di copertina";
+document.getElementById("subtituloPagina").innerText = "Controlla i dati finali prima di inviare la copertina al processamento";
+document.getElementById("lblPlano").innerText = "Piano selezionato";
+document.getElementById("lblFormato").innerText = "Formato";
+document.getElementById("lblAcabamento").innerText = "Finitura";
+document.getElementById("lblOrelha").innerText = "Aletta";
+document.getElementById("lblCor").innerText = "Modalità della copertina";
+document.getElementById("lblIdiomaEntrada").innerText = "Lingua del testo inviato";
+document.getElementById("lblIdiomaSaida").innerText = "Lingua finale della copertina";
+document.getElementById("lblExportacao").innerText = "Esportazione finale";
+document.getElementById("lblTitulo").innerText = "Titolo";
+document.getElementById("lblAutor").innerText = "Autore";
+document.getElementById("lblTraducao").innerText = "Preparazione multilingue";
+document.getElementById("avisoFinal").innerText = "Se è tutto corretto, invia ora la copertina per il processamento editoriale.";
+document.getElementById("btnGerar").innerText = "Genera copertina ora";
+document.getElementById("btnVoltar").innerText = "Torna alla configurazione";
+return;
+}
+
+if(idiomaInterface === "fr"){
+document.documentElement.lang = "fr";
+document.getElementById("tituloPagina").innerText = "Générateur éditorial de couverture";
+document.getElementById("subtituloPagina").innerText = "Vérifiez les données finales avant d'envoyer votre couverture au traitement";
+document.getElementById("lblPlano").innerText = "Plan sélectionné";
+document.getElementById("lblFormato").innerText = "Format";
+document.getElementById("lblAcabamento").innerText = "Finition";
+document.getElementById("lblOrelha").innerText = "Rabats";
+document.getElementById("lblCor").innerText = "Mode de la couverture";
+document.getElementById("lblIdiomaEntrada").innerText = "Langue du texte envoyé";
+document.getElementById("lblIdiomaSaida").innerText = "Langue finale de la couverture";
+document.getElementById("lblExportacao").innerText = "Export final";
+document.getElementById("lblTitulo").innerText = "Titre";
+document.getElementById("lblAutor").innerText = "Auteur";
+document.getElementById("lblTraducao").innerText = "Préparation multilingue";
+document.getElementById("avisoFinal").innerText = "Si tout est correct, envoyez maintenant la couverture pour traitement éditorial.";
+document.getElementById("btnGerar").innerText = "Générer la couverture";
+document.getElementById("btnVoltar").innerText = "Retour à la configuration";
+return;
+}
+
+document.documentElement.lang = "pt-br";
+}
+
+function montarResumoCapista(){
+
+const plano = localStorage.getItem("CAPISTA_plano") || "Não informado";
+const formato = localStorage.getItem("CAPISTA_formato") || "Não informado";
+const acabamento = localStorage.getItem("CAPISTA_acabamento") || "Não informado";
+const orelha = localStorage.getItem("CAPISTA_orelha") || "Não informado";
+const cor = localStorage.getItem("CAPISTA_cor") || "Não informado";
+const idiomaEntrada = localStorage.getItem("CAPISTA_idioma_texto") || "pt";
+const idiomaSaida = localStorage.getItem("CAPISTA_idioma_saida") || "pt";
+const exportacao = localStorage.getItem("CAPISTA_exportacao") || "Não informado";
+const titulo = localStorage.getItem("CAPISTA_titulo") || "Não informado";
+const autor = localStorage.getItem("CAPISTA_autor") || "Não informado";
+const traduzir = localStorage.getItem("CAPISTA_traduzir_textos") || "nao";
+
+document.getElementById("planoSelecionado").innerText = plano;
+document.getElementById("formatoSelecionado").innerText = formato;
+document.getElementById("acabamentoSelecionado").innerText = acabamento;
+document.getElementById("orelhaSelecionada").innerText = orelha;
+document.getElementById("corSelecionada").innerText = cor;
+document.getElementById("idiomaEntradaSelecionado").innerText = traduzirNomeIdioma(idiomaEntrada);
+document.getElementById("idiomaSaidaSelecionado").innerText = traduzirNomeIdioma(idiomaSaida);
+document.getElementById("exportacaoSelecionada").innerText = exportacao;
+document.getElementById("tituloCapa").innerText = titulo;
+document.getElementById("autorCapa").innerText = autor;
+
+if(traduzir === "sim"){
+document.getElementById("statusTraducao").innerText = idiomaInterface === "en"
+? "The cover texts will be prepared in the final selected language."
+: idiomaInterface === "es"
+? "Los textos de la portada se prepararán en el idioma final elegido."
+: idiomaInterface === "it"
+? "I testi della copertina saranno preparati nella lingua finale scelta."
+: idiomaInterface === "fr"
+? "Les textes de la couverture seront préparés dans la langue finale choisie."
+: "Os textos da capa serão preparados no idioma final escolhido.";
+}else{
+document.getElementById("statusTraducao").innerText = idiomaInterface === "en"
+? "The cover texts already match the final selected language."
+: idiomaInterface === "es"
+? "Los textos de la portada ya coinciden con el idioma final elegido."
+: idiomaInterface === "it"
+? "I testi della copertina coincidono già con la lingua finale scelta."
+: idiomaInterface === "fr"
+? "Les textes de la couverture correspondent déjà à la langue finale choisie."
+: "Os textos da capa já coincidem com o idioma final escolhido.";
+}
+}
 
 function gerarCapaFinal(){
 
-const titulo =
-localStorage.getItem("CAPISTA_titulo");
+const titulo = localStorage.getItem("CAPISTA_titulo");
 
 if(!titulo){
-
-alert("Título não encontrado.");
-
+alert(
+idiomaInterface === "en" ? "Title not found." :
+idiomaInterface === "es" ? "Título no encontrado." :
+idiomaInterface === "it" ? "Titolo non trovato." :
+idiomaInterface === "fr" ? "Titre non trouvé." :
+"Título não encontrado."
+);
 return;
-
 }
 
-
 alert(
-
+idiomaInterface === "en" ? "Cover sent to editorial processing." :
+idiomaInterface === "es" ? "Portada enviada al procesamiento editorial." :
+idiomaInterface === "it" ? "Copertina inviata al processamento editoriale." :
+idiomaInterface === "fr" ? "Couverture envoyée au traitement éditorial." :
 "Capa enviada para processamento editorial."
-
 );
 
 window.location.href = "_Indice.html";
+}
+
+function iniciarCapistaGerar(){
+
+idiomaInterface = detectarIdioma();
+aplicarTextosCapista();
+montarResumoCapista();
 
 }
 
-
-montarResumo();
+iniciarCapistaGerar();
 
 </script>
 
 </body>
-
 </html>
