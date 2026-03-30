@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Relatório Capista — Site das Letras</title>
+
+<style>
+body{
+margin:0;
+background:#0c0603;
+font-family:Arial;
+color:white;
+display:flex;
+justify-content:center;
+}
+.container{
+max-width:720px;
+width:92%;
+padding:40px 0 60px 0;
+}
+.titulo{
+font-size:34px;
+text-align:center;
+font-weight:bold;
+}
+.subtitulo{
+text-align:center;
+color:#ff7b2c;
+margin-top:10px;
+margin-bottom:28px;
+}
+.card{
+background:#140c08;
+border-radius:14px;
+padding:26px;
+margin-top:20px;
+line-height:1.8;
+}
+.item{
+margin-bottom:10px;
+color:#ffd2b3;
+}
+.destaque{
+color:#9cffb2;
+font-weight:bold;
+}
+.botao{
+width:100%;
+padding:18px;
+margin-top:24px;
+border:none;
+border-radius:40px;
+background:#ff5a00;
+color:white;
+font-size:18px;
+font-weight:bold;
+cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="titulo">
+Relatório do Projeto Capista
+</div>
+
+<div class="subtitulo">
+Resumo técnico da capa gerada dentro do sistema
+</div>
+
+<div class="card" id="conteudoRelatorio">
+Gerando relatório da capa...
+</div>
+
+<button class="botao" onclick="window.location.href='_Indice.html'">
+Voltar para casa do original
+</button>
+
+</div>
+
+<script>
+
+function traduzirIdioma(codigo){
+if(codigo === "pt") return "Português";
+if(codigo === "en") return "English";
+if(codigo === "es") return "Español";
+if(codigo === "it") return "Italiano";
+if(codigo === "fr") return "Français";
+if(codigo === "de") return "Deutsch";
+return "Português";
+}
+
+function montarRelatorio(){
+
+const plano =
+localStorage.getItem("CAPISTA_plano") || "não informado";
+
+const nomePlano =
+localStorage.getItem("CAPISTA_nome_plano") || "não informado";
+
+const tipoCapa =
+localStorage.getItem("CAPISTA_tipo_capa") || "não informado";
+
+const idiomaPrincipal =
+localStorage.getItem("CAPISTA_idioma_principal") || "pt";
+
+const idiomaExtra =
+localStorage.getItem("CAPISTA_idioma_extra") || "nenhum";
+
+const usadasFisicas =
+localStorage.getItem("CAPISTA_usadas_fisicas") || "0";
+
+const usadasEpub =
+localStorage.getItem("CAPISTA_usadas_epub") || "0";
+
+const usadasOutroIdioma =
+localStorage.getItem("CAPISTA_usadas_outro_idioma") || "0";
+
+document.getElementById("conteudoRelatorio").innerHTML =
+
+"<div class='item'>Plano ativo: <span class='destaque'>" + nomePlano + " (" + plano + ")" + "</span></div>" +
+
+"<div class='item'>Tipo de capa gerada: <span class='destaque'>" + tipoCapa + "</span></div>" +
+
+"<div class='item'>Idioma principal: <span class='destaque'>" + traduzirIdioma(idiomaPrincipal) + "</span></div>" +
+
+"<div class='item'>Idioma extra: <span class='destaque'>" + (idiomaExtra === "nenhum" ? "Não utilizado" : traduzirIdioma(idiomaExtra)) + "</span></div>" +
+
+"<div class='item'>Capas físicas utilizadas: <span class='destaque'>" + usadasFisicas + "</span></div>" +
+
+"<div class='item'>Capas EPUB utilizadas: <span class='destaque'>" + usadasEpub + "</span></div>" +
+
+"<div class='item'>Capas em outro idioma utilizadas: <span class='destaque'>" + usadasOutroIdioma + "</span></div>" +
+
+"<div class='item'>Resumo editorial: <span class='destaque'>A capa foi registrada com sucesso dentro do Projeto Capista.</span></div>" +
+
+"<div class='item'>Observação: <span class='destaque'>O sistema mantém separadamente os créditos de capa física e capa EPUB.</span></div>";
+
+}
+
+montarRelatorio();
+
+</script>
+
+</body>
+</html>
