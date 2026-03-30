@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Entrada do original — Lapidar</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial, sans-serif;
+background:#0d0603;
+color:white;
+display:flex;
+justify-content:center;
+}
+
+.container{
+max-width:680px;
+width:92%;
+padding:40px 0 60px 0;
+}
+
+.titulo{
+font-size:36px;
+text-align:center;
+font-weight:bold;
+}
+
+.subtitulo{
+text-align:center;
+color:#ff7b2c;
+margin-top:10px;
+margin-bottom:28px;
+line-height:1.5;
+}
+
+.texto{
+text-align:center;
+color:#ffd2b3;
+line-height:1.7;
+margin-bottom:28px;
+}
+
+.card{
+background:#140c08;
+border-radius:14px;
+padding:22px;
+margin-top:18px;
+}
+
+.campo{
+margin-bottom:18px;
+}
+
+label{
+display:block;
+margin-bottom:6px;
+font-weight:bold;
+color:#ffd2b3;
+}
+
+input[type="text"],
+select,
+textarea{
+width:100%;
+padding:12px;
+border-radius:10px;
+border:none;
+box-sizing:border-box;
+font-size:15px;
+}
+
+input[type="file"]{
+width:100%;
+padding:10px;
+border-radius:10px;
+border:none;
+background:white;
+color:black;
+box-sizing:border-box;
+}
+
+textarea{
+height:120px;
+resize:vertical;
+}
+
+.botao{
+width:100%;
+padding:18px;
+margin-top:18px;
+border:none;
+border-radius:40px;
+background:#ff5a00;
+color:white;
+font-size:18px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.botao:hover{
+background:#ff6f1a;
+}
+
+.botaoCinza{
+background:#444;
+}
+
+.botaoCinza:hover{
+background:#666;
+}
+
+.sucesso{
+margin-top:18px;
+font-size:15px;
+color:#9cffb2;
+text-align:center;
+line-height:1.6;
+}
+
+.aviso{
+margin-top:24px;
+font-size:14px;
+color:#ffd2b3;
+line-height:1.7;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="titulo">
+Vamos receber o seu original
+</div>
+
+<div class="subtitulo">
+Envie aqui o arquivo principal do seu texto e conte um pouco sobre o material que deseja preparar
+</div>
+
+<div class="texto">
+Esta etapa serve para dar entrada no seu material dentro do Lapidar. Quanto mais claras forem as informações, melhor será a preparação editorial.
+</div>
+
+<div class="card">
+
+<div class="campo">
+<label for="tituloObra">Título da obra</label>
+<input type="text" id="tituloObra" placeholder="Digite o título da sua obra">
+</div>
+
+<div class="campo">
+<label for="nomeAutor">Nome do autor</label>
+<input type="text" id="nomeAutor" placeholder="Digite o nome do autor">
+</div>
+
+<div class="campo">
+<label for="tipoMaterial">Seu material é:</label>
+<select id="tipoMaterial">
+<option value="">Selecione</option>
+<option value="Romance">Romance</option>
+<option value="Poesia">Poesia</option>
+<option value="Conto">Conto</option>
+<option value="Infantil">Infantil</option>
+<option value="Acadêmico">Acadêmico</option>
+<option value="Biografia">Biografia</option>
+<option value="Religioso">Religioso</option>
+<option value="Outro">Outro</option>
+</select>
+</div>
+
+<div class="campo">
+<label for="destinoMaterial">Este material será preparado para:</label>
+<select id="destinoMaterial">
+<option value="">Selecione</option>
+<option value="Livro físico">Livro físico</option>
+<option value="E-book">E-book</option>
+<option value="Livro físico e e-book">Livro físico e e-book</option>
+</select>
+</div>
+
+<div class="campo">
+<label for="arquivoOriginal">Arquivo principal do texto</label>
+<input type="file" id="arquivoOriginal">
+</div>
+
+<div class="campo">
+<label for="observacoesIniciais">Observações iniciais (opcional)</label>
+<textarea id="observacoesIniciais" placeholder="Exemplo: este material terá dedicatória, prefácio, biografia e algumas imagens internas."></textarea>
+</div>
+
+</div>
+
+<div class="aviso">
+Ao salvar esta etapa, o Lapidar registrará a entrada do seu original no sistema. Depois disso, você poderá seguir para as preferências de diagramação.
+</div>
+
+<button class="botao" onclick="salvarOriginal()">
+Salvar entrada do original
+</button>
+
+<button class="botao" onclick="irParaPreferencias()">
+Seguir para preferências da diagramação
+</button>
+
+<button class="botao botaoCinza" onclick="window.location.href='index.html'">
+Voltar para a casa do seu original
+</button>
+
+<div id="mensagemSucesso" class="sucesso"></div>
+
+</div>
+
+<script>
+
+function salvarOriginal(){
+
+const titulo = document.getElementById("tituloObra").value.trim();
+const autor = document.getElementById("nomeAutor").value.trim();
+const tipo = document.getElementById("tipoMaterial").value;
+const destino = document.getElementById("destinoMaterial").value;
+const observacoes = document.getElementById("observacoesIniciais").value.trim();
+
+if(!titulo){
+alert("Digite o título da obra.");
+return;
+}
+
+if(!autor){
+alert("Digite o nome do autor.");
+return;
+}
+
+if(!tipo){
+alert("Selecione o tipo do material.");
+return;
+}
+
+if(!destino){
+alert("Selecione para qual destino o material será preparado.");
+return;
+}
+
+localStorage.setItem("SDL_livro_enviado", "sim");
+localStorage.setItem("SDL_titulo_livro", titulo);
+localStorage.setItem("SDL_nome_autor", autor);
+localStorage.setItem("SDL_tipo_material", tipo);
+localStorage.setItem("SDL_destino_material", destino);
+localStorage.setItem("SDL_observacoes_iniciais", observacoes);
+
+document.getElementById("mensagemSucesso").innerHTML =
+"Entrada do original registrada com sucesso.<br>Agora você já pode seguir para as preferências da diagramação.";
+
+}
+
+function irParaPreferencias(){
+
+const titulo = localStorage.getItem("SDL_titulo_livro");
+
+if(!titulo){
+alert("Salve primeiro a entrada do original antes de seguir.");
+return;
+}
+
+window.location.href = "preferencias_diagramacao.html";
+
+}
+
+</script>
+
+</body>
+
+</html>
