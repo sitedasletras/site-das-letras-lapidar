@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Configuração da capa — Projeto Capista</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial;
+background:#0d0603;
+color:white;
+display:flex;
+justify-content:center;
+}
+
+.container{
+max-width:760px;
+width:92%;
+padding:40px 0 60px 0;
+}
+
+.titulo{
+font-size:34px;
+text-align:center;
+font-weight:bold;
+}
+
+.card{
+background:#140c08;
+border-radius:14px;
+padding:22px;
+margin-top:18px;
+}
+
+label{
+display:block;
+margin-bottom:6px;
+color:#ffd2b3;
+font-weight:bold;
+}
+
+select{
+width:100%;
+padding:12px;
+border-radius:10px;
+border:none;
+margin-bottom:18px;
+}
+
+.botao{
+width:100%;
+padding:18px;
+margin-top:18px;
+border:none;
+border-radius:40px;
+background:#ff5a00;
+color:white;
+font-size:18px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.botao:hover{
+background:#ff6f1a;
+}
+
+.botaoCinza{
+background:#444;
+}
+
+.botaoCinza:hover{
+background:#666;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="titulo">
+Configuração visual da capa
+</div>
+
+<div class="card">
+
+<label>Formato da capa</label>
+
+<select id="formatoCapa">
+<option>A5</option>
+<option>16x23 cm</option>
+<option>6x9 pol</option>
+<option>A4</option>
+<option>Personalizado</option>
+</select>
+
+
+<label>Tipo de acabamento</label>
+
+<select id="acabamento">
+<option>Simples</option>
+<option>Refinado</option>
+<option>Premium</option>
+<option>Best of Best</option>
+</select>
+
+
+<label>Possui orelha?</label>
+
+<select id="orelha">
+<option>Sem orelha</option>
+<option>Orelha 50 mm</option>
+<option>Orelha 70 mm</option>
+<option>Orelha 100 mm</option>
+</select>
+
+
+<label>Modo da capa</label>
+
+<select id="modoCor">
+<option>Colorida</option>
+<option>Preto e branco</option>
+</select>
+
+
+<label>Inserir selo editorial?</label>
+
+<select id="seloEditorial">
+<option>Sim</option>
+<option>Não</option>
+</select>
+
+
+<label>Exportação final</label>
+
+<select id="exportacao">
+<option>Gráfica física</option>
+<option>Amazon</option>
+<option>UICLAP</option>
+<option>Todas</option>
+</select>
+
+
+<button class="botao" onclick="salvarConfiguracaoCapa()">
+Salvar configuração da capa
+</button>
+
+
+<button class="botao" onclick="seguirGeracaoCapa()">
+Gerar capa
+</button>
+
+
+<button class="botao botaoCinza"
+onclick="window.location.href='capista_upload_textos.html'">
+Voltar
+</button>
+
+</div>
+
+</div>
+
+
+<script>
+
+function salvarConfiguracaoCapa(){
+
+localStorage.setItem(
+"CAPISTA_formato",
+document.getElementById("formatoCapa").value
+);
+
+localStorage.setItem(
+"CAPISTA_acabamento",
+document.getElementById("acabamento").value
+);
+
+localStorage.setItem(
+"CAPISTA_orelha",
+document.getElementById("orelha").value
+);
+
+localStorage.setItem(
+"CAPISTA_cor",
+document.getElementById("modoCor").value
+);
+
+localStorage.setItem(
+"CAPISTA_selo",
+document.getElementById("seloEditorial").value
+);
+
+localStorage.setItem(
+"CAPISTA_exportacao",
+document.getElementById("exportacao").value
+);
+
+alert("Configuração salva com sucesso.");
+
+}
+
+
+function seguirGeracaoCapa(){
+
+if(!localStorage.getItem("CAPISTA_formato")){
+
+alert("Salve primeiro a configuração da capa.");
+
+return;
+
+}
+
+window.location.href =
+"capista_gerar_capa.html";
+
+}
+
+</script>
+
+</body>
+</html>
