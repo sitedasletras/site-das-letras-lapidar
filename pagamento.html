@@ -4,11 +4,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Pagamento — Lapidar</title>
 
 <style>
-
 body{
 margin:0;
 font-family:Arial, sans-serif;
@@ -19,8 +17,8 @@ justify-content:center;
 }
 
 .container{
-max-width:680px;
 width:92%;
+max-width:760px;
 padding:40px 0 60px 0;
 }
 
@@ -35,91 +33,90 @@ text-align:center;
 color:#ff7b2c;
 margin-top:10px;
 margin-bottom:28px;
-line-height:1.5;
+line-height:1.6;
 }
 
 .card{
 background:#140c08;
+padding:24px;
 border-radius:14px;
-padding:22px;
 margin-top:18px;
+line-height:1.8;
 }
 
 .label{
 color:#ff7b2c;
-font-size:16px;
-margin-bottom:6px;
+font-weight:bold;
 }
 
 .valor{
-font-size:28px;
-margin-bottom:12px;
-}
-
-.texto{
-color:#ffd2b3;
-line-height:1.7;
-}
-
-.opcoes{
-margin-top:16px;
-display:flex;
-flex-direction:column;
-gap:10px;
-color:#ffd2b3;
-}
-
-.blocoPagamento{
-display:none;
-margin-top:18px;
-background:#1a0f09;
-border-left:5px solid #ff5a00;
-padding:18px;
-border-radius:10px;
-line-height:1.7;
 color:#ffd2b3;
 }
 
 .botao{
 width:100%;
 padding:18px;
-margin-top:18px;
-border:none;
 border-radius:40px;
-background:#ff5a00;
-color:white;
+border:none;
+margin-top:18px;
 font-size:18px;
 font-weight:bold;
 cursor:pointer;
+background:#ff5a00;
+color:white;
 }
 
 .botao:hover{
 background:#ff6f1a;
 }
 
-.botaoCinza{
-background:#444;
+.botaoSecundario{
+background:#333;
 }
 
-.botaoCinza:hover{
-background:#666;
+.botaoSecundario:hover{
+background:#555;
 }
 
-.aviso{
-margin-top:24px;
-font-size:14px;
+select{
+width:100%;
+padding:14px;
+border-radius:12px;
+border:none;
+font-size:16px;
+margin-top:8px;
+box-sizing:border-box;
+}
+
+.blocoPagamento{
+display:none;
+margin-top:18px;
+padding:18px;
+border-radius:12px;
+background:#1c110b;
 color:#ffd2b3;
+line-height:1.7;
+}
+
+.destaque{
+color:#9cffb2;
+font-weight:bold;
+}
+
+.alerta{
+margin-top:20px;
+text-align:center;
+color:#ffb199;
 line-height:1.7;
 }
 
 .sucesso{
 margin-top:20px;
-font-size:15px;
-color:#9cffb2;
 text-align:center;
-line-height:1.6;
+color:#9cffb2;
+line-height:1.7;
+font-weight:bold;
 }
-
 </style>
 
 </head>
@@ -133,63 +130,74 @@ Pagamento do plano de doações
 </div>
 
 <div class="subtitulo">
-Escolha abaixo a forma de apoio que deseja usar para ativar ou renovar o seu acesso ao Lapidar
+Escolha a forma de apoio para ativar ou renovar o seu acesso ao Lapidar
 </div>
 
 <div class="card">
 
-<div class="label">Plano selecionado</div>
-<div class="valor" id="planoSelecionado">Carregando...</div>
+<div>
+<span class="label">Plano selecionado</span><br>
+<span id="planoSelecionado" class="valor">Não informado</span>
+</div>
 
-<div class="label">Valor correspondente</div>
-<div class="valor" id="valorPlano">Carregando...</div>
+<div style="margin-top:16px">
+<span class="label">Valor correspondente</span><br>
+<span id="valorPlano" class="valor">Não informado</span>
+</div>
 
-<div class="texto">
-Ao confirmar a doação, o seu acesso será atualizado de acordo com o plano escolhido.
+<div style="margin-top:16px">
+<span class="label">Limite mensal de obras</span><br>
+<span id="limiteObras" class="valor">Não informado</span>
+</div>
+
+<div style="margin-top:16px">
+<span class="label">Situação após confirmação</span><br>
+<span class="destaque">Seu plano ficará ativo no sistema.</span>
 </div>
 
 </div>
 
 <div class="card">
 
-<div class="label">Como deseja fazer a sua doação?</div>
-
-<div class="opcoes">
-<label><input type="radio" name="formaPagamento" value="pix" onclick="mostrarPagamento()"> Pix</label>
-<label><input type="radio" name="formaPagamento" value="deposito" onclick="mostrarPagamento()"> Depósito bancário</label>
-<label><input type="radio" name="formaPagamento" value="cartao" onclick="mostrarPagamento()"> Cartão de crédito</label>
+<div>
+<span class="label">Forma de doação</span><br>
+<select id="formaDoacao" onchange="mostrarFormaPagamento()">
+<option value="">Selecione</option>
+<option value="pix">Pix</option>
+<option value="deposito">Depósito bancário</option>
+<option value="cartao">Cartão de crédito</option>
+</select>
 </div>
 
-<div id="blocoPix" class="blocoPagamento">
-<strong>Doação por Pix</strong><br><br>
-Aqui aparecerá a chave Pix oficial do projeto.<br>
-Após a confirmação da doação, o seu acesso poderá ser liberado automaticamente.
+<div id="pixBox" class="blocoPagamento">
+<span class="label">Doação por Pix</span><br>
+Use esta opção para fazer a sua doação por Pix.<br><br>
+Assim que a doação for confirmada, o acesso do plano será liberado automaticamente no sistema.
 </div>
 
-<div id="blocoDeposito" class="blocoPagamento">
-<strong>Doação por depósito bancário</strong><br><br>
-Aqui aparecerão os dados bancários oficiais do projeto.<br>
-Após a confirmação da doação, o seu acesso poderá ser atualizado no sistema.
+<div id="depositoBox" class="blocoPagamento">
+<span class="label">Doação por depósito bancário</span><br>
+Use esta opção para depósitos ou transferências bancárias.<br><br>
+Após a confirmação, o seu plano será ativado dentro do Lapidar.
 </div>
 
-<div id="blocoCartao" class="blocoPagamento">
-<strong>Doação por cartão de crédito</strong><br><br>
-O pagamento por cartão será realizado em ambiente seguro de checkout.<br>
-Nesta etapa, o botão abaixo servirá como preparação para essa integração futura.
+<div id="cartaoBox" class="blocoPagamento">
+<span class="label">Doação por cartão de crédito</span><br>
+Esta opção poderá ser integrada a um ambiente seguro de checkout.<br><br>
+Após a confirmação do pagamento, o plano ficará ativo automaticamente.
 </div>
 
 </div>
 
-<div class="aviso">
-O acesso ao Lapidar é pessoal e permitido em apenas <b>um dispositivo por vez</b> (computador ou celular).<br><br>
-Todos os planos incluem avaliação da obra dentro do limite mensal correspondente.
+<div class="alerta">
+Depois da confirmação da doação, o sistema registra o plano como ativo e libera o acesso aos recursos correspondentes.
 </div>
 
 <button class="botao" onclick="confirmarDoacao()">
-Confirmar doação
+Confirmar doação e ativar plano
 </button>
 
-<button class="botao botaoCinza" onclick="window.location.href='planos_doacoes.html'">
+<button class="botao botaoSecundario" onclick="window.location.href='planos_doacoes.html'">
 Voltar para os planos de doações
 </button>
 
@@ -199,87 +207,105 @@ Voltar para os planos de doações
 
 <script>
 
-function carregarPlano(){
-
-const plano = localStorage.getItem("SDL_plano") || "Plano não selecionado";
-
-let valor = "A definir";
-
-if(plano === "Essencial"){
-valor = "R$ 1,99";
-}
-else if(plano === "Inicial"){
-valor = "R$ 9,90";
-}
-else if(plano === "Editorial"){
-valor = "R$ 39,90";
-}
-else if(plano === "Avançado"){
-valor = "R$ 59,90";
-}
-else if(plano === "Profissional"){
-valor = "R$ 99,90";
-}
-else if(plano === "Magistral"){
-valor = "Apoio máximo";
-}
+const plano = localStorage.getItem("SDL_plano") || "Não informado";
+const limite = localStorage.getItem("SDL_limite_obras") || "Não informado";
 
 document.getElementById("planoSelecionado").innerText = plano;
-document.getElementById("valorPlano").innerText = valor;
+document.getElementById("limiteObras").innerText = limite === "ilimitado" ? "Uso livre dentro do período do plano" : limite + " obra(s) no mês";
 
+function definirValor(planoEscolhido){
+
+if(planoEscolhido === "Essencial"){
+return "R$ 1,99";
 }
 
-function mostrarPagamento(){
-
-const forma = document.querySelector('input[name="formaPagamento"]:checked');
-
-document.getElementById("blocoPix").style.display = "none";
-document.getElementById("blocoDeposito").style.display = "none";
-document.getElementById("blocoCartao").style.display = "none";
-
-if(!forma){
-return;
+if(planoEscolhido === "Inicial"){
+return "R$ 9,90";
 }
 
-if(forma.value === "pix"){
-document.getElementById("blocoPix").style.display = "block";
+if(planoEscolhido === "Editorial"){
+return "R$ 39,90";
 }
 
-if(forma.value === "deposito"){
-document.getElementById("blocoDeposito").style.display = "block";
+if(planoEscolhido === "Avançado"){
+return "R$ 59,90";
 }
 
-if(forma.value === "cartao"){
-document.getElementById("blocoCartao").style.display = "block";
+if(planoEscolhido === "Profissional"){
+return "R$ 99,90";
+}
+
+if(planoEscolhido === "Magistral"){
+return "Plano Magistral — uso livre";
+}
+
+return "Não informado";
+}
+
+document.getElementById("valorPlano").innerText = definirValor(plano);
+
+function mostrarFormaPagamento(){
+
+const forma = document.getElementById("formaDoacao").value;
+
+document.getElementById("pixBox").style.display = "none";
+document.getElementById("depositoBox").style.display = "none";
+document.getElementById("cartaoBox").style.display = "none";
+
+if(forma === "pix"){
+document.getElementById("pixBox").style.display = "block";
+}
+
+if(forma === "deposito"){
+document.getElementById("depositoBox").style.display = "block";
+}
+
+if(forma === "cartao"){
+document.getElementById("cartaoBox").style.display = "block";
 }
 
 }
 
 function confirmarDoacao(){
 
-const forma = document.querySelector('input[name="formaPagamento"]:checked');
+const forma = document.getElementById("formaDoacao").value;
 
-if(!forma){
-alert("Escolha primeiro a forma de doação.");
+if(!plano || plano === "Não informado"){
+alert("Escolha primeiro um plano de doações.");
+window.location.href = "planos_doacoes.html";
 return;
 }
 
-localStorage.setItem("SDL_forma_pagamento", forma.value);
-localStorage.setItem("SDL_data_pagamento", new Date().toISOString());
+if(!forma){
+alert("Escolha a forma de doação antes de continuar.");
+return;
+}
+
+const hoje = new Date();
+const vencimento = new Date();
+vencimento.setMonth(vencimento.getMonth() + 1);
+
+const prazoRetirada = new Date(vencimento);
+prazoRetirada.setDate(prazoRetirada.getDate() + 7);
+
+localStorage.setItem("SDL_forma_doacao", forma);
+localStorage.setItem("SDL_data_pagamento", hoje.toISOString());
+localStorage.setItem("SDL_data_vencimento", vencimento.toISOString());
+localStorage.setItem("SDL_data_prazo_retirada", prazoRetirada.toISOString());
+
+localStorage.setItem("SDL_plano_ativo", "ativo");
+localStorage.setItem("SDL_prazo_liberado", "sim");
 
 document.getElementById("mensagemSucesso").innerHTML =
-"Doação registrada com sucesso.<br>Seu plano foi atualizado no sistema.";
+"Doação confirmada com sucesso.<br><br>Seu plano já está ativo no sistema.";
 
 setTimeout(function(){
 window.location.href = "status_plano.html";
-}, 1200);
+}, 1400);
 
 }
-
-carregarPlano();
 
 </script>
 
 </body>
-
 </html>
