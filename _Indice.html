@@ -2,8 +2,10 @@
 <html lang="pt-br">
 
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Lapidar</title>
 
 <style>
@@ -61,18 +63,25 @@ line-height:1.7;
 }
 
 .botao{
+
 display:block;
 width:100%;
 margin:12px 0;
 padding:18px;
+
 border-radius:35px;
 border:none;
+
 background:#ff5a00;
 color:white;
+
 font-size:18px;
 font-weight:bold;
+
 cursor:pointer;
+
 transition:0.3s;
+
 }
 
 .botao:hover{
@@ -88,13 +97,19 @@ background:#6a6a6a;
 }
 
 .transparencia{
+
 margin-top:34px;
+
 font-size:13px;
+
 color:#ffd2b3;
+
 line-height:1.6;
+
 }
 
 </style>
+
 </head>
 
 <body>
@@ -116,103 +131,179 @@ A casa do seu livro
 <div id="usuarioLogado" class="usuario"></div>
 
 <div class="orientacao">
+
 Esta é a casa onde o seu livro começa a ganhar forma.<br>
 Escolha abaixo o que deseja fazer agora.
+
 </div>
 
-<button class="botao" onclick="window.location.href='bloco11.html'">
+
+<button class="botao"
+onclick="window.location.href='bloco11.html'">
+
 Entre aqui com o seu arquivo do livro
+
 </button>
 
-<button class="botao" onclick="abrirCapaRefinada()">
+
+<button class="botao"
+onclick="abrirCapaRefinada()">
+
 Entre aqui para fazer a sua capa refinada
+
 </button>
 
-<button class="botao" onclick="window.location.href='bloco13.html'">
+
+<button class="botao"
+onclick="window.location.href='bloco13.html'">
+
 Clique aqui para retirar o seu livro finalizado
+
 </button>
 
-<button class="botao sair" onclick="logout()">
+
+<button class="botao sair"
+onclick="logout()">
+
 Encerrar sessão
+
 </button>
+
 
 <div class="transparencia">
-A capa correspondente ao seu pacote já está inclusa.<br>
-Não esqueça: a capa correspondente ao seu pacote já está garantida.<br>
-Capas com orelhas ou versões premium podem ser adicionadas como opcionais.
-</div>
+
+A capa correspondente ao seu pacote já está garantida.<br>
+Capas refinadas com orelhas ou versões premium podem ser adicionadas como opcionais.
 
 </div>
+
+
+</div>
+
 
 <script>
 
 function logout(){
+
 localStorage.removeItem("SDL_usuario_logado");
-window.location.href = "index.html";
+
+window.location.href="index.html";
+
 }
+
 
 const usuario = localStorage.getItem("SDL_usuario_logado");
 
 if(usuario){
-document.getElementById("usuarioLogado").innerText = "Bem-vindo, " + usuario + ".";
+
+document.getElementById("usuarioLogado").innerText =
+"Bem-vindo, " + usuario + ".";
+
 }
 
-// Estas chaves podem ser usadas depois pelos outros blocos do sistema.
-const livroEnviado = localStorage.getItem("SDL_livro_enviado");
-const tituloLivro = localStorage.getItem("SDL_titulo_livro");
-const tituloCapa = localStorage.getItem("SDL_titulo_capa_refinada");
+
 
 function abrirCapaRefinada(){
 
-const confirmarCapaRefinada = confirm(
-"Você lembra que já possui uma capa garantida no seu pacote?\n\nA capa refinada é uma opção adicional.\n\nSe desejar continuar, pressione OK."
+
+const confirmarOpcional = confirm(
+
+"Você lembra que já possui uma capa garantida no seu pacote?\n\nA capa refinada é uma opção adicional.\n\nDeseja continuar?"
+
 );
 
-if(!confirmarCapaRefinada){
+if(!confirmarOpcional){
+
 return;
+
 }
+
+
+
+const livroEnviado = localStorage.getItem("SDL_livro_enviado");
+
+const tituloLivro = localStorage.getItem("SDL_titulo_livro");
+
+const tituloCapa = localStorage.getItem("SDL_titulo_capa_refinada");
+
+
 
 if(livroEnviado){
 
+
+
 if(tituloLivro && tituloCapa && tituloLivro.trim().toLowerCase() !== tituloCapa.trim().toLowerCase()){
 
-const continuarOutroProjeto = confirm(
-"Notamos que o título da capa é diferente do título do livro que está aberto neste momento.\n\nVocê está aproveitando este espaço para preparar a capa de outro livro?\n\nPressione OK para continuar ou Cancelar para voltar."
+
+
+const multitarefaEditorial = confirm(
+
+"Notamos que o título da capa é diferente do título do livro que está aberto neste momento.\n\nVocê está aproveitando este espaço para preparar a capa de outro livro?"
+
 );
 
-if(!continuarOutroProjeto){
+
+
+if(!multitarefaEditorial){
+
 return;
-}
 
 }
 
-const substituirCapaDoPacote = confirm(
-"Você deseja substituir a capa garantida do seu pacote por uma capa refinada?\n\nPressione OK para continuar ou Cancelar para voltar."
+}
+
+
+
+const substituirCapaPadrao = confirm(
+
+"Você deseja substituir a capa garantida do seu pacote por uma capa refinada?"
+
 );
 
-if(!substituirCapaDoPacote){
-return;
-}
 
-localStorage.setItem("SDL_substituir_capa_pacote", "sim");
-window.location.href = "bloco12.html";
+
+if(!substituirCapaPadrao){
+
 return;
 
 }
+
+
+
+localStorage.setItem("SDL_substituir_capa_pacote","sim");
+
+window.location.href="bloco12.html";
+
+return;
+
+}
+
+
 
 const criarSomenteCapa = confirm(
-"Não encontramos um arquivo do livro enviado ainda.\n\nVocê deseja criar apenas a capa refinada?\n\nPressione OK para continuar ou Cancelar para voltar."
+
+"Não encontramos um arquivo do livro enviado ainda.\n\nVocê deseja criar apenas a capa refinada?"
+
 );
 
+
+
 if(!criarSomenteCapa){
+
 return;
+
 }
 
-localStorage.setItem("SDL_criar_apenas_capa", "sim");
-window.location.href = "bloco12.html";
+
+
+localStorage.setItem("SDL_criar_apenas_capa","sim");
+
+window.location.href="bloco12.html";
+
 }
 
 </script>
+
 
 </body>
 
