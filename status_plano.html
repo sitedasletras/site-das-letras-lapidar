@@ -2,14 +2,11 @@
 <html lang="pt-br">
 
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Status do plano editorial</title>
+<title>Status do plano editorial — Site das Letras</title>
 
 <style>
-
 body{
 margin:0;
 background:#0c0603;
@@ -18,26 +15,22 @@ color:white;
 display:flex;
 justify-content:center;
 }
-
 .container{
-max-width:720px;
+max-width:760px;
 width:92%;
 padding:40px 0 60px 0;
 }
-
 .titulo{
 font-size:34px;
 text-align:center;
 font-weight:bold;
 }
-
 .subtitulo{
 text-align:center;
 color:#ff7b2c;
 margin-top:10px;
 margin-bottom:28px;
 }
-
 .card{
 background:#140c08;
 border-radius:14px;
@@ -45,17 +38,14 @@ padding:26px;
 margin-top:20px;
 line-height:1.8;
 }
-
 .item{
 margin-bottom:10px;
 color:#ffd2b3;
 }
-
 .destaque{
 color:#9cffb2;
 font-weight:bold;
 }
-
 .botao{
 width:100%;
 padding:18px;
@@ -68,9 +58,10 @@ font-size:18px;
 font-weight:bold;
 cursor:pointer;
 }
-
+.botaoCinza{
+background:#444;
+}
 </style>
-
 </head>
 
 <body>
@@ -78,78 +69,111 @@ cursor:pointer;
 <div class="container">
 
 <div class="titulo">
-
 Status editorial do seu ambiente
-
 </div>
 
 <div class="subtitulo">
-
 Lapidar — Site das Letras
-
 </div>
 
-<div class="card" id="statusPlano">
-
-Carregando informações do plano...
-
+<div class="card" id="conteudoStatus">
+Carregando informações do ambiente editorial...
 </div>
 
-<button class="botao"
-onclick="window.location.href='_Indice.html'">
+<button class="botao" onclick="window.location.href='pagamento.html'">
+Ir para pagamento
+</button>
 
+<button class="botao botaoCinza" onclick="window.location.href='_Indice.html'">
 Voltar para casa do original
-
 </button>
 
 </div>
 
 <script>
 
-function obterValor(chave){
-
-return localStorage.getItem(chave) || "não registrado";
-
+function valorOuPadrao(chave, padrao){
+return localStorage.getItem(chave) || padrao;
 }
 
 function montarStatus(){
 
 const planoLapidar =
-obterValor("SDL_plano_lapidar");
+valorOuPadrao("SDL_plano_lapidar","nenhum");
+
+const statusPagamento =
+valorOuPadrao("SDL_status_pagamento","não confirmado");
+
+const metodoPagamento =
+valorOuPadrao("SDL_metodo_pagamento","não definido");
+
+const paisPagamento =
+valorOuPadrao("SDL_pais_pagamento","não definido");
+
+const idiomaGlobal =
+valorOuPadrao("SDL_idioma_obra_global","pt");
+
+const idiomaExtra =
+valorOuPadrao("SDL_idioma_extra","não ativado");
+
+const servicoExtra =
+valorOuPadrao("SDL_servico_extra","nenhum");
 
 const planoCapista =
-obterValor("CAPISTA_plano");
+valorOuPadrao("CAPISTA_nome_plano","nenhum");
 
-const leituraTecnica =
-obterValor("LTE_status");
+const planoCapistaCodigo =
+valorOuPadrao("CAPISTA_plano","nenhum");
 
 const capasFisicas =
-obterValor("CAPISTA_capas_fisicas");
+valorOuPadrao("CAPISTA_usadas_fisicas","0");
 
 const capasEpub =
-obterValor("CAPISTA_capas_epub");
+valorOuPadrao("CAPISTA_usadas_epub","0");
 
-const idiomasExtras =
-obterValor("SDL_idiomas_extras");
+const capasOutroIdioma =
+valorOuPadrao("CAPISTA_usadas_outro_idioma","0");
 
-const validadePlano =
-obterValor("SDL_validade_plano");
+const limiteCapistaEpub =
+valorOuPadrao("CAPISTA_limite_epub","0");
 
-document.getElementById("statusPlano").innerHTML =
+const limiteCapistaOutroIdioma =
+valorOuPadrao("CAPISTA_limite_outro_idioma","0");
 
-"<div class='item'>Plano Lapidar ativo: <span class='destaque'>" + planoLapidar + "</span></div>" +
+const leituraTecnica =
+valorOuPadrao("LTE_status","não solicitada");
 
-"<div class='item'>Plano Capista ativo: <span class='destaque'>" + planoCapista + "</span></div>" +
+document.getElementById("conteudoStatus").innerHTML =
 
-"<div class='item'>Leitura técnica editorial: <span class='destaque'>" + leituraTecnica + "</span></div>" +
+"<div class='item'>Plano Lapidar: <span class='destaque'>" + planoLapidar + "</span></div>" +
 
-"<div class='item'>Capas físicas utilizadas: <span class='destaque'>" + capasFisicas + "</span></div>" +
+"<div class='item'>Status do pagamento: <span class='destaque'>" + statusPagamento + "</span></div>" +
 
-"<div class='item'>Capas EPUB utilizadas: <span class='destaque'>" + capasEpub + "</span></div>" +
+"<div class='item'>Método de pagamento: <span class='destaque'>" + metodoPagamento + "</span></div>" +
 
-"<div class='item'>Idiomas extras ativados: <span class='destaque'>" + idiomasExtras + "</span></div>" +
+"<div class='item'>País do pagamento: <span class='destaque'>" + paisPagamento + "</span></div>" +
 
-"<div class='item'>Validade do plano: <span class='destaque'>" + validadePlano + "</span></div>";
+"<div class='item'>Idioma principal da obra: <span class='destaque'>" + idiomaGlobal + "</span></div>" +
+
+"<div class='item'>Idioma extra ativado: <span class='destaque'>" + idiomaExtra + "</span></div>" +
+
+"<div class='item'>Serviço extra ativo: <span class='destaque'>" + servicoExtra + "</span></div>" +
+
+"<div class='item'>Plano Capista: <span class='destaque'>" + planoCapista + " (" + planoCapistaCodigo + ")" + "</span></div>" +
+
+"<div class='item'>Capas físicas usadas: <span class='destaque'>" + capasFisicas + "</span></div>" +
+
+"<div class='item'>Capas EPUB usadas: <span class='destaque'>" + capasEpub + "</span></div>" +
+
+"<div class='item'>Capas em outro idioma usadas: <span class='destaque'>" + capasOutroIdioma + "</span></div>" +
+
+"<div class='item'>Limite de capas EPUB do plano Capista: <span class='destaque'>" + limiteCapistaEpub + "</span></div>" +
+
+"<div class='item'>Limite de capas em outro idioma: <span class='destaque'>" + limiteCapistaOutroIdioma + "</span></div>" +
+
+"<div class='item'>Leitura Técnica Editorial: <span class='destaque'>" + leituraTecnica + "</span></div>" +
+
+"<div class='item'>Resumo geral: <span class='destaque'>Seu ambiente editorial está sendo acompanhado pelo sistema Lapidar.</span></div>";
 
 }
 
@@ -158,5 +182,4 @@ montarStatus();
 </script>
 
 </body>
-
 </html>
