@@ -13,7 +13,7 @@
 body{
 
 margin:0;
-font-family:Arial, sans-serif;
+font-family:Arial,sans-serif;
 background:#0d0603;
 color:white;
 
@@ -28,7 +28,7 @@ min-height:100vh;
 .container{
 
 width:95%;
-max-width:600px;
+max-width:650px;
 
 }
 
@@ -42,7 +42,7 @@ margin-bottom:20px;
 label{
 
 display:block;
-margin-top:15px;
+margin-top:18px;
 font-size:16px;
 
 }
@@ -63,7 +63,7 @@ font-size:16px;
 button{
 
 width:100%;
-padding:15px;
+padding:16px;
 
 margin-top:30px;
 
@@ -82,7 +82,7 @@ cursor:pointer;
 
 .info{
 
-margin-top:15px;
+margin-top:12px;
 font-size:14px;
 color:#ffb27a;
 
@@ -100,11 +100,7 @@ color:#ffb27a;
 <h1>Preferências de Diagramação</h1>
 
 
-<label>
-
-Formato do livro
-
-</label>
+<label>Formato do material</label>
 
 <select id="formato">
 
@@ -117,11 +113,7 @@ Formato do livro
 
 
 
-<label>
-
-Alinhamento do texto
-
-</label>
+<label>Alinhamento do texto</label>
 
 <select id="alinhamento">
 
@@ -133,11 +125,7 @@ Alinhamento do texto
 
 
 
-<label>
-
-Recuo de parágrafo
-
-</label>
+<label>Recuo de parágrafo</label>
 
 <select id="recuo">
 
@@ -148,11 +136,7 @@ Recuo de parágrafo
 
 
 
-<label>
-
-Hifenização automática
-
-</label>
+<label>Hifenização automática</label>
 
 <select id="hifenizacao">
 
@@ -163,11 +147,7 @@ Hifenização automática
 
 
 
-<label>
-
-Modo automático de preparação
-
-</label>
+<label>Modo automático de preparação</label>
 
 <select id="modo">
 
@@ -182,24 +162,53 @@ Modo automático de preparação
 
 
 
-<label>
-
-Tema de visualização
-
-</label>
+<label>Tema de visualização</label>
 
 <select id="tema">
 
 <option value="claro">Modo clássico (papel branco)</option>
-<option value="invertido">Modo noturno (preto com letras brancas)</option>
+<option value="invertido">Modo noturno (fundo preto)</option>
+
+</select>
+
+<div class="info">
+
+Modo noturno melhora a leitura na tela.  
+Não altera automaticamente a versão para impressão.
+
+</div>
+
+
+
+<label>Moldura editorial do material</label>
+
+<select id="moldura">
+
+<option value="simples">Essencial (incluída no plano 1,99)</option>
+
+<option value="intermediaria">
+Editorial padrão (planos ≥ 9,90)
+</option>
+
+<option value="leve">
+Moldura leve (planos ≥ 59,90)
+</option>
+
+<option value="artistica">
+Moldura artística (planos ≥ 99,90)
+</option>
+
+<option value="magistral">
+Magistral completa (uso livre)
+</option>
 
 </select>
 
 
 <div class="info">
 
-O modo noturno melhora a leitura na tela.
-Não altera automaticamente a versão para impressão.
+Algumas molduras dependem do plano ativo de doação.  
+Caso não estejam disponíveis, o sistema ajustará automaticamente.
 
 </div>
 
@@ -219,31 +228,56 @@ Confirmar Preferências
 
 function salvarPreferencias(){
 
-const formato = document.getElementById("formato").value;
+const formato =
+document.getElementById("formato").value;
 
-const alinhamento = document.getElementById("alinhamento").value;
+const alinhamento =
+document.getElementById("alinhamento").value;
 
-const recuo = document.getElementById("recuo").value;
+const recuo =
+document.getElementById("recuo").value;
 
-const hifenizacao = document.getElementById("hifenizacao").value;
+const hifenizacao =
+document.getElementById("hifenizacao").value;
 
-const modo = document.getElementById("modo").value;
+const modo =
+document.getElementById("modo").value;
 
-const tema = document.getElementById("tema").value;
+const tema =
+document.getElementById("tema").value;
+
+const moldura =
+document.getElementById("moldura").value;
 
 
 
-localStorage.setItem("SDL_formato", formato);
+localStorage.setItem(
+"SDL_formato",formato
+);
 
-localStorage.setItem("SDL_alinhamento", alinhamento);
+localStorage.setItem(
+"SDL_alinhamento",alinhamento
+);
 
-localStorage.setItem("SDL_recuo", recuo);
+localStorage.setItem(
+"SDL_recuo",recuo
+);
 
-localStorage.setItem("SDL_hifenizacao", hifenizacao);
+localStorage.setItem(
+"SDL_hifenizacao",hifenizacao
+);
 
-localStorage.setItem("SDL_modo_preparacao", modo);
+localStorage.setItem(
+"SDL_modo_preparacao",modo
+);
 
-localStorage.setItem("SDL_tema_visual", tema);
+localStorage.setItem(
+"SDL_tema_visual",tema
+);
+
+localStorage.setItem(
+"SDL_moldura_editorial",moldura
+);
 
 
 
@@ -251,9 +285,14 @@ aplicarModoAutomatico(modo);
 
 
 
-alert("Preferências salvas com sucesso.");
+alert(
+"Preferências salvas com sucesso."
+);
 
-window.location.href="revisao_pedido.html";
+
+
+window.location.href =
+"revisao_pedido.html";
 
 }
 
@@ -261,45 +300,63 @@ window.location.href="revisao_pedido.html";
 
 function aplicarModoAutomatico(modo){
 
-if(modo === "professor"){
+if(modo==="professor"){
 
-localStorage.setItem("SDL_formato","A4");
+localStorage.setItem(
+"SDL_formato","A4"
+);
 
-localStorage.setItem("SDL_recuo","Sem recuo");
+localStorage.setItem(
+"SDL_recuo","Sem recuo"
+);
 
-localStorage.setItem("SDL_alinhamento","Alinhado à esquerda");
-
-}
-
-
-
-if(modo === "poesia"){
-
-localStorage.setItem("SDL_recuo","Sem recuo");
-
-localStorage.setItem("SDL_alinhamento","Centrado (poesia)");
+localStorage.setItem(
+"SDL_alinhamento",
+"Alinhado à esquerda"
+);
 
 }
 
 
 
-if(modo === "memorial"){
+if(modo==="poesia"){
 
-localStorage.setItem("SDL_tema_visual","invertido");
+localStorage.setItem(
+"SDL_recuo","Sem recuo"
+);
+
+localStorage.setItem(
+"SDL_alinhamento",
+"Centrado (poesia)"
+);
+
+}
+
+
+
+if(modo==="memorial"){
+
+localStorage.setItem(
+"SDL_tema_visual",
+"invertido"
+);
 
 }
 
 
 
-if(modo === "classico"){
+if(modo==="classico"){
 
-localStorage.setItem("SDL_formato","A5");
+localStorage.setItem(
+"SDL_formato","A5"
+);
 
-localStorage.setItem("SDL_alinhamento","Justificado");
+localStorage.setItem(
+"SDL_alinhamento",
+"Justificado"
+);
 
 }
-
-
 
 }
 
