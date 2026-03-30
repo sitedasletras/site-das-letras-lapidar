@@ -1,195 +1,115 @@
 <!DOCTYPE html>
-<html lang="pt-br">
-
+<html lang="pt">
 <head>
-
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Acesso ao ambiente Lapidar</title>
+<title>Lapidar — A esperança e sonhos dos escritores</title>
 
 <style>
 
 body{
-margin:0;
-background:#0c0603;
+background:#000;
+color:#fff;
 font-family:Arial;
-color:white;
-display:flex;
-justify-content:center;
-align-items:center;
-height:100vh;
+text-align:center;
+padding-top:80px;
 }
 
 .container{
-max-width:420px;
-width:90%;
-}
-
-.card{
-background:#140c08;
-border-radius:14px;
-padding:30px;
-text-align:center;
-}
-
-.titulo{
-font-size:30px;
-font-weight:bold;
-margin-bottom:10px;
-}
-
-.subtitulo{
-color:#ff7b2c;
-margin-bottom:20px;
+width:320px;
+margin:auto;
+padding:25px;
+background:#111;
+border-radius:12px;
+box-shadow:0px 0px 12px #333;
 }
 
 input{
-
-width:100%;
-padding:14px;
-margin-top:12px;
+width:90%;
+padding:12px;
+margin:10px 0;
+border-radius:6px;
 border:none;
-border-radius:8px;
-
+font-size:16px;
 }
 
-.botao{
-
-width:100%;
-padding:18px;
-margin-top:22px;
-
+button{
+background:#FFD700;
 border:none;
-border-radius:40px;
-
-background:#ff5a00;
-
-color:white;
+padding:12px;
+width:95%;
 font-size:18px;
-font-weight:bold;
-
+border-radius:6px;
 cursor:pointer;
-
 }
 
-.info{
+button:hover{
+background:#e6c200;
+}
 
-margin-top:14px;
-font-size:14px;
-color:#ffcfaa;
-
+.erro{
+color:red;
+margin-top:10px;
 }
 
 </style>
-
 </head>
 
 <body>
 
 <div class="container">
 
-<div class="card">
+<h2>Lapidar</h2>
 
-<div class="titulo">
+<p>
+Entre com seus dados para acessar sua área de diagramação
+</p>
 
-Lapidar
+<input type="text" id="usuario" placeholder="Digite seu email">
 
-</div>
+<input type="password" id="senha" placeholder="Digite sua senha">
 
-<div class="subtitulo">
+<button onclick="entrar()">Entrar</button>
 
-Entre na sua casa editorial
-
-</div>
-
-<input
-id="usuario"
-placeholder="Seu e-mail ou nome de acesso">
-
-<input
-type="password"
-id="senha"
-placeholder="Sua senha">
-
-<button
-class="botao"
-onclick="entrarSistema()">
-
-Entrar no ambiente
-
-</button>
-
-<div class="info">
-
-O acesso é permitido em apenas um dispositivo por vez.
+<div class="erro" id="erro"></div>
 
 </div>
 
-</div>
-
-</div>
 
 <script>
 
-function detectarIdiomaSistema(){
+const usuarioPadrao = "admin@sitedasletras.com";
+const senhaPadrao = "123456";
 
-const idioma = navigator.language;
 
-if(idioma.startsWith("pt")) return "pt";
-if(idioma.startsWith("en")) return "en";
-if(idioma.startsWith("es")) return "es";
-if(idioma.startsWith("it")) return "it";
-if(idioma.startsWith("fr")) return "fr";
-if(idioma.startsWith("de")) return "de";
+function entrar(){
 
-return "pt";
+let usuario = document.getElementById("usuario").value;
+let senha = document.getElementById("senha").value;
 
-}
 
-function entrarSistema(){
+if(usuario === usuarioPadrao && senha === senhaPadrao){
 
-const usuario =
-document.getElementById("usuario").value;
+localStorage.setItem("lapidar_logado","true");
 
-const senha =
-document.getElementById("senha").value;
+window.location.href="painel.html";
 
-if(!usuario || !senha){
+}else{
 
-alert("Informe usuário e senha.");
-
-return;
+document.getElementById("erro").innerText =
+"Email ou senha inválidos.";
 
 }
 
-localStorage.setItem(
-"SDL_usuario_logado",
-usuario
-);
+}
 
-localStorage.setItem(
-"SDL_sessao_ativa",
-"sim"
-);
 
-localStorage.setItem(
-"SDL_dispositivo_autorizado",
-navigator.userAgent
-);
+if(localStorage.getItem("lapidar_logado") === "true"){
 
-localStorage.setItem(
-"SDL_idioma_interface",
-detectarIdiomaSistema()
-);
-
-window.location.href =
-"_Indice.html";
+window.location.href="painel.html";
 
 }
 
 </script>
 
 </body>
-
 </html>
