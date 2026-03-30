@@ -6,105 +6,124 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Lapidar</title>
+<title>Lapidar — A casa do seu livro</title>
 
 <style>
 
 body{
+
 margin:0;
 font-family:Arial, sans-serif;
 background:#0d0603;
 color:white;
 display:flex;
 justify-content:center;
-align-items:center;
-min-height:100vh;
+
 }
 
 .container{
-text-align:center;
-max-width:420px;
-width:90%;
-padding:24px 0 28px 0;
+
+max-width:600px;
+width:92%;
+padding:40px 0;
+
 }
 
 .titulo{
-font-size:38px;
-font-weight:bold;
-letter-spacing:3px;
-margin-bottom:6px;
-}
 
-.fraseInstitucional{
-color:#ff7b2c;
-font-size:16px;
-margin-bottom:18px;
-line-height:1.5;
+font-size:42px;
+font-weight:bold;
+text-align:center;
+letter-spacing:3px;
+
 }
 
 .subtitulo{
+
+text-align:center;
 color:#ff7b2c;
-font-size:22px;
-margin-bottom:10px;
-font-weight:bold;
+margin-top:8px;
+font-size:18px;
+
 }
 
-.usuario{
-margin-bottom:22px;
-color:#ffd2b3;
-font-size:14px;
+.casa{
+
+text-align:center;
+font-size:28px;
+margin-top:22px;
+color:#ff7b2c;
+
 }
 
-.orientacao{
+.bemvindo{
+
+text-align:center;
+margin-top:10px;
+font-size:18px;
+
+}
+
+.statusPlano{
+
+margin-top:12px;
 font-size:14px;
 color:#ffd2b3;
-margin-bottom:32px;
-line-height:1.7;
+text-align:center;
+
+}
+
+.descricao{
+
+text-align:center;
+margin-top:24px;
+line-height:1.6;
+color:#ffd2b3;
+
 }
 
 .botao{
 
-display:block;
 width:100%;
-margin:12px 0;
-padding:18px;
-
-border-radius:35px;
+padding:20px;
+margin-top:24px;
 border:none;
-
+border-radius:40px;
 background:#ff5a00;
 color:white;
-
-font-size:18px;
+font-size:20px;
 font-weight:bold;
-
 cursor:pointer;
-
-transition:0.3s;
 
 }
 
 .botao:hover{
+
 background:#ff6f1a;
+
 }
 
-.sair{
-background:#4a4a4a;
+.botaoCinza{
+
+background:#444;
+
 }
 
-.sair:hover{
-background:#6a6a6a;
+.botaoCinza:hover{
+
+background:#666;
+
 }
 
-.transparencia{
+.botaoPlano{
 
-margin-top:34px;
+background:#1f4cff;
 
-font-size:13px;
+}
 
-color:#ffd2b3;
+.botaoPlano:hover{
 
-line-height:1.6;
+background:#3b63ff;
 
 }
 
@@ -116,21 +135,43 @@ line-height:1.6;
 
 <div class="container">
 
+
 <div class="titulo">
+
 LAPIDAR
+
 </div>
 
-<div class="fraseInstitucional">
-A esperança e sonhos dos escritores
-</div>
 
 <div class="subtitulo">
-A casa do seu livro
+
+A esperança e sonhos dos escritores
+
 </div>
 
-<div id="usuarioLogado" class="usuario"></div>
 
-<div class="orientacao">
+<div class="casa">
+
+A casa do seu livro
+
+</div>
+
+
+<div class="bemvindo">
+
+Bem-vindo, admin.
+
+</div>
+
+
+<div id="statusPlanoTopo" class="statusPlano">
+
+Verificando status do seu acesso...
+
+</div>
+
+
+<div class="descricao">
 
 Esta é a casa onde o seu livro começa a ganhar forma.<br>
 Escolha abaixo o que deseja fazer agora.
@@ -139,7 +180,7 @@ Escolha abaixo o que deseja fazer agora.
 
 
 <button class="botao"
-onclick="window.location.href='bloco11.html'">
+onclick="window.location.href='upload_livro.html'">
 
 Entre aqui com o seu arquivo do livro
 
@@ -147,7 +188,7 @@ Entre aqui com o seu arquivo do livro
 
 
 <button class="botao"
-onclick="abrirCapaRefinada()">
+onclick="abrirGeradorCapa()">
 
 Entre aqui para fazer a sua capa refinada
 
@@ -155,27 +196,27 @@ Entre aqui para fazer a sua capa refinada
 
 
 <button class="botao"
-onclick="window.location.href='bloco13.html'">
+onclick="window.location.href='retirada_livros.html'">
 
 Clique aqui para retirar o seu livro finalizado
 
 </button>
 
 
-<button class="botao sair"
-onclick="logout()">
+<button class="botao botaoPlano"
+onclick="window.location.href='status_plano.html'">
 
-Encerrar sessão
+Ver situação do seu plano
 
 </button>
 
 
-<div class="transparencia">
+<button class="botao botaoCinza"
+onclick="encerrarSessao()">
 
-A capa correspondente ao seu pacote já está garantida.<br>
-Capas refinadas com orelhas ou versões premium podem ser adicionadas como opcionais.
+Encerrar sessão
 
-</div>
+</button>
 
 
 </div>
@@ -183,124 +224,128 @@ Capas refinadas com orelhas ou versões premium podem ser adicionadas como opcio
 
 <script>
 
-function logout(){
 
-localStorage.removeItem("SDL_usuario_logado");
+function verificarPlanoTopo(){
 
-window.location.href="index.html";
-
-}
+let dataPagamento =
+localStorage.getItem("SDL_data_pagamento");
 
 
-const usuario = localStorage.getItem("SDL_usuario_logado");
+if(!dataPagamento){
 
-if(usuario){
-
-document.getElementById("usuarioLogado").innerText =
-"Bem-vindo, " + usuario + ".";
-
-}
-
-
-
-function abrirCapaRefinada(){
-
-
-const confirmarOpcional = confirm(
-
-"Você lembra que já possui uma capa garantida no seu pacote?\n\nA capa refinada é uma opção adicional.\n\nDeseja continuar?"
-
-);
-
-if(!confirmarOpcional){
+document.getElementById("statusPlanoTopo")
+.innerText =
+"Aguardando ativação do plano.";
 
 return;
 
 }
 
 
-
-const livroEnviado = localStorage.getItem("SDL_livro_enviado");
-
-const tituloLivro = localStorage.getItem("SDL_titulo_livro");
-
-const tituloCapa = localStorage.getItem("SDL_titulo_capa_refinada");
+dataPagamento =
+new Date(dataPagamento);
 
 
-
-if(livroEnviado){
-
-
-
-if(tituloLivro && tituloCapa && tituloLivro.trim().toLowerCase() !== tituloCapa.trim().toLowerCase()){
+let vencimento =
+new Date(dataPagamento);
 
 
-
-const multitarefaEditorial = confirm(
-
-"Notamos que o título da capa é diferente do título do livro que está aberto neste momento.\n\nVocê está aproveitando este espaço para preparar a capa de outro livro?"
-
+vencimento.setMonth(
+vencimento.getMonth()+1
 );
 
 
-
-if(!multitarefaEditorial){
-
-return;
-
-}
-
-}
+let retirada =
+new Date(vencimento);
 
 
-
-const substituirCapaPadrao = confirm(
-
-"Você deseja substituir a capa garantida do seu pacote por uma capa refinada?"
-
+retirada.setDate(
+retirada.getDate()+7
 );
 
 
-
-if(!substituirCapaPadrao){
-
-return;
-
-}
+let hoje =
+new Date();
 
 
+if(hoje <= vencimento){
 
-localStorage.setItem("SDL_substituir_capa_pacote","sim");
-
-window.location.href="bloco12.html";
-
-return;
+document.getElementById("statusPlanoTopo")
+.innerText =
+"Plano ativo até "
++
+vencimento.toLocaleDateString("pt-BR");
 
 }
 
 
+else if(hoje <= retirada){
 
-const criarSomenteCapa = confirm(
+document.getElementById("statusPlanoTopo")
+.innerText =
+"Seu plano venceu. Você ainda pode retirar seus livros por 7 dias.";
 
-"Não encontramos um arquivo do livro enviado ainda.\n\nVocê deseja criar apenas a capa refinada?"
+}
 
+
+else{
+
+document.getElementById("statusPlanoTopo")
+.innerText =
+"Acesso encerrado. Reative seu plano para continuar.";
+
+}
+
+
+}
+
+
+function abrirGeradorCapa(){
+
+let capaPacote =
+localStorage.getItem("SDL_capa_inclusa");
+
+
+if(capaPacote === "sim"){
+
+let resposta =
+confirm(
+"Você já possui uma capa incluída no seu pacote.\n\nDeseja substituí-la por uma capa refinada?"
 );
 
 
+if(resposta){
 
-if(!criarSomenteCapa){
+window.location.href =
+"bloco12.html";
 
-return;
+}
+
+
+}else{
+
+window.location.href =
+"bloco12.html";
+
+}
 
 }
 
 
+function encerrarSessao(){
 
-localStorage.setItem("SDL_criar_apenas_capa","sim");
+alert(
+"Sessão encerrada com segurança."
+);
 
-window.location.href="bloco12.html";
+window.location.href =
+"index.html";
 
 }
+
+
+verificarPlanoTopo();
+
 
 </script>
 
