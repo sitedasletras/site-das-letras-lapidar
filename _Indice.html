@@ -99,6 +99,14 @@ background:#00a651;
 background:#00bf5c;
 }
 
+.botaoRoxo{
+background:#7a3cff;
+}
+
+.botaoRoxo:hover{
+background:#8b55ff;
+}
+
 .botaoCinza{
 background:#444;
 }
@@ -163,24 +171,30 @@ A casa do seu original
 Escolha abaixo o que deseja fazer com o seu material editorial.
 </div>
 
-
 <button id="btnOriginal" class="botao"
 onclick="window.location.href='upload_livro.html'">
 Entrar com o seu original
 </button>
 
+<button id="btnIdiomaObra" class="botao botaoAzul"
+onclick="window.location.href='idioma_obra.html'">
+Escolher idioma da obra
+</button>
 
 <button id="btnCapa" class="botao"
 onclick="window.location.href='bloco12.html'">
 Preparar capa externa
 </button>
 
+<button id="btnCapista" class="botao botaoRoxo"
+onclick="window.location.href='capista_planos.html'">
+Projeto Capista
+</button>
 
 <button id="btnRelatorio" class="botao botaoVerde"
 onclick="abrirRelatorio()">
 Ver relatório editorial da obra
 </button>
-
 
 <button id="btnRetirada"
 class="botao botaoCinza"
@@ -188,21 +202,17 @@ onclick="retirarMateriais()">
 Retirar materiais diagramados
 </button>
 
-
 <button class="botao botaoAzul"
 onclick="window.location.href='status_plano.html'">
 Ver status do meu plano
 </button>
 
-
 <div id="alertaPlano"
 class="alerta"></div>
-
 
 </div>
 
 <script>
-
 
 function definirLimiteTexto(limite){
 
@@ -218,8 +228,6 @@ return limite + " obra(s) no mês";
 
 }
 
-
-
 function bloquearEntrada(){
 
 const btnOriginal =
@@ -228,28 +236,26 @@ document.getElementById("btnOriginal");
 const btnCapa =
 document.getElementById("btnCapa");
 
+const btnIdiomaObra =
+document.getElementById("btnIdiomaObra");
+
 btnOriginal.classList.add("botaoBloqueado");
 btnCapa.classList.add("botaoBloqueado");
+btnIdiomaObra.classList.add("botaoBloqueado");
 
 btnOriginal.onclick = function(){
-
-alert(
-"Seu plano precisa estar ativo para continuar."
-);
-
+alert("Seu plano precisa estar ativo para continuar.");
 };
 
 btnCapa.onclick = function(){
+alert("Seu plano precisa estar ativo para continuar.");
+};
 
-alert(
-"Seu plano precisa estar ativo para continuar."
-);
-
+btnIdiomaObra.onclick = function(){
+alert("Seu plano precisa estar ativo para alterar o idioma editorial da obra.");
 };
 
 }
-
-
 
 function retirarMateriais(){
 
@@ -257,44 +263,42 @@ const prazoLiberado =
 localStorage.getItem("SDL_prazo_liberado");
 
 if(prazoLiberado === "sim"){
-
-alert(
-"Seus materiais continuam disponíveis dentro do prazo extra de retirada."
-);
-
+alert("Seus materiais continuam disponíveis dentro do prazo extra de retirada.");
 }else{
-
-alert(
-"No momento não há prazo liberado para retirada."
-);
-
+alert("No momento não há prazo liberado para retirada.");
 }
 
 }
-
-
 
 function abrirRelatorio(){
 
 const planoAtivo =
 localStorage.getItem("SDL_plano_ativo");
 
+const prazoLiberado =
+localStorage.getItem("SDL_prazo_liberado");
+
+const dataPrazoRetirada =
+localStorage.getItem("SDL_data_prazo_retirada");
+
 if(planoAtivo === "ativo"){
-
-window.location.href =
-"relatorio_lapidacao.html";
-
-}else{
-
-alert(
-"O relatório editorial é liberado apenas durante o período ativo do plano."
-);
-
+window.location.href = "relatorio_lapidacao.html";
+return;
 }
 
+if(prazoLiberado === "sim" && dataPrazoRetirada){
+const hoje = new Date();
+const prazo = new Date(dataPrazoRetirada);
+
+if(hoje <= prazo){
+window.location.href = "relatorio_lapidacao.html";
+return;
+}
 }
 
+alert("O relatório editorial é liberado apenas durante o período ativo do plano ou dentro do prazo extra permitido.");
 
+}
 
 function carregarPainelInicial(){
 
@@ -313,40 +317,26 @@ localStorage.getItem("SDL_data_vencimento");
 const dataPrazoRetirada =
 localStorage.getItem("SDL_data_prazo_retirada");
 
-
-document.getElementById("planoAtual")
-.innerText =
+document.getElementById("planoAtual").innerText =
 plano || "Nenhum plano selecionado";
 
-
-document.getElementById("limiteObras")
-.innerText =
+document.getElementById("limiteObras").innerText =
 definirLimiteTexto(limite);
-
 
 if(
 !plano ||
 !dataVencimento ||
 !dataPrazoRetirada
 ){
-
-document.getElementById(
-"situacaoAcesso"
-).innerText =
+document.getElementById("situacaoAcesso").innerText =
 "Nenhum plano ativo no momento.";
 
-document.getElementById(
-"alertaPlano"
-).innerText =
+document.getElementById("alertaPlano").innerText =
 "Escolha um plano para ativar seu acesso.";
 
 bloquearEntrada();
-
 return;
-
 }
-
-
 
 const hoje =
 new Date();
@@ -357,70 +347,44 @@ new Date(dataVencimento);
 const prazoRetirada =
 new Date(dataPrazoRetirada);
 
-
-
 if(
 planoAtivo === "ativo" &&
 hoje <= vencimento
 ){
-
-document.getElementById(
-"situacaoAcesso"
-).innerHTML =
+document.getElementById("situacaoAcesso").innerHTML =
 "<span class='destaque'>Plano ativo</span>";
 
-document.getElementById(
-"alertaPlano"
-).innerText =
+document.getElementById("alertaPlano").innerText =
 "Seu acesso está liberado normalmente.";
 
 return;
-
 }
-
-
 
 if(
 hoje > vencimento &&
 hoje <= prazoRetirada
 ){
-
-document.getElementById(
-"situacaoAcesso"
-).innerText =
+document.getElementById("situacaoAcesso").innerText =
 "Plano vencido com prazo extra disponível.";
 
-document.getElementById(
-"alertaPlano"
-).innerText =
+document.getElementById("alertaPlano").innerText =
 "Você ainda pode retirar seus materiais.";
 
 bloquearEntrada();
-
 return;
-
 }
 
-
-
-document.getElementById(
-"situacaoAcesso"
-).innerText =
+document.getElementById("situacaoAcesso").innerText =
 "Plano encerrado.";
 
-document.getElementById(
-"alertaPlano"
-).innerText =
+document.getElementById("alertaPlano").innerText =
 "Escolha um novo plano para continuar.";
 
 bloquearEntrada();
 
 }
 
-
-
 carregarPainelInicial();
-
 
 </script>
 
