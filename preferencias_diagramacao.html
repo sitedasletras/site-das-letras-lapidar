@@ -4,11 +4,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Preferências da diagramação — Lapidar</title>
 
 <style>
-
 body{
 margin:0;
 font-family:Arial, sans-serif;
@@ -19,7 +17,7 @@ justify-content:center;
 }
 
 .container{
-max-width:720px;
+max-width:760px;
 width:92%;
 padding:40px 0 60px 0;
 }
@@ -50,6 +48,13 @@ background:#140c08;
 border-radius:14px;
 padding:22px;
 margin-top:18px;
+}
+
+.cardTitulo{
+color:#ff7b2c;
+font-size:22px;
+margin-bottom:18px;
+font-weight:bold;
 }
 
 .campo{
@@ -133,7 +138,6 @@ line-height:1.7;
 grid-template-columns:1fr;
 }
 }
-
 </style>
 
 </head>
@@ -156,6 +160,10 @@ Escolha abaixo as preferências da sua diagramação. Essas informações ajudar
 
 <div class="card">
 
+<div class="cardTitulo">
+Forma geral do material
+</div>
+
 <div class="grid">
 
 <div class="campo">
@@ -171,31 +179,21 @@ Escolha abaixo as preferências da sua diagramação. Essas informações ajudar
 </div>
 
 <div class="campo">
+<label for="tipoPapel">Tipo de preparação</label>
+<select id="tipoPapel">
+<option value="">Selecione</option>
+<option value="Livro físico">Livro físico</option>
+<option value="E-book">E-book</option>
+<option value="Livro físico e e-book">Livro físico e e-book</option>
+</select>
+</div>
+
+<div class="campo">
 <label for="alinhamentoTexto">Alinhamento do texto</label>
 <select id="alinhamentoTexto">
 <option value="">Selecione</option>
 <option value="Justificado">Justificado</option>
 <option value="Esquerda">Alinhado à esquerda</option>
-</select>
-</div>
-
-<div class="campo">
-<label for="recuoParagrafo">Recuo de parágrafo</label>
-<select id="recuoParagrafo">
-<option value="">Selecione</option>
-<option value="0.8">0,8 cm</option>
-<option value="1.0">1,0 cm</option>
-<option value="1.25">1,25 cm</option>
-<option value="Sem recuo">Sem recuo</option>
-</select>
-</div>
-
-<div class="campo">
-<label for="espacoParagrafos">Espaço entre parágrafos</label>
-<select id="espacoParagrafos">
-<option value="">Selecione</option>
-<option value="Sem espaço extra">Sem espaço extra</option>
-<option value="Com espaço extra">Com espaço extra</option>
 </select>
 </div>
 
@@ -209,13 +207,55 @@ Escolha abaixo as preferências da sua diagramação. Essas informações ajudar
 </select>
 </div>
 
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="cardTitulo">
+Parágrafos e entradas
+</div>
+
+<div class="grid">
+
 <div class="campo">
-<label for="tipoPapel">Tipo de preparação</label>
-<select id="tipoPapel">
+<label for="recuoParagrafo">Recuo de parágrafo</label>
+<select id="recuoParagrafo">
 <option value="">Selecione</option>
-<option value="Livro físico">Livro físico</option>
-<option value="E-book">E-book</option>
-<option value="Livro físico e e-book">Livro físico e e-book</option>
+<option value="0,8 cm">0,8 cm</option>
+<option value="1,0 cm">1,0 cm</option>
+<option value="1,25 cm">1,25 cm</option>
+<option value="Sem recuo">Sem recuo</option>
+</select>
+</div>
+
+<div class="campo">
+<label for="primeiraLinha">Entrada da primeira linha</label>
+<select id="primeiraLinha">
+<option value="">Selecione</option>
+<option value="Com entrada">Com entrada</option>
+<option value="Sem entrada">Sem entrada</option>
+</select>
+</div>
+
+<div class="campo">
+<label for="espacoParagrafos">Espaço entre parágrafos</label>
+<select id="espacoParagrafos">
+<option value="">Selecione</option>
+<option value="Sem espaço extra">Sem espaço extra</option>
+<option value="Com espaço extra">Com espaço extra</option>
+<option value="Com respiro leve">Com respiro leve</option>
+</select>
+</div>
+
+<div class="campo">
+<label for="paragrafoDialogo">Parágrafo de diálogo</label>
+<select id="paragrafoDialogo">
+<option value="">Selecione</option>
+<option value="Mesmo padrão do texto">Mesmo padrão do texto</option>
+<option value="Recuo próprio para diálogo">Recuo próprio para diálogo</option>
+<option value="Sem recuo no diálogo">Sem recuo no diálogo</option>
 </select>
 </div>
 
@@ -225,23 +265,24 @@ Escolha abaixo as preferências da sua diagramação. Essas informações ajudar
 
 <div class="card">
 
-<div class="campo">
-<label>Itens complementares do material</label>
+<div class="cardTitulo">
+Itens complementares do material
+</div>
 
+<div class="campo">
 <div class="checkboxGrupo">
 <label><input type="checkbox" id="temSumario"> Desejo sumário</label>
-<label><input type="checkbox" id="temDedicatória"> Desejo dedicatória</label>
+<label><input type="checkbox" id="temDedicatoria"> Desejo dedicatória</label>
 <label><input type="checkbox" id="temPrefacio"> Desejo prefácio</label>
 <label><input type="checkbox" id="temBiografia"> Desejo biografia</label>
 <label><input type="checkbox" id="temFichaDados"> Desejo ficha de dados da obra</label>
 <label><input type="checkbox" id="temImagensInternas"> Desejo incluir imagens internas</label>
 </div>
-
 </div>
 
 <div class="campo">
 <label for="observacoesDiagramacao">Observações sobre a diagramação (opcional)</label>
-<textarea id="observacoesDiagramacao" placeholder="Exemplo: quero páginas mais arejadas, bastante diálogo com travessão, sem espaços extras entre parágrafos e com biografia no final da obra."></textarea>
+<textarea id="observacoesDiagramacao" placeholder="Exemplo: quero páginas mais arejadas, bastante diálogo com travessão, sem espaços extras entre parágrafos, com recuo de 1,25 cm e biografia no final da obra."></textarea>
 </div>
 
 </div>
@@ -267,14 +308,15 @@ Voltar para a entrada do original
 </div>
 
 <script>
-
 function salvarPreferencias(){
 
 const formato = document.getElementById("formatoLivro").value;
 const alinhamento = document.getElementById("alinhamentoTexto").value;
 const recuo = document.getElementById("recuoParagrafo").value;
+const primeiraLinha = document.getElementById("primeiraLinha").value;
 const espaco = document.getElementById("espacoParagrafos").value;
 const dialogos = document.getElementById("dialogos").value;
+const paragrafoDialogo = document.getElementById("paragrafoDialogo").value;
 const tipoPapel = document.getElementById("tipoPapel").value;
 const observacoes = document.getElementById("observacoesDiagramacao").value.trim();
 
@@ -283,18 +325,13 @@ alert("Selecione o formato do material.");
 return;
 }
 
+if(!tipoPapel){
+alert("Selecione o tipo de preparação do material.");
+return;
+}
+
 if(!alinhamento){
 alert("Selecione o alinhamento do texto.");
-return;
-}
-
-if(!recuo){
-alert("Selecione o recuo de parágrafo.");
-return;
-}
-
-if(!espaco){
-alert("Selecione o espaço entre parágrafos.");
 return;
 }
 
@@ -303,19 +340,36 @@ alert("Selecione o padrão dos diálogos.");
 return;
 }
 
-if(!tipoPapel){
-alert("Selecione o tipo de preparação do material.");
+if(!recuo){
+alert("Selecione o recuo de parágrafo.");
+return;
+}
+
+if(!primeiraLinha){
+alert("Selecione a entrada da primeira linha.");
+return;
+}
+
+if(!espaco){
+alert("Selecione o espaço entre parágrafos.");
+return;
+}
+
+if(!paragrafoDialogo){
+alert("Selecione o padrão do parágrafo de diálogo.");
 return;
 }
 
 localStorage.setItem("SDL_formato_livro", formato);
-localStorage.setItem("SDL_alinhamento_texto", alinhamento);
-localStorage.setItem("SDL_recuo_paragrafo", recuo);
-localStorage.setItem("SDL_espaco_paragrafos", espaco);
-localStorage.setItem("SDL_dialogos", dialogos);
 localStorage.setItem("SDL_tipo_preparacao", tipoPapel);
+localStorage.setItem("SDL_alinhamento_texto", alinhamento);
+localStorage.setItem("SDL_dialogos", dialogos);
+localStorage.setItem("SDL_recuo_paragrafo", recuo);
+localStorage.setItem("SDL_primeira_linha", primeiraLinha);
+localStorage.setItem("SDL_espaco_paragrafos", espaco);
+localStorage.setItem("SDL_paragrafo_dialogo", paragrafoDialogo);
 localStorage.setItem("SDL_tem_sumario", document.getElementById("temSumario").checked ? "sim" : "nao");
-localStorage.setItem("SDL_tem_dedicatoria", document.getElementById("temDedicatória").checked ? "sim" : "nao");
+localStorage.setItem("SDL_tem_dedicatoria", document.getElementById("temDedicatoria").checked ? "sim" : "nao");
 localStorage.setItem("SDL_tem_prefacio", document.getElementById("temPrefacio").checked ? "sim" : "nao");
 localStorage.setItem("SDL_tem_biografia", document.getElementById("temBiografia").checked ? "sim" : "nao");
 localStorage.setItem("SDL_tem_ficha_dados", document.getElementById("temFichaDados").checked ? "sim" : "nao");
@@ -324,7 +378,6 @@ localStorage.setItem("SDL_observacoes_diagramacao", observacoes);
 
 document.getElementById("mensagemSucesso").innerHTML =
 "Preferências da diagramação salvas com sucesso.<br>Agora você já pode seguir para a revisão do pedido.";
-
 }
 
 function seguirParaEtapaFinal(){
@@ -337,11 +390,8 @@ return;
 }
 
 window.location.href = "revisao_pedido.html";
-
 }
-
 </script>
 
 </body>
-
 </html>
