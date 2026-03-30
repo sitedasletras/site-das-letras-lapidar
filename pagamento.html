@@ -2,121 +2,114 @@
 <html lang="pt-br">
 
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pagamento — Lapidar</title>
+
+<title>Planos de doações — Lapidar</title>
 
 <style>
+
 body{
+
 margin:0;
-font-family:Arial, sans-serif;
-background:#0d0603;
+background:#0c0603;
+font-family:Arial;
 color:white;
 display:flex;
 justify-content:center;
+
 }
 
 .container{
+
+max-width:720px;
 width:92%;
-max-width:760px;
 padding:40px 0 60px 0;
+
 }
 
 .titulo{
-font-size:36px;
+
+font-size:34px;
 text-align:center;
 font-weight:bold;
+
 }
 
 .subtitulo{
+
 text-align:center;
 color:#ff7b2c;
 margin-top:10px;
 margin-bottom:28px;
-line-height:1.6;
+
 }
 
 .card{
+
 background:#140c08;
-padding:24px;
 border-radius:14px;
-margin-top:18px;
-line-height:1.8;
+padding:26px;
+margin-top:20px;
+
 }
 
-.label{
-color:#ff7b2c;
-font-weight:bold;
+.plano{
+
+padding:14px;
+margin-top:12px;
+border-radius:8px;
+background:#1c120d;
+cursor:pointer;
+
 }
 
-.valor{
-color:#ffd2b3;
+.plano:hover{
+
+background:#2a1b14;
+
 }
 
 .botao{
+
 width:100%;
 padding:18px;
-border-radius:40px;
+margin-top:24px;
 border:none;
-margin-top:18px;
+border-radius:40px;
+background:#ff5a00;
+color:white;
 font-size:18px;
 font-weight:bold;
 cursor:pointer;
-background:#ff5a00;
-color:white;
+
 }
 
-.botao:hover{
-background:#ff6f1a;
+.info{
+
+margin-top:14px;
+font-size:14px;
+color:#ffcfaa;
+
 }
 
-.botaoSecundario{
-background:#333;
-}
+.metodo{
 
-.botaoSecundario:hover{
-background:#555;
+margin-top:10px;
+
 }
 
 select{
+
 width:100%;
-padding:14px;
-border-radius:12px;
+padding:12px;
+border-radius:8px;
 border:none;
-font-size:16px;
-margin-top:8px;
-box-sizing:border-box;
+margin-top:6px;
+
 }
 
-.blocoPagamento{
-display:none;
-margin-top:18px;
-padding:18px;
-border-radius:12px;
-background:#1c110b;
-color:#ffd2b3;
-line-height:1.7;
-}
-
-.destaque{
-color:#9cffb2;
-font-weight:bold;
-}
-
-.alerta{
-margin-top:20px;
-text-align:center;
-color:#ffb199;
-line-height:1.7;
-}
-
-.sucesso{
-margin-top:20px;
-text-align:center;
-color:#9cffb2;
-line-height:1.7;
-font-weight:bold;
-}
 </style>
 
 </head>
@@ -126,255 +119,214 @@ font-weight:bold;
 <div class="container">
 
 <div class="titulo">
-Pagamento
+
+Planos de doações Lapidar
+
 </div>
 
 <div class="subtitulo">
-Escolha a forma de apoio para ativar ou renovar o seu acesso
-</div>
 
-<div class="card">
-
-<div>
-<span class="label">Módulo selecionado</span><br>
-<span id="moduloSelecionado" class="valor">Não informado</span>
-</div>
-
-<div style="margin-top:16px">
-<span class="label">Plano ou serviço</span><br>
-<span id="planoSelecionado" class="valor">Não informado</span>
-</div>
-
-<div style="margin-top:16px">
-<span class="label">Valor correspondente</span><br>
-<span id="valorPlano" class="valor">Não informado</span>
-</div>
-
-<div style="margin-top:16px">
-<span class="label">Situação após confirmação</span><br>
-<span class="destaque">Seu acesso ou serviço ficará registrado no sistema.</span>
-</div>
+Escolha o plano que melhor acompanha sua caminhada editorial
 
 </div>
 
 <div class="card">
 
-<div>
-<span class="label">Forma de pagamento</span><br>
-<select id="formaDoacao" onchange="mostrarFormaPagamento()">
-<option value="">Selecione</option>
-<option value="pix">Pix</option>
-<option value="deposito">Depósito bancário</option>
-<option value="cartao">Cartão de crédito</option>
+<div class="plano" onclick="selecionarPlano('1.99')">
+
+R$ 1,99 — preparação de 1 material diagramado
+
+</div>
+
+<div class="plano" onclick="selecionarPlano('9.90')">
+
+R$ 9,90 — preparação de até 9 materiais diagramados
+
+</div>
+
+<div class="plano" onclick="selecionarPlano('39.90')">
+
+R$ 39,90 — preparação de até 30 materiais diagramados
+
+</div>
+
+<div class="plano" onclick="selecionarPlano('59.90')">
+
+R$ 59,90 — preparação de até 50 materiais diagramados
+
+</div>
+
+<div class="plano" onclick="selecionarPlano('99.90')">
+
+R$ 99,90 — preparação de até 90 materiais diagramados
+
+</div>
+
+<div class="plano" onclick="selecionarPlano('magistral')">
+
+Plano Magistral — uso livre durante o mês ativo
+
+</div>
+
+<label>
+
+Forma de contribuição
+
+</label>
+
+<select id="formaPagamento">
+
+<option>Pix</option>
+<option>Cartão internacional</option>
+
 </select>
-</div>
 
-<div id="pixBox" class="blocoPagamento">
-<span class="label">Pagamento por Pix</span><br>
-Use esta opção para fazer a sua doação ou pagamento por Pix.<br><br>
-Assim que a confirmação acontecer, o sistema registra o serviço automaticamente.
-</div>
+<div class="info">
 
-<div id="depositoBox" class="blocoPagamento">
-<span class="label">Pagamento por depósito bancário</span><br>
-Use esta opção para depósitos ou transferências bancárias.<br><br>
-Após a confirmação, o sistema ativa ou registra o serviço correspondente.
-</div>
-
-<div id="cartaoBox" class="blocoPagamento">
-<span class="label">Pagamento por cartão de crédito</span><br>
-Esta opção poderá ser integrada a um ambiente seguro de checkout.<br><br>
-Após a confirmação, o sistema ativa ou registra o serviço automaticamente.
-</div>
+Após confirmação da contribuição o acesso ao plano será liberado automaticamente.
 
 </div>
 
-<div class="alerta">
-Depois da confirmação do pagamento, o sistema registra o plano ou serviço correspondente.
-</div>
+<button class="botao"
 
-<button class="botao" onclick="confirmarPagamento()">
-Confirmar pagamento
+onclick="confirmarPagamento()">
+
+Confirmar plano selecionado
+
 </button>
 
-<button class="botao botaoSecundario" onclick="window.history.back()">
-Voltar
+<button class="botao"
+
+onclick="window.location.href='_Indice.html'">
+
+Voltar para casa do original
+
 </button>
 
-<div id="mensagemSucesso" class="sucesso"></div>
+</div>
+
+<div class="card">
+
+<strong>Serviços opcionais adicionais</strong>
+
+<div class="plano"
+
+onclick="servicoExtra('leitura_tecnica')">
+
+Leitura Técnica Editorial — R$ 4,99
+
+</div>
+
+<div class="plano"
+
+onclick="servicoExtra('idioma_obra')">
+
+Gerar material em outro idioma — R$ 5,99
+
+</div>
+
+<div class="plano"
+
+onclick="servicoExtra('capa_refinada')">
+
+Capa refinada física — R$ 18
+
+</div>
+
+<div class="plano"
+
+onclick="servicoExtra('capa_magistral')">
+
+Capa magistral física — R$ 48
+
+</div>
+
+<div class="plano"
+
+onclick="servicoExtra('epub_refinada')">
+
+Capa refinada EPUB — R$ 10
+
+</div>
+
+<div class="plano"
+
+onclick="servicoExtra('epub_magistral')">
+
+Capa magistral EPUB — R$ 40
+
+</div>
+
+</div>
 
 </div>
 
 <script>
 
-function detectarIdiomaMoeda(){
-const idioma = (navigator.language || "pt-BR").toLowerCase();
-return idioma.startsWith("pt") ? "R$" : "$";
+function detectarPais(){
+
+const idioma = navigator.language;
+
+if(idioma.startsWith("pt")){
+
+return "BR";
+
 }
 
-function definirValorLapidar(plano){
-const moeda = detectarIdiomaMoeda();
+return "EXT";
 
-if(plano === "Essencial") return moeda + " 1,99";
-if(plano === "Inicial") return moeda + " 9,90";
-if(plano === "Editorial") return moeda + " 39,90";
-if(plano === "Avançado") return moeda + " 59,90";
-if(plano === "Profissional") return moeda + " 99,90";
-if(plano === "Magistral") return "Plano Magistral — uso livre";
-
-return "Não informado";
 }
 
-function definirValorCapista(plano){
-const moeda = detectarIdiomaMoeda();
+function selecionarPlano(plano){
 
-if(plano === "Essencial") return moeda + " 1,99";
-if(plano === "Inicial") return moeda + " 9,90";
-if(plano === "Editorial") return moeda + " 39,90";
-if(plano === "Avançado") return moeda + " 59,90";
-if(plano === "Profissional") return moeda + " 99,90";
-if(plano === "Magistral") return "Plano Magistral — uso livre";
+localStorage.setItem("SDL_plano_lapidar", plano);
 
-return "Não informado";
+alert("Plano selecionado: " + plano);
+
 }
 
-function definirModuloAtual(){
+function servicoExtra(servico){
 
-const moduloLeitura = localStorage.getItem("LTE_modulo");
-const planoCapista = localStorage.getItem("CAPISTA_plano");
-const planoLapidar = localStorage.getItem("SDL_plano");
+localStorage.setItem("SDL_servico_extra", servico);
 
-if(moduloLeitura === "leitura_tecnica_editorial"){
-return "leitura";
-}
-
-if(planoCapista){
-return "capista";
-}
-
-if(planoLapidar){
-return "lapidar";
-}
-
-return "lapidar";
-}
-
-function preencherCabecalho(){
-
-const modulo = definirModuloAtual();
-
-if(modulo === "leitura"){
-document.getElementById("moduloSelecionado").innerText = "Leitura Técnica Editorial — Lapidar — Site das Letras";
-document.getElementById("planoSelecionado").innerText = "Avaliação individual da obra";
-document.getElementById("valorPlano").innerText = localStorage.getItem("LTE_preco") || (detectarIdiomaMoeda() + " 4,99");
-return;
-}
-
-if(modulo === "capista"){
-const plano = localStorage.getItem("CAPISTA_plano");
-document.getElementById("moduloSelecionado").innerText = "Projeto Capista";
-document.getElementById("planoSelecionado").innerText = plano || "Não informado";
-document.getElementById("valorPlano").innerText = definirValorCapista(plano);
-return;
-}
-
-const plano = localStorage.getItem("SDL_plano");
-document.getElementById("moduloSelecionado").innerText = "Lapidar";
-document.getElementById("planoSelecionado").innerText = plano || "Não informado";
-document.getElementById("valorPlano").innerText = definirValorLapidar(plano);
-}
-
-function mostrarFormaPagamento(){
-
-const forma = document.getElementById("formaDoacao").value;
-
-document.getElementById("pixBox").style.display = "none";
-document.getElementById("depositoBox").style.display = "none";
-document.getElementById("cartaoBox").style.display = "none";
-
-if(forma === "pix"){
-document.getElementById("pixBox").style.display = "block";
-}
-
-if(forma === "deposito"){
-document.getElementById("depositoBox").style.display = "block";
-}
-
-if(forma === "cartao"){
-document.getElementById("cartaoBox").style.display = "block";
-}
+alert("Serviço adicional selecionado.");
 
 }
 
 function confirmarPagamento(){
 
-const forma = document.getElementById("formaDoacao").value;
-const modulo = definirModuloAtual();
+const plano =
 
-if(!forma){
-alert("Escolha a forma de pagamento antes de continuar.");
-return;
-}
+localStorage.getItem("SDL_plano_lapidar");
 
-const hoje = new Date();
-const vencimento = new Date();
-vencimento.setMonth(vencimento.getMonth() + 1);
+if(!plano){
 
-const prazoRetirada = new Date(vencimento);
-prazoRetirada.setDate(prazoRetirada.getDate() + 7);
-
-if(modulo === "leitura"){
-
-localStorage.setItem("LTE_forma_pagamento", forma);
-localStorage.setItem("LTE_pagamento_confirmado", "sim");
-localStorage.setItem("LTE_data_pagamento", hoje.toISOString());
-
-document.getElementById("mensagemSucesso").innerHTML =
-"Pagamento confirmado com sucesso.<br><br>Sua leitura técnica editorial foi registrada.";
-
-setTimeout(function(){
-window.location.href = "_Indice.html";
-}, 1400);
+alert("Selecione um plano antes de continuar.");
 
 return;
+
 }
 
-if(modulo === "capista"){
+const metodo =
 
-localStorage.setItem("CAPISTA_forma_pagamento", forma);
-localStorage.setItem("CAPISTA_pagamento_confirmado", "sim");
-localStorage.setItem("CAPISTA_data_pagamento", hoje.toISOString());
+document.getElementById("formaPagamento").value;
 
-document.getElementById("mensagemSucesso").innerHTML =
-"Pagamento confirmado com sucesso.<br><br>Seu plano do Projeto Capista foi registrado.";
+const pais = detectarPais();
 
-setTimeout(function(){
-window.location.href = "capista_idioma.html";
-}, 1400);
+localStorage.setItem("SDL_metodo_pagamento", metodo);
 
-return;
-}
+localStorage.setItem("SDL_pais_pagamento", pais);
 
-localStorage.setItem("SDL_forma_doacao", forma);
-localStorage.setItem("SDL_data_pagamento", hoje.toISOString());
-localStorage.setItem("SDL_data_vencimento", vencimento.toISOString());
-localStorage.setItem("SDL_data_prazo_retirada", prazoRetirada.toISOString());
+localStorage.setItem("SDL_status_pagamento", "pendente");
 
-localStorage.setItem("SDL_plano_ativo", "ativo");
-localStorage.setItem("SDL_prazo_liberado", "sim");
+alert("Plano registrado. Aguardando confirmação da contribuição.");
 
-document.getElementById("mensagemSucesso").innerHTML =
-"Pagamento confirmado com sucesso.<br><br>Seu plano já está ativo no sistema.";
-
-setTimeout(function(){
 window.location.href = "status_plano.html";
-}, 1400);
 
 }
-
-preencherCabecalho();
 
 </script>
 
 </body>
+
 </html>
