@@ -2,17 +2,15 @@
 <html lang="pt-br">
 
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Status do plano de doações — Lapidar</title>
 
 <style>
 
 body{
 margin:0;
-font-family:Arial;
+font-family:Arial, sans-serif;
 background:#0d0603;
 color:white;
 display:flex;
@@ -20,113 +18,90 @@ justify-content:center;
 }
 
 .container{
-max-width:600px;
 width:92%;
-padding:30px 0 60px 0;
+max-width:760px;
+padding:40px 0 60px 0;
 }
 
 .titulo{
-font-size:34px;
+font-size:36px;
 text-align:center;
-margin-bottom:10px;
+font-weight:bold;
 }
 
 .subtitulo{
 text-align:center;
 color:#ff7b2c;
-margin-bottom:20px;
+margin-top:10px;
+margin-bottom:28px;
+line-height:1.6;
 }
 
 .card{
-
 background:#140c08;
-padding:22px;
-border-radius:12px;
-margin-bottom:20px;
-
+padding:24px;
+border-radius:14px;
+margin-top:18px;
+line-height:1.8;
 }
 
 .label{
-
 color:#ff7b2c;
-margin-top:10px;
-
+font-weight:bold;
 }
 
 .valor{
-
-font-size:20px;
-
+color:#ffd2b3;
 }
 
-.statusAtivo{
-
+.destaque{
 color:#9cffb2;
-
+font-weight:bold;
 }
 
-.statusCarencia{
-
-color:#ffd966;
-
+.alerta{
+color:#ffcf80;
+font-weight:bold;
 }
 
-.statusExpirado{
-
-color:#ff7a7a;
-
+.alertaVermelho{
+color:#ff9b9b;
+font-weight:bold;
 }
 
 .botao{
-
 width:100%;
 padding:18px;
-margin-top:14px;
+border-radius:40px;
 border:none;
-border-radius:35px;
-background:#ff5a00;
-color:white;
+margin-top:18px;
 font-size:18px;
 font-weight:bold;
 cursor:pointer;
-
+background:#ff5a00;
+color:white;
 }
 
 .botao:hover{
-
 background:#ff6f1a;
-
 }
 
-.botaoCinza{
-
-background:#444;
-
+.botaoSecundario{
+background:#333;
 }
 
-.botaoCinza:hover{
-
-background:#666;
-
+.botaoSecundario:hover{
+background:#555;
 }
 
-.oculto{
-
-display:none;
-
-}
-
-.info{
-
-margin-top:20px;
-font-size:15px;
-line-height:1.6;
+.aviso{
+margin-top:24px;
+text-align:center;
 color:#ffd2b3;
-
+line-height:1.7;
 }
 
 </style>
-
 </head>
 
 <body>
@@ -134,198 +109,279 @@ color:#ffd2b3;
 <div class="container">
 
 <div class="titulo">
-
-Status do seu plano de doações
-
+Status do plano de doações
 </div>
 
 <div class="subtitulo">
-
-Aqui você acompanha a situação do seu acesso ao Lapidar
-
+Aqui você acompanha a situação do seu acesso e do seu período de uso dentro do Lapidar
 </div>
-
 
 <div class="card">
 
-<div class="label">Plano de doações atual</div>
-<div class="valor" id="plano"></div>
+<div>
+<span class="label">Plano atual</span><br>
+<span id="planoAtual" class="valor">Não informado</span>
+</div>
 
-<div class="label">Data de vencimento</div>
-<div class="valor" id="vencimento"></div>
+<div style="margin-top:16px">
+<span class="label">Valor do plano</span><br>
+<span id="valorPlano" class="valor">Não informado</span>
+</div>
 
-<div class="label">Prazo final para retirada dos materiais diagramados</div>
-<div class="valor" id="retirada"></div>
+<div style="margin-top:16px">
+<span class="label">Limite mensal de obras</span><br>
+<span id="limiteObras" class="valor">Não informado</span>
+</div>
 
-<div class="label">Situação do acesso</div>
-<div class="valor" id="status"></div>
+<div style="margin-top:16px">
+<span class="label">Forma de doação</span><br>
+<span id="formaDoacao" class="valor">Não informada</span>
+</div>
 
 </div>
 
+<div class="card">
 
-<div class="info">
+<div>
+<span class="label">Situação do plano</span><br>
+<span id="situacaoPlano" class="valor">Verificando...</span>
+</div>
 
-Após o vencimento do plano de doações, você ainda poderá retirar seus materiais diagramados por até 7 dias.<br><br>
+<div style="margin-top:16px">
+<span class="label">Data da ativação</span><br>
+<span id="dataAtivacao" class="valor">Não informada</span>
+</div>
 
-Assim que a nova doação for confirmada, o acesso ao sistema será liberado automaticamente novamente.
+<div style="margin-top:16px">
+<span class="label">Data de vencimento</span><br>
+<span id="dataVencimento" class="valor">Não informada</span>
+</div>
+
+<div style="margin-top:16px">
+<span class="label">Prazo final para retirada dos materiais diagramados</span><br>
+<span id="prazoRetirada" class="valor">Não informado</span>
+</div>
+
+<div style="margin-top:16px">
+<span class="label">Contagem do prazo</span><br>
+<span id="contagemPrazo" class="valor">Calculando...</span>
+</div>
 
 </div>
 
+<div class="card">
 
-<button class="botao" onclick="renovarPlano()">
+<div>
+<span class="label">Orientação importante</span><br>
+<span id="mensagemOrientacao" class="valor">
+Seu acesso será avaliado conforme a data do plano e o prazo extra de retirada.
+</span>
+</div>
 
+</div>
+
+<button class="botao" onclick="window.location.href='pagamento.html'">
 Renovar plano de doações
-
 </button>
 
-
-<button class="botao botaoCinza" onclick="mudarPlano()">
-
+<button class="botao" onclick="window.location.href='planos_doacoes.html'">
 Escolher outro plano de doações
-
 </button>
 
-
-<button class="botao oculto" id="btnRetirada" onclick="retirarMateriais()">
-
-Retirar materiais diagramados
-
-</button>
-
-
-<button class="botao botaoCinza" onclick="voltarInicio()">
-
+<button class="botao botaoSecundario" onclick="window.location.href='_Indice.html'">
 Voltar para a casa do seu original
-
 </button>
 
-
+<div class="aviso">
+O acesso ao Lapidar é pessoal e permitido em apenas um dispositivo por vez. Após o vencimento do plano, o sistema ainda mantém o prazo extra de retirada dos materiais diagramados pelo período definido.
 </div>
 
+</div>
 
 <script>
 
+function formatarData(dataIso){
 
-function formatarData(data){
+if(!dataIso){
+return "Não informada";
+}
+
+const data = new Date(dataIso);
+
+if(isNaN(data.getTime())){
+return "Não informada";
+}
 
 return data.toLocaleDateString("pt-BR");
 
 }
 
+function definirValorPlano(plano){
 
-function verificarStatus(){
+if(plano === "Essencial"){
+return "R$ 1,99";
+}
 
-let plano = localStorage.getItem("SDL_plano");
+if(plano === "Inicial"){
+return "R$ 9,90";
+}
 
-if(!plano){
+if(plano === "Editorial"){
+return "R$ 39,90";
+}
 
-plano = "Plano não definido";
+if(plano === "Avançado"){
+return "R$ 59,90";
+}
 
-localStorage.setItem("SDL_plano", plano);
+if(plano === "Profissional"){
+return "R$ 99,90";
+}
+
+if(plano === "Magistral"){
+return "Plano Magistral — uso livre";
+}
+
+return "Não informado";
 
 }
 
+function definirLimiteTexto(limite){
 
-let dataPagamento = localStorage.getItem("SDL_data_pagamento");
+if(!limite){
+return "Não informado";
+}
 
-if(!dataPagamento){
+if(limite === "ilimitado"){
+return "Uso livre dentro do período do plano";
+}
 
-let hoje = new Date();
-
-localStorage.setItem("SDL_data_pagamento", hoje);
-
-dataPagamento = hoje;
+return limite + " obra(s) no mês";
 
 }
 
-dataPagamento = new Date(dataPagamento);
+function definirFormaTexto(forma){
 
+if(!forma){
+return "Não informada";
+}
 
-let vencimento = new Date(dataPagamento);
+if(forma === "pix"){
+return "Pix";
+}
 
-vencimento.setMonth(vencimento.getMonth() + 1);
+if(forma === "deposito"){
+return "Depósito bancário";
+}
 
+if(forma === "cartao"){
+return "Cartão de crédito";
+}
 
-let retirada = new Date(vencimento);
-
-retirada.setDate(retirada.getDate() + 7);
-
-
-let hoje = new Date();
-
-
-let statusTexto = "";
-
-
-if(hoje <= vencimento){
-
-statusTexto = "<span class='statusAtivo'>Ativo</span>";
+return forma;
 
 }
 
+function diferencaEmDias(dataFutura){
 
-else if(hoje <= retirada){
+const agora = new Date();
+const futura = new Date(dataFutura);
 
-statusTexto = "<span class='statusCarencia'>Plano vencido — período de retirada disponível (7 dias)</span>";
+const diferencaMs = futura.getTime() - agora.getTime();
+const dias = Math.ceil(diferencaMs / (1000 * 60 * 60 * 24));
 
-document.getElementById("btnRetirada").classList.remove("oculto");
+return dias;
 
 }
 
+function carregarStatusPlano(){
 
+const plano = localStorage.getItem("SDL_plano");
+const limite = localStorage.getItem("SDL_limite_obras");
+const forma = localStorage.getItem("SDL_forma_doacao");
+const dataPagamento = localStorage.getItem("SDL_data_pagamento");
+const dataVencimento = localStorage.getItem("SDL_data_vencimento");
+const dataPrazoRetirada = localStorage.getItem("SDL_data_prazo_retirada");
+const planoAtivo = localStorage.getItem("SDL_plano_ativo");
+const prazoLiberado = localStorage.getItem("SDL_prazo_liberado");
+
+document.getElementById("planoAtual").innerText = plano || "Nenhum plano selecionado";
+document.getElementById("valorPlano").innerText = definirValorPlano(plano);
+document.getElementById("limiteObras").innerText = definirLimiteTexto(limite);
+document.getElementById("formaDoacao").innerText = definirFormaTexto(forma);
+document.getElementById("dataAtivacao").innerText = formatarData(dataPagamento);
+document.getElementById("dataVencimento").innerText = formatarData(dataVencimento);
+document.getElementById("prazoRetirada").innerText = formatarData(dataPrazoRetirada);
+
+if(!plano || !dataPagamento || !dataVencimento || !dataPrazoRetirada){
+
+document.getElementById("situacaoPlano").innerHTML = "<span class='alertaVermelho'>Nenhum plano ativo no momento.</span>";
+document.getElementById("contagemPrazo").innerText = "Sem prazo em andamento.";
+document.getElementById("mensagemOrientacao").innerText = "Escolha um plano de doações para ativar seu acesso ao Lapidar.";
+return;
+
+}
+
+const hoje = new Date();
+const vencimento = new Date(dataVencimento);
+const prazoRetiradaData = new Date(dataPrazoRetirada);
+
+if(planoAtivo === "ativo" && hoje <= vencimento){
+
+const diasRestantes = diferencaEmDias(dataVencimento);
+
+document.getElementById("situacaoPlano").innerHTML = "<span class='destaque'>Plano ativo</span>";
+
+if(diasRestantes > 1){
+document.getElementById("contagemPrazo").innerText = "Faltam " + diasRestantes + " dias para o vencimento do plano.";
+}
+else if(diasRestantes === 1){
+document.getElementById("contagemPrazo").innerText = "Falta 1 dia para o vencimento do plano.";
+}
 else{
+document.getElementById("contagemPrazo").innerText = "O plano vence hoje.";
+}
 
-statusTexto = "<span class='statusExpirado'>Plano encerrado — reative sua doação para continuar</span>";
+document.getElementById("mensagemOrientacao").innerText =
+"Seu acesso está liberado normalmente. Você pode continuar usando os recursos do seu plano.";
+
+return;
 
 }
 
+if(hoje > vencimento && hoje <= prazoRetiradaData && prazoLiberado === "sim"){
 
-document.getElementById("plano").innerHTML = plano;
+const diasRetirada = diferencaEmDias(dataPrazoRetirada);
 
-document.getElementById("vencimento").innerHTML = formatarData(vencimento);
+document.getElementById("situacaoPlano").innerHTML = "<span class='alerta'>Plano vencido com prazo extra de retirada liberado</span>";
 
-document.getElementById("retirada").innerHTML = formatarData(retirada);
+if(diasRetirada > 1){
+document.getElementById("contagemPrazo").innerText = "Você ainda tem " + diasRetirada + " dias para retirar seus materiais diagramados.";
+}
+else if(diasRetirada === 1){
+document.getElementById("contagemPrazo").innerText = "Você ainda tem 1 dia para retirar seus materiais diagramados.";
+}
+else{
+document.getElementById("contagemPrazo").innerText = "O prazo extra termina hoje.";
+}
 
-document.getElementById("status").innerHTML = statusTexto;
+document.getElementById("mensagemOrientacao").innerText =
+"Seu plano venceu, mas o sistema ainda mantém o prazo extra para retirada dos materiais diagramados.";
 
+return;
 
 }
 
-
-function renovarPlano(){
-
-window.location.href = "pagamento.html";
-
-}
-
-
-function mudarPlano(){
-
-window.location.href = "planos_doacoes.html";
+document.getElementById("situacaoPlano").innerHTML = "<span class='alertaVermelho'>Plano encerrado</span>";
+document.getElementById("contagemPrazo").innerText = "O prazo de uso e o prazo extra já terminaram.";
+document.getElementById("mensagemOrientacao").innerText =
+"Para continuar usando o Lapidar, escolha um novo plano de doações e ative novamente o seu acesso.";
 
 }
 
-
-function retirarMateriais(){
-
-alert("Seus materiais diagramados estão disponíveis para download.");
-
-}
-
-
-function voltarInicio(){
-
-window.location.href = "index.html";
-
-}
-
-
-verificarStatus();
-
+carregarStatusPlano();
 
 </script>
 
-
 </body>
-
 </html>
