@@ -6,91 +6,61 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Lapidar — Acesso</title>
+<title>Lapidar — Site das Letras</title>
 
 <style>
 
 body{
-
 margin:0;
-font-family:Arial,sans-serif;
-background:#0d0603;
+font-family:Arial;
+background:#0c0603;
 color:white;
-
 display:flex;
 justify-content:center;
 align-items:center;
-
 height:100vh;
-
 }
 
 .container{
-
-width:90%;
-max-width:420px;
 text-align:center;
-
+max-width:600px;
+width:90%;
 }
 
-.logo{
-
-font-size:32px;
+.titulo{
+font-size:48px;
 font-weight:bold;
-margin-bottom:10px;
-
+letter-spacing:3px;
 }
 
-.sublogo{
-
-font-size:14px;
-letter-spacing:4px;
-color:#ff7b2c;
-margin-bottom:40px;
-
-}
-
-input{
-
-width:100%;
-padding:16px;
-
+.subtitulo{
 margin-top:12px;
-
-border-radius:30px;
-border:none;
-
-font-size:18px;
-
-text-transform:none !important;
-
+color:#ff7b2c;
+font-size:20px;
+line-height:1.6;
 }
 
-button{
+.info{
+margin-top:30px;
+color:#ffd2b3;
+line-height:1.7;
+}
 
+.botao{
 width:100%;
-padding:18px;
-
-margin-top:25px;
-
-border-radius:30px;
+padding:20px;
+margin-top:28px;
 border:none;
-
+border-radius:40px;
 background:#ff5a00;
 color:white;
-
-font-size:18px;
+font-size:20px;
 font-weight:bold;
-
 cursor:pointer;
-
 }
 
-.erro{
-
-margin-top:15px;
-color:#ff8080;
-
+.botao:hover{
+background:#ff6f1a;
 }
 
 </style>
@@ -101,132 +71,77 @@ color:#ff8080;
 
 <div class="container">
 
-<div class="logo">
+<div class="titulo">
 
 LAPIDAR
 
 </div>
 
-<div class="sublogo">
+<div class="subtitulo">
 
-Aqui os escritores têm a oportunidade de realizar seus sonhos
+Sistema editorial do Site das Letras
 
 </div>
 
-<input
+<div class="info">
 
-id="usuario"
-type="email"
-placeholder="E-MAIL"
+Carregando ambiente seguro...
 
-autocapitalize="off"
-autocomplete="username"
-autocorrect="off"
-spellcheck="false"
+</div>
 
-oninput="this.value=this.value.toLowerCase()"
+<button
+class="botao"
+onclick="entrarSistema()">
 
->
-
-<input
-
-id="senha"
-type="password"
-placeholder="SENHA"
-
-autocapitalize="off"
-autocomplete="current-password"
-autocorrect="off"
-spellcheck="false"
-
->
-
-<button onclick="login()">
-
-Entre para diagramar seu material
+Entrar no ambiente editorial
 
 </button>
 
-<div id="erro" class="erro"></div>
-
 </div>
 
-<script type="module">
+<script>
 
-import { initializeApp }
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+function detectarIdiomaSistema(){
 
-import {
-getAuth,
-signInWithEmailAndPassword,
-onAuthStateChanged
-}
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+const idioma = navigator.language;
 
+if(idioma.startsWith("pt")) return "pt";
+if(idioma.startsWith("en")) return "en";
+if(idioma.startsWith("es")) return "es";
+if(idioma.startsWith("it")) return "it";
+if(idioma.startsWith("fr")) return "fr";
+if(idioma.startsWith("de")) return "de";
 
-const firebaseConfig = {
-
-apiKey: "COLE_AQUI",
-authDomain: "COLE_AQUI",
-projectId: "COLE_AQUI",
-storageBucket: "COLE_AQUI",
-messagingSenderId: "COLE_AQUI",
-appId: "COLE_AQUI"
-
-};
-
-
-const app = initializeApp(firebaseConfig);
-
-const auth = getAuth(app);
-
-
-/*
-VERIFICA SE USUÁRIO JÁ ESTÁ LOGADO
-SE ESTIVER → ENTRA DIRETO
-*/
-
-onAuthStateChanged(auth,(user)=>{
-
-if(user){
-
-window.location.href="_Indice.html";
+return "pt";
 
 }
 
-});
+function verificarSessao(){
 
+const sessao =
+localStorage.getItem("SDL_sessao_ativa");
 
-window.login = async function(){
+if(sessao === "sim"){
 
-const email = document
-.getElementById("usuario")
-.value
-.trim()
-.toLowerCase();
-
-const senha = document
-.getElementById("senha")
-.value
-.trim();
-
-
-try{
-
-await signInWithEmailAndPassword(auth,email,senha);
-
-window.location.href="_Indice.html";
+window.location.href = "_Indice.html";
 
 }
 
-catch(error){
+}
 
-document.getElementById("erro")
-.innerText="E-mail ou senha inválidos.";
+function entrarSistema(){
+
+localStorage.setItem(
+"SDL_idioma_interface",
+detectarIdiomaSistema()
+);
+
+window.location.href =
+"login.html";
 
 }
 
-};
+verificarSessao();
 
 </script>
 
