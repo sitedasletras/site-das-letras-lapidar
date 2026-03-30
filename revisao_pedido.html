@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Revisão do Pedido — Lapidar</title>
+<title>Revisão do pedido — Lapidar</title>
 
 <style>
 
@@ -20,78 +20,63 @@ justify-content:center;
 }
 
 .container{
-width:92%;
 max-width:720px;
+width:92%;
 padding:40px 0 60px 0;
 }
 
 .titulo{
-font-size:34px;
-font-weight:bold;
+font-size:36px;
 text-align:center;
+font-weight:bold;
 }
 
 .subtitulo{
-margin-top:10px;
 text-align:center;
 color:#ff7b2c;
+margin-top:10px;
+margin-bottom:28px;
 }
 
 .card{
-
 background:#140c08;
-margin-top:26px;
-padding:22px;
 border-radius:14px;
+padding:24px;
+margin-top:18px;
 line-height:1.8;
-
 }
 
-.label{
-
-color:#ff7b2c;
-font-weight:bold;
-
-}
-
-.valor{
-
+.item{
+margin-bottom:10px;
 color:#ffd2b3;
+}
 
+.destaque{
+color:#9cffb2;
+font-weight:bold;
 }
 
 .botao{
 
 width:100%;
 padding:18px;
-border-radius:40px;
-border:none;
 margin-top:18px;
+border:none;
+border-radius:40px;
+background:#ff5a00;
+color:white;
 font-size:18px;
 font-weight:bold;
 cursor:pointer;
 
-background:#ff5a00;
-color:white;
-
 }
 
-.botao:hover{
-
-background:#ff6f1a;
-
+.botaoCinza{
+background:#444;
 }
 
-.botaoSecundario{
-
-background:#333;
-
-}
-
-.botaoSecundario:hover{
-
-background:#555;
-
+.botaoCinza:hover{
+background:#666;
 }
 
 </style>
@@ -103,162 +88,148 @@ background:#555;
 <div class="container">
 
 <div class="titulo">
-Revisão do seu pedido
+Revisão do pedido editorial
 </div>
 
 <div class="subtitulo">
-Confira as informações antes da preparação do material diagramado
+Confira os dados antes de gerar o relatório técnico da preparação editorial
 </div>
 
+<div class="card" id="resumoPedido">
 
-<div class="card">
-
-<div>
-
-<span class="label">
-Título da obra
-</span>
-
-<br>
-
-<span id="titulo" class="valor">
-—
-</span>
+Carregando informações do pedido...
 
 </div>
 
-
-<div style="margin-top:16px">
-
-<span class="label">
-Nome do autor
-</span>
-
-<br>
-
-<span id="autor" class="valor">
-—
-</span>
-
-</div>
-
-
-<div style="margin-top:16px">
-
-<span class="label">
-Tipo de material
-</span>
-
-<br>
-
-<span id="tipo" class="valor">
-—
-</span>
-
-</div>
-
-
-<div style="margin-top:16px">
-
-<span class="label">
-Destino do material
-</span>
-
-<br>
-
-<span id="destino" class="valor">
-—
-</span>
-
-</div>
-
-
-<div style="margin-top:16px">
-
-<span class="label">
-Estilo de diálogo escolhido
-</span>
-
-<br>
-
-<span id="dialogo" class="valor">
-—
-</span>
-
-</div>
-
-
-<div style="margin-top:16px">
-
-<span class="label">
-Tema visual selecionado
-</span>
-
-<br>
-
-<span id="tema" class="valor">
-—
-</span>
-
-</div>
-
-</div>
-
-
-<button class="botao"
-onclick="window.location.href='relatorio_lapidacao.html'">
-
-Ver Presente de Lapidação Literária
-
+<button class="botao" onclick="seguirRelatorio()">
+Gerar relatório editorial Lapidar
 </button>
 
-
-<button class="botao"
-onclick="window.location.href='_Indice.html'">
-
-Continuar para a casa do seu original
-
+<button class="botao" onclick="window.location.href='preferencias_diagramacao.html'">
+Voltar para preferências
 </button>
 
-
-<button class="botao botaoSecundario"
-onclick="window.location.href='preferencias_diagramacao.html'">
-
-Voltar para ajustar preferências
-
+<button class="botao botaoCinza" onclick="window.location.href='_Indice.html'">
+Voltar para casa do original
 </button>
-
 
 </div>
-
 
 <script>
 
-document.getElementById("titulo").innerText =
-localStorage.getItem("SDL_titulo_livro") || "Não informado";
+function traduzirIdioma(codigo){
 
+if(codigo === "pt") return "Português";
+if(codigo === "en") return "English";
+if(codigo === "es") return "Español";
+if(codigo === "it") return "Italiano";
+if(codigo === "fr") return "Français";
+if(codigo === "de") return "Deutsch";
 
-document.getElementById("autor").innerText =
-localStorage.getItem("SDL_nome_autor") || "Não informado";
+return "Português";
 
+}
 
-document.getElementById("tipo").innerText =
-localStorage.getItem("SDL_tipo_material") || "Não informado";
+function obterIdiomaMestre(){
 
+const idiomaGlobal =
+localStorage.getItem("SDL_idioma_obra_global");
 
-document.getElementById("destino").innerText =
-localStorage.getItem("SDL_destino_material") || "Não informado";
+const idiomaLocal =
+localStorage.getItem("SDL_idioma_obra");
 
+return idiomaGlobal || idiomaLocal || "pt";
 
-document.getElementById("dialogo").innerText =
-localStorage.getItem("SDL_dialogos") || "Não informado";
+}
 
+function carregarResumo(){
 
-document.getElementById("tema").innerText =
-localStorage.getItem("SDL_tema_visual") || "Não informado";
+const idioma =
+obterIdiomaMestre();
+
+const titulo =
+localStorage.getItem("SDL_titulo_livro");
+
+const autor =
+localStorage.getItem("SDL_nome_autor");
+
+const tipo =
+localStorage.getItem("SDL_tipo_material");
+
+const destino =
+localStorage.getItem("SDL_destino_material");
+
+const formato =
+localStorage.getItem("SDL_formato");
+
+const margens =
+localStorage.getItem("SDL_margens");
+
+const alinhamento =
+localStorage.getItem("SDL_alinhamento");
+
+const paragrafos =
+localStorage.getItem("SDL_paragrafos");
+
+const hifenizacao =
+localStorage.getItem("SDL_hifenizacao");
+
+if(!titulo){
+
+document.getElementById("resumoPedido").innerHTML =
+
+"Dados do pedido ainda não encontrados.";
+
+return;
+
+}
+
+document.getElementById("resumoPedido").innerHTML =
+
+"<div class='item'>Idioma editorial da obra: <span class='destaque'>" + traduzirIdioma(idioma) + "</span></div>" +
+
+"<div class='item'>Título da obra: <span class='destaque'>" + titulo + "</span></div>" +
+
+"<div class='item'>Autor: <span class='destaque'>" + autor + "</span></div>" +
+
+"<div class='item'>Tipo de material: <span class='destaque'>" + tipo + "</span></div>" +
+
+"<div class='item'>Destino editorial: <span class='destaque'>" + destino + "</span></div>" +
+
+"<div class='item'>Formato: <span class='destaque'>" + formato + "</span></div>" +
+
+"<div class='item'>Margens: <span class='destaque'>" + margens + "</span></div>" +
+
+"<div class='item'>Alinhamento: <span class='destaque'>" + alinhamento + "</span></div>" +
+
+"<div class='item'>Parágrafos: <span class='destaque'>" + paragrafos + "</span></div>" +
+
+"<div class='item'>Hifenização: <span class='destaque'>" + hifenizacao + "</span></div>";
+
+}
+
+function seguirRelatorio(){
+
+const titulo =
+localStorage.getItem("SDL_titulo_livro");
+
+if(!titulo){
+
+alert("Dados do pedido não encontrados.");
+
+return;
+
+}
+
+window.location.href =
+"relatorio_lapidacao.html";
+
+}
+
+carregarResumo();
 
 </script>
 
-
 </body>
+
 </html>
