@@ -167,6 +167,11 @@ Aqui você acompanha a situação do seu acesso e do seu período de uso dentro 
 <span id="contagemPrazo" class="valor">Calculando...</span>
 </div>
 
+<div style="margin-top:16px">
+<span class="label">Tempo oficial do sistema</span><br>
+<span id="tempoOficial" class="valor">Carregando...</span>
+</div>
+
 </div>
 
 <div class="card">
@@ -213,6 +218,22 @@ return "Não informada";
 }
 
 return data.toLocaleDateString("pt-BR");
+
+}
+
+function formatarDataHora(dataIso){
+
+if(!dataIso){
+return "Não informada";
+}
+
+const data = new Date(dataIso);
+
+if(isNaN(data.getTime())){
+return "Não informada";
+}
+
+return data.toLocaleDateString("pt-BR") + " às " + data.toLocaleTimeString("pt-BR");
 
 }
 
@@ -282,9 +303,8 @@ return forma;
 
 }
 
-function diferencaEmDias(dataFutura){
+function diferencaEmDias(agora, dataFutura){
 
-const agora = new Date();
 const futura = new Date(dataFutura);
 
 const diferencaMs = futura.getTime() - agora.getTime();
@@ -294,7 +314,42 @@ return dias;
 
 }
 
-function carregarStatusPlano(){
+async function obterTempoOficial(){
+
+try{
+
+const resposta = await fetch("tempo-oficial.json?ts=" + Date.now());
+
+if(!resposta.ok){
+throw new Error("Falha ao carregar tempo oficial");
+}
+
+const dados = await resposta.json();
+
+if(dados.tempoOficial){
+return new Date(dados.tempoOficial);
+}
+
+if(dados.tempo_oficial){
+return new Date(dados.tempo_oficial);
+}
+
+if(dados.agora){
+return new Date(dados.agora);
+}
+
+throw new Error("Campo de tempo não encontrado");
+
+}
+catch(erro){
+
+return new Date();
+
+}
+
+}
+
+async function carregarStatusPlano(){
 
 const plano = localStorage.getItem("SDL_plano");
 const limite = localStorage.getItem("SDL_limite_obras");
@@ -313,6 +368,9 @@ document.getElementById("dataAtivacao").innerText = formatarData(dataPagamento);
 document.getElementById("dataVencimento").innerText = formatarData(dataVencimento);
 document.getElementById("prazoRetirada").innerText = formatarData(dataPrazoRetirada);
 
+const agoraOficial = await obterTempoOficial();
+document.getElementById("tempoOficial").innerText = formatarDataHora(agoraOficial.toISOString());
+
 if(!plano || !dataPagamento || !dataVencimento || !dataPrazoRetirada){
 
 document.getElementById("situacaoPlano").innerHTML = "<span class='alertaVermelho'>Nenhum plano ativo no momento.</span>";
@@ -322,13 +380,12 @@ return;
 
 }
 
-const hoje = new Date();
 const vencimento = new Date(dataVencimento);
 const prazoRetiradaData = new Date(dataPrazoRetirada);
 
-if(planoAtivo === "ativo" && hoje <= vencimento){
+if(planoAtivo === "ativo" && agoraOficial <= vencimento){
 
-const diasRestantes = diferencaEmDias(dataVencimento);
+const diasRestantes = diferencaEmDias(agoraOficial, dataVencimento);
 
 document.getElementById("situacaoPlano").innerHTML = "<span class='destaque'>Plano ativo</span>";
 
@@ -349,9 +406,9 @@ return;
 
 }
 
-if(hoje > vencimento && hoje <= prazoRetiradaData && prazoLiberado === "sim"){
+if(agoraOficial > vencimento && agoraOficial <= prazoRetiradaData && prazoLiberado === "sim"){
 
-const diasRetirada = diferencaEmDias(dataPrazoRetirada);
+const diasRetirada = diferencaEmDias(agoraOficial, dataPrazoRetirada);
 
 document.getElementById("situacaoPlano").innerHTML = "<span class='alerta'>Plano vencido com prazo extra de retirada liberado</span>";
 
