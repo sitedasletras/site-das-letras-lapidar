@@ -36,6 +36,7 @@ text-align:center;
 color:#ff7b2c;
 margin-top:10px;
 margin-bottom:28px;
+line-height:1.6;
 }
 
 .card{
@@ -43,12 +44,11 @@ background:#140c08;
 border-radius:14px;
 padding:26px;
 margin-top:20px;
-line-height:1.7;
 }
 
 label{
 display:block;
-margin-top:18px;
+margin-top:16px;
 color:#ffd2b3;
 }
 
@@ -58,7 +58,6 @@ padding:12px;
 margin-top:6px;
 border-radius:8px;
 border:none;
-font-size:16px;
 }
 
 .botao{
@@ -75,7 +74,7 @@ cursor:pointer;
 }
 
 .info{
-margin-top:14px;
+margin-top:12px;
 font-size:14px;
 color:#ffcfaa;
 line-height:1.6;
@@ -90,26 +89,46 @@ line-height:1.6;
 <div class="container">
 
 <div class="titulo">
-
 Leitura Técnica Editorial
-
 </div>
 
 <div class="subtitulo">
-
 Lapidar — Site das Letras
-
 </div>
 
 <div class="card">
 
-<label>Título da obra</label>
+<label>
+Título da obra
+</label>
+
 <input id="tituloObra">
 
-<label>Nome do autor</label>
+<label>
+Autor da obra
+</label>
+
 <input id="autorObra">
 
-<label>Idioma da obra</label>
+<label>
+Tipo de obra
+</label>
+
+<select id="tipoObra">
+
+<option>Romance</option>
+<option>Contos</option>
+<option>Poesia</option>
+<option>Infantil</option>
+<option>Infantojuvenil</option>
+<option>Acadêmico</option>
+<option>Outro</option>
+
+</select>
+
+<label>
+Idioma da obra
+</label>
 
 <select id="idiomaObra">
 
@@ -122,29 +141,12 @@ Lapidar — Site das Letras
 
 </select>
 
-<label>Tipo da obra</label>
-
-<select id="tipoObra">
-
-<option>Romance</option>
-<option>Poesia</option>
-<option>Infantil</option>
-<option>Infantojuvenil</option>
-<option>Técnico</option>
-<option>Acadêmico</option>
-<option>Contos</option>
-
-</select>
-
-<label>Arquivo da obra</label>
-<input type="file">
+<div class="info">
+A leitura técnica editorial oferece análise estrutural, narrativa, mercado e posicionamento da obra.
+</div>
 
 <div class="info">
-
-Valor da leitura técnica editorial: R$ 4,99
-
-Após envio, será gerado relatório técnico acolhedor com análise da obra.
-
+Valor simbólico editorial: R$ 4,99
 </div>
 
 <button class="botao"
@@ -175,15 +177,15 @@ document.getElementById("tituloObra").value;
 const autor =
 document.getElementById("autorObra").value;
 
-const idioma =
-document.getElementById("idiomaObra").value;
-
 const tipo =
 document.getElementById("tipoObra").value;
 
-if(!titulo){
+const idioma =
+document.getElementById("idiomaObra").value;
 
-alert("Informe o título da obra.");
+if(!titulo || !autor){
+
+alert("Informe título e autor da obra.");
 
 return;
 
@@ -193,14 +195,15 @@ localStorage.setItem("LTE_titulo", titulo);
 
 localStorage.setItem("LTE_autor", autor);
 
-localStorage.setItem("LTE_idioma", idioma);
-
 localStorage.setItem("LTE_tipo", tipo);
 
-localStorage.setItem("LTE_status", "solicitado");
+localStorage.setItem("LTE_idioma", idioma);
 
-window.location.href =
-"relatorio_leitura_tecnica.html";
+localStorage.setItem("LTE_status", "solicitada");
+
+alert("Leitura técnica editorial registrada.");
+
+window.location.href = "relatorio_leitura_tecnica.html";
 
 }
 
