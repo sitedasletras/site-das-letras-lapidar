@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Relatório editorial — Lapidar</title>
+
+<style>
+
+body{
+margin:0;
+background:#0c0603;
+font-family:Arial, sans-serif;
+color:white;
+display:flex;
+justify-content:center;
+}
+
+.container{
+max-width:760px;
+width:92%;
+padding:40px 0 60px 0;
+}
+
+.titulo{
+font-size:34px;
+text-align:center;
+font-weight:bold;
+}
+
+.subtitulo{
+text-align:center;
+color:#ff7b2c;
+margin-top:10px;
+margin-bottom:28px;
+line-height:1.6;
+}
+
+.card{
+background:#140c08;
+border-radius:14px;
+padding:26px;
+margin-top:20px;
+line-height:1.8;
+}
+
+.linha{
+margin-bottom:12px;
+}
+
+.botao{
+width:100%;
+padding:18px;
+margin-top:24px;
+border:none;
+border-radius:40px;
+background:#ff5a00;
+color:white;
+font-size:18px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.botaoCinza{
+background:#444;
+}
+
+.botaoCinza:hover{
+background:#666;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="titulo">
+Relatório editorial preliminar
+</div>
+
+<div class="subtitulo">
+Resumo técnico da preparação inicial da obra dentro do sistema Lapidar
+</div>
+
+<div class="card" id="relatorioConteudo">
+
+Carregando informações da obra...
+
+</div>
+
+<button class="botao" onclick="seguirCapista()">
+Seguir para preparação da capa
+</button>
+
+<button class="botao botaoCinza"
+onclick="window.location.href='_Indice.html'">
+Voltar para casa do original
+</button>
+
+</div>
+
+
+<script>
+
+function montarRelatorio(){
+
+const titulo =
+localStorage.getItem("SDL_titulo_livro") || "Não informado";
+
+const autor =
+localStorage.getItem("SDL_nome_autor") || "Não informado";
+
+const idioma =
+localStorage.getItem("SDL_idioma_obra") || "pt";
+
+const formato =
+localStorage.getItem("SDL_formato_livro") || "Não definido";
+
+const margem =
+localStorage.getItem("SDL_tipo_margem") || "Não definido";
+
+const alinhamento =
+localStorage.getItem("SDL_alinhamento_texto") || "Não definido";
+
+const recuo =
+localStorage.getItem("SDL_recuo_primeira_linha") || "Não definido";
+
+const capitulares =
+localStorage.getItem("SDL_capitulares") || "Não definido";
+
+const hifenizacao =
+localStorage.getItem("SDL_hifenizacao") || "Não definido";
+
+
+document.getElementById("relatorioConteudo").innerHTML =
+
+"<div class='linha'><strong>Título:</strong> " + titulo + "</div>" +
+
+"<div class='linha'><strong>Autor:</strong> " + autor + "</div>" +
+
+"<div class='linha'><strong>Idioma principal:</strong> " + idioma + "</div>" +
+
+"<hr style='margin:18px 0;'>"+
+
+"<div class='linha'><strong>Formato:</strong> " + formato + "</div>" +
+
+"<div class='linha'><strong>Margens:</strong> " + margem + "</div>" +
+
+"<div class='linha'><strong>Alinhamento:</strong> " + alinhamento + "</div>" +
+
+"<div class='linha'><strong>Recuo inicial:</strong> " + recuo + "</div>" +
+
+"<div class='linha'><strong>Capitulares:</strong> " + capitulares + "</div>" +
+
+"<div class='linha'><strong>Hifenização:</strong> " + hifenizacao + "</div>" +
+
+"<hr style='margin:18px 0;'>"+
+
+"<div class='linha'>Relatório técnico preliminar gerado com sucesso pelo sistema Lapidar.</div>";
+
+}
+
+
+function seguirCapista(){
+
+window.location.href = "capista_configuracao.html";
+
+}
+
+
+montarRelatorio();
+
+</script>
+
+</body>
+</html>
