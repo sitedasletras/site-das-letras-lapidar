@@ -91,6 +91,14 @@ background:#2c52ff;
 background:#4366ff;
 }
 
+.botaoVerde{
+background:#00a651;
+}
+
+.botaoVerde:hover{
+background:#00bf5c;
+}
+
 .botaoCinza{
 background:#444;
 }
@@ -101,7 +109,7 @@ background:#666;
 
 .botaoBloqueado{
 background:#2d2d2d;
-opacity:0.65;
+opacity:0.6;
 cursor:not-allowed;
 }
 
@@ -152,31 +160,49 @@ A casa do seu original
 </div>
 
 <div class="texto">
-Esta é a casa onde o seu material começa a ganhar forma editorial.<br>
-Escolha abaixo o que deseja fazer agora.
+Escolha abaixo o que deseja fazer com o seu material editorial.
 </div>
 
-<button id="btnOriginal" class="botao" onclick="window.location.href='upload_livro.html'">
+
+<button id="btnOriginal" class="botao"
+onclick="window.location.href='upload_livro.html'">
 Entrar com o seu original
 </button>
 
-<button id="btnCapa" class="botao" onclick="window.location.href='bloco12.html'">
-Entrar para preparar capa externa
+
+<button id="btnCapa" class="botao"
+onclick="window.location.href='bloco12.html'">
+Preparar capa externa
 </button>
 
-<button id="btnRetirada" class="botao botaoCinza" onclick="retirarMateriais()">
+
+<button id="btnRelatorio" class="botao botaoVerde"
+onclick="abrirRelatorio()">
+Ver relatório editorial da obra
+</button>
+
+
+<button id="btnRetirada"
+class="botao botaoCinza"
+onclick="retirarMateriais()">
 Retirar materiais diagramados
 </button>
 
-<button class="botao botaoAzul" onclick="window.location.href='status_plano.html'">
+
+<button class="botao botaoAzul"
+onclick="window.location.href='status_plano.html'">
 Ver status do meu plano
 </button>
 
-<div id="alertaPlano" class="alerta"></div>
+
+<div id="alertaPlano"
+class="alerta"></div>
+
 
 </div>
 
 <script>
+
 
 function definirLimiteTexto(limite){
 
@@ -192,79 +218,209 @@ return limite + " obra(s) no mês";
 
 }
 
+
+
 function bloquearEntrada(){
 
-const btnOriginal = document.getElementById("btnOriginal");
-const btnCapa = document.getElementById("btnCapa");
+const btnOriginal =
+document.getElementById("btnOriginal");
+
+const btnCapa =
+document.getElementById("btnCapa");
 
 btnOriginal.classList.add("botaoBloqueado");
 btnCapa.classList.add("botaoBloqueado");
 
 btnOriginal.onclick = function(){
-alert("Seu plano precisa estar ativo para continuar preparando materiais no Lapidar.");
+
+alert(
+"Seu plano precisa estar ativo para continuar."
+);
+
 };
 
 btnCapa.onclick = function(){
-alert("Seu plano precisa estar ativo para continuar preparando capas no Lapidar.");
+
+alert(
+"Seu plano precisa estar ativo para continuar."
+);
+
 };
 
 }
 
+
+
 function retirarMateriais(){
 
-const prazoLiberado = localStorage.getItem("SDL_prazo_liberado");
+const prazoLiberado =
+localStorage.getItem("SDL_prazo_liberado");
 
 if(prazoLiberado === "sim"){
-alert("Seus materiais diagramados continuam disponíveis dentro do prazo de retirada.");
-}
-else{
-alert("No momento não há prazo liberado para retirada de materiais diagramados.");
+
+alert(
+"Seus materiais continuam disponíveis dentro do prazo extra de retirada."
+);
+
+}else{
+
+alert(
+"No momento não há prazo liberado para retirada."
+);
+
 }
 
 }
+
+
+
+function abrirRelatorio(){
+
+const planoAtivo =
+localStorage.getItem("SDL_plano_ativo");
+
+if(planoAtivo === "ativo"){
+
+window.location.href =
+"relatorio_lapidacao.html";
+
+}else{
+
+alert(
+"O relatório editorial é liberado apenas durante o período ativo do plano."
+);
+
+}
+
+}
+
+
 
 function carregarPainelInicial(){
 
-const plano = localStorage.getItem("SDL_plano");
-const limite = localStorage.getItem("SDL_limite_obras");
-const planoAtivo = localStorage.getItem("SDL_plano_ativo");
-const dataVencimento = localStorage.getItem("SDL_data_vencimento");
-const dataPrazoRetirada = localStorage.getItem("SDL_data_prazo_retirada");
+const plano =
+localStorage.getItem("SDL_plano");
 
-document.getElementById("planoAtual").innerText = plano || "Nenhum plano selecionado";
-document.getElementById("limiteObras").innerText = definirLimiteTexto(limite);
+const limite =
+localStorage.getItem("SDL_limite_obras");
 
-if(!plano || !dataVencimento || !dataPrazoRetirada){
-document.getElementById("situacaoAcesso").innerText = "Nenhum plano ativo no momento.";
-document.getElementById("alertaPlano").innerText = "Escolha um plano de doações para ativar seu acesso ao Lapidar.";
+const planoAtivo =
+localStorage.getItem("SDL_plano_ativo");
+
+const dataVencimento =
+localStorage.getItem("SDL_data_vencimento");
+
+const dataPrazoRetirada =
+localStorage.getItem("SDL_data_prazo_retirada");
+
+
+document.getElementById("planoAtual")
+.innerText =
+plano || "Nenhum plano selecionado";
+
+
+document.getElementById("limiteObras")
+.innerText =
+definirLimiteTexto(limite);
+
+
+if(
+!plano ||
+!dataVencimento ||
+!dataPrazoRetirada
+){
+
+document.getElementById(
+"situacaoAcesso"
+).innerText =
+"Nenhum plano ativo no momento.";
+
+document.getElementById(
+"alertaPlano"
+).innerText =
+"Escolha um plano para ativar seu acesso.";
+
 bloquearEntrada();
+
 return;
+
 }
 
-const hoje = new Date();
-const vencimento = new Date(dataVencimento);
-const prazoRetirada = new Date(dataPrazoRetirada);
 
-if(planoAtivo === "ativo" && hoje <= vencimento){
-document.getElementById("situacaoAcesso").innerHTML = "<span class='destaque'>Plano ativo</span>";
-document.getElementById("alertaPlano").innerText = "Seu acesso está liberado normalmente.";
+
+const hoje =
+new Date();
+
+const vencimento =
+new Date(dataVencimento);
+
+const prazoRetirada =
+new Date(dataPrazoRetirada);
+
+
+
+if(
+planoAtivo === "ativo" &&
+hoje <= vencimento
+){
+
+document.getElementById(
+"situacaoAcesso"
+).innerHTML =
+"<span class='destaque'>Plano ativo</span>";
+
+document.getElementById(
+"alertaPlano"
+).innerText =
+"Seu acesso está liberado normalmente.";
+
 return;
+
 }
 
-if(hoje > vencimento && hoje <= prazoRetirada){
-document.getElementById("situacaoAcesso").innerText = "Plano vencido com prazo extra de retirada liberado.";
-document.getElementById("alertaPlano").innerText = "Seu plano venceu, mas você ainda pode retirar seus materiais diagramados durante o prazo extra.";
+
+
+if(
+hoje > vencimento &&
+hoje <= prazoRetirada
+){
+
+document.getElementById(
+"situacaoAcesso"
+).innerText =
+"Plano vencido com prazo extra disponível.";
+
+document.getElementById(
+"alertaPlano"
+).innerText =
+"Você ainda pode retirar seus materiais.";
+
 bloquearEntrada();
+
 return;
+
 }
 
-document.getElementById("situacaoAcesso").innerText = "Plano encerrado.";
-document.getElementById("alertaPlano").innerText = "Para continuar usando o Lapidar, escolha um novo plano de doações.";
+
+
+document.getElementById(
+"situacaoAcesso"
+).innerText =
+"Plano encerrado.";
+
+document.getElementById(
+"alertaPlano"
+).innerText =
+"Escolha um novo plano para continuar.";
+
 bloquearEntrada();
 
 }
+
+
 
 carregarPainelInicial();
+
 
 </script>
 
