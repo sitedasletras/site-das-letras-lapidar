@@ -6,85 +6,96 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Lapidar — Preferências de Diagramação</title>
+<title>Preferências da Diagramação — Lapidar</title>
 
 <style>
 
 body{
-
 margin:0;
-font-family:Arial,sans-serif;
+font-family:Arial;
 background:#0d0603;
 color:white;
-
 display:flex;
 justify-content:center;
-align-items:center;
-
-min-height:100vh;
-
 }
 
 .container{
-
-width:95%;
-max-width:650px;
-
+max-width:720px;
+width:92%;
+padding:40px 0 60px 0;
 }
 
-h1{
-
+.titulo{
+font-size:36px;
 text-align:center;
-margin-bottom:20px;
+font-weight:bold;
+}
+
+.subtitulo{
+text-align:center;
+color:#ff7b2c;
+margin-top:10px;
+margin-bottom:30px;
+}
+
+.card{
+
+background:#140c08;
+border-radius:14px;
+padding:22px;
+margin-top:20px;
 
 }
 
 label{
-
 display:block;
-margin-top:18px;
-font-size:16px;
-
+margin-top:14px;
+margin-bottom:6px;
+font-weight:bold;
+color:#ffd2b3;
 }
 
 select{
 
 width:100%;
 padding:12px;
-margin-top:6px;
-
-border-radius:8px;
+border-radius:10px;
 border:none;
-
-font-size:16px;
 
 }
 
-button{
+.botao{
 
 width:100%;
-padding:16px;
-
-margin-top:30px;
-
+padding:18px;
+margin-top:20px;
 border:none;
-border-radius:30px;
-
+border-radius:40px;
 background:#ff5a00;
 color:white;
-
 font-size:18px;
 font-weight:bold;
-
 cursor:pointer;
 
 }
 
-.info{
+.botaoCinza{
 
-margin-top:12px;
-font-size:14px;
-color:#ffb27a;
+background:#444;
+
+}
+
+.botaoCinza:hover{
+
+background:#666;
+
+}
+
+.sucesso{
+
+margin-top:20px;
+color:#9cffb2;
+text-align:center;
 
 }
 
@@ -92,276 +103,231 @@ color:#ffb27a;
 
 </head>
 
-
 <body>
 
 <div class="container">
 
-<h1>Preferências de Diagramação</h1>
+<div class="titulo">
+Preferências da Diagramação
+</div>
 
+<div class="subtitulo">
+Escolha como deseja preparar a apresentação editorial do seu livro
+</div>
 
-<label>Formato do material</label>
+<div class="card">
 
-<select id="formato">
+<label>Idioma editorial da obra</label>
 
+<input
+type="text"
+id="idiomaMostrado"
+readonly
+style="width:100%;padding:12px;border-radius:10px;border:none;"
+>
+
+<label>Tamanho do livro</label>
+
+<select id="formatoLivro">
+
+<option value="">Selecione</option>
 <option>A5</option>
 <option>16x23</option>
-<option>A4</option>
 <option>6x9</option>
+<option>A4</option>
 
 </select>
 
+<label>Margens</label>
 
+<select id="margensLivro">
+
+<option value="">Selecione</option>
+<option>Espelhadas</option>
+<option>Normais</option>
+
+</select>
 
 <label>Alinhamento do texto</label>
 
-<select id="alinhamento">
+<select id="alinhamentoTexto">
 
+<option value="">Selecione</option>
 <option>Justificado</option>
 <option>Alinhado à esquerda</option>
-<option>Centrado (poesia)</option>
 
 </select>
 
+<label>Parágrafos</label>
 
+<select id="paragrafosTexto">
 
-<label>Recuo de parágrafo</label>
-
-<select id="recuo">
-
-<option>1.25 cm (editorial padrão)</option>
+<option value="">Selecione</option>
+<option>Recuo primeira linha</option>
 <option>Sem recuo</option>
 
 </select>
 
+<label>Hifenização</label>
 
+<select id="hifenizacaoTexto">
 
-<label>Hifenização automática</label>
-
-<select id="hifenizacao">
-
-<option>Ativar</option>
-<option>Desativar</option>
-
-</select>
-
-
-
-<label>Modo automático de preparação</label>
-
-<select id="modo">
-
-<option value="livre">Modo livre</option>
-<option value="professor">Modo professor</option>
-<option value="poesia">Modo poesia</option>
-<option value="memorial">Modo memorial</option>
-<option value="infantil">Modo infantil</option>
-<option value="classico">Modo clássico editorial</option>
+<option value="">Selecione</option>
+<option>Automática</option>
+<option>Desativada</option>
 
 </select>
-
-
-
-<label>Tema de visualização</label>
-
-<select id="tema">
-
-<option value="claro">Modo clássico (papel branco)</option>
-<option value="invertido">Modo noturno (fundo preto)</option>
-
-</select>
-
-<div class="info">
-
-Modo noturno melhora a leitura na tela.  
-Não altera automaticamente a versão para impressão.
 
 </div>
 
-
-
-<label>Moldura editorial do material</label>
-
-<select id="moldura">
-
-<option value="simples">Essencial (incluída no plano 1,99)</option>
-
-<option value="intermediaria">
-Editorial padrão (planos ≥ 9,90)
-</option>
-
-<option value="leve">
-Moldura leve (planos ≥ 59,90)
-</option>
-
-<option value="artistica">
-Moldura artística (planos ≥ 99,90)
-</option>
-
-<option value="magistral">
-Magistral completa (uso livre)
-</option>
-
-</select>
-
-
-<div class="info">
-
-Algumas molduras dependem do plano ativo de doação.  
-Caso não estejam disponíveis, o sistema ajustará automaticamente.
-
-</div>
-
-
-
-<button onclick="salvarPreferencias()">
-
-Confirmar Preferências
-
+<button class="botao" onclick="salvarPreferencias()">
+Salvar preferências
 </button>
 
+<button class="botao" onclick="seguirResumo()">
+Seguir para revisão do pedido
+</button>
+
+<button class="botao botaoCinza" onclick="window.location.href='upload_livro.html'">
+Voltar para entrada do original
+</button>
+
+<button class="botao botaoCinza" onclick="window.location.href='_Indice.html'">
+Voltar para casa do original
+</button>
+
+<div id="mensagemSucesso" class="sucesso"></div>
+
 </div>
 
-
-
 <script>
+
+function traduzirIdioma(codigo){
+
+if(codigo === "pt") return "Português";
+if(codigo === "en") return "English";
+if(codigo === "es") return "Español";
+if(codigo === "it") return "Italiano";
+if(codigo === "fr") return "Français";
+if(codigo === "de") return "Deutsch";
+
+return "Português";
+
+}
+
+function obterIdiomaMestre(){
+
+const idiomaGlobal = localStorage.getItem("SDL_idioma_obra_global");
+
+const idiomaLocal = localStorage.getItem("SDL_idioma_obra");
+
+return idiomaGlobal || idiomaLocal || "pt";
+
+}
+
+function carregarIdioma(){
+
+const idioma = obterIdiomaMestre();
+
+document.getElementById("idiomaMostrado").value =
+traduzirIdioma(idioma);
+
+}
 
 function salvarPreferencias(){
 
 const formato =
-document.getElementById("formato").value;
+document.getElementById("formatoLivro").value;
+
+const margens =
+document.getElementById("margensLivro").value;
 
 const alinhamento =
-document.getElementById("alinhamento").value;
+document.getElementById("alinhamentoTexto").value;
 
-const recuo =
-document.getElementById("recuo").value;
+const paragrafos =
+document.getElementById("paragrafosTexto").value;
 
 const hifenizacao =
-document.getElementById("hifenizacao").value;
+document.getElementById("hifenizacaoTexto").value;
 
-const modo =
-document.getElementById("modo").value;
+if(!formato){
 
-const tema =
-document.getElementById("tema").value;
+alert("Escolha o formato do livro.");
 
-const moldura =
-document.getElementById("moldura").value;
+return;
 
+}
 
+if(!margens){
 
-localStorage.setItem(
-"SDL_formato",formato
-);
+alert("Escolha o tipo de margens.");
 
-localStorage.setItem(
-"SDL_alinhamento",alinhamento
-);
+return;
 
-localStorage.setItem(
-"SDL_recuo",recuo
-);
+}
 
-localStorage.setItem(
-"SDL_hifenizacao",hifenizacao
-);
+if(!alinhamento){
 
-localStorage.setItem(
-"SDL_modo_preparacao",modo
-);
+alert("Escolha o alinhamento.");
 
-localStorage.setItem(
-"SDL_tema_visual",tema
-);
+return;
 
-localStorage.setItem(
-"SDL_moldura_editorial",moldura
-);
+}
 
+if(!paragrafos){
 
+alert("Escolha o estilo de parágrafo.");
 
-aplicarModoAutomatico(modo);
+return;
 
+}
 
+if(!hifenizacao){
 
-alert(
-"Preferências salvas com sucesso."
-);
+alert("Escolha a hifenização.");
 
+return;
 
+}
+
+localStorage.setItem("SDL_formato", formato);
+
+localStorage.setItem("SDL_margens", margens);
+
+localStorage.setItem("SDL_alinhamento", alinhamento);
+
+localStorage.setItem("SDL_paragrafos", paragrafos);
+
+localStorage.setItem("SDL_hifenizacao", hifenizacao);
+
+document.getElementById("mensagemSucesso").innerHTML =
+
+"Preferências salvas com sucesso.";
+
+}
+
+function seguirResumo(){
+
+const formato =
+localStorage.getItem("SDL_formato");
+
+if(!formato){
+
+alert("Salve primeiro as preferências.");
+
+return;
+
+}
 
 window.location.href =
 "revisao_pedido.html";
 
 }
 
-
-
-function aplicarModoAutomatico(modo){
-
-if(modo==="professor"){
-
-localStorage.setItem(
-"SDL_formato","A4"
-);
-
-localStorage.setItem(
-"SDL_recuo","Sem recuo"
-);
-
-localStorage.setItem(
-"SDL_alinhamento",
-"Alinhado à esquerda"
-);
-
-}
-
-
-
-if(modo==="poesia"){
-
-localStorage.setItem(
-"SDL_recuo","Sem recuo"
-);
-
-localStorage.setItem(
-"SDL_alinhamento",
-"Centrado (poesia)"
-);
-
-}
-
-
-
-if(modo==="memorial"){
-
-localStorage.setItem(
-"SDL_tema_visual",
-"invertido"
-);
-
-}
-
-
-
-if(modo==="classico"){
-
-localStorage.setItem(
-"SDL_formato","A5"
-);
-
-localStorage.setItem(
-"SDL_alinhamento",
-"Justificado"
-);
-
-}
-
-}
+carregarIdioma();
 
 </script>
-
 
 </body>
 
