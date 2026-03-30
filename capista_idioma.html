@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Idioma da capa — Projeto Capista</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial, sans-serif;
+background:#0d0603;
+color:white;
+display:flex;
+justify-content:center;
+}
+
+.container{
+max-width:720px;
+width:92%;
+padding:40px 0 60px 0;
+}
+
+.titulo{
+font-size:34px;
+text-align:center;
+font-weight:bold;
+}
+
+.subtitulo{
+text-align:center;
+color:#ff7b2c;
+margin-top:10px;
+margin-bottom:28px;
+}
+
+.card{
+background:#140c08;
+border-radius:14px;
+padding:22px;
+margin-top:18px;
+}
+
+label{
+display:block;
+margin-bottom:6px;
+font-weight:bold;
+color:#ffd2b3;
+}
+
+select{
+width:100%;
+padding:12px;
+border-radius:10px;
+border:none;
+margin-bottom:20px;
+}
+
+.botao{
+width:100%;
+padding:18px;
+margin-top:18px;
+border:none;
+border-radius:40px;
+background:#ff5a00;
+color:white;
+font-size:18px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.botao:hover{
+background:#ff6f1a;
+}
+
+.botaoCinza{
+background:#444;
+}
+
+.botaoCinza:hover{
+background:#666;
+}
+
+.info{
+margin-top:20px;
+line-height:1.7;
+color:#ffd2b3;
+}
+
+.alerta{
+margin-top:15px;
+color:#9cffb2;
+font-weight:bold;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="titulo">
+Idioma editorial da capa
+</div>
+
+<div class="subtitulo">
+Escolha o idioma do texto enviado e o idioma final da capa
+</div>
+
+<div class="card">
+
+<label>
+Idioma principal do autor
+</label>
+
+<select id="idiomaAutor">
+<option value="pt">Português</option>
+<option value="en">English</option>
+<option value="es">Español</option>
+<option value="it">Italiano</option>
+<option value="fr">Français</option>
+<option value="de">Deutsch</option>
+</select>
+
+
+<label>
+Idioma do texto enviado (sinopse / biografia / título)
+</label>
+
+<select id="idiomaEntrada">
+<option value="pt">Português</option>
+<option value="en">English</option>
+<option value="es">Español</option>
+<option value="it">Italiano</option>
+<option value="fr">Français</option>
+<option value="de">Deutsch</option>
+</select>
+
+
+<label>
+Idioma final da capa
+</label>
+
+<select id="idiomaSaida">
+<option value="pt">Português</option>
+<option value="en">English</option>
+<option value="es">Español</option>
+<option value="it">Italiano</option>
+<option value="fr">Français</option>
+<option value="de">Deutsch</option>
+</select>
+
+
+<div class="info">
+
+O sistema pode receber texto em um idioma e gerar a capa final em outro idioma automaticamente.
+
+Nos planos multilíngue, até 20% das capas podem ser produzidas em idioma diferente do idioma principal do autor.
+
+</div>
+
+<div id="statusIdioma" class="alerta"></div>
+
+<button class="botao" onclick="salvarIdiomasCapista()">
+Salvar idioma da capa
+</button>
+
+<button class="botao botaoCinza" onclick="window.location.href='capista_planos.html'">
+Voltar para planos
+</button>
+
+</div>
+
+</div>
+
+
+<script>
+
+function salvarIdiomasCapista(){
+
+const idiomaAutor =
+document.getElementById("idiomaAutor").value;
+
+const idiomaEntrada =
+document.getElementById("idiomaEntrada").value;
+
+const idiomaSaida =
+document.getElementById("idiomaSaida").value;
+
+
+localStorage.setItem(
+"CAPISTA_idioma_autor",
+idiomaAutor
+);
+
+localStorage.setItem(
+"CAPISTA_idioma_texto",
+idiomaEntrada
+);
+
+localStorage.setItem(
+"CAPISTA_idioma_saida",
+idiomaSaida
+);
+
+
+verificarLimiteMultilingue(
+idiomaAutor,
+idiomaSaida
+);
+
+
+alert(
+"Idiomas registrados com sucesso."
+);
+
+window.location.href =
+"capista_upload_textos.html";
+
+}
+
+
+
+function verificarLimiteMultilingue(
+idiomaAutor,
+idiomaSaida
+){
+
+const plano =
+localStorage.getItem(
+"CAPISTA_plano"
+);
+
+const limiteOutroIdioma =
+localStorage.getItem(
+"CAPISTA_limite_outro_idioma"
+);
+
+let usados =
+Number(
+localStorage.getItem(
+"CAPISTA_capas_usadas_outro_idioma"
+)
+) || 0;
+
+
+
+if(
+idiomaAutor !== idiomaSaida &&
+limiteOutroIdioma !== "ilimitado"
+){
+
+if(usados >= limiteOutroIdioma){
+
+alert(
+"Limite de capas multilíngue atingido neste plano."
+);
+
+return;
+
+}
+
+
+usados++;
+
+localStorage.setItem(
+"CAPISTA_capas_usadas_outro_idioma",
+usados
+);
+
+}
+
+
+}
+
+</script>
+
+</body>
+</html>
