@@ -1,56 +1,83 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt-br">
 <head>
 <meta charset="UTF-8">
-<title>Lapidar — A esperança e sonhos dos escritores</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login — Lapidar</title>
 
 <style>
-
 body{
+margin:0;
 background:#000;
 color:#fff;
-font-family:Arial;
-text-align:center;
-padding-top:80px;
+font-family:Arial, sans-serif;
+display:flex;
+justify-content:center;
+align-items:center;
+min-height:100vh;
 }
 
 .container{
-width:320px;
-margin:auto;
-padding:25px;
+width:90%;
+max-width:360px;
 background:#111;
-border-radius:12px;
-box-shadow:0px 0px 12px #333;
+padding:28px;
+border-radius:14px;
+box-shadow:0 0 12px rgba(255,255,255,0.08);
+text-align:center;
+}
+
+h1{
+margin:0 0 10px 0;
+font-size:32px;
+}
+
+.subtitulo{
+color:#ff7b2c;
+margin-bottom:22px;
+line-height:1.6;
 }
 
 input{
-width:90%;
-padding:12px;
-margin:10px 0;
-border-radius:6px;
+width:100%;
+padding:14px;
+margin-top:12px;
 border:none;
+border-radius:8px;
 font-size:16px;
+box-sizing:border-box;
 }
 
 button{
-background:#FFD700;
+width:100%;
+padding:16px;
+margin-top:18px;
 border:none;
-padding:12px;
-width:95%;
+border-radius:40px;
+background:#ff5a00;
+color:white;
 font-size:18px;
-border-radius:6px;
+font-weight:bold;
 cursor:pointer;
 }
 
 button:hover{
-background:#e6c200;
+background:#ff6f1a;
 }
 
 .erro{
-color:red;
-margin-top:10px;
+color:#ff7070;
+margin-top:14px;
+line-height:1.5;
+min-height:24px;
 }
 
+.info{
+margin-top:16px;
+font-size:14px;
+color:#ffd2b3;
+line-height:1.6;
+}
 </style>
 </head>
 
@@ -58,40 +85,59 @@ margin-top:10px;
 
 <div class="container">
 
-<h2>Lapidar</h2>
+<h1>LAPIDAR</h1>
 
-<p>
-Entre com seus dados para acessar sua área de diagramação
-</p>
+<div class="subtitulo">
+Entre no seu ambiente editorial
+</div>
 
 <input type="text" id="usuario" placeholder="Digite seu email">
 
 <input type="password" id="senha" placeholder="Digite sua senha">
 
-<button onclick="entrar()">Entrar</button>
+<button onclick="entrar()">
+Entrar
+</button>
 
 <div class="erro" id="erro"></div>
 
+<div class="info">
+O acesso é permitido em apenas um dispositivo por vez neste navegador.
 </div>
 
+</div>
 
 <script>
 
 const usuarioPadrao = "admin@sitedasletras.com";
 const senhaPadrao = "123456";
 
+function detectarIdiomaSistema(){
+const idioma = navigator.language || "pt-BR";
+
+if(idioma.startsWith("pt")) return "pt";
+if(idioma.startsWith("en")) return "en";
+if(idioma.startsWith("es")) return "es";
+if(idioma.startsWith("it")) return "it";
+if(idioma.startsWith("fr")) return "fr";
+if(idioma.startsWith("de")) return "de";
+
+return "pt";
+}
 
 function entrar(){
 
-let usuario = document.getElementById("usuario").value;
-let senha = document.getElementById("senha").value;
-
+const usuario = document.getElementById("usuario").value.trim();
+const senha = document.getElementById("senha").value.trim();
 
 if(usuario === usuarioPadrao && senha === senhaPadrao){
 
-localStorage.setItem("lapidar_logado","true");
+localStorage.setItem("SDL_usuario_logado", usuario);
+localStorage.setItem("SDL_sessao_ativa", "sim");
+localStorage.setItem("SDL_dispositivo_autorizado", navigator.userAgent);
+localStorage.setItem("SDL_idioma_interface", detectarIdiomaSistema());
 
-window.location.href="painel.html";
+window.location.href = "_Indice.html";
 
 }else{
 
@@ -102,11 +148,8 @@ document.getElementById("erro").innerText =
 
 }
 
-
-if(localStorage.getItem("lapidar_logado") === "true"){
-
-window.location.href="painel.html";
-
+if(localStorage.getItem("SDL_sessao_ativa") === "sim"){
+window.location.href = "_Indice.html";
 }
 
 </script>
