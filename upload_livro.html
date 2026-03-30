@@ -176,6 +176,7 @@ Esta etapa serve para dar entrada no seu material dentro do Lapidar. Quanto mais
 <option value="Poesia">Poesia</option>
 <option value="Conto">Conto</option>
 <option value="Infantil">Infantil</option>
+<option value="Infanto-juvenil">Infanto-juvenil</option>
 <option value="Acadêmico">Acadêmico</option>
 <option value="Biografia">Biografia</option>
 <option value="Religioso">Religioso</option>
@@ -207,6 +208,10 @@ Esta etapa serve para dar entrada no seu material dentro do Lapidar. Quanto mais
 
 <div class="aviso">
 O idioma editorial da obra será usado como base para organização, revisão ortográfica, gramática, estrutura editorial e preparação do material final.
+</div>
+
+<div class="aviso">
+Este comportamento vale também para obras infantis e infanto-juvenis, inclusive em formato multilíngue, EPUB e capa.
 </div>
 
 <div class="aviso">
@@ -247,9 +252,17 @@ if(codigo === "de") return "Deutsch";
 return "Português";
 }
 
+function obterIdiomaMestre(){
+
+const idiomaGlobal = localStorage.getItem("SDL_idioma_obra_global");
+const idiomaLocal = localStorage.getItem("SDL_idioma_obra");
+
+return idiomaGlobal || idiomaLocal || "pt";
+}
+
 function carregarIdiomaDaObra(){
 
-const idioma = localStorage.getItem("SDL_idioma_obra") || "pt";
+const idioma = obterIdiomaMestre();
 
 document.getElementById("idiomaObraMostrado").value =
 traduzirIdioma(idioma);
@@ -258,7 +271,7 @@ traduzirIdioma(idioma);
 
 function salvarOriginal(){
 
-const idioma = localStorage.getItem("SDL_idioma_obra") || "pt";
+const idioma = obterIdiomaMestre();
 const titulo = document.getElementById("tituloObra").value.trim();
 const autor = document.getElementById("nomeAutor").value.trim();
 const tipo = document.getElementById("tipoMaterial").value;
@@ -291,7 +304,9 @@ localStorage.setItem("SDL_nome_autor", autor);
 localStorage.setItem("SDL_tipo_material", tipo);
 localStorage.setItem("SDL_destino_material", destino);
 localStorage.setItem("SDL_observacoes_iniciais", observacoes);
+
 localStorage.setItem("SDL_idioma_obra", idioma);
+localStorage.setItem("SDL_idioma_obra_global", idioma);
 
 document.getElementById("mensagemSucesso").innerHTML =
 "Entrada do original registrada com sucesso.<br><span class='destaque'>Idioma editorial da obra: " + traduzirIdioma(idioma) + "</span><br>Agora você já pode seguir para as preferências da diagramação.";
