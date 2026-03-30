@@ -2,120 +2,92 @@
 <html lang="pt-br">
 
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Preferências de diagramação — Lapidar</title>
 
 <style>
 
 body{
-
 margin:0;
 background:#0c0603;
-font-family:Arial;
+font-family:Arial, sans-serif;
 color:white;
-
 display:flex;
 justify-content:center;
-
 }
 
 .container{
-
-max-width:720px;
+max-width:760px;
 width:92%;
-
 padding:40px 0 60px 0;
-
 }
 
 .titulo{
-
 font-size:34px;
 text-align:center;
 font-weight:bold;
-
 }
 
 .subtitulo{
-
 text-align:center;
 color:#ff7b2c;
-
 margin-top:10px;
 margin-bottom:28px;
-
+line-height:1.6;
 }
 
 .card{
-
 background:#140c08;
 border-radius:14px;
-
-padding:24px;
-
-margin-top:18px;
-
+padding:26px;
+margin-top:20px;
 line-height:1.8;
-
 }
 
 label{
-
 display:block;
-
-margin-top:18px;
-
-font-size:15px;
-
+margin-top:16px;
 color:#ffd2b3;
-
 }
 
 select{
-
 width:100%;
-
 padding:12px;
-
 margin-top:6px;
-
 border-radius:8px;
-
 border:none;
-
-font-size:16px;
-
 }
 
 .botao{
-
 width:100%;
-
 padding:18px;
-
 margin-top:24px;
-
 border:none;
-
 border-radius:40px;
-
 background:#ff5a00;
-
 color:white;
-
 font-size:18px;
-
 font-weight:bold;
-
 cursor:pointer;
+}
 
+.botaoCinza{
+background:#444;
+}
+
+.botaoCinza:hover{
+background:#666;
+}
+
+.sucesso{
+margin-top:18px;
+text-align:center;
+color:#9cffb2;
+font-weight:bold;
 }
 
 </style>
-
 </head>
 
 <body>
@@ -123,211 +95,56 @@ cursor:pointer;
 <div class="container">
 
 <div class="titulo">
-
-Escolha como deseja sua diagramação
-
+Preferências de diagramação
 </div>
 
 <div class="subtitulo">
-
-Cada escolha ajuda a preparar melhor o seu material diagramado
-
+Configure como deseja que sua obra seja preparada editorialmente
 </div>
 
 <div class="card">
 
 <label>
-
-Destino do material diagramado
-
+Formato do livro
 </label>
 
-<select id="destinoMaterial">
-
-<option>Livro físico</option>
-<option>EPUB digital</option>
-<option>Livro físico + EPUB</option>
-
+<select id="formatoLivro">
+<option value="A5">A5 (padrão editorial)</option>
+<option value="16x23">16x23 cm</option>
+<option value="6x9">6x9 polegadas</option>
+<option value="A4">A4</option>
+<option value="Infantil">Formato infantil ilustrado</option>
 </select>
+
 
 <label>
-
-Formato da página
-
+Tipo de margem
 </label>
 
-<select id="formatoPagina">
-
-<option>A5 (padrão editorial)</option>
-<option>16x23 cm</option>
-<option>6x9 polegadas</option>
-<option>A4</option>
-
+<select id="tipoMargem">
+<option value="espelhada">Margens espelhadas (recomendado)</option>
+<option value="simples">Margens simples</option>
 </select>
+
 
 <label>
-
-Margens
-
+Tipo de alinhamento do texto
 </label>
 
-<select id="margens">
-
-<option>Margens espelhadas (recomendado)</option>
-<option>Margens simples</option>
-
+<select id="alinhamentoTexto">
+<option value="justificado">Texto justificado</option>
+<option value="esquerda">Alinhado à esquerda</option>
 </select>
+
 
 <label>
-
-Alinhamento do texto
-
+Primeira linha com recuo
 </label>
 
-<select id="alinhamento">
-
-<option>Justificado (recomendado)</option>
-<option>Alinhado à esquerda</option>
-
+<select id="recuoPrimeiraLinha">
+<option value="sim">Sim (1,25 cm)</option>
+<option value="nao">Não</option>
 </select>
 
-<label>
 
-Parágrafos
-
-</label>
-
-<select id="paragrafos">
-
-<option>Com recuo padrão editorial</option>
-<option>Sem recuo com espaçamento</option>
-
-</select>
-
-<label>
-
-Hifenização automática
-
-</label>
-
-<select id="hifenizacao">
-
-<option>Ativada (recomendado)</option>
-<option>Desativada</option>
-
-</select>
-
-<label>
-
-Estilo especial de preparação editorial
-
-</label>
-
-<select id="modoEditorial">
-
-<option>Modo clássico</option>
-<option>Modo romance</option>
-<option>Modo poesia</option>
-<option>Modo infantil</option>
-<option>Modo professores</option>
-<option>Modo técnico</option>
-<option>Modo terror</option>
-<option>Modo finados</option>
-
-</select>
-
-<button
-
-class="botao"
-
-onclick="salvarPreferencias()">
-
-Salvar preferências e continuar
-
-</button>
-
-<button
-
-class="botao"
-
-onclick="window.location.href='_Indice.html'">
-
-Voltar para casa do original
-
-</button>
-
-</div>
-
-</div>
-
-<script>
-
-function salvarPreferencias(){
-
-localStorage.setItem(
-
-"SDL_destino_material",
-
-document.getElementById("destinoMaterial").value
-
-);
-
-localStorage.setItem(
-
-"SDL_formato",
-
-document.getElementById("formatoPagina").value
-
-);
-
-localStorage.setItem(
-
-"SDL_margens",
-
-document.getElementById("margens").value
-
-);
-
-localStorage.setItem(
-
-"SDL_alinhamento",
-
-document.getElementById("alinhamento").value
-
-);
-
-localStorage.setItem(
-
-"SDL_paragrafos",
-
-document.getElementById("paragrafos").value
-
-);
-
-localStorage.setItem(
-
-"SDL_hifenizacao",
-
-document.getElementById("hifenizacao").value
-
-);
-
-localStorage.setItem(
-
-"SDL_modo_editorial",
-
-document.getElementById("modoEditorial").value
-
-);
-
-window.location.href =
-
-"revisao_pedido.html";
-
-}
-
-</script>
-
-</body>
-
-</html>
+<label
