@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Textos da capa — Projeto Capista</title>
+
+<style>
+body{
+margin:0;
+font-family:Arial, sans-serif;
+background:#0d0603;
+color:white;
+display:flex;
+justify-content:center;
+}
+
+.container{
+max-width:760px;
+width:92%;
+padding:40px 0 60px 0;
+}
+
+.titulo{
+font-size:34px;
+text-align:center;
+font-weight:bold;
+}
+
+.subtitulo{
+text-align:center;
+color:#ff7b2c;
+margin-top:10px;
+margin-bottom:28px;
+line-height:1.6;
+}
+
+.card{
+background:#140c08;
+border-radius:14px;
+padding:22px;
+margin-top:18px;
+}
+
+label{
+display:block;
+margin-bottom:6px;
+font-weight:bold;
+color:#ffd2b3;
+}
+
+input[type="text"],
+textarea,
+select{
+width:100%;
+padding:12px;
+border-radius:10px;
+border:none;
+box-sizing:border-box;
+font-size:15px;
+margin-bottom:18px;
+}
+
+textarea{
+min-height:120px;
+resize:vertical;
+}
+
+.info{
+line-height:1.7;
+color:#ffd2b3;
+margin-top:12px;
+}
+
+.alerta{
+margin-top:14px;
+color:#9cffb2;
+font-weight:bold;
+line-height:1.6;
+}
+
+.botao{
+width:100%;
+padding:18px;
+margin-top:18px;
+border:none;
+border-radius:40px;
+background:#ff5a00;
+color:white;
+font-size:18px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.botao:hover{
+background:#ff6f1a;
+}
+
+.botaoCinza{
+background:#444;
+}
+
+.botaoCinza:hover{
+background:#666;
+}
+
+.grade{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:16px;
+}
+
+@media (max-width: 680px){
+.grade{
+grid-template-columns:1fr;
+}
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="titulo">
+Textos da capa
+</div>
+
+<div class="subtitulo">
+Envie os textos da capa externa. O sistema poderá receber o texto em um idioma e preparar a capa em outro.
+</div>
+
+<div class="card">
+
+<div class="grade">
+
+<div>
+<label>Idioma do texto enviado</label>
+<input type="text" id="idiomaEntradaMostrado" readonly>
+</div>
+
+<div>
+<label>Idioma final da capa</label>
+<input type="text" id="idiomaSaidaMostrado" readonly>
+</div>
+
+</div>
+
+<div class="info">
+Se o idioma do texto enviado for diferente do idioma final da capa, o Projeto Capista entende que o conteúdo deverá ser preparado no idioma final escolhido.
+</div>
+
+</div>
+
+<div class="card">
+
+<label for="tituloCapa">Título da capa</label>
+<input type="text" id="tituloCapa" placeholder="Digite o título principal">
+
+<label for="subtituloCapa">Subtítulo da capa (opcional)</label>
+<input type="text" id="subtituloCapa" placeholder="Digite o subtítulo, se houver">
+
+<label for="nomeAutorCapa">Nome do autor na capa</label>
+<input type="text" id="nomeAutorCapa" placeholder="Digite o nome do autor como deve aparecer na capa">
+
+<label for="sinopseCapa">Sinopse / texto de contracapa</label>
+<textarea id="sinopseCapa" placeholder="Cole aqui a sinopse ou o texto principal da contracapa"></textarea>
+
+<label for="biografiaCapa">Biografia do autor</label>
+<textarea id="biografiaCapa" placeholder="Cole aqui a biografia que irá na orelha ou na contracapa"></textarea>
+
+<label for="fraseOrelha">Frase para orelha dianteira (opcional)</label>
+<textarea id="fraseOrelha" placeholder="Digite uma frase, chamada ou texto curto para a orelha dianteira"></textarea>
+
+<label for="observacoesCapista">Observações para a capa (opcional)</label>
+<textarea id="observacoesCapista" placeholder="Exemplo: quero capa simples, sem orelha, fundo escuro, selo no canto inferior esquerdo, estilo mais clássico."></textarea>
+
+<div id="statusTraducao" class="alerta"></div>
+
+<button class="botao" onclick="salvarTextosCapista()">
+Salvar textos da capa
+</button>
+
+<button class="botao" onclick="seguirCapista()">
+Seguir para configuração da capa
+</button>
+
+<button class="botao botaoCinza" onclick="window.location.href='capista_idioma.html'">
+Voltar para idioma da capa
+</button>
+
+</div>
+
+</div>
+
+<script>
+
+function traduzirNomeIdioma(codigo){
+
+if(codigo === "pt") return "Português";
+if(codigo === "en") return "English";
+if(codigo === "es") return "Español";
+if(codigo === "it") return "Italiano";
+if(codigo === "fr") return "Français";
+if(codigo === "de") return "Deutsch";
+
+return "Português";
+
+}
+
+function carregarIdiomasCapista(){
+
+const idiomaEntrada =
+localStorage.getItem("CAPISTA_idioma_texto") || "pt";
+
+const idiomaSaida =
+localStorage.getItem("CAPISTA_idioma_saida") || "pt";
+
+document.getElementById("idiomaEntradaMostrado").value =
+traduzirNomeIdioma(idiomaEntrada);
+
+document.getElementById("idiomaSaidaMostrado").value =
+traduzirNomeIdioma(idiomaSaida);
+
+if(idiomaEntrada !== idiomaSaida){
+
+document.getElementById("statusTraducao").innerText =
+"O sistema entendeu que os textos enviados deverão ser preparados no idioma final da capa.";
+
+}else{
+
+document.getElementById("statusTraducao").innerText =
+"O idioma do texto enviado e o idioma final da capa são os mesmos.";
+
+}
+
+}
+
+function salvarTextosCapista(){
+
+const titulo =
+document.getElementById("tituloCapa").value.trim();
+
+const subtitulo =
+document.getElementById("subtituloCapa").value.trim();
+
+const autor =
+document.getElementById("nomeAutorCapa").value.trim();
+
+const sinopse =
+document.getElementById("sinopseCapa").value.trim();
+
+const biografia =
+document.getElementById("biografiaCapa").value.trim();
+
+const fraseOrelha =
+document.getElementById("fraseOrelha").value.trim();
+
+const observacoes =
+document.getElementById("observacoesCapista").value.trim();
+
+const idiomaEntrada =
+localStorage.getItem("CAPISTA_idioma_texto") || "pt";
+
+const idiomaSaida =
+localStorage.getItem("CAPISTA_idioma_saida") || "pt";
+
+if(!titulo){
+alert("Digite o título da capa.");
+return;
+}
+
+if(!autor){
+alert("Digite o nome do autor na capa.");
+return;
+}
+
+if(!sinopse){
+alert("Digite a sinopse ou texto principal da contracapa.");
+return;
+}
+
+if(!biografia){
+alert("Digite a biografia do autor.");
+return;
+}
+
+localStorage.setItem("CAPISTA_titulo", titulo);
+localStorage.setItem("CAPISTA_subtitulo", subtitulo);
+localStorage.setItem("CAPISTA_autor", autor);
+localStorage.setItem("CAPISTA_sinopse", sinopse);
+localStorage.setItem("CAPISTA_biografia", biografia);
+localStorage.setItem("CAPISTA_frase_orelha", fraseOrelha);
+localStorage.setItem("CAPISTA_observacoes", observacoes);
+
+localStorage.setItem("CAPISTA_traduzir_textos",
+idiomaEntrada !== idiomaSaida ? "sim" : "nao");
+
+document.getElementById("statusTraducao").innerText =
+"Textos da capa registrados com sucesso.";
+
+}
+
+function seguirCapista(){
+
+const titulo =
+localStorage.getItem("CAPISTA_titulo");
+
+if(!titulo){
+alert("Salve primeiro os textos da capa antes de continuar.");
+return;
+}
+
+window.location.href = "bloco12.html";
+
+}
+
+carregarIdiomasCapista();
+
+</script>
+
+</body>
+</html>
