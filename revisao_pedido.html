@@ -2,17 +2,15 @@
 <html lang="pt-br">
 
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Revisão do pedido — Lapidar</title>
 
 <style>
 
 body{
 margin:0;
-font-family:Arial;
+font-family:Arial, sans-serif;
 background:#0d0603;
 color:white;
 display:flex;
@@ -21,12 +19,12 @@ justify-content:center;
 
 .container{
 width:92%;
-max-width:700px;
+max-width:760px;
 padding:40px 0 60px 0;
 }
 
 .titulo{
-font-size:34px;
+font-size:36px;
 text-align:center;
 font-weight:bold;
 }
@@ -35,15 +33,15 @@ font-weight:bold;
 text-align:center;
 color:#ff7b2c;
 margin-top:10px;
-margin-bottom:25px;
+margin-bottom:28px;
 line-height:1.6;
 }
 
 .card{
 background:#140c08;
-padding:25px;
+padding:24px;
 border-radius:14px;
-margin-top:20px;
+margin-top:18px;
 line-height:1.8;
 }
 
@@ -86,7 +84,7 @@ background:#666;
 }
 
 .sucesso{
-margin-top:25px;
+margin-top:24px;
 text-align:center;
 color:#9cffb2;
 font-size:16px;
@@ -169,7 +167,14 @@ Confira abaixo como o seu material será preparado pelo Lapidar
 <br>
 
 <div>
-<span class="label">Alinhamento:</span><br>
+<span class="label">Tipo de preparação:</span><br>
+<span id="tipoPreparacao" class="valor"></span>
+</div>
+
+<br>
+
+<div>
+<span class="label">Alinhamento do texto:</span><br>
 <span id="alinhamentoTexto" class="valor"></span>
 </div>
 
@@ -183,6 +188,13 @@ Confira abaixo como o seu material será preparado pelo Lapidar
 <br>
 
 <div>
+<span class="label">Entrada da primeira linha:</span><br>
+<span id="primeiraLinha" class="valor"></span>
+</div>
+
+<br>
+
+<div>
 <span class="label">Espaço entre parágrafos:</span><br>
 <span id="espacoParagrafos" class="valor"></span>
 </div>
@@ -190,8 +202,29 @@ Confira abaixo como o seu material será preparado pelo Lapidar
 <br>
 
 <div>
-<span class="label">Diálogos:</span><br>
+<span class="label">Padrão dos diálogos:</span><br>
 <span id="dialogos" class="valor"></span>
+</div>
+
+<br>
+
+<div>
+<span class="label">Parágrafo de diálogo:</span><br>
+<span id="paragrafoDialogo" class="valor"></span>
+</div>
+
+<br>
+
+<div>
+<span class="label">Molduras e elementos decorativos:</span><br>
+<span id="molduras" class="valor"></span>
+</div>
+
+<br>
+
+<div>
+<span class="label">Aplicação das molduras:</span><br>
+<span id="aplicacaoMolduras" class="valor"></span>
 </div>
 
 <br>
@@ -223,8 +256,7 @@ Confira abaixo como o seu material será preparado pelo Lapidar
 Confirmar preparação editorial
 </button>
 
-<button class="botao botaoEditar"
-onclick="window.location.href='preferencias_diagramacao.html'">
+<button class="botao botaoEditar" onclick="window.location.href='preferencias_diagramacao.html'">
 Editar preferências
 </button>
 
@@ -245,12 +277,21 @@ preencherCampo("autorLivro", "Não informado", localStorage.getItem("SDL_nome_au
 preencherCampo("tipoMaterial", "Não informado", localStorage.getItem("SDL_tipo_material"));
 preencherCampo("destinoMaterial", "Não informado", localStorage.getItem("SDL_destino_material"));
 preencherCampo("formatoLivro", "Não informado", localStorage.getItem("SDL_formato_livro"));
+preencherCampo("tipoPreparacao", "Não informado", localStorage.getItem("SDL_tipo_preparacao"));
 preencherCampo("alinhamentoTexto", "Não informado", localStorage.getItem("SDL_alinhamento_texto"));
 preencherCampo("recuoParagrafo", "Não informado", localStorage.getItem("SDL_recuo_paragrafo"));
+preencherCampo("primeiraLinha", "Não informado", localStorage.getItem("SDL_primeira_linha"));
 preencherCampo("espacoParagrafos", "Não informado", localStorage.getItem("SDL_espaco_paragrafos"));
 preencherCampo("dialogos", "Não informado", localStorage.getItem("SDL_dialogos"));
+preencherCampo("paragrafoDialogo", "Não informado", localStorage.getItem("SDL_paragrafo_dialogo"));
 preencherCampo("observacoesIniciais", "Sem observações iniciais registradas.", localStorage.getItem("SDL_observacoes_iniciais"));
 preencherCampo("observacoesDiagramacao", "Sem observações adicionais registradas.", localStorage.getItem("SDL_observacoes_diagramacao"));
+
+const usarMolduras = localStorage.getItem("SDL_usar_molduras");
+const aplicacaoMolduras = localStorage.getItem("SDL_aplicacao_molduras");
+
+preencherCampo("molduras", "Não solicitado", usarMolduras);
+preencherCampo("aplicacaoMolduras", "Não informado", aplicacaoMolduras);
 
 let extras = [];
 
@@ -281,7 +322,6 @@ extras.push("Imagens internas");
 document.getElementById("itensExtras").innerText =
 extras.length > 0 ? extras.join(", ") : "Nenhum item complementar selecionado.";
 
-
 function confirmarPedido(){
 
 const plano = localStorage.getItem("SDL_plano");
@@ -299,7 +339,6 @@ document.getElementById("mensagemSucesso").innerHTML =
 
 document.getElementById("alertaPlano").innerHTML =
 "Seu pedido foi confirmado dentro do plano de doações atualmente ativo.";
-
 }
 
 </script>
