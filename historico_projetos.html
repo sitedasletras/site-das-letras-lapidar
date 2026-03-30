@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Histórico de projetos — Site das Letras</title>
+
+<style>
+body{
+margin:0;
+background:#0c0603;
+font-family:Arial, sans-serif;
+color:white;
+display:flex;
+justify-content:center;
+}
+
+.container{
+max-width:760px;
+width:92%;
+padding:40px 0 60px 0;
+}
+
+.titulo{
+font-size:34px;
+text-align:center;
+font-weight:bold;
+}
+
+.subtitulo{
+text-align:center;
+color:#ff7b2c;
+margin-top:10px;
+margin-bottom:28px;
+line-height:1.6;
+}
+
+.card{
+background:#140c08;
+border-radius:14px;
+padding:26px;
+margin-top:20px;
+line-height:1.8;
+}
+
+.blocoTitulo{
+font-size:22px;
+color:#9cffb2;
+font-weight:bold;
+margin-bottom:10px;
+}
+
+.item{
+margin-bottom:10px;
+color:#ffd2b3;
+}
+
+.destaque{
+color:#9cffb2;
+font-weight:bold;
+}
+
+.botao{
+width:100%;
+padding:18px;
+margin-top:24px;
+border:none;
+border-radius:40px;
+background:#ff5a00;
+color:white;
+font-size:18px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.botaoCinza{
+background:#444;
+}
+
+.botaoCinza:hover{
+background:#666;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="titulo">
+Histórico de projetos
+</div>
+
+<div class="subtitulo">
+Aqui você acompanha o que já foi registrado no seu ambiente editorial
+</div>
+
+<div class="card">
+<div class="blocoTitulo">
+Projeto Lapidar
+</div>
+<div id="historicoLapidar" class="item">
+Carregando...
+</div>
+</div>
+
+<div class="card">
+<div class="blocoTitulo">
+Projeto Capista
+</div>
+<div id="historicoCapista" class="item">
+Carregando...
+</div>
+</div>
+
+<div class="card">
+<div class="blocoTitulo">
+Leitura Técnica Editorial
+</div>
+<div id="historicoLeitura" class="item">
+Carregando...
+</div>
+</div>
+
+<button class="botao" onclick="window.location.href='_Indice.html'">
+Voltar para casa do original
+</button>
+
+<button class="botao botaoCinza" onclick="limparHistorico()">
+Limpar histórico local
+</button>
+
+</div>
+
+<script>
+
+function valor(chave, padrao){
+return localStorage.getItem(chave) || padrao;
+}
+
+function traduzirIdioma(codigo){
+if(codigo === "pt") return "Português";
+if(codigo === "en") return "English";
+if(codigo === "es") return "Español";
+if(codigo === "it") return "Italiano";
+if(codigo === "fr") return "Français";
+if(codigo === "de") return "Deutsch";
+return "Português";
+}
+
+function montarHistorico(){
+
+const lapidarTitulo = valor("SDL_titulo_livro", "nenhuma obra registrada");
+const lapidarAutor = valor("SDL_nome_autor", "não informado");
+const lapidarTipo = valor("SDL_tipo_material", "não informado");
+const lapidarIdioma = traduzirIdioma(valor("SDL_idioma_obra_global", valor("SDL_idioma_obra", "pt")));
+const lapidarDestino = valor("SDL_destino_material", "não informado");
+const lapidarPlano = valor("SDL_plano_lapidar", "nenhum plano");
+
+document.getElementById("historicoLapidar").innerHTML =
+"Obra atual: <span class='destaque'>" + lapidarTitulo + "</span><br>" +
+"Autor: <span class='destaque'>" + lapidarAutor + "</span><br>" +
+"Tipo: <span class='destaque'>" + lapidarTipo + "</span><br>" +
+"Idioma: <span class='destaque'>" + lapidarIdioma + "</span><br>" +
+"Destino: <span class='destaque'>" + lapidarDestino + "</span><br>" +
+"Plano: <span class='destaque'>" + lapidarPlano + "</span>";
+
+const capistaPlano = valor("CAPISTA_nome_plano", "nenhum plano");
+const capistaTipo = valor("CAPISTA_tipo_capa", "nenhuma capa configurada");
+const capistaIdioma = traduzirIdioma(valor("CAPISTA_idioma_principal", "pt"));
+const capistaIdiomaExtra = valor("CAPISTA_idioma_extra", "nenhum");
+const capistaFisicas = valor("CAPISTA_usadas_fisicas", "0");
+const capistaEpub = valor("CAPISTA_usadas_epub", "0");
+
+document.getElementById("historicoCapista").innerHTML =
+"Plano ativo: <span class='destaque'>" + capistaPlano + "</span><br>" +
+"Tipo de capa: <span class='destaque'>" + capistaTipo + "</span><br>" +
+"Idioma principal: <span class='destaque'>" + capistaIdioma + "</span><br>" +
+"Idioma extra: <span class='destaque'>" + (capistaIdiomaExtra === "nenhum" ? "não utilizado" : traduzirIdioma(capistaIdiomaExtra)) + "</span><br>" +
+"Capas físicas usadas: <span class='destaque'>" + capistaFisicas + "</span><br>" +
+"Capas EPUB usadas: <span class='destaque'>" + capistaEpub + "</span>";
+
+const leituraTitulo = valor("LTE_titulo", valor("LTE_titulo_obra", "nenhuma leitura registrada"));
+const leituraAutor = valor("LTE_autor", valor("LTE_nome_autor", "não informado"));
+const leituraTipo = valor("LTE_tipo", valor("LTE_tipo_obra", "não informado"));
+const leituraIdioma = traduzirIdioma(valor("LTE_idioma", valor("LTE_idioma_obra", "pt")));
+const leituraStatus = valor("LTE_status", "não solicitada");
+
+document.getElementById("historicoLeitura").innerHTML =
+"Obra lida: <span class='destaque'>" + leituraTitulo + "</span><br>" +
+"Autor: <span class='destaque'>" + leituraAutor + "</span><br>" +
+"Tipo: <span class='destaque'>" + leituraTipo + "</span><br>" +
+"Idioma: <span class='destaque'>" + leituraIdioma + "</span><br>" +
+"Status: <span class='destaque'>" + leituraStatus + "</span>";
+}
+
+function limparHistorico(){
+
+const confirmar = confirm("Deseja limpar os registros locais deste navegador?");
+
+if(!confirmar){
+return;
+}
+
+const chaves = [
+"SDL_titulo_livro",
+"SDL_nome_autor",
+"SDL_tipo_material",
+"SDL_idioma_obra_global",
+"SDL_idioma_obra",
+"SDL_destino_material",
+"SDL_plano_lapidar",
+"CAPISTA_nome_plano",
+"CAPISTA_tipo_capa",
+"CAPISTA_idioma_principal",
+"CAPISTA_idioma_extra",
+"CAPISTA_usadas_fisicas",
+"CAPISTA_usadas_epub",
+"LTE_titulo",
+"LTE_titulo_obra",
+"LTE_autor",
+"LTE_nome_autor",
+"LTE_tipo",
+"LTE_tipo_obra",
+"LTE_idioma",
+"LTE_idioma_obra",
+"LTE_status"
+];
+
+for(let i = 0; i < chaves.length; i++){
+localStorage.removeItem(chaves[i]);
+}
+
+alert("Histórico local limpo com sucesso.");
+window.location.reload();
+}
+
+montarHistorico();
+
+</script>
+
+</body>
+</html>
