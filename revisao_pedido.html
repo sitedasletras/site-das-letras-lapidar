@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Revisão do pedido — Lapidar</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial;
+background:#0d0603;
+color:white;
+display:flex;
+justify-content:center;
+}
+
+.container{
+width:92%;
+max-width:700px;
+padding:40px 0 60px 0;
+}
+
+.titulo{
+font-size:34px;
+text-align:center;
+font-weight:bold;
+}
+
+.subtitulo{
+text-align:center;
+color:#ff7b2c;
+margin-top:10px;
+margin-bottom:25px;
+}
+
+.card{
+background:#140c08;
+padding:25px;
+border-radius:14px;
+margin-top:20px;
+line-height:1.8;
+}
+
+.label{
+color:#ff7b2c;
+font-weight:bold;
+}
+
+.valor{
+color:#ffd2b3;
+}
+
+.botao{
+
+width:100%;
+padding:18px;
+border-radius:40px;
+border:none;
+margin-top:18px;
+font-size:18px;
+font-weight:bold;
+cursor:pointer;
+
+}
+
+.botaoConfirmar{
+background:#00b359;
+color:white;
+}
+
+.botaoConfirmar:hover{
+background:#00cc66;
+}
+
+.botaoEditar{
+background:#444;
+color:white;
+}
+
+.botaoEditar:hover{
+background:#666;
+}
+
+.sucesso{
+
+margin-top:25px;
+text-align:center;
+color:#9cffb2;
+font-size:16px;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="titulo">
+Revisão do pedido editorial
+</div>
+
+<div class="subtitulo">
+Confira abaixo como o seu material será preparado pelo Lapidar
+</div>
+
+<div class="card">
+
+<div>
+<span class="label">Título da obra:</span><br>
+<span id="tituloLivro" class="valor"></span>
+</div>
+
+<br>
+
+<div>
+<span class="label">Autor:</span><br>
+<span id="autorLivro" class="valor"></span>
+</div>
+
+<br>
+
+<div>
+<span class="label">Tipo do material:</span><br>
+<span id="tipoMaterial" class="valor"></span>
+</div>
+
+<br>
+
+<div>
+<span class="label">Destino editorial:</span><br>
+<span id="destinoMaterial" class="valor"></span>
+</div>
+
+<br>
+
+<div>
+<span class="label">Formato:</span><br>
+<span id="formatoLivro" class="valor"></span>
+</div>
+
+<br>
+
+<div>
+<span class="label">Alinhamento:</span><br>
+<span id="alinhamentoTexto" class="valor"></span>
+</div>
+
+<br>
+
+<div>
+<span class="label">Recuo de parágrafo:</span><br>
+<span id="recuoParagrafo" class="valor"></span>
+</div>
+
+<br>
+
+<div>
+<span class="label">Espaço entre parágrafos:</span><br>
+<span id="espacoParagrafos" class="valor"></span>
+</div>
+
+<br>
+
+<div>
+<span class="label">Diálogos:</span><br>
+<span id="dialogos" class="valor"></span>
+</div>
+
+<br>
+
+<div>
+<span class="label">Itens complementares:</span><br>
+<span id="itensExtras" class="valor"></span>
+</div>
+
+</div>
+
+<button class="botao botaoConfirmar" onclick="confirmarPedido()">
+Confirmar preparação editorial
+</button>
+
+<button class="botao botaoEditar"
+onclick="window.location.href='preferencias_diagramacao.html'">
+Editar preferências
+</button>
+
+<div id="mensagemSucesso" class="sucesso"></div>
+
+</div>
+
+<script>
+
+document.getElementById("tituloLivro").innerText =
+localStorage.getItem("SDL_titulo_livro");
+
+document.getElementById("autorLivro").innerText =
+localStorage.getItem("SDL_nome_autor");
+
+document.getElementById("tipoMaterial").innerText =
+localStorage.getItem("SDL_tipo_material");
+
+document.getElementById("destinoMaterial").innerText =
+localStorage.getItem("SDL_destino_material");
+
+document.getElementById("formatoLivro").innerText =
+localStorage.getItem("SDL_formato_livro");
+
+document.getElementById("alinhamentoTexto").innerText =
+localStorage.getItem("SDL_alinhamento_texto");
+
+document.getElementById("recuoParagrafo").innerText =
+localStorage.getItem("SDL_recuo_paragrafo");
+
+document.getElementById("espacoParagrafos").innerText =
+localStorage.getItem("SDL_espaco_paragrafos");
+
+document.getElementById("dialogos").innerText =
+localStorage.getItem("SDL_dialogos");
+
+let extras = [];
+
+if(localStorage.getItem("SDL_tem_sumario")=="sim")
+extras.push("Sumário");
+
+if(localStorage.getItem("SDL_tem_dedicatoria")=="sim")
+extras.push("Dedicatória");
+
+if(localStorage.getItem("SDL_tem_prefacio")=="sim")
+extras.push("Prefácio");
+
+if(localStorage.getItem("SDL_tem_biografia")=="sim")
+extras.push("Biografia");
+
+if(localStorage.getItem("SDL_tem_ficha_dados")=="sim")
+extras.push("Ficha de dados");
+
+if(localStorage.getItem("SDL_tem_imagens_internas")=="sim")
+extras.push("Imagens internas");
+
+document.getElementById("itensExtras").innerText =
+extras.join(", ");
+
+function confirmarPedido(){
+
+localStorage.setItem("SDL_pedido_confirmado","sim");
+
+document.getElementById("mensagemSucesso").innerHTML=
+
+"Pedido editorial confirmado com sucesso.<br><br>O Lapidar já pode iniciar a preparação do seu material.";
+
+}
+
+</script>
+
+</body>
+
+</html>
