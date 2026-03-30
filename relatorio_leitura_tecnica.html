@@ -2,25 +2,22 @@
 <html lang="pt-br">
 
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Relatório da leitura técnica editorial</title>
+<title>Relatório da Leitura Técnica Editorial</title>
 
 <style>
-
 body{
 margin:0;
 background:#0c0603;
-font-family:Arial;
+font-family:Arial, sans-serif;
 color:white;
 display:flex;
 justify-content:center;
 }
 
 .container{
-max-width:720px;
+max-width:760px;
 width:92%;
 padding:40px 0 60px 0;
 }
@@ -36,6 +33,7 @@ text-align:center;
 color:#ff7b2c;
 margin-top:10px;
 margin-bottom:28px;
+line-height:1.6;
 }
 
 .card{
@@ -43,14 +41,27 @@ background:#140c08;
 border-radius:14px;
 padding:26px;
 margin-top:20px;
-line-height:1.7;
+line-height:1.8;
+}
+
+.blocoTitulo{
+font-size:22px;
+color:#9cffb2;
+font-weight:bold;
+margin-bottom:10px;
+}
+
+.item{
+margin-bottom:10px;
+color:#ffd2b3;
 }
 
 .nota{
 font-size:46px;
 text-align:center;
 color:#9cffb2;
-margin-top:14px;
+font-weight:bold;
+margin-top:10px;
 }
 
 .botao{
@@ -66,8 +77,14 @@ font-weight:bold;
 cursor:pointer;
 }
 
-</style>
+.botaoCinza{
+background:#444;
+}
 
+.botaoCinza:hover{
+background:#666;
+}
+</style>
 </head>
 
 <body>
@@ -75,182 +92,203 @@ cursor:pointer;
 <div class="container">
 
 <div class="titulo">
-
-Relatório da leitura técnica editorial
-
+Relatório da Leitura Técnica Editorial
 </div>
 
 <div class="subtitulo">
-
 Lapidar — Site das Letras
-
 </div>
 
-<div class="card" id="conteudoRelatorio">
-
-Gerando leitura técnica...
-
+<div class="card">
+<div class="blocoTitulo">
+Dados da obra
+</div>
+<div id="dadosObra" class="item">
+Carregando...
+</div>
 </div>
 
-<button class="botao"
-onclick="window.location.href='_Indice.html'">
+<div class="card">
+<div class="blocoTitulo">
+Nota editorial estimada
+</div>
+<div id="notaEditorial" class="nota">
+0,0
+</div>
+</div>
 
+<div class="card">
+<div class="blocoTitulo">
+Leitura técnica
+</div>
+<div id="leituraTecnica" class="item">
+Carregando...
+</div>
+</div>
+
+<div class="card">
+<div class="blocoTitulo">
+Pontos fortes observados
+</div>
+<div id="pontosFortes" class="item">
+Carregando...
+</div>
+</div>
+
+<div class="card">
+<div class="blocoTitulo">
+Pontos de atenção
+</div>
+<div id="pontosAtencao" class="item">
+Carregando...
+</div>
+</div>
+
+<div class="card">
+<div class="blocoTitulo">
+Potencial editorial
+</div>
+<div id="potencialEditorial" class="item">
+Carregando...
+</div>
+</div>
+
+<div class="card">
+<div class="blocoTitulo">
+Possibilidade de continuidade
+</div>
+<div id="continuidadeObra" class="item">
+Carregando...
+</div>
+</div>
+
+<div class="card">
+<div class="blocoTitulo">
+Sugestão final
+</div>
+<div id="sugestaoFinal" class="item">
+Carregando...
+</div>
+</div>
+
+<button class="botao" onclick="window.location.href='_Indice.html'">
 Voltar para casa do original
+</button>
 
+<button class="botao botaoCinza" onclick="window.location.href='historico_projetos.html'">
+Ir para histórico de projetos
 </button>
 
 </div>
 
 <script>
 
-function gerarNota(){
-
-return (Math.random()*3 + 7).toFixed(1);
-
+function traduzirIdioma(codigo){
+if(codigo === "pt") return "Português";
+if(codigo === "en") return "English";
+if(codigo === "es") return "Español";
+if(codigo === "it") return "Italiano";
+if(codigo === "fr") return "Français";
+if(codigo === "de") return "Deutsch";
+return "Português";
 }
 
-function detectarEstilo(){
+function gerarNota(tipo){
+let base = 7.2;
 
-const estilos = [
+if(tipo === "Romance") base = 8.4;
+if(tipo === "Contos") base = 8.1;
+if(tipo === "Poesia") base = 8.3;
+if(tipo === "Infantil") base = 8.6;
+if(tipo === "Infantojuvenil") base = 8.5;
+if(tipo === "Acadêmico") base = 7.9;
+if(tipo === "Outro") base = 7.8;
 
-"possui atmosfera narrativa próxima da tradição do romance contemporâneo europeu",
-
-"apresenta ritmo literário semelhante ao suspense moderno",
-
-"dialoga com a tradição poética da língua portuguesa",
-
-"mostra influência da fantasia clássica internacional",
-
-"possui estrutura compatível com narrativa jovem contemporânea"
-
-];
-
-return estilos[Math.floor(Math.random()*estilos.length)];
-
-}
-
-function detectarSaga(){
-
-const chance = Math.random();
-
-if(chance > 0.6){
-
-return "Observamos potencial natural de continuidade narrativa, permitindo possível desenvolvimento futuro em série literária.";
-
-}
-
-return "A obra apresenta boa estrutura como volume independente.";
-
+return base.toFixed(1).replace(".", ",");
 }
 
 function montarRelatorio(){
 
-const titulo =
+const titulo = localStorage.getItem("LTE_titulo") || "Não informado";
+const autor = localStorage.getItem("LTE_autor") || "Não informado";
+const tipo = localStorage.getItem("LTE_tipo") || "Não informado";
+const idioma = localStorage.getItem("LTE_idioma") || "pt";
 
-localStorage.getItem("LTE_titulo") ||
+document.getElementById("dadosObra").innerHTML =
+"Título: <span class='destaque'>" + titulo + "</span><br>" +
+"Autor: <span class='destaque'>" + autor + "</span><br>" +
+"Tipo: <span class='destaque'>" + tipo + "</span><br>" +
+"Idioma: <span class='destaque'>" + traduzirIdioma(idioma) + "</span>";
 
-"Sua obra";
+document.getElementById("notaEditorial").innerText =
+gerarNota(tipo);
 
-const autor =
+let leitura = "A obra apresenta base editorial promissora, com sinais claros de identidade autoral em formação.";
+let fortes = "Há percepção de intenção narrativa, construção de proposta e vontade real de comunicação com o leitor.";
+let atencao = "O texto pode crescer ainda mais com aprofundamento de ritmo, acabamento estrutural e refinamento da linguagem.";
+let potencial = "A obra possui condições favoráveis para amadurecimento editorial e posicionamento mais claro dentro do seu gênero.";
+let continuidade = "O material pode funcionar como volume independente, mas também abre possibilidades de expansão futura.";
+let sugestao = "Uma preparação técnica mais completa dentro do Lapidar tende a fortalecer ainda mais a apresentação final da obra.";
 
-localStorage.getItem("LTE_autor") ||
+if(tipo === "Romance"){
+leitura = "O romance apresenta boa condução emocional e indica potencial de envolvimento do leitor com a trama.";
+fortes = "Há boa possibilidade de crescimento em personagens, atmosfera e arco afetivo.";
+atencao = "Vale observar equilíbrio de ritmo, profundidade dramática e força das passagens decisivas.";
+potencial = "O romance mostra potencial de mercado e base consistente para amadurecimento autoral.";
+continuidade = "Há boa chance de expansão para continuação, duologia ou trilogia, dependendo do universo da obra.";
+}
 
-"Autor(a)";
+if(tipo === "Contos"){
+leitura = "O conjunto mostra capacidade de síntese narrativa e boa direção de proposta literária.";
+fortes = "Há foco narrativo, objetividade e possibilidade de impacto rápido no leitor.";
+atencao = "A lapidação de encerramentos e a força de algumas aberturas podem elevar bastante o conjunto.";
+potencial = "O material possui potencial para coletânea consistente e crescimento editorial progressivo.";
+continuidade = "Pode se expandir para nova coletânea, série temática ou desenvolvimento de narrativas maiores.";
+}
 
-const idioma =
+if(tipo === "Poesia"){
+leitura = "O texto poético revela sensibilidade, intenção de voz e construção de imagem literária.";
+fortes = "Há presença de atmosfera, sentimento e identidade de expressão.";
+atencao = "O amadurecimento de ritmo interno, imagens e precisão verbal pode fortalecer ainda mais o resultado.";
+potencial = "Existe potencial editorial para livro poético, série temática ou obra autoral de identidade mais marcada.";
+continuidade = "Há espaço para ampliar a obra em coletânea, ciclo poético ou desenvolvimento de nova linha autoral.";
+}
 
-localStorage.getItem("LTE_idioma") ||
+if(tipo === "Infantil"){
+leitura = "A obra infantil mostra bom caminho de comunicação com o leitor jovem e base acessível de leitura.";
+fortes = "Há potencial de leveza, encantamento e boa recepção quando bem lapidada editorialmente.";
+atencao = "Vale fortalecer clareza, musicalidade, ritmo e visualidade da narrativa.";
+potencial = "O texto apresenta potencial para publicação infantil e adaptação editorial multilíngue.";
+continuidade = "Existe boa possibilidade de série infantil, personagens recorrentes ou coleção temática.";
+}
 
-"pt";
+if(tipo === "Infantojuvenil"){
+leitura = "A obra infantojuvenil demonstra boa abertura para diálogo com leitores em formação e expansão de universo.";
+fortes = "Há potencial de aventura, identificação e continuidade narrativa.";
+atencao = "O refinamento de ritmo, conflito e progressão emocional pode elevar muito o resultado.";
+potencial = "O texto possui força para amadurecer dentro do segmento infantojuvenil e circular bem editorialmente.";
+continuidade = "Há possibilidade concreta de continuação, série ou coleção com unidade temática.";
+}
 
-const tipo =
+if(tipo === "Acadêmico"){
+leitura = "O material acadêmico demonstra intenção organizacional e base de exposição de conteúdo.";
+fortes = "Há presença de estrutura, foco temático e potencial de utilidade prática ou formativa.";
+atencao = "Pode ganhar muito com maior clareza expositiva, padronização e acabamento formal.";
+potencial = "Existe potencial para circulação técnica, didática ou institucional, dependendo do aprofundamento.";
+continuidade = "Pode se expandir em apostila, volume complementar, coleção ou série temática.";
+}
 
-localStorage.getItem("LTE_tipo") ||
+document.getElementById("leituraTecnica").innerText = leitura;
+document.getElementById("pontosFortes").innerText = fortes;
+document.getElementById("pontosAtencao").innerText = atencao;
+document.getElementById("potencialEditorial").innerText = potencial;
+document.getElementById("continuidadeObra").innerText = continuidade;
+document.getElementById("sugestaoFinal").innerText = sugestao;
 
-"obra literária";
-
-const nota = gerarNota();
-
-const estilo = detectarEstilo();
-
-const saga = detectarSaga();
-
-document.getElementById("conteudoRelatorio").innerHTML =
-
-"<div><strong>Título analisado:</strong> " + titulo + "</div>" +
-
-"<div><strong>Autor:</strong> " + autor + "</div>" +
-
-"<div><strong>Idioma:</strong> " + idioma + "</div>" +
-
-"<div><strong>Tipo:</strong> " + tipo + "</div>" +
-
-"<div class='nota'>" + nota + "</div>" +
-
-"<div style='margin-top:18px'>" +
-
-"A leitura técnica editorial Lapidar identificou consistência narrativa e presença de identidade autoral perceptível no desenvolvimento do texto." +
-
-"</div>" +
-
-"<div style='margin-top:12px'>" +
-
-"Observamos também que o texto " + estilo + "." +
-
-"</div>" +
-
-"<div style='margin-top:12px'>" +
-
-saga +
-
-"</div>" +
-
-"<div style='margin-top:16px'>" +
-
-"A continuidade da escrita e o amadurecimento natural da obra tendem a fortalecer ainda mais sua presença editorial." +
-
-"</div>" +
-
-"<div style='margin-top:18px'>" +
-
-"Caso deseje avançar para preparação completa da obra, o sistema Lapidar pode acompanhar a diagramação editorial do seu material." +
-
-"</div>";
-
+localStorage.setItem("LTE_status", "relatorio_gerado");
 }
 
 montarRelatorio();
-
-</script>
-
-</body>
-
-</html>
-
-
-
-function irParaLapidar(){
-
-window.location.href = "_Indice.html";
-
-}
-
-
-
-function voltarIndice(){
-
-window.location.href = "_Indice.html";
-
-}
-
-
-
-aplicarIdioma();
-
-carregarDadosObra();
-
-gerarNotaAutomatica();
-
 
 </script>
 
