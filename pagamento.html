@@ -6,24 +6,28 @@
 <title>Pagamento — Lapidar</title>
 
 <style>
+
 body{
 margin:0;
-font-family:Arial, sans-serif;
+font-family:Arial;
 background:#0d0603;
 color:white;
 display:flex;
 justify-content:center;
 }
+
 .container{
-width:92%;
 max-width:760px;
+width:92%;
 padding:40px 0 60px 0;
 }
+
 .titulo{
 font-size:36px;
 text-align:center;
 font-weight:bold;
 }
+
 .subtitulo{
 text-align:center;
 color:#ff7b2c;
@@ -31,6 +35,7 @@ margin-top:10px;
 margin-bottom:28px;
 line-height:1.6;
 }
+
 .card{
 background:#140c08;
 padding:24px;
@@ -38,13 +43,25 @@ border-radius:14px;
 margin-top:18px;
 line-height:1.8;
 }
+
 .label{
 color:#ff7b2c;
 font-weight:bold;
 }
+
 .valor{
 color:#ffd2b3;
 }
+
+select{
+width:100%;
+padding:14px;
+border-radius:12px;
+border:none;
+font-size:16px;
+margin-top:8px;
+}
+
 .botao{
 width:100%;
 padding:18px;
@@ -57,50 +74,26 @@ cursor:pointer;
 background:#ff5a00;
 color:white;
 }
+
 .botao:hover{
 background:#ff6f1a;
 }
+
 .botaoSecundario{
 background:#333;
 }
+
 .botaoSecundario:hover{
 background:#555;
 }
-select{
-width:100%;
-padding:14px;
-border-radius:12px;
-border:none;
-font-size:16px;
-margin-top:8px;
-box-sizing:border-box;
-}
-.blocoPagamento{
-display:none;
-margin-top:18px;
-padding:18px;
-border-radius:12px;
-background:#1c110b;
-color:#ffd2b3;
-line-height:1.7;
-}
-.destaque{
-color:#9cffb2;
-font-weight:bold;
-}
-.alerta{
-margin-top:20px;
-text-align:center;
-color:#ffb199;
-line-height:1.7;
-}
+
 .sucesso{
 margin-top:20px;
 text-align:center;
 color:#9cffb2;
-line-height:1.7;
 font-weight:bold;
 }
+
 </style>
 </head>
 
@@ -113,276 +106,210 @@ Pagamento
 </div>
 
 <div class="subtitulo">
-Escolha a forma de apoio para ativar o seu acesso ou serviço
+Confirmação do serviço editorial selecionado
 </div>
 
 <div class="card">
 
 <div>
-<span class="label">Módulo selecionado</span><br>
-<span id="moduloSelecionado" class="valor">Não informado</span>
-</div>
-
-<div style="margin-top:16px">
-<span class="label">Plano ou serviço</span><br>
-<span id="planoSelecionado" class="valor">Não informado</span>
+<span class="label">Serviço selecionado</span><br>
+<span id="servicoSelecionado" class="valor"></span>
 </div>
 
 <div style="margin-top:16px">
 <span class="label">Valor correspondente</span><br>
-<span id="valorPlano" class="valor">Não informado</span>
-</div>
-
-<div style="margin-top:16px">
-<span class="label">Situação após confirmação</span><br>
-<span class="destaque">Seu plano ou serviço ficará registrado no sistema.</span>
+<span id="valorServico" class="valor"></span>
 </div>
 
 </div>
 
 <div class="card">
 
-<div>
-<span class="label">Forma de pagamento</span><br>
-<select id="formaPagamento" onchange="mostrarFormaPagamento()">
-<option value="">Selecione</option>
-<option value="pix">Pix</option>
-<option value="deposito">Depósito bancário</option>
-<option value="cartao">Cartão</option>
+<span class="label">
+Forma de pagamento
+</span>
+
+<select id="formaPagamento">
+
+<option value="">
+Selecione
+</option>
+
+<option value="pix">
+Pix
+</option>
+
+<option value="deposito">
+Depósito bancário
+</option>
+
+<option value="cartao">
+Cartão
+</option>
+
 </select>
-</div>
-
-<div id="pixBox" class="blocoPagamento">
-<span class="label">Pagamento por Pix</span><br>
-Disponível para contribuições realizadas no Brasil.
-</div>
-
-<div id="depositoBox" class="blocoPagamento">
-<span class="label">Pagamento por depósito bancário</span><br>
-Disponível para contribuições realizadas no Brasil.
-</div>
-
-<div id="cartaoBox" class="blocoPagamento">
-<span class="label">Pagamento por cartão</span><br>
-Disponível para pagamentos nacionais e internacionais.
-</div>
 
 </div>
 
-<div class="alerta" id="alertaInternacional">
-Pagamentos realizados fora do Brasil podem incluir taxas internacionais do banco ou operadora do cartão.
-</div>
+<button class="botao"
+onclick="confirmarPagamento()">
 
-<button class="botao" onclick="confirmarPagamento()">
 Confirmar pagamento
+
 </button>
 
-<button class="botao botaoSecundario" onclick="window.location.href='_Indice.html'">
-Voltar para casa do original
+<button class="botao botaoSecundario"
+onclick="window.location.href='_Indice.html'">
+
+Voltar
+
 </button>
 
-<div id="mensagemSucesso" class="sucesso"></div>
+<div id="mensagemSucesso"
+class="sucesso">
+
+</div>
 
 </div>
 
 <script>
 
 function detectarPais(){
-const idioma = (navigator.language || "pt-BR").toLowerCase();
-return idioma.startsWith("pt") ? "BR" : "EXT";
+
+const idioma =
+navigator.language || "pt-BR";
+
+return idioma.startsWith("pt")
+? "BR"
+: "EXT";
+
 }
 
-function moedaAtual(){
-return detectarPais() === "BR" ? "R$" : "$";
+function moeda(){
+
+return detectarPais() === "BR"
+? "R$"
+: "$";
+
 }
 
-function valorLapidar(plano){
-const moeda = moedaAtual();
+function preencherTela(){
 
-if(plano === "1.99") return moeda + " 1,99";
-if(plano === "9.90") return moeda + " 9,90";
-if(plano === "39.90") return moeda + " 39,90";
-if(plano === "59.90") return moeda + " 59,90";
-if(plano === "99.90") return moeda + " 99,90";
-if(plano === "magistral") return "Plano Magistral — uso livre";
+const servico =
+localStorage.getItem("SDL_servico_extra");
 
-return "Não informado";
-}
+if(servico === "leitura_tecnica"){
 
-function valorCapista(plano){
-const moeda = moedaAtual();
+document.getElementById("servicoSelecionado")
+.innerText =
+"Leitura Técnica Editorial — avaliação única";
 
-if(plano === "1") return moeda + " 1,99";
-if(plano === "10") return moeda + " 9,90";
-if(plano === "30") return moeda + " 39,90";
-if(plano === "50") return moeda + " 59,90";
-if(plano === "90") return moeda + " 99,90";
-if(plano === "magistral") return "Plano Magistral — uso livre";
+document.getElementById("valorServico")
+.innerText =
+moeda() + " 4,99";
 
-return "Não informado";
-}
-
-function valorServicoExtra(servico){
-const moeda = moedaAtual();
-
-if(servico === "leitura_tecnica") return moeda + " 4,99";
-if(servico === "idioma_obra") return moeda + " 5,99";
-if(servico === "capa_refinada") return moeda + " 18";
-if(servico === "capa_magistral") return moeda + " 48";
-if(servico === "epub_refinada") return moeda + " 10";
-if(servico === "epub_magistral") return moeda + " 40";
-
-return "Não informado";
-}
-
-function nomeServicoExtra(servico){
-if(servico === "leitura_tecnica") return "Leitura Técnica Editorial";
-if(servico === "idioma_obra") return "Versão multilíngue da obra";
-if(servico === "capa_refinada") return "Capa refinada física";
-if(servico === "capa_magistral") return "Capa magistral física";
-if(servico === "epub_refinada") return "Capa refinada EPUB";
-if(servico === "epub_magistral") return "Capa magistral EPUB";
-return "Serviço adicional";
-}
-
-function definirModuloAtual(){
-
-const servicoExtra = localStorage.getItem("SDL_servico_extra");
-const planoCapista = localStorage.getItem("CAPISTA_plano");
-const planoLapidar = localStorage.getItem("SDL_plano_lapidar");
-
-if(servicoExtra){
-return "extra";
-}
-
-if(planoCapista){
-return "capista";
-}
-
-if(planoLapidar){
-return "lapidar";
-}
-
-return "lapidar";
-}
-
-function preencherCabecalho(){
-
-const modulo = definirModuloAtual();
-
-if(modulo === "extra"){
-const servico = localStorage.getItem("SDL_servico_extra");
-document.getElementById("moduloSelecionado").innerText = "Serviço adicional";
-document.getElementById("planoSelecionado").innerText = nomeServicoExtra(servico);
-document.getElementById("valorPlano").innerText = valorServicoExtra(servico);
 return;
+
 }
 
-if(modulo === "capista"){
-const plano = localStorage.getItem("CAPISTA_plano");
-const nomePlano = localStorage.getItem("CAPISTA_nome_plano") || "Plano Capista";
-document.getElementById("moduloSelecionado").innerText = "Projeto Capista";
-document.getElementById("planoSelecionado").innerText = nomePlano;
-document.getElementById("valorPlano").innerText = valorCapista(plano);
+if(servico === "leitura_tecnica_mensal"){
+
+document.getElementById("servicoSelecionado")
+.innerText =
+"Plano Oficina Editorial Lapidar — 40 avaliações mensais";
+
+document.getElementById("valorServico")
+.innerText =
+moeda() + " 70";
+
 return;
+
 }
 
-const plano = localStorage.getItem("SDL_plano_lapidar");
-document.getElementById("moduloSelecionado").innerText = "Lapidar";
-document.getElementById("planoSelecionado").innerText = plano || "Não informado";
-document.getElementById("valorPlano").innerText = valorLapidar(plano);
-}
+document.getElementById("servicoSelecionado")
+.innerText =
+"Serviço editorial";
 
-function ajustarMetodosPorPais(){
+document.getElementById("valorServico")
+.innerText =
+moeda();
 
-const pais = detectarPais();
-const select = document.getElementById("formaPagamento");
-
-if(pais === "EXT"){
-select.innerHTML = `
-<option value="">Selecione</option>
-<option value="cartao">Cartão</option>
-`;
-document.getElementById("alertaInternacional").style.display = "block";
-}else{
-select.innerHTML = `
-<option value="">Selecione</option>
-<option value="pix">Pix</option>
-<option value="deposito">Depósito bancário</option>
-<option value="cartao">Cartão</option>
-`;
-document.getElementById("alertaInternacional").style.display = "none";
-}
-}
-
-function mostrarFormaPagamento(){
-
-const forma = document.getElementById("formaPagamento").value;
-
-document.getElementById("pixBox").style.display = "none";
-document.getElementById("depositoBox").style.display = "none";
-document.getElementById("cartaoBox").style.display = "none";
-
-if(forma === "pix"){
-document.getElementById("pixBox").style.display = "block";
-}
-if(forma === "deposito"){
-document.getElementById("depositoBox").style.display = "block";
-}
-if(forma === "cartao"){
-document.getElementById("cartaoBox").style.display = "block";
-}
 }
 
 function confirmarPagamento(){
 
-const forma = document.getElementById("formaPagamento").value;
-const modulo = definirModuloAtual();
+const forma =
+document.getElementById("formaPagamento").value;
 
 if(!forma){
-alert("Escolha a forma de pagamento antes de continuar.");
+
+alert(
+"Escolha a forma de pagamento."
+);
+
 return;
+
 }
 
-localStorage.setItem("SDL_metodo_pagamento", forma);
-localStorage.setItem("SDL_pais_pagamento", detectarPais());
-localStorage.setItem("SDL_status_pagamento", "confirmado");
+const servico =
+localStorage.getItem("SDL_servico_extra");
 
-if(modulo === "lapidar"){
-localStorage.setItem("SDL_plano_ativo", "sim");
+localStorage.setItem(
+"SDL_metodo_pagamento",
+forma
+);
+
+localStorage.setItem(
+"SDL_status_pagamento",
+"confirmado"
+);
+
+/* ATIVAÇÃO DO PLANO LTE */
+
+if(servico === "leitura_tecnica_mensal"){
+
+localStorage.setItem(
+"LTE_plano_mensal",
+"ativo"
+);
+
+localStorage.setItem(
+"LTE_creditos_restantes",
+"40"
+);
+
+localStorage.setItem(
+"LTE_creditos_usados",
+"0"
+);
+
 }
 
-if(modulo === "capista"){
-localStorage.setItem("CAPISTA_pagamento_confirmado", "sim");
-}
-
-if(modulo === "extra"){
-const servico = localStorage.getItem("SDL_servico_extra");
+/* ATIVAÇÃO AVULSO */
 
 if(servico === "leitura_tecnica"){
-localStorage.setItem("LTE_status", "solicitada");
-}
-if(servico === "idioma_obra"){
-localStorage.setItem("SDL_idioma_extra_ativo", "sim");
-}
-if(servico === "capa_refinada" || servico === "capa_magistral"){
-localStorage.setItem("SDL_capa_extra_ativa", servico);
-}
-if(servico === "epub_refinada" || servico === "epub_magistral"){
-localStorage.setItem("SDL_capa_epub_extra_ativa", servico);
-}
+
+localStorage.setItem(
+"LTE_status",
+"solicitada"
+);
+
 }
 
-document.getElementById("mensagemSucesso").innerHTML =
-"Pagamento confirmado com sucesso.<br><br>Seu ambiente foi atualizado.";
+document.getElementById("mensagemSucesso")
+.innerText =
+"Pagamento confirmado com sucesso.";
 
 setTimeout(function(){
-window.location.href = "status_plano.html";
-}, 1200);
+
+window.location.href =
+"status_plano.html";
+
+},1200);
+
 }
 
-ajustarMetodosPorPais();
-preencherCabecalho();
+preencherTela();
 
 </script>
 
