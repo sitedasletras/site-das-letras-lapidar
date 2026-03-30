@@ -7,7 +7,6 @@
 <title>Lapidar — A casa do seu original</title>
 
 <style>
-
 body{
 margin:0;
 font-family:Arial, sans-serif;
@@ -132,7 +131,6 @@ line-height:1.7;
 color:#9cffb2;
 font-weight:bold;
 }
-
 </style>
 </head>
 
@@ -171,51 +169,45 @@ A casa do seu original
 Escolha abaixo o que deseja fazer com o seu material editorial.
 </div>
 
-<button id="btnOriginal" class="botao"
-onclick="window.location.href='upload_livro.html'">
+<button id="btnOriginal" class="botao" onclick="window.location.href='upload_livro.html'">
 Entrar com o seu original
 </button>
 
-<button id="btnIdiomaObra" class="botao botaoAzul"
-onclick="window.location.href='idioma_obra.html'">
+<button id="btnIdiomaObra" class="botao botaoAzul" onclick="window.location.href='idioma_obra.html'">
 Escolher idioma da obra
 </button>
 
-<button id="btnCapa" class="botao"
-onclick="window.location.href='bloco12.html'">
+<button id="btnCapa" class="botao" onclick="window.location.href='bloco12.html'">
 Preparar capa externa
 </button>
 
-<button id="btnCapista" class="botao botaoRoxo"
-onclick="window.location.href='capista_planos.html'">
+<button id="btnCapista" class="botao botaoRoxo" onclick="window.location.href='capista_planos.html'">
 Projeto Capista
 </button>
 
-<button id="btnRelatorio" class="botao botaoVerde"
-onclick="abrirRelatorio()">
+<button id="btnLeitura" class="botao botaoAzul" onclick="window.location.href='leitura_tecnica_editorial.html'">
+Leitura Técnica Editorial — Lapidar — Site das Letras
+</button>
+
+<button id="btnRelatorio" class="botao botaoVerde" onclick="abrirRelatorio()">
 Ver relatório editorial da obra
 </button>
 
-<button id="btnRetirada"
-class="botao botaoCinza"
-onclick="retirarMateriais()">
+<button id="btnRetirada" class="botao botaoCinza" onclick="retirarMateriais()">
 Retirar materiais diagramados
 </button>
 
-<button class="botao botaoAzul"
-onclick="window.location.href='status_plano.html'">
+<button class="botao botaoAzul" onclick="window.location.href='status_plano.html'">
 Ver status do meu plano
 </button>
 
-<div id="alertaPlano"
-class="alerta"></div>
+<div id="alertaPlano" class="alerta"></div>
 
 </div>
 
 <script>
 
 function definirLimiteTexto(limite){
-
 if(!limite){
 return "Não informado";
 }
@@ -225,19 +217,13 @@ return "Uso livre dentro do período do plano";
 }
 
 return limite + " obra(s) no mês";
-
 }
 
 function bloquearEntrada(){
 
-const btnOriginal =
-document.getElementById("btnOriginal");
-
-const btnCapa =
-document.getElementById("btnCapa");
-
-const btnIdiomaObra =
-document.getElementById("btnIdiomaObra");
+const btnOriginal = document.getElementById("btnOriginal");
+const btnCapa = document.getElementById("btnCapa");
+const btnIdiomaObra = document.getElementById("btnIdiomaObra");
 
 btnOriginal.classList.add("botaoBloqueado");
 btnCapa.classList.add("botaoBloqueado");
@@ -259,8 +245,7 @@ alert("Seu plano precisa estar ativo para alterar o idioma editorial da obra.");
 
 function retirarMateriais(){
 
-const prazoLiberado =
-localStorage.getItem("SDL_prazo_liberado");
+const prazoLiberado = localStorage.getItem("SDL_prazo_liberado");
 
 if(prazoLiberado === "sim"){
 alert("Seus materiais continuam disponíveis dentro do prazo extra de retirada.");
@@ -272,14 +257,9 @@ alert("No momento não há prazo liberado para retirada.");
 
 function abrirRelatorio(){
 
-const planoAtivo =
-localStorage.getItem("SDL_plano_ativo");
-
-const prazoLiberado =
-localStorage.getItem("SDL_prazo_liberado");
-
-const dataPrazoRetirada =
-localStorage.getItem("SDL_data_prazo_retirada");
+const planoAtivo = localStorage.getItem("SDL_plano_ativo");
+const prazoLiberado = localStorage.getItem("SDL_prazo_liberado");
+const dataPrazoRetirada = localStorage.getItem("SDL_data_prazo_retirada");
 
 if(planoAtivo === "ativo"){
 window.location.href = "relatorio_lapidacao.html";
@@ -302,20 +282,11 @@ alert("O relatório editorial é liberado apenas durante o período ativo do pla
 
 function carregarPainelInicial(){
 
-const plano =
-localStorage.getItem("SDL_plano");
-
-const limite =
-localStorage.getItem("SDL_limite_obras");
-
-const planoAtivo =
-localStorage.getItem("SDL_plano_ativo");
-
-const dataVencimento =
-localStorage.getItem("SDL_data_vencimento");
-
-const dataPrazoRetirada =
-localStorage.getItem("SDL_data_prazo_retirada");
+const plano = localStorage.getItem("SDL_plano");
+const limite = localStorage.getItem("SDL_limite_obras");
+const planoAtivo = localStorage.getItem("SDL_plano_ativo");
+const dataVencimento = localStorage.getItem("SDL_data_vencimento");
+const dataPrazoRetirada = localStorage.getItem("SDL_data_prazo_retirada");
 
 document.getElementById("planoAtual").innerText =
 plano || "Nenhum plano selecionado";
@@ -323,11 +294,7 @@ plano || "Nenhum plano selecionado";
 document.getElementById("limiteObras").innerText =
 definirLimiteTexto(limite);
 
-if(
-!plano ||
-!dataVencimento ||
-!dataPrazoRetirada
-){
+if(!plano || !dataVencimento || !dataPrazoRetirada){
 document.getElementById("situacaoAcesso").innerText =
 "Nenhum plano ativo no momento.";
 
@@ -338,19 +305,11 @@ bloquearEntrada();
 return;
 }
 
-const hoje =
-new Date();
+const hoje = new Date();
+const vencimento = new Date(dataVencimento);
+const prazoRetirada = new Date(dataPrazoRetirada);
 
-const vencimento =
-new Date(dataVencimento);
-
-const prazoRetirada =
-new Date(dataPrazoRetirada);
-
-if(
-planoAtivo === "ativo" &&
-hoje <= vencimento
-){
+if(planoAtivo === "ativo" && hoje <= vencimento){
 document.getElementById("situacaoAcesso").innerHTML =
 "<span class='destaque'>Plano ativo</span>";
 
@@ -360,10 +319,7 @@ document.getElementById("alertaPlano").innerText =
 return;
 }
 
-if(
-hoje > vencimento &&
-hoje <= prazoRetirada
-){
+if(hoje > vencimento && hoje <= prazoRetirada){
 document.getElementById("situacaoAcesso").innerText =
 "Plano vencido com prazo extra disponível.";
 
