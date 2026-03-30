@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Configuração da capa — Projeto Capista</title>
+
+<style>
+
+body{
+margin:0;
+background:#0c0603;
+font-family:Arial;
+color:white;
+display:flex;
+justify-content:center;
+}
+
+.container{
+max-width:760px;
+width:92%;
+padding:40px 0 60px 0;
+}
+
+.titulo{
+font-size:34px;
+text-align:center;
+font-weight:bold;
+}
+
+.subtitulo{
+text-align:center;
+color:#ff7b2c;
+margin-top:10px;
+margin-bottom:28px;
+}
+
+.card{
+background:#140c08;
+border-radius:14px;
+padding:26px;
+margin-top:20px;
+}
+
+label{
+display:block;
+margin-top:16px;
+color:#ffd2b3;
+}
+
+select{
+width:100%;
+padding:12px;
+margin-top:6px;
+border-radius:8px;
+border:none;
+}
+
+.botao{
+width:100%;
+padding:18px;
+margin-top:24px;
+border:none;
+border-radius:40px;
+background:#ff5a00;
+color:white;
+font-size:18px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.botaoCinza{
+background:#444;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="titulo">
+Projeto Capista
+</div>
+
+<div class="subtitulo">
+Configure sua nova capa externa
+</div>
+
+
+<div class="card">
+
+<label>
+Tipo de capa desejada
+</label>
+
+<select id="tipoCapa">
+
+<option value="simples">
+Capa simples (gerador interno)
+</option>
+
+<option value="refinada">
+Capa refinada Lapidar
+</option>
+
+<option value="magistral">
+Capa magistral premium
+</option>
+
+</select>
+
+
+<label>
+Destino da capa
+</label>
+
+<select id="destinoCapa">
+
+<option value="fisico">
+Livro físico
+</option>
+
+<option value="epub">
+EPUB
+</option>
+
+<option value="ambos">
+Livro físico + EPUB
+</option>
+
+</select>
+
+
+<label>
+Idioma da capa
+</label>
+
+<select id="idiomaCapa">
+
+<option value="pt">
+Português
+</option>
+
+<option value="en">
+English
+</option>
+
+<option value="es">
+Español
+</option>
+
+<option value="it">
+Italiano
+</option>
+
+<option value="fr">
+Français
+</option>
+
+<option value="de">
+Deutsch
+</option>
+
+</select>
+
+
+<button
+class="botao"
+onclick="salvarConfigCapa()">
+
+Salvar configuração da capa
+
+</button>
+
+
+<button
+class="botao"
+onclick="seguirUploadTextos()">
+
+Seguir para textos da capa
+
+</button>
+
+
+<button
+class="botao botaoCinza"
+onclick="window.location.href='_Indice.html'">
+
+Voltar para casa do original
+
+</button>
+
+
+</div>
+
+</div>
+
+
+<script>
+
+function salvarConfigCapa(){
+
+const tipo =
+document.getElementById("tipoCapa").value;
+
+const destino =
+document.getElementById("destinoCapa").value;
+
+const idioma =
+document.getElementById("idiomaCapa").value;
+
+
+localStorage.setItem(
+"CAPISTA_tipo_capa",
+tipo
+);
+
+localStorage.setItem(
+"CAPISTA_destino_capa",
+destino
+);
+
+localStorage.setItem(
+"CAPISTA_idioma_capa",
+idioma
+);
+
+alert(
+"Configuração da capa salva."
+);
+
+}
+
+
+function seguirUploadTextos(){
+
+const tipo =
+localStorage.getItem(
+"CAPISTA_tipo_capa"
+);
+
+if(!tipo){
+
+alert(
+"Sal
