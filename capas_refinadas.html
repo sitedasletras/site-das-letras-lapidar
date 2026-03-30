@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Gerador de capa externa — Lapidar</title>
+
+<style>
+
+body{
+margin:0;
+background:#0c0603;
+font-family:Arial;
+color:white;
+display:flex;
+justify-content:center;
+}
+
+.container{
+max-width:720px;
+width:92%;
+padding:40px 0 60px 0;
+}
+
+.titulo{
+font-size:34px;
+text-align:center;
+font-weight:bold;
+}
+
+.subtitulo{
+text-align:center;
+color:#ff7b2c;
+margin-top:10px;
+margin-bottom:28px;
+}
+
+.card{
+background:#140c08;
+border-radius:14px;
+padding:26px;
+margin-top:20px;
+line-height:1.7;
+}
+
+.opcao{
+margin-top:16px;
+}
+
+.botao{
+
+width:100%;
+padding:18px;
+margin-top:20px;
+border:none;
+border-radius:40px;
+background:#ff5a00;
+color:white;
+font-size:18px;
+font-weight:bold;
+cursor:pointer;
+
+}
+
+.alerta{
+margin-top:14px;
+font-size:14px;
+color:#ffcfaa;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="titulo">
+
+Gerador de capa externa
+
+</div>
+
+<div class="subtitulo">
+
+A capa básica já está incluída no seu pacote de diagramação
+
+</div>
+
+<div class="card">
+
+<strong>Escolha o tipo de capa desejado</strong>
+
+<div class="opcao">
+
+<input type="radio" name="capaTipo" value="inclusa" checked>
+
+Usar a capa já incluída no seu pacote
+
+</div>
+
+<div class="opcao">
+
+<input type="radio" name="capaTipo" value="refinada">
+
+Capa refinada para livro físico — R$ 18
+
+</div>
+
+<div class="opcao">
+
+<input type="radio" name="capaTipo" value="magistral">
+
+Capa magistral para livro físico — R$ 48
+
+</div>
+
+<hr style="margin:20px 0">
+
+<strong>Capa para versão digital (EPUB)</strong>
+
+<div class="opcao">
+
+<input type="radio" name="capaEpub" value="epub_inclusa" checked>
+
+Usar capa simples EPUB
+
+</div>
+
+<div class="opcao">
+
+<input type="radio" name="capaEpub" value="epub_refinada">
+
+Capa refinada EPUB — R$ 10
+
+</div>
+
+<div class="opcao">
+
+<input type="radio" name="capaEpub" value="epub_magistral">
+
+Capa magistral EPUB — R$ 40
+
+</div>
+
+<div class="alerta">
+
+Se escolher uma capa refinada ou magistral, a capa automática do pacote será substituída após confirmação.
+
+</div>
+
+<button class="botao"
+
+onclick="confirmarEscolha()">
+
+Continuar com esta escolha
+
+</button>
+
+<button class="botao"
+
+onclick="window.location.href='_Indice.html'">
+
+Voltar para casa do original
+
+</button>
+
+</div>
+
+</div>
+
+<script>
+
+function confirmarEscolha(){
+
+const tipoFisico =
+document.querySelector('input[name="capaTipo"]:checked').value;
+
+const tipoEpub =
+document.querySelector('input[name="capaEpub"]:checked').value;
+
+localStorage.setItem("SDL_tipo_capa_fisica", tipoFisico);
+
+localStorage.setItem("SDL_tipo_capa_epub", tipoEpub);
+
+if(tipoFisico !== "inclusa"){
+
+const confirmar = confirm(
+
+"Você escolheu uma capa externa refinada.\n\nIsso substituirá a capa automática do pacote.\n\nDeseja continuar?"
+
+);
+
+if(!confirmar){
+
+return;
+
+}
+
+}
+
+window.location.href = "upload_imagens_capa.html";
+
+}
+
+</script>
+
+</body>
+
+</html>
