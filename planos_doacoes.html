@@ -26,14 +26,14 @@ padding:40px 0;
 }
 
 .titulo{
-font-size:38px;
+font-size:36px;
 text-align:center;
 }
 
 .subtitulo{
 text-align:center;
 color:#ff7b2c;
-margin-top:8px;
+margin-top:10px;
 margin-bottom:25px;
 }
 
@@ -106,33 +106,24 @@ line-height:1.7;
 <div class="container">
 
 <div class="titulo">
-
 Planos de doações do Lapidar
-
 </div>
 
 <div class="subtitulo">
-
 Escolha a forma de apoio que melhor acompanha o seu momento editorial
-
 </div>
 
 
-
-<!-- PLANO 1,99 -->
+<!-- ESSENCIAL -->
 
 <div class="card">
 
 <div class="nomePlano">
-
 Plano Essencial
-
 </div>
 
 <div class="valor">
-
 R$ 1,99
-
 </div>
 
 <div class="lista">
@@ -140,12 +131,12 @@ R$ 1,99
 ✔ avaliação da obra incluída<br>
 ✔ preparação editorial dentro do Lapidar<br>
 ✔ diagramação de até <b>1 obra no mês</b><br>
-✔ capa correspondente ao pacote<br>
 ✔ retirada do material diagramado dentro do prazo do plano
 
 </div>
 
-<button class="botao" onclick="selecionarPlano('Essencial')">
+<button class="botao"
+onclick="selecionarPlano('Essencial',1)">
 
 Escolher este plano
 
@@ -155,20 +146,16 @@ Escolher este plano
 
 
 
-<!-- PLANO 9,90 -->
+<!-- INICIAL -->
 
 <div class="card">
 
 <div class="nomePlano">
-
 Plano Inicial
-
 </div>
 
 <div class="valor">
-
 R$ 9,90
-
 </div>
 
 <div class="lista">
@@ -180,7 +167,8 @@ R$ 9,90
 
 </div>
 
-<button class="botao" onclick="selecionarPlano('Inicial')">
+<button class="botao"
+onclick="selecionarPlano('Inicial',9)">
 
 Escolher este plano
 
@@ -190,20 +178,16 @@ Escolher este plano
 
 
 
-<!-- PLANO 39,90 -->
+<!-- EDITORIAL -->
 
 <div class="card">
 
 <div class="nomePlano">
-
 Plano Editorial
-
 </div>
 
 <div class="valor">
-
 R$ 39,90
-
 </div>
 
 <div class="lista">
@@ -211,11 +195,11 @@ R$ 39,90
 ✔ avaliação das obras incluída<br>
 ✔ preparação editorial ampliada<br>
 ✔ diagramação de até <b>30 obras no mês</b><br>
-✔ maior liberdade dentro do ambiente editorial
 
 </div>
 
-<button class="botao" onclick="selecionarPlano('Editorial')">
+<button class="botao"
+onclick="selecionarPlano('Editorial',30)">
 
 Escolher este plano
 
@@ -225,20 +209,16 @@ Escolher este plano
 
 
 
-<!-- PLANO 59,90 -->
+<!-- AVANÇADO -->
 
 <div class="card">
 
 <div class="nomePlano">
-
 Plano Avançado
-
 </div>
 
 <div class="valor">
-
 R$ 59,90
-
 </div>
 
 <div class="lista">
@@ -246,11 +226,11 @@ R$ 59,90
 ✔ avaliação das obras incluída<br>
 ✔ preparação editorial ampliada<br>
 ✔ diagramação de até <b>50 obras no mês</b><br>
-✔ uso expandido dos recursos do sistema
 
 </div>
 
-<button class="botao" onclick="selecionarPlano('Avançado')">
+<button class="botao"
+onclick="selecionarPlano('Avançado',50)">
 
 Escolher este plano
 
@@ -260,20 +240,16 @@ Escolher este plano
 
 
 
-<!-- PLANO 99,90 -->
+<!-- PROFISSIONAL -->
 
 <div class="card">
 
 <div class="nomePlano">
-
 Plano Profissional
-
 </div>
 
 <div class="valor">
-
 R$ 99,90
-
 </div>
 
 <div class="lista">
@@ -281,11 +257,11 @@ R$ 99,90
 ✔ avaliação das obras incluída<br>
 ✔ preparação editorial avançada<br>
 ✔ diagramação de até <b>90 obras no mês</b><br>
-✔ acesso amplo aos recursos do sistema
 
 </div>
 
-<button class="botao" onclick="selecionarPlano('Profissional')">
+<button class="botao"
+onclick="selecionarPlano('Profissional',90)">
 
 Escolher este plano
 
@@ -295,20 +271,16 @@ Escolher este plano
 
 
 
-<!-- PLANO MAGISTRAL -->
+<!-- MAGISTRAL -->
 
 <div class="card">
 
 <div class="nomePlano">
-
 Plano Magistral
-
 </div>
 
 <div class="valor">
-
 Apoio máximo
-
 </div>
 
 <div class="lista">
@@ -316,11 +288,11 @@ Apoio máximo
 ✔ avaliação das obras incluída<br>
 ✔ preparação editorial completa<br>
 ✔ diagramação <b>sem limite mensal</b><br>
-✔ acesso integral ao ambiente editorial do Lapidar
 
 </div>
 
-<button class="botao" onclick="selecionarPlano('Magistral')">
+<button class="botao"
+onclick="selecionarPlano('Magistral','ilimitado')">
 
 Escolher este plano
 
@@ -346,21 +318,33 @@ Após escolher o plano de doações, você poderá selecionar a forma de apoio d
 
 <script>
 
-function selecionarPlano(plano){
+function selecionarPlano(plano,limite){
 
-localStorage.setItem("SDL_plano", plano);
+localStorage.setItem(
+"SDL_plano",
+plano
+);
+
+localStorage.setItem(
+"SDL_limite_obras",
+limite
+);
+
+localStorage.setItem(
+"SDL_data_pagamento",
+new Date()
+);
 
 alert(
 "Plano selecionado: " + plano +
 "\n\nAgora escolha a forma de doação."
 );
 
-window.location.href = "pagamento.html";
+window.location.href="status_plano.html";
 
 }
 
 </script>
-
 
 </body>
 
