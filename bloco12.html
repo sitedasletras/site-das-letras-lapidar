@@ -2,11 +2,9 @@
 <html lang="pt-br">
 
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Capa Refinada — Lapidar</title>
+<title>Gerador de Capas — Lapidar</title>
 
 <style>
 
@@ -20,7 +18,7 @@ justify-content:center;
 }
 
 .container{
-max-width:600px;
+max-width:650px;
 width:92%;
 padding:30px 0 60px 0;
 }
@@ -29,3 +27,332 @@ padding:30px 0 60px 0;
 font-size:34px;
 font-weight:bold;
 text-align:center;
+margin-bottom:6px;
+}
+
+.subtitulo{
+text-align:center;
+color:#ff7b2c;
+margin-bottom:20px;
+line-height:1.5;
+}
+
+.texto{
+text-align:center;
+color:#ffd2b3;
+line-height:1.6;
+margin-bottom:28px;
+}
+
+.aviso{
+background:#1a0f09;
+border-left:5px solid #ff5a00;
+padding:16px;
+margin-bottom:30px;
+color:#ffd2b3;
+line-height:1.6;
+border-radius:8px;
+}
+
+.bloco{
+background:#140c08;
+padding:18px;
+border-radius:12px;
+margin-bottom:24px;
+}
+
+.bloco h3{
+margin-top:0;
+color:#ff7b2c;
+}
+
+.campo{
+margin-bottom:18px;
+}
+
+label{
+display:block;
+margin-bottom:6px;
+font-weight:bold;
+color:#ffd2b3;
+}
+
+input[type="text"],
+textarea,
+select{
+width:100%;
+padding:12px;
+border-radius:10px;
+border:none;
+box-sizing:border-box;
+font-size:15px;
+}
+
+input[type="file"]{
+width:100%;
+padding:10px;
+border-radius:10px;
+border:none;
+background:white;
+color:black;
+box-sizing:border-box;
+}
+
+textarea{
+height:120px;
+resize:vertical;
+}
+
+.radioGrupo{
+display:flex;
+flex-direction:column;
+gap:10px;
+margin-top:10px;
+color:#ffd2b3;
+}
+
+.opcoesPlano{
+display:flex;
+flex-direction:column;
+gap:10px;
+margin-top:10px;
+color:#ffd2b3;
+}
+
+.botao{
+width:100%;
+padding:18px;
+margin-top:18px;
+border:none;
+border-radius:35px;
+background:#ff5a00;
+color:white;
+font-size:18px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.botao:hover{
+background:#ff6f1a;
+}
+
+.voltar{
+background:#4a4a4a;
+}
+
+.voltar:hover{
+background:#6a6a6a;
+}
+
+.oculto{
+display:none;
+}
+
+.sucesso{
+margin-top:18px;
+color:#9cffb2;
+text-align:center;
+font-size:15px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="titulo">
+Gerador de capas
+</div>
+
+<div class="subtitulo">
+Escolha o tipo da sua capa e organize a parte visual do seu livro
+</div>
+
+<div class="texto">
+Aqui você pode preparar a capa externa do seu livro físico ou a capa do seu e-book.
+</div>
+
+<div class="aviso">
+<strong>Informação importante:</strong><br><br>
+A capa correspondente ao seu pacote já está garantida.<br>
+As opções abaixo são melhorias adicionais e opcionais.<br><br>
+
+Se a imagem enviada contiver letras, títulos, nomes ou qualquer texto já escrito sobre ela, esse conteúdo poderá ser reorganizado para aplicação da tipografia oficial do sistema.<br><br>
+
+Selos editoriais poderão ser mantidos conforme a proposta da capa.
+</div>
+
+<div class="bloco">
+<h3>1. Esta capa será para:</h3>
+
+<div class="radioGrupo">
+<label><input type="radio" name="tipoCapa" value="fisico" onclick="mostrarTipoCapa()"> Livro físico</label>
+<label><input type="radio" name="tipoCapa" value="ebook" onclick="mostrarTipoCapa()"> E-book</label>
+</div>
+</div>
+
+<div class="bloco">
+<h3>2. Dados principais da capa</h3>
+
+<div class="campo">
+<label for="tituloCapa">Título da capa</label>
+<input type="text" id="tituloCapa" placeholder="Digite o título do livro">
+</div>
+
+<div class="campo">
+<label for="subtituloCapa">Subtítulo (opcional)</label>
+<input type="text" id="subtituloCapa" placeholder="Digite o subtítulo, se houver">
+</div>
+
+<div class="campo">
+<label for="autorCapa">Nome do autor</label>
+<input type="text" id="autorCapa" placeholder="Digite o nome do autor">
+</div>
+</div>
+
+<div class="bloco oculto" id="blocoFisico">
+<h3>3. Opções para livro físico</h3>
+
+<div class="opcoesPlano">
+<label><input type="radio" name="planoFisico" value="fisico_simples_18"> Capa externa simples — R$ 18,00</label>
+<label><input type="radio" name="planoFisico" value="fisico_premium_48"> Capa externa premium — R$ 48,00</label>
+</div>
+
+<div class="campo">
+<label>Imagem da capa (frente)</label>
+<input type="file" id="imgFrente">
+</div>
+
+<div class="campo">
+<label>Imagem da contracapa</label>
+<input type="file" id="imgContra">
+</div>
+
+<div class="campo">
+<label>Imagem da orelha traseira</label>
+<input type="file" id="imgOrelhaTraseira">
+</div>
+
+<div class="campo">
+<label>Imagem da orelha dianteira</label>
+<input type="file" id="imgOrelhaDianteira">
+</div>
+
+<div class="campo">
+<label>Imagem da lombada</label>
+<input type="file" id="imgLombada">
+</div>
+</div>
+
+<div class="bloco oculto" id="blocoEbook">
+<h3>3. Opções para e-book</h3>
+
+<div class="opcoesPlano">
+<label><input type="radio" name="planoEbook" value="ebook_simples_10"> Capa simples para e-book — R$ 10,00</label>
+<label><input type="radio" name="planoEbook" value="ebook_premium_40"> Capa premium para e-book — R$ 40,00</label>
+</div>
+
+<div class="campo">
+<label>Imagem da capa do e-book</label>
+<input type="file" id="imgEbook">
+</div>
+</div>
+
+<div class="bloco">
+<h3>4. Descreva a ideia da sua capa</h3>
+
+<div class="campo">
+<label for="descricaoCapa">Ideia da capa (opcional)</label>
+<textarea id="descricaoCapa" placeholder="Exemplo: quero uma capa com a bandeira do Brasil, título centralizado e selo editorial no canto inferior esquerdo da contracapa."></textarea>
+</div>
+</div>
+
+<button class="botao" onclick="salvarCapa()">
+Salvar informações da capa
+</button>
+
+<button class="botao voltar" onclick="window.location.href='_Indice.html'">
+Voltar para a casa do seu livro
+</button>
+
+<div id="mensagemSucesso" class="sucesso"></div>
+
+</div>
+
+<script>
+
+function mostrarTipoCapa(){
+const tipoSelecionado = document.querySelector('input[name="tipoCapa"]:checked');
+
+if(!tipoSelecionado){
+return;
+}
+
+const tipo = tipoSelecionado.value;
+
+document.getElementById("blocoFisico").classList.add("oculto");
+document.getElementById("blocoEbook").classList.add("oculto");
+
+if(tipo === "fisico"){
+document.getElementById("blocoFisico").classList.remove("oculto");
+}
+
+if(tipo === "ebook"){
+document.getElementById("blocoEbook").classList.remove("oculto");
+}
+}
+
+function salvarCapa(){
+
+const tipoSelecionado = document.querySelector('input[name="tipoCapa"]:checked');
+const planoFisico = document.querySelector('input[name="planoFisico"]:checked');
+const planoEbook = document.querySelector('input[name="planoEbook"]:checked');
+
+const titulo = document.getElementById("tituloCapa").value.trim();
+const subtitulo = document.getElementById("subtituloCapa").value.trim();
+const autor = document.getElementById("autorCapa").value.trim();
+const descricao = document.getElementById("descricaoCapa").value.trim();
+
+if(!tipoSelecionado){
+alert("Selecione primeiro se a capa será para livro físico ou e-book.");
+return;
+}
+
+const tipo = tipoSelecionado.value;
+
+if(tipo === "fisico" && !planoFisico){
+alert("Selecione uma das opções de capa para livro físico.");
+return;
+}
+
+if(tipo === "ebook" && !planoEbook){
+alert("Selecione uma das opções de capa para e-book.");
+return;
+}
+
+localStorage.setItem("SDL_tipo_capa", tipo);
+localStorage.setItem("SDL_titulo_capa_refinada", titulo);
+localStorage.setItem("SDL_subtitulo_capa_refinada", subtitulo);
+localStorage.setItem("SDL_autor_capa_refinada", autor);
+localStorage.setItem("SDL_descricao_capa_refinada", descricao);
+
+if(tipo === "fisico"){
+localStorage.setItem("SDL_plano_capa", planoFisico.value);
+}
+
+if(tipo === "ebook"){
+localStorage.setItem("SDL_plano_capa", planoEbook.value);
+}
+
+document.getElementById("mensagemSucesso").innerText =
+"Informações da capa salvas com sucesso.";
+
+}
+
+</script>
+
+</body>
+
+</html>
