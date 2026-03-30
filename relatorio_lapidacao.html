@@ -2,17 +2,15 @@
 <html lang="pt-br">
 
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Presente de Lapidação Literária — Lapidar</title>
 
 <style>
 
 body{
 margin:0;
-font-family:Arial;
+font-family:Arial, sans-serif;
 background:#0d0603;
 color:white;
 display:flex;
@@ -56,6 +54,10 @@ font-weight:bold;
 color:#ffd2b3;
 }
 
+.bloco{
+margin-top:18px;
+}
+
 .botao{
 width:100%;
 padding:18px;
@@ -83,7 +85,7 @@ background:#666;
 
 .destaque{
 color:#9cffb2;
-font-size:18px;
+font-size:22px;
 font-weight:bold;
 }
 
@@ -95,7 +97,6 @@ line-height:1.7;
 }
 
 </style>
-
 </head>
 
 <body>
@@ -110,7 +111,6 @@ Presente de Lapidação Literária
 Ao final da preparação editorial, o Lapidar entrega esta leitura de incentivo sobre a sua obra
 </div>
 
-
 <div class="card">
 
 <div class="bloco">
@@ -121,6 +121,11 @@ Ao final da preparação editorial, o Lapidar entrega esta leitura de incentivo 
 <div class="bloco">
 <span class="label">Autor:</span><br>
 <span id="autorObra" class="valor"></span>
+</div>
+
+<div class="bloco">
+<span class="label">Tipo de material:</span><br>
+<span id="tipoObra" class="valor"></span>
 </div>
 
 <div class="bloco">
@@ -160,52 +165,33 @@ Ao final da preparação editorial, o Lapidar entrega esta leitura de incentivo 
 
 </div>
 
-
 <div class="card">
 
 <div class="bloco">
 <span class="label">Caminho das Pedras</span><br>
-
 <span class="valor">
-Se desejar continuar aprimorando sua escrita, existe dentro da plataforma a ferramenta <b>Caminho das Pedras</b>, criada para acompanhar autores no desenvolvimento de suas obras.<br><br>
-
-Quando quiser, ela estará disponível para você.
+Se você deseja continuar evoluindo na sua escrita, existe dentro da plataforma a ferramenta <b>Caminho das Pedras</b>, que ajuda no desenvolvimento de obras literárias.<br><br>
+Se quiser conhecer, o acesso estará disponível para você.
 </span>
-
 </div>
 
-
-<button class="botao"
-onclick="window.location.href='caminho_das_pedras.html'">
-
+<button class="botao" onclick="window.location.href='caminho_das_pedras.html'">
 Conhecer o Caminho das Pedras
-
 </button>
 
-
-<button class="botao botaoCinza"
-onclick="window.location.href='index.html'">
-
+<button class="botao botaoCinza" onclick="window.location.href='_Indice.html'">
 Voltar para a casa do seu original
-
 </button>
 
 </div>
-
 
 <div class="aviso">
-
-Este relatório é um presente de incentivo ao seu crescimento literário.
-Ele não obriga mudanças na obra.
-Serve como orientação para quem deseja continuar evoluindo.
-
+Este relatório é um presente de incentivo ao seu crescimento literário. Ele não obriga mudanças na obra. Serve como orientação para quem deseja continuar evoluindo.
 </div>
 
 </div>
-
 
 <script>
-
 
 /* =============================
 VERIFICAÇÃO DE PLANO ATIVO
@@ -213,94 +199,192 @@ VERIFICAÇÃO DE PLANO ATIVO
 
 const planoAtivo = localStorage.getItem("SDL_plano_ativo");
 const prazoLiberado = localStorage.getItem("SDL_prazo_liberado");
+const dataVencimento = localStorage.getItem("SDL_data_vencimento");
+const dataPrazoRetirada = localStorage.getItem("SDL_data_prazo_retirada");
 
+function acessoLiberado(){
 
-if(planoAtivo !== "ativo" && prazoLiberado !== "sim"){
+if(planoAtivo === "ativo"){
+return true;
+}
 
+if(prazoLiberado === "sim" && dataPrazoRetirada){
+const hoje = new Date();
+const prazo = new Date(dataPrazoRetirada);
+if(hoje <= prazo){
+return true;
+}
+}
+
+return false;
+}
+
+if(!acessoLiberado()){
 alert("Seu plano precisa estar ativo para acessar este relatório.");
-
 window.location.href = "planos_doacoes.html";
-
 }
 
 
 /* =============================
-PREENCHIMENTO DO RELATÓRIO
+DADOS BÁSICOS DA OBRA
 ============================= */
 
 function preencherCampo(id, valor){
-
 document.getElementById(id).innerText = valor;
-
 }
-
 
 const titulo = localStorage.getItem("SDL_titulo_livro") || "Título não informado";
 const autor = localStorage.getItem("SDL_nome_autor") || "Autor não informado";
-const tipo = localStorage.getItem("SDL_tipo_material") || "";
+const tipo = localStorage.getItem("SDL_tipo_material") || "Tipo não informado";
 const dialogos = localStorage.getItem("SDL_dialogos") || "";
 const tema = localStorage.getItem("SDL_tema_visual") || "";
 const destino = localStorage.getItem("SDL_destino_material") || "";
-
+const modo = localStorage.getItem("SDL_modo_preparacao") || "";
+const formato = localStorage.getItem("SDL_formato_livro") || localStorage.getItem("SDL_formato") || "";
 
 preencherCampo("tituloObra", titulo);
 preencherCampo("autorObra", autor);
+preencherCampo("tipoObra", tipo);
 
+
+/* =============================
+NOTA DA OBRA
+============================= */
 
 let nota = 7.0;
-
 
 if(tipo === "Romance"){ nota += 0.4; }
 if(tipo === "Poesia"){ nota += 0.5; }
 if(tipo === "Conto"){ nota += 0.3; }
+if(tipo === "Infantil"){ nota += 0.3; }
+if(tipo === "Acadêmico"){ nota += 0.2; }
+
 if(dialogos === "Travessão"){ nota += 0.2; }
 if(destino === "Livro físico e e-book"){ nota += 0.2; }
 if(tema === "invertido"){ nota += 0.1; }
 
+if(modo === "poesia"){ nota += 0.2; }
+if(modo === "memorial"){ nota += 0.2; }
+if(modo === "classico"){ nota += 0.2; }
+if(modo === "professor"){ nota += 0.1; }
 
-if(nota > 10){ nota = 10; }
+if(formato === "A5"){ nota += 0.1; }
+if(formato === "16x23"){ nota += 0.1; }
 
+if(nota > 10){
+nota = 10;
+}
 
 const notaFormatada = nota.toFixed(1).replace(".", ",");
-
 preencherCampo("notaObra", notaFormatada);
 
 
+/* =============================
+TEXTOS DO RELATÓRIO
+============================= */
+
 let leituraGeral = "Sua obra mostra boa base de construção e já apresenta caminho de escritor.";
-let pontosFortes = "A história tem direção clara e mostra potencial de crescimento.";
-let sugestao = "Se desejar evoluir ainda mais, você pode fortalecer momentos importantes da narrativa.";
+let pontosFortes = "A história tem direção clara, boa presença de ideia central e mostra potencial de crescimento.";
+let sugestao = "Se desejar evoluir ainda mais, você pode fortalecer alguns momentos importantes da narrativa para deixar a leitura ainda mais marcante.";
 let continuacao = "Sua obra apresenta sinais de possibilidade de continuidade futura.";
 let estilo = "Seu texto mostra presença de identidade literária.";
 let potencial = "Seu material demonstra caminho consistente de autor.";
 
-
 if(tipo === "Romance"){
-
-leituraGeral = "Sua história apresenta boa força emocional e conexão entre personagens.";
-
+leituraGeral = "Sua história prende a atenção e mostra boa base emocional.";
+pontosFortes = "A relação entre personagens, o andamento da história e a presença de sentimento são pontos fortes da obra.";
+sugestao = "Se quiser deixar a obra ainda mais forte, você pode ampliar alguns momentos de decisão e emoção.";
+continuacao = "Sua história tem base para crescer em uma continuação, duologia, trilogia ou até saga, se você quiser seguir por esse caminho.";
+estilo = "Sua história tem força de sentimento e relação entre personagens. Isso mostra bom caminho para romances marcantes.";
+potencial = "Sua obra mostra que você já tem base para crescer como autor de romance.";
 }
-
 
 if(tipo === "Conto"){
-
-leituraGeral = "Seu conto possui direção clara e boa ideia central.";
-
+leituraGeral = "Seu conto tem direção clara e boa ideia central.";
+pontosFortes = "O texto tem foco, ideia principal bem definida e boa chance de prender o leitor.";
+sugestao = "Se desejar melhorar ainda mais, você pode dar mais força ao momento principal da história.";
+continuacao = "Seu conto pode abrir caminho para um material maior no futuro, se você desejar desenvolver mais esse universo.";
+estilo = "Seu texto tem jeito de conto com identidade própria e mostra direção de autor.";
+potencial = "Seu material mostra base boa para crescer em contos mais fortes e até em obras maiores.";
 }
-
 
 if(tipo === "Poesia"){
-
-leituraGeral = "Seu texto apresenta sensibilidade e presença autoral.";
-
+leituraGeral = "Seu texto mostra sensibilidade e presença autoral.";
+pontosFortes = "O texto apresenta sentimento, imagem e personalidade literária.";
+sugestao = "Se quiser crescer ainda mais, você pode aprofundar algumas imagens e emoções para deixar o texto mais forte.";
+continuacao = "Seu material pode crescer em novos poemas, coletâneas e livros temáticos.";
+estilo = "Seu texto tem partes profundas e pensativas. Isso mostra presença literária.";
+potencial = "Seu material mostra que você tem voz e pode amadurecer ainda mais com continuidade de escrita.";
 }
-
 
 if(tipo === "Acadêmico"){
-
-leituraGeral = "Seu material demonstra organização e clareza estrutural.";
-
+leituraGeral = "Seu material mostra organização e proposta definida.";
+pontosFortes = "A estrutura apresenta clareza, boa intenção de conteúdo e direção segura.";
+sugestao = "Se quiser melhorar ainda mais, você pode reforçar a clareza das partes mais importantes do conteúdo.";
+continuacao = "Esse material pode crescer em novos estudos, capítulos ou materiais complementares.";
+estilo = "Seu texto mostra organização e clareza, o que ajuda muito na construção de materiais de estudo.";
+potencial = "Seu material mostra base boa para continuidade e ampliação do conteúdo.";
 }
 
+if(tipo === "Infantil"){
+leituraGeral = "Seu material apresenta boa base para leitura leve e acessível.";
+pontosFortes = "A obra mostra caminho claro, boa intenção narrativa e potencial de aproximação com o leitor.";
+sugestao = "Se quiser fortalecer ainda mais o material, você pode deixar algumas passagens ainda mais vivas e fáceis de imaginar.";
+continuacao = "Sua história pode crescer em novas aventuras, séries infantis ou materiais complementares.";
+estilo = "Seu texto mostra leveza e caminho acessível, o que é muito valioso na escrita infantil.";
+potencial = "Seu material mostra potencial para crescer como universo infantil ou coleção.";
+}
+
+
+/* =============================
+ESTILO LEMBRA
+============================= */
+
+if(tipo === "Conto" && tema === "invertido"){
+estilo = "Sua história tem clima mais escuro e de suspense. Lembra o jeito de histórias que prendem pela atmosfera.";
+}
+
+if(tipo === "Romance" && modo === "memorial"){
+estilo = "Sua história mistura sentimento e lembrança. Isso pode lembrar obras mais profundas e marcadas pelo tempo.";
+}
+
+if(tipo === "Conto" && modo === "livre"){
+estilo = "Seu conto mostra direção própria e pode crescer muito com continuidade de escrita.";
+}
+
+if(tipo === "Poesia"){
+estilo = "Seu texto tem partes profundas e pensativas. Lembra textos de autores que trabalham sentimento e reflexão.";
+}
+
+if(tipo === "Romance" && dialogos === "Travessão"){
+estilo = "Sua história tem boa força narrativa e andamento de leitura. Isso combina com romances de presença emocional mais forte.";
+}
+
+if(tipo === "Acadêmico"){
+estilo = "Seu texto mostra organização e clareza. Isso ajuda muito quem deseja construir material sólido e útil.";
+}
+
+
+/* =============================
+POTENCIAL DE CONTINUIDADE
+============================= */
+
+if(tipo === "Romance" && nota >= 8.0){
+continuacao = "Sua história mostra boa base para virar continuação. Pode crescer em duologia, trilogia, quadrilogia ou saga, se você desejar.";
+}
+
+if(tipo === "Conto" && nota >= 7.8){
+continuacao = "Seu conto mostra base para crescer em novos contos, capítulo inicial de romance ou universo contínuo.";
+}
+
+if(tipo === "Poesia" && nota >= 7.8){
+continuacao = "Seu texto mostra base para crescer em coletânea, série poética ou novo livro temático.";
+}
+
+
+/* =============================
+PREENCHIMENTO FINAL
+============================= */
 
 preencherCampo("leituraGeral", leituraGeral);
 preencherCampo("pontosFortes", pontosFortes);
@@ -309,9 +393,7 @@ preencherCampo("possibilidadeContinuacao", continuacao);
 preencherCampo("estiloLembra", estilo);
 preencherCampo("potencialLiterario", potencial);
 
-
 </script>
-
 
 </body>
 </html>
