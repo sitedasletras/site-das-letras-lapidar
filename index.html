@@ -2,155 +2,261 @@
 <html lang="pt-br">
 
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lapidar — Site das Letras</title>
+
+<title>Lapidar — A casa do seu original</title>
 
 <style>
+
 body{
-  margin:0;
-  font-family:Arial, sans-serif;
-  background:#0d0603;
-  color:white;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  min-height:100vh;
+margin:0;
+font-family:Arial, sans-serif;
+background:#0d0603;
+color:white;
+text-align:center;
+padding:40px 0;
 }
 
 .container{
-  text-align:center;
-  max-width:420px;
-  width:90%;
-  padding:20px 0 30px 0;
-}
-
-.logo{
-  width:260px;
-  max-width:100%;
-  height:auto;
-  margin-bottom:25px;
+width:92%;
+max-width:620px;
+margin:auto;
 }
 
 .titulo{
-  font-size:32px;
-  font-weight:bold;
-  margin:10px 0;
-  letter-spacing:2px;
+font-size:42px;
+font-weight:bold;
 }
 
 .subtitulo{
-  color:#ff7b2c;
-  font-size:15px;
-  margin-bottom:25px;
-  line-height:1.5;
+color:#ff7b2c;
+margin-top:10px;
+margin-bottom:20px;
+font-size:18px;
 }
 
-.frase{
-  color:#ff7b2c;
-  font-size:16px;
-  margin-bottom:40px;
-  line-height:1.6;
-}
-
-input{
-  width:100%;
-  padding:16px;
-  margin:10px 0;
-  border-radius:30px;
-  border:none;
-  font-size:16px;
-  box-sizing:border-box;
-  text-transform:none !important;
+.texto{
+color:#ffd2b3;
+margin-bottom:30px;
+line-height:1.6;
 }
 
 .botao{
-  display:block;
-  width:100%;
-  margin-top:20px;
-  padding:18px;
-  border-radius:35px;
-  border:none;
-  background:#ff5a00;
-  color:white;
-  font-size:18px;
-  font-weight:bold;
-  cursor:pointer;
-  transition:0.3s;
+
+width:100%;
+padding:22px;
+margin-top:18px;
+border:none;
+border-radius:45px;
+background:#ff5a00;
+color:white;
+font-size:20px;
+font-weight:bold;
+cursor:pointer;
+
 }
 
 .botao:hover{
-  background:#ff6f1a;
+background:#ff6f1a;
 }
 
-.erro{
-  margin-top:15px;
-  color:#ff8080;
-  font-size:15px;
+.botaoAzul{
+background:#2c52ff;
 }
+
+.botaoAzul:hover{
+background:#3a5eff;
+}
+
+.botaoCinza{
+background:#444;
+}
+
+.botaoCinza:hover{
+background:#666;
+}
+
+.botaoBloqueado{
+background:#333;
+cursor:not-allowed;
+opacity:0.6;
+}
+
+.alerta{
+
+margin-top:25px;
+color:#ffb199;
+font-size:15px;
+
+}
+
 </style>
+
 </head>
 
 <body>
+
 <div class="container">
 
-  <img class="logo" src="file_00000000760c720ebb734bb5e71340bb.png" alt="Selo híbrido Site das Letras">
+<div class="titulo">
 
-  <div class="titulo">— LAPIDAR —</div>
-
-  <div class="subtitulo">
-    Um projeto do Site das Letras Edições Literárias
-  </div>
-
-  <div class="frase">
-    Aqui você tira os seus rascunhos da gaveta e realiza os seus sonhos.
-  </div>
-
-  <input
-    id="usuario"
-    type="text"
-    placeholder="UTILIZADOR"
-    autocapitalize="off"
-    autocomplete="username"
-    autocorrect="off"
-    spellcheck="false"
-    oninput="this.value=this.value.toLowerCase()"
-  >
-
-  <input
-    id="senha"
-    type="password"
-    placeholder="SENHA"
-    autocapitalize="off"
-    autocomplete="current-password"
-    autocorrect="off"
-    spellcheck="false"
-  >
-
-  <button class="botao" onclick="login()">
-    Entre para diagramar o seu livro
-  </button>
-
-  <div id="erro" class="erro"></div>
+LAPIDAR
 
 </div>
 
-<script>
-function login(){
-  const usuario = document.getElementById("usuario").value.trim().toLowerCase();
-  const senha = document.getElementById("senha").value.trim();
+<div class="subtitulo">
 
-  if(
-    (usuario === "admin" && senha === "lapidar2026") ||
-    (usuario === "autor" && senha === "lapidar2026")
-  ){
-    localStorage.setItem("SDL_usuario_logado", usuario);
-    window.location.href = "_Indice.html";
-  }else{
-    document.getElementById("erro").innerText = "Utilizador ou senha inválidos.";
-  }
+A casa do seu original
+
+</div>
+
+<div class="texto">
+
+Aqui é o ambiente onde o seu material começa a ganhar forma editorial.<br>
+Escolha abaixo o que deseja fazer agora.
+
+</div>
+
+
+<button id="btnOriginal"
+class="botao"
+onclick="abrirOriginal()">
+
+Entrar com o seu original
+
+</button>
+
+
+<button class="botao"
+onclick="abrirCapas()">
+
+Entrar para preparar capa externa
+
+</button>
+
+
+<button id="btnRetirada"
+class="botao botaoCinza"
+onclick="retirarMateriais()">
+
+Retirar materiais diagramados
+
+</button>
+
+
+<button class="botao botaoAzul"
+onclick="abrirPlano()">
+
+Ver situação do plano de doações
+
+</button>
+
+
+<div id="alertaPlano" class="alerta"></div>
+
+
+</div>
+
+
+<script>
+
+
+function verificarPlano(){
+
+let dataPagamento = localStorage.getItem("SDL_data_pagamento");
+
+if(!dataPagamento){
+bloquearEntrada();
+return;
 }
+
+dataPagamento = new Date(dataPagamento);
+
+let vencimento = new Date(dataPagamento);
+
+vencimento.setMonth(vencimento.getMonth() + 1);
+
+let retirada = new Date(vencimento);
+
+retirada.setDate(retirada.getDate() + 7);
+
+let hoje = new Date();
+
+
+if(hoje > retirada){
+
+bloquearEntrada();
+
+}
+
+
+else if(hoje > vencimento){
+
+bloquearEntrada();
+
+document.getElementById("alertaPlano").innerHTML =
+"Seu plano venceu, mas você ainda pode retirar seus materiais diagramados por até 7 dias.";
+
+}
+
+
+}
+
+
+function bloquearEntrada(){
+
+let botao = document.getElementById("btnOriginal");
+
+botao.classList.add("botaoBloqueado");
+
+botao.onclick = function(){
+
+alert(
+"Seu plano de doações precisa ser renovado para continuar preparando materiais no Lapidar."
+);
+
+};
+
+}
+
+
+function abrirOriginal(){
+
+window.location.href = "bloco12.html";
+
+}
+
+
+function abrirCapas(){
+
+window.location.href = "bloco12.html";
+
+}
+
+
+function retirarMateriais(){
+
+alert(
+"Seus materiais diagramados continuam disponíveis dentro do prazo de retirada."
+);
+
+}
+
+
+function abrirPlano(){
+
+window.location.href = "status_plano.html";
+
+}
+
+
+verificarPlano();
+
+
 </script>
 
 </body>
+
 </html>
