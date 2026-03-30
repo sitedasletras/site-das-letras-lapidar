@@ -2,81 +2,98 @@
 <html lang="pt-br">
 
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Idioma da Obra — Lapidar</title>
+
+<title>Idioma da obra — Lapidar</title>
 
 <style>
 
 body{
+
 margin:0;
+background:#0c0603;
 font-family:Arial;
-background:#0d0603;
 color:white;
 display:flex;
 justify-content:center;
+
 }
 
 .container{
-max-width:700px;
+
+max-width:720px;
 width:92%;
-padding:40px 0;
+padding:40px 0 60px 0;
+
 }
 
-h1{
-text-align:center;
+.titulo{
+
 font-size:34px;
+text-align:center;
+font-weight:bold;
+
 }
 
 .subtitulo{
+
 text-align:center;
 color:#ff7b2c;
-margin-bottom:30px;
+margin-top:10px;
+margin-bottom:28px;
+
 }
 
 .card{
+
 background:#140c08;
-padding:22px;
 border-radius:14px;
-margin-top:18px;
+padding:26px;
+margin-top:20px;
+
 }
 
-.idioma{
-font-size:22px;
-color:#ff7b2c;
+label{
+
+display:block;
+margin-top:18px;
+color:#ffd2b3;
+
+}
+
+select{
+
+width:100%;
+padding:12px;
+margin-top:6px;
+border-radius:8px;
+border:none;
+
 }
 
 .botao{
+
 width:100%;
 padding:18px;
-margin-top:12px;
+margin-top:24px;
 border:none;
 border-radius:40px;
 background:#ff5a00;
 color:white;
 font-size:18px;
+font-weight:bold;
 cursor:pointer;
-}
 
-.botao:hover{
-background:#ff6f1a;
-}
-
-.gratis{
-color:#7fff7f;
-font-size:15px;
-}
-
-.pago{
-color:#ffd2b3;
-font-size:15px;
 }
 
 .info{
-margin-top:24px;
-line-height:1.7;
-color:#ffd2b3;
-text-align:center;
+
+margin-top:14px;
+font-size:14px;
+color:#ffcfaa;
+
 }
 
 </style>
@@ -87,30 +104,91 @@ text-align:center;
 
 <div class="container">
 
-<h1 id="titulo">
-Idioma da obra
-</h1>
+<div class="titulo">
 
-<div class="subtitulo" id="subtitulo">
-Escolha o idioma editorial do seu livro
+Idioma da obra
+
 </div>
 
-<div id="listaIdiomas"></div>
+<div class="subtitulo">
+
+Escolha o idioma principal do material editorial
+
+</div>
+
+<div class="card">
+
+<label>
+
+Idioma original da obra
+
+</label>
+
+<select id="idiomaOriginal">
+
+<option value="pt">Português</option>
+<option value="en">English</option>
+<option value="es">Español</option>
+<option value="it">Italiano</option>
+<option value="fr">Français</option>
+<option value="de">Deutsch</option>
+
+</select>
+
+<label>
+
+Gerar versão em outro idioma
+
+</label>
+
+<select id="idiomaDestino">
+
+<option value="nenhum">Não gerar outro idioma</option>
+<option value="en">English</option>
+<option value="es">Español</option>
+<option value="it">Italiano</option>
+<option value="fr">Français</option>
+<option value="de">Deutsch</option>
+
+</select>
 
 <div class="info">
-O idioma escolhido aqui será usado como idioma principal da obra em todo o sistema, inclusive para miolo, EPUB, capa, relatórios e leitura técnica editorial.
+
+Gerar versão multilíngue possui contribuição editorial de R$ 5,99.
+
+</div>
+
+<button
+
+class="botao"
+
+onclick="salvarIdiomaObra()">
+
+Confirmar idioma da obra
+
+</button>
+
+<button
+
+class="botao"
+
+onclick="window.location.href='_Indice.html'">
+
+Voltar para casa do original
+
+</button>
+
 </div>
 
 </div>
 
 <script>
 
-let idiomaInterface = "pt";
+function detectarIdiomaSistema(){
 
-function detectarIdioma(){
+const idioma = navigator.language;
 
-const idioma = (navigator.language || "pt-BR").toLowerCase();
-
+if(idioma.startsWith("pt")) return "pt";
 if(idioma.startsWith("en")) return "en";
 if(idioma.startsWith("es")) return "es";
 if(idioma.startsWith("it")) return "it";
@@ -121,170 +199,60 @@ return "pt";
 
 }
 
-function aplicarIdiomaInterface(){
+function salvarIdiomaObra(){
 
-idiomaInterface = detectarIdioma();
+const idiomaOriginal =
 
-if(idiomaInterface === "en"){
-document.documentElement.lang = "en";
-document.getElementById("titulo").innerText = "Work Language";
-document.getElementById("subtitulo").innerText = "Choose the editorial language of your book";
-return;
-}
+document.getElementById("idiomaOriginal").value;
 
-if(idiomaInterface === "es"){
-document.documentElement.lang = "es";
-document.getElementById("titulo").innerText = "Idioma de la obra";
-document.getElementById("subtitulo").innerText = "Elige el idioma editorial de tu libro";
-return;
-}
+const idiomaDestino =
 
-if(idiomaInterface === "it"){
-document.documentElement.lang = "it";
-document.getElementById("titulo").innerText = "Lingua dell'opera";
-document.getElementById("subtitulo").innerText = "Scegli la lingua editoriale del tuo libro";
-return;
-}
+document.getElementById("idiomaDestino").value;
 
-if(idiomaInterface === "fr"){
-document.documentElement.lang = "fr";
-document.getElementById("titulo").innerText = "Langue de l'œuvre";
-document.getElementById("subtitulo").innerText = "Choisissez la langue éditoriale de votre livre";
-return;
-}
+localStorage.setItem(
 
-if(idiomaInterface === "de"){
-document.documentElement.lang = "de";
-document.getElementById("titulo").innerText = "Sprache des Werkes";
-document.getElementById("subtitulo").innerText = "Wählen Sie die editorielle Sprache Ihres Buches";
-return;
-}
+"SDL_idioma_obra_global",
 
-document.documentElement.lang = "pt-br";
+idiomaOriginal
 
-}
+);
 
-function moeda(){
-return idiomaInterface === "pt" ? "R$ 5,99" : "$ 5.99";
-}
+localStorage.setItem(
 
-const idiomasDisponiveis = [
-{codigo:"pt",nome:"Português"},
-{codigo:"en",nome:"English"},
-{codigo:"es",nome:"Español"},
-{codigo:"it",nome:"Italiano"},
-{codigo:"fr",nome:"Français"},
-{codigo:"de",nome:"Deutsch"}
-];
+"SDL_idioma_interface",
 
-function criarLista(){
+detectarIdiomaSistema()
 
-const container = document.getElementById("listaIdiomas");
-container.innerHTML = "";
+);
 
-idiomasDisponiveis.forEach(i => {
+if(idiomaDestino !== "nenhum"){
 
-const gratis = i.codigo === idiomaInterface;
+localStorage.setItem(
 
-const bloco = document.createElement("div");
-bloco.className = "card";
+"SDL_idioma_extra",
 
-bloco.innerHTML = `
-<div class="idioma">${i.nome}</div>
-<div class="${gratis ? 'gratis' : 'pago'}">
-${gratis ? textoGratis() : textoPago()}
-</div>
-<button class="botao" onclick="selecionarIdioma('${i.codigo}', ${gratis})">
-${textoSelecionar()}
-</button>
-`;
+idiomaDestino
 
-container.appendChild(bloco);
+);
 
-});
+localStorage.setItem(
+
+"SDL_servico_extra",
+
+"idioma_obra"
+
+);
 
 }
 
-function textoGratis(){
-
-if(idiomaInterface === "en") return "Included free of charge";
-if(idiomaInterface === "es") return "Incluido sin costo";
-if(idiomaInterface === "it") return "Incluso gratuitamente";
-if(idiomaInterface === "fr") return "Inclus sans frais";
-if(idiomaInterface === "de") return "Kostenlos enthalten";
-
-return "Incluído gratuitamente";
-}
-
-function textoPago(){
-
-if(idiomaInterface === "en") return "Add editorial language (" + moeda() + ")";
-if(idiomaInterface === "es") return "Agregar idioma editorial (" + moeda() + ")";
-if(idiomaInterface === "it") return "Aggiungi lingua editoriale (" + moeda() + ")";
-if(idiomaInterface === "fr") return "Ajouter une langue éditoriale (" + moeda() + ")";
-if(idiomaInterface === "de") return "Editorielle Sprache hinzufügen (" + moeda() + ")";
-
-return "Adicionar idioma editorial (" + moeda() + ")";
-}
-
-function textoSelecionar(){
-
-if(idiomaInterface === "en") return "Select";
-if(idiomaInterface === "es") return "Seleccionar";
-if(idiomaInterface === "it") return "Selezionare";
-if(idiomaInterface === "fr") return "Sélectionner";
-if(idiomaInterface === "de") return "Auswählen";
-
-return "Selecionar";
-}
-
-function mensagemSucesso(){
-
-if(idiomaInterface === "en") return "Editorial language selected successfully.";
-if(idiomaInterface === "es") return "Idioma editorial seleccionado con éxito.";
-if(idiomaInterface === "it") return "Lingua editoriale selezionata con successo.";
-if(idiomaInterface === "fr") return "Langue éditoriale sélectionnée avec succès.";
-if(idiomaInterface === "de") return "Editorielle Sprache erfolgreich ausgewählt.";
-
-return "Idioma editorial selecionado com sucesso.";
-}
-
-function selecionarIdioma(idioma, gratis){
-
-localStorage.setItem("SDL_idioma_obra", idioma);
-localStorage.setItem("SDL_idioma_obra_global", idioma);
-localStorage.setItem("CAPISTA_idioma_base_obra", idioma);
-localStorage.setItem("LTE_idioma_base_obra", idioma);
-
-if(gratis){
-
-localStorage.setItem("SDL_upgrade_idioma", "nao");
-
-alert(mensagemSucesso());
+alert("Idioma configurado com sucesso.");
 
 window.location.href = "upload_livro.html";
 
-}else{
-
-localStorage.setItem("SDL_upgrade_idioma", "sim");
-localStorage.setItem("SDL_modulo_ativo", "idioma_obra");
-
-window.location.href = "pagamento.html";
-
 }
-
-}
-
-function iniciar(){
-
-aplicarIdiomaInterface();
-criarLista();
-
-}
-
-iniciar();
 
 </script>
 
 </body>
+
 </html>
