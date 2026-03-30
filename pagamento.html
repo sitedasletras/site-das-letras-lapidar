@@ -126,17 +126,22 @@ font-weight:bold;
 <div class="container">
 
 <div class="titulo">
-Pagamento do plano de doações
+Pagamento
 </div>
 
 <div class="subtitulo">
-Escolha a forma de apoio para ativar ou renovar o seu acesso ao Lapidar
+Escolha a forma de apoio para ativar ou renovar o seu acesso
 </div>
 
 <div class="card">
 
 <div>
-<span class="label">Plano selecionado</span><br>
+<span class="label">Módulo selecionado</span><br>
+<span id="moduloSelecionado" class="valor">Não informado</span>
+</div>
+
+<div style="margin-top:16px">
+<span class="label">Plano ou serviço</span><br>
 <span id="planoSelecionado" class="valor">Não informado</span>
 </div>
 
@@ -146,13 +151,8 @@ Escolha a forma de apoio para ativar ou renovar o seu acesso ao Lapidar
 </div>
 
 <div style="margin-top:16px">
-<span class="label">Limite mensal de obras</span><br>
-<span id="limiteObras" class="valor">Não informado</span>
-</div>
-
-<div style="margin-top:16px">
 <span class="label">Situação após confirmação</span><br>
-<span class="destaque">Seu plano ficará ativo no sistema.</span>
+<span class="destaque">Seu acesso ou serviço ficará registrado no sistema.</span>
 </div>
 
 </div>
@@ -160,7 +160,7 @@ Escolha a forma de apoio para ativar ou renovar o seu acesso ao Lapidar
 <div class="card">
 
 <div>
-<span class="label">Forma de doação</span><br>
+<span class="label">Forma de pagamento</span><br>
 <select id="formaDoacao" onchange="mostrarFormaPagamento()">
 <option value="">Selecione</option>
 <option value="pix">Pix</option>
@@ -170,35 +170,35 @@ Escolha a forma de apoio para ativar ou renovar o seu acesso ao Lapidar
 </div>
 
 <div id="pixBox" class="blocoPagamento">
-<span class="label">Doação por Pix</span><br>
-Use esta opção para fazer a sua doação por Pix.<br><br>
-Assim que a doação for confirmada, o acesso do plano será liberado automaticamente no sistema.
+<span class="label">Pagamento por Pix</span><br>
+Use esta opção para fazer a sua doação ou pagamento por Pix.<br><br>
+Assim que a confirmação acontecer, o sistema registra o serviço automaticamente.
 </div>
 
 <div id="depositoBox" class="blocoPagamento">
-<span class="label">Doação por depósito bancário</span><br>
+<span class="label">Pagamento por depósito bancário</span><br>
 Use esta opção para depósitos ou transferências bancárias.<br><br>
-Após a confirmação, o seu plano será ativado dentro do Lapidar.
+Após a confirmação, o sistema ativa ou registra o serviço correspondente.
 </div>
 
 <div id="cartaoBox" class="blocoPagamento">
-<span class="label">Doação por cartão de crédito</span><br>
+<span class="label">Pagamento por cartão de crédito</span><br>
 Esta opção poderá ser integrada a um ambiente seguro de checkout.<br><br>
-Após a confirmação do pagamento, o plano ficará ativo automaticamente.
+Após a confirmação, o sistema ativa ou registra o serviço automaticamente.
 </div>
 
 </div>
 
 <div class="alerta">
-Depois da confirmação da doação, o sistema registra o plano como ativo e libera o acesso aos recursos correspondentes.
+Depois da confirmação do pagamento, o sistema registra o plano ou serviço correspondente.
 </div>
 
-<button class="botao" onclick="confirmarDoacao()">
-Confirmar doação e ativar plano
+<button class="botao" onclick="confirmarPagamento()">
+Confirmar pagamento
 </button>
 
-<button class="botao botaoSecundario" onclick="window.location.href='planos_doacoes.html'">
-Voltar para os planos de doações
+<button class="botao botaoSecundario" onclick="window.history.back()">
+Voltar
 </button>
 
 <div id="mensagemSucesso" class="sucesso"></div>
@@ -207,42 +207,82 @@ Voltar para os planos de doações
 
 <script>
 
-const plano = localStorage.getItem("SDL_plano") || "Não informado";
-const limite = localStorage.getItem("SDL_limite_obras") || "Não informado";
-
-document.getElementById("planoSelecionado").innerText = plano;
-document.getElementById("limiteObras").innerText = limite === "ilimitado" ? "Uso livre dentro do período do plano" : limite + " obra(s) no mês";
-
-function definirValor(planoEscolhido){
-
-if(planoEscolhido === "Essencial"){
-return "R$ 1,99";
+function detectarIdiomaMoeda(){
+const idioma = (navigator.language || "pt-BR").toLowerCase();
+return idioma.startsWith("pt") ? "R$" : "$";
 }
 
-if(planoEscolhido === "Inicial"){
-return "R$ 9,90";
-}
+function definirValorLapidar(plano){
+const moeda = detectarIdiomaMoeda();
 
-if(planoEscolhido === "Editorial"){
-return "R$ 39,90";
-}
-
-if(planoEscolhido === "Avançado"){
-return "R$ 59,90";
-}
-
-if(planoEscolhido === "Profissional"){
-return "R$ 99,90";
-}
-
-if(planoEscolhido === "Magistral"){
-return "Plano Magistral — uso livre";
-}
+if(plano === "Essencial") return moeda + " 1,99";
+if(plano === "Inicial") return moeda + " 9,90";
+if(plano === "Editorial") return moeda + " 39,90";
+if(plano === "Avançado") return moeda + " 59,90";
+if(plano === "Profissional") return moeda + " 99,90";
+if(plano === "Magistral") return "Plano Magistral — uso livre";
 
 return "Não informado";
 }
 
-document.getElementById("valorPlano").innerText = definirValor(plano);
+function definirValorCapista(plano){
+const moeda = detectarIdiomaMoeda();
+
+if(plano === "Essencial") return moeda + " 1,99";
+if(plano === "Inicial") return moeda + " 9,90";
+if(plano === "Editorial") return moeda + " 39,90";
+if(plano === "Avançado") return moeda + " 59,90";
+if(plano === "Profissional") return moeda + " 99,90";
+if(plano === "Magistral") return "Plano Magistral — uso livre";
+
+return "Não informado";
+}
+
+function definirModuloAtual(){
+
+const moduloLeitura = localStorage.getItem("LTE_modulo");
+const planoCapista = localStorage.getItem("CAPISTA_plano");
+const planoLapidar = localStorage.getItem("SDL_plano");
+
+if(moduloLeitura === "leitura_tecnica_editorial"){
+return "leitura";
+}
+
+if(planoCapista){
+return "capista";
+}
+
+if(planoLapidar){
+return "lapidar";
+}
+
+return "lapidar";
+}
+
+function preencherCabecalho(){
+
+const modulo = definirModuloAtual();
+
+if(modulo === "leitura"){
+document.getElementById("moduloSelecionado").innerText = "Leitura Técnica Editorial — Lapidar — Site das Letras";
+document.getElementById("planoSelecionado").innerText = "Avaliação individual da obra";
+document.getElementById("valorPlano").innerText = localStorage.getItem("LTE_preco") || (detectarIdiomaMoeda() + " 4,99");
+return;
+}
+
+if(modulo === "capista"){
+const plano = localStorage.getItem("CAPISTA_plano");
+document.getElementById("moduloSelecionado").innerText = "Projeto Capista";
+document.getElementById("planoSelecionado").innerText = plano || "Não informado";
+document.getElementById("valorPlano").innerText = definirValorCapista(plano);
+return;
+}
+
+const plano = localStorage.getItem("SDL_plano");
+document.getElementById("moduloSelecionado").innerText = "Lapidar";
+document.getElementById("planoSelecionado").innerText = plano || "Não informado";
+document.getElementById("valorPlano").innerText = definirValorLapidar(plano);
+}
 
 function mostrarFormaPagamento(){
 
@@ -266,18 +306,13 @@ document.getElementById("cartaoBox").style.display = "block";
 
 }
 
-function confirmarDoacao(){
+function confirmarPagamento(){
 
 const forma = document.getElementById("formaDoacao").value;
-
-if(!plano || plano === "Não informado"){
-alert("Escolha primeiro um plano de doações.");
-window.location.href = "planos_doacoes.html";
-return;
-}
+const modulo = definirModuloAtual();
 
 if(!forma){
-alert("Escolha a forma de doação antes de continuar.");
+alert("Escolha a forma de pagamento antes de continuar.");
 return;
 }
 
@@ -288,6 +323,38 @@ vencimento.setMonth(vencimento.getMonth() + 1);
 const prazoRetirada = new Date(vencimento);
 prazoRetirada.setDate(prazoRetirada.getDate() + 7);
 
+if(modulo === "leitura"){
+
+localStorage.setItem("LTE_forma_pagamento", forma);
+localStorage.setItem("LTE_pagamento_confirmado", "sim");
+localStorage.setItem("LTE_data_pagamento", hoje.toISOString());
+
+document.getElementById("mensagemSucesso").innerHTML =
+"Pagamento confirmado com sucesso.<br><br>Sua leitura técnica editorial foi registrada.";
+
+setTimeout(function(){
+window.location.href = "_Indice.html";
+}, 1400);
+
+return;
+}
+
+if(modulo === "capista"){
+
+localStorage.setItem("CAPISTA_forma_pagamento", forma);
+localStorage.setItem("CAPISTA_pagamento_confirmado", "sim");
+localStorage.setItem("CAPISTA_data_pagamento", hoje.toISOString());
+
+document.getElementById("mensagemSucesso").innerHTML =
+"Pagamento confirmado com sucesso.<br><br>Seu plano do Projeto Capista foi registrado.";
+
+setTimeout(function(){
+window.location.href = "capista_idioma.html";
+}, 1400);
+
+return;
+}
+
 localStorage.setItem("SDL_forma_doacao", forma);
 localStorage.setItem("SDL_data_pagamento", hoje.toISOString());
 localStorage.setItem("SDL_data_vencimento", vencimento.toISOString());
@@ -297,13 +364,15 @@ localStorage.setItem("SDL_plano_ativo", "ativo");
 localStorage.setItem("SDL_prazo_liberado", "sim");
 
 document.getElementById("mensagemSucesso").innerHTML =
-"Doação confirmada com sucesso.<br><br>Seu plano já está ativo no sistema.";
+"Pagamento confirmado com sucesso.<br><br>Seu plano já está ativo no sistema.";
 
 setTimeout(function(){
 window.location.href = "status_plano.html";
 }, 1400);
 
 }
+
+preencherCabecalho();
 
 </script>
 
