@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Idioma da Obra — Lapidar</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial;
+background:#0d0603;
+color:white;
+display:flex;
+justify-content:center;
+}
+
+.container{
+max-width:700px;
+width:92%;
+padding:40px 0;
+}
+
+h1{
+text-align:center;
+font-size:34px;
+}
+
+.subtitulo{
+text-align:center;
+color:#ff7b2c;
+margin-bottom:30px;
+}
+
+.card{
+background:#140c08;
+padding:22px;
+border-radius:14px;
+margin-top:18px;
+}
+
+.idioma{
+font-size:22px;
+color:#ff7b2c;
+}
+
+.botao{
+width:100%;
+padding:18px;
+margin-top:12px;
+border:none;
+border-radius:40px;
+background:#ff5a00;
+color:white;
+font-size:18px;
+cursor:pointer;
+}
+
+.botao:hover{
+background:#ff6f1a;
+}
+
+.gratis{
+color:#7fff7f;
+font-size:15px;
+}
+
+.pago{
+color:#ffd2b3;
+font-size:15px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1 id="titulo">
+Idioma da obra
+</h1>
+
+<div class="subtitulo" id="subtitulo">
+Escolha o idioma editorial do seu livro
+</div>
+
+<div id="listaIdiomas"></div>
+
+</div>
+
+
+<script>
+
+let idiomaInterface="pt"
+
+function detectarIdioma(){
+
+const idioma=(navigator.language||"pt-BR").toLowerCase()
+
+if(idioma.startsWith("en")) return "en"
+if(idioma.startsWith("es")) return "es"
+if(idioma.startsWith("it")) return "it"
+if(idioma.startsWith("fr")) return "fr"
+
+return "pt"
+
+}
+
+
+function moeda(){
+
+return idiomaInterface==="pt" ? "R$ 5,99" : "$ 5.99"
+
+}
+
+
+const idiomasDisponiveis=[
+
+{codigo:"pt",nome:"Português"},
+{codigo:"en",nome:"English"},
+{codigo:"es",nome:"Español"},
+{codigo:"it",nome:"Italiano"},
+{codigo:"fr",nome:"Français"},
+{codigo:"de",nome:"Deutsch"}
+
+]
+
+
+function criarLista(){
+
+const container=document.getElementById("listaIdiomas")
+
+idiomasDisponiveis.forEach(i=>{
+
+const gratis=i.codigo===idiomaInterface
+
+const bloco=document.createElement("div")
+
+bloco.className="card"
+
+bloco.innerHTML=`
+
+<div class="idioma">${i.nome}</div>
+
+<div class="${gratis?'gratis':'pago'}">
+
+${gratis?'Incluído gratuitamente':'Adicionar idioma editorial ('+moeda()+')'}
+
+</div>
+
+<button class="botao"
+
+onclick="selecionarIdioma('${i.codigo}',${gratis})">
+
+Selecionar
+
+</button>
+
+`
+
+container.appendChild(bloco)
+
+})
+
+}
+
+
+function selecionarIdioma(idioma,gratis){
+
+localStorage.setItem("SDL_idioma_obra",idioma)
+
+if(gratis){
+
+alert("Idioma editorial selecionado com sucesso")
+
+window.location.href="upload_livro.html"
+
+}else{
+
+localStorage.setItem("SDL_upgrade_idioma","sim")
+
+window.location.href="pagamento.html"
+
+}
+
+}
+
+
+function iniciar(){
+
+idiomaInterface=detectarIdioma()
+
+criarLista()
+
+}
+
+iniciar()
+
+</script>
+
+
+</body>
+
+</html>
