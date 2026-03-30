@@ -12,80 +12,86 @@
 
 body{
 margin:0;
-font-family:Arial,sans-serif;
+font-family:Arial, sans-serif;
 background:#0d0603;
 color:white;
+
 display:flex;
 justify-content:center;
 align-items:center;
-min-height:100vh;
+height:100vh;
 }
 
 .container{
-width:90%;
-max-width:430px;
 text-align:center;
-padding:30px 0;
+max-width:420px;
+padding:20px;
 }
 
-.simbolo{
-font-size:74px;
-line-height:1;
-margin-bottom:16px;
-}
-
-.logo{
-font-size:34px;
-font-weight:bold;
-letter-spacing:1px;
+.logo-svg{
+width:90px;
 margin-bottom:10px;
 }
 
-.projeto{
-font-size:14px;
-letter-spacing:1px;
-color:#ff7b2c;
-line-height:1.6;
-margin-bottom:28px;
+.titulo{
+font-size:32px;
+font-weight:bold;
+margin:10px 0;
+letter-spacing:2px;
 }
 
-.sublogo{
-font-size:15px;
-letter-spacing:0.5px;
+.subtitulo{
 color:#ff7b2c;
-line-height:1.5;
-margin-bottom:38px;
+font-size:15px;
+margin-bottom:25px;
+}
+
+.frase{
+color:#ff7b2c;
+font-size:16px;
+margin-bottom:40px;
+line-height:1.6;
 }
 
 input{
+
 width:100%;
 padding:16px;
-margin-top:12px;
+margin:10px 0;
+
 border-radius:30px;
 border:none;
-font-size:18px;
-text-transform:none !important;
-box-sizing:border-box;
+
+font-size:16px;
+
 }
 
-button{
+.botao{
+
+display:block;
 width:100%;
+
+margin-top:20px;
+
 padding:18px;
-margin-top:25px;
-border-radius:30px;
+
+border-radius:35px;
 border:none;
+
 background:#ff5a00;
 color:white;
+
 font-size:18px;
 font-weight:bold;
+
 cursor:pointer;
-line-height:1.4;
+
 }
 
-.erro{
-margin-top:15px;
-color:#ff8080;
-font-size:15px;
+.botao:hover{
+
+background:#ff6f1a;
+
 }
 
 </style>
@@ -96,72 +102,55 @@ font-size:15px;
 
 <div class="container">
 
-<div class="simbolo">
-🪶📜
-</div>
 
-<div class="logo">
+<!-- ÍCONE VETORIAL DA PENA -->
+
+<svg class="logo-svg" viewBox="0 0 64 64">
+
+<path fill="#ff7b2c"
+d="M8 48c8-24 28-40 48-44-4 20-20 40-44 48l-4-4z"/>
+
+<path fill="#fff"
+d="M12 44l8-8"/>
+
+</svg>
+
+
+<div class="titulo">
+
 — LAPIDAR —
+
 </div>
 
-<div class="projeto">
+
+<div class="subtitulo">
+
 Um projeto do Site das Letras Edições Literárias
+
 </div>
 
-<div class="sublogo">
-Aqui os escritores têm a oportunidade de realizar seus sonhos
+
+<div class="frase">
+
+Aqui seus rascunhos saem da gaveta e ganham vida.
+
 </div>
 
-<input
-id="usuario"
-type="text"
-placeholder="UTILIZADOR"
-autocapitalize="off"
-autocomplete="username"
-autocorrect="off"
-spellcheck="false"
-oninput="this.value=this.value.toLowerCase()"
->
 
-<input
-id="senha"
-type="password"
-placeholder="SENHA"
-autocapitalize="off"
-autocomplete="current-password"
-autocorrect="off"
-spellcheck="false"
-oninput="this.value=this.value.toLowerCase()"
->
+<input placeholder="UTILIZADOR">
 
-<button onclick="login()">
-ENTRE PARA DIAGRAMAR<br>O SEU LIVRO
+
+<input type="password" placeholder="SENHA">
+
+
+<button class="botao">
+
+Entre para diagramar o seu livro
+
 </button>
 
-<div id="erro" class="erro"></div>
 
 </div>
-
-<script>
-
-function login(){
-
-const usuario = document.getElementById("usuario").value.trim().toLowerCase();
-const senha = document.getElementById("senha").value.trim().toLowerCase();
-
-if(
-(usuario === "admin" && senha === "lapidar2026") ||
-(usuario === "autor" && senha === "lapidar2026")
-){
-localStorage.setItem("SDL_usuario_logado", usuario);
-window.location.href="_Indice.html";
-}else{
-document.getElementById("erro").innerText="Utilizador ou senha inválidos.";
-}
-
-}
-
-</script>
 
 </body>
 
