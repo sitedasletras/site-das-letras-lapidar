@@ -1,117 +1,107 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Planos de doações — Lapidar</title>
+<title>Pagamento — Lapidar</title>
 
 <style>
-
 body{
-
 margin:0;
-background:#0c0603;
-font-family:Arial;
+font-family:Arial, sans-serif;
+background:#0d0603;
 color:white;
 display:flex;
 justify-content:center;
-
 }
-
 .container{
-
-max-width:720px;
 width:92%;
+max-width:760px;
 padding:40px 0 60px 0;
-
 }
-
 .titulo{
-
-font-size:34px;
+font-size:36px;
 text-align:center;
 font-weight:bold;
-
 }
-
 .subtitulo{
-
 text-align:center;
 color:#ff7b2c;
 margin-top:10px;
 margin-bottom:28px;
-
+line-height:1.6;
 }
-
 .card{
-
 background:#140c08;
+padding:24px;
 border-radius:14px;
-padding:26px;
-margin-top:20px;
-
+margin-top:18px;
+line-height:1.8;
 }
-
-.plano{
-
-padding:14px;
-margin-top:12px;
-border-radius:8px;
-background:#1c120d;
-cursor:pointer;
-
+.label{
+color:#ff7b2c;
+font-weight:bold;
 }
-
-.plano:hover{
-
-background:#2a1b14;
-
+.valor{
+color:#ffd2b3;
 }
-
 .botao{
-
 width:100%;
 padding:18px;
-margin-top:24px;
-border:none;
 border-radius:40px;
-background:#ff5a00;
-color:white;
+border:none;
+margin-top:18px;
 font-size:18px;
 font-weight:bold;
 cursor:pointer;
-
+background:#ff5a00;
+color:white;
 }
-
-.info{
-
-margin-top:14px;
-font-size:14px;
-color:#ffcfaa;
-
+.botao:hover{
+background:#ff6f1a;
 }
-
-.metodo{
-
-margin-top:10px;
-
+.botaoSecundario{
+background:#333;
 }
-
+.botaoSecundario:hover{
+background:#555;
+}
 select{
-
 width:100%;
-padding:12px;
-border-radius:8px;
+padding:14px;
+border-radius:12px;
 border:none;
-margin-top:6px;
-
+font-size:16px;
+margin-top:8px;
+box-sizing:border-box;
 }
-
+.blocoPagamento{
+display:none;
+margin-top:18px;
+padding:18px;
+border-radius:12px;
+background:#1c110b;
+color:#ffd2b3;
+line-height:1.7;
+}
+.destaque{
+color:#9cffb2;
+font-weight:bold;
+}
+.alerta{
+margin-top:20px;
+text-align:center;
+color:#ffb199;
+line-height:1.7;
+}
+.sucesso{
+margin-top:20px;
+text-align:center;
+color:#9cffb2;
+line-height:1.7;
+font-weight:bold;
+}
 </style>
-
 </head>
 
 <body>
@@ -119,214 +109,282 @@ margin-top:6px;
 <div class="container">
 
 <div class="titulo">
-
-Planos de doações Lapidar
-
+Pagamento
 </div>
 
 <div class="subtitulo">
+Escolha a forma de apoio para ativar o seu acesso ou serviço
+</div>
 
-Escolha o plano que melhor acompanha sua caminhada editorial
+<div class="card">
+
+<div>
+<span class="label">Módulo selecionado</span><br>
+<span id="moduloSelecionado" class="valor">Não informado</span>
+</div>
+
+<div style="margin-top:16px">
+<span class="label">Plano ou serviço</span><br>
+<span id="planoSelecionado" class="valor">Não informado</span>
+</div>
+
+<div style="margin-top:16px">
+<span class="label">Valor correspondente</span><br>
+<span id="valorPlano" class="valor">Não informado</span>
+</div>
+
+<div style="margin-top:16px">
+<span class="label">Situação após confirmação</span><br>
+<span class="destaque">Seu plano ou serviço ficará registrado no sistema.</span>
+</div>
 
 </div>
 
 <div class="card">
 
-<div class="plano" onclick="selecionarPlano('1.99')">
-
-R$ 1,99 — preparação de 1 material diagramado
-
-</div>
-
-<div class="plano" onclick="selecionarPlano('9.90')">
-
-R$ 9,90 — preparação de até 9 materiais diagramados
-
-</div>
-
-<div class="plano" onclick="selecionarPlano('39.90')">
-
-R$ 39,90 — preparação de até 30 materiais diagramados
-
-</div>
-
-<div class="plano" onclick="selecionarPlano('59.90')">
-
-R$ 59,90 — preparação de até 50 materiais diagramados
-
-</div>
-
-<div class="plano" onclick="selecionarPlano('99.90')">
-
-R$ 99,90 — preparação de até 90 materiais diagramados
-
-</div>
-
-<div class="plano" onclick="selecionarPlano('magistral')">
-
-Plano Magistral — uso livre durante o mês ativo
-
-</div>
-
-<label>
-
-Forma de contribuição
-
-</label>
-
-<select id="formaPagamento">
-
-<option>Pix</option>
-<option>Cartão internacional</option>
-
+<div>
+<span class="label">Forma de pagamento</span><br>
+<select id="formaPagamento" onchange="mostrarFormaPagamento()">
+<option value="">Selecione</option>
+<option value="pix">Pix</option>
+<option value="deposito">Depósito bancário</option>
+<option value="cartao">Cartão</option>
 </select>
+</div>
 
-<div class="info">
+<div id="pixBox" class="blocoPagamento">
+<span class="label">Pagamento por Pix</span><br>
+Disponível para contribuições realizadas no Brasil.
+</div>
 
-Após confirmação da contribuição o acesso ao plano será liberado automaticamente.
+<div id="depositoBox" class="blocoPagamento">
+<span class="label">Pagamento por depósito bancário</span><br>
+Disponível para contribuições realizadas no Brasil.
+</div>
+
+<div id="cartaoBox" class="blocoPagamento">
+<span class="label">Pagamento por cartão</span><br>
+Disponível para pagamentos nacionais e internacionais.
+</div>
 
 </div>
 
-<button class="botao"
+<div class="alerta" id="alertaInternacional">
+Pagamentos realizados fora do Brasil podem incluir taxas internacionais do banco ou operadora do cartão.
+</div>
 
-onclick="confirmarPagamento()">
-
-Confirmar plano selecionado
-
+<button class="botao" onclick="confirmarPagamento()">
+Confirmar pagamento
 </button>
 
-<button class="botao"
-
-onclick="window.location.href='_Indice.html'">
-
+<button class="botao botaoSecundario" onclick="window.location.href='_Indice.html'">
 Voltar para casa do original
-
 </button>
 
-</div>
-
-<div class="card">
-
-<strong>Serviços opcionais adicionais</strong>
-
-<div class="plano"
-
-onclick="servicoExtra('leitura_tecnica')">
-
-Leitura Técnica Editorial — R$ 4,99
-
-</div>
-
-<div class="plano"
-
-onclick="servicoExtra('idioma_obra')">
-
-Gerar material em outro idioma — R$ 5,99
-
-</div>
-
-<div class="plano"
-
-onclick="servicoExtra('capa_refinada')">
-
-Capa refinada física — R$ 18
-
-</div>
-
-<div class="plano"
-
-onclick="servicoExtra('capa_magistral')">
-
-Capa magistral física — R$ 48
-
-</div>
-
-<div class="plano"
-
-onclick="servicoExtra('epub_refinada')">
-
-Capa refinada EPUB — R$ 10
-
-</div>
-
-<div class="plano"
-
-onclick="servicoExtra('epub_magistral')">
-
-Capa magistral EPUB — R$ 40
-
-</div>
-
-</div>
+<div id="mensagemSucesso" class="sucesso"></div>
 
 </div>
 
 <script>
 
 function detectarPais(){
-
-const idioma = navigator.language;
-
-if(idioma.startsWith("pt")){
-
-return "BR";
-
+const idioma = (navigator.language || "pt-BR").toLowerCase();
+return idioma.startsWith("pt") ? "BR" : "EXT";
 }
 
-return "EXT";
-
+function moedaAtual(){
+return detectarPais() === "BR" ? "R$" : "$";
 }
 
-function selecionarPlano(plano){
+function valorLapidar(plano){
+const moeda = moedaAtual();
 
-localStorage.setItem("SDL_plano_lapidar", plano);
+if(plano === "1.99") return moeda + " 1,99";
+if(plano === "9.90") return moeda + " 9,90";
+if(plano === "39.90") return moeda + " 39,90";
+if(plano === "59.90") return moeda + " 59,90";
+if(plano === "99.90") return moeda + " 99,90";
+if(plano === "magistral") return "Plano Magistral — uso livre";
 
-alert("Plano selecionado: " + plano);
-
+return "Não informado";
 }
 
-function servicoExtra(servico){
+function valorCapista(plano){
+const moeda = moedaAtual();
 
-localStorage.setItem("SDL_servico_extra", servico);
+if(plano === "1") return moeda + " 1,99";
+if(plano === "10") return moeda + " 9,90";
+if(plano === "30") return moeda + " 39,90";
+if(plano === "50") return moeda + " 59,90";
+if(plano === "90") return moeda + " 99,90";
+if(plano === "magistral") return "Plano Magistral — uso livre";
 
-alert("Serviço adicional selecionado.");
+return "Não informado";
+}
 
+function valorServicoExtra(servico){
+const moeda = moedaAtual();
+
+if(servico === "leitura_tecnica") return moeda + " 4,99";
+if(servico === "idioma_obra") return moeda + " 5,99";
+if(servico === "capa_refinada") return moeda + " 18";
+if(servico === "capa_magistral") return moeda + " 48";
+if(servico === "epub_refinada") return moeda + " 10";
+if(servico === "epub_magistral") return moeda + " 40";
+
+return "Não informado";
+}
+
+function nomeServicoExtra(servico){
+if(servico === "leitura_tecnica") return "Leitura Técnica Editorial";
+if(servico === "idioma_obra") return "Versão multilíngue da obra";
+if(servico === "capa_refinada") return "Capa refinada física";
+if(servico === "capa_magistral") return "Capa magistral física";
+if(servico === "epub_refinada") return "Capa refinada EPUB";
+if(servico === "epub_magistral") return "Capa magistral EPUB";
+return "Serviço adicional";
+}
+
+function definirModuloAtual(){
+
+const servicoExtra = localStorage.getItem("SDL_servico_extra");
+const planoCapista = localStorage.getItem("CAPISTA_plano");
+const planoLapidar = localStorage.getItem("SDL_plano_lapidar");
+
+if(servicoExtra){
+return "extra";
+}
+
+if(planoCapista){
+return "capista";
+}
+
+if(planoLapidar){
+return "lapidar";
+}
+
+return "lapidar";
+}
+
+function preencherCabecalho(){
+
+const modulo = definirModuloAtual();
+
+if(modulo === "extra"){
+const servico = localStorage.getItem("SDL_servico_extra");
+document.getElementById("moduloSelecionado").innerText = "Serviço adicional";
+document.getElementById("planoSelecionado").innerText = nomeServicoExtra(servico);
+document.getElementById("valorPlano").innerText = valorServicoExtra(servico);
+return;
+}
+
+if(modulo === "capista"){
+const plano = localStorage.getItem("CAPISTA_plano");
+const nomePlano = localStorage.getItem("CAPISTA_nome_plano") || "Plano Capista";
+document.getElementById("moduloSelecionado").innerText = "Projeto Capista";
+document.getElementById("planoSelecionado").innerText = nomePlano;
+document.getElementById("valorPlano").innerText = valorCapista(plano);
+return;
+}
+
+const plano = localStorage.getItem("SDL_plano_lapidar");
+document.getElementById("moduloSelecionado").innerText = "Lapidar";
+document.getElementById("planoSelecionado").innerText = plano || "Não informado";
+document.getElementById("valorPlano").innerText = valorLapidar(plano);
+}
+
+function ajustarMetodosPorPais(){
+
+const pais = detectarPais();
+const select = document.getElementById("formaPagamento");
+
+if(pais === "EXT"){
+select.innerHTML = `
+<option value="">Selecione</option>
+<option value="cartao">Cartão</option>
+`;
+document.getElementById("alertaInternacional").style.display = "block";
+}else{
+select.innerHTML = `
+<option value="">Selecione</option>
+<option value="pix">Pix</option>
+<option value="deposito">Depósito bancário</option>
+<option value="cartao">Cartão</option>
+`;
+document.getElementById("alertaInternacional").style.display = "none";
+}
+}
+
+function mostrarFormaPagamento(){
+
+const forma = document.getElementById("formaPagamento").value;
+
+document.getElementById("pixBox").style.display = "none";
+document.getElementById("depositoBox").style.display = "none";
+document.getElementById("cartaoBox").style.display = "none";
+
+if(forma === "pix"){
+document.getElementById("pixBox").style.display = "block";
+}
+if(forma === "deposito"){
+document.getElementById("depositoBox").style.display = "block";
+}
+if(forma === "cartao"){
+document.getElementById("cartaoBox").style.display = "block";
+}
 }
 
 function confirmarPagamento(){
 
-const plano =
+const forma = document.getElementById("formaPagamento").value;
+const modulo = definirModuloAtual();
 
-localStorage.getItem("SDL_plano_lapidar");
-
-if(!plano){
-
-alert("Selecione um plano antes de continuar.");
-
+if(!forma){
+alert("Escolha a forma de pagamento antes de continuar.");
 return;
-
 }
 
-const metodo =
+localStorage.setItem("SDL_metodo_pagamento", forma);
+localStorage.setItem("SDL_pais_pagamento", detectarPais());
+localStorage.setItem("SDL_status_pagamento", "confirmado");
 
-document.getElementById("formaPagamento").value;
+if(modulo === "lapidar"){
+localStorage.setItem("SDL_plano_ativo", "sim");
+}
 
-const pais = detectarPais();
+if(modulo === "capista"){
+localStorage.setItem("CAPISTA_pagamento_confirmado", "sim");
+}
 
-localStorage.setItem("SDL_metodo_pagamento", metodo);
+if(modulo === "extra"){
+const servico = localStorage.getItem("SDL_servico_extra");
 
-localStorage.setItem("SDL_pais_pagamento", pais);
+if(servico === "leitura_tecnica"){
+localStorage.setItem("LTE_status", "solicitada");
+}
+if(servico === "idioma_obra"){
+localStorage.setItem("SDL_idioma_extra_ativo", "sim");
+}
+if(servico === "capa_refinada" || servico === "capa_magistral"){
+localStorage.setItem("SDL_capa_extra_ativa", servico);
+}
+if(servico === "epub_refinada" || servico === "epub_magistral"){
+localStorage.setItem("SDL_capa_epub_extra_ativa", servico);
+}
+}
 
-localStorage.setItem("SDL_status_pagamento", "pendente");
+document.getElementById("mensagemSucesso").innerHTML =
+"Pagamento confirmado com sucesso.<br><br>Seu ambiente foi atualizado.";
 
-alert("Plano registrado. Aguardando confirmação da contribuição.");
-
+setTimeout(function(){
 window.location.href = "status_plano.html";
-
+}, 1200);
 }
+
+ajustarMetodosPorPais();
+preencherCabecalho();
 
 </script>
 
 </body>
-
 </html>
