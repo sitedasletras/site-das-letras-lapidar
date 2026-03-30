@@ -4,11 +4,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Entrada do original — Lapidar</title>
 
 <style>
-
 body{
 margin:0;
 font-family:Arial, sans-serif;
@@ -19,7 +17,7 @@ justify-content:center;
 }
 
 .container{
-max-width:680px;
+max-width:720px;
 width:92%;
 padding:40px 0 60px 0;
 }
@@ -129,6 +127,10 @@ color:#ffd2b3;
 line-height:1.7;
 }
 
+.destaque{
+color:#9cffb2;
+font-weight:bold;
+}
 </style>
 
 </head>
@@ -150,6 +152,11 @@ Esta etapa serve para dar entrada no seu material dentro do Lapidar. Quanto mais
 </div>
 
 <div class="card">
+
+<div class="campo">
+<label for="idiomaObraMostrado">Idioma editorial da obra</label>
+<input type="text" id="idiomaObraMostrado" readonly>
+</div>
 
 <div class="campo">
 <label for="tituloObra">Título da obra</label>
@@ -199,7 +206,11 @@ Esta etapa serve para dar entrada no seu material dentro do Lapidar. Quanto mais
 </div>
 
 <div class="aviso">
-Ao salvar esta etapa, o Lapidar registrará a entrada do seu original no sistema. Depois disso, você poderá seguir para as preferências de diagramação.
+O idioma editorial da obra será usado como base para organização, revisão ortográfica, gramática, estrutura editorial e preparação do material final.
+</div>
+
+<div class="aviso">
+Se desejar mudar o idioma da obra antes de continuar, volte e escolha outro idioma editorial.
 </div>
 
 <button class="botao" onclick="salvarOriginal()">
@@ -210,7 +221,11 @@ Salvar entrada do original
 Seguir para preferências da diagramação
 </button>
 
-<button class="botao botaoCinza" onclick="window.location.href='index.html'">
+<button class="botao botaoCinza" onclick="window.location.href='idioma_obra.html'">
+Voltar para idioma da obra
+</button>
+
+<button class="botao botaoCinza" onclick="window.location.href='_Indice.html'">
 Voltar para a casa do seu original
 </button>
 
@@ -220,8 +235,30 @@ Voltar para a casa do seu original
 
 <script>
 
+function traduzirIdioma(codigo){
+
+if(codigo === "pt") return "Português";
+if(codigo === "en") return "English";
+if(codigo === "es") return "Español";
+if(codigo === "it") return "Italiano";
+if(codigo === "fr") return "Français";
+if(codigo === "de") return "Deutsch";
+
+return "Português";
+}
+
+function carregarIdiomaDaObra(){
+
+const idioma = localStorage.getItem("SDL_idioma_obra") || "pt";
+
+document.getElementById("idiomaObraMostrado").value =
+traduzirIdioma(idioma);
+
+}
+
 function salvarOriginal(){
 
+const idioma = localStorage.getItem("SDL_idioma_obra") || "pt";
 const titulo = document.getElementById("tituloObra").value.trim();
 const autor = document.getElementById("nomeAutor").value.trim();
 const tipo = document.getElementById("tipoMaterial").value;
@@ -254,9 +291,10 @@ localStorage.setItem("SDL_nome_autor", autor);
 localStorage.setItem("SDL_tipo_material", tipo);
 localStorage.setItem("SDL_destino_material", destino);
 localStorage.setItem("SDL_observacoes_iniciais", observacoes);
+localStorage.setItem("SDL_idioma_obra", idioma);
 
 document.getElementById("mensagemSucesso").innerHTML =
-"Entrada do original registrada com sucesso.<br>Agora você já pode seguir para as preferências da diagramação.";
+"Entrada do original registrada com sucesso.<br><span class='destaque'>Idioma editorial da obra: " + traduzirIdioma(idioma) + "</span><br>Agora você já pode seguir para as preferências da diagramação.";
 
 }
 
@@ -273,8 +311,9 @@ window.location.href = "preferencias_diagramacao.html";
 
 }
 
+carregarIdiomaDaObra();
+
 </script>
 
 </body>
-
 </html>
