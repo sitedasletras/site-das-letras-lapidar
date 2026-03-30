@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Status do Plano — Lapidar</title>
+<title>Status do plano de doações — Lapidar</title>
 
 <style>
 
@@ -110,6 +110,21 @@ background:#666;
 
 }
 
+.oculto{
+
+display:none;
+
+}
+
+.info{
+
+margin-top:20px;
+font-size:15px;
+line-height:1.6;
+color:#ffd2b3;
+
+}
+
 </style>
 
 </head>
@@ -120,51 +135,67 @@ background:#666;
 
 <div class="titulo">
 
-Status do seu acesso
+Status do seu plano de doações
 
 </div>
 
 <div class="subtitulo">
 
-Aqui você acompanha a situação do seu plano no Lapidar
+Aqui você acompanha a situação do seu acesso ao Lapidar
 
 </div>
 
 
 <div class="card">
 
-<div class="label">Plano atual</div>
+<div class="label">Plano de doações atual</div>
 <div class="valor" id="plano"></div>
 
 <div class="label">Data de vencimento</div>
 <div class="valor" id="vencimento"></div>
 
-<div class="label">Prazo final para retirada dos livros</div>
+<div class="label">Prazo final para retirada dos materiais diagramados</div>
 <div class="valor" id="retirada"></div>
 
-<div class="label">Status do acesso</div>
+<div class="label">Situação do acesso</div>
 <div class="valor" id="status"></div>
+
+</div>
+
+
+<div class="info">
+
+Após o vencimento do plano de doações, você ainda poderá retirar seus materiais diagramados por até 7 dias.<br><br>
+
+Assim que a nova doação for confirmada, o acesso ao sistema será liberado novamente automaticamente.
 
 </div>
 
 
 <button class="botao" onclick="renovarPlano()">
 
-Renovar doação / plano
+Renovar plano de doações
 
 </button>
 
 
 <button class="botao botaoCinza" onclick="mudarPlano()">
 
-Escolher outro plano
+Escolher outro plano de doações
 
 </button>
 
 
-<button class="botao ocultar" id="btnRetirada" onclick="retirarLivros()">
+<button class="botao oculto" id="btnRetirada" onclick="retirarMateriais()">
 
-Retirar livros finalizados
+Retirar materiais diagramados
+
+</button>
+
+
+<button class="botao botaoCinza" onclick="voltarInicio()">
+
+Voltar para a casa do seu original
 
 </button>
 
@@ -188,7 +219,7 @@ let plano = localStorage.getItem("SDL_plano");
 
 if(!plano){
 
-plano = "Plano mensal Lapidar";
+plano = "Plano mensal de apoio ao Lapidar";
 
 localStorage.setItem("SDL_plano", plano);
 
@@ -235,16 +266,16 @@ statusTexto = "<span class='statusAtivo'>Ativo</span>";
 
 else if(hoje <= retirada){
 
-statusTexto = "<span class='statusCarencia'>Em período de retirada (7 dias)</span>";
+statusTexto = "<span class='statusCarencia'>Plano vencido — período de retirada disponível (7 dias)</span>";
 
-document.getElementById("btnRetirada").style.display = "block";
+document.getElementById("btnRetirada").classList.remove("oculto");
 
 }
 
 
 else{
 
-statusTexto = "<span class='statusExpirado'>Expirado</span>";
+statusTexto = "<span class='statusExpirado'>Plano encerrado — reative sua doação para continuar</span>";
 
 }
 
@@ -263,21 +294,28 @@ document.getElementById("status").innerHTML = statusTexto;
 
 function renovarPlano(){
 
-alert("Após confirmação do pagamento, o acesso será renovado automaticamente.");
+alert("Após confirmação da doação, o acesso será renovado automaticamente.");
 
 }
 
 
 function mudarPlano(){
 
-alert("Tela de seleção de planos será aberta.");
+alert("Tela de seleção de planos de doações será aberta.");
 
 }
 
 
-function retirarLivros(){
+function retirarMateriais(){
 
-alert("Seus livros finalizados estão disponíveis para download.");
+alert("Seus materiais diagramados estão disponíveis para download.");
+
+}
+
+
+function voltarInicio(){
+
+window.location.href = "_Indice.html";
 
 }
 
