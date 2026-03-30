@@ -1,55 +1,77 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Status do plano editorial — Site das Letras</title>
+<title>Status do ambiente editorial — Lapidar</title>
 
 <style>
+
 body{
 margin:0;
-background:#0c0603;
-font-family:Arial;
+font-family:Arial, sans-serif;
+background:#0d0603;
 color:white;
 display:flex;
 justify-content:center;
 }
+
 .container{
 max-width:760px;
 width:92%;
 padding:40px 0 60px 0;
 }
+
 .titulo{
-font-size:34px;
+font-size:36px;
 text-align:center;
 font-weight:bold;
 }
+
 .subtitulo{
 text-align:center;
 color:#ff7b2c;
 margin-top:10px;
 margin-bottom:28px;
+line-height:1.6;
 }
+
 .card{
 background:#140c08;
 border-radius:14px;
-padding:26px;
-margin-top:20px;
-line-height:1.8;
+padding:22px;
+margin-top:18px;
+line-height:1.7;
 }
-.item{
-margin-bottom:10px;
+
+.label{
+color:#ff7b2c;
+font-weight:bold;
+}
+
+.valor{
 color:#ffd2b3;
 }
-.destaque{
+
+.statusOk{
 color:#9cffb2;
 font-weight:bold;
 }
+
+.statusAviso{
+color:#ffd27a;
+font-weight:bold;
+}
+
+.statusErro{
+color:#ff9c9c;
+font-weight:bold;
+}
+
 .botao{
 width:100%;
 padding:18px;
-margin-top:24px;
+margin-top:18px;
 border:none;
 border-radius:40px;
 background:#ff5a00;
@@ -58,9 +80,19 @@ font-size:18px;
 font-weight:bold;
 cursor:pointer;
 }
+
+.botao:hover{
+background:#ff6f1a;
+}
+
 .botaoCinza{
 background:#444;
 }
+
+.botaoCinza:hover{
+background:#666;
+}
+
 </style>
 </head>
 
@@ -69,115 +101,164 @@ background:#444;
 <div class="container">
 
 <div class="titulo">
-Status editorial do seu ambiente
+Status do ambiente editorial
 </div>
 
 <div class="subtitulo">
-Lapidar — Site das Letras
+Verificação geral do sistema Lapidar neste navegador
 </div>
 
-<div class="card" id="conteudoStatus">
-Carregando informações do ambiente editorial...
+<div class="card">
+
+<div>
+<span class="label">Usuário ativo</span><br>
+<span id="usuarioStatus" class="valor"></span>
 </div>
 
-<button class="botao" onclick="window.location.href='pagamento.html'">
-Ir para pagamento
+<div style="margin-top:14px">
+<span class="label">Plano Lapidar</span><br>
+<span id="planoStatus"></span>
+</div>
+
+<div style="margin-top:14px">
+<span class="label">Pagamento</span><br>
+<span id="pagamentoStatus"></span>
+</div>
+
+<div style="margin-top:14px">
+<span class="label">Idioma principal da obra</span><br>
+<span id="idiomaStatus"></span>
+</div>
+
+<div style="margin-top:14px">
+<span class="label">Original enviado</span><br>
+<span id="originalStatus"></span>
+</div>
+
+<div style="margin-top:14px">
+<span class="label">Projeto Capista</span><br>
+<span id="capistaStatus"></span>
+</div>
+
+<div style="margin-top:14px">
+<span class="label">Leitura Técnica Editorial</span><br>
+<span id="leituraStatus"></span>
+</div>
+
+</div>
+
+<button class="botao"
+onclick="window.location.href='_Indice.html'">
+
+Voltar para a casa do original
+
 </button>
 
-<button class="botao botaoCinza" onclick="window.location.href='_Indice.html'">
-Voltar para casa do original
+<button class="botao botaoCinza"
+onclick="logoutSistema()">
+
+Encerrar sessão neste dispositivo
+
 </button>
 
 </div>
 
 <script>
 
-function valorOuPadrao(chave, padrao){
-return localStorage.getItem(chave) || padrao;
-}
+function traduzirIdioma(codigo){
 
-function montarStatus(){
+if(codigo === "pt") return "Português";
+if(codigo === "en") return "English";
+if(codigo === "es") return "Español";
+if(codigo === "it") return "Italiano";
+if(codigo === "fr") return "Français";
+if(codigo === "de") return "Deutsch";
 
-const planoLapidar =
-valorOuPadrao("SDL_plano_lapidar","nenhum");
-
-const statusPagamento =
-valorOuPadrao("SDL_status_pagamento","não confirmado");
-
-const metodoPagamento =
-valorOuPadrao("SDL_metodo_pagamento","não definido");
-
-const paisPagamento =
-valorOuPadrao("SDL_pais_pagamento","não definido");
-
-const idiomaGlobal =
-valorOuPadrao("SDL_idioma_obra_global","pt");
-
-const idiomaExtra =
-valorOuPadrao("SDL_idioma_extra","não ativado");
-
-const servicoExtra =
-valorOuPadrao("SDL_servico_extra","nenhum");
-
-const planoCapista =
-valorOuPadrao("CAPISTA_nome_plano","nenhum");
-
-const planoCapistaCodigo =
-valorOuPadrao("CAPISTA_plano","nenhum");
-
-const capasFisicas =
-valorOuPadrao("CAPISTA_usadas_fisicas","0");
-
-const capasEpub =
-valorOuPadrao("CAPISTA_usadas_epub","0");
-
-const capasOutroIdioma =
-valorOuPadrao("CAPISTA_usadas_outro_idioma","0");
-
-const limiteCapistaEpub =
-valorOuPadrao("CAPISTA_limite_epub","0");
-
-const limiteCapistaOutroIdioma =
-valorOuPadrao("CAPISTA_limite_outro_idioma","0");
-
-const leituraTecnica =
-valorOuPadrao("LTE_status","não solicitada");
-
-document.getElementById("conteudoStatus").innerHTML =
-
-"<div class='item'>Plano Lapidar: <span class='destaque'>" + planoLapidar + "</span></div>" +
-
-"<div class='item'>Status do pagamento: <span class='destaque'>" + statusPagamento + "</span></div>" +
-
-"<div class='item'>Método de pagamento: <span class='destaque'>" + metodoPagamento + "</span></div>" +
-
-"<div class='item'>País do pagamento: <span class='destaque'>" + paisPagamento + "</span></div>" +
-
-"<div class='item'>Idioma principal da obra: <span class='destaque'>" + idiomaGlobal + "</span></div>" +
-
-"<div class='item'>Idioma extra ativado: <span class='destaque'>" + idiomaExtra + "</span></div>" +
-
-"<div class='item'>Serviço extra ativo: <span class='destaque'>" + servicoExtra + "</span></div>" +
-
-"<div class='item'>Plano Capista: <span class='destaque'>" + planoCapista + " (" + planoCapistaCodigo + ")" + "</span></div>" +
-
-"<div class='item'>Capas físicas usadas: <span class='destaque'>" + capasFisicas + "</span></div>" +
-
-"<div class='item'>Capas EPUB usadas: <span class='destaque'>" + capasEpub + "</span></div>" +
-
-"<div class='item'>Capas em outro idioma usadas: <span class='destaque'>" + capasOutroIdioma + "</span></div>" +
-
-"<div class='item'>Limite de capas EPUB do plano Capista: <span class='destaque'>" + limiteCapistaEpub + "</span></div>" +
-
-"<div class='item'>Limite de capas em outro idioma: <span class='destaque'>" + limiteCapistaOutroIdioma + "</span></div>" +
-
-"<div class='item'>Leitura Técnica Editorial: <span class='destaque'>" + leituraTecnica + "</span></div>" +
-
-"<div class='item'>Resumo geral: <span class='destaque'>Seu ambiente editorial está sendo acompanhado pelo sistema Lapidar.</span></div>";
+return "Não definido";
 
 }
 
-montarStatus();
+function statusTexto(valor){
+
+if(valor)
+return "<span class='statusOk'>Registrado</span>";
+
+return "<span class='statusAviso'>Não registrado</span>";
+
+}
+
+function statusPagamento(valor){
+
+if(valor === "confirmado")
+return "<span class='statusOk'>Confirmado</span>";
+
+if(valor === "pendente")
+return "<span class='statusAviso'>Aguardando confirmação</span>";
+
+return "<span class='statusErro'>Não identificado</span>";
+
+}
+
+function carregarStatus(){
+
+const usuario =
+localStorage.getItem("SDL_usuario_logado");
+
+const plano =
+localStorage.getItem("SDL_plano_lapidar");
+
+const pagamento =
+localStorage.getItem("SDL_status_pagamento");
+
+const idioma =
+localStorage.getItem("SDL_idioma_obra");
+
+const original =
+localStorage.getItem("SDL_original_enviado");
+
+const capista =
+localStorage.getItem("CAPISTA_status_geracao");
+
+const leitura =
+localStorage.getItem("LTE_status");
+
+document.getElementById("usuarioStatus")
+.innerText = usuario || "Não identificado";
+
+document.getElementById("planoStatus")
+.innerHTML = plano
+? "<span class='statusOk'>" + plano + "</span>"
+: "<span class='statusAviso'>Nenhum plano selecionado</span>";
+
+document.getElementById("pagamentoStatus")
+.innerHTML = statusPagamento(pagamento);
+
+document.getElementById("idiomaStatus")
+.innerHTML = idioma
+? "<span class='statusOk'>" + traduzirIdioma(idioma) + "</span>"
+: "<span class='statusAviso'>Não definido</span>";
+
+document.getElementById("originalStatus")
+.innerHTML = statusTexto(original);
+
+document.getElementById("capistaStatus")
+.innerHTML = statusTexto(capista);
+
+document.getElementById("leituraStatus")
+.innerHTML = statusTexto(leitura);
+
+}
+
+function logoutSistema(){
+
+localStorage.removeItem("SDL_usuario_logado");
+localStorage.removeItem("SDL_sessao_ativa");
+
+window.location.href = "login.html";
+
+}
+
+carregarStatus();
 
 </script>
 
