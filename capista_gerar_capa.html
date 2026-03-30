@@ -1,26 +1,22 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Gerar capa — Capista</title>
+<title>Gerar capa — Projeto Capista</title>
 
 <style>
-
 body{
 margin:0;
-background:#0c0603;
-font-family:Arial;
+font-family:Arial, sans-serif;
+background:#0d0603;
 color:white;
 display:flex;
 justify-content:center;
 }
 
 .container{
-max-width:720px;
+max-width:760px;
 width:92%;
 padding:40px 0 60px 0;
 }
@@ -36,20 +32,37 @@ text-align:center;
 color:#ff7b2c;
 margin-top:10px;
 margin-bottom:28px;
+line-height:1.6;
 }
 
 .card{
 background:#140c08;
 border-radius:14px;
-padding:26px;
-margin-top:20px;
+padding:24px;
+margin-top:18px;
 line-height:1.7;
+}
+
+.label{
+color:#ff7b2c;
+font-weight:bold;
+}
+
+.valor{
+color:#ffd2b3;
+}
+
+.alerta{
+margin-top:16px;
+color:#9cffb2;
+font-weight:bold;
+line-height:1.6;
 }
 
 .botao{
 width:100%;
 padding:18px;
-margin-top:20px;
+margin-top:18px;
 border:none;
 border-radius:40px;
 background:#ff5a00;
@@ -59,21 +72,26 @@ font-weight:bold;
 cursor:pointer;
 }
 
-.status{
+.botao:hover{
+background:#ff6f1a;
+}
+
+.botaoCinza{
+background:#444;
+}
+
+.botaoCinza:hover{
+background:#666;
+}
+
+.sucesso{
+margin-top:20px;
+text-align:center;
 color:#9cffb2;
-font-size:18px;
-margin-top:14px;
-text-align:center;
+font-weight:bold;
+line-height:1.6;
 }
-
-.alerta{
-color:#ffcfaa;
-margin-top:10px;
-text-align:center;
-}
-
 </style>
-
 </head>
 
 <body>
@@ -81,194 +99,134 @@ text-align:center;
 <div class="container">
 
 <div class="titulo">
-
 Gerar capa editorial
-
 </div>
 
 <div class="subtitulo">
+Preparação estrutural da capa com base nos dados enviados
+</div>
 
-Capista — Site das Letras
+<div class="card">
+
+<div>
+<span class="label">Título</span><br>
+<span id="tituloMostrado" class="valor"></span>
+</div>
+
+<div style="margin-top:14px">
+<span class="label">Autor</span><br>
+<span id="autorMostrado" class="valor"></span>
+</div>
+
+<div style="margin-top:14px">
+<span class="label">Idioma principal</span><br>
+<span id="idiomaPrincipalMostrado" class="valor"></span>
+</div>
+
+<div style="margin-top:14px">
+<span class="label">Idioma adicional</span><br>
+<span id="idiomaExtraMostrado" class="valor"></span>
+</div>
 
 </div>
 
-<div class="card" id="statusCapas">
+<div class="card">
 
-Carregando créditos disponíveis...
+<div class="alerta">
+O Projeto Capista irá preparar a capa considerando:
+</div>
+
+<div class="valor">
+• título editorial<br>
+• subtítulo (se houver)<br>
+• autor<br>
+• sinopse<br>
+• biografia<br>
+• orelhas (quando configuradas)<br>
+• selo editorial (quando ativado)<br>
+• versão multilíngue (quando configurada)
+</div>
 
 </div>
 
-<button class="botao"
-
-onclick="gerarCapa()">
-
-Gerar capa agora
-
+<button class="botao" onclick="gerarCapa()">
+Gerar estrutura da capa
 </button>
 
-<button class="botao"
-
-onclick="window.location.href='_Indice.html'">
-
-Voltar para casa do original
-
+<button class="botao botaoCinza"
+onclick="window.location.href='capista_upload_textos.html'">
+Voltar para textos da capa
 </button>
+
+<div id="statusGeracao" class="sucesso"></div>
 
 </div>
 
 <script>
 
-function obterPlano(){
+function traduzirIdioma(codigo){
 
-return localStorage.getItem("CAPISTA_plano") || "0";
+if(codigo === "pt") return "Português";
+if(codigo === "en") return "English";
+if(codigo === "es") return "Español";
+if(codigo === "it") return "Italiano";
+if(codigo === "fr") return "Français";
+if(codigo === "de") return "Deutsch";
 
-}
+if(!codigo || codigo === "nenhum")
+return "Não utilizado";
 
-function limitePlano(plano){
-
-if(plano == "10") return 10;
-if(plano == "30") return 30;
-if(plano == "50") return 50;
-if(plano == "90") return 90;
-if(plano == "magistral") return 9999;
-
-return 0;
+return "Português";
 
 }
 
-function carregarStatus(){
+function carregarDados(){
 
-const plano = obterPlano();
+const titulo =
+localStorage.getItem("CAPISTA_titulo");
 
-const limite = limitePlano(plano);
+const autor =
+localStorage.getItem("CAPISTA_autor");
 
-let usadasFisicas =
-parseInt(localStorage.getItem("CAPISTA_usadas_fisicas")) || 0;
+const idiomaPrincipal =
+localStorage.getItem("CAPISTA_idioma_principal");
 
-let usadasEpub =
-parseInt(localStorage.getItem("CAPISTA_usadas_epub")) || 0;
+const idiomaExtra =
+localStorage.getItem("CAPISTA_idioma_extra");
 
-document.getElementById("statusCapas").innerHTML =
+document.getElementById("tituloMostrado").innerText =
+titulo || "Não informado";
 
-"<div class='status'>Plano ativo: " + plano + "</div>" +
+document.getElementById("autorMostrado").innerText =
+autor || "Não informado";
 
-"<div class='status'>Capas físicas restantes: " +
+document.getElementById("idiomaPrincipalMostrado").innerText =
+traduzirIdioma(idiomaPrincipal);
 
-(limite - usadasFisicas) +
-
-"</div>" +
-
-"<div class='status'>Capas EPUB restantes: " +
-
-(limite - usadasEpub) +
-
-"</div>";
+document.getElementById("idiomaExtraMostrado").innerText =
+traduzirIdioma(idiomaExtra);
 
 }
 
 function gerarCapa(){
 
-const plano = obterPlano();
+localStorage.setItem("CAPISTA_status_geracao","preparada");
 
-if(plano == "0"){
+document.getElementById("statusGeracao").innerText =
+"Estrutura da capa preparada com sucesso.";
 
-alert("Nenhum plano Capista ativo.");
+setTimeout(function(){
 
-return;
+window.location.href =
+"relatorio_capista.html";
 
-}
-
-const tipoCapa =
-localStorage.getItem("CAPISTA_tipo_capa");
-
-let usadasFisicas =
-parseInt(localStorage.getItem("CAPISTA_usadas_fisicas")) || 0;
-
-let usadasEpub =
-parseInt(localStorage.getItem("CAPISTA_usadas_epub")) || 0;
-
-const limite = limitePlano(plano);
-
-if(tipoCapa == "fisica"){
-
-if(usadasFisicas >= limite){
-
-alert("Limite de capas físicas atingido.");
-
-return;
+},1200);
 
 }
 
-localStorage.setItem(
-
-"CAPISTA_usadas_fisicas",
-
-usadasFisicas + 1
-
-);
-
-}
-
-if(tipoCapa == "epub"){
-
-if(usadasEpub >= limite){
-
-alert("Limite de capas EPUB atingido.");
-
-return;
-
-}
-
-localStorage.setItem(
-
-"CAPISTA_usadas_epub",
-
-usadasEpub + 1
-
-);
-
-}
-
-if(tipoCapa == "ambos"){
-
-if(usadasFisicas >= limite ||
-
-usadasEpub >= limite){
-
-alert("Limite de capas atingido.");
-
-return;
-
-}
-
-localStorage.setItem(
-
-"CAPISTA_usadas_fisicas",
-
-usadasFisicas + 1
-
-);
-
-localStorage.setItem(
-
-"CAPISTA_usadas_epub",
-
-usadasEpub + 1
-
-);
-
-}
-
-alert("Capa gerada com sucesso.");
-
-window.location.href = "relatorio_capista.html";
-
-}
-
-carregarStatus();
+carregarDados();
 
 </script>
 
 </body>
-
 </html>
