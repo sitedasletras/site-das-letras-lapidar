@@ -114,12 +114,6 @@ background:#444;
 background:#666;
 }
 
-.botaoBloqueado{
-background:#2d2d2d;
-opacity:0.6;
-cursor:not-allowed;
-}
-
 .alerta{
 margin-top:22px;
 text-align:center;
@@ -135,6 +129,12 @@ font-weight:bold;
 </head>
 
 <body>
+
+<script>
+if(localStorage.getItem("SDL_sessao_ativa") !== "sim"){
+window.location.href = "login.html";
+}
+</script>
 
 <div class="container">
 
@@ -210,12 +210,16 @@ Relatório da leitura técnica
 Relatório do Projeto Capista
 </button>
 
+<button id="btnHistorico" class="botao botaoCinza" onclick="window.location.href='historico_projetos.html'">
+Histórico de projetos
+</button>
+
 <button id="btnStatus" class="botao botaoAzul" onclick="window.location.href='status_plano.html'">
 Ver status do meu ambiente editorial
 </button>
 
-<button id="btnLogin" class="botao botaoCinza" onclick="window.location.href='login.html'">
-Entrar com outro usuário
+<button id="btnLogout" class="botao botaoCinza" onclick="logoutSistema()">
+Sair do ambiente
 </button>
 
 <div id="alertaPlano" class="alerta"></div>
@@ -225,40 +229,26 @@ Entrar com outro usuário
 <script>
 
 function traduzirIdioma(codigo){
-
 if(codigo === "pt") return "Português";
 if(codigo === "en") return "English";
 if(codigo === "es") return "Español";
 if(codigo === "it") return "Italiano";
 if(codigo === "fr") return "Français";
 if(codigo === "de") return "Deutsch";
-
 return "Português";
 }
 
-function bloquearBotao(id, mensagem){
-
-const botao = document.getElementById(id);
-
-if(!botao){
-return;
-}
-
-botao.classList.add("botaoBloqueado");
-
-botao.onclick = function(){
-alert(mensagem);
-};
-
+function logoutSistema(){
+localStorage.removeItem("SDL_sessao_ativa");
+localStorage.removeItem("SDL_usuario_logado");
+localStorage.removeItem("SDL_dispositivo_autorizado");
+window.location.href = "login.html";
 }
 
 function carregarPainel(){
 
 const usuario =
 localStorage.getItem("SDL_usuario_logado") || "Não identificado";
-
-const sessao =
-localStorage.getItem("SDL_sessao_ativa") || "nao";
 
 const planoLapidar =
 localStorage.getItem("SDL_plano_lapidar") || "Nenhum plano ativo";
@@ -274,28 +264,6 @@ localStorage.getItem("SDL_idioma_obra") ||
 document.getElementById("usuarioAtivo").innerText = usuario;
 document.getElementById("planoAtual").innerText = planoLapidar;
 document.getElementById("idiomaPrincipalObra").innerText = traduzirIdioma(idiomaObra);
-
-if(sessao !== "sim"){
-
-document.getElementById("situacaoAcesso").innerHTML =
-"<span class='destaque'>Sessão não iniciada</span>";
-
-document.getElementById("alertaPlano").innerText =
-"Entre com seu usuário para usar o ambiente editorial com estabilidade.";
-
-bloquearBotao("btnOriginal", "Entre primeiro no sistema.");
-bloquearBotao("btnIdiomaObra", "Entre primeiro no sistema.");
-bloquearBotao("btnPreferencias", "Entre primeiro no sistema.");
-bloquearBotao("btnCapaExterna", "Entre primeiro no sistema.");
-bloquearBotao("btnCapista", "Entre primeiro no sistema.");
-bloquearBotao("btnLeitura", "Entre primeiro no sistema.");
-bloquearBotao("btnRelatorioLapidar", "Entre primeiro no sistema.");
-bloquearBotao("btnRelatorioLeitura", "Entre primeiro no sistema.");
-bloquearBotao("btnRelatorioCapista", "Entre primeiro no sistema.");
-bloquearBotao("btnStatus", "Entre primeiro no sistema.");
-
-return;
-}
 
 if(statusPagamento === "pendente"){
 document.getElementById("situacaoAcesso").innerHTML =
