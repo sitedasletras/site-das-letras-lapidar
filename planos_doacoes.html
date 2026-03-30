@@ -2,14 +2,11 @@
 <html lang="pt-br">
 
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Planos de doações — Lapidar</title>
 
 <style>
-
 body{
 margin:0;
 font-family:Arial, sans-serif;
@@ -38,38 +35,29 @@ margin-bottom:25px;
 }
 
 .card{
-
 background:#140c08;
 border-radius:14px;
 padding:22px;
 margin-top:18px;
-
 }
 
 .nomePlano{
-
 font-size:22px;
 color:#ff7b2c;
-
 }
 
 .valor{
-
 font-size:26px;
 margin-top:4px;
-
 }
 
 .lista{
-
 margin-top:10px;
 line-height:1.7;
 color:#ffd2b3;
-
 }
 
 .botao{
-
 width:100%;
 padding:18px;
 margin-top:14px;
@@ -79,24 +67,26 @@ background:#ff5a00;
 color:white;
 font-size:18px;
 cursor:pointer;
-
 }
 
 .botao:hover{
-
 background:#ff6f1a;
-
 }
 
 .infoFinal{
-
 margin-top:30px;
 font-size:15px;
 color:#ffd2b3;
 line-height:1.7;
-
 }
 
+.infoTaxa{
+margin-top:20px;
+font-size:14px;
+color:#bbb;
+text-align:center;
+line-height:1.7;
+}
 </style>
 
 </head>
@@ -105,247 +95,197 @@ line-height:1.7;
 
 <div class="container">
 
-<div class="titulo">
+<div class="titulo" id="titulo_planos">
 Planos de doações do Lapidar
 </div>
 
-<div class="subtitulo">
+<div class="subtitulo" id="subtitulo_planos">
 Escolha a forma de apoio que melhor acompanha o seu momento editorial
 </div>
 
-
-<!-- ESSENCIAL -->
+<div class="card">
+<div class="nomePlano" id="plano_essencial_nome">Plano Essencial</div>
+<div class="valor" id="plano_essencial_valor">R$ 1,99</div>
+<div class="lista">
+✔ <span id="inclui_avaliacao_1">avaliação da obra incluída</span><br>
+✔ <span id="preparacao_editorial_1">preparação editorial dentro do Lapidar</span><br>
+✔ <span id="diagrama_1">diagramação de até 1 obra no mês</span>
+</div>
+<button class="botao" id="btn_essencial" onclick="selecionarPlano('Essencial',1)">Escolher este plano</button>
+</div>
 
 <div class="card">
-
-<div class="nomePlano">
-Plano Essencial
-</div>
-
-<div class="valor">
-R$ 1,99
-</div>
-
+<div class="nomePlano" id="plano_inicial_nome">Plano Inicial</div>
+<div class="valor" id="plano_inicial_valor">R$ 9,90</div>
 <div class="lista">
-
-✔ avaliação da obra incluída<br>
-✔ preparação editorial dentro do Lapidar<br>
-✔ diagramação de até <b>1 obra no mês</b><br>
-✔ retirada do material diagramado dentro do prazo do plano
-
+✔ <span id="inclui_avaliacao_2">avaliação da obra incluída</span><br>
+✔ <span id="preparacao_editorial_2">preparação editorial dentro do Lapidar</span><br>
+✔ <span id="diagrama_9">diagramação de até 9 obras no mês</span><br>
+✔ <span id="organizacao_ampliada">organização ampliada dentro da ferramenta</span>
 </div>
-
-<button class="botao"
-onclick="selecionarPlano('Essencial',1)">
-
-Escolher este plano
-
-</button>
-
+<button class="botao" id="btn_inicial" onclick="selecionarPlano('Inicial',9)">Escolher este plano</button>
 </div>
-
-
-
-<!-- INICIAL -->
 
 <div class="card">
-
-<div class="nomePlano">
-Plano Inicial
-</div>
-
-<div class="valor">
-R$ 9,90
-</div>
-
+<div class="nomePlano" id="plano_editorial_nome">Plano Editorial</div>
+<div class="valor" id="plano_editorial_valor">R$ 39,90</div>
 <div class="lista">
-
-✔ avaliação das obras incluída<br>
-✔ preparação editorial dentro do Lapidar<br>
-✔ diagramação de até <b>9 obras no mês</b><br>
-✔ organização ampliada dentro da ferramenta
-
+✔ <span id="inclui_avaliacao_3">avaliação da obra incluída</span><br>
+✔ <span id="preparacao_ampliada_1">preparação editorial ampliada</span><br>
+✔ <span id="diagrama_30">diagramação de até 30 obras no mês</span>
 </div>
-
-<button class="botao"
-onclick="selecionarPlano('Inicial',9)">
-
-Escolher este plano
-
-</button>
-
+<button class="botao" id="btn_editorial" onclick="selecionarPlano('Editorial',30)">Escolher este plano</button>
 </div>
-
-
-
-<!-- EDITORIAL -->
 
 <div class="card">
-
-<div class="nomePlano">
-Plano Editorial
-</div>
-
-<div class="valor">
-R$ 39,90
-</div>
-
+<div class="nomePlano" id="plano_avancado_nome">Plano Avançado</div>
+<div class="valor" id="plano_avancado_valor">R$ 59,90</div>
 <div class="lista">
-
-✔ avaliação das obras incluída<br>
-✔ preparação editorial ampliada<br>
-✔ diagramação de até <b>30 obras no mês</b><br>
-
+✔ <span id="inclui_avaliacao_4">avaliação da obra incluída</span><br>
+✔ <span id="preparacao_ampliada_2">preparação editorial ampliada</span><br>
+✔ <span id="diagrama_50">diagramação de até 50 obras no mês</span>
 </div>
-
-<button class="botao"
-onclick="selecionarPlano('Editorial',30)">
-
-Escolher este plano
-
-</button>
-
+<button class="botao" id="btn_avancado" onclick="selecionarPlano('Avançado',50)">Escolher este plano</button>
 </div>
-
-
-
-<!-- AVANÇADO -->
 
 <div class="card">
-
-<div class="nomePlano">
-Plano Avançado
-</div>
-
-<div class="valor">
-R$ 59,90
-</div>
-
+<div class="nomePlano" id="plano_profissional_nome">Plano Profissional</div>
+<div class="valor" id="plano_profissional_valor">R$ 99,90</div>
 <div class="lista">
-
-✔ avaliação das obras incluída<br>
-✔ preparação editorial ampliada<br>
-✔ diagramação de até <b>50 obras no mês</b><br>
-
+✔ <span id="inclui_avaliacao_5">avaliação da obra incluída</span><br>
+✔ <span id="preparacao_avancada">preparação editorial avançada</span><br>
+✔ <span id="diagrama_90">diagramação de até 90 obras no mês</span>
 </div>
-
-<button class="botao"
-onclick="selecionarPlano('Avançado',50)">
-
-Escolher este plano
-
-</button>
-
+<button class="botao" id="btn_profissional" onclick="selecionarPlano('Profissional',90)">Escolher este plano</button>
 </div>
-
-
-
-<!-- PROFISSIONAL -->
 
 <div class="card">
-
-<div class="nomePlano">
-Plano Profissional
-</div>
-
-<div class="valor">
-R$ 99,90
-</div>
-
+<div class="nomePlano" id="plano_magistral_nome">Plano Magistral</div>
+<div class="valor" id="plano_magistral_valor">Plano Magistral — uso livre</div>
 <div class="lista">
-
-✔ avaliação das obras incluída<br>
-✔ preparação editorial avançada<br>
-✔ diagramação de até <b>90 obras no mês</b><br>
-
+✔ <span id="inclui_avaliacao_6">avaliação da obra incluída</span><br>
+✔ <span id="preparacao_completa">preparação editorial completa</span><br>
+✔ <span id="diagrama_ilimitado">diagramação sem limite mensal</span>
 </div>
-
-<button class="botao"
-onclick="selecionarPlano('Profissional',90)">
-
-Escolher este plano
-
-</button>
-
+<button class="botao" id="btn_magistral" onclick="selecionarPlano('Magistral','ilimitado')">Escolher este plano</button>
 </div>
-
-
-
-<!-- MAGISTRAL -->
-
-<div class="card">
-
-<div class="nomePlano">
-Plano Magistral
-</div>
-
-<div class="valor">
-Apoio máximo
-</div>
-
-<div class="lista">
-
-✔ avaliação das obras incluída<br>
-✔ preparação editorial completa<br>
-✔ diagramação <b>sem limite mensal</b><br>
-
-</div>
-
-<button class="botao"
-onclick="selecionarPlano('Magistral','ilimitado')">
-
-Escolher este plano
-
-</button>
-
-</div>
-
-
 
 <div class="infoFinal">
+<span id="info_final_1">Todos os planos incluem avaliação da obra e acesso à preparação editorial dentro do limite mensal correspondente.</span><br><br>
+<span id="info_final_2">O acesso ao Lapidar é pessoal e permitido em apenas um dispositivo por vez (computador ou celular).</span><br><br>
+<span id="info_final_3">Após escolher o plano de doações, você poderá selecionar a forma de apoio desejada: Pix, depósito bancário ou cartão.</span>
+</div>
 
-Todos os planos incluem avaliação da obra e acesso à preparação editorial dentro do limite mensal correspondente.<br><br>
-
-O acesso ao Lapidar é pessoal e permitido em apenas <b>um dispositivo por vez</b> (computador ou celular), garantindo segurança e estabilidade do ambiente editorial.<br><br>
-
-Após escolher o plano de doações, você poderá selecionar a forma de apoio desejada: Pix, depósito bancário ou cartão.
-
+<div class="infoTaxa" id="taxas_externas">
+Pagamentos realizados fora do Brasil podem incluir taxas internacionais do banco ou operadora do cartão. Essas taxas não fazem parte do valor do plano.
 </div>
 
 </div>
-
-
 
 <script>
+let textos = {};
+let idiomaBase = "pt";
 
-function selecionarPlano(plano,limite){
+function detectarIdioma(){
+const idiomaNavegador = (navigator.language || "pt-BR").toLowerCase();
 
-localStorage.setItem(
-"SDL_plano",
-plano
-);
+if(idiomaNavegador.startsWith("en")) return "en";
+if(idiomaNavegador.startsWith("it")) return "it";
+if(idiomaNavegador.startsWith("es")) return "es";
+if(idiomaNavegador.startsWith("fr")) return "fr";
 
-localStorage.setItem(
-"SDL_limite_obras",
-limite
-);
-
-localStorage.setItem(
-"SDL_data_pagamento",
-new Date()
-);
-
-alert(
-"Plano selecionado: " + plano +
-"\n\nAgora escolha a forma de doação."
-);
-
-window.location.href="status_plano.html";
-
+return "pt";
 }
 
+function aplicarMoeda(){
+const idiomaNavegador = (navigator.language || "pt-BR").toLowerCase();
+const moeda = idiomaNavegador.startsWith("pt") ? "R$" : "$";
+
+document.getElementById("plano_essencial_valor").innerText = moeda + " 1,99";
+document.getElementById("plano_inicial_valor").innerText = moeda + " 9,90";
+document.getElementById("plano_editorial_valor").innerText = moeda + " 39,90";
+document.getElementById("plano_avancado_valor").innerText = moeda + " 59,90";
+document.getElementById("plano_profissional_valor").innerText = moeda + " 99,90";
+}
+
+function aplicarTextos(t){
+document.documentElement.lang = idiomaBase;
+
+document.getElementById("titulo_planos").innerText = t.titulo_planos;
+document.getElementById("subtitulo_planos").innerText = t.subtitulo_planos;
+
+document.getElementById("plano_essencial_nome").innerText = t.plano_essencial;
+document.getElementById("plano_inicial_nome").innerText = t.plano_inicial;
+document.getElementById("plano_editorial_nome").innerText = t.plano_editorial;
+document.getElementById("plano_avancado_nome").innerText = t.plano_avancado;
+document.getElementById("plano_profissional_nome").innerText = t.plano_profissional;
+document.getElementById("plano_magistral_nome").innerText = t.plano_magistral;
+
+document.getElementById("plano_magistral_valor").innerText = t.magistral_texto;
+
+document.getElementById("inclui_avaliacao_1").innerText = t.inclui_avaliacao;
+document.getElementById("inclui_avaliacao_2").innerText = t.inclui_avaliacao;
+document.getElementById("inclui_avaliacao_3").innerText = t.inclui_avaliacao;
+document.getElementById("inclui_avaliacao_4").innerText = t.inclui_avaliacao;
+document.getElementById("inclui_avaliacao_5").innerText = t.inclui_avaliacao;
+document.getElementById("inclui_avaliacao_6").innerText = t.inclui_avaliacao;
+
+document.getElementById("preparacao_editorial_1").innerText = t.preparacao_editorial;
+document.getElementById("preparacao_editorial_2").innerText = t.preparacao_editorial;
+document.getElementById("preparacao_ampliada_1").innerText = t.preparacao_ampliada;
+document.getElementById("preparacao_ampliada_2").innerText = t.preparacao_ampliada;
+document.getElementById("preparacao_avancada").innerText = t.preparacao_avancada;
+document.getElementById("preparacao_completa").innerText = t.preparacao_completa;
+
+document.getElementById("diagrama_1").innerText = t.diagrama_1;
+document.getElementById("diagrama_9").innerText = t.diagrama_9;
+document.getElementById("diagrama_30").innerText = t.diagrama_30;
+document.getElementById("diagrama_50").innerText = t.diagrama_50;
+document.getElementById("diagrama_90").innerText = t.diagrama_90;
+document.getElementById("diagrama_ilimitado").innerText = t.diagrama_ilimitado;
+
+document.getElementById("organizacao_ampliada").innerText = t.organizacao_ampliada;
+
+document.getElementById("btn_essencial").innerText = t.escolher_plano;
+document.getElementById("btn_inicial").innerText = t.escolher_plano;
+document.getElementById("btn_editorial").innerText = t.escolher_plano;
+document.getElementById("btn_avancado").innerText = t.escolher_plano;
+document.getElementById("btn_profissional").innerText = t.escolher_plano;
+document.getElementById("btn_magistral").innerText = t.escolher_plano;
+
+document.getElementById("info_final_1").innerText = t.info_final_1;
+document.getElementById("info_final_2").innerText = t.info_final_2;
+document.getElementById("info_final_3").innerText = t.info_final_3;
+
+document.getElementById("taxas_externas").innerText = t.taxas_externas;
+}
+
+async function carregarIdiomas(){
+idiomaBase = detectarIdioma();
+
+try{
+const resposta = await fetch("idiomas.json?ts=" + Date.now());
+const dados = await resposta.json();
+textos = dados[idiomaBase] || dados["pt"];
+aplicarTextos(textos);
+aplicarMoeda();
+}
+catch(e){
+console.error("Erro ao carregar idiomas:", e);
+}
+}
+
+function selecionarPlano(plano, limite){
+localStorage.setItem("SDL_plano", plano);
+localStorage.setItem("SDL_limite_obras", limite);
+
+alert((textos.alerta_plano || "Plano selecionado: ") + plano + (textos.alerta_parte_2 || "\n\nAgora escolha a forma de doação."));
+
+window.location.href = "pagamento.html";
+}
+
+carregarIdiomas();
 </script>
 
 </body>
-
 </html>
