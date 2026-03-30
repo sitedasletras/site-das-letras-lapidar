@@ -7,6 +7,7 @@
 <title>Preferências da diagramação — Lapidar</title>
 
 <style>
+
 body{
 margin:0;
 font-family:Arial, sans-serif;
@@ -133,11 +134,23 @@ color:#ffd2b3;
 line-height:1.7;
 }
 
+.infoPlano{
+margin-top:10px;
+font-size:14px;
+color:#ffd2b3;
+line-height:1.7;
+}
+
+.oculto{
+display:none;
+}
+
 @media (max-width: 680px){
 .grid{
 grid-template-columns:1fr;
 }
 }
+
 </style>
 
 </head>
@@ -263,6 +276,43 @@ Parágrafos e entradas
 
 </div>
 
+<div class="card oculto" id="blocoMolduras">
+
+<div class="cardTitulo">
+Molduras e elementos decorativos
+</div>
+
+<div class="infoPlano" id="infoMoldurasPlano">
+Recurso disponível a partir do plano Avançado.
+</div>
+
+<div class="grid">
+
+<div class="campo">
+<label for="usarMolduras">Deseja usar molduras?</label>
+<select id="usarMolduras">
+<option value="">Selecione</option>
+<option value="Não desejo molduras">Não desejo molduras</option>
+<option value="Desejo molduras discretas">Desejo molduras discretas</option>
+<option value="Desejo molduras ornamentais">Desejo molduras ornamentais</option>
+</select>
+</div>
+
+<div class="campo">
+<label for="aplicacaoMolduras">Onde deseja aplicar?</label>
+<select id="aplicacaoMolduras">
+<option value="">Selecione</option>
+<option value="Aberturas de capítulos">Aberturas de capítulos</option>
+<option value="Dedicatória e prefácio">Dedicatória e prefácio</option>
+<option value="Páginas especiais">Páginas especiais</option>
+<option value="Ao longo do material">Ao longo do material</option>
+</select>
+</div>
+
+</div>
+
+</div>
+
 <div class="card">
 
 <div class="cardTitulo">
@@ -308,6 +358,33 @@ Voltar para a entrada do original
 </div>
 
 <script>
+
+function verificarPlanoParaMolduras(){
+
+const plano = localStorage.getItem("SDL_plano");
+
+const blocoMolduras = document.getElementById("blocoMolduras");
+const infoMoldurasPlano = document.getElementById("infoMoldurasPlano");
+
+if(
+plano === "Avançado" ||
+plano === "Profissional" ||
+plano === "Magistral"
+){
+blocoMolduras.classList.remove("oculto");
+
+if(plano === "Magistral"){
+infoMoldurasPlano.innerText =
+"Recurso liberado no seu plano atual com acesso mais amplo a elementos decorativos.";
+}
+else{
+infoMoldurasPlano.innerText =
+"Recurso liberado no seu plano atual a partir do nível Avançado.";
+}
+}
+
+}
+
 function salvarPreferencias(){
 
 const formato = document.getElementById("formatoLivro").value;
@@ -376,6 +453,17 @@ localStorage.setItem("SDL_tem_ficha_dados", document.getElementById("temFichaDad
 localStorage.setItem("SDL_tem_imagens_internas", document.getElementById("temImagensInternas").checked ? "sim" : "nao");
 localStorage.setItem("SDL_observacoes_diagramacao", observacoes);
 
+const blocoMoldurasVisivel = !document.getElementById("blocoMolduras").classList.contains("oculto");
+
+if(blocoMoldurasVisivel){
+localStorage.setItem("SDL_usar_molduras", document.getElementById("usarMolduras").value);
+localStorage.setItem("SDL_aplicacao_molduras", document.getElementById("aplicacaoMolduras").value);
+}
+else{
+localStorage.setItem("SDL_usar_molduras", "");
+localStorage.setItem("SDL_aplicacao_molduras", "");
+}
+
 document.getElementById("mensagemSucesso").innerHTML =
 "Preferências da diagramação salvas com sucesso.<br>Agora você já pode seguir para a revisão do pedido.";
 }
@@ -391,6 +479,9 @@ return;
 
 window.location.href = "revisao_pedido.html";
 }
+
+verificarPlanoParaMolduras();
+
 </script>
 
 </body>
