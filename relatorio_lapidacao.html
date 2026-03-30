@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Presente de Lapidação Literária — Lapidar</title>
+
+<style>
+body{
+margin:0;
+font-family:Arial, sans-serif;
+background:#0d0603;
+color:white;
+display:flex;
+justify-content:center;
+}
+
+.container{
+width:92%;
+max-width:760px;
+padding:40px 0 60px 0;
+}
+
+.titulo{
+font-size:36px;
+text-align:center;
+font-weight:bold;
+}
+
+.subtitulo{
+text-align:center;
+color:#ff7b2c;
+margin-top:10px;
+margin-bottom:28px;
+line-height:1.6;
+}
+
+.card{
+background:#140c08;
+padding:24px;
+border-radius:14px;
+margin-top:18px;
+line-height:1.8;
+}
+
+.label{
+color:#ff7b2c;
+font-weight:bold;
+}
+
+.valor{
+color:#ffd2b3;
+}
+
+.bloco{
+margin-top:18px;
+}
+
+.botao{
+width:100%;
+padding:18px;
+border-radius:40px;
+border:none;
+margin-top:18px;
+font-size:18px;
+font-weight:bold;
+cursor:pointer;
+background:#ff5a00;
+color:white;
+}
+
+.botao:hover{
+background:#ff6f1a;
+}
+
+.botaoCinza{
+background:#444;
+}
+
+.botaoCinza:hover{
+background:#666;
+}
+
+.destaque{
+color:#9cffb2;
+font-size:18px;
+font-weight:bold;
+}
+
+.aviso{
+margin-top:24px;
+text-align:center;
+color:#ffd2b3;
+line-height:1.7;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="titulo">
+Presente de Lapidação Literária
+</div>
+
+<div class="subtitulo">
+Ao final da preparação editorial, o Lapidar também entrega esta leitura de incentivo sobre a sua obra
+</div>
+
+<div class="card">
+
+<div class="bloco">
+<span class="label">Título da obra:</span><br>
+<span id="tituloObra" class="valor"></span>
+</div>
+
+<div class="bloco">
+<span class="label">Autor:</span><br>
+<span id="autorObra" class="valor"></span>
+</div>
+
+<div class="bloco">
+<span class="label">Nota da obra:</span><br>
+<span id="notaObra" class="destaque"></span>
+</div>
+
+<div class="bloco">
+<span class="label">Leitura geral da obra:</span><br>
+<span id="leituraGeral" class="valor"></span>
+</div>
+
+<div class="bloco">
+<span class="label">Pontos fortes:</span><br>
+<span id="pontosFortes" class="valor"></span>
+</div>
+
+<div class="bloco">
+<span class="label">Sugestão para crescer ainda mais:</span><br>
+<span id="sugestaoCrescimento" class="valor"></span>
+</div>
+
+<div class="bloco">
+<span class="label">Possibilidade de continuação:</span><br>
+<span id="possibilidadeContinuacao" class="valor"></span>
+</div>
+
+<div class="bloco">
+<span class="label">Seu estilo lembra:</span><br>
+<span id="estiloLembra" class="valor"></span>
+</div>
+
+<div class="bloco">
+<span class="label">Potencial literário observado:</span><br>
+<span id="potencialLiterario" class="valor"></span>
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="bloco">
+<span class="label">Caminho das Pedras</span><br>
+<span class="valor">
+Se desejar continuar aprimorando sua escrita, existe dentro da plataforma a ferramenta <b>Caminho das Pedras</b>, criada para acompanhar autores no desenvolvimento de suas obras.<br><br>
+Quando quiser, ela estará disponível para você.
+</span>
+</div>
+
+<button class="botao" onclick="window.location.href='caminho_das_pedras.html'">
+Conhecer o Caminho das Pedras
+</button>
+
+<button class="botao botaoCinza" onclick="window.location.href='index.html'">
+Voltar para a casa do seu original
+</button>
+
+</div>
+
+<div class="aviso">
+Este relatório é um presente de incentivo ao seu crescimento literário. Ele não obriga mudanças na obra. Serve como orientação carinhosa para quem deseja continuar evoluindo.
+</div>
+
+</div>
+
+<script>
+
+function preencherCampo(id, valor){
+document.getElementById(id).innerText = valor;
+}
+
+const titulo = localStorage.getItem("SDL_titulo_livro") || "Título não informado";
+const autor = localStorage.getItem("SDL_nome_autor") || "Autor não informado";
+const tipo = localStorage.getItem("SDL_tipo_material") || "";
+const dialogos = localStorage.getItem("SDL_dialogos") || "";
+const tema = localStorage.getItem("SDL_tema_visual") || "";
+const destino = localStorage.getItem("SDL_destino_material") || "";
+
+preencherCampo("tituloObra", titulo);
+preencherCampo("autorObra", autor);
+
+let nota = 7.0;
+
+if(tipo === "Romance"){ nota += 0.4; }
+if(tipo === "Poesia"){ nota += 0.5; }
+if(tipo === "Conto"){ nota += 0.3; }
+if(dialogos === "Travessão"){ nota += 0.2; }
+if(destino === "Livro físico e e-book"){ nota += 0.2; }
+if(tema === "invertido"){ nota += 0.1; }
+
+if(nota > 10){ nota = 10; }
+
+const notaFormatada = nota.toFixed(1).replace(".", ",");
+preencherCampo("notaObra", notaFormatada);
+
+let leituraGeral = "Sua obra mostra boa base de construção e já apresenta caminho de escritor.";
+let pontosFortes = "A história tem direção clara, boa presença de ideia central e mostra potencial de crescimento.";
+let sugestao = "Se quiser melhorar ainda mais, você pode fortalecer alguns momentos importantes da história para deixar a leitura ainda mais marcante.";
+let continuacao = "Sua obra parece ter base para crescer em novos textos ou até em uma continuação futura, se você desejar.";
+let estilo = "Seu texto mostra traços próprios e já deixa sinais de identidade literária.";
+let potencial = "Seu material mostra que você tem caminho de autor e pode amadurecer ainda mais com continuidade de escrita.";
+
+if(tipo === "Romance"){
+leituraGeral = "Sua história prende a atenção e mostra boa base emocional.";
+estilo = "Sua história tem força de sentimento e relação entre personagens. Isso é muito bom para quem deseja crescer no romance.";
+}
+
+if(tipo === "Conto"){
+leituraGeral = "Seu conto tem direção clara e boa ideia central.";
+continuacao = "Seu conto pode até abrir caminho para um material maior, se você quiser continuar esse universo.";
+}
+
+if(tipo === "Poesia"){
+leituraGeral = "Seu texto mostra sensibilidade e boa presença de voz autoral.";
+estilo = "Seu texto tem partes profundas e pensativas. Isso mostra presença literária.";
+}
+
+if(tipo === "Acadêmico"){
+leituraGeral = "Seu material mostra organização e proposta definida.";
+sugestao = "Se quiser deixar ainda melhor, você pode reforçar a clareza das partes mais importantes do conteúdo.";
+continuacao = "Esse material pode crescer em novos estudos, capítulos ou materiais complementares.";
+}
+
+preencherCampo("leituraGeral", leituraGeral);
+preencherCampo("pontosFortes", pontosFortes);
+preencherCampo("sugestaoCrescimento", sugestao);
+preencherCampo("possibilidadeContinuacao", continuacao);
+preencherCampo("estiloLembra", estilo);
+preencherCampo("potencialLiterario", potencial);
+
+</script>
+
+</body>
+</html>
