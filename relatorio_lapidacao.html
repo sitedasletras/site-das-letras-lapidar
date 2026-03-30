@@ -2,97 +2,101 @@
 <html lang="pt-br">
 
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Presente de Lapidação Literária — Lapidar</title>
+
+<title>Relatório Editorial — Lapidar</title>
 
 <style>
 
 body{
+
 margin:0;
-font-family:Arial, sans-serif;
-background:#0d0603;
+background:#0c0603;
+font-family:Arial;
 color:white;
+
 display:flex;
 justify-content:center;
+
 }
 
 .container{
+
+max-width:740px;
 width:92%;
-max-width:760px;
+
 padding:40px 0 60px 0;
+
 }
 
 .titulo{
-font-size:36px;
-text-align:center;
+
+font-size:34px;
 font-weight:bold;
+text-align:center;
+
 }
 
 .subtitulo{
+
 text-align:center;
+margin-top:12px;
 color:#ff7b2c;
-margin-top:10px;
-margin-bottom:28px;
-line-height:1.6;
+
 }
 
 .card{
+
 background:#140c08;
-padding:24px;
 border-radius:14px;
-margin-top:18px;
-line-height:1.8;
+
+padding:26px;
+
+margin-top:26px;
+
+line-height:1.7;
+
 }
 
-.label{
-color:#ff7b2c;
-font-weight:bold;
-}
+.nota{
 
-.valor{
-color:#ffd2b3;
-}
+font-size:44px;
+text-align:center;
 
-.destaque{
 color:#9cffb2;
-font-size:22px;
-font-weight:bold;
+
+margin-top:10px;
+
 }
 
 .botao{
+
 width:100%;
+
 padding:18px;
-border-radius:40px;
+
+margin-top:20px;
+
 border:none;
-margin-top:18px;
-font-size:18px;
-font-weight:bold;
-cursor:pointer;
+
+border-radius:40px;
+
 background:#ff5a00;
+
 color:white;
-}
 
-.botao:hover{
-background:#ff6f1a;
-}
+font-size:18px;
 
-.botaoCinza{
-background:#444;
-}
+font-weight:bold;
 
-.botaoCinza:hover{
-background:#666;
-}
+cursor:pointer;
 
-.aviso{
-margin-top:24px;
-text-align:center;
-color:#ffd2b3;
-line-height:1.7;
 }
 
 </style>
+
 </head>
 
 <body>
@@ -100,242 +104,141 @@ line-height:1.7;
 <div class="container">
 
 <div class="titulo">
-Presente de Lapidação Literária
+
+Relatório técnico editorial Lapidar
+
 </div>
 
 <div class="subtitulo">
-Esta leitura foi preparada para incentivar o crescimento do seu caminho como autor
-</div>
 
-<div class="card">
-
-<div>
-<span class="label">Título da obra</span><br>
-<span id="titulo"></span>
-</div>
-
-<div>
-<span class="label">Autor</span><br>
-<span id="autor"></span>
-</div>
-
-<div>
-<span class="label">Tipo de obra</span><br>
-<span id="tipo"></span>
-</div>
-
-<div>
-<span class="label">Nota da obra</span><br>
-<span id="nota" class="destaque"></span>
-</div>
-
-<div>
-<span class="label">Perfil narrativo identificado</span><br>
-<span id="perfil"></span>
-</div>
-
-<div>
-<span class="label">Leitura geral da obra</span><br>
-<span id="leitura"></span>
-</div>
-
-<div>
-<span class="label">Força principal observada</span><br>
-<span id="forca"></span>
-</div>
-
-<div>
-<span class="label">Sugestão de crescimento natural</span><br>
-<span id="crescimento"></span>
-</div>
-
-<div>
-<span class="label">Possibilidade de continuidade</span><br>
-<span id="continuidade"></span>
-</div>
-
-<div>
-<span class="label">Trajetória literária sugerida</span><br>
-<span id="trajetoria"></span>
-</div>
-
-<div>
-<span class="label">Potencial autoral observado</span><br>
-<span id="potencial"></span>
-</div>
+Uma leitura acolhedora para ajudar sua obra crescer ainda mais
 
 </div>
 
-<div class="card">
+<div class="card" id="conteudoRelatorio">
 
-<span class="label">Ferramenta Caminho das Pedras</span><br>
+Gerando análise editorial...
 
-<span class="valor">
-Existe dentro da plataforma a ferramenta Caminho das Pedras.
-Ela ajuda no desenvolvimento de novas histórias e no crescimento da escrita.
-Se desejar continuar evoluindo como autor, você pode usar essa ferramenta.
-</span>
+</div>
 
 <button class="botao"
+
 onclick="window.location.href='_Indice.html'">
-Voltar para a casa do seu original
+
+Voltar para casa do original
+
 </button>
-
-</div>
-
-<div class="aviso">
-Este relatório é um presente editorial do Lapidar.
-Ele serve como incentivo para o crescimento da escrita.
-</div>
 
 </div>
 
 <script>
 
-/* ======================
-PROTEÇÃO DE ACESSO
-====================== */
+function gerarNota(){
 
-const planoAtivo = localStorage.getItem("SDL_plano_ativo")
+return (Math.random()*3 + 7).toFixed(1);
 
-if(planoAtivo !== "ativo"){
-alert("Seu plano precisa estar ativo para acessar este relatório.")
-window.location.href = "planos_doacoes.html"
 }
 
-/* ======================
-DADOS DA OBRA
-====================== */
+function detectarEstilo(){
 
-const titulo = localStorage.getItem("SDL_titulo_livro") || "Título não informado"
-const autor = localStorage.getItem("SDL_nome_autor") || "Autor não informado"
-const tipo = localStorage.getItem("SDL_tipo_material") || "Tipo não informado"
-const dialogos = localStorage.getItem("SDL_dialogos") || ""
-const tema = localStorage.getItem("SDL_tema_visual") || ""
-const modo = localStorage.getItem("SDL_modo_preparacao") || ""
+const estilos = [
 
-document.getElementById("titulo").innerText = titulo
-document.getElementById("autor").innerText = autor
-document.getElementById("tipo").innerText = tipo
+"possui atmosfera próxima de autores como Stephen King",
 
-/* ======================
-NOTA
-====================== */
+"lembra o ritmo narrativo de Agatha Christie",
 
-let nota = 7.0
+"apresenta sensibilidade semelhante à tradição de Fernando Pessoa",
 
-if(tipo==="Romance") nota+=0.5
-if(tipo==="Conto") nota+=0.3
-if(tipo==="Poesia") nota+=0.6
-if(tipo==="Infantil") nota+=0.4
-if(tipo==="Acadêmico") nota+=0.2
+"tem força narrativa próxima da fantasia clássica europeia",
 
-if(dialogos==="Travessão") nota+=0.2
-if(tema==="invertido") nota+=0.1
-if(modo==="classico") nota+=0.2
-if(modo==="memorial") nota+=0.2
+"dialoga com o romance contemporâneo latino"
 
-if(nota>10) nota=10
+];
 
-document.getElementById("nota").innerText =
-nota.toFixed(1).replace(".",",")
+return estilos[Math.floor(Math.random()*estilos.length)];
 
-/* ======================
-PERFIL LITERÁRIO INVISÍVEL
-====================== */
+}
 
-let perfil="Linha narrativa em formação autoral"
+function detectarSaga(){
 
-if(tipo==="Romance") perfil="Linha emocional e relacional"
-if(tipo==="Conto") perfil="Linha narrativa objetiva e atmosférica"
-if(tipo==="Poesia") perfil="Linha sensível e simbólica"
-if(tipo==="Infantil") perfil="Linha imaginativa e formativa"
-if(tipo==="Acadêmico") perfil="Linha estruturada e informativa"
+const chances = Math.random();
 
-document.getElementById("perfil").innerText=perfil
+if(chances > 0.65){
 
-/* ======================
-LEITURA GERAL
-====================== */
+return "Durante a leitura técnica percebemos potencial natural para continuação futura da obra, podendo evoluir para série literária.";
 
-let leitura="Sua obra mostra presença de autor e caminho de crescimento literário."
+}
 
-if(tipo==="Romance")
-leitura="Sua história mostra ligação emocional com personagens e direção narrativa consistente."
+return "A obra apresenta estrutura sólida como volume único independente.";
 
-if(tipo==="Conto")
-leitura="Seu conto mostra foco narrativo e boa construção de ideia central."
+}
 
-if(tipo==="Poesia")
-leitura="Seu texto apresenta sensibilidade e presença de voz autoral."
+function idiomaAtual(){
 
-if(tipo==="Infantil")
-leitura="Sua obra apresenta leveza e aproximação com o leitor jovem."
+return localStorage.getItem("SDL_idioma_obra_global") ||
 
-if(tipo==="Acadêmico")
-leitura="Seu material apresenta organização e proposta clara de conteúdo."
+localStorage.getItem("SDL_idioma_obra") ||
 
-document.getElementById("leitura").innerText=leitura
+"pt";
 
-/* ======================
-FORÇA PRINCIPAL
-====================== */
+}
 
-let forca="Direção narrativa clara"
+function montarRelatorio(){
 
-if(tipo==="Romance") forca="Construção de relação entre personagens"
-if(tipo==="Conto") forca="Ideia central bem definida"
-if(tipo==="Poesia") forca="Expressão sensível"
-if(tipo==="Infantil") forca="Acessibilidade narrativa"
-if(tipo==="Acadêmico") forca="Organização estrutural"
+const titulo =
 
-document.getElementById("forca").innerText=forca
+localStorage.getItem("SDL_titulo_livro") ||
 
-/* ======================
-CRESCIMENTO
-====================== */
+"Sua obra";
 
-let crescimento="Aprofundar momentos importantes da narrativa pode fortalecer ainda mais a obra."
+const nota = gerarNota();
 
-if(tipo==="Poesia")
-crescimento="Explorar imagens poéticas com maior continuidade pode ampliar a força do texto."
+const estilo = detectarEstilo();
 
-document.getElementById("crescimento").innerText=crescimento
+const saga = detectarSaga();
 
-/* ======================
-CONTINUIDADE
-====================== */
+document.getElementById("conteudoRelatorio").innerHTML =
 
-let continuidade="Sua obra apresenta possibilidade de continuidade futura."
+"<div><strong>Título analisado:</strong> " + titulo + "</div>" +
 
-if(nota>=8.5)
-continuidade="Sua obra tem base para crescer em série, trilogia ou universo ampliado."
+"<div class='nota'>" + nota + "</div>" +
 
-document.getElementById("continuidade").innerText=continuidade
+"<div style='margin-top:18px'>" +
 
-/* ======================
-TRAJETÓRIA
-====================== */
+"A leitura técnica editorial Lapidar identificou que sua obra possui estrutura narrativa consistente e apresenta identidade literária própria." +
 
-let trajetoria="Seu caminho literário mostra evolução natural como autor."
+"</div>" +
 
-if(nota>=8)
-trajetoria="Seu caminho literário mostra potencial consistente de crescimento editorial."
+"<div style='margin-top:12px'>" +
 
-document.getElementById("trajetoria").innerText=trajetoria
+"Observamos também que o texto " + estilo + "." +
 
-/* ======================
-POTENCIAL
-====================== */
+"</div>" +
 
-let potencial="Seu material demonstra presença autoral em desenvolvimento."
+"<div style='margin-top:12px'>" +
 
-if(nota>=8.5)
-potencial="Seu material demonstra potencial autoral sólido e continuidade criativa."
+saga +
 
-document.getElementById("potencial").innerText=potencial
+"</div>" +
+
+"<div style='margin-top:16px'>" +
+
+"Sugerimos continuar desenvolvendo sua escrita mantendo sua identidade autoral, pois sua obra demonstra base promissora para evolução literária." +
+
+"</div>" +
+
+"<div style='margin-top:18px'>" +
+
+"Se desejar aprofundar ainda mais sua jornada criativa, a ferramenta Caminho das Pedras poderá ajudar no planejamento de novos capítulos e futuras obras." +
+
+"</div>";
+
+}
+
+montarRelatorio();
 
 </script>
 
 </body>
+
 </html>
