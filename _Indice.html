@@ -17,7 +17,7 @@ justify-content:center;
 }
 
 .container{
-max-width:720px;
+max-width:760px;
 width:92%;
 padding:40px 0 60px 0;
 }
@@ -149,7 +149,12 @@ A casa do seu original
 <div class="blocoTopo">
 
 <div>
-<span class="label">Plano atual</span><br>
+<span class="label">Usuário ativo</span><br>
+<span id="usuarioAtivo" class="valor">Não identificado</span>
+</div>
+
+<div class="linhaTopo">
+<span class="label">Plano Lapidar</span><br>
 <span id="planoAtual" class="valor">Carregando...</span>
 </div>
 
@@ -159,8 +164,8 @@ A casa do seu original
 </div>
 
 <div class="linhaTopo">
-<span class="label">Limite mensal de obras</span><br>
-<span id="limiteObras" class="valor">Carregando...</span>
+<span class="label">Idioma principal da obra</span><br>
+<span id="idiomaPrincipalObra" class="valor">Carregando...</span>
 </div>
 
 </div>
@@ -177,7 +182,11 @@ Entrar com o seu original
 Escolher idioma da obra
 </button>
 
-<button id="btnCapa" class="botao" onclick="window.location.href='bloco12.html'">
+<button id="btnPreferencias" class="botao botaoCinza" onclick="window.location.href='preferencias_diagramacao.html'">
+Preferências da diagramação
+</button>
+
+<button id="btnCapaExterna" class="botao" onclick="window.location.href='capas_refinadas.html'">
 Preparar capa externa
 </button>
 
@@ -189,16 +198,24 @@ Projeto Capista
 Leitura Técnica Editorial — Lapidar — Site das Letras
 </button>
 
-<button id="btnRelatorio" class="botao botaoVerde" onclick="abrirRelatorio()">
-Ver relatório editorial da obra
+<button id="btnRelatorioLapidar" class="botao botaoVerde" onclick="window.location.href='relatorio_lapidacao.html'">
+Relatório editorial da obra
 </button>
 
-<button id="btnRetirada" class="botao botaoCinza" onclick="retirarMateriais()">
-Retirar materiais diagramados
+<button id="btnRelatorioLeitura" class="botao botaoVerde" onclick="window.location.href='relatorio_leitura_tecnica.html'">
+Relatório da leitura técnica
 </button>
 
-<button class="botao botaoAzul" onclick="window.location.href='status_plano.html'">
-Ver status do meu plano
+<button id="btnRelatorioCapista" class="botao botaoVerde" onclick="window.location.href='relatorio_capista.html'">
+Relatório do Projeto Capista
+</button>
+
+<button id="btnStatus" class="botao botaoAzul" onclick="window.location.href='status_plano.html'">
+Ver status do meu ambiente editorial
+</button>
+
+<button id="btnLogin" class="botao botaoCinza" onclick="window.location.href='login.html'">
+Entrar com outro usuário
 </button>
 
 <div id="alertaPlano" class="alerta"></div>
@@ -207,140 +224,106 @@ Ver status do meu plano
 
 <script>
 
-function definirLimiteTexto(limite){
-if(!limite){
-return "Não informado";
+function traduzirIdioma(codigo){
+
+if(codigo === "pt") return "Português";
+if(codigo === "en") return "English";
+if(codigo === "es") return "Español";
+if(codigo === "it") return "Italiano";
+if(codigo === "fr") return "Français";
+if(codigo === "de") return "Deutsch";
+
+return "Português";
 }
 
-if(limite === "ilimitado"){
-return "Uso livre dentro do período do plano";
+function bloquearBotao(id, mensagem){
+
+const botao = document.getElementById(id);
+
+if(!botao){
+return;
 }
 
-return limite + " obra(s) no mês";
-}
+botao.classList.add("botaoBloqueado");
 
-function bloquearEntrada(){
-
-const btnOriginal = document.getElementById("btnOriginal");
-const btnCapa = document.getElementById("btnCapa");
-const btnIdiomaObra = document.getElementById("btnIdiomaObra");
-
-btnOriginal.classList.add("botaoBloqueado");
-btnCapa.classList.add("botaoBloqueado");
-btnIdiomaObra.classList.add("botaoBloqueado");
-
-btnOriginal.onclick = function(){
-alert("Seu plano precisa estar ativo para continuar.");
-};
-
-btnCapa.onclick = function(){
-alert("Seu plano precisa estar ativo para continuar.");
-};
-
-btnIdiomaObra.onclick = function(){
-alert("Seu plano precisa estar ativo para alterar o idioma editorial da obra.");
+botao.onclick = function(){
+alert(mensagem);
 };
 
 }
 
-function retirarMateriais(){
+function carregarPainel(){
 
-const prazoLiberado = localStorage.getItem("SDL_prazo_liberado");
+const usuario =
+localStorage.getItem("SDL_usuario_logado") || "Não identificado";
 
-if(prazoLiberado === "sim"){
-alert("Seus materiais continuam disponíveis dentro do prazo extra de retirada.");
-}else{
-alert("No momento não há prazo liberado para retirada.");
-}
+const sessao =
+localStorage.getItem("SDL_sessao_ativa") || "nao";
 
-}
+const planoLapidar =
+localStorage.getItem("SDL_plano_lapidar") || "Nenhum plano ativo";
 
-function abrirRelatorio(){
+const statusPagamento =
+localStorage.getItem("SDL_status_pagamento") || "não confirmado";
 
-const planoAtivo = localStorage.getItem("SDL_plano_ativo");
-const prazoLiberado = localStorage.getItem("SDL_prazo_liberado");
-const dataPrazoRetirada = localStorage.getItem("SDL_data_prazo_retirada");
+const idiomaObra =
+localStorage.getItem("SDL_idioma_obra_global") ||
+localStorage.getItem("SDL_idioma_obra") ||
+"pt";
 
-if(planoAtivo === "ativo"){
-window.location.href = "relatorio_lapidacao.html";
-return;
-}
+document.getElementById("usuarioAtivo").innerText = usuario;
+document.getElementById("planoAtual").innerText = planoLapidar;
+document.getElementById("idiomaPrincipalObra").innerText = traduzirIdioma(idiomaObra);
 
-if(prazoLiberado === "sim" && dataPrazoRetirada){
-const hoje = new Date();
-const prazo = new Date(dataPrazoRetirada);
+if(sessao !== "sim"){
 
-if(hoje <= prazo){
-window.location.href = "relatorio_lapidacao.html";
-return;
-}
-}
-
-alert("O relatório editorial é liberado apenas durante o período ativo do plano ou dentro do prazo extra permitido.");
-
-}
-
-function carregarPainelInicial(){
-
-const plano = localStorage.getItem("SDL_plano");
-const limite = localStorage.getItem("SDL_limite_obras");
-const planoAtivo = localStorage.getItem("SDL_plano_ativo");
-const dataVencimento = localStorage.getItem("SDL_data_vencimento");
-const dataPrazoRetirada = localStorage.getItem("SDL_data_prazo_retirada");
-
-document.getElementById("planoAtual").innerText =
-plano || "Nenhum plano selecionado";
-
-document.getElementById("limiteObras").innerText =
-definirLimiteTexto(limite);
-
-if(!plano || !dataVencimento || !dataPrazoRetirada){
-document.getElementById("situacaoAcesso").innerText =
-"Nenhum plano ativo no momento.";
-
-document.getElementById("alertaPlano").innerText =
-"Escolha um plano para ativar seu acesso.";
-
-bloquearEntrada();
-return;
-}
-
-const hoje = new Date();
-const vencimento = new Date(dataVencimento);
-const prazoRetirada = new Date(dataPrazoRetirada);
-
-if(planoAtivo === "ativo" && hoje <= vencimento){
 document.getElementById("situacaoAcesso").innerHTML =
-"<span class='destaque'>Plano ativo</span>";
+"<span class='destaque'>Sessão não iniciada</span>";
 
 document.getElementById("alertaPlano").innerText =
-"Seu acesso está liberado normalmente.";
+"Entre com seu usuário para usar o ambiente editorial com estabilidade.";
+
+bloquearBotao("btnOriginal", "Entre primeiro no sistema.");
+bloquearBotao("btnIdiomaObra", "Entre primeiro no sistema.");
+bloquearBotao("btnPreferencias", "Entre primeiro no sistema.");
+bloquearBotao("btnCapaExterna", "Entre primeiro no sistema.");
+bloquearBotao("btnCapista", "Entre primeiro no sistema.");
+bloquearBotao("btnLeitura", "Entre primeiro no sistema.");
+bloquearBotao("btnRelatorioLapidar", "Entre primeiro no sistema.");
+bloquearBotao("btnRelatorioLeitura", "Entre primeiro no sistema.");
+bloquearBotao("btnRelatorioCapista", "Entre primeiro no sistema.");
+bloquearBotao("btnStatus", "Entre primeiro no sistema.");
 
 return;
 }
 
-if(hoje > vencimento && hoje <= prazoRetirada){
-document.getElementById("situacaoAcesso").innerText =
-"Plano vencido com prazo extra disponível.";
+if(statusPagamento === "pendente"){
+document.getElementById("situacaoAcesso").innerHTML =
+"<span class='destaque'>Plano registrado aguardando confirmação</span>";
 
 document.getElementById("alertaPlano").innerText =
-"Você ainda pode retirar seus materiais.";
-
-bloquearEntrada();
+"Seu ambiente já reconheceu o plano selecionado. Confirme o pagamento para liberação total.";
 return;
 }
 
-document.getElementById("situacaoAcesso").innerText =
-"Plano encerrado.";
+if(statusPagamento === "confirmado"){
+document.getElementById("situacaoAcesso").innerHTML =
+"<span class='destaque'>Ambiente ativo</span>";
 
 document.getElementById("alertaPlano").innerText =
-"Escolha um novo plano para continuar.";
+"Seu ambiente editorial está ativo e pronto para uso.";
+return;
+}
 
-bloquearEntrada();
+document.getElementById("situacaoAcesso").innerHTML =
+"<span class='destaque'>Sessão iniciada</span>";
+
+document.getElementById("alertaPlano").innerText =
+"Você já pode navegar normalmente pelo sistema editorial.";
 
 }
 
-carregarPainelInicial();
+carregarPainel();
 
 </script>
 
