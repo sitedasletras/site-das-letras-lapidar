@@ -2,29 +2,31 @@
 <html lang="pt-br">
 
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Status do plano de doações — Lapidar</title>
+
+<title>Status do plano editorial</title>
 
 <style>
 
 body{
 margin:0;
-font-family:Arial, sans-serif;
-background:#0d0603;
+background:#0c0603;
+font-family:Arial;
 color:white;
 display:flex;
 justify-content:center;
 }
 
 .container{
+max-width:720px;
 width:92%;
-max-width:760px;
 padding:40px 0 60px 0;
 }
 
 .titulo{
-font-size:36px;
+font-size:34px;
 text-align:center;
 font-weight:bold;
 }
@@ -34,23 +36,18 @@ text-align:center;
 color:#ff7b2c;
 margin-top:10px;
 margin-bottom:28px;
-line-height:1.6;
 }
 
 .card{
 background:#140c08;
-padding:24px;
 border-radius:14px;
-margin-top:18px;
+padding:26px;
+margin-top:20px;
 line-height:1.8;
 }
 
-.label{
-color:#ff7b2c;
-font-weight:bold;
-}
-
-.valor{
+.item{
+margin-bottom:10px;
 color:#ffd2b3;
 }
 
@@ -59,49 +56,21 @@ color:#9cffb2;
 font-weight:bold;
 }
 
-.alerta{
-color:#ffcf80;
-font-weight:bold;
-}
-
-.alertaVermelho{
-color:#ff9b9b;
-font-weight:bold;
-}
-
 .botao{
 width:100%;
 padding:18px;
-border-radius:40px;
+margin-top:24px;
 border:none;
-margin-top:18px;
+border-radius:40px;
+background:#ff5a00;
+color:white;
 font-size:18px;
 font-weight:bold;
 cursor:pointer;
-background:#ff5a00;
-color:white;
-}
-
-.botao:hover{
-background:#ff6f1a;
-}
-
-.botaoSecundario{
-background:#333;
-}
-
-.botaoSecundario:hover{
-background:#555;
-}
-
-.aviso{
-margin-top:24px;
-text-align:center;
-color:#ffd2b3;
-line-height:1.7;
 }
 
 </style>
+
 </head>
 
 <body>
@@ -109,336 +78,85 @@ line-height:1.7;
 <div class="container">
 
 <div class="titulo">
-Status do plano de doações
+
+Status editorial do seu ambiente
+
 </div>
 
 <div class="subtitulo">
-Aqui você acompanha a situação do seu acesso e do seu período de uso dentro do Lapidar
-</div>
 
-<div class="card">
-
-<div>
-<span class="label">Plano atual</span><br>
-<span id="planoAtual" class="valor">Não informado</span>
-</div>
-
-<div style="margin-top:16px">
-<span class="label">Valor do plano</span><br>
-<span id="valorPlano" class="valor">Não informado</span>
-</div>
-
-<div style="margin-top:16px">
-<span class="label">Limite mensal de obras</span><br>
-<span id="limiteObras" class="valor">Não informado</span>
-</div>
-
-<div style="margin-top:16px">
-<span class="label">Forma de doação</span><br>
-<span id="formaDoacao" class="valor">Não informada</span>
-</div>
+Lapidar — Site das Letras
 
 </div>
 
-<div class="card">
+<div class="card" id="statusPlano">
 
-<div>
-<span class="label">Situação do plano</span><br>
-<span id="situacaoPlano" class="valor">Verificando...</span>
-</div>
-
-<div style="margin-top:16px">
-<span class="label">Data da ativação</span><br>
-<span id="dataAtivacao" class="valor">Não informada</span>
-</div>
-
-<div style="margin-top:16px">
-<span class="label">Data de vencimento</span><br>
-<span id="dataVencimento" class="valor">Não informada</span>
-</div>
-
-<div style="margin-top:16px">
-<span class="label">Prazo final para retirada dos materiais diagramados</span><br>
-<span id="prazoRetirada" class="valor">Não informado</span>
-</div>
-
-<div style="margin-top:16px">
-<span class="label">Contagem do prazo</span><br>
-<span id="contagemPrazo" class="valor">Calculando...</span>
-</div>
-
-<div style="margin-top:16px">
-<span class="label">Tempo oficial do sistema</span><br>
-<span id="tempoOficial" class="valor">Carregando...</span>
-</div>
+Carregando informações do plano...
 
 </div>
 
-<div class="card">
+<button class="botao"
+onclick="window.location.href='_Indice.html'">
 
-<div>
-<span class="label">Orientação importante</span><br>
-<span id="mensagemOrientacao" class="valor">
-Seu acesso será avaliado conforme a data do plano e o prazo extra de retirada.
-</span>
-</div>
+Voltar para casa do original
 
-</div>
-
-<button class="botao" onclick="window.location.href='pagamento.html'">
-Renovar plano de doações
 </button>
-
-<button class="botao" onclick="window.location.href='planos_doacoes.html'">
-Escolher outro plano de doações
-</button>
-
-<button class="botao botaoSecundario" onclick="window.location.href='_Indice.html'">
-Voltar para a casa do seu original
-</button>
-
-<div class="aviso">
-O acesso ao Lapidar é pessoal e permitido em apenas um dispositivo por vez. Após o vencimento do plano, o sistema ainda mantém o prazo extra de retirada dos materiais diagramados pelo período definido.
-</div>
 
 </div>
 
 <script>
 
-function formatarData(dataIso){
+function obterValor(chave){
 
-if(!dataIso){
-return "Não informada";
-}
-
-const data = new Date(dataIso);
-
-if(isNaN(data.getTime())){
-return "Não informada";
-}
-
-return data.toLocaleDateString("pt-BR");
+return localStorage.getItem(chave) || "não registrado";
 
 }
 
-function formatarDataHora(dataIso){
+function montarStatus(){
 
-if(!dataIso){
-return "Não informada";
-}
+const planoLapidar =
+obterValor("SDL_plano_lapidar");
 
-const data = new Date(dataIso);
+const planoCapista =
+obterValor("CAPISTA_plano");
 
-if(isNaN(data.getTime())){
-return "Não informada";
-}
+const leituraTecnica =
+obterValor("LTE_status");
 
-return data.toLocaleDateString("pt-BR") + " às " + data.toLocaleTimeString("pt-BR");
+const capasFisicas =
+obterValor("CAPISTA_capas_fisicas");
 
-}
+const capasEpub =
+obterValor("CAPISTA_capas_epub");
 
-function definirValorPlano(plano){
+const idiomasExtras =
+obterValor("SDL_idiomas_extras");
 
-if(plano === "Essencial"){
-return "R$ 1,99";
-}
+const validadePlano =
+obterValor("SDL_validade_plano");
 
-if(plano === "Inicial"){
-return "R$ 9,90";
-}
+document.getElementById("statusPlano").innerHTML =
 
-if(plano === "Editorial"){
-return "R$ 39,90";
-}
+"<div class='item'>Plano Lapidar ativo: <span class='destaque'>" + planoLapidar + "</span></div>" +
 
-if(plano === "Avançado"){
-return "R$ 59,90";
-}
+"<div class='item'>Plano Capista ativo: <span class='destaque'>" + planoCapista + "</span></div>" +
 
-if(plano === "Profissional"){
-return "R$ 99,90";
-}
+"<div class='item'>Leitura técnica editorial: <span class='destaque'>" + leituraTecnica + "</span></div>" +
 
-if(plano === "Magistral"){
-return "Plano Magistral — uso livre";
-}
+"<div class='item'>Capas físicas utilizadas: <span class='destaque'>" + capasFisicas + "</span></div>" +
 
-return "Não informado";
+"<div class='item'>Capas EPUB utilizadas: <span class='destaque'>" + capasEpub + "</span></div>" +
+
+"<div class='item'>Idiomas extras ativados: <span class='destaque'>" + idiomasExtras + "</span></div>" +
+
+"<div class='item'>Validade do plano: <span class='destaque'>" + validadePlano + "</span></div>";
 
 }
 
-function definirLimiteTexto(limite){
-
-if(!limite){
-return "Não informado";
-}
-
-if(limite === "ilimitado"){
-return "Uso livre dentro do período do plano";
-}
-
-return limite + " obra(s) no mês";
-
-}
-
-function definirFormaTexto(forma){
-
-if(!forma){
-return "Não informada";
-}
-
-if(forma === "pix"){
-return "Pix";
-}
-
-if(forma === "deposito"){
-return "Depósito bancário";
-}
-
-if(forma === "cartao"){
-return "Cartão de crédito";
-}
-
-return forma;
-
-}
-
-function diferencaEmDias(agora, dataFutura){
-
-const futura = new Date(dataFutura);
-
-const diferencaMs = futura.getTime() - agora.getTime();
-const dias = Math.ceil(diferencaMs / (1000 * 60 * 60 * 24));
-
-return dias;
-
-}
-
-async function obterTempoOficial(){
-
-try{
-
-const resposta = await fetch("tempo-oficial.json?ts=" + Date.now());
-
-if(!resposta.ok){
-throw new Error("Falha ao carregar tempo oficial");
-}
-
-const dados = await resposta.json();
-
-if(dados.tempoOficial){
-return new Date(dados.tempoOficial);
-}
-
-if(dados.tempo_oficial){
-return new Date(dados.tempo_oficial);
-}
-
-if(dados.agora){
-return new Date(dados.agora);
-}
-
-throw new Error("Campo de tempo não encontrado");
-
-}
-catch(erro){
-
-return new Date();
-
-}
-
-}
-
-async function carregarStatusPlano(){
-
-const plano = localStorage.getItem("SDL_plano");
-const limite = localStorage.getItem("SDL_limite_obras");
-const forma = localStorage.getItem("SDL_forma_doacao");
-const dataPagamento = localStorage.getItem("SDL_data_pagamento");
-const dataVencimento = localStorage.getItem("SDL_data_vencimento");
-const dataPrazoRetirada = localStorage.getItem("SDL_data_prazo_retirada");
-const planoAtivo = localStorage.getItem("SDL_plano_ativo");
-const prazoLiberado = localStorage.getItem("SDL_prazo_liberado");
-
-document.getElementById("planoAtual").innerText = plano || "Nenhum plano selecionado";
-document.getElementById("valorPlano").innerText = definirValorPlano(plano);
-document.getElementById("limiteObras").innerText = definirLimiteTexto(limite);
-document.getElementById("formaDoacao").innerText = definirFormaTexto(forma);
-document.getElementById("dataAtivacao").innerText = formatarData(dataPagamento);
-document.getElementById("dataVencimento").innerText = formatarData(dataVencimento);
-document.getElementById("prazoRetirada").innerText = formatarData(dataPrazoRetirada);
-
-const agoraOficial = await obterTempoOficial();
-document.getElementById("tempoOficial").innerText = formatarDataHora(agoraOficial.toISOString());
-
-if(!plano || !dataPagamento || !dataVencimento || !dataPrazoRetirada){
-
-document.getElementById("situacaoPlano").innerHTML = "<span class='alertaVermelho'>Nenhum plano ativo no momento.</span>";
-document.getElementById("contagemPrazo").innerText = "Sem prazo em andamento.";
-document.getElementById("mensagemOrientacao").innerText = "Escolha um plano de doações para ativar seu acesso ao Lapidar.";
-return;
-
-}
-
-const vencimento = new Date(dataVencimento);
-const prazoRetiradaData = new Date(dataPrazoRetirada);
-
-if(planoAtivo === "ativo" && agoraOficial <= vencimento){
-
-const diasRestantes = diferencaEmDias(agoraOficial, dataVencimento);
-
-document.getElementById("situacaoPlano").innerHTML = "<span class='destaque'>Plano ativo</span>";
-
-if(diasRestantes > 1){
-document.getElementById("contagemPrazo").innerText = "Faltam " + diasRestantes + " dias para o vencimento do plano.";
-}
-else if(diasRestantes === 1){
-document.getElementById("contagemPrazo").innerText = "Falta 1 dia para o vencimento do plano.";
-}
-else{
-document.getElementById("contagemPrazo").innerText = "O plano vence hoje.";
-}
-
-document.getElementById("mensagemOrientacao").innerText =
-"Seu acesso está liberado normalmente. Você pode continuar usando os recursos do seu plano.";
-
-return;
-
-}
-
-if(agoraOficial > vencimento && agoraOficial <= prazoRetiradaData && prazoLiberado === "sim"){
-
-const diasRetirada = diferencaEmDias(agoraOficial, dataPrazoRetirada);
-
-document.getElementById("situacaoPlano").innerHTML = "<span class='alerta'>Plano vencido com prazo extra de retirada liberado</span>";
-
-if(diasRetirada > 1){
-document.getElementById("contagemPrazo").innerText = "Você ainda tem " + diasRetirada + " dias para retirar seus materiais diagramados.";
-}
-else if(diasRetirada === 1){
-document.getElementById("contagemPrazo").innerText = "Você ainda tem 1 dia para retirar seus materiais diagramados.";
-}
-else{
-document.getElementById("contagemPrazo").innerText = "O prazo extra termina hoje.";
-}
-
-document.getElementById("mensagemOrientacao").innerText =
-"Seu plano venceu, mas o sistema ainda mantém o prazo extra para retirada dos materiais diagramados.";
-
-return;
-
-}
-
-document.getElementById("situacaoPlano").innerHTML = "<span class='alertaVermelho'>Plano encerrado</span>";
-document.getElementById("contagemPrazo").innerText = "O prazo de uso e o prazo extra já terminaram.";
-document.getElementById("mensagemOrientacao").innerText =
-"Para continuar usando o Lapidar, escolha um novo plano de doações e ative novamente o seu acesso.";
-
-}
-
-carregarStatusPlano();
+montarStatus();
 
 </script>
 
 </body>
+
 </html>
