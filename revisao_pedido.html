@@ -36,6 +36,7 @@ text-align:center;
 color:#ff7b2c;
 margin-top:10px;
 margin-bottom:25px;
+line-height:1.6;
 }
 
 .card{
@@ -56,7 +57,6 @@ color:#ffd2b3;
 }
 
 .botao{
-
 width:100%;
 padding:18px;
 border-radius:40px;
@@ -65,7 +65,6 @@ margin-top:18px;
 font-size:18px;
 font-weight:bold;
 cursor:pointer;
-
 }
 
 .botaoConfirmar{
@@ -87,12 +86,19 @@ background:#666;
 }
 
 .sucesso{
-
 margin-top:25px;
 text-align:center;
 color:#9cffb2;
 font-size:16px;
+line-height:1.7;
+}
 
+.alerta{
+margin-top:20px;
+text-align:center;
+color:#ffb199;
+font-size:15px;
+line-height:1.7;
 }
 
 </style>
@@ -112,6 +118,20 @@ Confira abaixo como o seu material será preparado pelo Lapidar
 </div>
 
 <div class="card">
+
+<div>
+<span class="label">Plano de doações atual:</span><br>
+<span id="planoAtual" class="valor"></span>
+</div>
+
+<br>
+
+<div>
+<span class="label">Limite mensal de obras:</span><br>
+<span id="limiteObras" class="valor"></span>
+</div>
+
+<br>
 
 <div>
 <span class="label">Título da obra:</span><br>
@@ -181,7 +201,23 @@ Confira abaixo como o seu material será preparado pelo Lapidar
 <span id="itensExtras" class="valor"></span>
 </div>
 
+<br>
+
+<div>
+<span class="label">Observações iniciais:</span><br>
+<span id="observacoesIniciais" class="valor"></span>
 </div>
+
+<br>
+
+<div>
+<span class="label">Observações sobre a diagramação:</span><br>
+<span id="observacoesDiagramacao" class="valor"></span>
+</div>
+
+</div>
+
+<div id="alertaPlano" class="alerta"></div>
 
 <button class="botao botaoConfirmar" onclick="confirmarPedido()">
 Confirmar preparação editorial
@@ -198,63 +234,71 @@ Editar preferências
 
 <script>
 
-document.getElementById("tituloLivro").innerText =
-localStorage.getItem("SDL_titulo_livro");
+function preencherCampo(id, valorPadrao, valorSalvo){
+document.getElementById(id).innerText = valorSalvo ? valorSalvo : valorPadrao;
+}
 
-document.getElementById("autorLivro").innerText =
-localStorage.getItem("SDL_nome_autor");
-
-document.getElementById("tipoMaterial").innerText =
-localStorage.getItem("SDL_tipo_material");
-
-document.getElementById("destinoMaterial").innerText =
-localStorage.getItem("SDL_destino_material");
-
-document.getElementById("formatoLivro").innerText =
-localStorage.getItem("SDL_formato_livro");
-
-document.getElementById("alinhamentoTexto").innerText =
-localStorage.getItem("SDL_alinhamento_texto");
-
-document.getElementById("recuoParagrafo").innerText =
-localStorage.getItem("SDL_recuo_paragrafo");
-
-document.getElementById("espacoParagrafos").innerText =
-localStorage.getItem("SDL_espaco_paragrafos");
-
-document.getElementById("dialogos").innerText =
-localStorage.getItem("SDL_dialogos");
+preencherCampo("planoAtual", "Nenhum plano selecionado", localStorage.getItem("SDL_plano"));
+preencherCampo("limiteObras", "Não definido", localStorage.getItem("SDL_limite_obras"));
+preencherCampo("tituloLivro", "Não informado", localStorage.getItem("SDL_titulo_livro"));
+preencherCampo("autorLivro", "Não informado", localStorage.getItem("SDL_nome_autor"));
+preencherCampo("tipoMaterial", "Não informado", localStorage.getItem("SDL_tipo_material"));
+preencherCampo("destinoMaterial", "Não informado", localStorage.getItem("SDL_destino_material"));
+preencherCampo("formatoLivro", "Não informado", localStorage.getItem("SDL_formato_livro"));
+preencherCampo("alinhamentoTexto", "Não informado", localStorage.getItem("SDL_alinhamento_texto"));
+preencherCampo("recuoParagrafo", "Não informado", localStorage.getItem("SDL_recuo_paragrafo"));
+preencherCampo("espacoParagrafos", "Não informado", localStorage.getItem("SDL_espaco_paragrafos"));
+preencherCampo("dialogos", "Não informado", localStorage.getItem("SDL_dialogos"));
+preencherCampo("observacoesIniciais", "Sem observações iniciais registradas.", localStorage.getItem("SDL_observacoes_iniciais"));
+preencherCampo("observacoesDiagramacao", "Sem observações adicionais registradas.", localStorage.getItem("SDL_observacoes_diagramacao"));
 
 let extras = [];
 
-if(localStorage.getItem("SDL_tem_sumario")=="sim")
+if(localStorage.getItem("SDL_tem_sumario") === "sim"){
 extras.push("Sumário");
+}
 
-if(localStorage.getItem("SDL_tem_dedicatoria")=="sim")
+if(localStorage.getItem("SDL_tem_dedicatoria") === "sim"){
 extras.push("Dedicatória");
+}
 
-if(localStorage.getItem("SDL_tem_prefacio")=="sim")
+if(localStorage.getItem("SDL_tem_prefacio") === "sim"){
 extras.push("Prefácio");
+}
 
-if(localStorage.getItem("SDL_tem_biografia")=="sim")
+if(localStorage.getItem("SDL_tem_biografia") === "sim"){
 extras.push("Biografia");
+}
 
-if(localStorage.getItem("SDL_tem_ficha_dados")=="sim")
-extras.push("Ficha de dados");
+if(localStorage.getItem("SDL_tem_ficha_dados") === "sim"){
+extras.push("Ficha de dados da obra");
+}
 
-if(localStorage.getItem("SDL_tem_imagens_internas")=="sim")
+if(localStorage.getItem("SDL_tem_imagens_internas") === "sim"){
 extras.push("Imagens internas");
+}
 
 document.getElementById("itensExtras").innerText =
-extras.join(", ");
+extras.length > 0 ? extras.join(", ") : "Nenhum item complementar selecionado.";
+
 
 function confirmarPedido(){
 
+const plano = localStorage.getItem("SDL_plano");
+
+if(!plano){
+alert("Para confirmar a preparação editorial é necessário escolher um plano de doações.");
+window.location.href = "planos_doacoes.html";
+return;
+}
+
 localStorage.setItem("SDL_pedido_confirmado","sim");
 
-document.getElementById("mensagemSucesso").innerHTML=
+document.getElementById("mensagemSucesso").innerHTML =
+"Pedido editorial confirmado com sucesso.<br><br>O Lapidar já pode iniciar a preparação do seu material diagramado.";
 
-"Pedido editorial confirmado com sucesso.<br><br>O Lapidar já pode iniciar a preparação do seu material.";
+document.getElementById("alertaPlano").innerHTML =
+"Seu pedido foi confirmado dentro do plano de doações atualmente ativo.";
 
 }
 
