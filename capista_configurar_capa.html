@@ -2,23 +2,25 @@
 <html lang="pt-br">
 
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Configuração da capa — Projeto Capista</title>
+
+<title>Configurar geração de capa — Capista</title>
 
 <style>
 
 body{
 margin:0;
+background:#0c0603;
 font-family:Arial;
-background:#0d0603;
 color:white;
 display:flex;
 justify-content:center;
 }
 
 .container{
-max-width:760px;
+max-width:720px;
 width:92%;
 padding:40px 0 60px 0;
 }
@@ -29,32 +31,38 @@ text-align:center;
 font-weight:bold;
 }
 
+.subtitulo{
+text-align:center;
+color:#ff7b2c;
+margin-top:10px;
+margin-bottom:28px;
+}
+
 .card{
 background:#140c08;
 border-radius:14px;
-padding:22px;
-margin-top:18px;
+padding:26px;
+margin-top:20px;
 }
 
 label{
 display:block;
-margin-bottom:6px;
+margin-top:18px;
 color:#ffd2b3;
-font-weight:bold;
 }
 
 select{
 width:100%;
 padding:12px;
-border-radius:10px;
+margin-top:6px;
+border-radius:8px;
 border:none;
-margin-bottom:18px;
 }
 
 .botao{
 width:100%;
 padding:18px;
-margin-top:18px;
+margin-top:24px;
 border:none;
 border-radius:40px;
 background:#ff5a00;
@@ -64,19 +72,14 @@ font-weight:bold;
 cursor:pointer;
 }
 
-.botao:hover{
-background:#ff6f1a;
-}
-
-.botaoCinza{
-background:#444;
-}
-
-.botaoCinza:hover{
-background:#666;
+.info{
+margin-top:14px;
+font-size:14px;
+color:#ffcfaa;
 }
 
 </style>
+
 </head>
 
 <body>
@@ -84,143 +87,127 @@ background:#666;
 <div class="container">
 
 <div class="titulo">
-Configuração visual da capa
+
+Configurar geração da capa
+
+</div>
+
+<div class="subtitulo">
+
+Escolha o formato editorial da capa antes de gerar
+
 </div>
 
 <div class="card">
 
-<label>Formato da capa</label>
+<label>
 
-<select id="formatoCapa">
-<option>A5</option>
-<option>16x23 cm</option>
-<option>6x9 pol</option>
-<option>A4</option>
-<option>Personalizado</option>
+Tipo de capa
+
+</label>
+
+<select id="tipoCapa">
+
+<option value="fisica">Livro físico</option>
+<option value="epub">EPUB digital</option>
+<option value="ambos">Livro físico + EPUB</option>
+
 </select>
 
+<label>
 
-<label>Tipo de acabamento</label>
+Idioma principal da capa
 
-<select id="acabamento">
-<option>Simples</option>
-<option>Refinado</option>
-<option>Premium</option>
-<option>Best of Best</option>
+</label>
+
+<select id="idiomaPrincipal">
+
+<option value="pt">Português</option>
+<option value="en">English</option>
+<option value="es">Español</option>
+<option value="it">Italiano</option>
+<option value="fr">Français</option>
+<option value="de">Deutsch</option>
+
 </select>
 
+<label>
 
-<label>Possui orelha?</label>
+Gerar capa também em outro idioma (até 20%)
 
-<select id="orelha">
-<option>Sem orelha</option>
-<option>Orelha 50 mm</option>
-<option>Orelha 70 mm</option>
-<option>Orelha 100 mm</option>
+</label>
+
+<select id="idiomaExtra">
+
+<option value="nenhum">Não gerar outro idioma</option>
+<option value="en">English</option>
+<option value="es">Español</option>
+<option value="it">Italiano</option>
+<option value="fr">Français</option>
+<option value="de">Deutsch</option>
+
 </select>
 
+<div class="info">
 
-<label>Modo da capa</label>
+Planos Capista permitem até 20% das capas em idioma alternativo.
 
-<select id="modoCor">
-<option>Colorida</option>
-<option>Preto e branco</option>
-</select>
+</div>
 
+<button class="botao"
 
-<label>Inserir selo editorial?</label>
+onclick="registrarConfiguracaoCapa()">
 
-<select id="seloEditorial">
-<option>Sim</option>
-<option>Não</option>
-</select>
+Confirmar configuração da capa
 
-
-<label>Exportação final</label>
-
-<select id="exportacao">
-<option>Gráfica física</option>
-<option>Amazon</option>
-<option>UICLAP</option>
-<option>Todas</option>
-</select>
-
-
-<button class="botao" onclick="salvarConfiguracaoCapa()">
-Salvar configuração da capa
 </button>
 
+<button class="botao"
 
-<button class="botao" onclick="seguirGeracaoCapa()">
-Gerar capa
-</button>
+onclick="window.location.href='_Indice.html'">
 
+Voltar para casa do original
 
-<button class="botao botaoCinza"
-onclick="window.location.href='capista_upload_textos.html'">
-Voltar
 </button>
 
 </div>
 
 </div>
-
 
 <script>
 
-function salvarConfiguracaoCapa(){
+function registrarConfiguracaoCapa(){
 
-localStorage.setItem(
-"CAPISTA_formato",
-document.getElementById("formatoCapa").value
-);
+const tipoCapa =
 
-localStorage.setItem(
-"CAPISTA_acabamento",
-document.getElementById("acabamento").value
-);
+document.getElementById("tipoCapa").value;
 
-localStorage.setItem(
-"CAPISTA_orelha",
-document.getElementById("orelha").value
-);
+const idiomaPrincipal =
 
-localStorage.setItem(
-"CAPISTA_cor",
-document.getElementById("modoCor").value
-);
+document.getElementById("idiomaPrincipal").value;
 
-localStorage.setItem(
-"CAPISTA_selo",
-document.getElementById("seloEditorial").value
-);
+const idiomaExtra =
 
-localStorage.setItem(
-"CAPISTA_exportacao",
-document.getElementById("exportacao").value
-);
+document.getElementById("idiomaExtra").value;
 
-alert("Configuração salva com sucesso.");
+localStorage.setItem("CAPISTA_tipo_capa", tipoCapa);
+
+localStorage.setItem("CAPISTA_idioma_principal", idiomaPrincipal);
+
+if(idiomaExtra !== "nenhum"){
+
+localStorage.setItem("CAPISTA_idioma_extra", idiomaExtra);
 
 }
 
+alert("Configuração registrada com sucesso.");
 
-function seguirGeracaoCapa(){
-
-if(!localStorage.getItem("CAPISTA_formato")){
-
-alert("Salve primeiro a configuração da capa.");
-
-return;
-
-}
-
-window.location.href =
-"capista_gerar_capa.html";
+window.location.href = "capista_gerar_capa.html";
 
 }
 
 </script>
 
 </body>
+
 </html>
