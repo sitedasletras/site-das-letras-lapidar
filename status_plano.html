@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Status do Plano — Lapidar</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial;
+background:#0d0603;
+color:white;
+display:flex;
+justify-content:center;
+}
+
+.container{
+max-width:600px;
+width:92%;
+padding:30px 0 60px 0;
+}
+
+.titulo{
+font-size:34px;
+text-align:center;
+margin-bottom:10px;
+}
+
+.subtitulo{
+text-align:center;
+color:#ff7b2c;
+margin-bottom:20px;
+}
+
+.card{
+
+background:#140c08;
+padding:22px;
+border-radius:12px;
+margin-bottom:20px;
+
+}
+
+.label{
+
+color:#ff7b2c;
+margin-top:10px;
+
+}
+
+.valor{
+
+font-size:20px;
+
+}
+
+.statusAtivo{
+
+color:#9cffb2;
+
+}
+
+.statusCarencia{
+
+color:#ffd966;
+
+}
+
+.statusExpirado{
+
+color:#ff7a7a;
+
+}
+
+.botao{
+
+width:100%;
+padding:18px;
+margin-top:14px;
+border:none;
+border-radius:35px;
+background:#ff5a00;
+color:white;
+font-size:18px;
+font-weight:bold;
+cursor:pointer;
+
+}
+
+.botao:hover{
+
+background:#ff6f1a;
+
+}
+
+.botaoCinza{
+
+background:#444;
+
+}
+
+.botaoCinza:hover{
+
+background:#666;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="titulo">
+
+Status do seu acesso
+
+</div>
+
+<div class="subtitulo">
+
+Aqui você acompanha a situação do seu plano no Lapidar
+
+</div>
+
+
+<div class="card">
+
+<div class="label">Plano atual</div>
+<div class="valor" id="plano"></div>
+
+<div class="label">Data de vencimento</div>
+<div class="valor" id="vencimento"></div>
+
+<div class="label">Prazo final para retirada dos livros</div>
+<div class="valor" id="retirada"></div>
+
+<div class="label">Status do acesso</div>
+<div class="valor" id="status"></div>
+
+</div>
+
+
+<button class="botao" onclick="renovarPlano()">
+
+Renovar doação / plano
+
+</button>
+
+
+<button class="botao botaoCinza" onclick="mudarPlano()">
+
+Escolher outro plano
+
+</button>
+
+
+<button class="botao ocultar" id="btnRetirada" onclick="retirarLivros()">
+
+Retirar livros finalizados
+
+</button>
+
+
+</div>
+
+
+<script>
+
+
+function formatarData(data){
+
+return data.toLocaleDateString("pt-BR");
+
+}
+
+
+function verificarStatus(){
+
+let plano = localStorage.getItem("SDL_plano");
+
+if(!plano){
+
+plano = "Plano mensal Lapidar";
+
+localStorage.setItem("SDL_plano", plano);
+
+}
+
+
+let dataPagamento = localStorage.getItem("SDL_data_pagamento");
+
+if(!dataPagamento){
+
+let hoje = new Date();
+
+localStorage.setItem("SDL_data_pagamento", hoje);
+
+dataPagamento = hoje;
+
+}
+
+dataPagamento = new Date(dataPagamento);
+
+
+let vencimento = new Date(dataPagamento);
+
+vencimento.setMonth(vencimento.getMonth() + 1);
+
+
+let retirada = new Date(vencimento);
+
+retirada.setDate(retirada.getDate() + 7);
+
+
+let hoje = new Date();
+
+
+let statusTexto = "";
+
+
+if(hoje <= vencimento){
+
+statusTexto = "<span class='statusAtivo'>Ativo</span>";
+
+}
+
+
+else if(hoje <= retirada){
+
+statusTexto = "<span class='statusCarencia'>Em período de retirada (7 dias)</span>";
+
+document.getElementById("btnRetirada").style.display = "block";
+
+}
+
+
+else{
+
+statusTexto = "<span class='statusExpirado'>Expirado</span>";
+
+}
+
+
+document.getElementById("plano").innerHTML = plano;
+
+document.getElementById("vencimento").innerHTML = formatarData(vencimento);
+
+document.getElementById("retirada").innerHTML = formatarData(retirada);
+
+document.getElementById("status").innerHTML = statusTexto;
+
+
+}
+
+
+function renovarPlano(){
+
+alert("Após confirmação do pagamento, o acesso será renovado automaticamente.");
+
+}
+
+
+function mudarPlano(){
+
+alert("Tela de seleção de planos será aberta.");
+
+}
+
+
+function retirarLivros(){
+
+alert("Seus livros finalizados estão disponíveis para download.");
+
+}
+
+
+verificarStatus();
+
+
+</script>
+
+
+</body>
+
+</html>
