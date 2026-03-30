@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Gerar capa — Projeto Capista</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial;
+background:#0d0603;
+color:white;
+display:flex;
+justify-content:center;
+}
+
+.container{
+max-width:760px;
+width:92%;
+padding:40px 0 60px 0;
+}
+
+.titulo{
+font-size:34px;
+text-align:center;
+font-weight:bold;
+}
+
+.card{
+background:#140c08;
+border-radius:14px;
+padding:22px;
+margin-top:18px;
+line-height:1.8;
+}
+
+.botao{
+width:100%;
+padding:18px;
+margin-top:18px;
+border:none;
+border-radius:40px;
+background:#ff5a00;
+color:white;
+font-size:18px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.botao:hover{
+background:#ff6f1a;
+}
+
+.botaoCinza{
+background:#444;
+}
+
+.botaoCinza:hover{
+background:#666;
+}
+
+.destaque{
+color:#9cffb2;
+font-weight:bold;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="titulo">
+Gerador de capa editorial
+</div>
+
+<div class="card" id="resumoTecnico">
+
+Carregando dados da capa...
+
+</div>
+
+
+<button class="botao" onclick="gerarCapaFinal()">
+
+Gerar capa agora
+
+</button>
+
+
+<button class="botao botaoCinza"
+
+onclick="window.location.href='capista_configurar_capa.html'">
+
+Voltar para configuração
+
+</button>
+
+
+</div>
+
+
+<script>
+
+function montarResumo(){
+
+const plano =
+localStorage.getItem("CAPISTA_plano");
+
+const formato =
+localStorage.getItem("CAPISTA_formato");
+
+const acabamento =
+localStorage.getItem("CAPISTA_acabamento");
+
+const orelha =
+localStorage.getItem("CAPISTA_orelha");
+
+const idiomaEntrada =
+localStorage.getItem("CAPISTA_idioma_texto");
+
+const idiomaSaida =
+localStorage.getItem("CAPISTA_idioma_saida");
+
+const exportacao =
+localStorage.getItem("CAPISTA_exportacao");
+
+document.getElementById("resumoTecnico").innerHTML =
+
+`
+Resumo técnico da capa:
+
+Plano selecionado:
+<span class="destaque">${plano}</span>
+
+Formato:
+<span class="destaque">${formato}</span>
+
+Acabamento:
+<span class="destaque">${acabamento}</span>
+
+Orelha:
+<span class="destaque">${orelha}</span>
+
+Idioma de entrada:
+<span class="destaque">${idiomaEntrada}</span>
+
+Idioma final:
+<span class="destaque">${idiomaSaida}</span>
+
+Exportação:
+<span class="destaque">${exportacao}</span>
+`;
+
+}
+
+
+function gerarCapaFinal(){
+
+const titulo =
+localStorage.getItem("CAPISTA_titulo");
+
+if(!titulo){
+
+alert("Título não encontrado.");
+
+return;
+
+}
+
+
+alert(
+
+"Capa enviada para processamento editorial."
+
+);
+
+window.location.href = "_Indice.html";
+
+}
+
+
+montarResumo();
+
+</script>
+
+</body>
+
+</html>
