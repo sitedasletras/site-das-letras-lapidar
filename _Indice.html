@@ -2,10 +2,8 @@
 <html lang="pt-br">
 
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Lapidar — A casa do seu original</title>
 
 <style>
@@ -20,56 +18,58 @@ justify-content:center;
 }
 
 .container{
-max-width:600px;
+max-width:720px;
 width:92%;
-padding:40px 0;
+padding:40px 0 60px 0;
 }
 
 .titulo{
 font-size:42px;
 font-weight:bold;
 text-align:center;
-letter-spacing:3px;
+letter-spacing:2px;
 }
 
 .subtitulo{
 text-align:center;
 color:#ff7b2c;
-margin-top:8px;
-font-size:18px;
-}
-
-.casa{
-text-align:center;
-font-size:28px;
-margin-top:22px;
-color:#ff7b2c;
-}
-
-.bemvindo{
-text-align:center;
 margin-top:10px;
 font-size:18px;
-}
-
-.statusPlano{
-margin-top:12px;
-font-size:14px;
-color:#ffd2b3;
-text-align:center;
-}
-
-.descricao{
-text-align:center;
-margin-top:24px;
 line-height:1.6;
+}
+
+.blocoTopo{
+background:#140c08;
+border-radius:14px;
+padding:20px;
+margin-top:24px;
+line-height:1.7;
+}
+
+.linhaTopo{
+margin-top:10px;
+}
+
+.label{
+color:#ff7b2c;
+font-weight:bold;
+}
+
+.valor{
 color:#ffd2b3;
+}
+
+.texto{
+text-align:center;
+color:#ffd2b3;
+margin-top:28px;
+line-height:1.7;
 }
 
 .botao{
 width:100%;
 padding:20px;
-margin-top:24px;
+margin-top:20px;
 border:none;
 border-radius:40px;
 background:#ff5a00;
@@ -83,6 +83,14 @@ cursor:pointer;
 background:#ff6f1a;
 }
 
+.botaoAzul{
+background:#2c52ff;
+}
+
+.botaoAzul:hover{
+background:#4366ff;
+}
+
 .botaoCinza{
 background:#444;
 }
@@ -91,16 +99,25 @@ background:#444;
 background:#666;
 }
 
-.botaoPlano{
-background:#1f4cff;
+.botaoBloqueado{
+background:#2d2d2d;
+opacity:0.65;
+cursor:not-allowed;
 }
 
-.botaoPlano:hover{
-background:#3b63ff;
+.alerta{
+margin-top:22px;
+text-align:center;
+color:#ffb199;
+line-height:1.7;
+}
+
+.destaque{
+color:#9cffb2;
+font-weight:bold;
 }
 
 </style>
-
 </head>
 
 <body>
@@ -112,126 +129,144 @@ LAPIDAR
 </div>
 
 <div class="subtitulo">
-A esperança e sonhos dos escritores
-</div>
-
-<div class="casa">
 A casa do seu original
 </div>
 
-<div class="bemvindo" id="bemvindoUsuario">
-Bem-vindo.
+<div class="blocoTopo">
+
+<div>
+<span class="label">Plano atual</span><br>
+<span id="planoAtual" class="valor">Carregando...</span>
 </div>
 
-<div id="statusPlanoTopo" class="statusPlano">
-Verificando status do seu acesso...
+<div class="linhaTopo">
+<span class="label">Situação do acesso</span><br>
+<span id="situacaoAcesso" class="valor">Verificando...</span>
 </div>
 
-<div class="descricao">
-Esta é a casa onde o seu texto começa a ganhar forma editorial.<br>
+<div class="linhaTopo">
+<span class="label">Limite mensal de obras</span><br>
+<span id="limiteObras" class="valor">Carregando...</span>
+</div>
+
+</div>
+
+<div class="texto">
+Esta é a casa onde o seu material começa a ganhar forma editorial.<br>
 Escolha abaixo o que deseja fazer agora.
 </div>
 
-<button class="botao"
-onclick="window.location.href='upload_livro.html'">
-Entre aqui com o seu arquivo do texto
+<button id="btnOriginal" class="botao" onclick="window.location.href='upload_livro.html'">
+Entrar com o seu original
 </button>
 
-<button class="botao"
-onclick="abrirGeradorCapa()">
-Entre aqui para fazer a sua capa refinada
+<button id="btnCapa" class="botao" onclick="window.location.href='bloco12.html'">
+Entrar para preparar capa externa
 </button>
 
-<button class="botao"
-onclick="window.location.href='retirada_livros.html'">
-Retire aqui o seu arquivo final da diagramação
+<button id="btnRetirada" class="botao botaoCinza" onclick="retirarMateriais()">
+Retirar materiais diagramados
 </button>
 
-<button class="botao botaoPlano"
-onclick="window.location.href='status_plano.html'">
-Ver situação do seu plano
+<button class="botao botaoAzul" onclick="window.location.href='status_plano.html'">
+Ver status do meu plano
 </button>
 
-<button class="botao botaoCinza"
-onclick="encerrarSessao()">
-Encerrar sessão
-</button>
+<div id="alertaPlano" class="alerta"></div>
 
 </div>
 
 <script>
 
-function verificarPlanoTopo(){
+function definirLimiteTexto(limite){
 
-let dataPagamento = localStorage.getItem("SDL_data_pagamento");
+if(!limite){
+return "Não informado";
+}
 
-if(!dataPagamento){
-document.getElementById("statusPlanoTopo").innerText =
-"Aguardando ativação do plano.";
+if(limite === "ilimitado"){
+return "Uso livre dentro do período do plano";
+}
+
+return limite + " obra(s) no mês";
+
+}
+
+function bloquearEntrada(){
+
+const btnOriginal = document.getElementById("btnOriginal");
+const btnCapa = document.getElementById("btnCapa");
+
+btnOriginal.classList.add("botaoBloqueado");
+btnCapa.classList.add("botaoBloqueado");
+
+btnOriginal.onclick = function(){
+alert("Seu plano precisa estar ativo para continuar preparando materiais no Lapidar.");
+};
+
+btnCapa.onclick = function(){
+alert("Seu plano precisa estar ativo para continuar preparando capas no Lapidar.");
+};
+
+}
+
+function retirarMateriais(){
+
+const prazoLiberado = localStorage.getItem("SDL_prazo_liberado");
+
+if(prazoLiberado === "sim"){
+alert("Seus materiais diagramados continuam disponíveis dentro do prazo de retirada.");
+}
+else{
+alert("No momento não há prazo liberado para retirada de materiais diagramados.");
+}
+
+}
+
+function carregarPainelInicial(){
+
+const plano = localStorage.getItem("SDL_plano");
+const limite = localStorage.getItem("SDL_limite_obras");
+const planoAtivo = localStorage.getItem("SDL_plano_ativo");
+const dataVencimento = localStorage.getItem("SDL_data_vencimento");
+const dataPrazoRetirada = localStorage.getItem("SDL_data_prazo_retirada");
+
+document.getElementById("planoAtual").innerText = plano || "Nenhum plano selecionado";
+document.getElementById("limiteObras").innerText = definirLimiteTexto(limite);
+
+if(!plano || !dataVencimento || !dataPrazoRetirada){
+document.getElementById("situacaoAcesso").innerText = "Nenhum plano ativo no momento.";
+document.getElementById("alertaPlano").innerText = "Escolha um plano de doações para ativar seu acesso ao Lapidar.";
+bloquearEntrada();
 return;
 }
 
-dataPagamento = new Date(dataPagamento);
+const hoje = new Date();
+const vencimento = new Date(dataVencimento);
+const prazoRetirada = new Date(dataPrazoRetirada);
 
-let vencimento = new Date(dataPagamento);
-vencimento.setMonth(vencimento.getMonth() + 1);
-
-let retirada = new Date(vencimento);
-retirada.setDate(retirada.getDate() + 7);
-
-let hoje = new Date();
-
-if(hoje <= vencimento){
-document.getElementById("statusPlanoTopo").innerText =
-"Plano ativo até " + vencimento.toLocaleDateString("pt-BR");
+if(planoAtivo === "ativo" && hoje <= vencimento){
+document.getElementById("situacaoAcesso").innerHTML = "<span class='destaque'>Plano ativo</span>";
+document.getElementById("alertaPlano").innerText = "Seu acesso está liberado normalmente.";
+return;
 }
-else if(hoje <= retirada){
-document.getElementById("statusPlanoTopo").innerText =
-"Seu plano venceu. Você ainda pode retirar seus materiais diagramados por 7 dias.";
+
+if(hoje > vencimento && hoje <= prazoRetirada){
+document.getElementById("situacaoAcesso").innerText = "Plano vencido com prazo extra de retirada liberado.";
+document.getElementById("alertaPlano").innerText = "Seu plano venceu, mas você ainda pode retirar seus materiais diagramados durante o prazo extra.";
+bloquearEntrada();
+return;
 }
-else{
-document.getElementById("statusPlanoTopo").innerText =
-"Acesso encerrado. Reative seu plano para continuar.";
-}
+
+document.getElementById("situacaoAcesso").innerText = "Plano encerrado.";
+document.getElementById("alertaPlano").innerText = "Para continuar usando o Lapidar, escolha um novo plano de doações.";
+bloquearEntrada();
 
 }
 
-function abrirGeradorCapa(){
-
-let capaPacote = localStorage.getItem("SDL_capa_inclusa");
-
-if(capaPacote === "sim"){
-
-let resposta = confirm(
-"Você já possui uma capa incluída no seu pacote.\n\nDeseja substituí-la por uma capa refinada?"
-);
-
-if(resposta){
-window.location.href = "bloco12.html";
-}
-
-}else{
-window.location.href = "bloco12.html";
-}
-
-}
-
-function encerrarSessao(){
-alert("Sessão encerrada com segurança.");
-window.location.href = "index.html";
-}
-
-const usuario = localStorage.getItem("SDL_usuario_logado");
-
-if(usuario){
-document.getElementById("bemvindoUsuario").innerText =
-"Bem-vindo, " + usuario + ".";
-}
-
-verificarPlanoTopo();
+carregarPainelInicial();
 
 </script>
 
 </body>
-
 </html>
