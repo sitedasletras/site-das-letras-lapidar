@@ -6,84 +6,67 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Lapidar — A casa do seu livro</title>
+<title>Lapidar — A casa do seu original</title>
 
 <style>
 
 body{
-
 margin:0;
 font-family:Arial, sans-serif;
 background:#0d0603;
 color:white;
 display:flex;
 justify-content:center;
-
 }
 
 .container{
-
 max-width:600px;
 width:92%;
 padding:40px 0;
-
 }
 
 .titulo{
-
 font-size:42px;
 font-weight:bold;
 text-align:center;
 letter-spacing:3px;
-
 }
 
 .subtitulo{
-
 text-align:center;
 color:#ff7b2c;
 margin-top:8px;
 font-size:18px;
-
 }
 
 .casa{
-
 text-align:center;
 font-size:28px;
 margin-top:22px;
 color:#ff7b2c;
-
 }
 
 .bemvindo{
-
 text-align:center;
 margin-top:10px;
 font-size:18px;
-
 }
 
 .statusPlano{
-
 margin-top:12px;
 font-size:14px;
 color:#ffd2b3;
 text-align:center;
-
 }
 
 .descricao{
-
 text-align:center;
 margin-top:24px;
 line-height:1.6;
 color:#ffd2b3;
-
 }
 
 .botao{
-
 width:100%;
 padding:20px;
 margin-top:24px;
@@ -94,37 +77,26 @@ color:white;
 font-size:20px;
 font-weight:bold;
 cursor:pointer;
-
 }
 
 .botao:hover{
-
 background:#ff6f1a;
-
 }
 
 .botaoCinza{
-
 background:#444;
-
 }
 
 .botaoCinza:hover{
-
 background:#666;
-
 }
 
 .botaoPlano{
-
 background:#1f4cff;
-
 }
 
 .botaoPlano:hover{
-
 background:#3b63ff;
-
 }
 
 </style>
@@ -135,220 +107,130 @@ background:#3b63ff;
 
 <div class="container">
 
-
 <div class="titulo">
-
 LAPIDAR
-
 </div>
-
 
 <div class="subtitulo">
-
 A esperança e sonhos dos escritores
-
 </div>
-
 
 <div class="casa">
-
-A casa do seu livro
-
+A casa do seu original
 </div>
 
-
-<div class="bemvindo">
-
-Bem-vindo, admin.
-
+<div class="bemvindo" id="bemvindoUsuario">
+Bem-vindo.
 </div>
-
 
 <div id="statusPlanoTopo" class="statusPlano">
-
 Verificando status do seu acesso...
-
 </div>
-
 
 <div class="descricao">
-
-Esta é a casa onde o seu livro começa a ganhar forma.<br>
+Esta é a casa onde o seu texto começa a ganhar forma editorial.<br>
 Escolha abaixo o que deseja fazer agora.
-
 </div>
-
 
 <button class="botao"
 onclick="window.location.href='upload_livro.html'">
-
-Entre aqui com o seu arquivo do livro
-
+Entre aqui com o seu arquivo do texto
 </button>
-
 
 <button class="botao"
 onclick="abrirGeradorCapa()">
-
 Entre aqui para fazer a sua capa refinada
-
 </button>
-
 
 <button class="botao"
 onclick="window.location.href='retirada_livros.html'">
-
-Clique aqui para retirar o seu livro finalizado
-
+Retire aqui o seu arquivo final da diagramação
 </button>
-
 
 <button class="botao botaoPlano"
 onclick="window.location.href='status_plano.html'">
-
 Ver situação do seu plano
-
 </button>
-
 
 <button class="botao botaoCinza"
 onclick="encerrarSessao()">
-
 Encerrar sessão
-
 </button>
-
 
 </div>
 
-
 <script>
-
 
 function verificarPlanoTopo(){
 
-let dataPagamento =
-localStorage.getItem("SDL_data_pagamento");
-
+let dataPagamento = localStorage.getItem("SDL_data_pagamento");
 
 if(!dataPagamento){
-
-document.getElementById("statusPlanoTopo")
-.innerText =
+document.getElementById("statusPlanoTopo").innerText =
 "Aguardando ativação do plano.";
-
 return;
-
 }
 
+dataPagamento = new Date(dataPagamento);
 
-dataPagamento =
-new Date(dataPagamento);
+let vencimento = new Date(dataPagamento);
+vencimento.setMonth(vencimento.getMonth() + 1);
 
+let retirada = new Date(vencimento);
+retirada.setDate(retirada.getDate() + 7);
 
-let vencimento =
-new Date(dataPagamento);
-
-
-vencimento.setMonth(
-vencimento.getMonth()+1
-);
-
-
-let retirada =
-new Date(vencimento);
-
-
-retirada.setDate(
-retirada.getDate()+7
-);
-
-
-let hoje =
-new Date();
-
+let hoje = new Date();
 
 if(hoje <= vencimento){
-
-document.getElementById("statusPlanoTopo")
-.innerText =
-"Plano ativo até "
-+
-vencimento.toLocaleDateString("pt-BR");
-
+document.getElementById("statusPlanoTopo").innerText =
+"Plano ativo até " + vencimento.toLocaleDateString("pt-BR");
 }
-
-
 else if(hoje <= retirada){
-
-document.getElementById("statusPlanoTopo")
-.innerText =
-"Seu plano venceu. Você ainda pode retirar seus livros por 7 dias.";
-
+document.getElementById("statusPlanoTopo").innerText =
+"Seu plano venceu. Você ainda pode retirar seus materiais diagramados por 7 dias.";
 }
-
-
 else{
-
-document.getElementById("statusPlanoTopo")
-.innerText =
+document.getElementById("statusPlanoTopo").innerText =
 "Acesso encerrado. Reative seu plano para continuar.";
-
 }
 
-
 }
-
 
 function abrirGeradorCapa(){
 
-let capaPacote =
-localStorage.getItem("SDL_capa_inclusa");
-
+let capaPacote = localStorage.getItem("SDL_capa_inclusa");
 
 if(capaPacote === "sim"){
 
-let resposta =
-confirm(
+let resposta = confirm(
 "Você já possui uma capa incluída no seu pacote.\n\nDeseja substituí-la por uma capa refinada?"
 );
 
-
 if(resposta){
-
-window.location.href =
-"bloco12.html";
-
+window.location.href = "bloco12.html";
 }
-
 
 }else{
-
-window.location.href =
-"bloco12.html";
-
+window.location.href = "bloco12.html";
 }
 
 }
-
 
 function encerrarSessao(){
-
-alert(
-"Sessão encerrada com segurança."
-);
-
-window.location.href =
-"index.html";
-
+alert("Sessão encerrada com segurança.");
+window.location.href = "index.html";
 }
 
+const usuario = localStorage.getItem("SDL_usuario_logado");
+
+if(usuario){
+document.getElementById("bemvindoUsuario").innerText =
+"Bem-vindo, " + usuario + ".";
+}
 
 verificarPlanoTopo();
 
-
 </script>
-
 
 </body>
 
