@@ -6,99 +6,91 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Lapidar — A casa do seu original</title>
+<title>Lapidar — Acesso</title>
 
 <style>
 
 body{
+
 margin:0;
-font-family:Arial, sans-serif;
+font-family:Arial,sans-serif;
 background:#0d0603;
 color:white;
-text-align:center;
-padding:40px 0;
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+height:100vh;
+
 }
 
 .container{
-width:92%;
-max-width:620px;
-margin:auto;
+
+width:90%;
+max-width:420px;
+text-align:center;
+
 }
 
-.titulo{
-font-size:42px;
+.logo{
+
+font-size:32px;
 font-weight:bold;
+margin-bottom:10px;
+
 }
 
-.subtitulo{
+.sublogo{
+
+font-size:14px;
+letter-spacing:4px;
 color:#ff7b2c;
-margin-top:10px;
-margin-bottom:20px;
-font-size:18px;
-}
-
-.planoAtivo{
-
-margin-top:10px;
-margin-bottom:30px;
-font-size:16px;
-color:#9cffb2;
+margin-bottom:40px;
 
 }
 
-.alertaPlano{
-
-margin-top:10px;
-margin-bottom:25px;
-color:#ffb199;
-
-}
-
-.texto{
-color:#ffd2b3;
-margin-bottom:30px;
-line-height:1.6;
-}
-
-.botao{
+input{
 
 width:100%;
-padding:22px;
-margin-top:18px;
+padding:16px;
+
+margin-top:12px;
+
+border-radius:30px;
 border:none;
-border-radius:45px;
+
+font-size:18px;
+
+text-transform:none !important;
+
+}
+
+button{
+
+width:100%;
+padding:18px;
+
+margin-top:25px;
+
+border-radius:30px;
+border:none;
+
 background:#ff5a00;
 color:white;
-font-size:20px;
+
+font-size:18px;
 font-weight:bold;
+
 cursor:pointer;
 
 }
 
-.botao:hover{
-background:#ff6f1a;
-}
+.erro{
 
-.botaoAzul{
-background:#2c52ff;
-}
+margin-top:15px;
+color:#ff8080;
 
-.botaoAzul:hover{
-background:#3a5eff;
-}
-
-.botaoCinza{
-background:#444;
-}
-
-.botaoCinza:hover{
-background:#666;
-}
-
-.botaoBloqueado{
-background:#333;
-cursor:not-allowed;
-opacity:0.6;
 }
 
 </style>
@@ -109,190 +101,132 @@ opacity:0.6;
 
 <div class="container">
 
-<div class="titulo">
+<div class="logo">
 
 LAPIDAR
 
 </div>
 
-<div class="subtitulo">
+<div class="sublogo">
 
-A casa do seu original
-
-</div>
-
-<div id="planoAtivo" class="planoAtivo">
-
-Carregando plano...
+Aqui os escritores têm a oportunidade de realizar seus sonhos
 
 </div>
 
-<div id="alertaPlano" class="alertaPlano"></div>
+<input
 
-<div class="texto">
+id="usuario"
+type="email"
+placeholder="E-MAIL"
 
-Aqui é o ambiente onde o seu material começa a ganhar forma editorial.<br>
-Escolha abaixo o que deseja fazer agora.
+autocapitalize="off"
+autocomplete="username"
+autocorrect="off"
+spellcheck="false"
+
+oninput="this.value=this.value.toLowerCase()"
+
+>
+
+<input
+
+id="senha"
+type="password"
+placeholder="SENHA"
+
+autocapitalize="off"
+autocomplete="current-password"
+autocorrect="off"
+spellcheck="false"
+
+>
+
+<button onclick="login()">
+
+Entre para diagramar seu material
+
+</button>
+
+<div id="erro" class="erro"></div>
 
 </div>
 
+<script type="module">
 
-<button id="btnOriginal"
-class="botao"
-onclick="abrirOriginal()">
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
-Entrar com o seu original
-
-</button>
-
-
-<button id="btnCapas"
-class="botao"
-onclick="abrirCapas()">
-
-Entrar para preparar capa externa
-
-</button>
-
-
-<button id="btnRetirada"
-class="botao botaoCinza"
-onclick="retirarMateriais()">
-
-Retirar materiais diagramados
-
-</button>
-
-
-<button class="botao botaoAzul"
-onclick="abrirPlano()">
-
-Ver situação do plano de doações
-
-</button>
-
-
-</div>
-
-
-<script>
-
-
-function verificarPlano(){
-
-let plano = localStorage.getItem("SDL_plano");
-
-if(!plano){
-
-plano = "Nenhum plano ativo";
-
+import {
+getAuth,
+signInWithEmailAndPassword,
+onAuthStateChanged
 }
-
-document.getElementById("planoAtivo").innerHTML =
-"Plano ativo: <b>" + plano + "</b>";
-
-let dataPagamento = localStorage.getItem("SDL_data_pagamento");
-
-if(!dataPagamento){
-
-bloquearEntrada();
-
-return;
-
-}
-
-dataPagamento = new Date(dataPagamento);
-
-let vencimento = new Date(dataPagamento);
-
-vencimento.setMonth(vencimento.getMonth() + 1);
-
-let retirada = new Date(vencimento);
-
-retirada.setDate(retirada.getDate() + 7);
-
-let hoje = new Date();
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 
-if(hoje > retirada){
+const firebaseConfig = {
 
-bloquearEntrada();
-
-document.getElementById("alertaPlano").innerHTML =
-"Seu plano de doações está encerrado.";
-
-}
-
-
-else if(hoje > vencimento){
-
-bloquearEntrada();
-
-document.getElementById("alertaPlano").innerHTML =
-"Seu plano venceu, mas você ainda pode retirar seus materiais diagramados por até 7 dias.";
-
-}
-
-}
-
-
-function bloquearEntrada(){
-
-document.getElementById("btnOriginal").classList.add("botaoBloqueado");
-
-document.getElementById("btnCapas").classList.add("botaoBloqueado");
-
-document.getElementById("btnOriginal").onclick = function(){
-
-alert(
-"Seu plano precisa ser renovado para continuar preparando materiais no Lapidar."
-);
+apiKey: "COLE_AQUI",
+authDomain: "COLE_AQUI",
+projectId: "COLE_AQUI",
+storageBucket: "COLE_AQUI",
+messagingSenderId: "COLE_AQUI",
+appId: "COLE_AQUI"
 
 };
 
-document.getElementById("btnCapas").onclick = function(){
 
-alert(
-"Seu plano precisa ser renovado para continuar preparando capas no Lapidar."
-);
+const app = initializeApp(firebaseConfig);
+
+const auth = getAuth(app);
+
+
+/*
+VERIFICA SE USUÁRIO JÁ ESTÁ LOGADO
+SE ESTIVER → ENTRA DIRETO
+*/
+
+onAuthStateChanged(auth,(user)=>{
+
+if(user){
+
+window.location.href="_Indice.html";
+
+}
+
+});
+
+
+window.login = async function(){
+
+const email = document
+.getElementById("usuario")
+.value
+.trim()
+.toLowerCase();
+
+const senha = document
+.getElementById("senha")
+.value
+.trim();
+
+
+try{
+
+await signInWithEmailAndPassword(auth,email,senha);
+
+window.location.href="_Indice.html";
+
+}
+
+catch(error){
+
+document.getElementById("erro")
+.innerText="E-mail ou senha inválidos.";
+
+}
 
 };
-
-}
-
-
-function abrirOriginal(){
-
-window.location.href = "bloco12.html";
-
-}
-
-
-function abrirCapas(){
-
-window.location.href = "bloco12.html";
-
-}
-
-
-function retirarMateriais(){
-
-alert(
-"Seus materiais diagramados continuam disponíveis dentro do prazo de retirada."
-);
-
-}
-
-
-function abrirPlano(){
-
-window.location.href = "status_plano.html";
-
-}
-
-
-verificarPlano();
-
 
 </script>
 
