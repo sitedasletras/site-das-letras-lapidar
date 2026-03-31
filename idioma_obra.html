@@ -8,7 +8,7 @@
 <style>
 body{
 margin:0;
-font-family:Arial, sans-serif;
+font-family:Arial;
 background:#0d0603;
 color:white;
 display:flex;
@@ -32,72 +32,37 @@ text-align:center;
 font-style:italic;
 color:#ffe6c9;
 margin-top:10px;
-line-height:1.7;
 }
 
 .subtitulo{
 text-align:center;
 color:#ff7b2c;
-margin-top:16px;
+margin-top:10px;
 margin-bottom:28px;
-line-height:1.6;
 }
 
 .card{
 background:#140c08;
 border-radius:14px;
 padding:24px;
-margin-top:18px;
-line-height:1.7;
 }
 
-label{
-display:block;
-margin-top:16px;
-margin-bottom:6px;
-font-weight:bold;
-color:#ffd2b3;
-}
-
-select, input{
+select,input{
 width:100%;
 padding:14px;
+margin-top:8px;
 border-radius:10px;
 border:none;
-box-sizing:border-box;
-font-size:16px;
-}
-
-.info{
-margin-top:14px;
-font-size:14px;
-color:#ffcfaa;
-line-height:1.7;
-}
-
-.status{
-margin-top:16px;
-color:#9cffb2;
-font-weight:bold;
-line-height:1.6;
-text-align:center;
-}
-
-.alerta{
-margin-top:16px;
-color:#ffd27a;
-line-height:1.7;
 }
 
 .botaoIdioma{
 width:100%;
 padding:18px;
-margin-top:18px;
+margin-top:20px;
 border-radius:40px;
 border:2px solid #ff7b2c;
 background:white;
-color:#111;
-font-size:18px;
+color:black;
 font-weight:bold;
 cursor:pointer;
 }
@@ -109,30 +74,12 @@ background:#fff6ef;
 .botaoCinza{
 width:100%;
 padding:18px;
-margin-top:18px;
-border:none;
+margin-top:10px;
 border-radius:40px;
+border:none;
 background:#444;
 color:white;
-font-size:18px;
-font-weight:bold;
 cursor:pointer;
-}
-
-.botaoCinza:hover{
-background:#666;
-}
-
-.grade{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:16px;
-}
-
-@media (max-width:680px){
-.grade{
-grid-template-columns:1fr;
-}
 }
 </style>
 </head>
@@ -140,73 +87,61 @@ grid-template-columns:1fr;
 
 <div class="container">
 
-<div class="titulo">
-Idioma da obra
-</div>
+<div class="titulo">Idioma da obra</div>
 
 <div class="epigrafe">
 Opus tuum in alias linguas conversum a Lapidare
 </div>
 
 <div class="subtitulo">
-Reescreva sua obra em outra língua com estrutura editorial preservada
+Diagramação internacional multilíngue com estrutura editorial preservada
 </div>
 
 <div class="card">
 
-<div class="grade">
+<label>Plano internacional</label>
 
-<div>
-<label for="planoInternacional">Plano de diagramação internacional</label>
-<select id="planoInternacional" onchange="atualizarResumoPlano()">
-<option value="40">Plano simples — R$ 40 / $ 40 — até 10 diagramações internacionais — capa simples</option>
-<option value="70">Plano premium — R$ 70 / $ 70 — até 20 diagramações internacionais — capa premium</option>
+<select id="plano">
+<option value="40">
+Plano simples — 10 diagramações internacionais — capa simples
+</option>
+
+<option value="70">
+Plano premium — 20 diagramações internacionais — capa premium
+</option>
+
 </select>
-</div>
 
-<div>
-<label for="idObra">Identificação da obra</label>
-<input type="text" id="idObra" placeholder="Ex.: obra_antoniette_2026">
-</div>
 
-</div>
+<label>ID da obra</label>
 
-<label for="idiomaOriginal">
-Idioma original da obra
-</label>
+<input id="idObra"
+placeholder="ex: obra_baltar_2026">
+
+
+<label>Idioma original</label>
 
 <select id="idiomaOriginal"></select>
 
-<label for="idiomaDestino">
-Idioma internacional desejado
-</label>
+
+<label>Idioma internacional desejado</label>
 
 <select id="idiomaDestino"></select>
 
-<div class="info">
-1 diagramação internacional = 1 uso, independentemente do idioma, país ou quantidade de versões geradas depois para a mesma obra.
-</div>
 
-<div class="info" id="descricaoPlano">
-Carregando informações do plano...
-</div>
+<button class="botaoIdioma"
+onclick="registrarPlano()">
 
-<div class="alerta" id="resumoControle">
-Carregando controle do módulo...
-</div>
+Registrar diagramação internacional
 
-<div id="statusIdioma" class="status"></div>
-
-<button class="botaoIdioma" onclick="registrarDiagramacaoInternacional()">
-Reescrever minha obra em outro idioma
 </button>
 
-<button class="botaoCinza" onclick="window.location.href='pagamento.html'">
-Ir para pagamento do módulo internacional
-</button>
 
-<button class="botaoCinza" onclick="window.location.href='_Indice.html'">
-Voltar para a casa do original
+<button class="botaoCinza"
+onclick="window.location.href='status_plano.html'">
+
+Ver status do plano
+
 </button>
 
 </div>
@@ -214,271 +149,219 @@ Voltar para a casa do original
 </div>
 
 <script>
-let dadosIdiomas = null;
 
-function normalizarNomeIdioma(nome){
-const mapa = {
-"Português": "pt",
-"English": "en",
-"Español": "es",
-"Français": "fr",
-"Italiano": "it",
-"Deutsch": "de",
-"Latina": "la",
-"日本語": "ja",
-"中文": "zh",
-"Русский": "ru",
-"العربية": "ar",
-"हिन्दी": "hi"
-};
+let idiomasDisponiveis=null
 
-return mapa[nome] || nome.toLowerCase();
+
+async function carregarIdiomas(){
+
+let resposta=await fetch("idiomas.json")
+
+let dados=await resposta.json()
+
+idiomasDisponiveis=dados.idiomas_suportados
+
+let origem=document.getElementById("idiomaOriginal")
+
+let destino=document.getElementById("idiomaDestino")
+
+origem.innerHTML=""
+
+destino.innerHTML=""
+
+idiomasDisponiveis.forEach(function(nome){
+
+let opt1=document.createElement("option")
+
+opt1.value=nome
+
+opt1.textContent=nome
+
+origem.appendChild(opt1)
+
+let opt2=document.createElement("option")
+
+opt2.value=nome
+
+opt2.textContent=nome
+
+destino.appendChild(opt2)
+
+})
+
 }
 
-function nomeBonitoIdioma(codigo){
-const mapa = {
-"pt": "Português",
-"en": "English",
-"es": "Español",
-"fr": "Français",
-"it": "Italiano",
-"de": "Deutsch",
-"la": "Latina",
-"ja": "日本語",
-"zh": "中文",
-"ru": "Русский",
-"ar": "العربية",
-"hi": "हिन्दी"
-};
 
-return mapa[codigo] || codigo;
+function registrarPlano(){
+
+let plano=document.getElementById("plano").value
+
+let idObra=document.getElementById("idObra").value.trim()
+
+if(idObra===""){
+
+alert("Informe o ID da obra")
+
+return
+
 }
 
-function carregarIdiomaPadrao(){
-const idiomaSalvo =
-localStorage.getItem("SDL_idioma_obra_global") ||
-localStorage.getItem("SDL_idioma_obra") ||
-"pt";
+let inicio=localStorage.getItem("DIAGRAMACAO_INTERNACIONAL_DATA_ATIVACAO")
 
-const selectOriginal = document.getElementById("idiomaOriginal");
+if(!inicio){
 
-if(selectOriginal.querySelector(`option[value="${idiomaSalvo}"]`)){
-selectOriginal.value = idiomaSalvo;
-}
+let agora=new Date()
 
-ajustarIdiomaDestino();
-}
+let fim=new Date()
 
-function preencherIdiomasNoSelect(){
-const selectOriginal = document.getElementById("idiomaOriginal");
-const selectDestino = document.getElementById("idiomaDestino");
+fim.setDate(agora.getDate()+30)
 
-selectOriginal.innerHTML = "";
-selectDestino.innerHTML = "";
-
-if(!dadosIdiomas || !dadosIdiomas.idiomas_suportados){
-return;
-}
-
-dadosIdiomas.idiomas_suportados.forEach(function(nome){
-const codigo = normalizarNomeIdioma(nome);
-
-const option1 = document.createElement("option");
-option1.value = codigo;
-option1.textContent = nome;
-selectOriginal.appendChild(option1);
-
-const option2 = document.createElement("option");
-option2.value = codigo;
-option2.textContent = nome;
-selectDestino.appendChild(option2);
-});
-}
-
-function ajustarIdiomaDestino(){
-const idiomaOriginal =
-document.getElementById("idiomaOriginal").value;
-
-const selectDestino =
-document.getElementById("idiomaDestino");
-
-Array.from(selectDestino.options).forEach(function(opcao){
-opcao.disabled = false;
-if(opcao.value === idiomaOriginal){
-opcao.disabled = true;
-}
-});
-
-if(selectDestino.value === idiomaOriginal || !selectDestino.value){
-const primeiraValida = Array.from(selectDestino.options).find(function(opcao){
-return !opcao.disabled;
-});
-if(primeiraValida){
-selectDestino.value = primeiraValida.value;
-}
-}
-}
-
-function atualizarResumoPlano(){
-const plano = document.getElementById("planoInternacional").value;
-
-if(plano === "40"){
-document.getElementById("descricaoPlano").innerText =
-"Plano simples: até 10 diagramações internacionais com capa simples multilíngue incluída.";
-return;
-}
-
-document.getElementById("descricaoPlano").innerText =
-"Plano premium: até 20 diagramações internacionais com capa premium multilíngue incluída.";
-}
-
-function obterListaIdsUsados(){
-const salvo = localStorage.getItem("DIAGRAMACAO_INTERNACIONAL_IDS");
-
-if(!salvo){
-return [];
-}
-
-try{
-const lista = JSON.parse(salvo);
-return Array.isArray(lista) ? lista : [];
-}catch(e){
-return [];
-}
-}
-
-function salvarListaIdsUsados(lista){
 localStorage.setItem(
+
+"DIAGRAMACAO_INTERNACIONAL_DATA_ATIVACAO",
+
+agora.toISOString()
+
+)
+
+localStorage.setItem(
+
+"DIAGRAMACAO_INTERNACIONAL_DATA_FIM",
+
+fim.toISOString()
+
+)
+
+}
+
+if(plano==="40"){
+
+localStorage.setItem(
+
+"DIAGRAMACAO_INTERNACIONAL_PLANO",
+
+"40"
+
+)
+
+localStorage.setItem(
+
+"DIAGRAMACAO_INTERNACIONAL_LIMITE",
+
+"10"
+
+)
+
+localStorage.setItem(
+
+"DIAGRAMACAO_INTERNACIONAL_CAPA",
+
+"simples"
+
+)
+
+}
+
+if(plano==="70"){
+
+localStorage.setItem(
+
+"DIAGRAMACAO_INTERNACIONAL_PLANO",
+
+"70"
+
+)
+
+localStorage.setItem(
+
+"DIAGRAMACAO_INTERNACIONAL_LIMITE",
+
+"20"
+
+)
+
+localStorage.setItem(
+
+"DIAGRAMACAO_INTERNACIONAL_CAPA",
+
+"premium"
+
+)
+
+}
+
+
+let usados=parseInt(
+
+localStorage.getItem(
+
+"DIAGRAMACAO_INTERNACIONAL_USADOS"
+
+)||"0"
+
+)
+
+let limite=parseInt(
+
+localStorage.getItem(
+
+"DIAGRAMACAO_INTERNACIONAL_LIMITE"
+
+)
+
+)
+
+
+let lista=
+
+JSON.parse(
+
+localStorage.getItem(
+
+"DIAGRAMACAO_INTERNACIONAL_IDS"
+
+)||"[]"
+
+)
+
+
+if(!lista.includes(idObra)){
+
+if(usados>=limite){
+
+alert("Limite do plano atingido")
+
+return
+
+}
+
+lista.push(idObra)
+
+localStorage.setItem(
+
 "DIAGRAMACAO_INTERNACIONAL_IDS",
+
 JSON.stringify(lista)
-);
+
+)
+
+localStorage.setItem(
+
+"DIAGRAMACAO_INTERNACIONAL_USADOS",
+
+usados+1
+
+)
+
 }
 
-function atualizarResumoControle(){
-const plano = localStorage.getItem("DIAGRAMACAO_INTERNACIONAL_PLANO") || "não ativado";
-const limite = localStorage.getItem("DIAGRAMACAO_INTERNACIONAL_LIMITE") || "0";
-const usados = localStorage.getItem("DIAGRAMACAO_INTERNACIONAL_USADOS") || "0";
-const capa = localStorage.getItem("DIAGRAMACAO_INTERNACIONAL_CAPA") || "não definida";
+alert("Diagramação internacional registrada com sucesso")
 
-document.getElementById("resumoControle").innerText =
-"Plano atual: " + plano +
-" | Limite: " + limite +
-" | Usados: " + usados +
-" | Capa incluída: " + capa + ".";
 }
 
-function registrarPlanoSelecionadoSemConsumir(){
-const plano = document.getElementById("planoInternacional").value;
 
-if(plano === "40"){
-localStorage.setItem("DIAGRAMACAO_INTERNACIONAL_PLANO", "40");
-localStorage.setItem("DIAGRAMACAO_INTERNACIONAL_LIMITE", "10");
-localStorage.setItem("DIAGRAMACAO_INTERNACIONAL_CAPA", "simples");
-if(!localStorage.getItem("DIAGRAMACAO_INTERNACIONAL_USADOS")){
-localStorage.setItem("DIAGRAMACAO_INTERNACIONAL_USADOS", "0");
-}
-return;
-}
+carregarIdiomas()
 
-localStorage.setItem("DIAGRAMACAO_INTERNACIONAL_PLANO", "70");
-localStorage.setItem("DIAGRAMACAO_INTERNACIONAL_LIMITE", "20");
-localStorage.setItem("DIAGRAMACAO_INTERNACIONAL_CAPA", "premium");
-if(!localStorage.getItem("DIAGRAMACAO_INTERNACIONAL_USADOS")){
-localStorage.setItem("DIAGRAMACAO_INTERNACIONAL_USADOS", "0");
-}
-}
-
-function registrarDiagramacaoInternacional(){
-const idObra = document.getElementById("idObra").value.trim();
-const idiomaOriginal = document.getElementById("idiomaOriginal").value;
-const idiomaDestino = document.getElementById("idiomaDestino").value;
-const plano = document.getElementById("planoInternacional").value;
-
-if(!idObra){
-alert("Informe a identificação da obra.");
-return;
-}
-
-if(idiomaOriginal === idiomaDestino){
-alert("Escolha um idioma internacional diferente do idioma original.");
-return;
-}
-
-registrarPlanoSelecionadoSemConsumir();
-
-let limite = parseInt(localStorage.getItem("DIAGRAMACAO_INTERNACIONAL_LIMITE") || "0", 10);
-let usados = parseInt(localStorage.getItem("DIAGRAMACAO_INTERNACIONAL_USADOS") || "0", 10);
-let idsUsados = obterListaIdsUsados();
-
-const obraJaExiste = idsUsados.includes(idObra);
-
-if(!obraJaExiste){
-if(usados >= limite){
-alert("Seu plano internacional já atingiu o limite de diagramações disponíveis.");
-return;
-}
-
-idsUsados.push(idObra);
-usados += 1;
-
-salvarListaIdsUsados(idsUsados);
-localStorage.setItem("DIAGRAMACAO_INTERNACIONAL_USADOS", String(usados));
-}
-
-localStorage.setItem("SDL_idioma_obra", idiomaOriginal);
-localStorage.setItem("SDL_idioma_obra_global", idiomaOriginal);
-localStorage.setItem("SDL_idioma_extra", idiomaDestino);
-localStorage.setItem("SDL_modulo_idioma_obra", "ativo");
-localStorage.setItem("SDL_servico_extra", "idioma_obra");
-
-localStorage.setItem("DIAGRAMACAO_INTERNACIONAL_ID_ATUAL", idObra);
-localStorage.setItem("DIAGRAMACAO_INTERNACIONAL_IDIOMA_ORIGINAL", idiomaOriginal);
-localStorage.setItem("DIAGRAMACAO_INTERNACIONAL_IDIOMA_DESTINO", idiomaDestino);
-localStorage.setItem("DIAGRAMACAO_INTERNACIONAL_STATUS", "registrada");
-
-if(plano === "40"){
-localStorage.setItem("DIAGRAMACAO_INTERNACIONAL_PLANO", "40");
-localStorage.setItem("DIAGRAMACAO_INTERNACIONAL_LIMITE", "10");
-localStorage.setItem("DIAGRAMACAO_INTERNACIONAL_CAPA", "simples");
-}else{
-localStorage.setItem("DIAGRAMACAO_INTERNACIONAL_PLANO", "70");
-localStorage.setItem("DIAGRAMACAO_INTERNACIONAL_LIMITE", "20");
-localStorage.setItem("DIAGRAMACAO_INTERNACIONAL_CAPA", "premium");
-}
-
-document.getElementById("statusIdioma").innerText =
-"Diagramação internacional registrada com sucesso para a obra " + idObra + ".";
-
-atualizarResumoControle();
-}
-
-async function carregarArquivoIdiomas(){
-try{
-const resposta = await fetch("idiomas.json", { cache: "no-store" });
-if(!resposta.ok){
-throw new Error("Falha ao carregar idiomas.json");
-}
-
-dadosIdiomas = await resposta.json();
-
-preencherIdiomasNoSelect();
-carregarIdiomaPadrao();
-atualizarResumoPlano();
-atualizarResumoControle();
-}catch(e){
-document.getElementById("statusIdioma").innerText =
-"Não foi possível carregar o módulo de idiomas neste momento.";
-}
-}
-
-document.getElementById("idiomaOriginal").addEventListener("change", ajustarIdiomaDestino);
-document.getElementById("planoInternacional").addEventListener("change", function(){
-registrarPlanoSelecionadoSemConsumir();
-atualizarResumoPlano();
-atualizarResumoControle();
-});
-
-carregarArquivoIdiomas();
 </script>
 
 </body>
