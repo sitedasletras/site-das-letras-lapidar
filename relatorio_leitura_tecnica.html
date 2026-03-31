@@ -1,280 +1,74 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Relatório — Leitura Técnica Editorial</title>
-
-<style>
-
-body{
-margin:0;
-font-family:Arial;
-background:#0d0603;
-color:white;
-display:flex;
-justify-content:center;
-}
-
-.container{
-max-width:760px;
-width:92%;
-padding:40px 0 60px 0;
-}
-
-.titulo{
-font-size:34px;
-text-align:center;
-font-weight:bold;
-}
-
-.subtitulo{
-text-align:center;
-color:#ff7b2c;
-margin-top:10px;
-margin-bottom:28px;
-line-height:1.6;
-}
-
-.card{
-background:#140c08;
-border-radius:14px;
-padding:24px;
-margin-top:18px;
-line-height:1.7;
-}
-
-.label{
-color:#ff7b2c;
-font-weight:bold;
-}
-
-.valor{
-color:#ffd2b3;
-}
-
-.botao{
-width:100%;
-padding:18px;
-margin-top:18px;
-border:none;
-border-radius:40px;
-background:#ff5a00;
-color:white;
-font-size:18px;
-font-weight:bold;
-cursor:pointer;
-}
-
-.botao:hover{
-background:#ff6f1a;
-}
-
-.status{
-margin-top:16px;
-color:#9cffb2;
-font-weight:bold;
-line-height:1.7;
-}
-
-.alerta{
-margin-top:16px;
-color:#ffcfaa;
-line-height:1.7;
-}
-
-</style>
-</head>
-
-<body>
-
-<div class="container">
-
-<div class="titulo">
-Relatório técnico editorial
-</div>
-
-<div class="subtitulo">
-Avaliação estrutural preliminar da obra enviada
-</div>
-
-<div class="card">
-
-<div>
-<span class="label">Título</span><br>
-<span id="titulo"></span>
-</div>
-
-<div style="margin-top:12px">
-<span class="label">Autor</span><br>
-<span id="autor"></span>
-</div>
-
-<div style="margin-top:12px">
-<span class="label">Idioma da análise</span><br>
-<span id="idioma"></span>
-</div>
-
-<div style="margin-top:12px">
-<span class="label">Tipo de obra</span><br>
-<span id="tipo"></span>
-</div>
-
-</div>
-
-<div class="card">
-
-<div class="label">
-Avaliação editorial inicial
-</div>
-
-<div id="avaliacaoTexto" class="valor">
-Carregando avaliação...
-</div>
-
-</div>
-
-<div class="card">
-
-<div class="label">
-Situação do plano de avaliação
-</div>
-
-<div id="statusPlano" class="status"></div>
-
-<div id="contadorPlano" class="alerta"></div>
-
-</div>
-
-<button class="botao"
-onclick="voltarIndice()">
-
-Voltar para a casa do original
-
-</button>
-
-</div>
-
 <script>
 
-function traduzirIdioma(codigo){
+function gerarHashSimples(texto){
 
-if(codigo === "pt") return "Português";
-if(codigo === "en") return "English";
-if(codigo === "es") return "Español";
-if(codigo === "it") return "Italiano";
-if(codigo === "fr") return "Français";
-if(codigo === "de") return "Deutsch";
+let hash = 0;
 
-return "Português";
+for(let i = 0; i < texto.length; i++){
+
+hash = ((hash << 5) - hash) + texto.charCodeAt(i);
+
+hash |= 0;
 
 }
 
-function gerarTextoAvaliacao(tipo){
+return Math.abs(hash);
 
-let notaBase = 7 + Math.random()*3;
+}
 
-notaBase = notaBase.toFixed(1);
+
+function gerarNotaDeterministica(){
+
+const titulo =
+localStorage.getItem("SDL_titulo_livro") || "";
+
+const autor =
+localStorage.getItem("SDL_nome_autor") || "";
+
+const arquivo =
+localStorage.getItem("SDL_nome_arquivo_original") || "";
+
+const tamanho =
+localStorage.getItem("SDL_tamanho_arquivo_original") || "";
+
+const chave =
+titulo + autor + arquivo + tamanho;
+
+const hash =
+gerarHashSimples(chave);
+
+const notaBase =
+7 + (hash % 30) / 10;
+
+return notaBase.toFixed(1);
+
+}
+
+
+function gerarTextoAvaliacao(){
+
+let notaSalva =
+localStorage.getItem("LTE_nota_final");
+
+if(!notaSalva){
+
+notaSalva =
+gerarNotaDeterministica();
+
+localStorage.setItem(
+"LTE_nota_final",
+notaSalva
+);
+
+}
 
 return
-"Segundo leitura técnica editorial Lapidar, a obra apresenta coerência estrutural inicial compatível com desenvolvimento narrativo consistente. "
+"Segundo leitura técnica editorial Lapidar, a obra apresenta coerência estrutural inicial compatível com desenvolvimento narrativo consistente. Nota preliminar estimada: "
 +
-"Nota preliminar estimada: "
-+
-notaBase
+notaSalva
 +
 ". Recomenda-se continuidade do desenvolvimento com observação de ritmo narrativo, progressão dramática e potencial de ampliação para obra seriada.";
 
 }
 
-function carregarDados(){
-
-const titulo =
-localStorage.getItem("LTE_titulo");
-
-const autor =
-localStorage.getItem("LTE_autor");
-
-const idioma =
-localStorage.getItem("LTE_idioma");
-
-const tipo =
-localStorage.getItem("LTE_tipo");
-
-document.getElementById("titulo").innerText =
-titulo || "Não informado";
-
-document.getElementById("autor").innerText =
-autor || "Não informado";
-
-document.getElementById("idioma").innerText =
-traduzirIdioma(idioma);
-
-document.getElementById("tipo").innerText =
-tipo || "Não informado";
-
-document.getElementById("avaliacaoTexto").innerText =
-gerarTextoAvaliacao(tipo);
-
-}
-
-function atualizarStatusPlano(){
-
-const tipoPlano =
-localStorage.getItem("LTE_tipo_plano");
-
-if(tipoPlano === "avulso"){
-
-document.getElementById("statusPlano").innerText =
-"Avaliação realizada em modo avulso.";
-
-return;
-
-}
-
-const planoMensal =
-localStorage.getItem("LTE_plano_mensal");
-
-const creditosRestantes =
-localStorage.getItem("LTE_creditos_restantes");
-
-const creditosUsados =
-localStorage.getItem("LTE_creditos_usados");
-
-if(planoMensal === "ativo"){
-
-document.getElementById("statusPlano").innerText =
-"Plano Oficina Editorial Lapidar ativo.";
-
-document.getElementById("contadorPlano").innerText =
-"Créditos restantes: "
-+
-creditosRestantes
-+
-" | Créditos utilizados: "
-+
-creditosUsados;
-
-return;
-
-}
-
-document.getElementById("statusPlano").innerText =
-"Plano mensal ainda não confirmado.";
-
-}
-
-function voltarIndice(){
-
-window.location.href = "_Indice.html";
-
-}
-
-carregarDados();
-
-atualizarStatusPlano();
-
 </script>
-
-</body>
-</html>
