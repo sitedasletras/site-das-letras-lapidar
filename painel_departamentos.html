@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Lapidar — Plataforma Editorial</title>
+<title>Painel Lapidar — Departamentos</title>
 
 <style>
 
@@ -51,13 +51,12 @@ padding:28px;
 font-size:18px;
 line-height:1.6;
 cursor:pointer;
-transition:0.25s;
+transition:.25s;
 }
 
 .card:hover{
 transform:scale(1.02);
 }
-
 
 /* DIAGRAMADOR */
 
@@ -65,11 +64,6 @@ transform:scale(1.02);
 background:#0e5eff;
 border:2px solid white;
 }
-
-.diagramador:hover{
-background:#2c73ff;
-}
-
 
 /* CAPISTA */
 
@@ -79,11 +73,6 @@ color:#2d2d00;
 border:2px solid #16a34a;
 }
 
-.capista:hover{
-background:#fff08a;
-}
-
-
 /* TRADUTOR */
 
 .tradutor{
@@ -92,22 +81,12 @@ color:#0e5eff;
 border:2px solid #0e5eff;
 }
 
-.tradutor:hover{
-background:#f5f8ff;
-}
-
-
 /* VALIDAÇÃO */
 
 .validacao{
 background:#16a34a;
 border:2px solid white;
 }
-
-.validacao:hover{
-background:#27c565;
-}
-
 
 .descricao{
 margin-top:12px;
@@ -124,6 +103,33 @@ color:#ffd2b3;
 text-align:center;
 }
 
+/* BOTÃO SAIR */
+
+.logout{
+margin-top:26px;
+width:100%;
+padding:18px;
+border-radius:40px;
+border:none;
+background:#ff5a00;
+color:white;
+font-size:18px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.logout:hover{
+background:#ff7b2c;
+}
+
+@media(max-width:720px){
+
+.grid{
+grid-template-columns:1fr;
+}
+
+}
+
 </style>
 
 </head>
@@ -137,7 +143,7 @@ Lapidar
 </div>
 
 <div class="subtitulo">
-Plataforma editorial assistida com quatro departamentos especializados
+Plataforma editorial assistida — escolha o departamento desejado
 </div>
 
 
@@ -151,7 +157,7 @@ Assistente Diagramador do Autor
 
 <div class="descricao">
 
-Preparação do miolo editorial com estrutura profissional e avaliação colaborativa inicial
+Leitura inicial da obra, avaliação colaborativa e preparação do miolo editorial
 
 </div>
 
@@ -166,7 +172,7 @@ Ajudante Capista
 
 <div class="descricao">
 
-Configuração estrutural da capa editorial com sinopse, orelhas e selo institucional
+Preparação estrutural da capa editorial com sinopse, orelhas e selo institucional
 
 </div>
 
@@ -196,7 +202,7 @@ Validação Geral dos Textos
 
 <div class="descricao">
 
-Leitura editorial profunda com parecer técnico estruturado da obra
+Leitura editorial profunda com parecer técnico estruturado
 
 </div>
 
@@ -213,6 +219,11 @@ Inicializando ambiente editorial Lapidar...
 </div>
 
 
+<button class="logout" onclick="sairLapidar()">
+Sair do Lapidar
+</button>
+
+
 </div>
 
 
@@ -221,7 +232,7 @@ Inicializando ambiente editorial Lapidar...
 
 function abrirDiagramador(){
 
-window.location.href="upload_livro.html";
+window.location.href="diagramador_inicio.html";
 
 }
 
@@ -247,9 +258,18 @@ window.location.href="avaliacao_inicio.html";
 }
 
 
+/* STATUS DO SISTEMA */
+
 function adminAtivo(){
 
 return localStorage.getItem("SDL_ADMIN") === "true";
+
+}
+
+
+function sessaoAtiva(){
+
+return localStorage.getItem("SDL_sessao_ativa") === "sim";
 
 }
 
@@ -260,21 +280,32 @@ const el=document.getElementById("statusSistema");
 
 if(adminAtivo()){
 
-el.innerText="Modo administrador ativo — ambiente editorial completo liberado";
+el.innerText="Modo administrador ativo — todos os módulos liberados.";
 
 return;
 
 }
 
-if(localStorage.getItem("SDL_status_pagamento")==="confirmado"){
+if(sessaoAtiva()){
 
-el.innerText="Fluxo editorial ativo com base na doação registrada";
+el.innerText="Sessão editorial ativa.";
 
 return;
 
 }
 
-el.innerText="Modo preview ativo — recursos completos disponíveis após confirmação de apoio editorial";
+el.innerText="Sessão não identificada corretamente.";
+
+}
+
+
+function sairLapidar(){
+
+localStorage.removeItem("SDL_sessao_ativa");
+
+localStorage.removeItem("SDL_ADMIN");
+
+window.location.href="login.html";
 
 }
 
