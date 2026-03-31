@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Preview editorial — Lapidar</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial;
+background:#0d0603;
+color:white;
+display:flex;
+justify-content:center;
+}
+
+.container{
+max-width:900px;
+width:94%;
+padding:40px 0 60px 0;
+}
+
+.titulo{
+font-size:36px;
+text-align:center;
+font-weight:bold;
+}
+
+.subtitulo{
+text-align:center;
+color:#ff7b2c;
+margin-top:10px;
+margin-bottom:30px;
+line-height:1.6;
+}
+
+.card{
+background:#140c08;
+border-radius:14px;
+padding:24px;
+margin-top:20px;
+line-height:1.8;
+}
+
+.label{
+color:#ff7b2c;
+font-weight:bold;
+margin-bottom:10px;
+display:block;
+}
+
+.previewBox{
+background:#1c120d;
+padding:18px;
+border-radius:10px;
+margin-top:10px;
+color:#ffd2b3;
+}
+
+.previewImagem{
+width:220px;
+height:320px;
+background:#222;
+border-radius:8px;
+display:flex;
+align-items:center;
+justify-content:center;
+margin:auto;
+color:#aaa;
+font-size:14px;
+}
+
+.botao{
+width:100%;
+padding:18px;
+margin-top:18px;
+border:none;
+border-radius:40px;
+background:#ff5a00;
+color:white;
+font-size:18px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.botao:hover{
+background:#ff6f1a;
+}
+
+.botaoAzul{
+background:#0066ff;
+}
+
+.botaoVerde{
+background:#00aa66;
+}
+
+.botaoCinza{
+background:#444;
+}
+
+.botaoCinza:hover{
+background:#666;
+}
+
+.aviso{
+margin-top:18px;
+color:#ffcfaa;
+line-height:1.7;
+}
+
+.sucesso{
+margin-top:16px;
+color:#9cffb2;
+font-weight:bold;
+}
+
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<div class="titulo">
+Preview editorial da obra
+</div>
+
+<div class="subtitulo">
+Seu material foi processado automaticamente pelo Lapidar
+</div>
+
+
+<!-- CAPA -->
+
+<div class="card">
+
+<span class="label">
+Capa editorial automática incluída no plano
+</span>
+
+<div class="previewImagem">
+Preview da capa gerada
+</div>
+
+<div class="aviso">
+Uma capa editorial inicial foi criada automaticamente com base na categoria detectada da obra.
+</div>
+
+<button class="botaoAzul botao"
+onclick="irCapistaRefinar()">
+Refinar capa existente
+</button>
+
+<button class="botaoAzul botao"
+onclick="irCapistaNova()">
+Criar nova capa personalizada
+</button>
+
+</div>
+
+
+<!-- MIOLO -->
+
+<div class="card">
+
+<span class="label">
+Preview do miolo diagramado
+</span>
+
+<div class="previewBox">
+
+Margens espelhadas aplicadas  
+Fonte editorial selecionada  
+Estrutura de capítulos organizada  
+Sumário automático preparado  
+
+</div>
+
+<div class="aviso">
+
+O download do miolo completo é liberado após ativação do plano.
+
+</div>
+
+<button class="botao"
+onclick="baixarMiolo()">
+Baixar miolo diagramado
+</button>
+
+</div>
+
+
+<!-- RELATORIO -->
+
+<div class="card">
+
+<span class="label">
+Relatório editorial técnico
+</span>
+
+<div class="previewBox">
+
+Estrutura narrativa analisada  
+Categoria editorial identificada  
+Idioma confirmado  
+Fluxo editorial preparado  
+
+</div>
+
+<div class="aviso">
+
+Relatório completo disponível após ativação do plano.
+
+</div>
+
+<button class="botaoVerde botao"
+onclick="baixarRelatorio()">
+Baixar relatório completo
+</button>
+
+</div>
+
+
+<!-- STATUS -->
+
+<div class="card">
+
+<span class="label">
+Status do plano editorial
+</span>
+
+<div id="statusPlano" class="sucesso"></div>
+
+<button class="botao"
+onclick="ativarPlano()">
+Ativar plano e liberar downloads
+</button>
+
+<button class="botaoCinza botao"
+onclick="voltarIndice()">
+Voltar para o painel
+</button>
+
+</div>
+
+
+</div>
+
+
+<script>
+
+function planoAtivo(){
+
+return localStorage.getItem("SDL_status_pagamento") === "confirmado";
+
+}
+
+function atualizarStatus(){
+
+if(planoAtivo()){
+
+document.getElementById("statusPlano").innerText =
+"Plano ativo. Downloads liberados.";
+
+}else{
+
+document.getElementById("statusPlano").innerText =
+"Plano ainda não ativado. Preview liberado. Download bloqueado.";
+
+}
+
+}
+
+
+function baixarMiolo(){
+
+if(!planoAtivo()){
+
+alert("Ative o plano para liberar o download do miolo.");
+
+return;
+
+}
+
+alert("Download do miolo iniciado.");
+
+}
+
+
+function baixarRelatorio(){
+
+if(!planoAtivo()){
+
+alert("Ative o plano para liberar o relatório completo.");
+
+return;
+
+}
+
+alert("Download do relatório iniciado.");
+
+}
+
+
+function ativarPlano(){
+
+window.location.href = "pagamento.html";
+
+}
+
+
+function irCapistaRefinar(){
+
+window.location.href = "capista_configuracao.html";
+
+}
+
+
+function irCapistaNova(){
+
+window.location.href = "capista_configuracao.html";
+
+}
+
+
+function voltarIndice(){
+
+window.location.href = "_Indice.html";
+
+}
+
+
+atualizarStatus();
+
+</script>
+
+</body>
+</html>
