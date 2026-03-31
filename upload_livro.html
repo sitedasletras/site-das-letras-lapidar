@@ -164,7 +164,7 @@ Enviar original
 </div>
 
 <div class="subtitulo">
-Arraste o arquivo no computador ou toque para escolher no celular
+O Lapidar recebe seu texto, identifica a categoria da obra e prepara automaticamente o fluxo editorial inicial
 </div>
 
 <div class="card">
@@ -192,7 +192,7 @@ Idioma principal da obra
 </select>
 
 <label class="label" for="tipoMaterial">
-Tipo de material enviado
+Categoria da obra
 </label>
 <select id="tipoMaterial">
 <option value="Romance">Romance</option>
@@ -236,11 +236,7 @@ Formatos aceitos: DOC, DOCX, ODT, PDF e TXT.
 </div>
 
 <div class="info">
-No computador você pode arrastar e soltar. No celular você pode tocar para abrir o seletor de arquivos.
-</div>
-
-<div class="info">
-Obras infantis e infantojuvenis também podem seguir fluxo multilíngue, incluindo EPUB e capa.
+Depois do envio, o sistema prepara automaticamente a rota editorial inicial, incluindo categoria detectada, capa automática da categoria e preview do miolo.
 </div>
 
 <div id="mensagemSucesso" class="sucesso"></div>
@@ -328,6 +324,24 @@ mostrarArquivo(e.dataTransfer.files[0]);
 }
 });
 
+function definirTemplateCapa(tipo){
+if(tipo === "Romance") return "capa_automatica_romance";
+if(tipo === "Contos") return "capa_automatica_contos";
+if(tipo === "Poesia") return "capa_automatica_poesia";
+if(tipo === "Infantil") return "capa_automatica_infantil";
+if(tipo === "Infantojuvenil") return "capa_automatica_infantojuvenil";
+if(tipo === "Acadêmico") return "capa_automatica_academico";
+return "capa_automatica_padrao";
+}
+
+function definirTemplateMiolo(tipo){
+if(tipo === "Infantil") return "miolo_infantil";
+if(tipo === "Infantojuvenil") return "miolo_infantojuvenil";
+if(tipo === "Poesia") return "miolo_poesia";
+if(tipo === "Acadêmico") return "miolo_academico";
+return "miolo_padrao";
+}
+
 function salvarEntradaObra(){
 
 const titulo =
@@ -365,9 +379,15 @@ localStorage.setItem("SDL_nome_autor", autor);
 localStorage.setItem("SDL_idioma_obra", idioma);
 localStorage.setItem("SDL_idioma_obra_global", idioma);
 localStorage.setItem("SDL_tipo_material", tipo);
+localStorage.setItem("SDL_categoria_detectada", tipo);
 localStorage.setItem("SDL_destino_material", destino);
 localStorage.setItem("SDL_entrada_obra_registrada", "sim");
 localStorage.setItem("SDL_original_enviado", "sim");
+localStorage.setItem("SDL_template_capa_automatica", definirTemplateCapa(tipo));
+localStorage.setItem("SDL_template_miolo", definirTemplateMiolo(tipo));
+localStorage.setItem("SDL_preview_capa_pronto", "sim");
+localStorage.setItem("SDL_preview_miolo_pronto", "sim");
+localStorage.setItem("SDL_preview_relatorio_pronto", "sim");
 
 if(tipo === "Infantil" || tipo === "Infantojuvenil"){
 localStorage.setItem("SDL_fluxo_juvenil", "sim");
@@ -376,7 +396,7 @@ localStorage.setItem("SDL_fluxo_juvenil", "nao");
 }
 
 document.getElementById("mensagemSucesso").innerHTML =
-"Entrada da obra registrada com sucesso.<br>Original recebido e pronto para o fluxo editorial.";
+"Entrada da obra registrada com sucesso.<br>Categoria identificada: <strong>" + tipo + "</strong><br>Capa automática da categoria e preview editorial preparados.";
 }
 
 function seguirPreferencias(){
