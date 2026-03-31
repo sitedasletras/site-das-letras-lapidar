@@ -1,253 +1,280 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Assistente Diagramador do Autor — Lapidar</title>
-
-<style>
-
-body{
-
-margin:0;
-font-family:Arial;
-
-background:#0e5eff;
-
-color:white;
-
-display:flex;
-justify-content:center;
-
-}
-
-.container{
-
-max-width:760px;
-width:94%;
-
-padding:40px 0 60px 0;
-
-}
-
-.titulo{
-
-font-size:36px;
-font-weight:bold;
-
-text-align:center;
-
-}
-
-.subtitulo{
-
-text-align:center;
-
-margin-top:10px;
-margin-bottom:34px;
-
-line-height:1.6;
-
-color:#e8f0ff;
-
-}
-
-.card{
-
-background:white;
-
-color:#0030aa;
-
-padding:26px;
-
-border-radius:16px;
-
-margin-top:18px;
-
-line-height:1.7;
-
-}
-
-.label{
-
-font-weight:bold;
-
-margin-bottom:10px;
-
-display:block;
-
-}
-
-.botao{
-
-width:100%;
-
-padding:18px;
-
-margin-top:20px;
-
-border-radius:40px;
-
-font-size:18px;
-
-font-weight:bold;
-
-cursor:pointer;
-
-border:2px solid white;
-
-background:#0e5eff;
-
-color:white;
-
-}
-
-.botao:hover{
-
-opacity:.92;
-
-}
-
-.botaoSecundario{
-
-background:white;
-
-color:#0e5eff;
-
-border:2px solid #0e5eff;
-
-}
-
-.botaoSecundario:hover{
-
-opacity:.95;
-
-}
-
-.info{
-
-margin-top:18px;
-
-line-height:1.6;
-
-color:#e8f0ff;
-
-}
-
-</style>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Assistente Diagramador do Autor — Lapidar</title>
+  <style>
+    body{
+      margin:0;
+      font-family:Arial, sans-serif;
+      background:#0e5eff;
+      color:white;
+      display:flex;
+      justify-content:center;
+    }
+
+    .container{
+      max-width:860px;
+      width:94%;
+      padding:40px 0 60px 0;
+    }
+
+    .titulo{
+      font-size:38px;
+      font-weight:bold;
+      text-align:center;
+    }
+
+    .subtitulo{
+      text-align:center;
+      margin-top:10px;
+      margin-bottom:28px;
+      line-height:1.6;
+      color:#e9f0ff;
+    }
+
+    .card{
+      background:white;
+      color:#12307a;
+      border-radius:18px;
+      padding:24px;
+      margin-top:18px;
+      line-height:1.7;
+      box-sizing:border-box;
+    }
+
+    .cardTitulo{
+      font-size:24px;
+      font-weight:bold;
+      margin-bottom:10px;
+    }
+
+    .info{
+      color:#48609a;
+    }
+
+    .status{
+      margin-top:18px;
+      padding:14px;
+      border-radius:12px;
+      background:#eef3ff;
+      color:#12307a;
+      line-height:1.6;
+    }
+
+    .statusOk{
+      background:#e7fff1;
+      color:#0f6b3c;
+    }
+
+    .statusAviso{
+      background:#fff4df;
+      color:#8a5a00;
+    }
+
+    .preview{
+      margin-top:14px;
+      padding:16px;
+      border-radius:12px;
+      background:#f7f9ff;
+      color:#12307a;
+      line-height:1.7;
+    }
+
+    .botao{
+      width:100%;
+      padding:18px;
+      margin-top:16px;
+      border-radius:40px;
+      font-size:18px;
+      font-weight:bold;
+      cursor:pointer;
+      border:2px solid white;
+      background:#0e5eff;
+      color:white;
+    }
+
+    .botao:hover{
+      opacity:.94;
+    }
+
+    .botaoSec{
+      background:white;
+      color:#0e5eff;
+      border:2px solid #0e5eff;
+    }
+
+    .botaoEscuro{
+      background:#16316e;
+      color:white;
+      border:2px solid white;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:16px;
+    }
+
+    @media (max-width:720px){
+      .grid{
+        grid-template-columns:1fr;
+      }
+    }
+  </style>
 </head>
-
 <body>
 
-<div class="container">
+  <div class="container">
 
+    <div class="titulo">
+      Assistente Diagramador do Autor
+    </div>
 
-<div class="titulo">
+    <div class="subtitulo">
+      Diagramação assistida do miolo com leitura editorial inicial, avaliação colaborativa e preparação da rota técnica da obra
+    </div>
 
-Assistente Diagramador do Autor
+    <div id="statusAcesso" class="status">
+      Verificando acesso ao módulo...
+    </div>
 
-</div>
+    <div class="card">
+      <div class="cardTitulo">
+        O que este módulo faz
+      </div>
 
+      <div class="info">
+        • recebe a obra para leitura inicial<br>
+        • identifica título, autoria, idioma e categoria provável<br>
+        • sugere preferências editoriais do miolo<br>
+        • produz avaliação colaborativa inicial<br>
+        • prepara a rota de diagramação da obra
+      </div>
+    </div>
 
-<div class="subtitulo">
+    <div class="card">
+      <div class="cardTitulo">
+        Fluxo da obra
+      </div>
 
-Preparação editorial automática do miolo com estrutura técnica,
-organização narrativa e avaliação colaborativa inicial da obra
+      <div class="preview">
+        1. Subir a obra para análise<br>
+        2. O sistema lê e identifica a categoria provável<br>
+        3. O sistema gera a avaliação colaborativa inicial<br>
+        4. A obra segue para configuração editorial e preview do miolo
+      </div>
+    </div>
 
-</div>
+    <div class="card">
+      <div class="cardTitulo">
+        Avaliação colaborativa da obra
+      </div>
 
+      <div class="preview">
+        A avaliação colaborativa entrega uma devolutiva inicial e enxuta, com:
+        <br><br>
+        • nota inicial da obra<br>
+        • identificação provável do tipo de texto<br>
+        • força geral do material<br>
+        • potencial de continuidade<br>
+        • indicação simples: material bom, ótimo ou excelente
+      </div>
 
+      <div class="status statusAviso">
+        A leitura e a devolutiva deste módulo são liberadas mediante doação confirmada ou modo administrador ativo.
+      </div>
+    </div>
 
-<div class="card">
+    <div class="grid">
+      <button class="botao" onclick="subirObraParaAnalise()">
+        Subir obra para análise
+      </button>
 
-<span class="label">
+      <button class="botao" onclick="receberAnaliseDaObra()">
+        Receber análise da obra
+      </button>
+    </div>
 
-Este módulo realiza:
+    <button class="botao botaoSec" onclick="abrirDoacoesDiagramador()">
+      Ver valores de doação deste módulo
+    </button>
 
-</span>
+    <button class="botao botaoSec" onclick="abrirUploadCompleto()">
+      Abrir configuração completa da obra
+    </button>
 
-• organização estrutural automática do manuscrito  
-• preparação editorial em formato A5  
-• criação do sumário técnico  
-• definição tipográfica editorial  
-• margens espelhadas automáticas  
-• avaliação colaborativa inicial da obra  
+    <button class="botao botaoEscuro" onclick="voltarPaginaInicial()">
+      Voltar para a página inicial
+    </button>
 
-</div>
+  </div>
 
+  <script>
+    function adminAtivo(){
+      return localStorage.getItem("SDL_ADMIN") === "true";
+    }
 
+    function doacaoConfirmada(){
+      return (
+        localStorage.getItem("SDL_status_pagamento") === "confirmado" ||
+        localStorage.getItem("SDL_doacao_status") === "ativa" ||
+        localStorage.getItem("SDL_plano_ativo") === "sim" ||
+        localStorage.getItem("SDL_doacao_diagramador") === "ativa" ||
+        adminAtivo()
+      );
+    }
 
-<div class="card">
+    function atualizarStatusAcesso(){
+      const el = document.getElementById("statusAcesso");
 
-<span class="label">
+      if(adminAtivo()){
+        el.className = "status statusOk";
+        el.innerHTML = "Modo administrador ativo. Leitura da obra e devolutiva editorial inicial liberadas para testes.";
+        return;
+      }
 
-Avaliação colaborativa incluída neste módulo
+      if(doacaoConfirmada()){
+        el.className = "status statusOk";
+        el.innerHTML = "Doação identificada. Subida da obra e devolutiva colaborativa inicial estão liberadas.";
+        return;
+      }
 
-</span>
+      el.className = "status statusAviso";
+      el.innerHTML = "Modo visual ativo. Para subir a obra e receber a análise colaborativa, confirme a doação deste módulo.";
+    }
 
-Nota editorial inicial da obra  
-Categoria literária identificada  
-Potencial narrativo sugerido  
-Indicação de continuidade (obra única, trilogia ou série)
+    function subirObraParaAnalise(){
+      if(!doacaoConfirmada()){
+        alert("Confirme a doação deste módulo para liberar a subida da obra para análise.");
+        return;
+      }
+      window.location.href = "upload_livro.html";
+    }
 
-</div>
+    function receberAnaliseDaObra(){
+      if(!doacaoConfirmada()){
+        alert("Confirme a doação deste módulo para liberar a devolutiva da análise da obra.");
+        return;
+      }
+      window.location.href = "preview_projeto.html";
+    }
 
+    function abrirDoacoesDiagramador(){
+      window.location.href = "diagramador_doacoes.html";
+    }
 
+    function abrirUploadCompleto(){
+      window.location.href = "upload_livro.html";
+    }
 
-<button class="botao"
+    function voltarPaginaInicial(){
+      window.location.href = "painel_departamentos.html";
+    }
 
-onclick="iniciarDiagramacao()">
-
-Iniciar preparação do miolo editorial
-
-</button>
-
-
-
-<button class="botaoSecundario botao"
-
-onclick="abrirDoacoesDiagramador()">
-
-Ver valores de doação deste módulo
-
-</button>
-
-
-
-<div class="info">
-
-A preparação completa do miolo é liberada após confirmação da doação editorial.
-
-</div>
-
-
-
-</div>
-
-
-
-<script>
-
-function iniciarDiagramacao(){
-
-window.location.href="upload_livro.html"
-
-}
-
-
-function abrirDoacoesDiagramador(){
-
-window.location.href="diagramador_doacoes.html"
-
-}
-
-</script>
-
-
+    atualizarStatusAcesso();
+  </script>
 
 </body>
 </html>
