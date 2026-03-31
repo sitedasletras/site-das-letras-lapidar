@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,7 +16,7 @@ justify-content:center;
 }
 
 .container{
-max-width:760px;
+max-width:820px;
 width:92%;
 padding:40px 0 60px 0;
 }
@@ -65,235 +64,55 @@ margin-top:28px;
 line-height:1.7;
 }
 
+.secao{
+margin-top:30px;
+background:#140c08;
+border-radius:16px;
+padding:18px;
+}
+
+.secaoTitulo{
+font-size:24px;
+font-weight:bold;
+margin-bottom:8px;
+}
+
+.secaoTexto{
+color:#ffd2b3;
+line-height:1.7;
+margin-bottom:14px;
+}
+
+.laranja{
+color:#ff7b2c;
+}
+
+.azul{
+color:#6ea8ff;
+}
+
+.verde{
+color:#9cffb2;
+}
+
+.branco{
+color:#ffffff;
+}
+
 .botao{
 width:100%;
 padding:20px;
-margin-top:20px;
+margin-top:14px;
 border:none;
 border-radius:40px;
-background:#ff5a00;
-color:white;
 font-size:20px;
 font-weight:bold;
 cursor:pointer;
 }
 
 .botao:hover{
-background:#ff6f1a;
+opacity:0.94;
 }
 
-.botaoAzul{
-background:#2c52ff;
-}
-
-.botaoAzul:hover{
-background:#4366ff;
-}
-
-.botaoVerde{
-background:#00a651;
-}
-
-.botaoVerde:hover{
-background:#00bf5c;
-}
-
-.botaoRoxo{
-background:#7a3cff;
-}
-
-.botaoRoxo:hover{
-background:#8b55ff;
-}
-
-.botaoCinza{
-background:#444;
-}
-
-.botaoCinza:hover{
-background:#666;
-}
-
-.alerta{
-margin-top:22px;
-text-align:center;
-color:#ffb199;
-line-height:1.7;
-}
-
-.destaque{
-color:#9cffb2;
-font-weight:bold;
-}
-</style>
-</head>
-
-<body>
-
-<script>
-if(localStorage.getItem("SDL_sessao_ativa") !== "sim"){
-window.location.href = "login.html";
-}
-</script>
-
-<div class="container">
-
-<div class="titulo">
-LAPIDAR
-</div>
-
-<div class="subtitulo">
-A casa do seu original
-</div>
-
-<div class="blocoTopo">
-
-<div>
-<span class="label">Usuário ativo</span><br>
-<span id="usuarioAtivo" class="valor">Não identificado</span>
-</div>
-
-<div class="linhaTopo">
-<span class="label">Plano Lapidar</span><br>
-<span id="planoAtual" class="valor">Carregando...</span>
-</div>
-
-<div class="linhaTopo">
-<span class="label">Situação do acesso</span><br>
-<span id="situacaoAcesso" class="valor">Verificando...</span>
-</div>
-
-<div class="linhaTopo">
-<span class="label">Idioma principal da obra</span><br>
-<span id="idiomaPrincipalObra" class="valor">Carregando...</span>
-</div>
-
-</div>
-
-<div class="texto">
-Escolha abaixo o que deseja fazer com o seu material editorial.
-</div>
-
-<button id="btnOriginal" class="botao" onclick="window.location.href='upload_livro.html'">
-Entrar com o seu original
-</button>
-
-<button id="btnIdiomaObra" class="botao botaoAzul" onclick="window.location.href='idioma_obra.html'">
-Escolher idioma da obra
-</button>
-
-<button id="btnPreferencias" class="botao botaoCinza" onclick="window.location.href='preferencias_diagramacao.html'">
-Preferências da diagramação
-</button>
-
-<button id="btnCapaExterna" class="botao" onclick="window.location.href='capas_refinadas.html'">
-Preparar capa externa
-</button>
-
-<button id="btnCapista" class="botao botaoRoxo" onclick="window.location.href='capista_planos.html'">
-Projeto Capista
-</button>
-
-<button id="btnLeitura" class="botao botaoAzul" onclick="window.location.href='leitura_tecnica_editorial.html'">
-Leitura Técnica Editorial — Lapidar — Site das Letras
-</button>
-
-<button id="btnRelatorioLapidar" class="botao botaoVerde" onclick="window.location.href='relatorio_lapidacao.html'">
-Relatório editorial da obra
-</button>
-
-<button id="btnRelatorioLeitura" class="botao botaoVerde" onclick="window.location.href='relatorio_leitura_tecnica.html'">
-Relatório da leitura técnica
-</button>
-
-<button id="btnRelatorioCapista" class="botao botaoVerde" onclick="window.location.href='relatorio_capista.html'">
-Relatório do Projeto Capista
-</button>
-
-<button id="btnHistorico" class="botao botaoCinza" onclick="window.location.href='historico_projetos.html'">
-Histórico de projetos
-</button>
-
-<button id="btnStatus" class="botao botaoAzul" onclick="window.location.href='status_plano.html'">
-Ver status do meu ambiente editorial
-</button>
-
-<button id="btnLogout" class="botao botaoCinza" onclick="logoutSistema()">
-Sair do ambiente
-</button>
-
-<div id="alertaPlano" class="alerta"></div>
-
-</div>
-
-<script>
-
-function traduzirIdioma(codigo){
-if(codigo === "pt") return "Português";
-if(codigo === "en") return "English";
-if(codigo === "es") return "Español";
-if(codigo === "it") return "Italiano";
-if(codigo === "fr") return "Français";
-if(codigo === "de") return "Deutsch";
-return "Português";
-}
-
-function logoutSistema(){
-localStorage.removeItem("SDL_sessao_ativa");
-localStorage.removeItem("SDL_usuario_logado");
-localStorage.removeItem("SDL_dispositivo_autorizado");
-window.location.href = "login.html";
-}
-
-function carregarPainel(){
-
-const usuario =
-localStorage.getItem("SDL_usuario_logado") || "Não identificado";
-
-const planoLapidar =
-localStorage.getItem("SDL_plano_lapidar") || "Nenhum plano ativo";
-
-const statusPagamento =
-localStorage.getItem("SDL_status_pagamento") || "não confirmado";
-
-const idiomaObra =
-localStorage.getItem("SDL_idioma_obra_global") ||
-localStorage.getItem("SDL_idioma_obra") ||
-"pt";
-
-document.getElementById("usuarioAtivo").innerText = usuario;
-document.getElementById("planoAtual").innerText = planoLapidar;
-document.getElementById("idiomaPrincipalObra").innerText = traduzirIdioma(idiomaObra);
-
-if(statusPagamento === "pendente"){
-document.getElementById("situacaoAcesso").innerHTML =
-"<span class='destaque'>Plano registrado aguardando confirmação</span>";
-
-document.getElementById("alertaPlano").innerText =
-"Seu ambiente já reconheceu o plano selecionado. Confirme o pagamento para liberação total.";
-return;
-}
-
-if(statusPagamento === "confirmado"){
-document.getElementById("situacaoAcesso").innerHTML =
-"<span class='destaque'>Ambiente ativo</span>";
-
-document.getElementById("alertaPlano").innerText =
-"Seu ambiente editorial está ativo e pronto para uso.";
-return;
-}
-
-document.getElementById("situacaoAcesso").innerHTML =
-"<span class='destaque'>Sessão iniciada</span>";
-
-document.getElementById("alertaPlano").innerText =
-"Você já pode navegar normalmente pelo sistema editorial.";
-
-}
-
-carregarPainel();
-
-</script>
-
-</body>
-</html>
+.botaoLapidar{
+background:#
