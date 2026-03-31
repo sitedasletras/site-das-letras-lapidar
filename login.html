@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,9 +9,9 @@
 <style>
 body{
 margin:0;
-background:#000;
-color:#fff;
 font-family:Arial, sans-serif;
+background:#0d0603;
+color:white;
 display:flex;
 justify-content:center;
 align-items:center;
@@ -18,40 +19,49 @@ min-height:100vh;
 }
 
 .container{
-width:90%;
-max-width:360px;
-background:#111;
+width:92%;
+max-width:420px;
+background:#140c08;
+border-radius:18px;
 padding:28px;
-border-radius:14px;
-box-shadow:0 0 12px rgba(255,255,255,0.08);
-text-align:center;
+box-sizing:border-box;
 }
 
 h1{
-margin:0 0 10px 0;
-font-size:32px;
+margin:0;
+font-size:38px;
+text-align:center;
 }
 
 .subtitulo{
+text-align:center;
 color:#ff7b2c;
-margin-bottom:22px;
+margin-top:10px;
+margin-bottom:24px;
 line-height:1.6;
+}
+
+label{
+display:block;
+margin-top:14px;
+margin-bottom:8px;
+font-weight:bold;
+color:#ffd2b3;
 }
 
 input{
 width:100%;
 padding:14px;
-margin-top:12px;
 border:none;
-border-radius:8px;
+border-radius:10px;
 font-size:16px;
 box-sizing:border-box;
 }
 
-button{
+.botao{
 width:100%;
-padding:16px;
-margin-top:18px;
+padding:18px;
+margin-top:20px;
 border:none;
 border-radius:40px;
 background:#ff5a00;
@@ -61,22 +71,24 @@ font-weight:bold;
 cursor:pointer;
 }
 
-button:hover{
-background:#ff6f1a;
+.botao:hover{
+opacity:.94;
 }
 
-.erro{
-color:#ff7070;
-margin-top:14px;
-line-height:1.5;
+.mensagem{
+margin-top:16px;
 min-height:24px;
+line-height:1.5;
+color:#ffb3b3;
+text-align:center;
 }
 
 .info{
-margin-top:16px;
+margin-top:18px;
 font-size:14px;
-color:#ffd2b3;
 line-height:1.6;
+color:#ffcfaa;
+text-align:center;
 }
 </style>
 </head>
@@ -91,68 +103,58 @@ line-height:1.6;
 Entre no seu ambiente editorial
 </div>
 
-<input type="text" id="usuario" placeholder="Digite seu email">
+<label for="usuario">E-mail</label>
+<input type="text" id="usuario" placeholder="Digite seu e-mail">
 
+<label for="senha">Senha</label>
 <input type="password" id="senha" placeholder="Digite sua senha">
 
-<button onclick="entrar()">
+<button class="botao" onclick="entrar()">
 Entrar
 </button>
 
-<div class="erro" id="erro"></div>
+<div id="mensagem" class="mensagem"></div>
 
 <div class="info">
-O acesso é permitido em apenas um dispositivo por vez neste navegador.
+Acesso editorial controlado. Após o login, você será direcionado ao painel de departamentos do Lapidar.
 </div>
 
 </div>
 
 <script>
-
-const usuarioPadrao = "admin@sitedasletras.com";
-const senhaPadrao = "123456";
-
-function detectarIdiomaSistema(){
-const idioma = navigator.language || "pt-BR";
-
-if(idioma.startsWith("pt")) return "pt";
-if(idioma.startsWith("en")) return "en";
-if(idioma.startsWith("es")) return "es";
-if(idioma.startsWith("it")) return "it";
-if(idioma.startsWith("fr")) return "fr";
-if(idioma.startsWith("de")) return "de";
-
-return "pt";
-}
-
 function entrar(){
 
-const usuario = document.getElementById("usuario").value.trim();
+const usuario = document.getElementById("usuario").value.trim().toLowerCase();
 const senha = document.getElementById("senha").value.trim();
+const mensagem = document.getElementById("mensagem");
 
-if(usuario === usuarioPadrao && senha === senhaPadrao){
+const adminEmail1 = "admin@sitedasletras.com";
+const adminEmail2 = "admin@sitedasletrasedicoesliterarias.com";
 
-localStorage.setItem("SDL_usuario_logado", usuario);
-localStorage.setItem("SDL_sessao_ativa", "sim");
-localStorage.setItem("SDL_dispositivo_autorizado", navigator.userAgent);
-localStorage.setItem("SDL_idioma_interface", detectarIdiomaSistema());
+/*
+Troque a senha abaixo pela senha que você quiser usar no admin.
+*/
+const senhaAdmin = "123456";
 
-window.location.href = "_Indice.html";
-
-}else{
-
-document.getElementById("erro").innerText =
-"Email ou senha inválidos.";
-
+if(
+(usuario === adminEmail1 || usuario === adminEmail2) &&
+senha === senhaAdmin
+){
+localStorage.setItem("SDL_sessao_ativa","sim");
+localStorage.setItem("SDL_usuario_logado",usuario);
+localStorage.setItem("SDL_ADMIN","true");
+window.location.href = "painel_departamentos.html";
+return;
 }
 
+mensagem.innerText = "E-mail ou senha inválidos.";
 }
 
 if(localStorage.getItem("SDL_sessao_ativa") === "sim"){
-window.location.href = "_Indice.html";
+window.location.href = "painel_departamentos.html";
 }
-
 </script>
 
 </body>
 </html>
+
