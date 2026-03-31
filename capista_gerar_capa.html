@@ -16,7 +16,7 @@ justify-content:center;
 }
 
 .container{
-max-width:760px;
+max-width:820px;
 width:92%;
 padding:40px 0 60px 0;
 }
@@ -91,6 +91,79 @@ color:#9cffb2;
 font-weight:bold;
 line-height:1.6;
 }
+
+.previewWrap{
+display:flex;
+justify-content:center;
+margin-top:18px;
+}
+
+.previewCapa{
+width:260px;
+height:390px;
+border-radius:14px;
+background:linear-gradient(180deg,#25130a 0%, #140c08 100%);
+border:1px solid rgba(255,255,255,0.08);
+box-shadow:0 10px 30px rgba(0,0,0,0.35);
+padding:22px 18px;
+display:flex;
+flex-direction:column;
+justify-content:space-between;
+}
+
+.previewTopo{
+text-align:center;
+}
+
+.previewSelo{
+font-size:12px;
+letter-spacing:1px;
+color:#ffcfaa;
+opacity:0.9;
+}
+
+.previewTitulo{
+margin-top:18px;
+font-size:28px;
+font-weight:bold;
+line-height:1.2;
+color:#ffffff;
+word-break:break-word;
+}
+
+.previewSubtitulo{
+margin-top:10px;
+font-size:15px;
+line-height:1.5;
+color:#ffd2b3;
+word-break:break-word;
+}
+
+.previewRodape{
+text-align:center;
+}
+
+.previewAutor{
+font-size:18px;
+font-weight:bold;
+color:#ffffff;
+word-break:break-word;
+}
+
+.previewIdioma{
+margin-top:10px;
+font-size:13px;
+color:#ffcfaa;
+}
+
+.status{
+margin-top:14px;
+padding:14px;
+border-radius:10px;
+background:#1d120d;
+color:#ffd2b3;
+line-height:1.6;
+}
 </style>
 </head>
 
@@ -108,7 +181,11 @@ Preparação estrutural da capa com base nos dados enviados
 
 <div class="card">
 
-<div>
+<div id="statusDoacao" class="status">
+Verificando sua doação ao Projeto Capista...
+</div>
+
+<div style="margin-top:14px">
 <span class="label">Título</span><br>
 <span id="tituloMostrado" class="valor"></span>
 </div>
@@ -126,6 +203,36 @@ Preparação estrutural da capa com base nos dados enviados
 <div style="margin-top:14px">
 <span class="label">Idioma adicional</span><br>
 <span id="idiomaExtraMostrado" class="valor"></span>
+</div>
+
+<div style="margin-top:14px">
+<span class="label">Tipo de capa</span><br>
+<span id="tipoCapaMostrado" class="valor"></span>
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="alerta">
+Prévia visual da capa
+</div>
+
+<div class="previewWrap">
+<div class="previewCapa" id="previewCapa">
+
+<div class="previewTopo">
+<div class="previewSelo">SITE DAS LETRAS</div>
+<div class="previewTitulo" id="previewTitulo">Título da obra</div>
+<div class="previewSubtitulo" id="previewSubtitulo">Estrutura editorial da capa em preparação</div>
+</div>
+
+<div class="previewRodape">
+<div class="previewAutor" id="previewAutor">Nome do autor</div>
+<div class="previewIdioma" id="previewIdioma">Português</div>
+</div>
+
+</div>
 </div>
 
 </div>
@@ -153,9 +260,12 @@ O Projeto Capista irá preparar a capa considerando:
 Gerar estrutura da capa
 </button>
 
-<button class="botao botaoCinza"
-onclick="window.location.href='capista_upload_textos.html'">
+<button class="botao botaoCinza" onclick="window.location.href='capista_upload_textos.html'">
 Voltar para textos da capa
+</button>
+
+<button class="botao botaoCinza" onclick="window.location.href='_Indice.html'">
+Voltar para casa do original
 </button>
 
 <div id="statusGeracao" class="sucesso"></div>
@@ -163,69 +273,87 @@ Voltar para textos da capa
 </div>
 
 <script>
-
 function traduzirIdioma(codigo){
-
 if(codigo === "pt") return "Português";
 if(codigo === "en") return "English";
 if(codigo === "es") return "Español";
 if(codigo === "it") return "Italiano";
 if(codigo === "fr") return "Français";
 if(codigo === "de") return "Deutsch";
-
-if(!codigo || codigo === "nenhum")
-return "Não utilizado";
-
+if(!codigo || codigo === "nenhum") return "Não utilizado";
 return "Português";
+}
 
+function traduzirTipoCapa(valor){
+if(valor === "fisica") return "Livro físico";
+if(valor === "epub") return "EPUB digital";
+if(valor === "ambos") return "Livro físico + EPUB";
+return "Não informado";
+}
+
+function verificarDoacaoCapista(){
+const doacaoAtiva = localStorage.getItem("CAPISTA_doacao_ativa");
+const statusCapista = localStorage.getItem("CAPISTA_status");
+const planoAtivo = localStorage.getItem("CAPISTA_plano_ativo");
+const nomePlano = localStorage.getItem("CAPISTA_nome_plano") || "não identificado";
+const valorDoacao = localStorage.getItem("CAPISTA_valor_doacao") || "não identificado";
+
+if(doacaoAtiva === "sim" || statusCapista === "ativo" || planoAtivo === "sim"){
+document.getElementById("statusDoacao").innerHTML =
+"Sua doação ao Projeto Capista foi identificada.<br><br>" +
+"Modalidade registrada: <strong>" + nomePlano + "</strong><br>" +
+"Valor registrado: <strong>" + valorDoacao + "</strong>";
+return true;
+}
+
+document.getElementById("statusDoacao").innerHTML =
+"Sua doação ao Projeto Capista ainda não foi identificada.<br><br>" +
+"Volte à etapa anterior e registre sua doação antes de continuar.";
+return false;
 }
 
 function carregarDados(){
+const titulo = localStorage.getItem("CAPISTA_titulo") || localStorage.getItem("SDL_titulo_livro") || "Título não informado";
+const subtitulo = localStorage.getItem("CAPISTA_subtitulo") || "Estrutura editorial da capa em preparação";
+const autor = localStorage.getItem("CAPISTA_autor") || localStorage.getItem("SDL_nome_autor") || "Autor não informado";
+const idiomaPrincipal = localStorage.getItem("CAPISTA_idioma_principal") || localStorage.getItem("SDL_idioma_obra") || "pt";
+const idiomaExtra = localStorage.getItem("CAPISTA_idioma_extra") || "nenhum";
+const tipoCapa = localStorage.getItem("CAPISTA_tipo_capa") || "fisica";
 
-const titulo =
-localStorage.getItem("CAPISTA_titulo");
+document.getElementById("tituloMostrado").innerText = titulo;
+document.getElementById("autorMostrado").innerText = autor;
+document.getElementById("idiomaPrincipalMostrado").innerText = traduzirIdioma(idiomaPrincipal);
+document.getElementById("idiomaExtraMostrado").innerText = traduzirIdioma(idiomaExtra);
+document.getElementById("tipoCapaMostrado").innerText = traduzirTipoCapa(tipoCapa);
 
-const autor =
-localStorage.getItem("CAPISTA_autor");
-
-const idiomaPrincipal =
-localStorage.getItem("CAPISTA_idioma_principal");
-
-const idiomaExtra =
-localStorage.getItem("CAPISTA_idioma_extra");
-
-document.getElementById("tituloMostrado").innerText =
-titulo || "Não informado";
-
-document.getElementById("autorMostrado").innerText =
-autor || "Não informado";
-
-document.getElementById("idiomaPrincipalMostrado").innerText =
-traduzirIdioma(idiomaPrincipal);
-
-document.getElementById("idiomaExtraMostrado").innerText =
-traduzirIdioma(idiomaExtra);
-
+document.getElementById("previewTitulo").innerText = titulo;
+document.getElementById("previewSubtitulo").innerText = subtitulo || "Estrutura editorial da capa em preparação";
+document.getElementById("previewAutor").innerText = autor;
+document.getElementById("previewIdioma").innerText = traduzirIdioma(idiomaPrincipal);
 }
 
 function gerarCapa(){
+const doacaoOk = verificarDoacaoCapista();
+
+if(!doacaoOk){
+alert("Sua doação ao Projeto Capista ainda não foi identificada.");
+return;
+}
 
 localStorage.setItem("CAPISTA_status_geracao","preparada");
+localStorage.setItem("CAPISTA_preview_gerado","sim");
+localStorage.setItem("SDL_capista_preview_gerado","sim");
 
 document.getElementById("statusGeracao").innerText =
 "Estrutura da capa preparada com sucesso.";
 
 setTimeout(function(){
-
-window.location.href =
-"relatorio_capista.html";
-
+window.location.href = "relatorio_capista.html";
 },1200);
-
 }
 
+verificarDoacaoCapista();
 carregarDados();
-
 </script>
 
 </body>
