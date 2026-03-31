@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Ajudante Capista — Lapidar</title>
+
+<style>
+
+body{
+
+margin:0;
+font-family:Arial;
+
+background:#ffd400;
+
+color:#1b1b1b;
+
+display:flex;
+justify-content:center;
+
+}
+
+.container{
+
+max-width:760px;
+width:94%;
+
+padding:40px 0 60px 0;
+
+}
+
+.titulo{
+
+font-size:36px;
+font-weight:bold;
+
+text-align:center;
+
+}
+
+.subtitulo{
+
+text-align:center;
+
+margin-top:10px;
+margin-bottom:30px;
+
+line-height:1.6;
+
+}
+
+.card{
+
+background:white;
+
+padding:26px;
+
+border-radius:16px;
+
+margin-top:18px;
+
+line-height:1.7;
+
+}
+
+.label{
+
+font-weight:bold;
+
+margin-bottom:10px;
+
+display:block;
+
+}
+
+.botao{
+
+width:100%;
+
+padding:18px;
+
+margin-top:20px;
+
+border-radius:40px;
+
+font-size:18px;
+
+font-weight:bold;
+
+cursor:pointer;
+
+background:#ffd400;
+
+border:2px solid #168f3e;
+
+color:#1b1b1b;
+
+}
+
+.botao:hover{
+
+opacity:.92;
+
+}
+
+.botaoSecundario{
+
+background:white;
+
+border:2px solid #168f3e;
+
+color:#168f3e;
+
+}
+
+.info{
+
+margin-top:18px;
+
+line-height:1.6;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+
+<div class="titulo">
+
+Ajudante Capista
+
+</div>
+
+
+<div class="subtitulo">
+
+Preparação estrutural da capa editorial com suporte multilíngue,
+orelhas configuráveis e uso opcional de imagem autoral
+
+</div>
+
+
+
+<div class="card">
+
+<span class="label">
+
+Este módulo permite:
+
+</span>
+
+• geração de capa física editorial  
+• geração de capa EPUB  
+• preparação de orelhas (quando aplicável)  
+• inclusão de selo editorial  
+• uso opcional de imagem enviada pelo autor  
+
+</div>
+
+
+
+<div class="card">
+
+<span class="label">
+
+Imagem autoral para a capa (opcional)
+
+</span>
+
+Deseja enviar uma imagem de sua autoria para possível uso na capa?
+
+<br><br>
+
+<input type="file" id="imagemAutor">
+
+<br>
+
+<button class="botao"
+
+onclick="confirmarImagem()">
+
+Confirmar envio da imagem
+
+</button>
+
+</div>
+
+
+
+<div class="card">
+
+<span class="label">
+
+Declaração de responsabilidade autoral
+
+</span>
+
+Ao enviar uma imagem, você declara possuir os direitos legais de uso editorial.
+
+O ambiente Lapidar e o selo Site das Letras Edições Literárias não se responsabilizam por uso indevido de material protegido por direitos autorais.
+
+</div>
+
+
+
+<button class="botao"
+
+onclick="iniciarConfiguracaoCapista()">
+
+Iniciar configuração da capa
+
+</button>
+
+
+
+<button class="botaoSecundario botao"
+
+onclick="abrirDoacoesCapista()">
+
+Ver valores de doação deste módulo
+
+</button>
+
+
+
+</div>
+
+
+
+<script>
+
+function confirmarImagem(){
+
+const arquivo=document.getElementById("imagemAutor").files[0];
+
+if(!arquivo){
+
+alert("Nenhuma imagem selecionada.");
+
+return;
+
+}
+
+localStorage.setItem("CAPISTA_imagem_autoral","sim");
+
+alert("Imagem registrada com sucesso.");
+
+}
+
+
+
+function iniciarConfiguracaoCapista(){
+
+window.location.href="capista_configurar_capa.html";
+
+}
+
+
+
+function abrirDoacoesCapista(){
+
+window.location.href="capista_doacoes.html";
+
+}
+
+</script>
+
+
+
+</body>
+</html>
