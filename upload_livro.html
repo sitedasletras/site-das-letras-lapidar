@@ -1,16 +1,15 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Enviar material escrito — Lapidar</title>
+<title>Enviar original — Lapidar</title>
 
 <style>
 body{
 margin:0;
-background:#0c0603;
 font-family:Arial, sans-serif;
+background:#0d0603;
 color:white;
 display:flex;
 justify-content:center;
@@ -23,7 +22,7 @@ padding:40px 0 60px 0;
 }
 
 .titulo{
-font-size:34px;
+font-size:36px;
 text-align:center;
 font-weight:bold;
 }
@@ -39,30 +38,95 @@ line-height:1.6;
 .card{
 background:#140c08;
 border-radius:14px;
-padding:26px;
-margin-top:20px;
-line-height:1.8;
+padding:24px;
+margin-top:18px;
+line-height:1.7;
 }
 
-label{
+.label{
 display:block;
 margin-top:16px;
+margin-bottom:6px;
+font-weight:bold;
 color:#ffd2b3;
 }
 
-input, select{
+input[type="text"], select{
 width:100%;
 padding:12px;
-margin-top:6px;
-border-radius:8px;
+border-radius:10px;
 border:none;
 box-sizing:border-box;
+font-size:15px;
+}
+
+.dropzone{
+margin-top:14px;
+border:2px dashed #ff7b2c;
+border-radius:14px;
+padding:30px 18px;
+text-align:center;
+background:#1a110d;
+transition:0.2s ease;
+cursor:pointer;
+}
+
+.dropzone.ativo{
+background:#2a1911;
+border-color:#9cffb2;
+}
+
+.dropzone strong{
+display:block;
+font-size:18px;
+color:white;
+}
+
+.dropzone span{
+display:block;
+margin-top:10px;
+color:#ffd2b3;
+line-height:1.6;
+}
+
+input[type="file"]{
+display:none;
+}
+
+.info{
+margin-top:14px;
+font-size:14px;
+color:#ffcfaa;
+line-height:1.7;
+}
+
+.sucesso{
+margin-top:18px;
+color:#9cffb2;
+font-weight:bold;
+line-height:1.6;
+text-align:center;
+}
+
+.arquivoBox{
+margin-top:16px;
+padding:14px;
+border-radius:10px;
+background:#1b120d;
+color:#ffd2b3;
+line-height:1.6;
+}
+
+.botoesLinha{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:14px;
+margin-top:18px;
 }
 
 .botao{
 width:100%;
 padding:18px;
-margin-top:24px;
 border:none;
 border-radius:40px;
 background:#ff5a00;
@@ -70,6 +134,10 @@ color:white;
 font-size:18px;
 font-weight:bold;
 cursor:pointer;
+}
+
+.botao:hover{
+background:#ff6f1a;
 }
 
 .botaoCinza{
@@ -80,48 +148,38 @@ background:#444;
 background:#666;
 }
 
-.info{
-margin-top:12px;
-font-size:14px;
-color:#ffcfaa;
-line-height:1.6;
+@media (max-width:680px){
+.botoesLinha{
+grid-template-columns:1fr;
 }
-
-.sucesso{
-margin-top:18px;
-text-align:center;
-color:#9cffb2;
-font-weight:bold;
-line-height:1.7;
 }
 </style>
 </head>
-
 <body>
 
 <div class="container">
 
 <div class="titulo">
-Enviar material escrito
+Enviar original
 </div>
 
 <div class="subtitulo">
-Aqui começa a preparação editorial da sua obra dentro do Lapidar
+Arraste o arquivo no computador ou toque para escolher no celular
 </div>
 
 <div class="card">
 
-<label>
+<label class="label" for="tituloLivro">
 Título da obra
 </label>
-<input id="tituloLivro">
+<input type="text" id="tituloLivro" placeholder="Digite o título da obra">
 
-<label>
+<label class="label" for="autorLivro">
 Nome do autor ou autora
 </label>
-<input id="autorLivro">
+<input type="text" id="autorLivro" placeholder="Digite o nome do autor">
 
-<label>
+<label class="label" for="idiomaObra">
 Idioma principal da obra
 </label>
 <select id="idiomaObra">
@@ -133,7 +191,7 @@ Idioma principal da obra
 <option value="de">Deutsch</option>
 </select>
 
-<label>
+<label class="label" for="tipoMaterial">
 Tipo de material enviado
 </label>
 <select id="tipoMaterial">
@@ -146,7 +204,7 @@ Tipo de material enviado
 <option value="Outro">Outro</option>
 </select>
 
-<label>
+<label class="label" for="destinoEditorial">
 Destino editorial pretendido
 </label>
 <select id="destinoEditorial">
@@ -155,49 +213,120 @@ Destino editorial pretendido
 <option value="Livro físico + EPUB">Livro físico + EPUB</option>
 </select>
 
-<label>
+<div class="label">
 Arquivo principal da obra
-</label>
-<input type="file" id="arquivoObra" accept=".doc,.docx,.odt,.pdf,.txt">
+</div>
+
+<div id="dropzone" class="dropzone" onclick="abrirSeletorArquivo()">
+<strong>Arraste seu original aqui</strong>
+<span>ou toque para selecionar o arquivo no computador, em Documentos, Downloads, Arquivos do celular ou Drive</span>
+</div>
+
+<input
+type="file"
+id="arquivoObra"
+accept=".doc,.docx,.odt,.pdf,.txt"
+onchange="arquivoSelecionado(this.files)"
+>
+
+<div id="arquivoInfo" class="arquivoBox" style="display:none;"></div>
 
 <div class="info">
-Você pode enviar arquivos Word, LibreOffice, PDF ou TXT.
+Formatos aceitos: DOC, DOCX, ODT, PDF e TXT.
+</div>
+
+<div class="info">
+No computador você pode arrastar e soltar. No celular você pode tocar para abrir o seletor de arquivos.
 </div>
 
 <div class="info">
 Obras infantis e infantojuvenis também podem seguir fluxo multilíngue, incluindo EPUB e capa.
 </div>
 
+<div id="mensagemSucesso" class="sucesso"></div>
+
+<div class="botoesLinha">
 <button class="botao" onclick="salvarEntradaObra()">
 Salvar entrada da obra
 </button>
 
 <button class="botao" onclick="seguirPreferencias()">
-Seguir para preferências da diagramação
+Seguir para preferências
 </button>
+</div>
 
-<button class="botao botaoCinza" onclick="window.location.href='_Indice.html'">
+<button class="botao botaoCinza" onclick="window.location.href='_Indice.html'" style="margin-top:18px;">
 Voltar para casa do original
 </button>
-
-<div id="mensagemSucesso" class="sucesso"></div>
 
 </div>
 
 </div>
 
 <script>
+let arquivoAtual = null;
 
 function carregarIdiomaMestre(){
-
 const idioma =
 localStorage.getItem("SDL_idioma_obra_global") ||
 localStorage.getItem("SDL_idioma_obra") ||
 "pt";
 
 document.getElementById("idiomaObra").value = idioma;
-
 }
+
+function abrirSeletorArquivo(){
+document.getElementById("arquivoObra").click();
+}
+
+function formatarTamanho(bytes){
+if(bytes < 1024) return bytes + " bytes";
+if(bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + " KB";
+return (bytes / (1024 * 1024)).toFixed(1) + " MB";
+}
+
+function mostrarArquivo(file){
+arquivoAtual = file;
+
+const box = document.getElementById("arquivoInfo");
+box.style.display = "block";
+box.innerHTML =
+"<strong>Arquivo carregado:</strong><br>" +
+file.name + "<br>" +
+"Tamanho: " + formatarTamanho(file.size) + "<br>" +
+"Tipo detectado: " + (file.type || "não informado");
+
+localStorage.setItem("SDL_nome_arquivo_original", file.name);
+localStorage.setItem("SDL_tamanho_arquivo_original", String(file.size));
+localStorage.setItem("SDL_original_enviado", "sim");
+}
+
+function arquivoSelecionado(files){
+if(!files || !files.length){
+return;
+}
+mostrarArquivo(files[0]);
+}
+
+const dropzone = document.getElementById("dropzone");
+
+dropzone.addEventListener("dragover", function(e){
+e.preventDefault();
+dropzone.classList.add("ativo");
+});
+
+dropzone.addEventListener("dragleave", function(){
+dropzone.classList.remove("ativo");
+});
+
+dropzone.addEventListener("drop", function(e){
+e.preventDefault();
+dropzone.classList.remove("ativo");
+
+if(e.dataTransfer.files && e.dataTransfer.files.length > 0){
+mostrarArquivo(e.dataTransfer.files[0]);
+}
+});
 
 function salvarEntradaObra(){
 
@@ -226,6 +355,11 @@ alert("Informe o nome do autor ou autora.");
 return;
 }
 
+if(!arquivoAtual && !localStorage.getItem("SDL_nome_arquivo_original")){
+alert("Selecione ou arraste o arquivo principal da obra.");
+return;
+}
+
 localStorage.setItem("SDL_titulo_livro", titulo);
 localStorage.setItem("SDL_nome_autor", autor);
 localStorage.setItem("SDL_idioma_obra", idioma);
@@ -233,6 +367,7 @@ localStorage.setItem("SDL_idioma_obra_global", idioma);
 localStorage.setItem("SDL_tipo_material", tipo);
 localStorage.setItem("SDL_destino_material", destino);
 localStorage.setItem("SDL_entrada_obra_registrada", "sim");
+localStorage.setItem("SDL_original_enviado", "sim");
 
 if(tipo === "Infantil" || tipo === "Infantojuvenil"){
 localStorage.setItem("SDL_fluxo_juvenil", "sim");
@@ -241,8 +376,7 @@ localStorage.setItem("SDL_fluxo_juvenil", "nao");
 }
 
 document.getElementById("mensagemSucesso").innerHTML =
-"Entrada da obra registrada com sucesso.<br>Idioma principal: <strong>" + idioma + "</strong>";
-
+"Entrada da obra registrada com sucesso.<br>Original recebido e pronto para o fluxo editorial.";
 }
 
 function seguirPreferencias(){
@@ -256,11 +390,9 @@ return;
 }
 
 window.location.href = "preferencias_diagramacao.html";
-
 }
 
 carregarIdiomaMestre();
-
 </script>
 
 </body>
