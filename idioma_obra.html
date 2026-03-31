@@ -1,181 +1,187 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Idioma da obra — Lapidar</title>
 
 <style>
-
 body{
-
 margin:0;
-background:#0c0603;
-font-family:Arial;
+font-family:Arial, sans-serif;
+background:#0d0603;
 color:white;
 display:flex;
 justify-content:center;
-
 }
 
 .container{
-
-max-width:720px;
+max-width:760px;
 width:92%;
 padding:40px 0 60px 0;
-
 }
 
 .titulo{
-
-font-size:34px;
+font-size:36px;
 text-align:center;
 font-weight:bold;
+}
 
+.epigrafe{
+text-align:center;
+font-style:italic;
+color:#ffe6c9;
+margin-top:10px;
+line-height:1.7;
 }
 
 .subtitulo{
-
 text-align:center;
 color:#ff7b2c;
-margin-top:10px;
+margin-top:16px;
 margin-bottom:28px;
-
+line-height:1.6;
 }
 
 .card{
-
 background:#140c08;
 border-radius:14px;
-padding:26px;
-margin-top:20px;
-
+padding:24px;
+margin-top:18px;
+line-height:1.7;
 }
 
 label{
-
 display:block;
-margin-top:18px;
+margin-top:16px;
+margin-bottom:6px;
+font-weight:bold;
 color:#ffd2b3;
-
 }
 
 select{
-
 width:100%;
-padding:12px;
-margin-top:6px;
-border-radius:8px;
+padding:14px;
+border-radius:10px;
 border:none;
-
+box-sizing:border-box;
+font-size:16px;
 }
 
-.botao{
+.info{
+margin-top:14px;
+font-size:14px;
+color:#ffcfaa;
+line-height:1.7;
+}
 
+.status{
+margin-top:16px;
+color:#9cffb2;
+font-weight:bold;
+line-height:1.6;
+text-align:center;
+}
+
+.botaoIdioma{
 width:100%;
 padding:18px;
-margin-top:24px;
+margin-top:18px;
+border-radius:40px;
+border:2px solid #ff7b2c;
+background:white;
+color:#111;
+font-size:18px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.botaoIdioma:hover{
+background:#fff6ef;
+}
+
+.botaoCinza{
+width:100%;
+padding:18px;
+margin-top:18px;
 border:none;
 border-radius:40px;
-background:#ff5a00;
+background:#444;
 color:white;
 font-size:18px;
 font-weight:bold;
 cursor:pointer;
-
 }
 
-.info{
-
-margin-top:14px;
-font-size:14px;
-color:#ffcfaa;
-
+.botaoCinza:hover{
+background:#666;
 }
-
 </style>
-
 </head>
-
 <body>
 
 <div class="container">
 
 <div class="titulo">
-
 Idioma da obra
+</div>
 
+<div class="epigrafe">
+Opus tuum in alias linguas conversum a Lapidare
 </div>
 
 <div class="subtitulo">
-
-Escolha o idioma principal do material editorial
-
+Reescreva sua obra em outra língua com estrutura editorial preservada
 </div>
 
 <div class="card">
 
-<label>
-
+<label for="idiomaOriginal">
 Idioma original da obra
-
 </label>
 
 <select id="idiomaOriginal">
-
 <option value="pt">Português</option>
 <option value="en">English</option>
 <option value="es">Español</option>
 <option value="it">Italiano</option>
 <option value="fr">Français</option>
 <option value="de">Deutsch</option>
-
 </select>
 
-<label>
-
-Gerar versão em outro idioma
-
+<label for="idiomaDestino">
+Novo idioma da obra
 </label>
 
 <select id="idiomaDestino">
-
-<option value="nenhum">Não gerar outro idioma</option>
 <option value="en">English</option>
 <option value="es">Español</option>
 <option value="it">Italiano</option>
 <option value="fr">Français</option>
 <option value="de">Deutsch</option>
-
+<option value="pt">Português</option>
 </select>
 
 <div class="info">
-
-Gerar versão multilíngue possui contribuição editorial de R$ 5,99.
-
+O módulo de idiomas funciona como ferramenta própria do ecossistema Lapidar.
 </div>
 
-<button
+<div class="info">
+A estrutura editorial da obra será preservada durante a conversão multilíngue.
+</div>
 
-class="botao"
+<div class="info">
+Este recurso pode funcionar como parte do Lapidar ou como ferramenta independente.
+</div>
 
-onclick="salvarIdiomaObra()">
+<div id="statusIdioma" class="status"></div>
 
-Confirmar idioma da obra
-
+<button class="botaoIdioma" onclick="registrarIdiomaObra()">
+Reescrever minha obra em outro idioma
 </button>
 
-<button
-
-class="botao"
-
-onclick="window.location.href='_Indice.html'">
-
-Voltar para casa do original
-
+<button class="botaoCinza" onclick="window.location.href='_Indice.html'">
+Voltar para a casa do original
 </button>
 
 </div>
@@ -184,75 +190,79 @@ Voltar para casa do original
 
 <script>
 
-function detectarIdiomaSistema(){
+function detectarIdiomaBase(){
 
-const idioma = navigator.language;
+const idiomaSalvo =
+localStorage.getItem("SDL_idioma_obra_global") ||
+localStorage.getItem("SDL_idioma_obra") ||
+"pt";
 
-if(idioma.startsWith("pt")) return "pt";
-if(idioma.startsWith("en")) return "en";
-if(idioma.startsWith("es")) return "es";
-if(idioma.startsWith("it")) return "it";
-if(idioma.startsWith("fr")) return "fr";
-if(idioma.startsWith("de")) return "de";
+document.getElementById("idiomaOriginal").value = idiomaSalvo;
 
-return "pt";
+ajustarIdiomaDestino(idiomaSalvo);
 
 }
 
-function salvarIdiomaObra(){
+function ajustarIdiomaDestino(idiomaOriginal){
+
+const selectDestino =
+document.getElementById("idiomaDestino");
+
+const opcoes =
+Array.from(selectDestino.options);
+
+for(let i = 0; i < opcoes.length; i++){
+opcoes[i].disabled = false;
+}
+
+for(let i = 0; i < opcoes.length; i++){
+if(opcoes[i].value === idiomaOriginal){
+opcoes[i].disabled = true;
+}
+}
+
+if(selectDestino.value === idiomaOriginal){
+for(let i = 0; i < opcoes.length; i++){
+if(!opcoes[i].disabled){
+selectDestino.value = opcoes[i].value;
+break;
+}
+}
+}
+
+}
+
+function registrarIdiomaObra(){
 
 const idiomaOriginal =
-
 document.getElementById("idiomaOriginal").value;
 
 const idiomaDestino =
-
 document.getElementById("idiomaDestino").value;
 
-localStorage.setItem(
+if(idiomaOriginal === idiomaDestino){
+alert("Escolha um idioma diferente do idioma original da obra.");
+return;
+}
 
-"SDL_idioma_obra_global",
+localStorage.setItem("SDL_idioma_obra", idiomaOriginal);
+localStorage.setItem("SDL_idioma_obra_global", idiomaOriginal);
+localStorage.setItem("SDL_idioma_extra", idiomaDestino);
+localStorage.setItem("SDL_servico_extra", "idioma_obra");
+localStorage.setItem("SDL_modulo_idioma_obra", "ativo");
 
-idiomaOriginal
-
-);
-
-localStorage.setItem(
-
-"SDL_idioma_interface",
-
-detectarIdiomaSistema()
-
-);
-
-if(idiomaDestino !== "nenhum"){
-
-localStorage.setItem(
-
-"SDL_idioma_extra",
-
-idiomaDestino
-
-);
-
-localStorage.setItem(
-
-"SDL_servico_extra",
-
-"idioma_obra"
-
-);
+document.getElementById("statusIdioma").innerText =
+"Nova versão multilíngue registrada com sucesso.";
 
 }
 
-alert("Idioma configurado com sucesso.");
+document.getElementById("idiomaOriginal").addEventListener("change", function(){
+ajustarIdiomaDestino(this.value);
+});
 
-window.location.href = "upload_livro.html";
-
-}
+detectarIdiomaBase();
 
 </script>
 
 </body>
-
 </html>
