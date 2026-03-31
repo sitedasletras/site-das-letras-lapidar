@@ -3,10 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Status do ambiente editorial — Lapidar</title>
+<title>Status do plano — Lapidar</title>
 
 <style>
-
 body{
 margin:0;
 font-family:Arial, sans-serif;
@@ -17,7 +16,7 @@ justify-content:center;
 }
 
 .container{
-max-width:760px;
+max-width:820px;
 width:92%;
 padding:40px 0 60px 0;
 }
@@ -39,33 +38,65 @@ line-height:1.6;
 .card{
 background:#140c08;
 border-radius:14px;
-padding:22px;
+padding:24px;
 margin-top:18px;
-line-height:1.7;
+line-height:1.8;
+}
+
+.secao{
+font-size:22px;
+font-weight:bold;
+margin-bottom:12px;
+}
+
+.laranja{
+color:#ff7b2c;
+}
+
+.azul{
+color:#7fb3ff;
+}
+
+.verde{
+color:#9cffb2;
+}
+
+.branco{
+color:#ffffff;
+}
+
+.linha{
+margin-top:10px;
 }
 
 .label{
-color:#ff7b2c;
 font-weight:bold;
-}
-
-.valor{
 color:#ffd2b3;
 }
 
-.statusOk{
+.valor{
+color:white;
+}
+
+.status-ok{
 color:#9cffb2;
 font-weight:bold;
 }
 
-.statusAviso{
+.status-aviso{
 color:#ffd27a;
 font-weight:bold;
 }
 
-.statusErro{
+.status-erro{
 color:#ff9c9c;
 font-weight:bold;
+}
+
+.aviso{
+margin-top:16px;
+color:#ffcfaa;
+line-height:1.7;
 }
 
 .botao{
@@ -92,173 +123,325 @@ background:#444;
 .botaoCinza:hover{
 background:#666;
 }
-
 </style>
 </head>
-
 <body>
 
 <div class="container">
 
 <div class="titulo">
-Status do ambiente editorial
+Status do plano
 </div>
 
 <div class="subtitulo">
-Verificação geral do sistema Lapidar neste navegador
+Acompanhe validade, usos, limites e situação geral do seu ambiente editorial
 </div>
 
+<!-- LAPIDAR -->
 <div class="card">
+<div class="secao laranja">Lapidar</div>
 
-<div>
-<span class="label">Usuário ativo</span><br>
-<span id="usuarioStatus" class="valor"></span>
+<div class="linha">
+<span class="label">Plano ativo:</span>
+<span id="lapidarPlano" class="valor"></span>
 </div>
 
-<div style="margin-top:14px">
-<span class="label">Plano Lapidar</span><br>
-<span id="planoStatus"></span>
+<div class="linha">
+<span class="label">Status do pagamento:</span>
+<span id="lapidarPagamento" class="valor"></span>
 </div>
 
-<div style="margin-top:14px">
-<span class="label">Pagamento</span><br>
-<span id="pagamentoStatus"></span>
+<div class="linha">
+<span class="label">Data de ativação:</span>
+<span id="lapidarInicio" class="valor"></span>
 </div>
 
-<div style="margin-top:14px">
-<span class="label">Idioma principal da obra</span><br>
-<span id="idiomaStatus"></span>
+<div class="linha">
+<span class="label">Expira em:</span>
+<span id="lapidarFim" class="valor"></span>
 </div>
 
-<div style="margin-top:14px">
-<span class="label">Original enviado</span><br>
-<span id="originalStatus"></span>
+<div class="linha">
+<span class="label">Situação atual:</span>
+<span id="lapidarStatus" class="valor"></span>
 </div>
 
-<div style="margin-top:14px">
-<span class="label">Projeto Capista</span><br>
-<span id="capistaStatus"></span>
+<div class="aviso">
+O plano mensal do Lapidar tem validade de 30 dias corridos a partir da ativação. Os usos não são acumulativos.
+</div>
 </div>
 
-<div style="margin-top:14px">
-<span class="label">Leitura Técnica Editorial</span><br>
-<span id="leituraStatus"></span>
+<!-- AVALIAÇÃO -->
+<div class="card">
+<div class="secao verde">Leitura Técnica Editorial</div>
+
+<div class="linha">
+<span class="label">Tipo de plano:</span>
+<span id="ltePlano" class="valor"></span>
 </div>
 
+<div class="linha">
+<span class="label">Data de ativação:</span>
+<span id="lteInicio" class="valor"></span>
 </div>
 
-<button class="botao"
-onclick="window.location.href='_Indice.html'">
+<div class="linha">
+<span class="label">Expira em:</span>
+<span id="lteFim" class="valor"></span>
+</div>
 
+<div class="linha">
+<span class="label">Créditos usados:</span>
+<span id="lteUsados" class="valor"></span>
+</div>
+
+<div class="linha">
+<span class="label">Créditos restantes:</span>
+<span id="lteRestantes" class="valor"></span>
+</div>
+
+<div class="linha">
+<span class="label">Situação atual:</span>
+<span id="lteStatus" class="valor"></span>
+</div>
+
+<div class="aviso">
+O plano mensal de avaliações dura 30 dias corridos, usando ou não. Os créditos não acumulam para o mês seguinte.
+</div>
+</div>
+
+<!-- CAPISTA -->
+<div class="card">
+<div class="secao azul">Projeto Capista</div>
+
+<div class="linha">
+<span class="label">Plano ativo:</span>
+<span id="capistaPlano" class="valor"></span>
+</div>
+
+<div class="linha">
+<span class="label">Capas físicas usadas:</span>
+<span id="capistaFisicas" class="valor"></span>
+</div>
+
+<div class="linha">
+<span class="label">Capas EPUB usadas:</span>
+<span id="capistaEpub" class="valor"></span>
+</div>
+
+<div class="linha">
+<span class="label">Capas em outro idioma usadas:</span>
+<span id="capistaIdiomas" class="valor"></span>
+</div>
+
+<div class="linha">
+<span class="label">Situação atual:</span>
+<span id="capistaStatus" class="valor"></span>
+</div>
+</div>
+
+<!-- IDIOMA DA OBRA -->
+<div class="card">
+<div class="secao branco">Diagramação internacional da obra</div>
+
+<div class="linha">
+<span class="label">Plano ativo:</span>
+<span id="internacionalPlano" class="valor"></span>
+</div>
+
+<div class="linha">
+<span class="label">Tipo de capa incluída:</span>
+<span id="internacionalCapa" class="valor"></span>
+</div>
+
+<div class="linha">
+<span class="label">Data de ativação:</span>
+<span id="internacionalInicio" class="valor"></span>
+</div>
+
+<div class="linha">
+<span class="label">Expira em:</span>
+<span id="internacionalFim" class="valor"></span>
+</div>
+
+<div class="linha">
+<span class="label">Usos registrados:</span>
+<span id="internacionalUsados" class="valor"></span>
+</div>
+
+<div class="linha">
+<span class="label">Usos restantes:</span>
+<span id="internacionalRestantes" class="valor"></span>
+</div>
+
+<div class="linha">
+<span class="label">Situação atual:</span>
+<span id="internacionalStatus" class="valor"></span>
+</div>
+
+<div class="aviso">
+Cada diagramação internacional conta como 1 uso. O plano dura 30 dias corridos, usando ou não. Não é acumulativo.
+</div>
+</div>
+
+<button class="botao" onclick="window.location.href='_Indice.html'">
 Voltar para a casa do original
-
 </button>
 
-<button class="botao botaoCinza"
-onclick="logoutSistema()">
-
-Encerrar sessão neste dispositivo
-
+<button class="botao botaoCinza" onclick="window.location.href='pagamento.html'">
+Ir para pagamento
 </button>
 
 </div>
 
 <script>
 
-function traduzirIdioma(codigo){
-
-if(codigo === "pt") return "Português";
-if(codigo === "en") return "English";
-if(codigo === "es") return "Español";
-if(codigo === "it") return "Italiano";
-if(codigo === "fr") return "Français";
-if(codigo === "de") return "Deutsch";
-
+function formatarData(iso){
+if(!iso){
 return "Não definido";
-
+}
+const data = new Date(iso);
+if(isNaN(data.getTime())){
+return "Não definido";
+}
+return data.toLocaleDateString("pt-BR") + " " + data.toLocaleTimeString("pt-BR", {
+hour: "2-digit",
+minute: "2-digit"
+});
 }
 
-function statusTexto(valor){
-
-if(valor)
-return "<span class='statusOk'>Registrado</span>";
-
-return "<span class='statusAviso'>Não registrado</span>";
-
+function diferencaDias(fimIso){
+if(!fimIso){
+return null;
+}
+const agora = new Date();
+const fim = new Date(fimIso);
+const diff = fim.getTime() - agora.getTime();
+return Math.ceil(diff / (1000 * 60 * 60 * 24));
 }
 
-function statusPagamento(valor){
-
-if(valor === "confirmado")
-return "<span class='statusOk'>Confirmado</span>";
-
-if(valor === "pendente")
-return "<span class='statusAviso'>Aguardando confirmação</span>";
-
-return "<span class='statusErro'>Não identificado</span>";
-
+function statusValidade(fimIso){
+if(!fimIso){
+return "<span class='status-aviso'>Não ativado</span>";
+}
+const dias = diferencaDias(fimIso);
+if(dias === null){
+return "<span class='status-aviso'>Não ativado</span>";
+}
+if(dias < 0){
+return "<span class='status-erro'>Expirado</span>";
+}
+if(dias <= 5){
+return "<span class='status-aviso'>Ativo — expira em " + dias + " dia(s)</span>";
+}
+return "<span class='status-ok'>Ativo — " + dias + " dia(s) restantes</span>";
 }
 
-function carregarStatus(){
-
-const usuario =
-localStorage.getItem("SDL_usuario_logado");
-
-const plano =
-localStorage.getItem("SDL_plano_lapidar");
-
-const pagamento =
-localStorage.getItem("SDL_status_pagamento");
-
-const idioma =
-localStorage.getItem("SDL_idioma_obra");
-
-const original =
-localStorage.getItem("SDL_original_enviado");
-
-const capista =
-localStorage.getItem("CAPISTA_status_geracao");
-
-const leitura =
-localStorage.getItem("LTE_status");
-
-document.getElementById("usuarioStatus")
-.innerText = usuario || "Não identificado";
-
-document.getElementById("planoStatus")
-.innerHTML = plano
-? "<span class='statusOk'>" + plano + "</span>"
-: "<span class='statusAviso'>Nenhum plano selecionado</span>";
-
-document.getElementById("pagamentoStatus")
-.innerHTML = statusPagamento(pagamento);
-
-document.getElementById("idiomaStatus")
-.innerHTML = idioma
-? "<span class='statusOk'>" + traduzirIdioma(idioma) + "</span>"
-: "<span class='statusAviso'>Não definido</span>";
-
-document.getElementById("originalStatus")
-.innerHTML = statusTexto(original);
-
-document.getElementById("capistaStatus")
-.innerHTML = statusTexto(capista);
-
-document.getElementById("leituraStatus")
-.innerHTML = statusTexto(leitura);
-
+function ativarExpiracaoSeNecessario(chaveStatus, fimIso){
+if(!fimIso){
+return;
+}
+const fim = new Date(fimIso);
+const agora = new Date();
+if(agora > fim){
+localStorage.setItem(chaveStatus, "expirado");
+}
 }
 
-function logoutSistema(){
+function carregarLapidar(){
+const plano = localStorage.getItem("SDL_plano_lapidar") || "Nenhum plano";
+const pagamento = localStorage.getItem("SDL_status_pagamento") || "não confirmado";
+const inicio = localStorage.getItem("SDL_plano_inicio");
+const fim = localStorage.getItem("SDL_plano_fim");
 
-localStorage.removeItem("SDL_usuario_logado");
-localStorage.removeItem("SDL_sessao_ativa");
-
-window.location.href = "login.html";
-
+document.getElementById("lapidarPlano").innerText = plano;
+document.getElementById("lapidarPagamento").innerHTML =
+pagamento === "confirmado"
+? "<span class='status-ok'>Confirmado</span>"
+: "<span class='status-aviso'>Não confirmado</span>";
+document.getElementById("lapidarInicio").innerText = formatarData(inicio);
+document.getElementById("lapidarFim").innerText = formatarData(fim);
+document.getElementById("lapidarStatus").innerHTML = statusValidade(fim);
 }
 
-carregarStatus();
+function carregarLTE(){
+const planoMensal = localStorage.getItem("LTE_plano_mensal");
+const tipoPlano = localStorage.getItem("LTE_tipo_plano");
+const inicio = localStorage.getItem("LTE_plano_inicio");
+const fim = localStorage.getItem("LTE_plano_fim");
+const usados = localStorage.getItem("LTE_creditos_usados") || "0";
+const restantes = localStorage.getItem("LTE_creditos_restantes") || "0";
+
+ativarExpiracaoSeNecessario("LTE_status", fim);
+
+let nomePlano = "Nenhum plano ativo";
+if(planoMensal === "ativo"){
+nomePlano = "Plano Oficina Editorial Lapidar";
+}else if(tipoPlano === "avulso"){
+nomePlano = "Avaliação avulsa";
+}
+
+document.getElementById("ltePlano").innerText = nomePlano;
+document.getElementById("lteInicio").innerText = formatarData(inicio);
+document.getElementById("lteFim").innerText = formatarData(fim);
+document.getElementById("lteUsados").innerText = usados;
+document.getElementById("lteRestantes").innerText = restantes;
+
+if(tipoPlano === "avulso"){
+document.getElementById("lteStatus").innerHTML = "<span class='status-ok'>Modo avulso</span>";
+}else{
+document.getElementById("lteStatus").innerHTML = statusValidade(fim);
+}
+}
+
+function carregarCapista(){
+const plano = localStorage.getItem("CAPISTA_nome_plano") || localStorage.getItem("CAPISTA_plano") || "Nenhum plano";
+const fisicas = localStorage.getItem("CAPISTA_usadas_fisicas") || "0";
+const epub = localStorage.getItem("CAPISTA_usadas_epub") || "0";
+const idiomas = localStorage.getItem("CAPISTA_usadas_outro_idioma") || "0";
+const pagamento = localStorage.getItem("CAPISTA_pagamento_confirmado");
+
+document.getElementById("capistaPlano").innerText = plano;
+document.getElementById("capistaFisicas").innerText = fisicas;
+document.getElementById("capistaEpub").innerText = epub;
+document.getElementById("capistaIdiomas").innerText = idiomas;
+document.getElementById("capistaStatus").innerHTML =
+pagamento === "sim"
+? "<span class='status-ok'>Ativo</span>"
+: "<span class='status-aviso'>Não confirmado</span>";
+}
+
+function carregarInternacional(){
+const plano = localStorage.getItem("DIAGRAMACAO_INTERNACIONAL_PLANO");
+const limite = parseInt(localStorage.getItem("DIAGRAMACAO_INTERNACIONAL_LIMITE") || "0", 10);
+const usados = parseInt(localStorage.getItem("DIAGRAMACAO_INTERNACIONAL_USADOS") || "0", 10);
+const capa = localStorage.getItem("DIAGRAMACAO_INTERNACIONAL_CAPA") || "não definida";
+const inicio = localStorage.getItem("DIAGRAMACAO_INTERNACIONAL_DATA_ATIVACAO");
+const fim = localStorage.getItem("DIAGRAMACAO_INTERNACIONAL_DATA_FIM");
+
+ativarExpiracaoSeNecessario("DIAGRAMACAO_INTERNACIONAL_STATUS", fim);
+
+let nomePlano = "Nenhum plano ativo";
+if(plano === "40"){
+nomePlano = "Plano simples — R$ 40 / $ 40";
+}
+if(plano === "70"){
+nomePlano = "Plano premium — R$ 70 / $ 70";
+}
+
+document.getElementById("internacionalPlano").innerText = nomePlano;
+document.getElementById("internacionalCapa").innerText = capa;
+document.getElementById("internacionalInicio").innerText = formatarData(inicio);
+document.getElementById("internacionalFim").innerText = formatarData(fim);
+document.getElementById("internacionalUsados").innerText = String(usados);
+document.getElementById("internacionalRestantes").innerText = String(Math.max(limite - usados, 0));
+document.getElementById("internacionalStatus").innerHTML = statusValidade(fim);
+}
+
+carregarLapidar();
+carregarLTE();
+carregarCapista();
+carregarInternacional();
 
 </script>
 
