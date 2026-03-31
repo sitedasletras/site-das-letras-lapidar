@@ -1,226 +1,487 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lapidar — A casa do seu original</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lapidar — Painel Editorial</title>
 
 <style>
+:root{
+  --bg:#0d0603;
+  --card:#140c08;
+  --card-2:#1b100a;
+  --text:#ffffff;
+  --muted:#ffd2b3;
+  --orange:#ff7b2c;
+  --orange-strong:#ff5a00;
+  --blue:#6ea8ff;
+  --green:#9cffb2;
+  --danger:#ff7070;
+  --border:rgba(255,123,44,0.18);
+  --shadow:0 10px 26px rgba(0,0,0,0.28);
+}
+
+*{
+  box-sizing:border-box;
+}
 
 body{
-margin:0;
-font-family:Arial, sans-serif;
-background:#0d0603;
-color:white;
-display:flex;
-justify-content:center;
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:var(--bg);
+  color:var(--text);
 }
 
 .container{
-max-width:820px;
-width:92%;
-padding:40px 0 60px 0;
+  width:min(1100px, 94%);
+  margin:0 auto;
+  padding:28px 0 54px 0;
+}
+
+.topo{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:14px;
+  flex-wrap:wrap;
 }
 
 .titulo{
-font-size:42px;
-font-weight:bold;
-text-align:center;
-letter-spacing:2px;
+  font-size:42px;
+  font-weight:bold;
+  letter-spacing:2px;
+  margin:0;
 }
 
 .subtitulo{
-text-align:center;
-color:#ff7b2c;
-margin-top:10px;
-font-size:18px;
-line-height:1.6;
+  color:var(--orange);
+  margin-top:6px;
+  font-size:18px;
+  line-height:1.6;
 }
 
-.blocoTopo{
-background:#140c08;
-border-radius:14px;
-padding:20px;
-margin-top:24px;
-line-height:1.7;
+.bloco{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:18px;
+  box-shadow:var(--shadow);
 }
 
-.linhaTopo{
-margin-top:10px;
+.hero{
+  margin-top:22px;
+  padding:22px;
+}
+
+.hero-grid{
+  display:grid;
+  grid-template-columns:1.4fr 1fr;
+  gap:18px;
+}
+
+.boasvindas{
+  color:var(--muted);
+  line-height:1.75;
+  font-size:17px;
+}
+
+.status-box{
+  background:var(--card-2);
+  border-radius:16px;
+  padding:18px;
+  border:1px solid rgba(255,255,255,0.04);
+}
+
+.linha{
+  margin-top:10px;
+  line-height:1.7;
 }
 
 .label{
-color:#ff7b2c;
-font-weight:bold;
+  color:var(--orange);
+  font-weight:bold;
 }
 
 .valor{
-color:#ffd2b3;
+  color:var(--muted);
 }
 
-.texto{
-text-align:center;
-color:#ffd2b3;
-margin-top:28px;
-line-height:1.7;
+.grid{
+  margin-top:24px;
+  display:grid;
+  grid-template-columns:repeat(3, 1fr);
+  gap:18px;
 }
 
-.secao{
-margin-top:30px;
-background:#140c08;
-border-radius:16px;
-padding:18px;
+.card{
+  padding:18px;
+  min-height:210px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
 }
 
-.secaoTitulo{
-font-size:24px;
-font-weight:bold;
-margin-bottom:8px;
+.card-titulo{
+  font-size:24px;
+  font-weight:bold;
+  margin-bottom:8px;
 }
 
-.secaoTexto{
-color:#ffd2b3;
-line-height:1.7;
-margin-bottom:14px;
+.card-texto{
+  color:var(--muted);
+  line-height:1.7;
+  font-size:15px;
 }
 
-.laranja{
-color:#ff7b2c;
+.badges{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:14px;
 }
 
-.azul{
-color:#6ea8ff;
+.badge{
+  padding:7px 12px;
+  border-radius:999px;
+  font-size:13px;
+  font-weight:bold;
+  background:rgba(255,123,44,0.12);
+  color:var(--orange);
+  border:1px solid rgba(255,123,44,0.18);
 }
 
-.verde{
-color:#9cffb2;
-}
-
-.branco{
-color:#ffffff;
+.actions{
+  margin-top:18px;
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
 }
 
 .botao{
-width:100%;
-padding:20px;
-margin-top:14px;
-border:none;
-border-radius:40px;
-font-size:20px;
-font-weight:bold;
-cursor:pointer;
+  appearance:none;
+  border:none;
+  border-radius:999px;
+  padding:14px 18px;
+  font-size:15px;
+  font-weight:bold;
+  cursor:pointer;
+  transition:opacity .18s ease, transform .18s ease;
 }
 
 .botao:hover{
-opacity:0.94;
+  opacity:.95;
+  transform:translateY(-1px);
 }
 
-.botaoLapidar{
-background:#ff5a00;
-color:white;
+.botao-laranja{
+  background:var(--orange-strong);
+  color:#fff;
 }
 
-.botaoEntrar{
-background:#6ea8ff;
-color:white;
+.botao-azul{
+  background:var(--blue);
+  color:#fff;
 }
 
+.botao-escuro{
+  background:#24150f;
+  color:#fff;
+  border:1px solid rgba(255,255,255,0.06);
+}
+
+.botao-verde{
+  background:#174d27;
+  color:#dfffe8;
+}
+
+.rodape{
+  margin-top:26px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+}
+
+.rodape .bloco{
+  padding:18px;
+}
+
+.rodape h3{
+  margin:0 0 10px 0;
+  font-size:22px;
+}
+
+.rodape p{
+  margin:0;
+  color:var(--muted);
+  line-height:1.7;
+}
+
+.aviso{
+  margin-top:22px;
+  padding:16px 18px;
+  border-left:4px solid var(--orange);
+  color:var(--muted);
+}
+
+.link-lista{
+  margin-top:12px;
+  display:grid;
+  gap:10px;
+}
+
+.link-btn{
+  text-decoration:none;
+  display:inline-block;
+  width:100%;
+  text-align:center;
+}
+
+@media (max-width: 920px){
+  .hero-grid{
+    grid-template-columns:1fr;
+  }
+
+  .grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .rodape{
+    grid-template-columns:1fr;
+  }
+}
+
+@media (max-width: 640px){
+  .titulo{
+    font-size:34px;
+  }
+
+  .grid{
+    grid-template-columns:1fr;
+  }
+
+  .container{
+    width:92%;
+  }
+}
 </style>
 </head>
-
 <body>
 
 <div class="container">
 
-<div class="titulo">
-LAPIDAR
+  <div class="topo">
+    <div>
+      <h1 class="titulo">LAPIDAR</h1>
+      <div class="subtitulo">Painel editorial central</div>
+    </div>
+
+    <div class="actions">
+      <button class="botao botao-verde" onclick="abrirStatusPlano()">Status do plano</button>
+      <button class="botao botao-escuro" onclick="encerrarSessao()">Encerrar sessão</button>
+    </div>
+  </div>
+
+  <div class="hero bloco">
+    <div class="hero-grid">
+      <div>
+        <div class="card-titulo">Bem-vindo ao ambiente editorial</div>
+        <div class="boasvindas">
+          Sua presença é importante para nós, aproveite sua estadia.<br><br>
+          Este é o núcleo do Lapidar. A partir daqui, você centraliza acessos, acompanha etapas, envia materiais e organiza o fluxo editorial com mais segurança.
+        </div>
+
+        <div class="badges">
+          <span class="badge">Sessão ativa</span>
+          <span class="badge">Ambiente protegido</span>
+          <span class="badge">Modo produção</span>
+        </div>
+      </div>
+
+      <div class="status-box">
+        <div class="linha"><span class="label">Ambiente:</span> <span class="valor">Editorial protegido</span></div>
+        <div class="linha"><span class="label">Modo:</span> <span class="valor">Produção autorizada</span></div>
+        <div class="linha"><span class="label">Sessão:</span> <span class="valor">Ativa no dispositivo atual</span></div>
+        <div class="linha"><span class="label">Interface:</span> <span class="valor" id="idiomaAtual">Carregando...</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid">
+
+    <div class="card bloco">
+      <div>
+        <div class="card-titulo">Envio de livro</div>
+        <div class="card-texto">
+          Acesse o ponto de entrada para subir originais, materiais-base e iniciar o fluxo editorial do projeto.
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="botao botao-laranja" onclick="abrirUploadLivro()">Abrir módulo</button>
+      </div>
+    </div>
+
+    <div class="card bloco">
+      <div>
+        <div class="card-titulo">Revisão e pedidos</div>
+        <div class="card-texto">
+          Consulte pedidos de revisão, acompanhe o andamento e organize os retornos internos do ambiente editorial.
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="botao botao-laranja" onclick="abrirRevisaoPedido()">Abrir módulo</button>
+      </div>
+    </div>
+
+    <div class="card bloco">
+      <div>
+        <div class="card-titulo">Pagamentos e planos</div>
+        <div class="card-texto">
+          Área para planos, doações, pagamentos e consulta operacional do status de permanência no sistema.
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="botao botao-laranja" onclick="abrirPagamento()">Pagamentos</button>
+        <button class="botao botao-azul" onclick="abrirPlanos()">Planos</button>
+      </div>
+    </div>
+
+    <div class="card bloco">
+      <div>
+        <div class="card-titulo">Capista</div>
+        <div class="card-texto">
+          Central dos módulos ligados à capa, idioma da capa, configuração e geração de materiais visuais.
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="botao botao-laranja" onclick="abrirCapistaPlanos()">Abrir área</button>
+      </div>
+    </div>
+
+    <div class="card bloco">
+      <div>
+        <div class="card-titulo">Projetos e histórico</div>
+        <div class="card-texto">
+          Consulte histórico de projetos, rastreio operacional e visualização rápida de registros internos.
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="botao botao-laranja" onclick="abrirHistoricoProjetos()">Histórico</button>
+        <button class="botao botao-azul" onclick="abrirPreviewProjeto()">Preview</button>
+      </div>
+    </div>
+
+    <div class="card bloco">
+      <div>
+        <div class="card-titulo">Área em construção</div>
+        <div class="card-texto">
+          Espaço reservado para o painel administrativo completo do Lapidar, com governança, autores, heterônimos e segurança avançada.
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="botao botao-escuro" onclick="emConstrucao('Painel administrativo completo')">Ver status</button>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="rodape">
+    <div class="bloco">
+      <h3>Atalhos rápidos</h3>
+      <div class="link-lista">
+        <a class="link-btn botao botao-escuro" href="upload_livro.html">Upload de livro</a>
+        <a class="link-btn botao botao-escuro" href="status_plano.html">Status do plano</a>
+        <a class="link-btn botao botao-escuro" href="pagamento.html">Pagamento</a>
+      </div>
+    </div>
+
+    <div class="bloco">
+      <h3>Recado da casa</h3>
+      <p>
+        Não se esforce sozinho. Esta casa foi criada para desenvolver projetos junto com você.
+      </p>
+    </div>
+  </div>
+
+  <div class="bloco aviso">
+    Ao confirmar a doação, você declara estar ciente da sua opção e do período de parceria correspondente. Não há devolução de valores após essa confirmação.
+  </div>
+
 </div>
-
-<div class="subtitulo">
-A casa do seu original
-</div>
-
-
-<div class="blocoTopo">
-
-<div class="linhaTopo">
-<span class="label">Ambiente:</span>
-<span class="valor">Editorial protegido</span>
-</div>
-
-<div class="linhaTopo">
-<span class="label">Modo:</span>
-<span class="valor">Produção autorizada</span>
-</div>
-
-<div class="linhaTopo">
-<span class="label">Status:</span>
-<span class="valor">Sessão ativa</span>
-</div>
-
-</div>
-
-
-<div class="texto">
-
-Bem-vindo, sua presença é importante para nós, aproveite sua estadia.
-
-</div>
-
-
-<div class="secao">
-
-<div class="secaoTitulo">
-Acesso ao ambiente
-</div>
-
-<div class="secaoTexto">
-
-Você está dentro do ambiente editorial Lapidar.<br>
-Utilize as opções abaixo para continuar.
-
-</div>
-
-<button class="botao botaoLapidar"
-onclick="abrirPainel()">
-
-Entrar no painel editorial
-
-</button>
-
-
-<button class="botao botaoEntrar"
-onclick="sairSistema()">
-
-Encerrar sessão
-
-</button>
-
-</div>
-
-
-</div>
-
 
 <script>
-
-function abrirPainel(){
-
-alert("Painel editorial em construção.");
-
+function idiomaLegivel(codigo){
+  if(!codigo) return "Português";
+  if(codigo.startsWith("pt")) return "Português";
+  if(codigo.startsWith("en")) return "Inglês";
+  if(codigo.startsWith("es")) return "Espanhol";
+  if(codigo.startsWith("it")) return "Italiano";
+  if(codigo.startsWith("fr")) return "Francês";
+  if(codigo.startsWith("de")) return "Alemão";
+  return codigo;
 }
 
-
-function sairSistema(){
-
-localStorage.removeItem("SDL_sessao_ativa");
-
-window.location.href="login.html";
-
+function carregarIdioma(){
+  const salvo = localStorage.getItem("SDL_idioma_interface") || navigator.language || "pt-BR";
+  const el = document.getElementById("idiomaAtual");
+  if(el) el.textContent = idiomaLegivel(salvo);
 }
 
+function verificarSessao(){
+  const sessao = localStorage.getItem("SDL_sessao_ativa");
+  if(sessao !== "sim"){
+    window.location.href = "login.html";
+  }
+}
+
+function abrirUploadLivro(){
+  window.location.href = "upload_livro.html";
+}
+
+function abrirRevisaoPedido(){
+  window.location.href = "revisao_pedido.html";
+}
+
+function abrirPagamento(){
+  window.location.href = "pagamento.html";
+}
+
+function abrirPlanos(){
+  window.location.href = "planos_doacoes.html";
+}
+
+function abrirStatusPlano(){
+  window.location.href = "status_plano.html";
+}
+
+function abrirCapistaPlanos(){
+  window.location.href = "capista_planos.html";
+}
+
+function abrirHistoricoProjetos(){
+  window.location.href = "historico_projetos.html";
+}
+
+function abrirPreviewProjeto(){
+  window.location.href = "preview_projeto.html";
+}
+
+function emConstrucao(modulo){
+  alert(modulo + " em construção.");
+}
+
+function encerrarSessao(){
+  localStorage.removeItem("SDL_sessao_ativa");
+  window.location.href = "login.html";
+}
+
+verificarSessao();
+carregarIdioma();
 </script>
-
 
 </body>
 </html>
