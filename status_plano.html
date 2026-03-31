@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Status do plano — Lapidar</title>
+<title>Status da sua doação — Lapidar</title>
 
 <style>
 body{
@@ -130,7 +130,7 @@ background:#666;
 <div class="container">
 
 <div class="titulo">
-Status do plano
+Status da sua doação
 </div>
 
 <div class="subtitulo">
@@ -142,12 +142,12 @@ Acompanhe validade, usos, limites e situação geral do seu ambiente editorial
 <div class="secao laranja">Lapidar</div>
 
 <div class="linha">
-<span class="label">Plano ativo:</span>
+<span class="label">Modalidade ativa:</span>
 <span id="lapidarPlano" class="valor"></span>
 </div>
 
 <div class="linha">
-<span class="label">Status do pagamento:</span>
+<span class="label">Status da doação:</span>
 <span id="lapidarPagamento" class="valor"></span>
 </div>
 
@@ -167,7 +167,7 @@ Acompanhe validade, usos, limites e situação geral do seu ambiente editorial
 </div>
 
 <div class="aviso">
-O plano mensal do Lapidar tem validade de 30 dias corridos a partir da ativação. Os usos não são acumulativos.
+A doação mensal do Lapidar tem validade de 30 dias corridos a partir da ativação. Os usos não são acumulativos.
 </div>
 </div>
 
@@ -176,7 +176,7 @@ O plano mensal do Lapidar tem validade de 30 dias corridos a partir da ativaçã
 <div class="secao verde">Leitura Técnica Editorial</div>
 
 <div class="linha">
-<span class="label">Tipo de plano:</span>
+<span class="label">Modalidade ativa:</span>
 <span id="ltePlano" class="valor"></span>
 </div>
 
@@ -206,7 +206,7 @@ O plano mensal do Lapidar tem validade de 30 dias corridos a partir da ativaçã
 </div>
 
 <div class="aviso">
-O plano mensal de avaliações dura 30 dias corridos, usando ou não. Os créditos não acumulam para o mês seguinte.
+A modalidade mensal de avaliações dura 30 dias corridos, usando ou não. Os créditos não acumulam para o mês seguinte.
 </div>
 </div>
 
@@ -215,7 +215,7 @@ O plano mensal de avaliações dura 30 dias corridos, usando ou não. Os crédit
 <div class="secao azul">Projeto Capista</div>
 
 <div class="linha">
-<span class="label">Plano ativo:</span>
+<span class="label">Doação ativa:</span>
 <span id="capistaPlano" class="valor"></span>
 </div>
 
@@ -238,6 +238,10 @@ O plano mensal de avaliações dura 30 dias corridos, usando ou não. Os crédit
 <span class="label">Situação atual:</span>
 <span id="capistaStatus" class="valor"></span>
 </div>
+
+<div class="aviso">
+A sua doação ao Projeto Capista libera a geração de capas conforme a modalidade escolhida.
+</div>
 </div>
 
 <!-- IDIOMA DA OBRA -->
@@ -245,7 +249,7 @@ O plano mensal de avaliações dura 30 dias corridos, usando ou não. Os crédit
 <div class="secao branco">Diagramação internacional da obra</div>
 
 <div class="linha">
-<span class="label">Plano ativo:</span>
+<span class="label">Doação ativa:</span>
 <span id="internacionalPlano" class="valor"></span>
 </div>
 
@@ -280,7 +284,7 @@ O plano mensal de avaliações dura 30 dias corridos, usando ou não. Os crédit
 </div>
 
 <div class="aviso">
-Cada diagramação internacional conta como 1 uso. O plano dura 30 dias corridos, usando ou não. Não é acumulativo.
+Cada diagramação internacional conta como 1 uso. A doação dura 30 dias corridos, usando ou não. Não é acumulativa.
 </div>
 </div>
 
@@ -295,7 +299,6 @@ Ir para pagamento
 </div>
 
 <script>
-
 function formatarData(iso){
 if(!iso){
 return "Não definido";
@@ -349,16 +352,16 @@ localStorage.setItem(chaveStatus, "expirado");
 }
 
 function carregarLapidar(){
-const plano = localStorage.getItem("SDL_plano_lapidar") || "Nenhum plano";
-const pagamento = localStorage.getItem("SDL_status_pagamento") || "não confirmado";
-const inicio = localStorage.getItem("SDL_plano_inicio");
-const fim = localStorage.getItem("SDL_plano_fim");
+const plano = localStorage.getItem("SDL_plano_lapidar") || localStorage.getItem("SDL_doacao_lapidar") || "Nenhuma doação identificada";
+const pagamento = localStorage.getItem("SDL_status_pagamento") || localStorage.getItem("SDL_doacao_status") || "não confirmada";
+const inicio = localStorage.getItem("SDL_plano_inicio") || localStorage.getItem("SDL_doacao_inicio");
+const fim = localStorage.getItem("SDL_plano_fim") || localStorage.getItem("SDL_doacao_fim");
 
 document.getElementById("lapidarPlano").innerText = plano;
 document.getElementById("lapidarPagamento").innerHTML =
-pagamento === "confirmado"
-? "<span class='status-ok'>Confirmado</span>"
-: "<span class='status-aviso'>Não confirmado</span>";
+pagamento === "confirmado" || pagamento === "ativa" || pagamento === "ativo"
+? "<span class='status-ok'>Confirmada</span>"
+: "<span class='status-aviso'>Não confirmada</span>";
 document.getElementById("lapidarInicio").innerText = formatarData(inicio);
 document.getElementById("lapidarFim").innerText = formatarData(fim);
 document.getElementById("lapidarStatus").innerHTML = statusValidade(fim);
@@ -374,9 +377,9 @@ const restantes = localStorage.getItem("LTE_creditos_restantes") || "0";
 
 ativarExpiracaoSeNecessario("LTE_status", fim);
 
-let nomePlano = "Nenhum plano ativo";
+let nomePlano = "Nenhuma doação identificada";
 if(planoMensal === "ativo"){
-nomePlano = "Plano Oficina Editorial Lapidar";
+nomePlano = "Doação Oficina Editorial Lapidar";
 }else if(tipoPlano === "avulso"){
 nomePlano = "Avaliação avulsa";
 }
@@ -395,20 +398,47 @@ document.getElementById("lteStatus").innerHTML = statusValidade(fim);
 }
 
 function carregarCapista(){
-const plano = localStorage.getItem("CAPISTA_nome_plano") || localStorage.getItem("CAPISTA_plano") || "Nenhum plano";
+const nomeDoacao =
+localStorage.getItem("CAPISTA_nome_plano") ||
+localStorage.getItem("CAPISTA_plano") ||
+localStorage.getItem("CAPISTA_valor_doacao") ||
+"Nenhuma doação identificada";
+
 const fisicas = localStorage.getItem("CAPISTA_usadas_fisicas") || "0";
 const epub = localStorage.getItem("CAPISTA_usadas_epub") || "0";
 const idiomas = localStorage.getItem("CAPISTA_usadas_outro_idioma") || "0";
-const pagamento = localStorage.getItem("CAPISTA_pagamento_confirmado");
 
-document.getElementById("capistaPlano").innerText = plano;
+const statusCapista =
+localStorage.getItem("CAPISTA_status");
+
+const doacaoAtiva =
+localStorage.getItem("CAPISTA_doacao_ativa");
+
+const planoAtivo =
+localStorage.getItem("CAPISTA_plano_ativo");
+
+const pagamento =
+localStorage.getItem("CAPISTA_pagamento_confirmado") ||
+localStorage.getItem("CAPISTA_pagamento_status");
+
+document.getElementById("capistaPlano").innerText = nomeDoacao;
 document.getElementById("capistaFisicas").innerText = fisicas;
 document.getElementById("capistaEpub").innerText = epub;
 document.getElementById("capistaIdiomas").innerText = idiomas;
+
+if(
+statusCapista === "ativo" ||
+doacaoAtiva === "sim" ||
+planoAtivo === "sim" ||
+pagamento === "sim" ||
+pagamento === "confirmado"
+){
 document.getElementById("capistaStatus").innerHTML =
-pagamento === "sim"
-? "<span class='status-ok'>Ativo</span>"
-: "<span class='status-aviso'>Não confirmado</span>";
+"<span class='status-ok'>Ativo</span>";
+}else{
+document.getElementById("capistaStatus").innerHTML =
+"<span class='status-aviso'>Sua doação ainda não foi identificada</span>";
+}
 }
 
 function carregarInternacional(){
@@ -421,12 +451,12 @@ const fim = localStorage.getItem("DIAGRAMACAO_INTERNACIONAL_DATA_FIM");
 
 ativarExpiracaoSeNecessario("DIAGRAMACAO_INTERNACIONAL_STATUS", fim);
 
-let nomePlano = "Nenhum plano ativo";
+let nomePlano = "Nenhuma doação identificada";
 if(plano === "40"){
-nomePlano = "Plano simples — R$ 40 / $ 40";
+nomePlano = "Doação simples — R$ 40 / $ 40";
 }
 if(plano === "70"){
-nomePlano = "Plano premium — R$ 70 / $ 70";
+nomePlano = "Doação premium — R$ 70 / $ 70";
 }
 
 document.getElementById("internacionalPlano").innerText = nomePlano;
@@ -442,7 +472,6 @@ carregarLapidar();
 carregarLTE();
 carregarCapista();
 carregarInternacional();
-
 </script>
 
 </body>
