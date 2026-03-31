@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Lapidar — Plataforma Editorial</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial;
+background:#0d0603;
+color:white;
+display:flex;
+justify-content:center;
+}
+
+.container{
+max-width:900px;
+width:94%;
+padding:40px 0 60px 0;
+}
+
+.titulo{
+font-size:42px;
+text-align:center;
+font-weight:bold;
+}
+
+.subtitulo{
+text-align:center;
+color:#ff7b2c;
+margin-top:12px;
+margin-bottom:40px;
+line-height:1.6;
+}
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:24px;
+}
+
+.card{
+border-radius:20px;
+padding:28px;
+font-size:18px;
+line-height:1.6;
+cursor:pointer;
+transition:0.25s;
+}
+
+.card:hover{
+transform:scale(1.02);
+}
+
+
+/* DIAGRAMADOR */
+
+.diagramador{
+background:#0e5eff;
+border:2px solid white;
+}
+
+.diagramador:hover{
+background:#2c73ff;
+}
+
+
+/* CAPISTA */
+
+.capista{
+background:#ffe66a;
+color:#2d2d00;
+border:2px solid #16a34a;
+}
+
+.capista:hover{
+background:#fff08a;
+}
+
+
+/* TRADUTOR */
+
+.tradutor{
+background:white;
+color:#0e5eff;
+border:2px solid #0e5eff;
+}
+
+.tradutor:hover{
+background:#f5f8ff;
+}
+
+
+/* VALIDAÇÃO */
+
+.validacao{
+background:#16a34a;
+border:2px solid white;
+}
+
+.validacao:hover{
+background:#27c565;
+}
+
+
+.descricao{
+margin-top:12px;
+font-size:15px;
+opacity:.9;
+}
+
+.status{
+margin-top:32px;
+padding:16px;
+border-radius:14px;
+background:#1c120d;
+color:#ffd2b3;
+text-align:center;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="titulo">
+Lapidar
+</div>
+
+<div class="subtitulo">
+Plataforma editorial assistida com quatro departamentos especializados
+</div>
+
+
+<div class="grid">
+
+
+<div class="card diagramador"
+onclick="abrirDiagramador()">
+
+Assistente Diagramador do Autor
+
+<div class="descricao">
+
+Preparação do miolo editorial com estrutura profissional e avaliação colaborativa inicial
+
+</div>
+
+</div>
+
+
+
+<div class="card capista"
+onclick="abrirCapista()">
+
+Ajudante Capista
+
+<div class="descricao">
+
+Configuração estrutural da capa editorial com sinopse, orelhas e selo institucional
+
+</div>
+
+</div>
+
+
+
+<div class="card tradutor"
+onclick="abrirTradutor()">
+
+Colaborador Tradutor
+
+<div class="descricao">
+
+Preparação multilíngue da obra com adaptação editorial internacional
+
+</div>
+
+</div>
+
+
+
+<div class="card validacao"
+onclick="abrirValidacao()">
+
+Validação Geral dos Textos
+
+<div class="descricao">
+
+Leitura editorial profunda com parecer técnico estruturado da obra
+
+</div>
+
+</div>
+
+
+</div>
+
+
+<div id="statusSistema" class="status">
+
+Inicializando ambiente editorial Lapidar...
+
+</div>
+
+
+</div>
+
+
+<script>
+
+
+function abrirDiagramador(){
+
+window.location.href="upload_livro.html";
+
+}
+
+
+function abrirCapista(){
+
+window.location.href="capista_inicio.html";
+
+}
+
+
+function abrirTradutor(){
+
+window.location.href="tradutor_inicio.html";
+
+}
+
+
+function abrirValidacao(){
+
+window.location.href="avaliacao_inicio.html";
+
+}
+
+
+function adminAtivo(){
+
+return localStorage.getItem("SDL_ADMIN") === "true";
+
+}
+
+
+function atualizarStatus(){
+
+const el=document.getElementById("statusSistema");
+
+if(adminAtivo()){
+
+el.innerText="Modo administrador ativo — ambiente editorial completo liberado";
+
+return;
+
+}
+
+if(localStorage.getItem("SDL_status_pagamento")==="confirmado"){
+
+el.innerText="Fluxo editorial ativo com base na doação registrada";
+
+return;
+
+}
+
+el.innerText="Modo preview ativo — recursos completos disponíveis após confirmação de apoio editorial";
+
+}
+
+
+atualizarStatus();
+
+
+</script>
+
+</body>
+
+</html>
