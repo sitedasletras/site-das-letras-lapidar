@@ -1,135 +1,79 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Enviar original — Lapidar</title>
+
+<title>Assistente Diagramador do Autor — Upload da obra</title>
 
 <style>
+
 body{
 margin:0;
-font-family:Arial, sans-serif;
-background:#0d0603;
+font-family:Arial;
+background:#0e5eff;
 color:white;
 display:flex;
 justify-content:center;
 }
 
 .container{
-max-width:760px;
-width:92%;
+max-width:900px;
+width:94%;
 padding:40px 0 60px 0;
 }
 
 .titulo{
 font-size:36px;
-text-align:center;
 font-weight:bold;
+text-align:center;
 }
 
 .subtitulo{
 text-align:center;
-color:#ff7b2c;
 margin-top:10px;
-margin-bottom:28px;
+margin-bottom:30px;
+color:#e9f0ff;
 line-height:1.6;
 }
 
 .card{
-background:#140c08;
-border-radius:14px;
+background:white;
+color:#0e2a8c;
+border-radius:16px;
 padding:24px;
 margin-top:18px;
 line-height:1.7;
 }
 
 .label{
-display:block;
-margin-top:16px;
-margin-bottom:6px;
 font-weight:bold;
-color:#ffd2b3;
+margin-top:12px;
+display:block;
 }
 
-input[type="text"], select{
+input,select{
 width:100%;
 padding:12px;
 border-radius:10px;
+border:1px solid #cfd8ff;
+margin-top:6px;
+}
+
+input[type=file]{
 border:none;
-box-sizing:border-box;
-font-size:15px;
-}
-
-.dropzone{
-margin-top:14px;
-border:2px dashed #ff7b2c;
-border-radius:14px;
-padding:30px 18px;
-text-align:center;
-background:#1a110d;
-transition:0.2s ease;
-cursor:pointer;
-}
-
-.dropzone.ativo{
-background:#2a1911;
-border-color:#9cffb2;
-}
-
-.dropzone strong{
-display:block;
-font-size:18px;
-color:white;
-}
-
-.dropzone span{
-display:block;
-margin-top:10px;
-color:#ffd2b3;
-line-height:1.6;
-}
-
-input[type="file"]{
-display:none;
-}
-
-.info{
-margin-top:14px;
-font-size:14px;
-color:#ffcfaa;
-line-height:1.7;
-}
-
-.sucesso{
-margin-top:18px;
-color:#9cffb2;
-font-weight:bold;
-line-height:1.6;
-text-align:center;
-}
-
-.arquivoBox{
-margin-top:16px;
-padding:14px;
-border-radius:10px;
-background:#1b120d;
-color:#ffd2b3;
-line-height:1.6;
-}
-
-.botoesLinha{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:14px;
-margin-top:18px;
+padding:10px 0;
 }
 
 .botao{
 width:100%;
 padding:18px;
-border:none;
+margin-top:18px;
 border-radius:40px;
-background:#ff5a00;
+border:2px solid white;
+background:#0e5eff;
 color:white;
 font-size:18px;
 font-weight:bold;
@@ -137,283 +81,518 @@ cursor:pointer;
 }
 
 .botao:hover{
-background:#ff6f1a;
+opacity:.95;
 }
 
-.botaoCinza{
-background:#444;
+.botaoSec{
+background:white;
+color:#0e5eff;
+border:2px solid #0e5eff;
 }
 
-.botaoCinza:hover{
-background:#666;
+.status{
+margin-top:10px;
+padding:12px;
+border-radius:12px;
+background:#eef3ff;
+color:#0e2a8c;
 }
 
-@media (max-width:680px){
-.botoesLinha{
-grid-template-columns:1fr;
+.ok{
+background:#e7fff1;
+color:#0d6b3a;
 }
+
+.alerta{
+background:#fff4df;
+color:#7c5400;
 }
+
+.checkbox{
+margin-top:12px;
+display:flex;
+gap:10px;
+align-items:flex-start;
+}
+
+.preview{
+margin-top:10px;
+background:#f6f9ff;
+padding:14px;
+border-radius:10px;
+}
+
 </style>
+
 </head>
+
 <body>
 
 <div class="container">
 
 <div class="titulo">
-Enviar original
+Assistente Diagramador do Autor
 </div>
 
 <div class="subtitulo">
-O Lapidar recebe seu texto, identifica a categoria da obra e prepara automaticamente o fluxo editorial inicial
+Envie sua obra e confirme os dados sugeridos automaticamente
 </div>
+
+<div id="statusSistema" class="status">
+Verificando ambiente editorial...
+</div>
+
 
 <div class="card">
 
-<label class="label" for="tituloLivro">
-Título da obra
+<label class="label">
+Arquivo principal da obra
 </label>
-<input type="text" id="tituloLivro" placeholder="Digite o título da obra">
 
-<label class="label" for="autorLivro">
-Nome do autor ou autora
-</label>
-<input type="text" id="autorLivro" placeholder="Digite o nome do autor">
+<input
+type="file"
+id="arquivo"
+accept=".doc,.docx,.pdf">
 
-<label class="label" for="idiomaObra">
-Idioma principal da obra
+<label class="label">
+Deseja enviar imagem autoral para possível uso na capa?
 </label>
-<select id="idiomaObra">
+
+<select
+id="imagemAutoral"
+onchange="toggleImagem()">
+
+<option value="nao">
+Não enviar imagem
+</option>
+
+<option value="sim">
+Sim enviar imagem
+</option>
+
+</select>
+
+<div
+id="areaImagem"
+style="display:none">
+
+<label class="label">
+Imagem da capa
+</label>
+
+<input
+type="file"
+id="arquivoImagem"
+accept=".jpg,.jpeg,.png,.webp">
+
+<div class="checkbox">
+
+<input
+type="checkbox"
+id="confirmacaoImagem">
+
+<label>
+Declaro possuir direitos autorais da imagem enviada
+</label>
+
+</div>
+
+</div>
+
+<button
+class="botao"
+onclick="lerArquivo()">
+
+Ler obra e sugerir dados
+
+</button>
+
+</div>
+
+
+<div class="card">
+
+<label class="label">
+Título sugerido
+</label>
+
+<input
+type="text"
+id="titulo">
+
+<div class="checkbox">
+
+<input
+type="checkbox"
+id="confirmTitulo"
+checked>
+
+<label>
+Confirmar título
+</label>
+
+</div>
+
+
+<label class="label">
+Autor sugerido
+</label>
+
+<input
+type="text"
+id="autor">
+
+<div class="checkbox">
+
+<input
+type="checkbox"
+id="confirmAutor"
+checked>
+
+<label>
+Confirmar autoria
+</label>
+
+</div>
+
+
+<label class="label">
+Idioma principal
+</label>
+
+<select id="idioma">
+
 <option value="pt">Português</option>
 <option value="en">English</option>
 <option value="es">Español</option>
 <option value="it">Italiano</option>
 <option value="fr">Français</option>
 <option value="de">Deutsch</option>
+
 </select>
 
-<label class="label" for="tipoMaterial">
+
+<label class="label">
 Categoria da obra
 </label>
-<select id="tipoMaterial">
-<option value="Romance">Romance</option>
-<option value="Contos">Contos</option>
-<option value="Poesia">Poesia</option>
-<option value="Infantil">Infantil</option>
-<option value="Infantojuvenil">Infantojuvenil</option>
-<option value="Acadêmico">Acadêmico</option>
-<option value="Outro">Outro</option>
+
+<select id="categoria">
+
+<option value="romance">Romance</option>
+<option value="contos">Contos</option>
+<option value="poesia">Poesia</option>
+<option value="infantil">Infantil</option>
+<option value="culinaria">Culinária</option>
+<option value="fantasia">Fantasia</option>
+<option value="terror">Terror</option>
+<option value="scifi">Sci-fi</option>
+<option value="erotico">Erótico</option>
+
 </select>
 
-<label class="label" for="destinoEditorial">
-Destino editorial pretendido
+
+<label class="label">
+Destino editorial
 </label>
-<select id="destinoEditorial">
-<option value="Livro físico">Livro físico</option>
-<option value="EPUB digital">EPUB digital</option>
-<option value="Livro físico + EPUB">Livro físico + EPUB</option>
+
+<select id="destino">
+
+<option value="fisico">Livro físico</option>
+<option value="epub">ePub</option>
+<option value="ambos">Ambos</option>
+
 </select>
 
-<div class="label">
-Arquivo principal da obra
 </div>
 
-<div id="dropzone" class="dropzone" onclick="abrirSeletorArquivo()">
-<strong>Arraste seu original aqui</strong>
-<span>ou toque para selecionar o arquivo no computador, em Documentos, Downloads, Arquivos do celular ou Drive</span>
+
+<div class="card">
+
+<label class="label">
+Preferências sugeridas
+</label>
+
+<div
+id="sugestao"
+class="preview">
+
+Aguardando leitura da obra
+
 </div>
 
-<input
-type="file"
-id="arquivoObra"
-accept=".doc,.docx,.odt,.pdf,.txt"
-onchange="arquivoSelecionado(this.files)"
->
 
-<div id="arquivoInfo" class="arquivoBox" style="display:none;"></div>
+<label class="label">
+Recuo primeira linha
+</label>
 
-<div class="info">
-Formatos aceitos: DOC, DOCX, ODT, PDF e TXT.
+<select id="recuo">
+
+<option value="1.25">
+1.25 cm
+</option>
+
+<option value="0.75">
+0.75 cm
+</option>
+
+<option value="0">
+Sem recuo
+</option>
+
+</select>
+
+
+<label class="label">
+Alinhamento
+</label>
+
+<select id="alinhamento">
+
+<option value="justificado">
+Justificado
+</option>
+
+<option value="esquerda">
+Esquerda
+</option>
+
+</select>
+
+
+<label class="label">
+Espaçamento entre parágrafos
+</label>
+
+<select id="espaco">
+
+<option value="0">
+Sem espaço
+</option>
+
+<option value="medio">
+Médio
+</option>
+
+</select>
+
 </div>
 
-<div class="info">
-Depois do envio, o sistema prepara automaticamente a rota editorial inicial, incluindo categoria detectada, capa automática da categoria e preview do miolo.
-</div>
 
-<div id="mensagemSucesso" class="sucesso"></div>
+<button
+class="botao"
+onclick="confirmar()">
 
-<div class="botoesLinha">
-<button class="botao" onclick="salvarEntradaObra()">
-Salvar entrada da obra
+Confirmar dados e continuar
+
 </button>
 
-<button class="botao" onclick="seguirPreferencias()">
-Seguir para preferências
+
+<button
+class="botao botaoSec"
+onclick="location.href='_Indice.html'">
+
+Voltar ao painel
+
 </button>
-</div>
 
-<button class="botao botaoCinza" onclick="window.location.href='_Indice.html'" style="margin-top:18px;">
-Voltar para casa do original
-</button>
 
 </div>
 
-</div>
 
 <script>
-let arquivoAtual = null;
 
-function carregarIdiomaMestre(){
-const idioma =
-localStorage.getItem("SDL_idioma_obra_global") ||
-localStorage.getItem("SDL_idioma_obra") ||
-"pt";
 
-document.getElementById("idiomaObra").value = idioma;
+function admin(){
+
+return localStorage.getItem("SDL_ADMIN") === "true";
+
 }
 
-function abrirSeletorArquivo(){
-document.getElementById("arquivoObra").click();
+
+function acesso(){
+
+return (
+
+localStorage.getItem("SDL_status_pagamento") === "confirmado"
+
+||
+
+admin()
+
+);
+
 }
 
-function formatarTamanho(bytes){
-if(bytes < 1024) return bytes + " bytes";
-if(bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + " KB";
-return (bytes / (1024 * 1024)).toFixed(1) + " MB";
-}
 
-function mostrarArquivo(file){
-arquivoAtual = file;
+function status(){
 
-const box = document.getElementById("arquivoInfo");
-box.style.display = "block";
-box.innerHTML =
-"<strong>Arquivo carregado:</strong><br>" +
-file.name + "<br>" +
-"Tamanho: " + formatarTamanho(file.size) + "<br>" +
-"Tipo detectado: " + (file.type || "não informado");
+const el=document.getElementById("statusSistema");
 
-localStorage.setItem("SDL_nome_arquivo_original", file.name);
-localStorage.setItem("SDL_tamanho_arquivo_original", String(file.size));
-localStorage.setItem("SDL_original_enviado", "sim");
-}
+if(admin()){
 
-function arquivoSelecionado(files){
-if(!files || !files.length){
+el.classList.add("ok");
+
+el.innerText="Modo administrador ativo";
+
 return;
-}
-mostrarArquivo(files[0]);
-}
 
-const dropzone = document.getElementById("dropzone");
-
-dropzone.addEventListener("dragover", function(e){
-e.preventDefault();
-dropzone.classList.add("ativo");
-});
-
-dropzone.addEventListener("dragleave", function(){
-dropzone.classList.remove("ativo");
-});
-
-dropzone.addEventListener("drop", function(e){
-e.preventDefault();
-dropzone.classList.remove("ativo");
-
-if(e.dataTransfer.files && e.dataTransfer.files.length > 0){
-mostrarArquivo(e.dataTransfer.files[0]);
-}
-});
-
-function definirTemplateCapa(tipo){
-if(tipo === "Romance") return "capa_automatica_romance";
-if(tipo === "Contos") return "capa_automatica_contos";
-if(tipo === "Poesia") return "capa_automatica_poesia";
-if(tipo === "Infantil") return "capa_automatica_infantil";
-if(tipo === "Infantojuvenil") return "capa_automatica_infantojuvenil";
-if(tipo === "Acadêmico") return "capa_automatica_academico";
-return "capa_automatica_padrao";
 }
 
-function definirTemplateMiolo(tipo){
-if(tipo === "Infantil") return "miolo_infantil";
-if(tipo === "Infantojuvenil") return "miolo_infantojuvenil";
-if(tipo === "Poesia") return "miolo_poesia";
-if(tipo === "Acadêmico") return "miolo_academico";
-return "miolo_padrao";
-}
+if(acesso()){
 
-function salvarEntradaObra(){
+el.classList.add("ok");
 
-const titulo =
-document.getElementById("tituloLivro").value.trim();
+el.innerText="Doação identificada";
 
-const autor =
-document.getElementById("autorLivro").value.trim();
-
-const idioma =
-document.getElementById("idiomaObra").value;
-
-const tipo =
-document.getElementById("tipoMaterial").value;
-
-const destino =
-document.getElementById("destinoEditorial").value;
-
-if(!titulo){
-alert("Informe o título da obra.");
 return;
+
 }
 
-if(!autor){
-alert("Informe o nome do autor ou autora.");
+el.classList.add("alerta");
+
+el.innerText="Modo preview ativo";
+
+}
+
+
+function toggleImagem(){
+
+const escolha=document.getElementById("imagemAutoral").value;
+
+document.getElementById("areaImagem").style.display=
+
+escolha==="sim"?"block":"none";
+
+}
+
+
+function detectarCategoria(nome){
+
+nome=nome.toLowerCase();
+
+if(nome.includes("poesia")) return "poesia";
+
+if(nome.includes("conto")) return "contos";
+
+if(nome.includes("receita")) return "culinaria";
+
+if(nome.includes("fantasia")) return "fantasia";
+
+if(nome.includes("terror")) return "terror";
+
+return "romance";
+
+}
+
+
+function lerArquivo(){
+
+const file=document.getElementById("arquivo").files[0];
+
+if(!file){
+
+alert("Envie o arquivo primeiro");
+
 return;
+
 }
 
-if(!arquivoAtual && !localStorage.getItem("SDL_nome_arquivo_original")){
-alert("Selecione ou arraste o arquivo principal da obra.");
+let nome=file.name.replace(/\.[^/.]+$/,"");
+
+nome=nome.replace(/[_-]/g," ");
+
+document.getElementById("titulo").value=nome;
+
+document.getElementById("autor").value=
+
+localStorage.getItem("SDL_nome_autor")
+
+||
+
+"Autor não identificado";
+
+const categoria=detectarCategoria(nome);
+
+document.getElementById("categoria").value=categoria;
+
+document.getElementById("sugestao").innerText=
+
+"Sugestão aplicada conforme categoria: "+categoria;
+
+}
+
+
+function confirmar(){
+
+const file=document.getElementById("arquivo").files[0];
+
+if(!file){
+
+alert("Envie o arquivo");
+
 return;
+
 }
 
-localStorage.setItem("SDL_titulo_livro", titulo);
-localStorage.setItem("SDL_nome_autor", autor);
-localStorage.setItem("SDL_idioma_obra", idioma);
-localStorage.setItem("SDL_idioma_obra_global", idioma);
-localStorage.setItem("SDL_tipo_material", tipo);
-localStorage.setItem("SDL_categoria_detectada", tipo);
-localStorage.setItem("SDL_destino_material", destino);
-localStorage.setItem("SDL_entrada_obra_registrada", "sim");
-localStorage.setItem("SDL_original_enviado", "sim");
-localStorage.setItem("SDL_template_capa_automatica", definirTemplateCapa(tipo));
-localStorage.setItem("SDL_template_miolo", definirTemplateMiolo(tipo));
-localStorage.setItem("SDL_preview_capa_pronto", "sim");
-localStorage.setItem("SDL_preview_miolo_pronto", "sim");
-localStorage.setItem("SDL_preview_relatorio_pronto", "sim");
 
-if(tipo === "Infantil" || tipo === "Infantojuvenil"){
-localStorage.setItem("SDL_fluxo_juvenil", "sim");
-}else{
-localStorage.setItem("SDL_fluxo_juvenil", "nao");
+localStorage.setItem(
+
+"SDL_titulo_livro",
+
+document.getElementById("titulo").value
+
+);
+
+
+localStorage.setItem(
+
+"SDL_nome_autor",
+
+document.getElementById("autor").value
+
+);
+
+
+localStorage.setItem(
+
+"SDL_categoria",
+
+document.getElementById("categoria").value
+
+);
+
+
+localStorage.setItem(
+
+"SDL_idioma",
+
+document.getElementById("idioma").value
+
+);
+
+
+localStorage.setItem(
+
+"SDL_destino",
+
+document.getElementById("destino").value
+
+);
+
+
+alert("Dados registrados com sucesso");
+
+
+location.href="preview_projeto.html";
+
 }
 
-document.getElementById("mensagemSucesso").innerHTML =
-"Entrada da obra registrada com sucesso.<br>Categoria identificada: <strong>" + tipo + "</strong><br>Capa automática da categoria e preview editorial preparados.";
-}
 
-function seguirPreferencias(){
+status();
 
-const registrado =
-localStorage.getItem("SDL_entrada_obra_registrada");
 
-if(registrado !== "sim"){
-alert("Salve primeiro a entrada da obra.");
-return;
-}
-
-window.location.href = "preferencias_diagramacao.html";
-}
-
-carregarIdiomaMestre();
 </script>
 
 </body>
+
 </html>
