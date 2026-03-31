@@ -1,19 +1,15 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Planos do Capista — Site das Letras</title>
+<title>Doações do Projeto Capista — Site das Letras</title>
 
 <style>
-
 body{
 margin:0;
 background:#0c0603;
-font-family:Arial;
+font-family:Arial, sans-serif;
 color:white;
 display:flex;
 justify-content:center;
@@ -78,6 +74,10 @@ font-weight:bold;
 cursor:pointer;
 }
 
+.botao:hover{
+opacity:0.95;
+}
+
 .botaoCinza{
 background:#444;
 }
@@ -88,9 +88,7 @@ font-size:14px;
 color:#ffcfaa;
 line-height:1.6;
 }
-
 </style>
-
 </head>
 
 <body>
@@ -98,15 +96,15 @@ line-height:1.6;
 <div class="container">
 
 <div class="titulo">
-Planos do Projeto Capista
+Doações do Projeto Capista
 </div>
 
 <div class="subtitulo">
-Escolha o plano ideal para gerar capas físicas, capas EPUB e capas multilíngues
+Escolha a modalidade ideal para gerar capas físicas, capas EPUB e capas multilíngues
 </div>
 
 <div class="card">
-<div class="planoNome">Plano Essencial</div>
+<div class="planoNome">Doação Essencial</div>
 <div class="planoValor">R$ 1,99</div>
 <div class="lista">
 1 capa física<br>
@@ -114,13 +112,13 @@ Não inclui EPUB<br>
 Não inclui multilíngue<br>
 Ideal para uso pontual
 </div>
-<button class="botao" onclick="selecionarPlano('1',0,0,'essencial')">
-Escolher este plano
+<button class="botao" onclick="selecionarDoacao('1',0,0,'essencial','R$ 1,99')">
+Escolher esta doação
 </button>
 </div>
 
 <div class="card">
-<div class="planoNome">Plano Inicial</div>
+<div class="planoNome">Doação Inicial</div>
 <div class="planoValor">R$ 9,90</div>
 <div class="lista">
 10 capas físicas<br>
@@ -128,13 +126,13 @@ Escolher este plano
 Até 20% em outro idioma<br>
 Ideal para autores com produção contínua
 </div>
-<button class="botao" onclick="selecionarPlano('10',2,10,'inicial')">
-Escolher este plano
+<button class="botao" onclick="selecionarDoacao('10',2,10,'inicial','R$ 9,90')">
+Escolher esta doação
 </button>
 </div>
 
 <div class="card">
-<div class="planoNome">Plano Editorial</div>
+<div class="planoNome">Doação Editorial</div>
 <div class="planoValor">R$ 39,90</div>
 <div class="lista">
 30 capas físicas<br>
@@ -142,13 +140,13 @@ Escolher este plano
 Até 20% em outro idioma<br>
 Indicado para produção profissional
 </div>
-<button class="botao" onclick="selecionarPlano('30',6,30,'editorial')">
-Escolher este plano
+<button class="botao" onclick="selecionarDoacao('30',6,30,'editorial','R$ 39,90')">
+Escolher esta doação
 </button>
 </div>
 
 <div class="card">
-<div class="planoNome">Plano Avançado</div>
+<div class="planoNome">Doação Avançada</div>
 <div class="planoValor">R$ 59,90</div>
 <div class="lista">
 50 capas físicas<br>
@@ -156,13 +154,13 @@ Escolher este plano
 Até 20% em outro idioma<br>
 Mais liberdade para coleções e séries
 </div>
-<button class="botao" onclick="selecionarPlano('50',10,50,'avancado')">
-Escolher este plano
+<button class="botao" onclick="selecionarDoacao('50',10,50,'avancado','R$ 59,90')">
+Escolher esta doação
 </button>
 </div>
 
 <div class="card">
-<div class="planoNome">Plano Profissional</div>
+<div class="planoNome">Doação Profissional</div>
 <div class="planoValor">R$ 99,90</div>
 <div class="lista">
 90 capas físicas<br>
@@ -170,13 +168,13 @@ Escolher este plano
 Até 20% em outro idioma<br>
 Ideal para produção editorial intensa
 </div>
-<button class="botao" onclick="selecionarPlano('90',18,90,'profissional')">
-Escolher este plano
+<button class="botao" onclick="selecionarDoacao('90',18,90,'profissional','R$ 99,90')">
+Escolher esta doação
 </button>
 </div>
 
 <div class="card">
-<div class="planoNome">Plano Magistral</div>
+<div class="planoNome">Doação Magistral</div>
 <div class="planoValor">Uso livre</div>
 <div class="lista">
 Capas físicas sem limite mensal<br>
@@ -184,20 +182,23 @@ Capas EPUB sem limite mensal<br>
 Idiomas livres<br>
 Maior liberdade editorial
 </div>
-<button class="botao" onclick="selecionarPlano('magistral','ilimitado','ilimitado','magistral')">
-Escolher este plano
+<button class="botao" onclick="selecionarDoacao('magistral','ilimitado','ilimitado','magistral','Uso livre')">
+Escolher esta doação
 </button>
 </div>
 
 <div class="card">
 <div class="info">
-Nos planos mensais do Capista, a quantidade informada vale separadamente para capa física e capa EPUB.
+Nas modalidades mensais do Capista, a quantidade informada vale separadamente para capa física e capa EPUB.
 </div>
 <div class="info">
-Exemplo: plano de 10 capas = 10 capas físicas + 10 capas EPUB.
+Exemplo: modalidade de 10 capas = 10 capas físicas + 10 capas EPUB.
 </div>
 <div class="info">
-Nos planos de 10, 30, 50 e 90, até 20% das capas podem ser geradas em idioma diferente do idioma principal.
+Nas modalidades de 10, 30, 50 e 90, até 20% das capas podem ser geradas em idioma diferente do idioma principal.
+</div>
+<div class="info">
+Ao confirmar sua doação, você declara estar ciente da sua escolha. Não há devolução de valores após a confirmação.
 </div>
 </div>
 
@@ -208,27 +209,33 @@ Voltar para casa do original
 </div>
 
 <script>
+function selecionarDoacao(plano, limiteOutroIdioma, limiteEpub, nomePlano, valorDoacao){
 
-function selecionarPlano(plano, limiteOutroIdioma, limiteEpub, nomePlano){
-
-localStorage.setItem("CAPISTA_plano", plano);
+localStorage.setItem("CAPISTA_plano", String(plano));
 localStorage.setItem("CAPISTA_nome_plano", nomePlano);
+localStorage.setItem("CAPISTA_valor_doacao", valorDoacao);
 
-localStorage.setItem("CAPISTA_limite_outro_idioma", limiteOutroIdioma);
-localStorage.setItem("CAPISTA_limite_epub", limiteEpub);
+localStorage.setItem("CAPISTA_limite_outro_idioma", String(limiteOutroIdioma));
+localStorage.setItem("CAPISTA_limite_epub", String(limiteEpub));
 
 localStorage.setItem("CAPISTA_usadas_fisicas", "0");
 localStorage.setItem("CAPISTA_usadas_epub", "0");
 localStorage.setItem("CAPISTA_usadas_outro_idioma", "0");
 
-alert("Plano Capista selecionado com sucesso.");
+localStorage.setItem("CAPISTA_status", "ativo");
+localStorage.setItem("CAPISTA_plano_ativo", "sim");
+localStorage.setItem("CAPISTA_doacao_ativa", "sim");
+localStorage.setItem("CAPISTA_pagamento_status", "confirmado");
+
+localStorage.setItem("SDL_capista_status", "ativo");
+localStorage.setItem("SDL_capista_doacao_ativa", "sim");
+localStorage.setItem("SDL_capista_plano_ativo", "sim");
+
+alert("Sua doação ao Projeto Capista foi registrada com sucesso.");
 
 window.location.href = "capista_configurar_capa.html";
-
 }
-
 </script>
 
 </body>
-
 </html>
