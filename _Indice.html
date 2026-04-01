@@ -1,77 +1,371 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Lapidar — Entrada do Sistema</title>
+<title>Lapidar — Índice do Sistema</title>
 
 <style>
+
+:root{
+--bg:#0d0603;
+--card:#140c08;
+--text:#ffffff;
+--muted:#ffd2b3;
+--orange:#f7b22c;
+--orange-strong:#ff5a00;
+--blue:#6ea8ff;
+--green:#9cfdb2;
+--danger:#ff7070;
+--border:rgba(255,123,44,0.18);
+--shadow:0 10px 26px rgba(0,0,0,0.28);
+}
 
 body{
 margin:0;
 font-family:Arial;
-background:#0d0603;
+background:var(--bg);
 color:white;
-display:flex;
-justify-content:center;
-align-items:center;
-height:100vh;
 }
 
-.box{
-text-align:center;
+.container{
+width:min(1200px,95%);
+margin:auto;
+padding:30px 0 50px 0;
+}
+
+.topo{
+display:flex;
+justify-content:space-between;
+align-items:center;
+flex-wrap:wrap;
+}
+
+.titulo{
+font-size:40px;
+font-weight:bold;
+}
+
+.usuario{
+color:var(--muted);
+}
+
+.plano{
+margin-top:6px;
+color:var(--orange);
+}
+
+.grid{
+margin-top:30px;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:20px;
+}
+
+.card{
+background:var(--card);
+border-radius:18px;
+padding:22px;
+cursor:pointer;
+transition:0.2s;
+border:1px solid var(--border);
+box-shadow:var(--shadow);
+}
+
+.card:hover{
+transform:translateY(-3px);
+}
+
+.card-title{
+font-size:20px;
+font-weight:bold;
+margin-bottom:10px;
+}
+
+.card-desc{
+color:var(--muted);
+line-height:1.6;
 }
 
 .botao{
-padding:18px 36px;
-font-size:20px;
-border-radius:40px;
+margin-top:20px;
 border:none;
-background:#ff5a00;
-color:white;
+padding:14px 18px;
+border-radius:999px;
+font-weight:bold;
 cursor:pointer;
+background:#24150f;
+color:white;
 }
 
-.botao:hover{
-background:#ff7b2c;
+.status-box{
+margin-top:20px;
+padding:18px;
+border-radius:14px;
+background:rgba(247,178,44,0.12);
+border:1px solid rgba(247,178,44,0.2);
+color:#ffe7b0;
 }
 
 </style>
-
 </head>
 
 <body>
 
-<div class="box">
+<div class="container">
 
-<h1>Lapidar</h1>
+<div class="topo">
 
-<p>
-Plataforma editorial Site das Letras
-</p>
+<div>
 
-<button class="botao"
-onclick="entrarSistema()">
+<div class="titulo">
+LAPIDAR
+</div>
 
-Entrar no Lapidar
+<div id="usuarioSistema" class="usuario">
+Carregando usuário...
+</div>
 
+<div id="planoSistema" class="plano">
+Carregando plano...
+</div>
+
+</div>
+
+<div>
+
+<button class="botao" onclick="encerrarSessao()">
+Sair do sistema
 </button>
 
 </div>
 
+</div>
+
+
+
+<div class="status-box" id="statusSistema">
+Inicializando ambiente Lapidar...
+</div>
+
+
+
+<div class="grid">
+
+<div class="card" onclick="abrirStatusPlano()">
+<div class="card-title">Status do plano</div>
+<div class="card-desc">
+Consulta situação atual do plano ativo.
+</div>
+</div>
+
+
+<div class="card" onclick="abrirPlanos()">
+<div class="card-title">Planos e doações</div>
+<div class="card-desc">
+Escolha plano editorial ou registrar apoio.
+</div>
+</div>
+
+
+<div class="card" onclick="abrirPagamento()">
+<div class="card-title">Pagamento</div>
+<div class="card-desc">
+Registrar forma de pagamento do plano.
+</div>
+</div>
+
+
+<div class="card" onclick="abrirUploadLivro()">
+<div class="card-title">Upload do livro</div>
+<div class="card-desc">
+Registrar dados do projeto editorial.
+</div>
+</div>
+
+
+<div class="card" onclick="abrirPreviewProjeto()">
+<div class="card-title">Preview do projeto</div>
+<div class="card-desc">
+Visualizar estrutura atual da obra.
+</div>
+</div>
+
+
+<div class="card" onclick="abrirHistoricoProjetos()">
+<div class="card-title">Histórico de projetos</div>
+<div class="card-desc">
+Consultar registros anteriores.
+</div>
+</div>
+
+
+<div class="card" onclick="abrirRevisaoPedido()">
+<div class="card-title">Revisão e pedidos</div>
+<div class="card-desc">
+Solicitações editoriais e ajustes técnicos.
+</div>
+</div>
+
+
+<div class="card" onclick="abrirCapistaPlanos()">
+<div class="card-title">Capista</div>
+<div class="card-desc">
+Solicitações de capa e acompanhamento.
+</div>
+</div>
+
+</div>
+
+</div>
+
+
+
 <script>
 
-function entrarSistema(){
+function verificarSessao(){
 
-window.location.href="login.html";
+const sessao=localStorage.getItem("SDL_sessao_ativa")
+
+if(sessao!=="sim"){
+
+window.location.href="login.html"
 
 }
+
+}
+
+
+
+function carregarUsuario(){
+
+try{
+
+const usuario=localStorage.getItem("SDL_usuario")||"Usuário não identificado"
+
+document.getElementById("usuarioSistema").innerHTML=
+"Usuário ativo: "+usuario
+
+}catch(e){
+
+document.getElementById("usuarioSistema").innerHTML=
+"Erro ao carregar usuário"
+
+}
+
+}
+
+
+
+function carregarPlano(){
+
+try{
+
+const plano=localStorage.getItem("SDL_plano")||"Plano não definido"
+
+document.getElementById("planoSistema").innerHTML=
+"Plano atual: "+plano
+
+}catch(e){
+
+document.getElementById("planoSistema").innerHTML=
+"Plano indisponível"
+
+}
+
+}
+
+
+
+function atualizarStatusSistema(){
+
+document.getElementById("statusSistema").innerHTML=
+"Ambiente editorial carregado com sucesso."
+
+}
+
+
+
+function encerrarSessao(){
+
+localStorage.removeItem("SDL_sessao_ativa")
+
+window.location.href="login.html"
+
+}
+
+
+
+function abrirStatusPlano(){
+
+window.location.href="status_plano.html"
+
+}
+
+
+
+function abrirPlanos(){
+
+window.location.href="planos_doacoes.html"
+
+}
+
+
+
+function abrirPagamento(){
+
+window.location.href="pagamento.html"
+
+}
+
+
+
+function abrirUploadLivro(){
+
+window.location.href="upload_livro.html"
+
+}
+
+
+
+function abrirPreviewProjeto(){
+
+window.location.href="preview_projeto.html"
+
+}
+
+
+
+function abrirHistoricoProjetos(){
+
+window.location.href="historico_projetos.html"
+
+}
+
+
+
+function abrirRevisaoPedido(){
+
+window.location.href="revisao_pedido.html"
+
+}
+
+
+
+function abrirCapistaPlanos(){
+
+window.location.href="capista_planos.html"
+
+}
+
+
+
+verificarSessao()
+carregarUsuario()
+carregarPlano()
+atualizarStatusSistema()
 
 </script>
 
 </body>
-
 </html>
