@@ -3,13 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Relatório Editorial Institucional — Site das Letras</title>
+<title>Relatório da Obra — Lapidar</title>
 
 <style>
-
 body{
 margin:0;
-font-family:Arial;
+font-family:Arial, sans-serif;
 background:#0d0603;
 color:white;
 }
@@ -17,11 +16,7 @@ color:white;
 .container{
 width:min(1000px,95%);
 margin:auto;
-padding:40px 0;
-}
-
-.cabecalho{
-margin-bottom:30px;
+padding:40px 0 60px;
 }
 
 .titulo{
@@ -29,63 +24,70 @@ font-size:34px;
 font-weight:bold;
 }
 
-.sub{
+.subtitulo{
+margin-top:6px;
 color:#f7b22c;
-margin-top:4px;
+}
+
+.status{
+margin-top:18px;
+padding:16px;
+border-radius:12px;
+background:rgba(247,178,44,0.12);
+border:1px solid rgba(247,178,44,0.25);
+color:#ffe7b0;
 }
 
 .card{
-
-margin-top:25px;
-
+margin-top:24px;
 background:#140c08;
-
-padding:20px;
-
-border-radius:14px;
-
 border:1px solid rgba(255,123,44,0.18);
+border-radius:16px;
+padding:20px;
+line-height:1.8;
+}
 
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:18px;
 }
 
 .label{
-
 color:#f7b22c;
-
-margin-top:10px;
-
 font-weight:bold;
-
+margin-top:10px;
 }
 
-.assinatura{
+.bloco{
+margin-top:14px;
+padding:16px;
+border-radius:12px;
+background:#1b100a;
+line-height:1.8;
+}
 
-margin-top:40px;
-
-font-size:14px;
-
-opacity:.8;
-
+.actions{
+margin-top:28px;
+display:flex;
+gap:12px;
+flex-wrap:wrap;
 }
 
 button{
-
-margin-top:30px;
-
-padding:14px 18px;
-
 border:none;
-
+padding:14px 18px;
 border-radius:999px;
-
 background:#24150f;
-
 color:white;
-
 cursor:pointer;
-
 }
 
+@media(max-width:900px){
+.grid{
+grid-template-columns:1fr;
+}
+}
 </style>
 </head>
 
@@ -93,196 +95,295 @@ cursor:pointer;
 
 <div class="container">
 
-<div class="cabecalho">
+<div class="titulo">Relatório da Obra</div>
+<div class="subtitulo">Versão resumida de acompanhamento editorial</div>
 
-<div class="titulo">
-Relatório Editorial Institucional
+<div id="statusRelatorio" class="status">
+Carregando relatório da obra...
 </div>
 
-<div class="sub">
-Site das Letras Edições Literárias
+<div id="conteudoRelatorio"></div>
+
+<div class="actions">
+  <button onclick="window.print()">Exportar PDF</button>
+  <button onclick="voltarIndice()">Voltar ao índice</button>
 </div>
 
 </div>
 
-<div id="conteudo"></div>
-
-<div class="assinatura">
-Documento gerado automaticamente pelo sistema Lapidar
-</div>
-
-<button onclick="window.print()">
-Exportar PDF institucional
-</button>
-
-<button onclick="voltarIndice()">
-Voltar ao índice
-</button>
-
-</div>
+<script src="auditoria.js"></script>
 
 <script>
-
-function obterProjeto(){
-
-try{
-
-const lista=
-JSON.parse(localStorage.getItem("SDL_projetos_lista")||"[]")
-
-const ativo=
-localStorage.getItem("SDL_projeto_ativo")
-
-return lista.find(p=>p.id===ativo)
-
-}catch{
-
-return null
-
+function obterProjetoAtivo(){
+  try{
+    const lista = JSON.parse(localStorage.getItem("SDL_projetos_lista") || "[]");
+    const ativo = localStorage.getItem("SDL_projeto_ativo");
+    return lista.find(p => p.id === ativo) || null;
+  }catch{
+    return null;
+  }
 }
 
+function obterPedidosProjeto(id){
+  try{
+    const lista = JSON.parse(localStorage.getItem("SDL_pedidos_lista") || "[]");
+    return lista.filter(p => p.projetoID === id);
+  }catch{
+    return [];
+  }
 }
 
-function obterPedidos(id){
-
-let lista=
-JSON.parse(localStorage.getItem("SDL_pedidos_lista")||"[]")
-
-return lista.filter(p=>p.projetoID===id)
-
+function obterCapasProjeto(id){
+  try{
+    const lista = JSON.parse(localStorage.getItem("SDL_capas_lista") || "[]");
+    return lista.filter(c => c.projetoID === id);
+  }catch{
+    return [];
+  }
 }
 
-function obterCapas(id){
-
-let lista=
-JSON.parse(localStorage.getItem("SDL_capas_lista")||"[]")
-
-return lista.filter(p=>p.projetoID===id)
-
+function obterConfiguracaoCapa(id){
+  try{
+    const cfg = JSON.parse(localStorage.getItem("SDL_configuracao_capa_ativa") || "null");
+    if(cfg && cfg.projetoID === id){
+      return cfg;
+    }
+    return null;
+  }catch{
+    return null;
+  }
 }
 
-function montarRelatorio(){
-
-const projeto=obterProjeto()
-
-if(!projeto){
-
-document.getElementById("conteudo").innerHTML=
-"Nenhum projeto ativo selecionado."
-
-return
-
+function obterTextosCapa(id){
+  try{
+    const textos = JSON.parse(localStorage.getItem("SDL_textos_capa_ativos") || "null");
+    if(textos && textos.projetoID === id){
+      return textos;
+    }
+    return null;
+  }catch{
+    return null;
+  }
 }
 
-const plano=localStorage.getItem("SDL_plano")
-
-const pagamento=localStorage.getItem("SDL_pagamento")
-
-const pedidos=obterPedidos(projeto.id)
-
-const capas=obterCapas(projeto.id)
-
-let html=""
-
-html+=`
-<div class="card">
-
-<div class="label">Título da obra</div>
-${projeto.titulo}
-
-<div class="label">Autor</div>
-${projeto.autor}
-
-<div class="label">Formato editorial</div>
-${projeto.formato || "-"}
-
-<div class="label">Data de cadastro</div>
-${formatarData(projeto.dataRegistro)}
-
-</div>
-`
-
-html+=`
-<div class="card">
-
-<div class="label">Plano editorial selecionado</div>
-${plano || "Não selecionado"}
-
-<div class="label">Pagamento registrado</div>
-${pagamento ? "Sim" : "Não"}
-
-</div>
-`
-
-html+=`
-<div class="card">
-
-<div class="label">Pedidos editoriais vinculados</div>
-${pedidos.length}
-
-<div class="label">Solicitação de capa</div>
-${capas.length ? "Registrada" : "Não registrada"}
-
-</div>
-`
-
-html+=`
-<div class="card">
-
-<div class="label">Status institucional da obra</div>
-
-${gerarStatus(plano,pagamento,pedidos,capas)}
-
-</div>
-`
-
-document.getElementById("conteudo").innerHTML=html
-
+function obterLeituraTecnica(id){
+  try{
+    const leitura = JSON.parse(localStorage.getItem("SDL_leitura_tecnica_ativa") || "null");
+    if(leitura && leitura.projetoID === id){
+      return leitura;
+    }
+    return null;
+  }catch{
+    return null;
+  }
 }
 
-function gerarStatus(plano,pagamento,pedidos,capas){
+function obterPlano(){
+  return localStorage.getItem("SDL_plano") || "";
+}
 
-if(!plano)
-return "Aguardando seleção de plano editorial"
+function obterPagamento(){
+  return localStorage.getItem("SDL_pagamento") || "";
+}
 
-if(plano && !pagamento)
-return "Plano selecionado aguardando confirmação de pagamento"
+function calcularEtapas(projeto, plano, pagamento, pedidos, capas, cfg, textos){
+  return [
+    { nome: "Projeto cadastrado", ok: !!projeto },
+    { nome: "Plano selecionado", ok: !!plano },
+    { nome: "Pagamento registrado", ok: !!pagamento },
+    { nome: "Pedido editorial registrado", ok: pedidos.length > 0 },
+    { nome: "Solicitação de capa registrada", ok: capas.length > 0 },
+    { nome: "Configuração técnica da capa", ok: !!cfg },
+    { nome: "Textos da capa salvos", ok: !!textos }
+  ];
+}
 
-if(pagamento && pedidos.length===0)
-return "Pagamento confirmado aguardando pedidos editoriais"
+function calcularPercentual(etapas){
+  const total = etapas.length;
+  const concluidas = etapas.filter(e => e.ok).length;
+  return Math.round((concluidas / total) * 100);
+}
 
-if(pedidos.length>0 && capas.length===0)
-return "Pedidos editoriais registrados aguardando solicitação de capa"
+function gerarResumoStatus(projeto, plano, pagamento, pedidos, capas, cfg, textos){
+  if(!projeto){
+    return "Nenhum projeto ativo selecionado.";
+  }
 
-if(capas.length>0)
-return "Fluxo editorial ativo com identidade visual solicitada"
+  if(!plano){
+    return "Sua obra está cadastrada e aguardando seleção de plano editorial.";
+  }
 
-return "Status não identificado"
+  if(plano && !pagamento){
+    return "O plano foi selecionado e o sistema aguarda confirmação de pagamento.";
+  }
 
+  if(pagamento && pedidos.length === 0){
+    return "Pagamento confirmado. O fluxo editorial pode avançar para as próximas etapas.";
+  }
+
+  if(pedidos.length > 0 && capas.length === 0){
+    return "A obra já possui movimentação editorial e pode seguir para a etapa visual.";
+  }
+
+  if(capas.length > 0 && !cfg){
+    return "A solicitação de capa foi registrada e aguarda configuração técnica.";
+  }
+
+  if(cfg && !textos){
+    return "A configuração técnica da capa foi concluída e aguarda os textos editoriais.";
+  }
+
+  if(cfg && textos){
+    return "A obra possui base editorial e visual organizada no sistema.";
+  }
+
+  return "Status em atualização.";
 }
 
 function formatarData(d){
-
-try{
-
-return new Date(d).toLocaleString("pt-BR")
-
-}catch{
-
-return d
-
+  if(!d) return "—";
+  try{
+    return new Date(d).toLocaleString("pt-BR");
+  }catch{
+    return d;
+  }
 }
 
+function montarRelatorioProjeto(){
+  const projeto = obterProjetoAtivo();
+  const status = document.getElementById("statusRelatorio");
+  const area = document.getElementById("conteudoRelatorio");
+
+  if(!projeto){
+    status.innerHTML = "Nenhum projeto ativo selecionado.";
+    area.innerHTML = "";
+    return;
+  }
+
+  const plano = obterPlano();
+  const pagamento = obterPagamento();
+  const pedidos = obterPedidosProjeto(projeto.id);
+  const capas = obterCapasProjeto(projeto.id);
+  const cfg = obterConfiguracaoCapa(projeto.id);
+  const textos = obterTextosCapa(projeto.id);
+  const leitura = obterLeituraTecnica(projeto.id);
+  const etapas = calcularEtapas(projeto, plano, pagamento, pedidos, capas, cfg, textos);
+  const percentual = calcularPercentual(etapas);
+  const resumoStatus = gerarResumoStatus(projeto, plano, pagamento, pedidos, capas, cfg, textos);
+
+  status.innerHTML = "Relatório da obra carregado para: <strong>" + (projeto.titulo || "Sem título") + "</strong>";
+  status.style.background = "rgba(23,77,39,0.28)";
+
+  let html = "";
+
+  html += `
+    <div class="grid">
+      <div class="card">
+        <div class="label">Título da obra</div>
+        ${projeto.titulo || "—"}
+
+        <div class="label">Subtítulo</div>
+        ${projeto.subtitulo || "—"}
+
+        <div class="label">Autor</div>
+        ${projeto.autor || "—"}
+
+        <div class="label">Coleção</div>
+        ${projeto.colecao || "—"}
+
+        <div class="label">Formato</div>
+        ${projeto.formato || "—"}
+      </div>
+
+      <div class="card">
+        <div class="label">Status editorial</div>
+        ${projeto.status || "—"}
+
+        <div class="label">Plano</div>
+        ${plano || "Não selecionado"}
+
+        <div class="label">Pagamento</div>
+        ${pagamento ? "Registrado" : "Não registrado"}
+
+        <div class="label">Progresso geral</div>
+        ${percentual}%
+
+        <div class="label">Data do projeto</div>
+        ${formatarData(projeto.dataRegistro)}
+      </div>
+    </div>
+  `;
+
+  html += `
+    <div class="card">
+      <div class="label">Resumo do andamento</div>
+      <div class="bloco">${resumoStatus}</div>
+    </div>
+  `;
+
+  html += `
+    <div class="card">
+      <div class="label">Etapas concluídas</div>
+      <div class="bloco">
+        ${etapas.map(etapa => `<strong>${etapa.nome}:</strong> ${etapa.ok ? "Concluído" : "Pendente"}`).join("<br>")}
+      </div>
+    </div>
+  `;
+
+  html += `
+    <div class="grid">
+      <div class="card">
+        <div class="label">Pedidos editoriais</div>
+        ${pedidos.length ? `
+          <div class="bloco">
+            Total registrado: ${pedidos.length}<br>
+            Último pedido: ${pedidos[pedidos.length - 1].titulo || "—"}<br>
+            Tipo: ${pedidos[pedidos.length - 1].tipo || "—"}<br>
+            Status: ${pedidos[pedidos.length - 1].status || "—"}<br>
+            Data: ${formatarData(pedidos[pedidos.length - 1].dataRegistro)}
+          </div>
+        ` : `<div class="bloco">Nenhum pedido editorial registrado até o momento.</div>`}
+      </div>
+
+      <div class="card">
+        <div class="label">Módulo da capa</div>
+        ${capas.length ? `
+          <div class="bloco">
+            Solicitação de capa registrada<br>
+            Configuração técnica: ${cfg ? "Disponível" : "Não disponível"}<br>
+            Textos da capa: ${textos ? "Disponíveis" : "Não disponíveis"}
+          </div>
+        ` : `<div class="bloco">Nenhuma solicitação de capa registrada até o momento.</div>`}
+      </div>
+    </div>
+  `;
+
+  if(leitura){
+    html += `
+      <div class="card">
+        <div class="label">Leitura técnica</div>
+        <div class="bloco">
+          <strong>Nota final:</strong> ${leitura.notaFinal || "—"}<br>
+          <strong>Recomendação:</strong> ${leitura.recomendacaoEditorial || "—"}<br>
+          <strong>Potencial comercial:</strong> ${leitura.potencialComercial || "—"}<br>
+          <strong>Originalidade:</strong> ${leitura.originalidade || "—"}
+        </div>
+      </div>
+    `;
+  }
+
+  area.innerHTML = html;
+
+  try{
+    SDL_registrarAuditoria("Relatório da obra gerado", "relatorio_projeto");
+  }catch(e){}
 }
 
 function voltarIndice(){
-
-window.location.href="_Indice.html"
-
+  window.location.href = "_Indice.html";
 }
 
-montarRelatorio()
-
+montarRelatorioProjeto();
 </script>
 
 </body>
