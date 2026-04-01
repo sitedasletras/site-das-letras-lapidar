@@ -16,7 +16,6 @@
 --orange:#f7b22c;
 --orangeStrong:#ff5a00;
 --green:#9cfdb2;
---danger:#ff7070;
 --border:rgba(255,123,44,0.18);
 --shadow:0 10px 26px rgba(0,0,0,0.28);
 }
@@ -35,7 +34,7 @@ padding:40px 0;
 }
 
 .titulo{
-font-size:38px;
+font-size:36px;
 font-weight:bold;
 }
 
@@ -44,25 +43,21 @@ margin-top:6px;
 color:var(--orange);
 }
 
-.preview-card{
+.card{
 margin-top:30px;
 background:var(--card);
-padding:28px;
+padding:24px;
 border-radius:18px;
 border:1px solid var(--border);
 box-shadow:var(--shadow);
 }
 
-.preview-titulo{
-font-size:28px;
-font-weight:bold;
-margin-bottom:8px;
-}
-
-.preview-subtitulo{
-font-size:20px;
-color:var(--orange);
-margin-bottom:18px;
+.status{
+margin-top:20px;
+padding:16px;
+border-radius:12px;
+background:rgba(247,178,44,0.12);
+border:1px solid rgba(247,178,44,0.25);
 }
 
 .linha{
@@ -75,51 +70,33 @@ color:var(--orange);
 font-weight:bold;
 }
 
-.observacoes{
-margin-top:20px;
-padding:18px;
-border-radius:14px;
-background:var(--card2);
-line-height:1.8;
-white-space:pre-line;
-}
-
-.statusBox{
-margin-top:20px;
-padding:18px;
-border-radius:14px;
-background:rgba(247,178,44,0.12);
-border:1px solid rgba(247,178,44,0.2);
-color:#ffe7b0;
-}
-
 .actions{
-margin-top:26px;
+margin-top:24px;
 display:flex;
 flex-wrap:wrap;
 gap:12px;
 }
 
-.botao{
+button{
 border:none;
 padding:14px 18px;
 border-radius:999px;
-font-weight:bold;
 cursor:pointer;
+font-weight:bold;
 }
 
-.botaoIndice{
-background:#24150f;
+.btnEditar{
+background:#174d27;
 color:white;
 }
 
-.botaoUpload{
-background:#174d27;
-color:#dfffe8;
+.btnHistorico{
+background:var(--orangeStrong);
+color:white;
 }
 
-.botaoHistorico{
-background:var(--orangeStrong);
+.btnIndice{
+background:#24150f;
 color:white;
 }
 
@@ -131,42 +108,40 @@ color:white;
 <div class="container">
 
 <div class="titulo">
-PREVIEW DO PROJETO
+Preview do Projeto
 </div>
 
 <div class="subtitulo">
-Visualização rápida do cadastro editorial atual
+Visualização do projeto ativo selecionado no Lapidar
 </div>
 
 
 
-<div id="statusPreview" class="statusBox">
-Carregando dados do projeto...
+<div id="statusPreview" class="status">
+Carregando projeto ativo...
 </div>
 
 
 
-<div id="areaPreview"></div>
+<div id="dadosProjeto"></div>
 
 
 
 <div class="actions">
 
-<button class="botao botaoUpload" onclick="abrirUpload()">
+<button class="btnEditar" onclick="abrirUpload()">
 Editar projeto
 </button>
 
-<button class="botao botaoHistorico" onclick="abrirHistorico()">
+<button class="btnHistorico" onclick="abrirHistorico()">
 Abrir histórico
 </button>
 
-<button class="botao botaoIndice" onclick="voltarIndice()">
+<button class="btnIndice" onclick="voltarIndice()">
 Voltar ao índice
 </button>
 
 </div>
-
-
 
 </div>
 
@@ -179,9 +154,7 @@ function verificarSessao(){
 const sessao = localStorage.getItem("SDL_sessao_ativa")
 
 if(sessao !== "sim"){
-
-window.location.href = "login.html"
-
+window.location.href="login.html"
 }
 
 }
@@ -190,35 +163,26 @@ window.location.href = "login.html"
 
 function carregarPreview(){
 
+let lista = []
+let ativo = null
 let projeto = null
 
 try{
 
-const bruto = localStorage.getItem("SDL_projeto_ativo")
+lista = JSON.parse(
+localStorage.getItem("SDL_projetos_lista") || "[]"
+)
 
-if(bruto){
+ativo = localStorage.getItem("SDL_projeto_ativo")
 
-projeto = JSON.parse(bruto)
-
-}
-
-}catch(e){
-
-console.log("Erro ao ler projeto")
-
-}
+}catch(e){}
 
 
 
-const status = document.getElementById("statusPreview")
-const area = document.getElementById("areaPreview")
+if(!ativo){
 
-if(!projeto){
-
-status.innerHTML =
-"Nenhum projeto ativo encontrado neste dispositivo."
-
-area.innerHTML = ""
+document.getElementById("statusPreview").innerHTML =
+"Nenhum projeto ativo selecionado."
 
 return
 
@@ -226,23 +190,40 @@ return
 
 
 
-status.innerHTML =
-"Preview carregado com sucesso."
+projeto = lista.find(p => p.id === ativo)
 
-status.style.background =
+
+
+if(!projeto){
+
+document.getElementById("statusPreview").innerHTML =
+"Projeto ativo não encontrado na lista."
+
+return
+
+}
+
+
+
+document.getElementById("statusPreview").innerHTML =
+"Projeto carregado com sucesso."
+
+document.getElementById("statusPreview").style.background =
 "rgba(23,77,39,0.28)"
 
 
 
-area.innerHTML = `
+document.getElementById("dadosProjeto").innerHTML = `
 
-<div class="preview-card">
+<div class="card">
 
-<div class="preview-titulo">
-${projeto.titulo || "Sem título"}
+<div class="linha">
+<span class="rotulo">Título:</span>
+${projeto.titulo || "—"}
 </div>
 
-<div class="preview-subtitulo">
+<div class="linha">
+<span class="rotulo">Subtítulo:</span>
 ${projeto.subtitulo || "—"}
 </div>
 
@@ -266,14 +247,13 @@ ${projeto.formato || "—"}
 ${projeto.status || "—"}
 </div>
 
-<div class="observacoes">
+<div class="linha">
 <span class="rotulo">Observações:</span>
-
-${projeto.observacoes || "Sem observações registradas."}
+${projeto.observacoes || "—"}
 </div>
 
 <div class="linha">
-<span class="rotulo">Data do registro:</span>
+<span class="rotulo">Registrado em:</span>
 ${formatarData(projeto.dataRegistro)}
 </div>
 
@@ -285,18 +265,14 @@ ${formatarData(projeto.dataRegistro)}
 
 
 
-function formatarData(data){
+function formatarData(d){
 
-if(!data) return "—"
+if(!d) return "—"
 
 try{
-
-return new Date(data).toLocaleString("pt-BR")
-
-}catch(e){
-
-return data
-
+return new Date(d).toLocaleString("pt-BR")
+}catch{
+return d
 }
 
 }
@@ -304,25 +280,19 @@ return data
 
 
 function abrirUpload(){
-
 window.location.href="upload_livro.html"
-
 }
 
 
 
 function abrirHistorico(){
-
 window.location.href="historico_projetos.html"
-
 }
 
 
 
 function voltarIndice(){
-
 window.location.href="_Indice.html"
-
 }
 
 
