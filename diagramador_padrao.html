@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diagramador — Padrão de Diagramação</title>
+
+<style>
+:root{
+--bg:#0d0603;
+--card:#140c08;
+--card2:#1b100a;
+--text:#ffffff;
+--orange:#f7b22c;
+--border:rgba(255,123,44,0.18);
+--shadow:0 10px 26px rgba(0,0,0,0.28);
+}
+
+body{
+margin:0;
+font-family:Arial, sans-serif;
+background:var(--bg);
+color:var(--text);
+}
+
+.container{
+width:min(1100px,95%);
+margin:auto;
+padding:40px 0 60px;
+}
+
+.titulo{
+font-size:36px;
+font-weight:bold;
+}
+
+.subtitulo{
+margin-top:6px;
+color:var(--orange);
+}
+
+.status{
+margin-top:20px;
+padding:16px;
+border-radius:12px;
+background:rgba(247,178,44,0.12);
+border:1px solid rgba(247,178,44,0.25);
+color:#ffe7b0;
+}
+
+.card{
+margin-top:24px;
+background:var(--card);
+border:1px solid var(--border);
+border-radius:18px;
+padding:22px;
+box-shadow:var(--shadow);
+}
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:18px;
+}
+
+label{
+display:block;
+margin-bottom:6px;
+color:var(--orange);
+font-weight:bold;
+}
+
+select,input,textarea{
+width:100%;
+padding:14px;
+border:none;
+border-radius:12px;
+background:#1b0e07;
+color:#fff;
+box-sizing:border-box;
+font-family:Arial, sans-serif;
+}
+
+.preview{
+margin-top:18px;
+padding:18px;
+border-radius:14px;
+background:var(--card2);
+line-height:1.8;
+}
+
+.actions{
+margin-top:24px;
+display:flex;
+flex-wrap:wrap;
+gap:12px;
+}
+
+button{
+border:none;
+padding:14px 18px;
+border-radius:999px;
+cursor:pointer;
+font-weight:bold;
+}
+
+.btnSalvar{
+background:#174d27;
+color:#fff;
+}
+
+.btnRecarregar{
+background:#5a2c00;
+color:#fff;
+}
+
+.btnIndice{
+background:#24150f;
+color:#fff;
+}
+
+@media(max-width:900px){
+.grid{
+grid-template-columns:1fr;
+}
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="titulo">Padrão de Diagramação</div>
+<div class="subtitulo">Configuração visual estrutural do miolo editorial</div>
+
+<div id="statusPadrao" class="status">
+Verificando projeto ativo...
+</div>
+
+<div class="card">
+
+<div class="grid">
+
+<div>
+<label>Margens espelhadas</label>
+<select id="margens">
+<option>Sim</option>
+<option>Não</option>
+</select>
+</div>
+
+<div>
+<label>Texto justificado</label>
+<select id="justificado">
+<option>Sim</option>
+<option>Não</option>
+</select>
+</div>
+
+<div>
+<label>Travessão em diálogos</label>
+<select id="travessao">
+<option>Sim</option>
+<option>Não</option>
+</select>
+</div>
+
+<div>
+<label>Hifenização automática</label>
+<select id="hifenizacao">
+<option>Sim</option>
+<option>Não</option>
+</select>
+</div>
+
+<div>
+<label>Espaço entre parágrafos</label>
+<select id="espacoParagrafo">
+<option>Sem espaço extra</option>
+<option>Com espaço</option>
+</select>
+</div>
+
+<div>
+<label>Recuo primeira linha</label>
+<input id="recuo" placeholder="Ex.: 1,25 cm">
+</div>
+
+<div>
+<label>Capitular no início do capítulo</label>
+<select id="capitular">
+<option>Sim</option>
+<option>Não</option>
+</select>
+</div>
+
+<div>
+<label>Título de capítulo</label>
+<select id="tituloCapitulo">
+<option>Centralizado</option>
+<option>Alinhado à esquerda</option>
+<option>Com subtítulo</option>
+</select>
+</div>
+
+<div>
+<label>Fonte principal do miolo</label>
+<input id="fonte">
+</div>
+
+<div>
+<label>Tamanho da fonte</label>
+<input id="tamanhoFonte" placeholder="Ex.: 11 ou 12">
+</div>
+
+<div>
+<label>Numeração de páginas</label>
+<select id="numeracao">
+<option>Inicia na história</option>
+<option>Inicia no prefácio</option>
+<option>Sem numeração inicial</option>
+</select>
+</div>
+
+<div>
+<label>Capítulos iniciam em página ímpar</label>
+<select id="paginaImpar">
+<option>Sim</option>
+<option>Não</option>
+</select>
+</div>
+
+</div>
+
+<div style="margin-top:18px;">
+<label>Observações do padrão editorial</label>
+<textarea id="observacoes" rows="5"></textarea>
+</div>
+
+<div class="actions">
+<button class="btnSalvar" onclick="salvarPadrao()">Salvar padrão</button>
+<button class="btnRecarregar" onclick="carregarPadrao()">Recarregar padrão</button>
+<button class="btnIndice" onclick="voltar()">Voltar ao diagramador</button>
+</div>
+
+<div id="previewPadrao" class="preview">
+Prévia do padrão editorial aparecerá aqui.
+</div>
+
+</div>
+
+</div>
+
+<script src="auditoria.js"></script>
+
+<script>
+
+function obterProjeto(){
+try{
+const lista=JSON.parse(localStorage.getItem("SDL_projetos_lista")||"[]")
+const ativo=localStorage.getItem("SDL_projeto_ativo")
+return lista.find(p=>p.id===ativo)||null
+}catch{
+return null
+}
+}
+
+function statusProjeto(){
+const projeto=obterProjeto()
+
+if(!projeto){
+document.getElementById("statusPadrao").innerHTML="Nenhum projeto ativo."
+return
+}
+
+document.getElementById("statusPadrao").innerHTML=
+"Padrão editorial aplicado ao projeto: <strong>"+projeto.titulo+"</strong>"
+document.getElementById("statusPadrao").style.background="rgba(23,77,39,0.28)"
+}
+
+function salvarPadrao(){
+
+const projeto=obterProjeto()
+
+if(!projeto){
+alert("Nenhum projeto ativo.")
+return
+}
+
+const dados={
+
+idProjeto:projeto.id,
+tituloProjeto:projeto.titulo,
+
+margens:margens.value,
+justificado:justificado.value,
+travessao:travessao.value,
+hifenizacao:hifenizacao.value,
+espacoParagrafo:espacoParagrafo.value,
+recuo:recuo.value,
+capitular:capitular.value,
+tituloCapitulo:tituloCapitulo.value,
+fonte:fonte.value,
+tamanhoFonte:tamanhoFonte.value,
+numeracao:numeracao.value,
+paginaImpar:paginaImpar.value,
+observacoes:observacoes.value,
+data:new Date().toISOString()
+
+}
+
+localStorage.setItem("SDL_padrao_diagramacao",JSON.stringify(dados))
+
+try{
+SDL_registrarAuditoria("Padrão editorial salvo","diagramador_padrao")
+}catch(e){}
+
+preview(dados)
+
+alert("Padrão salvo com sucesso.")
+}
+
+function carregarPadrao(){
+
+const projeto=obterProjeto()
+
+if(!projeto)return
+
+const dados=JSON.parse(localStorage.getItem("SDL_padrao_diagramacao")||"null")
+
+if(!dados)return
+
+if(dados.idProjeto!==projeto.id)return
+
+margens.value=dados.margens
+justificado.value=dados.justificado
+travessao.value=dados.travessao
+hifenizacao.value=dados.hifenizacao
+espacoParagrafo.value=dados.espacoParagrafo
+recuo.value=dados.recuo
+capitular.value=dados.capitular
+tituloCapitulo.value=dados.tituloCapitulo
+fonte.value=dados.fonte
+tamanhoFonte.value=dados.tamanhoFonte
+numeracao.value=dados.numeracao
+paginaImpar.value=dados.paginaImpar
+observacoes.value=dados.observacoes
+
+preview(dados)
+
+}
+
+function preview(d){
+
+previewPadrao.innerHTML=
+"<strong>Projeto:</strong> "+d.tituloProjeto+"<br><br>"+
+"<strong>Margens espelhadas:</strong> "+d.margens+"<br>"+
+"<strong>Texto justificado:</strong> "+d.justificado+"<br>"+
+"<strong>Travessão:</strong> "+d.travessao+"<br>"+
+"<strong>Hifenização:</strong> "+d.hifenizacao+"<br>"+
+"<strong>Espaço entre parágrafos:</strong> "+d.espacoParagrafo+"<br>"+
+"<strong>Recuo:</strong> "+d.recuo+"<br>"+
+"<strong>Capitular:</strong> "+d.capitular+"<br>"+
+"<strong>Título capítulo:</strong> "+d.tituloCapitulo+"<br>"+
+"<strong>Fonte:</strong> "+d.fonte+"<br>"+
+"<strong>Tamanho fonte:</strong> "+d.tamanhoFonte+"<br>"+
+"<strong>Numeração:</strong> "+d.numeracao+"<br>"+
+"<strong>Página ímpar:</strong> "+d.paginaImpar+"<br><br>"+
+"<strong>Observações:</strong><br>"+d.observacoes
+
+}
+
+function voltar(){
+window.location.href="diagramador_inicio.html"
+}
+
+statusProjeto()
+carregarPadrao()
+
+</script>
+
+</body>
+</html>
