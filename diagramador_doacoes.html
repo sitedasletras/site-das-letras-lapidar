@@ -1,190 +1,46 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Diagramador — Doações</title>
-
-<style>
-body{
-margin:0;
-font-family:Arial,sans-serif;
-background:#0f3d91;
-color:#ffffff;
-}
-
-.container{
-width:min(1100px,95%);
-margin:auto;
-padding:40px 0 60px;
-}
-
-.titulo{
-font-size:38px;
-font-weight:bold;
-}
-
-.subtitulo{
-margin-top:8px;
-line-height:1.7;
-color:#e8f0ff;
-}
-
-.status{
-margin-top:20px;
-padding:16px;
-border-radius:12px;
-background:rgba(255,255,255,0.12);
-border:1px solid rgba(255,255,255,0.30);
-}
-
-.grid{
-margin-top:28px;
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:18px;
-}
-
-.card{
-background:#1146a7;
-border:2px solid #ffffff;
-border-radius:18px;
-padding:22px;
-cursor:pointer;
-transition:.2s;
-box-shadow:0 10px 26px rgba(0,0,0,0.25);
-}
-
-.card:hover{
-transform:translateY(-2px);
-}
-
-.cardTitulo{
-font-size:20px;
-font-weight:bold;
-margin-bottom:8px;
-}
-
-.cardValor{
-font-size:28px;
-font-weight:bold;
-margin-bottom:10px;
-}
-
-.cardDesc{
-line-height:1.7;
-font-size:14px;
-color:#eef4ff;
-}
-
-.actions{
-margin-top:30px;
-display:flex;
-gap:12px;
-flex-wrap:wrap;
-}
-
-button{
-border:none;
-padding:14px 18px;
-border-radius:999px;
-background:#0f3d91;
-color:#ffffff;
-border:2px solid #ffffff;
-cursor:pointer;
-font-weight:bold;
-}
-
-</style>
-</head>
-
-<body>
-
-<div class="container">
-
-<div class="titulo">Diagramador</div>
-<div class="subtitulo">
-Escolha a modalidade de doação do setor de diagramação editorial.
-</div>
-
-<div id="statusDiagramadorDoacoes" class="status">
-Selecione uma modalidade para continuar.
-</div>
-
-<div class="grid">
-
-<div class="card" onclick="selecionarPlano('diagramador_avulso','Doação avulsa')">
-<div class="cardTitulo">Avulsa</div>
-<div class="cardValor">R$ 1,99</div>
-<div class="cardDesc">
-Entrada unitária para uso pontual do setor de diagramação.
-</div>
-</div>
-
-<div class="card" onclick="selecionarPlano('diagramador_30','30 dias')">
-<div class="cardTitulo">30 dias</div>
-<div class="cardValor">R$ 14,99</div>
-<div class="cardDesc">
-Acesso mensal ao fluxo do diagramador.
-</div>
-</div>
-
-<div class="card" onclick="selecionarPlano('diagramador_90','90 dias')">
-<div class="cardTitulo">90 dias</div>
-<div class="cardValor">R$ 34,99</div>
-<div class="cardDesc">
-Acesso trimestral para produção de miolo e estrutura editorial.
-</div>
-</div>
-
-<div class="card" onclick="selecionarPlano('diagramador_180','180 dias')">
-<div class="cardTitulo">180 dias</div>
-<div class="cardValor">R$ 59,99</div>
-<div class="cardDesc">
-Meio ano de acesso ao setor de diagramação.
-</div>
-</div>
-
-<div class="card" onclick="selecionarPlano('diagramador_365','365 dias')">
-<div class="cardTitulo">365 dias</div>
-<div class="cardValor">R$ 99,99</div>
-<div class="cardDesc">
-Acesso anual completo ao setor de diagramador.
-</div>
-</div>
-
-</div>
-
-<div class="actions">
-<button onclick="abrirDiagramador()">Entrar no setor</button>
-<button onclick="voltarSetores()">Voltar aos setores</button>
-</div>
-
-</div>
-
 <script src="auditoria.js"></script>
+<script src="planos_usuario.js"></script>
 
 <script>
+
 function selecionarPlano(codigo, nome){
-  localStorage.setItem("SDL_plano_diagramador", codigo);
-  localStorage.setItem("SDL_plano_diagramador_nome", nome);
 
-  document.getElementById("statusDiagramadorDoacoes").innerHTML =
-    "Plano selecionado no Diagramador: <strong>" + nome + "</strong>";
+if(codigo === "diagramador_avulso"){
 
-  try{
-    SDL_registrarAuditoria("Plano do diagramador selecionado", "diagramador_doacoes");
-  }catch(e){}
+SDL_definirPlanoAvulso("diagramador")
+
+}else{
+
+let dias = 0
+
+if(codigo.includes("30")) dias = 30
+if(codigo.includes("90")) dias = 90
+if(codigo.includes("180")) dias = 180
+if(codigo.includes("365")) dias = 365
+
+SDL_definirPlanoSetor("diagramador", nome, dias)
+
+}
+
+document.getElementById(
+"statusDiagramadorDoacoes"
+).innerHTML =
+"Plano registrado: <strong>" + nome + "</strong>"
+
 }
 
 function abrirDiagramador(){
-  window.location.href = "diagramador_inicio.html";
+
+window.location.href =
+"diagramador_inicio.html"
+
 }
 
 function voltarSetores(){
-  window.location.href = "painel_setores.html";
-}
-</script>
 
-</body>
-</html>
+window.location.href =
+"painel_setores.html"
+
+}
+
+</script>
