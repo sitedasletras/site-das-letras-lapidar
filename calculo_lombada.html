@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cálculo de Lombada — Lapidar</title>
+
+<style>
+body{
+margin:0;
+font-family:Arial;
+background:#0d0603;
+color:white;
+}
+
+.container{
+width:min(1000px,95%);
+margin:auto;
+padding:40px 0;
+}
+
+.titulo{
+font-size:34px;
+font-weight:bold;
+}
+
+.sub{
+color:#f7b22c;
+margin-top:5px;
+}
+
+.card{
+margin-top:25px;
+background:#140c08;
+padding:20px;
+border-radius:14px;
+border:1px solid rgba(255,123,44,0.18);
+}
+
+.label{
+color:#f7b22c;
+margin-top:12px;
+font-weight:bold;
+}
+
+input, select{
+width:100%;
+padding:12px;
+border-radius:10px;
+border:none;
+background:#1b0e07;
+color:white;
+}
+
+button{
+margin-top:25px;
+padding:14px 18px;
+border:none;
+border-radius:999px;
+background:#24150f;
+color:white;
+cursor:pointer;
+}
+
+.preview{
+margin-top:30px;
+padding:20px;
+background:#1b100a;
+border-radius:14px;
+line-height:1.8;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="titulo">
+Cálculo Automático da Lombada
+</div>
+
+<div class="sub">
+Estimativa técnica para capa completa
+</div>
+
+<div class="card">
+
+<div class="label">Formato do livro</div>
+<select id="formato">
+<option>A5</option>
+<option>16x23</option>
+<option>16x27</option>
+<option>6x9</option>
+<option>A4</option>
+</select>
+
+<div class="label">Quantidade total de páginas</div>
+<input id="paginas" type="number" min="1" placeholder="Ex.: 120">
+
+<div class="label">Tipo de papel</div>
+<select id="papel">
+<option value="0.050">Offset 75g</option>
+<option value="0.060">Offset 90g</option>
+<option value="0.070">Pólen 80g</option>
+<option value="0.065">Premium 90g</option>
+</select>
+
+<div class="label">Gramatura exibida</div>
+<select id="gramatura">
+<option>75g</option>
+<option>80g</option>
+<option>90g</option>
+</select>
+
+</div>
+
+<button onclick="calcularLombada()">
+Calcular lombada
+</button>
+
+<button onclick="window.print()">
+Exportar PDF técnico
+</button>
+
+<button onclick="voltarIndice()">
+Voltar ao índice
+</button>
+
+<div id="previewLombada" class="preview">
+O resultado aparecerá aqui.
+</div>
+
+</div>
+
+<script>
+
+function calcularLombada(){
+
+const formato =
+document.getElementById("formato").value
+
+const paginas =
+parseInt(document.getElementById("paginas").value, 10)
+
+const fator =
+parseFloat(document.getElementById("papel").value)
+
+const gramatura =
+document.getElementById("gramatura").value
+
+if(!paginas || paginas < 1){
+
+document.getElementById("previewLombada").innerHTML =
+"Informe um número de páginas válido."
+
+return
+
+}
+
+const lombada = (paginas * fator).toFixed(2)
+
+let texto = ""
+
+texto += "<strong>Formato:</strong> " + formato + "<br>"
+texto += "<strong>Páginas:</strong> " + paginas + "<br>"
+texto += "<strong>Gramatura:</strong> " + gramatura + "<br>"
+texto += "<strong>Espessura estimada da lombada:</strong> " + lombada + " mm<br><br>"
+texto += "Observação: esta é uma estimativa técnica inicial. A gráfica pode aplicar pequena variação conforme papel, umidade, acabamento e compressão do miolo."
+
+document.getElementById("previewLombada").innerHTML = texto
+
+}
+
+function voltarIndice(){
+window.location.href = "_Indice.html"
+}
+
+</script>
+
+</body>
+</html>
