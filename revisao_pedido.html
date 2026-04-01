@@ -1,235 +1,383 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Revisão do pedido — Lapidar</title>
+<title>Lapidar — Revisão e Pedidos</title>
 
 <style>
+
+:root{
+--bg:#0d0603;
+--card:#140c08;
+--card-2:#1b100a;
+--text:#ffffff;
+--muted:#ffd2b3;
+--orange:#f7b22c;
+--orange-strong:#ff5a00;
+--blue:#6ea8ff;
+--green:#9cfdb2;
+--danger:#ff7070;
+--border:rgba(255,123,44,0.18);
+--shadow:0 10px 26px rgba(0,0,0,0.28);
+}
 
 body{
 margin:0;
 font-family:Arial;
-background:#0d0603;
-color:white;
-display:flex;
-justify-content:center;
+background:var(--bg);
+color:var(--text);
 }
 
 .container{
-max-width:720px;
-width:92%;
-padding:40px 0 60px 0;
+width:min(1100px,94%);
+margin:auto;
+padding:30px 0 50px 0;
 }
 
 .titulo{
-font-size:36px;
-text-align:center;
+font-size:40px;
 font-weight:bold;
 }
 
 .subtitulo{
-text-align:center;
-color:#ff7b2c;
-margin-top:10px;
-margin-bottom:28px;
+color:var(--orange);
+margin-top:6px;
+font-size:18px;
 }
 
-.card{
-background:#140c08;
-border-radius:14px;
-padding:24px;
-margin-top:18px;
-line-height:1.8;
+.bloco{
+background:var(--card);
+border:1px solid var(--border);
+border-radius:18px;
+padding:22px;
+margin-top:24px;
+box-shadow:var(--shadow);
 }
 
-.item{
-margin-bottom:10px;
-color:#ffd2b3;
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:18px;
+margin-top:20px;
 }
 
-.destaque{
-color:#9cffb2;
+label{
+display:block;
+margin-bottom:6px;
+color:var(--orange);
 font-weight:bold;
+}
+
+input, select, textarea{
+width:100%;
+padding:12px;
+border-radius:10px;
+border:none;
+background:#1a0f09;
+color:white;
+}
+
+textarea{
+min-height:140px;
+resize:vertical;
+}
+
+.actions{
+margin-top:20px;
+display:flex;
+gap:12px;
+flex-wrap:wrap;
 }
 
 .botao{
-
-width:100%;
-padding:18px;
-margin-top:18px;
 border:none;
-border-radius:40px;
-background:#ff5a00;
-color:white;
-font-size:18px;
+padding:14px 18px;
+border-radius:999px;
 font-weight:bold;
 cursor:pointer;
-
 }
 
-.botaoCinza{
-background:#444;
+.botao-laranja{
+background:var(--orange-strong);
+color:white;
 }
 
-.botaoCinza:hover{
-background:#666;
+.botao-azul{
+background:var(--blue);
+color:white;
+}
+
+.botao-verde{
+background:#174d27;
+color:#dfffe8;
+}
+
+.botao-escuro{
+background:#24150f;
+color:white;
+}
+
+.status-box{
+margin-top:20px;
+padding:18px;
+border-radius:14px;
+background:rgba(247,178,44,0.12);
+border:1px solid rgba(247,178,44,0.2);
+color:#ffe7b0;
+}
+
+.card{
+background:var(--card-2);
+padding:18px;
+border-radius:14px;
+border:1px solid rgba(255,255,255,0.05);
+margin-top:16px;
+}
+
+.linha{
+margin-top:10px;
+line-height:1.8;
+color:var(--muted);
+}
+
+.rotulo{
+color:var(--orange);
+font-weight:bold;
+}
+
+.link-btn{
+display:block;
+margin-top:10px;
+text-decoration:none;
+text-align:center;
+padding:14px;
+border-radius:999px;
+background:#24150f;
+color:white;
+}
+
+.info{
+color:var(--muted);
+line-height:1.8;
+}
+
+@media(max-width:900px){
+.grid{
+grid-template-columns:1fr;
+}
 }
 
 </style>
-
 </head>
 
 <body>
 
 <div class="container">
 
+<div>
 <div class="titulo">
-Revisão do pedido editorial
+REVISÃO E PEDIDOS
 </div>
 
 <div class="subtitulo">
-Confira os dados antes de gerar o relatório técnico da preparação editorial
+Registro local de solicitações editoriais e pedidos de ajuste
+</div>
 </div>
 
-<div class="card" id="resumoPedido">
 
-Carregando informações do pedido...
+
+<div class="bloco">
+
+<div class="info">
+Use este painel para registrar pedidos de revisão, ajustes estruturais, correções técnicas e observações operacionais ligadas ao projeto atual.
+</div>
+
+<div class="status-box" id="statusRevisao">
+Nenhum pedido registrado ainda neste dispositivo.
+</div>
 
 </div>
 
-<button class="botao" onclick="seguirRelatorio()">
-Gerar relatório editorial Lapidar
-</button>
 
-<button class="botao" onclick="window.location.href='preferencias_diagramacao.html'">
-Voltar para preferências
-</button>
 
-<button class="botao botaoCinza" onclick="window.location.href='_Indice.html'">
-Voltar para casa do original
-</button>
+<div class="bloco">
+
+<div class="grid">
+
+<div>
+<label>Título do pedido</label>
+<input id="tituloPedido" placeholder="Ex.: Revisão do miolo A5">
+</div>
+
+<div>
+<label>Tipo de revisão</label>
+<select id="tipoPedido">
+<option>Revisão textual</option>
+<option>Revisão estrutural</option>
+<option>Diagramação</option>
+<option>Capa</option>
+<option>Ficha catalográfica</option>
+<option>Ajuste geral</option>
+</select>
+</div>
+
+<div>
+<label>Prioridade</label>
+<select id="prioridadePedido">
+<option>Normal</option>
+<option>Alta</option>
+<option>Emergencial</option>
+</select>
+</div>
+
+<div>
+<label>Status do pedido</label>
+<select id="statusPedido">
+<option>Aberto</option>
+<option>Em análise</option>
+<option>Em execução</option>
+<option>Concluído</option>
+</select>
+</div>
 
 </div>
+
+<div style="margin-top:18px;">
+<label>Descrição do pedido</label>
+<textarea id="descricaoPedido" placeholder="Descreva o ajuste ou revisão desejada"></textarea>
+</div>
+
+<div class="actions">
+<button class="botao botao-laranja" onclick="registrarPedido()">Registrar pedido</button>
+<button class="botao botao-azul" onclick="carregarPedido()">Recarregar último pedido</button>
+<button class="botao botao-escuro" onclick="voltarIndice()">Voltar ao índice</button>
+</div>
+
+</div>
+
+
+
+<div class="bloco">
+
+<h3>Último pedido salvo</h3>
+<div id="areaPedido"></div>
+
+</div>
+
+
+
+<div class="bloco">
+
+<h3>Atalhos rápidos</h3>
+
+<a class="link-btn" href="preview_projeto.html">
+Preview do projeto
+</a>
+
+<a class="link-btn" href="upload_livro.html">
+Upload do livro
+</a>
+
+<a class="link-btn" href="_Indice.html">
+Voltar ao índice
+</a>
+
+</div>
+
+
+
+</div>
+
+
 
 <script>
 
-function traduzirIdioma(codigo){
-
-if(codigo === "pt") return "Português";
-if(codigo === "en") return "English";
-if(codigo === "es") return "Español";
-if(codigo === "it") return "Italiano";
-if(codigo === "fr") return "Français";
-if(codigo === "de") return "Deutsch";
-
-return "Português";
-
+function verificarSessao(){
+const sessao = localStorage.getItem("SDL_sessao_ativa");
+if(sessao !== "sim"){
+window.location.href = "login.html";
+}
 }
 
-function obterIdiomaMestre(){
+function registrarPedido(){
 
-const idiomaGlobal =
-localStorage.getItem("SDL_idioma_obra_global");
+const titulo = document.getElementById("tituloPedido").value.trim();
+const descricao = document.getElementById("descricaoPedido").value.trim();
 
-const idiomaLocal =
-localStorage.getItem("SDL_idioma_obra");
-
-return idiomaGlobal || idiomaLocal || "pt";
-
-}
-
-function carregarResumo(){
-
-const idioma =
-obterIdiomaMestre();
-
-const titulo =
-localStorage.getItem("SDL_titulo_livro");
-
-const autor =
-localStorage.getItem("SDL_nome_autor");
-
-const tipo =
-localStorage.getItem("SDL_tipo_material");
-
-const destino =
-localStorage.getItem("SDL_destino_material");
-
-const formato =
-localStorage.getItem("SDL_formato");
-
-const margens =
-localStorage.getItem("SDL_margens");
-
-const alinhamento =
-localStorage.getItem("SDL_alinhamento");
-
-const paragrafos =
-localStorage.getItem("SDL_paragrafos");
-
-const hifenizacao =
-localStorage.getItem("SDL_hifenizacao");
-
-if(!titulo){
-
-document.getElementById("resumoPedido").innerHTML =
-
-"Dados do pedido ainda não encontrados.";
-
+if(!titulo || !descricao){
+alert("Título do pedido e descrição são obrigatórios.");
 return;
-
 }
 
-document.getElementById("resumoPedido").innerHTML =
+let projetoTitulo = "Sem projeto vinculado";
+const projetoBruto = localStorage.getItem("SDL_projeto_ativo");
 
-"<div class='item'>Idioma editorial da obra: <span class='destaque'>" + traduzirIdioma(idioma) + "</span></div>" +
-
-"<div class='item'>Título da obra: <span class='destaque'>" + titulo + "</span></div>" +
-
-"<div class='item'>Autor: <span class='destaque'>" + autor + "</span></div>" +
-
-"<div class='item'>Tipo de material: <span class='destaque'>" + tipo + "</span></div>" +
-
-"<div class='item'>Destino editorial: <span class='destaque'>" + destino + "</span></div>" +
-
-"<div class='item'>Formato: <span class='destaque'>" + formato + "</span></div>" +
-
-"<div class='item'>Margens: <span class='destaque'>" + margens + "</span></div>" +
-
-"<div class='item'>Alinhamento: <span class='destaque'>" + alinhamento + "</span></div>" +
-
-"<div class='item'>Parágrafos: <span class='destaque'>" + paragrafos + "</span></div>" +
-
-"<div class='item'>Hifenização: <span class='destaque'>" + hifenizacao + "</span></div>";
-
+if(projetoBruto){
+try{
+const projeto = JSON.parse(projetoBruto);
+projetoTitulo = projeto.titulo || "Sem título";
+}catch(e){}
 }
 
-function seguirRelatorio(){
+const pedido = {
+titulo: titulo,
+tipo: document.getElementById("tipoPedido").value,
+prioridade: document.getElementById("prioridadePedido").value,
+status: document.getElementById("statusPedido").value,
+descricao: descricao,
+projeto: projetoTitulo,
+dataRegistro: new Date().toLocaleString("pt-BR")
+};
 
-const titulo =
-localStorage.getItem("SDL_titulo_livro");
+localStorage.setItem("SDL_pedido_revisao_ativo", JSON.stringify(pedido));
 
-if(!titulo){
+document.getElementById("statusRevisao").innerHTML =
+"Pedido registrado com sucesso neste dispositivo.";
 
-alert("Dados do pedido não encontrados.");
+renderizarPedido(pedido);
+}
 
+function carregarPedido(){
+
+const bruto = localStorage.getItem("SDL_pedido_revisao_ativo");
+const area = document.getElementById("areaPedido");
+const status = document.getElementById("statusRevisao");
+
+if(!bruto){
+status.innerHTML = "Nenhum pedido registrado ainda neste dispositivo.";
+area.innerHTML = "";
 return;
-
 }
 
-window.location.href =
-"relatorio_lapidacao.html";
-
+const pedido = JSON.parse(bruto);
+status.innerHTML = "Último pedido carregado com sucesso.";
+renderizarPedido(pedido);
 }
 
-carregarResumo();
+function renderizarPedido(pedido){
+
+document.getElementById("areaPedido").innerHTML = `
+<div class="card">
+<div class="linha"><span class="rotulo">Título:</span> ${pedido.titulo}</div>
+<div class="linha"><span class="rotulo">Tipo:</span> ${pedido.tipo}</div>
+<div class="linha"><span class="rotulo">Prioridade:</span> ${pedido.prioridade}</div>
+<div class="linha"><span class="rotulo">Status:</span> ${pedido.status}</div>
+<div class="linha"><span class="rotulo">Projeto vinculado:</span> ${pedido.projeto}</div>
+<div class="linha"><span class="rotulo">Data do registro:</span> ${pedido.dataRegistro}</div>
+<div class="linha"><span class="rotulo">Descrição:</span> ${pedido.descricao}</div>
+</div>
+`;
+}
+
+function voltarIndice(){
+window.location.href = "_Indice.html";
+}
+
+verificarSessao();
+carregarPedido();
 
 </script>
 
 </body>
-
 </html>
