@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ficha Editorial Integrada — Lapidar</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial;
+background:#0d0603;
+color:white;
+}
+
+.container{
+width:min(1000px,95%);
+margin:auto;
+padding:40px 0;
+}
+
+.titulo{
+font-size:34px;
+font-weight:bold;
+}
+
+.sub{
+color:#f7b22c;
+margin-top:5px;
+}
+
+.card{
+
+margin-top:25px;
+
+background:#140c08;
+
+padding:20px;
+
+border-radius:14px;
+
+border:1px solid rgba(255,123,44,0.18);
+
+}
+
+.label{
+
+color:#f7b22c;
+
+margin-top:12px;
+
+font-weight:bold;
+
+}
+
+input, select{
+
+width:100%;
+
+padding:12px;
+
+border-radius:10px;
+
+border:none;
+
+background:#1b0e07;
+
+color:white;
+
+}
+
+button{
+
+margin-top:25px;
+
+padding:14px 18px;
+
+border:none;
+
+border-radius:999px;
+
+background:#24150f;
+
+color:white;
+
+cursor:pointer;
+
+}
+
+.preview{
+
+margin-top:30px;
+
+padding:20px;
+
+background:#1b100a;
+
+border-radius:14px;
+
+line-height:1.8;
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="titulo">
+Ficha Editorial Integrada
+</div>
+
+<div class="sub">
+Modelo técnico institucional Site das Letras
+</div>
+
+
+<div class="card">
+
+<div class="label">Subtítulo (opcional)</div>
+<input id="subtitulo">
+
+<div class="label">Identidade autoral</div>
+<select id="identidadeAutor">
+<option>Autor civil</option>
+<option>Heterônimo</option>
+<option>Pseudônimo</option>
+</select>
+
+<div class="label">Nome da identidade autoral</div>
+<input id="nomeAutor">
+
+<div class="label">Coleção (opcional)</div>
+<input id="colecao">
+
+<div class="label">Selo editorial</div>
+<input id="selo" value="Site das Letras Edições Literárias">
+
+<div class="label">Formato</div>
+<select id="formato">
+<option>A5</option>
+<option>16x23</option>
+<option>16x27</option>
+<option>6x9</option>
+<option>A4</option>
+</select>
+
+<div class="label">Tipo de papel</div>
+<select id="papel">
+<option>Pólen 80g</option>
+<option>Offset 75g</option>
+<option>Offset 90g</option>
+<option>Premium 90g</option>
+</select>
+
+</div>
+
+
+<button onclick="gerarFicha()">
+Gerar ficha editorial
+</button>
+
+<button onclick="window.print()">
+Exportar PDF técnico
+</button>
+
+<button onclick="voltarIndice()">
+Voltar ao índice
+</button>
+
+
+<div id="previewFicha" class="preview">
+Pré-visualização da ficha aparecerá aqui
+</div>
+
+</div>
+
+
+<script>
+
+function obterProjeto(){
+
+try{
+
+const lista =
+JSON.parse(localStorage.getItem("SDL_projetos_lista")||"[]")
+
+const ativo =
+localStorage.getItem("SDL_projeto_ativo")
+
+return lista.find(p=>p.id===ativo)
+
+}catch{
+
+return null
+
+}
+
+}
+
+
+function gerarFicha(){
+
+const projeto = obterProjeto()
+
+if(!projeto){
+
+alert("Nenhum projeto ativo selecionado.")
+
+return
+
+}
+
+const subtitulo =
+document.getElementById("subtitulo").value
+
+const identidade =
+document.getElementById("identidadeAutor").value
+
+const autor =
+document.getElementById("nomeAutor").value || projeto.autor
+
+const colecao =
+document.getElementById("colecao").value
+
+const selo =
+document.getElementById("selo").value
+
+const formato =
+document.getElementById("formato").value
+
+const papel =
+document.getElementById("papel").value
+
+
+let ficha = ""
+
+ficha += "<strong>Título:</strong> " + projeto.titulo + "<br>"
+
+if(subtitulo)
+ficha += "<strong>Subtítulo:</strong> " + subtitulo + "<br>"
+
+ficha += "<strong>Autor:</strong> " + autor + "<br>"
+
+ficha += "<strong>Identidade autoral:</strong> " + identidade + "<br>"
+
+if(colecao)
+ficha += "<strong>Coleção:</strong> " + colecao + "<br>"
+
+ficha += "<strong>Selo editorial:</strong> " + selo + "<br>"
+
+ficha += "<strong>Formato:</strong> " + formato + "<br>"
+
+ficha += "<strong>Papel:</strong> " + papel + "<br>"
+
+ficha += "<strong>Data técnica:</strong> " +
+new Date().toLocaleDateString("pt-BR")
+
+
+document.getElementById("previewFicha").innerHTML = ficha
+
+}
+
+
+function voltarIndice(){
+
+window.location.href="_Indice.html"
+
+}
+
+</script>
+
+</body>
+</html>
