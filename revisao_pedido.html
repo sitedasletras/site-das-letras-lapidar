@@ -16,7 +16,6 @@
 --orange:#f7b22c;
 --orangeStrong:#ff5a00;
 --green:#9cfdb2;
---danger:#ff7070;
 --border:rgba(255,123,44,0.18);
 --shadow:0 10px 26px rgba(0,0,0,0.28);
 }
@@ -35,7 +34,7 @@ padding:40px 0;
 }
 
 .titulo{
-font-size:38px;
+font-size:36px;
 font-weight:bold;
 }
 
@@ -57,7 +56,6 @@ box-shadow:var(--shadow);
 display:grid;
 grid-template-columns:1fr 1fr;
 gap:18px;
-margin-top:18px;
 }
 
 label{
@@ -81,49 +79,48 @@ min-height:140px;
 resize:vertical;
 }
 
-.statusBox{
-margin-top:22px;
-padding:18px;
-border-radius:14px;
+.status{
+margin-top:20px;
+padding:16px;
+border-radius:12px;
 background:rgba(247,178,44,0.12);
-border:1px solid rgba(247,178,44,0.2);
-color:#ffe7b0;
+border:1px solid rgba(247,178,44,0.25);
 }
 
-.pedidoBox{
+.pedidoRender{
 margin-top:20px;
 padding:18px;
-border-radius:14px;
 background:var(--card2);
+border-radius:14px;
 line-height:1.8;
 }
 
 .actions{
-margin-top:26px;
+margin-top:24px;
 display:flex;
 flex-wrap:wrap;
 gap:12px;
 }
 
-.botao{
+button{
 border:none;
 padding:14px 18px;
 border-radius:999px;
-font-weight:bold;
 cursor:pointer;
+font-weight:bold;
 }
 
-.botaoSalvar{
+.btnSalvar{
 background:#174d27;
-color:#dfffe8;
+color:white;
 }
 
-.botaoIndice{
+.btnIndice{
 background:#24150f;
 color:white;
 }
 
-.botaoRecarregar{
+.btnRecarregar{
 background:var(--orangeStrong);
 color:white;
 }
@@ -136,11 +133,17 @@ color:white;
 <div class="container">
 
 <div class="titulo">
-REVISÃO E PEDIDOS EDITORIAIS
+Revisão e Pedidos Editoriais
 </div>
 
 <div class="subtitulo">
-Registro de solicitações técnicas dentro do ambiente Lapidar
+Solicitações vinculadas ao projeto ativo do Lapidar
+</div>
+
+
+
+<div id="statusProjeto" class="status">
+Verificando projeto ativo...
 </div>
 
 
@@ -189,15 +192,11 @@ Registro de solicitações técnicas dentro do ambiente Lapidar
 
 
 
-<div style="margin-top:18px;">
+<div style="margin-top:20px">
+
 <label>Descrição</label>
 <textarea id="descricaoPedido"></textarea>
-</div>
 
-
-
-<div id="statusPedidoBox" class="statusBox">
-Nenhum pedido registrado ainda.
 </div>
 
 </div>
@@ -210,21 +209,19 @@ Nenhum pedido registrado ainda.
 
 <div class="actions">
 
-<button class="botao botaoSalvar" onclick="registrarPedido()">
+<button class="btnSalvar" onclick="registrarPedido()">
 Registrar pedido
 </button>
 
-<button class="botao botaoRecarregar" onclick="carregarPedido()">
+<button class="btnRecarregar" onclick="carregarPedido()">
 Recarregar pedido salvo
 </button>
 
-<button class="botao botaoIndice" onclick="voltarIndice()">
+<button class="btnIndice" onclick="voltarIndice()">
 Voltar ao índice
 </button>
 
 </div>
-
-
 
 </div>
 
@@ -234,13 +231,56 @@ Voltar ao índice
 
 function verificarSessao(){
 
-const sessao=localStorage.getItem("SDL_sessao_ativa")
+const sessao = localStorage.getItem("SDL_sessao_ativa")
 
-if(sessao!=="sim"){
-
+if(sessao !== "sim"){
 window.location.href="login.html"
+}
 
 }
+
+
+
+function obterProjetoAtivo(){
+
+try{
+
+const lista = JSON.parse(
+localStorage.getItem("SDL_projetos_lista") || "[]"
+)
+
+const ativo = localStorage.getItem("SDL_projeto_ativo")
+
+return lista.find(p => p.id === ativo)
+
+}catch{
+
+return null
+
+}
+
+}
+
+
+
+function verificarProjeto(){
+
+const projeto = obterProjetoAtivo()
+
+if(!projeto){
+
+document.getElementById("statusProjeto").innerHTML =
+"Nenhum projeto ativo selecionado."
+
+return
+
+}
+
+document.getElementById("statusProjeto").innerHTML =
+"Projeto ativo: <strong>" + projeto.titulo + "</strong>"
+
+document.getElementById("statusProjeto").style.background =
+"rgba(23,77,39,0.28)"
 
 }
 
@@ -248,68 +288,68 @@ window.location.href="login.html"
 
 function registrarPedido(){
 
-const titulo=document.getElementById("tituloPedido").value.trim()
-const descricao=document.getElementById("descricaoPedido").value.trim()
+const projeto = obterProjetoAtivo()
 
-if(!titulo || !descricao){
+if(!projeto){
 
-document.getElementById("statusPedidoBox").innerHTML=
-"Preencha título e descrição do pedido."
-
+alert("Nenhum projeto ativo selecionado.")
 return
 
 }
 
-let projeto="Sem projeto vinculado"
+const titulo =
+document.getElementById("tituloPedido").value.trim()
 
-try{
+const descricao =
+document.getElementById("descricaoPedido").value.trim()
 
-const bruto=localStorage.getItem("SDL_projeto_ativo")
+if(!titulo || !descricao){
 
-if(bruto){
-
-const obj=JSON.parse(bruto)
-
-projeto=obj.titulo || projeto
+alert("Preencha título e descrição.")
+return
 
 }
 
-}catch(e){}
 
 
+const pedido = {
 
-const pedido={
+id: "rev_" + Date.now(),
+
+projetoID: projeto.id,
+projetoTitulo: projeto.titulo,
 
 titulo,
-tipo:document.getElementById("tipoPedido").value,
-prioridade:document.getElementById("prioridadePedido").value,
-status:document.getElementById("statusPedido").value,
+tipo: document.getElementById("tipoPedido").value,
+prioridade: document.getElementById("prioridadePedido").value,
+status: document.getElementById("statusPedido").value,
+
 descricao,
-projeto,
-dataRegistro:new Date().toISOString()
+
+dataRegistro: new Date().toISOString()
 
 }
 
 
+
+let lista = []
 
 try{
 
-localStorage.setItem("SDL_pedido_revisao_ativo",JSON.stringify(pedido))
+lista = JSON.parse(
+localStorage.getItem("SDL_pedidos_lista") || "[]"
+)
 
-document.getElementById("statusPedidoBox").innerHTML=
-"Pedido registrado com sucesso."
+}catch{}
 
-document.getElementById("statusPedidoBox").style.background=
-"rgba(23,77,39,0.28)"
+lista.push(pedido)
+
+localStorage.setItem(
+"SDL_pedidos_lista",
+JSON.stringify(lista)
+)
 
 renderizarPedido(pedido)
-
-}catch(e){
-
-document.getElementById("statusPedidoBox").innerHTML=
-"Erro ao registrar pedido."
-
-}
 
 }
 
@@ -317,27 +357,26 @@ document.getElementById("statusPedidoBox").innerHTML=
 
 function carregarPedido(){
 
-let pedido=null
+const projeto = obterProjetoAtivo()
 
-try{
+if(!projeto){
 
-const bruto=localStorage.getItem("SDL_pedido_revisao_ativo")
-
-if(bruto){
-
-pedido=JSON.parse(bruto)
+alert("Nenhum projeto ativo.")
+return
 
 }
 
-}catch(e){}
+let lista = JSON.parse(
+localStorage.getItem("SDL_pedidos_lista") || "[]"
+)
 
-
+const pedido = lista.reverse().find(
+p => p.projetoID === projeto.id
+)
 
 if(!pedido){
 
-document.getElementById("statusPedidoBox").innerHTML=
-"Nenhum pedido salvo encontrado."
-
+alert("Nenhum pedido encontrado.")
 return
 
 }
@@ -350,9 +389,9 @@ renderizarPedido(pedido)
 
 function renderizarPedido(p){
 
-document.getElementById("pedidoRenderizado").innerHTML=`
+document.getElementById("pedidoRenderizado").innerHTML =
 
-<div class="pedidoBox">
+`<div class="pedidoRender">
 
 <strong>${p.titulo}</strong><br>
 
@@ -362,15 +401,14 @@ Prioridade: ${p.prioridade}<br>
 
 Status: ${p.status}<br>
 
-Projeto vinculado: ${p.projeto}<br>
+Projeto: ${p.projetoTitulo}<br>
 
-Registrado em: ${formatarData(p.dataRegistro)}<br><br>
+Registrado em:
+${formatarData(p.dataRegistro)}<br><br>
 
 ${p.descricao}
 
-</div>
-
-`
+</div>`
 
 }
 
@@ -378,16 +416,10 @@ ${p.descricao}
 
 function formatarData(d){
 
-if(!d) return "—"
-
 try{
-
 return new Date(d).toLocaleString("pt-BR")
-
-}catch(e){
-
+}catch{
 return d
-
 }
 
 }
@@ -395,15 +427,13 @@ return d
 
 
 function voltarIndice(){
-
 window.location.href="_Indice.html"
-
 }
 
 
 
 verificarSessao()
-carregarPedido()
+verificarProjeto()
 
 </script>
 
