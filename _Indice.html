@@ -13,6 +13,7 @@
 --cardHover:#1b100a;
 --orange:#f7b22c;
 --border:rgba(255,123,44,0.18);
+--muted:#ffd2b3;
 }
 
 body{
@@ -47,6 +48,20 @@ border:1px solid rgba(247,178,44,0.25);
 color:#ffe7b0;
 }
 
+.projetoAtivo{
+margin-top:18px;
+padding:18px;
+border-radius:14px;
+background:#140c08;
+border:1px solid var(--border);
+line-height:1.8;
+}
+
+.rotulo{
+color:var(--orange);
+font-weight:bold;
+}
+
 .grid{
 margin-top:30px;
 display:grid;
@@ -74,7 +89,7 @@ margin-bottom:6px;
 }
 
 .cardDesc{
-color:#ffd2b3;
+color:var(--muted);
 font-size:14px;
 line-height:1.7;
 }
@@ -111,6 +126,10 @@ background:#5a0000;
 
 <div id="statusSistema" class="status">
 Verificando sessão ativa...
+</div>
+
+<div id="painelProjetoAtivo" class="projetoAtivo">
+Carregando projeto ativo...
 </div>
 
 <div class="grid">
@@ -225,6 +244,35 @@ document.getElementById("statusSistema").style.background =
 
 }
 
+function obterProjetoAtivo(){
+try{
+const lista = JSON.parse(localStorage.getItem("SDL_projetos_lista") || "[]")
+const ativo = localStorage.getItem("SDL_projeto_ativo")
+return lista.find(p => p.id === ativo) || null
+}catch{
+return null
+}
+}
+
+function carregarProjetoAtivoTopo(){
+
+const projeto = obterProjetoAtivo()
+const area = document.getElementById("painelProjetoAtivo")
+
+if(!projeto){
+area.innerHTML =
+"<span class='rotulo'>Projeto ativo:</span> nenhum selecionado.<br>" +
+"Abra <strong>Projetos</strong> para cadastrar ou escolher uma obra."
+return
+}
+
+area.innerHTML =
+"<span class='rotulo'>Projeto ativo:</span> " + (projeto.titulo || "Sem título") + "<br>" +
+"<span class='rotulo'>Autor:</span> " + (projeto.autor || "—") + "<br>" +
+"<span class='rotulo'>Formato:</span> " + (projeto.formato || "—") + "<br>" +
+"<span class='rotulo'>Status editorial:</span> " + (projeto.status || "—")
+}
+
 function abrirProjetos(){
 window.location.href="projetos.html"
 }
@@ -288,6 +336,7 @@ window.location.href="login.html"
 }
 
 verificarSessao()
+carregarProjetoAtivoTopo()
 
 </script>
 
