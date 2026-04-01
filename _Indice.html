@@ -6,7 +6,6 @@
 <title>Lapidar — Painel Central</title>
 
 <style>
-
 :root{
 --bg:#0d0603;
 --card:#140c08;
@@ -24,7 +23,7 @@ color:white;
 }
 
 .container{
-width:min(1200px,95%);
+width:min(1240px,95%);
 margin:auto;
 padding:40px 0 60px;
 }
@@ -94,6 +93,13 @@ font-size:14px;
 line-height:1.7;
 }
 
+.secao{
+margin-top:34px;
+font-size:18px;
+font-weight:bold;
+color:var(--orange);
+}
+
 .actions{
 margin-top:40px;
 display:flex;
@@ -108,12 +114,12 @@ border-radius:999px;
 cursor:pointer;
 background:#24150f;
 color:white;
+font-weight:bold;
 }
 
 .btnSair{
 background:#5a0000;
 }
-
 </style>
 </head>
 
@@ -132,6 +138,8 @@ Verificando sessão ativa...
 Carregando projeto ativo...
 </div>
 
+<div class="secao">Obra e operação central</div>
+
 <div class="grid">
 
 <div class="card" onclick="abrirProjetos()">
@@ -148,6 +156,26 @@ Mesa de comando da obra ativa com progresso, setores e status institucional.
 </div>
 </div>
 
+<div class="card" onclick="abrirStatusFluxo()">
+<div class="cardTitulo">Status do Fluxo Editorial</div>
+<div class="cardDesc">
+Semáforo institucional da obra com prontidão editorial geral.
+</div>
+</div>
+
+<div class="card" onclick="abrirExportadorObra()">
+<div class="cardTitulo">Exportador da Obra</div>
+<div class="cardDesc">
+Central técnica de saída editorial e exportação dos documentos da obra.
+</div>
+</div>
+
+</div>
+
+<div class="secao">Setores e hubs técnicos</div>
+
+<div class="grid">
+
 <div class="card" onclick="abrirDepartamentos()">
 <div class="cardTitulo">Departamentos</div>
 <div class="cardDesc">
@@ -158,23 +186,50 @@ Central dos setores editoriais: Capista, Diagramador e Tradutor.
 <div class="card" onclick="abrirCapista()">
 <div class="cardTitulo">Capista</div>
 <div class="cardDesc">
-Configuração técnica da capa, textos editoriais e geração estrutural.
+Painel direto do setor de identidade visual da obra.
+</div>
+</div>
+
+<div class="card" onclick="abrirHubCapista()">
+<div class="cardTitulo">Hub do Capista</div>
+<div class="cardDesc">
+Central executiva de configuração, textos, gerador e relatório da capa.
 </div>
 </div>
 
 <div class="card" onclick="abrirDiagramador()">
 <div class="cardTitulo">Diagramador</div>
 <div class="cardDesc">
-Preparação do miolo editorial e estrutura interna da obra.
+Painel direto do setor de miolo editorial da obra.
+</div>
+</div>
+
+<div class="card" onclick="abrirHubDiagramador()">
+<div class="cardTitulo">Hub do Diagramador</div>
+<div class="cardDesc">
+Central executiva de planejamento, padrão, elementos e checklist do miolo.
 </div>
 </div>
 
 <div class="card" onclick="abrirTradutor()">
 <div class="cardTitulo">Tradutor</div>
 <div class="cardDesc">
-Tradução e adaptação linguística para versões internacionais.
+Painel direto do setor de tradução e adaptação editorial.
 </div>
 </div>
+
+<div class="card" onclick="abrirHubTradutor()">
+<div class="cardTitulo">Hub do Tradutor</div>
+<div class="cardDesc">
+Central executiva de planejamento, glossário, checklist e relatório do tradutor.
+</div>
+</div>
+
+</div>
+
+<div class="secao">Relatórios e controle</div>
+
+<div class="grid">
 
 <div class="card" onclick="abrirRelatorioProjeto()">
 <div class="cardTitulo">Relatório da Obra</div>
@@ -197,10 +252,24 @@ Ficha analítica editorial da obra com parecer técnico.
 </div>
 </div>
 
+<div class="card" onclick="abrirRelatorioTradutor()">
+<div class="cardTitulo">Relatório do Tradutor</div>
+<div class="cardDesc">
+Documento executivo do setor de tradução da obra.
+</div>
+</div>
+
 <div class="card" onclick="abrirRelatorioLapidar()">
 <div class="cardTitulo">Relatório Mestre</div>
 <div class="cardDesc">
 Prontuário editorial consolidado da obra.
+</div>
+</div>
+
+<div class="card" onclick="abrirHubRelatorios()">
+<div class="cardTitulo">Hub de Relatórios</div>
+<div class="cardDesc">
+Central executiva de todos os relatórios editoriais da obra.
 </div>
 </div>
 
@@ -214,13 +283,8 @@ Registro institucional das operações realizadas no sistema.
 </div>
 
 <div class="actions">
-
 <button onclick="abrirLogin()">Trocar usuário</button>
-
-<button class="btnSair" onclick="encerrarSessao()">
-Sair do sistema
-</button>
-
+<button class="btnSair" onclick="encerrarSessao()">Sair do sistema</button>
 </div>
 
 </div>
@@ -228,116 +292,87 @@ Sair do sistema
 <script src="auditoria.js"></script>
 
 <script>
-
 function verificarSessao(){
+  if(localStorage.getItem("SDL_sessao_ativa") !== "sim"){
+    window.location.href = "login.html";
+    return;
+  }
 
-if(localStorage.getItem("SDL_sessao_ativa") !== "sim"){
-window.location.href="login.html"
-return
-}
+  document.getElementById("statusSistema").innerHTML =
+    "Sessão editorial ativa e validada.";
 
-document.getElementById("statusSistema").innerHTML =
-"Sessão editorial ativa e validada."
-
-document.getElementById("statusSistema").style.background =
-"rgba(23,77,39,0.28)"
-
+  document.getElementById("statusSistema").style.background =
+    "rgba(23,77,39,0.28)";
 }
 
 function obterProjetoAtivo(){
-try{
-const lista = JSON.parse(localStorage.getItem("SDL_projetos_lista") || "[]")
-const ativo = localStorage.getItem("SDL_projeto_ativo")
-return lista.find(p => p.id === ativo) || null
-}catch{
-return null
-}
+  try{
+    const lista = JSON.parse(localStorage.getItem("SDL_projetos_lista") || "[]");
+    const ativo = localStorage.getItem("SDL_projeto_ativo");
+    return lista.find(p => p.id === ativo) || null;
+  }catch{
+    return null;
+  }
 }
 
 function carregarProjetoAtivoTopo(){
+  const projeto = obterProjetoAtivo();
+  const area = document.getElementById("painelProjetoAtivo");
 
-const projeto = obterProjetoAtivo()
-const area = document.getElementById("painelProjetoAtivo")
+  if(!projeto){
+    area.innerHTML =
+      "<span class='rotulo'>Projeto ativo:</span> nenhum selecionado.<br>" +
+      "Abra <strong>Projetos</strong> para cadastrar ou escolher uma obra.";
+    return;
+  }
 
-if(!projeto){
-area.innerHTML =
-"<span class='rotulo'>Projeto ativo:</span> nenhum selecionado.<br>" +
-"Abra <strong>Projetos</strong> para cadastrar ou escolher uma obra."
-return
+  area.innerHTML =
+    "<span class='rotulo'>Projeto ativo:</span> " + (projeto.titulo || "Sem título") + "<br>" +
+    "<span class='rotulo'>Autor:</span> " + (projeto.autor || "—") + "<br>" +
+    "<span class='rotulo'>Formato:</span> " + (projeto.formato || "—") + "<br>" +
+    "<span class='rotulo'>Status editorial:</span> " + (projeto.status || "—");
 }
 
-area.innerHTML =
-"<span class='rotulo'>Projeto ativo:</span> " + (projeto.titulo || "Sem título") + "<br>" +
-"<span class='rotulo'>Autor:</span> " + (projeto.autor || "—") + "<br>" +
-"<span class='rotulo'>Formato:</span> " + (projeto.formato || "—") + "<br>" +
-"<span class='rotulo'>Status editorial:</span> " + (projeto.status || "—")
-}
+function abrirProjetos(){ window.location.href = "projetos.html"; }
+function abrirCentroObra(){ window.location.href = "centro_obra.html"; }
+function abrirStatusFluxo(){ window.location.href = "status_fluxo_editorial.html"; }
+function abrirExportadorObra(){ window.location.href = "exportador_obra.html"; }
 
-function abrirProjetos(){
-window.location.href="projetos.html"
-}
+function abrirDepartamentos(){ window.location.href = "departamentos.html"; }
 
-function abrirCentroObra(){
-window.location.href="centro_obra.html"
-}
+function abrirCapista(){ window.location.href = "capista_inicio.html"; }
+function abrirHubCapista(){ window.location.href = "hub_capista.html"; }
 
-function abrirDepartamentos(){
-window.location.href="departamentos.html"
-}
+function abrirDiagramador(){ window.location.href = "diagramador_inicio.html"; }
+function abrirHubDiagramador(){ window.location.href = "hub_diagramador.html"; }
 
-function abrirCapista(){
-window.location.href="capista_inicio.html"
-}
+function abrirTradutor(){ window.location.href = "tradutor_inicio.html"; }
+function abrirHubTradutor(){ window.location.href = "hub_tradutor.html"; }
 
-function abrirDiagramador(){
-window.location.href="diagramador_inicio.html"
-}
+function abrirRelatorioProjeto(){ window.location.href = "relatorio_projeto.html"; }
+function abrirRelatorioCapista(){ window.location.href = "relatorio_capista.html"; }
+function abrirRelatorioLeitura(){ window.location.href = "relatorio_leitura_tecnica.html"; }
+function abrirRelatorioTradutor(){ window.location.href = "relatorio_tradutor.html"; }
+function abrirRelatorioLapidar(){ window.location.href = "relatorio_lapidar.html"; }
+function abrirHubRelatorios(){ window.location.href = "hub_relatorios.html"; }
 
-function abrirTradutor(){
-window.location.href="tradutor_inicio.html"
-}
-
-function abrirRelatorioProjeto(){
-window.location.href="relatorio_projeto.html"
-}
-
-function abrirRelatorioCapista(){
-window.location.href="relatorio_capista.html"
-}
-
-function abrirRelatorioLeitura(){
-window.location.href="relatorio_leitura_tecnica.html"
-}
-
-function abrirRelatorioLapidar(){
-window.location.href="relatorio_lapidar.html"
-}
-
-function abrirAuditoria(){
-window.location.href="auditoria.html"
-}
-
-function abrirLogin(){
-window.location.href="login.html"
-}
+function abrirAuditoria(){ window.location.href = "auditoria.html"; }
+function abrirLogin(){ window.location.href = "login.html"; }
 
 function encerrarSessao(){
+  try{
+    SDL_registrarAuditoria(
+      "Encerramento manual da sessão",
+      "_Indice"
+    );
+  }catch(e){}
 
-try{
-SDL_registrarAuditoria(
-"Encerramento manual da sessão",
-"_Indice"
-)
-}catch(e){}
-
-localStorage.removeItem("SDL_sessao_ativa")
-window.location.href="login.html"
-
+  localStorage.removeItem("SDL_sessao_ativa");
+  window.location.href = "login.html";
 }
 
-verificarSessao()
-carregarProjetoAtivoTopo()
-
+verificarSessao();
+carregarProjetoAtivoTopo();
 </script>
 
 </body>
