@@ -28,29 +28,33 @@ padding:40px 0 60px;
 .titulo{
 font-size:42px;
 font-weight:bold;
+text-align:center;
 }
 
 .subtitulo{
-margin-top:8px;
+margin-top:10px;
 font-size:16px;
 color:var(--orange);
 line-height:1.7;
+text-align:center;
 }
 
 .status{
-margin-top:20px;
+margin:22px auto 0;
+max-width:900px;
 padding:16px;
 border-radius:12px;
 background:rgba(247,178,44,0.12);
 border:1px solid rgba(247,178,44,0.25);
 color:#ffe7b0;
+text-align:center;
 }
 
 .grid{
-margin-top:30px;
+margin-top:32px;
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-gap:20px;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:22px;
 }
 
 .card{
@@ -60,14 +64,14 @@ cursor:pointer;
 transition:.2s;
 box-shadow:0 10px 26px rgba(0,0,0,0.25);
 border:3px solid transparent;
-min-height:250px;
+min-height:260px;
 display:flex;
 flex-direction:column;
 justify-content:space-between;
 }
 
 .card:hover{
-transform:translateY(-2px);
+transform:translateY(-3px);
 }
 
 .cardTitulo{
@@ -78,7 +82,7 @@ margin-bottom:10px;
 
 .cardDesc{
 font-size:15px;
-line-height:1.7;
+line-height:1.8;
 }
 
 .botaoInterno{
@@ -102,7 +106,7 @@ background:rgba(0,0,0,0.18);
 }
 
 .badgePlano{
-background:rgba(23,77,39,0.28);
+background:rgba(23,77,39,0.30);
 }
 
 .badgeAvulso{
@@ -110,7 +114,30 @@ background:rgba(255,255,255,0.18);
 }
 
 .badgeBloqueado{
-background:rgba(90,0,0,0.20);
+background:rgba(90,0,0,0.22);
+}
+
+.rodape{
+margin-top:34px;
+display:flex;
+justify-content:center;
+gap:12px;
+flex-wrap:wrap;
+}
+
+.botaoRodape{
+border:none;
+padding:12px 16px;
+border-radius:999px;
+cursor:pointer;
+background:#24150f;
+color:white;
+font-weight:bold;
+font-size:14px;
+}
+
+.botaoRodape.sair{
+background:#5a0000;
 }
 
 /* DIAGRAMADOR */
@@ -160,37 +187,6 @@ background:#ffffff;
 color:#111111;
 border:2px solid #111111;
 }
-
-.bastidor{
-margin-top:34px;
-padding-top:18px;
-border-top:1px solid rgba(255,255,255,0.08);
-display:flex;
-gap:12px;
-flex-wrap:wrap;
-align-items:center;
-}
-
-.labelBastidor{
-font-size:14px;
-color:#c9b9aa;
-margin-right:8px;
-}
-
-.botaoPequeno{
-border:none;
-padding:12px 16px;
-border-radius:999px;
-cursor:pointer;
-background:#24150f;
-color:white;
-font-weight:bold;
-font-size:14px;
-}
-
-.botaoPequeno.sair{
-background:#5a0000;
-}
 </style>
 </head>
 
@@ -199,9 +195,10 @@ background:#5a0000;
 <div class="container">
 
 <div class="titulo">Lapidar</div>
+
 <div class="subtitulo">
-Escolha o setor editorial que deseja acessar.<br>
-Cada área possui identidade visual, doações e fluxo próprio.
+Escolha o setor editorial que deseja utilizar.<br>
+Cada área possui sua própria identidade visual, fluxo de produção e organização de contribuições.
 </div>
 
 <div id="statusPainelSetores" class="status">
@@ -214,8 +211,8 @@ Verificando sessão ativa...
   <div>
     <div class="cardTitulo">Diagramador</div>
     <div class="cardDesc">
-      Setor do miolo editorial, estrutura interna, planejamento técnico,
-      elementos do livro, padrão de diagramação e checklist final.
+      Envie seu original, escolha o formato desejado e acompanhe a preparação
+      editorial do miolo do seu livro para físico, e-book ou ambos.
     </div>
     <div id="badgeDiagramador" class="badgeStatus">Verificando...</div>
   </div>
@@ -226,8 +223,8 @@ Verificando sessão ativa...
   <div>
     <div class="cardTitulo">Capista</div>
     <div class="cardDesc">
-      Setor da identidade visual da obra, com solicitação de capa,
-      textos editoriais, configuração técnica e montagem estrutural.
+      Envie os materiais da capa, escolha a plataforma ou o modelo editorial
+      e acompanhe a geração da capa física, e-book ou ambas.
     </div>
     <div id="badgeCapista" class="badgeStatus">Verificando...</div>
   </div>
@@ -238,8 +235,8 @@ Verificando sessão ativa...
   <div>
     <div class="cardTitulo">Tradutor</div>
     <div class="cardDesc">
-      Setor de tradução editorial, adaptação linguística,
-      glossário técnico, checklist tradutório e consolidação final.
+      Envie o livro, selecione os idiomas e formatos desejados
+      e acompanhe a preparação das traduções editoriais da sua obra.
     </div>
     <div id="badgeTradutor" class="badgeStatus">Verificando...</div>
   </div>
@@ -248,23 +245,22 @@ Verificando sessão ativa...
 
 <div class="card branco" onclick="abrirRelatorios()">
   <div>
-    <div class="cardTitulo">Relatórios</div>
+    <div class="cardTitulo">Pareceres</div>
     <div class="cardDesc">
-      Setor de leitura técnica, parecer editorial, relatório da obra,
-      relatório mestre, relatório do capista e relatório do tradutor.
+      Envie a obra para análise e receba avaliação técnica, leitura crítica
+      e parecer editorial conforme a solicitação realizada.
     </div>
     <div id="badgeRelatorios" class="badgeStatus">Disponível</div>
   </div>
-  <div class="botaoInterno">Entrar nos Relatórios</div>
+  <div class="botaoInterno">Entrar nos Pareceres</div>
 </div>
 
 </div>
 
-<div class="bastidor">
-  <div class="labelBastidor">Bastidor técnico:</div>
-  <button class="botaoPequeno" onclick="abrirPainelTecnico()">Painel técnico</button>
-  <button class="botaoPequeno" onclick="abrirProjetos()">Projetos</button>
-  <button class="botaoPequeno sair" onclick="encerrarSessao()">Sair do sistema</button>
+<div class="rodape">
+  <button class="botaoRodape" onclick="abrirCriarPerfil()">Criar perfil</button>
+  <button class="botaoRodape" onclick="abrirRecuperarSenha()">Recuperar senha</button>
+  <button class="botaoRodape sair" onclick="encerrarSessao()">Sair do sistema</button>
 </div>
 
 </div>
@@ -294,7 +290,7 @@ function aplicarStatusBadge(id, setor){
 
   if(status === "plano"){
     const dados = JSON.parse(localStorage.getItem("SDL_plano_" + setor) || "null");
-    let nomePlano = dados && dados.plano ? dados.plano : "Plano ativo";
+    let nomePlano = dados && dados.plano ? dados.plano : "Modalidade ativa";
     el.innerHTML = nomePlano;
     el.classList.add("badgePlano");
     return;
@@ -306,7 +302,7 @@ function aplicarStatusBadge(id, setor){
     return;
   }
 
-  el.innerHTML = "Disponível para contratar";
+  el.innerHTML = "Consulte modalidades";
   el.classList.add("badgeBloqueado");
 }
 
@@ -320,43 +316,42 @@ function abrirDiagramador(){
   try{
     SDL_registrarAuditoria("Acesso ao setor Diagramador", "painel_setores");
   }catch(e){}
-  window.location.href = "diagramador_doacoes.html";
+  window.location.href = "diagramador_inicio.html";
 }
 
 function abrirCapista(){
   try{
     SDL_registrarAuditoria("Acesso ao setor Capista", "painel_setores");
   }catch(e){}
-  window.location.href = "capista_planos.html";
+  window.location.href = "capista_inicio.html";
 }
 
 function abrirTradutor(){
   try{
     SDL_registrarAuditoria("Acesso ao setor Tradutor", "painel_setores");
   }catch(e){}
-  window.location.href = "tradutor_doacoes.html";
+  window.location.href = "tradutor_inicio.html";
 }
 
 function abrirRelatorios(){
   try{
-    SDL_registrarAuditoria("Acesso ao setor Relatórios", "painel_setores");
+    SDL_registrarAuditoria("Acesso ao setor Pareceres", "painel_setores");
   }catch(e){}
-  window.location.href = "hub_relatorios.html";
+  window.location.href = "relatorios_inicio.html";
 }
 
-function abrirPainelTecnico(){
-  window.location.href = "_Indice.html";
+function abrirCriarPerfil(){
+  window.location.href = "criar_perfil.html";
 }
 
-function abrirProjetos(){
-  window.location.href = "projetos.html";
+function abrirRecuperarSenha(){
+  window.location.href = "recuperar_senha.html";
 }
 
 function encerrarSessao(){
   try{
     SDL_registrarAuditoria("Encerramento manual da sessão", "painel_setores");
   }catch(e){}
-
   SDL_encerrarSessao();
 }
 
