@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lapidar — Painel Principal</title>
+<title>Lapidar — Painel Central</title>
 
 <style>
 
@@ -17,7 +17,7 @@
 
 body{
 margin:0;
-font-family:Arial;
+font-family:Arial, sans-serif;
 background:var(--bg);
 color:white;
 }
@@ -25,7 +25,7 @@ color:white;
 .container{
 width:min(1200px,95%);
 margin:auto;
-padding:40px 0;
+padding:40px 0 60px;
 }
 
 .titulo{
@@ -34,8 +34,17 @@ font-weight:bold;
 }
 
 .subtitulo{
+margin-top:6px;
 color:var(--orange);
-margin-top:4px;
+}
+
+.status{
+margin-top:20px;
+padding:16px;
+border-radius:12px;
+background:rgba(247,178,44,0.12);
+border:1px solid rgba(247,178,44,0.25);
+color:#ffe7b0;
 }
 
 .grid{
@@ -67,11 +76,11 @@ margin-bottom:6px;
 .cardDesc{
 color:#ffd2b3;
 font-size:14px;
-line-height:1.6;
+line-height:1.7;
 }
 
-.logout{
-margin-top:30px;
+.actions{
+margin-top:40px;
 display:flex;
 gap:12px;
 flex-wrap:wrap;
@@ -86,13 +95,8 @@ background:#24150f;
 color:white;
 }
 
-.status{
-margin-top:20px;
-padding:16px;
-border-radius:12px;
-background:rgba(247,178,44,0.12);
-border:1px solid rgba(247,178,44,0.25);
-color:#ffe7b0;
+.btnSair{
+background:#5a0000;
 }
 
 </style>
@@ -102,195 +106,175 @@ color:#ffe7b0;
 
 <div class="container">
 
-<div class="titulo">
-Lapidar
-</div>
+<div class="titulo">Lapidar</div>
+<div class="subtitulo">Sistema Editorial Integrado — Site das Letras</div>
 
-<div class="subtitulo">
-Painel Editorial Site das Letras
-</div>
-
-<div id="statusPainel" class="status">
-Verificando ambiente editorial...
+<div id="statusSistema" class="status">
+Verificando sessão ativa...
 </div>
 
 <div class="grid">
 
-<div class="card" onclick="abrirUpload()">
-<div class="cardTitulo">Cadastro do Projeto</div>
-<div class="cardDesc">Criar ou atualizar dados da obra</div>
+<div class="card" onclick="abrirProjetos()">
+<div class="cardTitulo">Projetos</div>
+<div class="cardDesc">
+Cadastro, seleção e gerenciamento das obras em produção.
+</div>
 </div>
 
-<div class="card" onclick="abrirPreview()">
-<div class="cardTitulo">Preview do Projeto</div>
-<div class="cardDesc">Visualizar informações da obra ativa</div>
+<div class="card" onclick="abrirDepartamentos()">
+<div class="cardTitulo">Departamentos</div>
+<div class="cardDesc">
+Central dos setores editoriais: Capista, Diagramador e Tradutor.
 </div>
-
-<div class="card" onclick="abrirHistorico()">
-<div class="cardTitulo">Histórico de Projetos</div>
-<div class="cardDesc">Alternar entre obras cadastradas</div>
-</div>
-
-<div class="card" onclick="abrirRevisao()">
-<div class="cardTitulo">Pedidos Editoriais</div>
-<div class="cardDesc">Solicitações técnicas da obra</div>
 </div>
 
 <div class="card" onclick="abrirCapista()">
-<div class="cardTitulo">Solicitação de Capa</div>
-<div class="cardDesc">Registrar identidade visual do livro</div>
+<div class="cardTitulo">Capista</div>
+<div class="cardDesc">
+Configuração técnica da capa, textos editoriais e geração estrutural.
+</div>
 </div>
 
-<div class="card" onclick="abrirConfigurarCapa()">
-<div class="cardTitulo">Configurar Capa Técnica</div>
-<div class="cardDesc">Integrar formato, páginas, papel e lombada</div>
+<div class="card" onclick="abrirDiagramador()">
+<div class="cardTitulo">Diagramador</div>
+<div class="cardDesc">
+Preparação do miolo editorial e estrutura interna da obra.
+</div>
 </div>
 
-<div class="card" onclick="abrirPlano()">
-<div class="cardTitulo">Selecionar Plano</div>
-<div class="cardDesc">Escolher pacote editorial</div>
+<div class="card" onclick="abrirTradutor()">
+<div class="cardTitulo">Tradutor</div>
+<div class="cardDesc">
+Tradução e adaptação linguística para versões internacionais.
 </div>
-
-<div class="card" onclick="abrirPagamento()">
-<div class="cardTitulo">Registrar Pagamento</div>
-<div class="cardDesc">Confirmar ativação do serviço</div>
-</div>
-
-<div class="card" onclick="abrirStatusPlano()">
-<div class="cardTitulo">Status do Plano</div>
-<div class="cardDesc">Verificar liberação do serviço</div>
-</div>
-
-<div class="card" onclick="abrirTimeline()">
-<div class="cardTitulo">Timeline da Obra</div>
-<div class="cardDesc">Histórico cronológico editorial</div>
-</div>
-
-<div class="card" onclick="abrirProgresso()">
-<div class="cardTitulo">Progresso da Obra</div>
-<div class="cardDesc">Checklist automático editorial</div>
-</div>
-
-<div class="card" onclick="abrirAuditoria()">
-<div class="cardTitulo">Auditoria Editorial</div>
-<div class="cardDesc">Logs institucionais do sistema</div>
 </div>
 
 <div class="card" onclick="abrirRelatorioProjeto()">
-<div class="cardTitulo">Relatório Editorial</div>
-<div class="cardDesc">Resumo técnico e institucional da obra</div>
+<div class="cardTitulo">Relatório da Obra</div>
+<div class="cardDesc">
+Resumo editorial simplificado para acompanhamento do autor.
+</div>
 </div>
 
-<div class="card" onclick="abrirRelatoriosTecnicos()">
-<div class="cardTitulo">Relatórios Técnicos</div>
-<div class="cardDesc">Centro institucional de relatórios editoriais</div>
+<div class="card" onclick="abrirRelatorioCapista()">
+<div class="cardTitulo">Relatório do Capista</div>
+<div class="cardDesc">
+Documento técnico da identidade visual da capa.
+</div>
 </div>
 
-<div class="card" onclick="abrirFichaEditorial()">
-<div class="cardTitulo">Ficha Editorial Integrada</div>
-<div class="cardDesc">Gerar ficha técnica da obra</div>
+<div class="card" onclick="abrirRelatorioLeitura()">
+<div class="cardTitulo">Leitura Técnica</div>
+<div class="cardDesc">
+Ficha analítica editorial da obra com parecer técnico.
+</div>
 </div>
 
-<div class="card" onclick="abrirLombada()">
-<div class="cardTitulo">Cálculo de Lombada</div>
-<div class="cardDesc">Espessura automática da lombada</div>
+<div class="card" onclick="abrirRelatorioLapidar()">
+<div class="cardTitulo">Relatório Mestre</div>
+<div class="cardDesc">
+Prontuário editorial consolidado da obra.
+</div>
+</div>
+
+<div class="card" onclick="abrirAuditoria()">
+<div class="cardTitulo">Auditoria</div>
+<div class="cardDesc">
+Registro institucional das operações realizadas no sistema.
+</div>
 </div>
 
 </div>
 
-<div class="logout">
+<div class="actions">
 
-<button onclick="sairSistema()">
-Encerrar sessão
+<button onclick="abrirLogin()">Trocar usuário</button>
+
+<button class="btnSair" onclick="encerrarSessao()">
+Sair do sistema
 </button>
 
 </div>
 
 </div>
 
+<script src="auditoria.js"></script>
+
 <script>
 
 function verificarSessao(){
 
-if(localStorage.getItem("SDL_sessao_ativa")!=="sim"){
+if(localStorage.getItem("SDL_sessao_ativa") !== "sim"){
 window.location.href="login.html"
 return
 }
 
-document.getElementById("statusPainel").innerHTML =
-"Ambiente editorial carregado com sucesso."
+document.getElementById("statusSistema").innerHTML =
+"Sessão editorial ativa e validada."
 
-document.getElementById("statusPainel").style.background =
+document.getElementById("statusSistema").style.background =
 "rgba(23,77,39,0.28)"
+
 }
 
-function abrirUpload(){
-window.location.href="upload_livro.html"
+function abrirProjetos(){
+window.location.href="projetos.html"
 }
 
-function abrirPreview(){
-window.location.href="preview_projeto.html"
-}
-
-function abrirHistorico(){
-window.location.href="historico_projetos.html"
-}
-
-function abrirRevisao(){
-window.location.href="revisao_pedido.html"
+function abrirDepartamentos(){
+window.location.href="departamentos.html"
 }
 
 function abrirCapista(){
-window.location.href="capista_planos.html"
+window.location.href="capista_inicio.html"
 }
 
-function abrirConfigurarCapa(){
-window.location.href="capista_configurar_capa.html"
+function abrirDiagramador(){
+window.location.href="diagramador_inicio.html"
 }
 
-function abrirPlano(){
-window.location.href="planos_doacoes.html"
-}
-
-function abrirPagamento(){
-window.location.href="pagamento.html"
-}
-
-function abrirStatusPlano(){
-window.location.href="status_plano.html"
-}
-
-function abrirTimeline(){
-window.location.href="timeline_projeto.html"
-}
-
-function abrirProgresso(){
-window.location.href="progresso_projeto.html"
-}
-
-function abrirAuditoria(){
-window.location.href="auditoria.html"
+function abrirTradutor(){
+window.location.href="tradutor_inicio.html"
 }
 
 function abrirRelatorioProjeto(){
 window.location.href="relatorio_projeto.html"
 }
 
-function abrirRelatoriosTecnicos(){
-window.location.href="relatorios_tecnicos.html"
+function abrirRelatorioCapista(){
+window.location.href="relatorio_capista.html"
 }
 
-function abrirFichaEditorial(){
-window.location.href="ficha_editorial_integrada.html"
+function abrirRelatorioLeitura(){
+window.location.href="relatorio_leitura_tecnica.html"
 }
 
-function abrirLombada(){
-window.location.href="calculo_lombada.html"
+function abrirRelatorioLapidar(){
+window.location.href="relatorio_lapidar.html"
 }
 
-function sairSistema(){
-localStorage.removeItem("SDL_sessao_ativa")
+function abrirAuditoria(){
+window.location.href="auditoria.html"
+}
+
+function abrirLogin(){
 window.location.href="login.html"
+}
+
+function encerrarSessao(){
+
+localStorage.removeItem("SDL_sessao_ativa")
+
+try{
+SDL_registrarAuditoria(
+"Encerramento manual da sessão",
+"_Indice"
+)
+}catch(e){}
+
+window.location.href="login.html"
+
 }
 
 verificarSessao()
