@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diagramador — Checklist do Miolo</title>
+
+<style>
+:root{
+--bg:#0d0603;
+--card:#140c08;
+--card2:#1b100a;
+--text:#ffffff;
+--orange:#f7b22c;
+--ok:#9cfdb2;
+--border:rgba(255,123,44,0.18);
+--shadow:0 10px 26px rgba(0,0,0,0.28);
+}
+
+body{
+margin:0;
+font-family:Arial, sans-serif;
+background:var(--bg);
+color:var(--text);
+}
+
+.container{
+width:min(1100px,95%);
+margin:auto;
+padding:40px 0 60px;
+}
+
+.titulo{
+font-size:36px;
+font-weight:bold;
+}
+
+.subtitulo{
+margin-top:6px;
+color:var(--orange);
+}
+
+.status{
+margin-top:20px;
+padding:16px;
+border-radius:12px;
+background:rgba(247,178,44,0.12);
+border:1px solid rgba(247,178,44,0.25);
+color:#ffe7b0;
+}
+
+.card{
+margin-top:24px;
+background:var(--card);
+border:1px solid var(--border);
+border-radius:18px;
+padding:22px;
+box-shadow:var(--shadow);
+}
+
+.item{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:12px;
+padding:14px 0;
+border-bottom:1px solid rgba(255,255,255,0.06);
+}
+
+.item:last-child{
+border-bottom:none;
+}
+
+.nomeItem{
+font-weight:bold;
+}
+
+.infoItem{
+color:#ffd2b3;
+font-size:14px;
+margin-top:4px;
+}
+
+.badge{
+padding:8px 12px;
+border-radius:999px;
+font-size:13px;
+font-weight:bold;
+background:#2a160d;
+color:#ffe7b0;
+}
+
+.badge.ok{
+background:rgba(23,77,39,0.35);
+color:var(--ok);
+}
+
+.progressbar{
+margin-top:24px;
+height:26px;
+background:#1b100a;
+border-radius:999px;
+overflow:hidden;
+border:1px solid var(--border);
+}
+
+.progress{
+height:100%;
+background:var(--ok);
+width:0%;
+transition:.5s;
+}
+
+.preview{
+margin-top:18px;
+padding:18px;
+border-radius:14px;
+background:var(--card2);
+line-height:1.8;
+}
+
+.actions{
+margin-top:24px;
+display:flex;
+flex-wrap:wrap;
+gap:12px;
+}
+
+button{
+border:none;
+padding:14px 18px;
+border-radius:999px;
+cursor:pointer;
+font-weight:bold;
+}
+
+.btnAtualizar{
+background:#174d27;
+color:#fff;
+}
+
+.btnIndice{
+background:#24150f;
+color:#fff;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="titulo">Checklist do Miolo</div>
+<div class="subtitulo">Validação final do setor de diagramação</div>
+
+<div id="statusChecklist" class="status">
+Verificando projeto ativo...
+</div>
+
+<div class="card">
+  <div class="progressbar">
+    <div id="barraChecklist" class="progress"></div>
+  </div>
+
+  <div id="listaChecklist" class="preview">
+    Carregando checklist do miolo...
+  </div>
+
+  <div class="actions">
+    <button class="btnAtualizar" onclick="carregarChecklist()">Atualizar checklist</button>
+    <button class="btnIndice" onclick="voltarDiagramador()">Voltar ao diagramador</button>
+  </div>
+</div>
+
+</div>
+
+<script src="auditoria.js"></script>
+
+<script>
+function obterProjetoAtivo(){
+  try{
+    const lista = JSON.parse(localStorage.getItem("SDL_projetos_lista") || "[]");
+    const ativo = localStorage.getItem("SDL_projeto_ativo");
+    return lista.find(p => p.id === ativo) || null;
+  }catch{
+    return null;
+  }
+}
+
+function lerJSON(chave){
+  try{
+    return JSON.parse(localStorage.getItem(chave) || "null");
+  }catch{
+    return null;
+  }
+}
+
+function carregarStatusProjeto(){
+  const projeto = obterProjetoAtivo();
+
+  if(!projeto){
+    document.getElementById("statusChecklist").innerHTML =
+      "Nenhum projeto ativo selecionado.";
+    return false;
+  }
+
+  document.getElementById("statusChecklist").innerHTML =
+    "Checklist técnico aplicado ao projeto: <strong>" + (projeto.titulo || "Sem título") + "</strong>";
+  document.getElementById("statusChecklist").style.background =
+    "rgba(23,77,39,0.28)";
+  return true;
+}
+
+function itemChecklist(nome, ok, detalhe){
+  return {
+    nome,
+    ok: !!ok,
+    detalhe: detalhe || (ok ? "Concluído" : "Pendente")
+  };
+}
+
+function montarChecklist(){
+  const projeto = obterProjetoAtivo();
+  if(!projeto) return [];
+
+  const planejamento = lerJSON("SDL_planejamento_miolo_ativo");
+  const elementos = lerJSON("SDL_elementos_tecnicos_ativos");
+  const padrao = lerJSON("SDL_padrao_diagramacao");
+  const ficha = lerJSON("SDL_ficha_editorial_integrada_ativa");
+
+  const planejamentoOk = planejamento && planejamento.projetoID === projeto.id;
+  const elementosOk = elementos && elementos.projetoID === projeto.id;
+  const padraoOk = padrao && padrao.idProjeto === projeto.id;
+
+  const paginasEstimadasOk = planejamentoOk && planejamento.paginasEstimadas;
+  const capitulosOk = planejamentoOk && planejamento.quantidadeCapitulos;
+  const sumarioOk = elementosOk && elementos.temSumario === "Sim";
+  const fichaEditorialOk = elementosOk && elementos.temFichaEditorial === "Sim";
+  const numeracaoOk = padraoOk && padrao.numeracao;
+  const fonteOk = padraoOk && padrao.fonte;
+  const observacoesOk = padraoOk && padrao.observacoes;
+  const fichaIntegradaOk = !!ficha;
+
+  return [
+    itemChecklist("Planejamento do miolo salvo", planejamentoOk, planejamentoOk ? "Planejamento técnico disponível" : "Planejamento ainda não salvo"),
+    itemChecklist("Páginas estimadas definidas", paginasEstimadasOk, paginasEstimadasOk ? "Total informado no planejamento" : "Informe a estimativa de páginas"),
+    itemChecklist("Capítulos definidos", capitulosOk, capitulosOk ? "Quantidade de capítulos registrada" : "Defina a quantidade de capítulos"),
+    itemChecklist("Elementos técnicos salvos", elementosOk, elementosOk ? "Estrutura técnica disponível" : "Elementos técnicos ainda não salvos"),
+    itemChecklist("Sumário definido", sumarioOk, sumarioOk ? "Sumário previsto no miolo" : "Sumário não marcado"),
+    itemChecklist("Ficha editorial prevista", fichaEditorialOk, fichaEditorialOk ? "Ficha técnica prevista" : "Ficha editorial não marcada"),
+    itemChecklist("Padrão de diagramação salvo", padraoOk, padraoOk ? "Padrão visual disponível" : "Padrão editorial ainda não salvo"),
+    itemChecklist("Fonte principal definida", fonteOk, fonteOk ? "Fonte registrada" : "Defina a fonte principal"),
+    itemChecklist("Numeração de páginas definida", numeracaoOk, numeracaoOk ? "Numeração registrada" : "Defina a numeração"),
+    itemChecklist("Observações editoriais definidas", observacoesOk, observacoesOk ? "Observações do padrão registradas" : "Acrescente observações do padrão"),
+    itemChecklist("Ficha Editorial Integrada disponível", fichaIntegradaOk, fichaIntegradaOk ? "Ficha integrada já existe no sistema" : "Ficha integrada ainda não gerada"),
+    itemChecklist("Miolo apto para exportação técnica", planejamentoOk && elementosOk && padraoOk, (planejamentoOk && elementosOk && padraoOk) ? "Base técnica pronta para avançar" : "Ainda faltam módulos essenciais")
+  ];
+}
+
+function renderizarChecklist(itens){
+  const area = document.getElementById("listaChecklist");
+
+  if(!itens.length){
+    area.innerHTML = "Nenhum checklist disponível.";
+    document.getElementById("barraChecklist").style.width = "0%";
+    return;
+  }
+
+  let html = "";
+  let concluidos = 0;
+
+  itens.forEach(item => {
+    if(item.ok) concluidos++;
+
+    html += `
+      <div class="item">
+        <div>
+          <div class="nomeItem">${item.nome}</div>
+          <div class="infoItem">${item.detalhe}</div>
+        </div>
+        <div class="badge ${item.ok ? "ok" : ""}">
+          ${item.ok ? "Concluído" : "Pendente"}
+        </div>
+      </div>
+    `;
+  });
+
+  const percentual = Math.round((concluidos / itens.length) * 100);
+
+  area.innerHTML = html + `
+    <div style="margin-top:18px;">
+      <strong>Progresso técnico do miolo:</strong> ${percentual}%
+    </div>
+  `;
+
+  document.getElementById("barraChecklist").style.width = percentual + "%";
+}
+
+function carregarChecklist(){
+  const ok = carregarStatusProjeto();
+  if(!ok){
+    document.getElementById("listaChecklist").innerHTML = "Nenhum projeto ativo selecionado.";
+    document.getElementById("barraChecklist").style.width = "0%";
+    return;
+  }
+
+  const itens = montarChecklist();
+  renderizarChecklist(itens);
+
+  try{
+    SDL_registrarAuditoria("Checklist do miolo atualizado", "diagramador_checklist");
+  }catch(e){}
+}
+
+function voltarDiagramador(){
+  window.location.href = "diagramador_inicio.html";
+}
+
+carregarChecklist();
+</script>
+
+</body>
+</html>
