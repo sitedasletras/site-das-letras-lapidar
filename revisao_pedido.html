@@ -3,19 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lapidar — Revisão e Pedidos</title>
+<title>Revisão e Pedidos — Lapidar</title>
 
 <style>
 
 :root{
 --bg:#0d0603;
 --card:#140c08;
---card-2:#1b100a;
+--card2:#1b100a;
 --text:#ffffff;
 --muted:#ffd2b3;
 --orange:#f7b22c;
---orange-strong:#ff5a00;
---blue:#6ea8ff;
+--orangeStrong:#ff5a00;
 --green:#9cfdb2;
 --danger:#ff7070;
 --border:rgba(255,123,44,0.18);
@@ -26,32 +25,31 @@ body{
 margin:0;
 font-family:Arial;
 background:var(--bg);
-color:var(--text);
+color:white;
 }
 
 .container{
-width:min(1100px,94%);
+width:min(1100px,95%);
 margin:auto;
-padding:30px 0 50px 0;
+padding:40px 0;
 }
 
 .titulo{
-font-size:40px;
+font-size:38px;
 font-weight:bold;
 }
 
 .subtitulo{
-color:var(--orange);
 margin-top:6px;
-font-size:18px;
+color:var(--orange);
 }
 
-.bloco{
+.card{
+margin-top:30px;
 background:var(--card);
-border:1px solid var(--border);
+padding:24px;
 border-radius:18px;
-padding:22px;
-margin-top:24px;
+border:1px solid var(--border);
 box-shadow:var(--shadow);
 }
 
@@ -59,7 +57,7 @@ box-shadow:var(--shadow);
 display:grid;
 grid-template-columns:1fr 1fr;
 gap:18px;
-margin-top:20px;
+margin-top:18px;
 }
 
 label{
@@ -71,10 +69,10 @@ font-weight:bold;
 
 input, select, textarea{
 width:100%;
-padding:12px;
-border-radius:10px;
+padding:14px;
+border-radius:12px;
 border:none;
-background:#1a0f09;
+background:#1b0e07;
 color:white;
 }
 
@@ -83,11 +81,28 @@ min-height:140px;
 resize:vertical;
 }
 
-.actions{
+.statusBox{
+margin-top:22px;
+padding:18px;
+border-radius:14px;
+background:rgba(247,178,44,0.12);
+border:1px solid rgba(247,178,44,0.2);
+color:#ffe7b0;
+}
+
+.pedidoBox{
 margin-top:20px;
+padding:18px;
+border-radius:14px;
+background:var(--card2);
+line-height:1.8;
+}
+
+.actions{
+margin-top:26px;
 display:flex;
-gap:12px;
 flex-wrap:wrap;
+gap:12px;
 }
 
 .botao{
@@ -98,74 +113,19 @@ font-weight:bold;
 cursor:pointer;
 }
 
-.botao-laranja{
-background:var(--orange-strong);
-color:white;
-}
-
-.botao-azul{
-background:var(--blue);
-color:white;
-}
-
-.botao-verde{
+.botaoSalvar{
 background:#174d27;
 color:#dfffe8;
 }
 
-.botao-escuro{
+.botaoIndice{
 background:#24150f;
 color:white;
 }
 
-.status-box{
-margin-top:20px;
-padding:18px;
-border-radius:14px;
-background:rgba(247,178,44,0.12);
-border:1px solid rgba(247,178,44,0.2);
-color:#ffe7b0;
-}
-
-.card{
-background:var(--card-2);
-padding:18px;
-border-radius:14px;
-border:1px solid rgba(255,255,255,0.05);
-margin-top:16px;
-}
-
-.linha{
-margin-top:10px;
-line-height:1.8;
-color:var(--muted);
-}
-
-.rotulo{
-color:var(--orange);
-font-weight:bold;
-}
-
-.link-btn{
-display:block;
-margin-top:10px;
-text-decoration:none;
-text-align:center;
-padding:14px;
-border-radius:999px;
-background:#24150f;
+.botaoRecarregar{
+background:var(--orangeStrong);
 color:white;
-}
-
-.info{
-color:var(--muted);
-line-height:1.8;
-}
-
-@media(max-width:900px){
-.grid{
-grid-template-columns:1fr;
-}
 }
 
 </style>
@@ -175,43 +135,27 @@ grid-template-columns:1fr;
 
 <div class="container">
 
-<div>
 <div class="titulo">
-REVISÃO E PEDIDOS
+REVISÃO E PEDIDOS EDITORIAIS
 </div>
 
 <div class="subtitulo">
-Registro local de solicitações editoriais e pedidos de ajuste
-</div>
-</div>
-
-
-
-<div class="bloco">
-
-<div class="info">
-Use este painel para registrar pedidos de revisão, ajustes estruturais, correções técnicas e observações operacionais ligadas ao projeto atual.
-</div>
-
-<div class="status-box" id="statusRevisao">
-Nenhum pedido registrado ainda neste dispositivo.
-</div>
-
+Registro de solicitações técnicas dentro do ambiente Lapidar
 </div>
 
 
 
-<div class="bloco">
+<div class="card">
 
 <div class="grid">
 
 <div>
 <label>Título do pedido</label>
-<input id="tituloPedido" placeholder="Ex.: Revisão do miolo A5">
+<input id="tituloPedido">
 </div>
 
 <div>
-<label>Tipo de revisão</label>
+<label>Tipo</label>
 <select id="tipoPedido">
 <option>Revisão textual</option>
 <option>Revisão estrutural</option>
@@ -232,7 +176,7 @@ Nenhum pedido registrado ainda neste dispositivo.
 </div>
 
 <div>
-<label>Status do pedido</label>
+<label>Status</label>
 <select id="statusPedido">
 <option>Aberto</option>
 <option>Em análise</option>
@@ -243,45 +187,40 @@ Nenhum pedido registrado ainda neste dispositivo.
 
 </div>
 
+
+
 <div style="margin-top:18px;">
-<label>Descrição do pedido</label>
-<textarea id="descricaoPedido" placeholder="Descreva o ajuste ou revisão desejada"></textarea>
+<label>Descrição</label>
+<textarea id="descricaoPedido"></textarea>
 </div>
+
+
+
+<div id="statusPedidoBox" class="statusBox">
+Nenhum pedido registrado ainda.
+</div>
+
+</div>
+
+
+
+<div id="pedidoRenderizado"></div>
+
+
 
 <div class="actions">
-<button class="botao botao-laranja" onclick="registrarPedido()">Registrar pedido</button>
-<button class="botao botao-azul" onclick="carregarPedido()">Recarregar último pedido</button>
-<button class="botao botao-escuro" onclick="voltarIndice()">Voltar ao índice</button>
-</div>
 
-</div>
+<button class="botao botaoSalvar" onclick="registrarPedido()">
+Registrar pedido
+</button>
 
+<button class="botao botaoRecarregar" onclick="carregarPedido()">
+Recarregar pedido salvo
+</button>
 
-
-<div class="bloco">
-
-<h3>Último pedido salvo</h3>
-<div id="areaPedido"></div>
-
-</div>
-
-
-
-<div class="bloco">
-
-<h3>Atalhos rápidos</h3>
-
-<a class="link-btn" href="preview_projeto.html">
-Preview do projeto
-</a>
-
-<a class="link-btn" href="upload_livro.html">
-Upload do livro
-</a>
-
-<a class="link-btn" href="_Indice.html">
+<button class="botao botaoIndice" onclick="voltarIndice()">
 Voltar ao índice
-</a>
+</button>
 
 </div>
 
@@ -294,88 +233,177 @@ Voltar ao índice
 <script>
 
 function verificarSessao(){
-const sessao = localStorage.getItem("SDL_sessao_ativa");
-if(sessao !== "sim"){
-window.location.href = "login.html";
+
+const sessao=localStorage.getItem("SDL_sessao_ativa")
+
+if(sessao!=="sim"){
+
+window.location.href="login.html"
+
 }
+
 }
+
+
 
 function registrarPedido(){
 
-const titulo = document.getElementById("tituloPedido").value.trim();
-const descricao = document.getElementById("descricaoPedido").value.trim();
+const titulo=document.getElementById("tituloPedido").value.trim()
+const descricao=document.getElementById("descricaoPedido").value.trim()
 
 if(!titulo || !descricao){
-alert("Título do pedido e descrição são obrigatórios.");
-return;
+
+document.getElementById("statusPedidoBox").innerHTML=
+"Preencha título e descrição do pedido."
+
+return
+
 }
 
-let projetoTitulo = "Sem projeto vinculado";
-const projetoBruto = localStorage.getItem("SDL_projeto_ativo");
+let projeto="Sem projeto vinculado"
 
-if(projetoBruto){
 try{
-const projeto = JSON.parse(projetoBruto);
-projetoTitulo = projeto.titulo || "Sem título";
+
+const bruto=localStorage.getItem("SDL_projeto_ativo")
+
+if(bruto){
+
+const obj=JSON.parse(bruto)
+
+projeto=obj.titulo || projeto
+
+}
+
 }catch(e){}
+
+
+
+const pedido={
+
+titulo,
+tipo:document.getElementById("tipoPedido").value,
+prioridade:document.getElementById("prioridadePedido").value,
+status:document.getElementById("statusPedido").value,
+descricao,
+projeto,
+dataRegistro:new Date().toISOString()
+
 }
 
-const pedido = {
-titulo: titulo,
-tipo: document.getElementById("tipoPedido").value,
-prioridade: document.getElementById("prioridadePedido").value,
-status: document.getElementById("statusPedido").value,
-descricao: descricao,
-projeto: projetoTitulo,
-dataRegistro: new Date().toLocaleString("pt-BR")
-};
 
-localStorage.setItem("SDL_pedido_revisao_ativo", JSON.stringify(pedido));
 
-document.getElementById("statusRevisao").innerHTML =
-"Pedido registrado com sucesso neste dispositivo.";
+try{
 
-renderizarPedido(pedido);
+localStorage.setItem("SDL_pedido_revisao_ativo",JSON.stringify(pedido))
+
+document.getElementById("statusPedidoBox").innerHTML=
+"Pedido registrado com sucesso."
+
+document.getElementById("statusPedidoBox").style.background=
+"rgba(23,77,39,0.28)"
+
+renderizarPedido(pedido)
+
+}catch(e){
+
+document.getElementById("statusPedidoBox").innerHTML=
+"Erro ao registrar pedido."
+
 }
+
+}
+
+
 
 function carregarPedido(){
 
-const bruto = localStorage.getItem("SDL_pedido_revisao_ativo");
-const area = document.getElementById("areaPedido");
-const status = document.getElementById("statusRevisao");
+let pedido=null
 
-if(!bruto){
-status.innerHTML = "Nenhum pedido registrado ainda neste dispositivo.";
-area.innerHTML = "";
-return;
+try{
+
+const bruto=localStorage.getItem("SDL_pedido_revisao_ativo")
+
+if(bruto){
+
+pedido=JSON.parse(bruto)
+
 }
 
-const pedido = JSON.parse(bruto);
-status.innerHTML = "Último pedido carregado com sucesso.";
-renderizarPedido(pedido);
+}catch(e){}
+
+
+
+if(!pedido){
+
+document.getElementById("statusPedidoBox").innerHTML=
+"Nenhum pedido salvo encontrado."
+
+return
+
 }
 
-function renderizarPedido(pedido){
+renderizarPedido(pedido)
 
-document.getElementById("areaPedido").innerHTML = `
-<div class="card">
-<div class="linha"><span class="rotulo">Título:</span> ${pedido.titulo}</div>
-<div class="linha"><span class="rotulo">Tipo:</span> ${pedido.tipo}</div>
-<div class="linha"><span class="rotulo">Prioridade:</span> ${pedido.prioridade}</div>
-<div class="linha"><span class="rotulo">Status:</span> ${pedido.status}</div>
-<div class="linha"><span class="rotulo">Projeto vinculado:</span> ${pedido.projeto}</div>
-<div class="linha"><span class="rotulo">Data do registro:</span> ${pedido.dataRegistro}</div>
-<div class="linha"><span class="rotulo">Descrição:</span> ${pedido.descricao}</div>
+}
+
+
+
+function renderizarPedido(p){
+
+document.getElementById("pedidoRenderizado").innerHTML=`
+
+<div class="pedidoBox">
+
+<strong>${p.titulo}</strong><br>
+
+Tipo: ${p.tipo}<br>
+
+Prioridade: ${p.prioridade}<br>
+
+Status: ${p.status}<br>
+
+Projeto vinculado: ${p.projeto}<br>
+
+Registrado em: ${formatarData(p.dataRegistro)}<br><br>
+
+${p.descricao}
+
 </div>
-`;
+
+`
+
 }
+
+
+
+function formatarData(d){
+
+if(!d) return "—"
+
+try{
+
+return new Date(d).toLocaleString("pt-BR")
+
+}catch(e){
+
+return d
+
+}
+
+}
+
+
 
 function voltarIndice(){
-window.location.href = "_Indice.html";
+
+window.location.href="_Indice.html"
+
 }
 
-verificarSessao();
-carregarPedido();
+
+
+verificarSessao()
+carregarPedido()
 
 </script>
 
