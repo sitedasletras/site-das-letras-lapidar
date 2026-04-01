@@ -111,6 +111,15 @@ background:#2a160d;
 background:#1a110b;
 }
 
+.blocoTexto{
+margin-top:18px;
+padding:18px;
+border-radius:14px;
+background:var(--card2);
+line-height:1.8;
+white-space:pre-line;
+}
+
 .actions{
 margin-top:24px;
 display:flex;
@@ -136,6 +145,11 @@ background:#5a2c00;
 color:#fff;
 }
 
+.btnTextos{
+background:#7a3b00;
+color:#fff;
+}
+
 .btnPrint{
 background:#174d27;
 color:#fff;
@@ -154,7 +168,7 @@ grid-template-columns:1fr;
 <div class="container">
 
 <div class="titulo">Gerador Técnico da Capa</div>
-<div class="subtitulo">Prévia estrutural baseada na configuração salva</div>
+<div class="subtitulo">Prévia estrutural baseada na configuração e nos textos salvos</div>
 
 <div id="statusGerador" class="status">
 Carregando configuração da capa...
@@ -184,8 +198,15 @@ Carregando configuração da capa...
   </div>
 </div>
 
+<div class="card">
+  <div id="blocoSinopse" class="blocoTexto"><strong>Sinopse:</strong><br>—</div>
+  <div id="blocoBiografia" class="blocoTexto"><strong>Biografia:</strong><br>—</div>
+  <div id="blocoOrelhas" class="blocoTexto"><strong>Orelhas:</strong><br>—</div>
+</div>
+
 <div class="actions">
   <button class="btnConfig" onclick="abrirConfiguracao()">Voltar à configuração técnica</button>
+  <button class="btnTextos" onclick="abrirTextos()">Abrir textos da capa</button>
   <button class="btnPrint" onclick="window.print()">Exportar PDF técnico</button>
   <button class="btnVoltar" onclick="voltarIndice()">Voltar ao índice</button>
 </div>
@@ -221,9 +242,14 @@ function carregarGerador(){
   }
 
   let cfg = null;
+  let textos = null;
 
   try{
     cfg = JSON.parse(localStorage.getItem("SDL_configuracao_capa_ativa") || "null");
+  }catch(e){}
+
+  try{
+    textos = JSON.parse(localStorage.getItem("SDL_textos_capa_ativos") || "null");
   }catch(e){}
 
   if(!cfg || cfg.projetoID !== projeto.id){
@@ -231,7 +257,7 @@ function carregarGerador(){
     return;
   }
 
-  status.innerHTML = "Configuração técnica carregada para: <strong>" + (cfg.titulo || projeto.titulo || "Sem título") + "</strong>";
+  status.innerHTML = "Gerador carregado para: <strong>" + (cfg.titulo || projeto.titulo || "Sem título") + "</strong>";
   status.style.background = "rgba(23,77,39,0.28)";
 
   document.getElementById("dadosTecnicos").innerHTML =
@@ -251,6 +277,7 @@ function carregarGerador(){
     "<strong>Observações técnicas:</strong><br>" + (cfg.observacoes || "Sem observações");
 
   renderizarFaixa(cfg);
+  renderizarTextos(textos, projeto.id);
 
   try{
     SDL_registrarAuditoria("Gerador técnico da capa aberto", "capista_gerar_capa");
@@ -272,8 +299,32 @@ function renderizarFaixa(cfg){
     '<div class="coluna frente" style="width:' + frentePct + '%;">Frente<br>' + largura + ' mm</div>';
 }
 
+function renderizarTextos(textos, projetoID){
+  if(!textos || textos.projetoID !== projetoID){
+    document.getElementById("blocoSinopse").innerHTML = "<strong>Sinopse:</strong><br>—";
+    document.getElementById("blocoBiografia").innerHTML = "<strong>Biografia:</strong><br>—";
+    document.getElementById("blocoOrelhas").innerHTML = "<strong>Orelhas:</strong><br>—";
+    return;
+  }
+
+  document.getElementById("blocoSinopse").innerHTML =
+    "<strong>Sinopse / Contra-capa:</strong><br>" + (textos.sinopse || "—");
+
+  document.getElementById("blocoBiografia").innerHTML =
+    "<strong>Biografia do autor:</strong><br>" + (textos.biografia || "—");
+
+  document.getElementById("blocoOrelhas").innerHTML =
+    "<strong>Orelha dianteira:</strong><br>" + (textos.orelhaDianteira || "—") +
+    "<br><br><strong>Orelha traseira:</strong><br>" + (textos.orelhaTraseira || "—") +
+    "<br><br><strong>Texto extra:</strong><br>" + (textos.textoExtra || "—");
+}
+
 function abrirConfiguracao(){
   window.location.href = "capista_configurar_capa.html";
+}
+
+function abrirTextos(){
+  window.location.href = "capista_upload_textos.html";
 }
 
 function voltarIndice(){
