@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Upload do Livro — Lapidar</title>
+<title>Cadastro do Projeto — Lapidar</title>
 
 <style>
 
@@ -15,7 +15,6 @@
 --orange:#f7b22c;
 --orangeStrong:#ff5a00;
 --green:#9cfdb2;
---danger:#ff7070;
 --border:rgba(255,123,44,0.18);
 --shadow:0 10px 26px rgba(0,0,0,0.28);
 }
@@ -34,7 +33,7 @@ padding:40px 0;
 }
 
 .titulo{
-font-size:38px;
+font-size:36px;
 font-weight:bold;
 }
 
@@ -56,7 +55,6 @@ box-shadow:var(--shadow);
 display:grid;
 grid-template-columns:1fr 1fr;
 gap:18px;
-margin-top:18px;
 }
 
 label{
@@ -66,73 +64,56 @@ color:var(--orange);
 font-weight:bold;
 }
 
-input, textarea, select{
-
+input, select, textarea{
 width:100%;
 padding:14px;
 border-radius:12px;
 border:none;
 background:#1b0e07;
 color:white;
-
 }
 
 textarea{
-
 min-height:140px;
 resize:vertical;
-
 }
 
-.statusBox{
-
-margin-top:22px;
-padding:18px;
-border-radius:14px;
+.status{
+margin-top:20px;
+padding:16px;
+border-radius:12px;
 background:rgba(247,178,44,0.12);
-border:1px solid rgba(247,178,44,0.2);
-color:#ffe7b0;
-
+border:1px solid rgba(247,178,44,0.25);
 }
 
 .actions{
-
-margin-top:26px;
+margin-top:24px;
 display:flex;
 flex-wrap:wrap;
 gap:12px;
-
 }
 
-.botao{
-
+button{
 border:none;
 padding:14px 18px;
 border-radius:999px;
-font-weight:bold;
 cursor:pointer;
-
+font-weight:bold;
 }
 
-.botaoSalvar{
-
+.btnSalvar{
 background:#174d27;
-color:#dfffe8;
-
-}
-
-.botaoIndice{
-
-background:#24150f;
 color:white;
-
 }
 
-.botaoPreview{
-
+.btnPreview{
 background:var(--orangeStrong);
 color:white;
+}
 
+.btnIndice{
+background:#24150f;
+color:white;
 }
 
 </style>
@@ -143,11 +124,11 @@ color:white;
 <div class="container">
 
 <div class="titulo">
-REGISTRO DO PROJETO EDITORIAL
+Cadastro do Projeto Editorial
 </div>
 
 <div class="subtitulo">
-Cadastro da obra dentro do ambiente Lapidar
+Registro da obra dentro do ambiente Lapidar
 </div>
 
 
@@ -157,83 +138,56 @@ Cadastro da obra dentro do ambiente Lapidar
 <div class="grid">
 
 <div>
-
-<label>Título da obra</label>
+<label>Título</label>
 <input id="titulo">
-
 </div>
 
-
 <div>
-
 <label>Subtítulo</label>
 <input id="subtitulo">
-
 </div>
 
-
 <div>
-
 <label>Autor / Heterônimo</label>
 <input id="autor">
-
 </div>
 
-
 <div>
-
 <label>Coleção</label>
 <input id="colecao">
-
 </div>
 
-
 <div>
-
-<label>Formato do livro</label>
+<label>Formato</label>
 <select id="formato">
-
 <option>A5</option>
 <option>16x23</option>
 <option>6x9</option>
 <option>A4</option>
-
 </select>
-
 </div>
 
-
 <div>
-
 <label>Status editorial</label>
 <select id="status">
-
 <option>Em preparação</option>
 <option>Em revisão</option>
 <option>Em diagramação</option>
 <option>Finalizado</option>
-
 </select>
-
 </div>
 
 </div>
 
+<div style="margin-top:20px">
 
-
-<div style="margin-top:18px;">
-
-<label>Observações do projeto</label>
+<label>Observações</label>
 <textarea id="observacoes"></textarea>
 
 </div>
 
-
-
-<div class="statusBox" id="statusProjeto">
-
-Nenhum projeto registrado ainda.
-
+<div id="statusProjeto" class="status">
+Nenhum projeto salvo ainda.
 </div>
 
 </div>
@@ -242,29 +196,19 @@ Nenhum projeto registrado ainda.
 
 <div class="actions">
 
-<button class="botao botaoSalvar" onclick="salvarProjeto()">
-
+<button class="btnSalvar" onclick="salvarProjeto()">
 Salvar projeto
-
 </button>
 
-
-<button class="botao botaoPreview" onclick="abrirPreview()">
-
+<button class="btnPreview" onclick="abrirPreview()">
 Abrir preview
-
 </button>
 
-
-<button class="botao botaoIndice" onclick="voltarIndice()">
-
+<button class="btnIndice" onclick="voltarIndice()">
 Voltar ao índice
-
 </button>
 
 </div>
-
-
 
 </div>
 
@@ -274,13 +218,21 @@ Voltar ao índice
 
 function verificarSessao(){
 
-const sessao=localStorage.getItem("SDL_sessao_ativa")
+const sessao = localStorage.getItem("SDL_sessao_ativa")
 
-if(sessao!=="sim"){
+if(sessao !== "sim"){
 
-window.location.href="login.html"
+window.location.href = "login.html"
 
 }
+
+}
+
+
+
+function gerarID(){
+
+return "proj_" + Date.now()
 
 }
 
@@ -288,57 +240,73 @@ window.location.href="login.html"
 
 function salvarProjeto(){
 
-const titulo=document.getElementById("titulo").value.trim()
-const subtitulo=document.getElementById("subtitulo").value.trim()
-const autor=document.getElementById("autor").value.trim()
-const colecao=document.getElementById("colecao").value.trim()
-const formato=document.getElementById("formato").value
-const status=document.getElementById("status").value
-const observacoes=document.getElementById("observacoes").value.trim()
+const titulo = document.getElementById("titulo").value.trim()
 
 if(!titulo){
 
-document.getElementById("statusProjeto").innerHTML=
-"O título da obra é obrigatório."
+document.getElementById("statusProjeto").innerHTML =
+"O título é obrigatório."
 
 return
 
 }
 
-const projeto={
 
-titulo,
-subtitulo,
-autor,
-colecao,
-formato,
-status,
-observacoes,
-dataRegistro:new Date().toISOString()
+
+const projeto = {
+
+id: gerarID(),
+
+titulo: titulo,
+subtitulo: document.getElementById("subtitulo").value.trim(),
+autor: document.getElementById("autor").value.trim(),
+colecao: document.getElementById("colecao").value.trim(),
+formato: document.getElementById("formato").value,
+status: document.getElementById("status").value,
+observacoes: document.getElementById("observacoes").value.trim(),
+dataRegistro: new Date().toISOString()
 
 }
 
 
+
+let lista = []
 
 try{
 
-localStorage.setItem("SDL_projeto_ativo",JSON.stringify(projeto))
-
-document.getElementById("statusProjeto").innerHTML=
-
-"Projeto salvo com sucesso."
-
-document.getElementById("statusProjeto").style.background=
-
-"rgba(23,77,39,0.28)"
+lista = JSON.parse(
+localStorage.getItem("SDL_projetos_lista") || "[]"
+)
 
 }catch(e){
 
-document.getElementById("statusProjeto").innerHTML=
-
-"Erro ao salvar projeto."
+lista = []
 
 }
+
+
+
+lista.push(projeto)
+
+localStorage.setItem(
+"SDL_projetos_lista",
+JSON.stringify(lista)
+)
+
+
+
+localStorage.setItem(
+"SDL_projeto_ativo",
+projeto.id
+)
+
+
+
+document.getElementById("statusProjeto").innerHTML =
+"Projeto salvo com sucesso."
+
+document.getElementById("statusProjeto").style.background =
+"rgba(23,77,39,0.28)"
 
 }
 
@@ -346,7 +314,7 @@ document.getElementById("statusProjeto").innerHTML=
 
 function abrirPreview(){
 
-window.location.href="preview_projeto.html"
+window.location.href = "preview_projeto.html"
 
 }
 
@@ -354,7 +322,7 @@ window.location.href="preview_projeto.html"
 
 function voltarIndice(){
 
-window.location.href="_Indice.html"
+window.location.href = "_Indice.html"
 
 }
 
