@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Departamentos — Lapidar</title>
+
+<style>
+:root{
+--bg:#0d0603;
+--card:#140c08;
+--cardHover:#1b100a;
+--orange:#f7b22c;
+--border:rgba(255,123,44,0.18);
+}
+
+body{
+margin:0;
+font-family:Arial, sans-serif;
+background:var(--bg);
+color:white;
+}
+
+.container{
+width:min(1100px,95%);
+margin:auto;
+padding:40px 0 60px;
+}
+
+.titulo{
+font-size:36px;
+font-weight:bold;
+}
+
+.subtitulo{
+margin-top:6px;
+color:var(--orange);
+}
+
+.status{
+margin-top:20px;
+padding:16px;
+border-radius:12px;
+background:rgba(247,178,44,0.12);
+border:1px solid rgba(247,178,44,0.25);
+color:#ffe7b0;
+}
+
+.grid{
+margin-top:28px;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:18px;
+}
+
+.card{
+background:var(--card);
+padding:22px;
+border-radius:16px;
+border:1px solid var(--border);
+cursor:pointer;
+transition:.2s;
+}
+
+.card:hover{
+background:var(--cardHover);
+}
+
+.cardTitulo{
+font-size:20px;
+font-weight:bold;
+margin-bottom:6px;
+}
+
+.cardDesc{
+color:#ffd2b3;
+font-size:14px;
+line-height:1.7;
+}
+
+.actions{
+margin-top:28px;
+display:flex;
+gap:12px;
+flex-wrap:wrap;
+}
+
+button{
+border:none;
+padding:14px 18px;
+border-radius:999px;
+cursor:pointer;
+background:#24150f;
+color:white;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="titulo">Departamentos do Lapidar</div>
+<div class="subtitulo">Central operacional dos setores editoriais</div>
+
+<div id="statusDepartamentos" class="status">
+Verificando ambiente editorial...
+</div>
+
+<div class="grid">
+
+<div class="card" onclick="abrirCapista()">
+  <div class="cardTitulo">Capista</div>
+  <div class="cardDesc">
+    Módulo da identidade visual da obra, com configuração técnica, textos da capa e geração estrutural.
+  </div>
+</div>
+
+<div class="card" onclick="abrirDiagramador()">
+  <div class="cardTitulo">Diagramador</div>
+  <div class="cardDesc">
+    Entrada do setor de diagramação, organização de miolo, estrutura técnica e preparação editorial.
+  </div>
+</div>
+
+<div class="card" onclick="abrirTradutor()">
+  <div class="cardTitulo">Tradutor</div>
+  <div class="cardDesc">
+    Entrada do setor de tradução, adaptação linguística e preparação de versões internacionais.
+  </div>
+</div>
+
+</div>
+
+<div class="actions">
+  <button onclick="voltarIndice()">Voltar ao índice</button>
+</div>
+
+</div>
+
+<script src="auditoria.js"></script>
+
+<script>
+function verificarSessao(){
+  if(localStorage.getItem("SDL_sessao_ativa") !== "sim"){
+    window.location.href = "login.html";
+    return;
+  }
+
+  document.getElementById("statusDepartamentos").innerHTML =
+    "Ambiente departamental carregado com sucesso.";
+  document.getElementById("statusDepartamentos").style.background =
+    "rgba(23,77,39,0.28)";
+}
+
+function abrirCapista(){
+  try{
+    SDL_registrarAuditoria("Acesso ao departamento Capista", "departamentos");
+  }catch(e){}
+  window.location.href = "capista_inicio.html";
+}
+
+function abrirDiagramador(){
+  try{
+    SDL_registrarAuditoria("Acesso ao departamento Diagramador", "departamentos");
+  }catch(e){}
+  window.location.href = "diagramador_inicio.html";
+}
+
+function abrirTradutor(){
+  try{
+    SDL_registrarAuditoria("Acesso ao departamento Tradutor", "departamentos");
+  }catch(e){}
+  window.location.href = "tradutor_inicio.html";
+}
+
+function voltarIndice(){
+  window.location.href = "_Indice.html";
+}
+
+verificarSessao();
+</script>
+
+</body>
+</html>
