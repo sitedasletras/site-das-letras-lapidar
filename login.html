@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lapidar — Login</title>
+<title>Login — Lapidar</title>
 
 <style>
 
@@ -11,12 +11,8 @@
 --bg:#0d0603;
 --card:#140c08;
 --text:#ffffff;
---muted:#ffd2b3;
 --orange:#f7b22c;
---orange-strong:#ff5a00;
---blue:#6ea8ff;
 --green:#9cfdb2;
---danger:#ff7070;
 --border:rgba(255,123,44,0.18);
 --shadow:0 10px 26px rgba(0,0,0,0.28);
 }
@@ -24,106 +20,111 @@
 body{
 margin:0;
 font-family:Arial;
-background:linear-gradient(180deg,#0d0603,#140802);
+background:var(--bg);
 color:white;
-min-height:100vh;
 display:flex;
 align-items:center;
 justify-content:center;
-padding:30px;
+height:100vh;
 }
 
-.container{
-width:min(950px,100%);
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:24px;
-}
+.card{
 
-.bloco{
+width:90%;
+max-width:420px;
+
 background:var(--card);
-border:1px solid var(--border);
+
+padding:30px;
+
 border-radius:18px;
-padding:28px;
+
+border:1px solid var(--border);
+
 box-shadow:var(--shadow);
+
 }
 
 .titulo{
-font-size:42px;
+
+font-size:32px;
+
 font-weight:bold;
+
+margin-bottom:10px;
+
 }
 
 .subtitulo{
+
 color:var(--orange);
-margin-top:10px;
-line-height:1.7;
+
+margin-bottom:20px;
+
 }
 
 label{
+
 display:block;
-margin-top:18px;
-margin-bottom:6px;
+
+margin-top:12px;
+
+margin-bottom:5px;
+
 color:var(--orange);
+
 font-weight:bold;
+
 }
 
 input{
+
 width:100%;
+
 padding:14px;
+
 border-radius:12px;
+
 border:none;
+
 background:#1b0e07;
+
 color:white;
+
 }
 
-select{
-width:100%;
-padding:14px;
-border-radius:12px;
-border:none;
-background:#1b0e07;
-color:white;
-}
+button{
 
-.botao{
-margin-top:16px;
+margin-top:20px;
+
+width:100%;
+
+padding:14px;
+
 border:none;
-padding:14px 18px;
+
 border-radius:999px;
+
+background:#174d27;
+
+color:white;
+
 font-weight:bold;
+
 cursor:pointer;
-}
 
-.botao-laranja{
-background:var(--orange-strong);
-color:white;
-}
-
-.botao-escuro{
-background:#24150f;
-color:white;
 }
 
 .status{
-margin-top:20px;
-padding:16px;
+
+margin-top:18px;
+
+padding:12px;
+
 border-radius:12px;
+
 background:rgba(247,178,44,0.12);
-border:1px solid rgba(247,178,44,0.25);
-color:#ffe7b0;
-}
 
-.info{
-margin-top:20px;
-font-size:14px;
-color:var(--muted);
-line-height:1.8;
-}
-
-@media(max-width:900px){
-.container{
-grid-template-columns:1fr;
-}
 }
 
 </style>
@@ -131,151 +132,119 @@ grid-template-columns:1fr;
 
 <body>
 
-<div class="container">
-
-<div class="bloco">
+<div class="card">
 
 <div class="titulo">
-LAPIDAR
+Lapidar
 </div>
 
 <div class="subtitulo">
-Ambiente editorial do Site das Letras Edições Literárias
+Ambiente Editorial Site das Letras
 </div>
 
-<div class="info">
-Este login ativa a sessão local do sistema Lapidar.
-Versão emergencial preparada para evolução futura com autenticação reforçada.
-</div>
-
-</div>
-
-
-
-<div class="bloco">
 
 <label>Usuário</label>
 <input id="usuario">
 
+
 <label>Senha</label>
-<input type="password" id="senha">
+<input id="senha" type="password">
 
-<label>Idioma</label>
-<select id="idioma">
-<option value="pt-BR">Português</option>
-<option value="en-US">Inglês</option>
-<option value="es-ES">Espanhol</option>
-</select>
 
-<button class="botao botao-laranja" onclick="loginSistema()">
+<button onclick="entrarSistema()">
 Entrar
 </button>
 
-<button class="botao botao-escuro" onclick="limparCampos()">
-Limpar
-</button>
 
 <div id="statusLogin" class="status">
-Sessão aguardando autenticação.
-</div>
-
-</div>
-
+Informe seus dados para acessar
 </div>
 
 
+</div>
+
+
+
+<script src="auditoria.js"></script>
 
 <script>
 
-function salvarAuditoriaLogin(usuario){
+function entrarSistema(){
 
-try{
+const usuario =
+document.getElementById("usuario").value.trim()
 
-const log={
-usuario:usuario,
-data:new Date().toISOString(),
-dispositivo:navigator.userAgent
-}
+const senha =
+document.getElementById("senha").value.trim()
 
-localStorage.setItem("SDL_log_login",JSON.stringify(log))
+if(!usuario || !senha){
 
-}catch(e){}
+document.getElementById("statusLogin").innerHTML =
+"Preencha usuário e senha."
 
-}
-
-
-
-function loginSistema(){
-
-const usuario=document.getElementById("usuario").value.trim()
-const senha=document.getElementById("senha").value.trim()
-const idioma=document.getElementById("idioma").value
-
-const status=document.getElementById("statusLogin")
-
-if(!usuario||!senha){
-
-status.innerHTML="Preencha usuário e senha."
-status.style.background="rgba(255,112,112,0.15)"
 return
 
 }
 
-if(usuario==="admin"&&senha==="1234"){
 
-localStorage.setItem("SDL_sessao_ativa","sim")
-localStorage.setItem("SDL_usuario",usuario)
-localStorage.setItem("SDL_idioma",idioma)
 
-salvarAuditoriaLogin(usuario)
+/* ativa sessão */
 
-status.innerHTML="Login autorizado. Redirecionando..."
+localStorage.setItem(
+"SDL_sessao_ativa",
+"sim"
+)
 
-status.style.background="rgba(23,77,39,0.35)"
+
+
+/* registra usuário */
+
+localStorage.setItem(
+"SDL_usuario",
+usuario
+)
+
+
+
+/* log institucional */
+
+try{
+
+SDL_registrarAuditoria(
+
+"Login realizado no sistema",
+
+"login"
+
+)
+
+}catch(e){
+
+console.warn("Falha auditoria login")
+
+}
+
+
+
+/* feedback visual */
+
+document.getElementById("statusLogin").innerHTML =
+"Acesso autorizado."
+
+document.getElementById("statusLogin").style.background =
+"rgba(23,77,39,0.28)"
+
+
+
+/* redirecionamento */
 
 setTimeout(()=>{
 
 window.location.href="_Indice.html"
 
-},600)
-
-return
+},700)
 
 }
-
-status.innerHTML="Usuário ou senha inválidos."
-
-status.style.background="rgba(255,112,112,0.15)"
-
-}
-
-
-
-function limparCampos(){
-
-document.getElementById("usuario").value=""
-document.getElementById("senha").value=""
-
-document.getElementById("statusLogin").innerHTML="Campos limpos."
-
-}
-
-
-
-function verificarSessaoExistente(){
-
-const sessao=localStorage.getItem("SDL_sessao_ativa")
-
-if(sessao==="sim"){
-
-document.getElementById("statusLogin").innerHTML=
-"Sessão já ativa neste dispositivo."
-
-}
-
-}
-
-verificarSessaoExistente()
 
 </script>
 
