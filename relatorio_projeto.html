@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Relatório Editorial — Lapidar</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial;
+background:#0d0603;
+color:white;
+}
+
+.container{
+width:min(1000px,95%);
+margin:auto;
+padding:40px 0;
+}
+
+.titulo{
+font-size:36px;
+font-weight:bold;
+}
+
+.card{
+
+margin-top:25px;
+
+background:#140c08;
+
+padding:20px;
+
+border-radius:14px;
+
+border:1px solid rgba(255,123,44,0.18);
+
+}
+
+.label{
+
+color:#f7b22c;
+
+margin-top:10px;
+
+font-weight:bold;
+
+}
+
+button{
+
+margin-top:30px;
+
+padding:14px 18px;
+
+border:none;
+
+border-radius:999px;
+
+background:#24150f;
+
+color:white;
+
+cursor:pointer;
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="titulo">
+Relatório Editorial da Obra
+</div>
+
+<div id="conteudo"></div>
+
+<button onclick="window.print()">
+Exportar como PDF
+</button>
+
+<button onclick="voltarIndice()">
+Voltar ao índice
+</button>
+
+</div>
+
+<script>
+
+function obterProjeto(){
+
+try{
+
+const lista=
+JSON.parse(localStorage.getItem("SDL_projetos_lista")||"[]")
+
+const ativo=
+localStorage.getItem("SDL_projeto_ativo")
+
+return lista.find(p=>p.id===ativo)
+
+}catch{
+
+return null
+
+}
+
+}
+
+function montarRelatorio(){
+
+const projeto=obterProjeto()
+
+if(!projeto){
+
+document.getElementById("conteudo").innerHTML=
+"Nenhum projeto ativo."
+
+return
+
+}
+
+let html=""
+
+html+=`
+<div class="card">
+
+<div class="label">Título</div>
+${projeto.titulo}
+
+<div class="label">Autor</div>
+${projeto.autor}
+
+<div class="label">Formato</div>
+${projeto.formato || "-"}
+
+</div>
+`
+
+const plano=localStorage.getItem("SDL_plano")
+
+html+=`
+<div class="card">
+
+<div class="label">Plano editorial</div>
+${plano || "Não selecionado"}
+
+</div>
+`
+
+const pagamento=localStorage.getItem("SDL_pagamento")
+
+html+=`
+<div class="card">
+
+<div class="label">Pagamento</div>
+${pagamento ? "Registrado" : "Não registrado"}
+
+</div>
+`
+
+let pedidos=
+JSON.parse(localStorage.getItem("SDL_pedidos_lista")||"[]")
+
+pedidos=
+pedidos.filter(p=>p.projetoID===projeto.id)
+
+html+=`
+<div class="card">
+
+<div class="label">Pedidos editoriais</div>
+${pedidos.length}
+
+</div>
+`
+
+let capas=
+JSON.parse(localStorage.getItem("SDL_capas_lista")||"[]")
+
+capas=
+capas.filter(c=>c.projetoID===projeto.id)
+
+html+=`
+<div class="card">
+
+<div class="label">Solicitação de capa</div>
+${capas.length ? "Registrada" : "Não registrada"}
+
+</div>
+`
+
+document.getElementById("conteudo").innerHTML=html
+
+}
+
+function voltarIndice(){
+
+window.location.href="_Indice.html"
+
+}
+
+montarRelatorio()
+
+</script>
+
+</body>
+</html>
