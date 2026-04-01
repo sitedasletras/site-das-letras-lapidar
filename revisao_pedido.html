@@ -87,7 +87,7 @@ background:rgba(247,178,44,0.12);
 border:1px solid rgba(247,178,44,0.25);
 }
 
-.pedidoRender{
+.render{
 margin-top:20px;
 padding:18px;
 background:var(--card2);
@@ -137,16 +137,12 @@ Revisão e Pedidos Editoriais
 </div>
 
 <div class="subtitulo">
-Solicitações vinculadas ao projeto ativo do Lapidar
+Solicitações vinculadas ao projeto ativo
 </div>
-
-
 
 <div id="statusProjeto" class="status">
 Verificando projeto ativo...
 </div>
-
-
 
 <div class="card">
 
@@ -190,8 +186,6 @@ Verificando projeto ativo...
 
 </div>
 
-
-
 <div style="margin-top:20px">
 
 <label>Descrição</label>
@@ -201,11 +195,7 @@ Verificando projeto ativo...
 
 </div>
 
-
-
 <div id="pedidoRenderizado"></div>
-
-
 
 <div class="actions">
 
@@ -225,7 +215,7 @@ Voltar ao índice
 
 </div>
 
-
+<script src="auditoria.js"></script>
 
 <script>
 
@@ -239,17 +229,15 @@ window.location.href="login.html"
 
 }
 
-
-
 function obterProjetoAtivo(){
 
 try{
 
-const lista = JSON.parse(
-localStorage.getItem("SDL_projetos_lista") || "[]"
-)
+const lista =
+JSON.parse(localStorage.getItem("SDL_projetos_lista") || "[]")
 
-const ativo = localStorage.getItem("SDL_projeto_ativo")
+const ativo =
+localStorage.getItem("SDL_projeto_ativo")
 
 return lista.find(p => p.id === ativo)
 
@@ -260,8 +248,6 @@ return null
 }
 
 }
-
-
 
 function verificarProjeto(){
 
@@ -283,8 +269,6 @@ document.getElementById("statusProjeto").style.background =
 "rgba(23,77,39,0.28)"
 
 }
-
-
 
 function registrarPedido(){
 
@@ -310,37 +294,27 @@ return
 
 }
 
-
-
 const pedido = {
 
-id: "rev_" + Date.now(),
+id:"rev_" + Date.now(),
 
-projetoID: projeto.id,
-projetoTitulo: projeto.titulo,
+projetoID:projeto.id,
+projetoTitulo:projeto.titulo,
 
 titulo,
-tipo: document.getElementById("tipoPedido").value,
-prioridade: document.getElementById("prioridadePedido").value,
-status: document.getElementById("statusPedido").value,
+tipo:document.getElementById("tipoPedido").value,
+prioridade:document.getElementById("prioridadePedido").value,
+status:document.getElementById("statusPedido").value,
 
 descricao,
 
-dataRegistro: new Date().toISOString()
+dataRegistro:new Date().toISOString()
 
 }
 
+let lista =
 
-
-let lista = []
-
-try{
-
-lista = JSON.parse(
-localStorage.getItem("SDL_pedidos_lista") || "[]"
-)
-
-}catch{}
+JSON.parse(localStorage.getItem("SDL_pedidos_lista") || "[]")
 
 lista.push(pedido)
 
@@ -349,11 +323,20 @@ localStorage.setItem(
 JSON.stringify(lista)
 )
 
+/* auditoria automática */
+
+try{
+
+SDL_registrarAuditoria(
+"Pedido editorial registrado",
+"revisao_pedido"
+)
+
+}catch(e){}
+
 renderizarPedido(pedido)
 
 }
-
-
 
 function carregarPedido(){
 
@@ -366,13 +349,11 @@ return
 
 }
 
-let lista = JSON.parse(
-localStorage.getItem("SDL_pedidos_lista") || "[]"
-)
+let lista =
+JSON.parse(localStorage.getItem("SDL_pedidos_lista") || "[]")
 
-const pedido = lista.reverse().find(
-p => p.projetoID === projeto.id
-)
+const pedido =
+lista.reverse().find(p => p.projetoID === projeto.id)
 
 if(!pedido){
 
@@ -385,13 +366,11 @@ renderizarPedido(pedido)
 
 }
 
-
-
 function renderizarPedido(p){
 
 document.getElementById("pedidoRenderizado").innerHTML =
 
-`<div class="pedidoRender">
+`<div class="render">
 
 <strong>${p.titulo}</strong><br>
 
@@ -412,8 +391,6 @@ ${p.descricao}
 
 }
 
-
-
 function formatarData(d){
 
 try{
@@ -424,13 +401,9 @@ return d
 
 }
 
-
-
 function voltarIndice(){
 window.location.href="_Indice.html"
 }
-
-
 
 verificarSessao()
 verificarProjeto()
