@@ -1,160 +1,378 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Login — Lapidar</title>
+<title>Lapidar — Login</title>
 
 <style>
-body{
-margin:0;
-font-family:Arial, sans-serif;
-background:#0d0603;
-color:white;
-display:flex;
-justify-content:center;
-align-items:center;
-min-height:100vh;
+
+:root{
+--bg:#0d0603;
+--card:#140c08;
+--card-2:#1b100a;
+--text:#ffffff;
+--muted:#ffd2b3;
+--orange:#f7b22c;
+--orange-strong:#ff5a00;
+--blue:#6ea8ff;
+--green:#9cfdb2;
+--danger:#ff7070;
+--border:rgba(255,123,44,0.18);
+--shadow:0 10px 26px rgba(0,0,0,0.28);
 }
 
-.container{
-width:92%;
-max-width:420px;
-background:#140c08;
-border-radius:18px;
-padding:28px;
+*{
 box-sizing:border-box;
 }
 
-h1{
+body{
 margin:0;
-font-size:38px;
-text-align:center;
+font-family:Arial, sans-serif;
+background:linear-gradient(180deg,#0d0603 0%, #120904 100%);
+color:var(--text);
+min-height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+padding:24px;
+}
+
+.container{
+width:min(980px,100%);
+display:grid;
+grid-template-columns:1.1fr 0.9fr;
+gap:24px;
+}
+
+.bloco{
+background:var(--card);
+border:1px solid var(--border);
+border-radius:20px;
+padding:28px;
+box-shadow:var(--shadow);
+}
+
+.hero{
+display:flex;
+flex-direction:column;
+justify-content:space-between;
+min-height:560px;
+}
+
+.titulo{
+font-size:46px;
+font-weight:bold;
+letter-spacing:1px;
+margin:0;
 }
 
 .subtitulo{
-text-align:center;
-color:#ff7b2c;
 margin-top:10px;
-margin-bottom:24px;
-line-height:1.6;
+font-size:18px;
+color:var(--orange);
+line-height:1.7;
+}
+
+.texto{
+margin-top:22px;
+font-size:16px;
+line-height:1.9;
+color:var(--muted);
+}
+
+.badges{
+display:flex;
+flex-wrap:wrap;
+gap:10px;
+margin-top:24px;
+}
+
+.badge{
+padding:8px 12px;
+border-radius:999px;
+font-size:13px;
+font-weight:bold;
+background:rgba(255,123,44,0.12);
+color:var(--orange);
+border:1px solid rgba(255,123,44,0.18);
+}
+
+.card-form{
+display:flex;
+flex-direction:column;
+justify-content:center;
+min-height:560px;
+}
+
+.form-titulo{
+font-size:28px;
+font-weight:bold;
+margin:0 0 8px 0;
+}
+
+.form-subtitulo{
+color:var(--muted);
+line-height:1.7;
+margin-bottom:22px;
+}
+
+.campo{
+margin-top:16px;
 }
 
 label{
 display:block;
-margin-top:14px;
 margin-bottom:8px;
+color:var(--orange);
 font-weight:bold;
-color:#ffd2b3;
+font-size:14px;
 }
 
-input{
+input, select{
 width:100%;
 padding:14px;
 border:none;
-border-radius:10px;
-font-size:16px;
-box-sizing:border-box;
+border-radius:12px;
+background:#1a0f09;
+color:#fff;
+font-size:15px;
+outline:none;
+border:1px solid rgba(255,255,255,0.06);
+}
+
+input::placeholder{
+color:#d5a98e;
+}
+
+.actions{
+margin-top:22px;
+display:flex;
+gap:12px;
+flex-wrap:wrap;
 }
 
 .botao{
-width:100%;
-padding:18px;
-margin-top:20px;
 border:none;
-border-radius:40px;
-background:#ff5a00;
-color:white;
-font-size:18px;
+padding:14px 18px;
+border-radius:999px;
 font-weight:bold;
 cursor:pointer;
+font-size:15px;
 }
 
-.botao:hover{
-opacity:.94;
+.botao-laranja{
+background:var(--orange-strong);
+color:#fff;
 }
 
-.mensagem{
+.botao-azul{
+background:var(--blue);
+color:#fff;
+}
+
+.botao-escuro{
+background:#24150f;
+color:#fff;
+border:1px solid rgba(255,255,255,0.06);
+}
+
+.status-box{
+margin-top:22px;
+padding:16px 18px;
+border-radius:14px;
+background:rgba(247,178,44,0.12);
+border:1px solid rgba(247,178,44,0.2);
+color:#ffe7b0;
+line-height:1.8;
+}
+
+.linha-info{
 margin-top:16px;
-min-height:24px;
-line-height:1.5;
-color:#ffb3b3;
-text-align:center;
+line-height:1.8;
+color:var(--muted);
+font-size:14px;
 }
 
-.info{
+.rodape{
 margin-top:18px;
-font-size:14px;
-line-height:1.6;
-color:#ffcfaa;
-text-align:center;
+font-size:13px;
+color:#d0a48b;
+line-height:1.7;
 }
+
+@media(max-width:900px){
+.container{
+grid-template-columns:1fr;
+}
+.hero,
+.card-form{
+min-height:auto;
+}
+.titulo{
+font-size:38px;
+}
+}
+
 </style>
 </head>
-
 <body>
 
 <div class="container">
 
-<h1>LAPIDAR</h1>
+<div class="bloco hero">
 
+<div>
+<h1 class="titulo">LAPIDAR</h1>
 <div class="subtitulo">
-Entre no seu ambiente editorial
+Acesso inicial ao ambiente editorial protegido
 </div>
 
-<label for="usuario">E-mail</label>
-<input type="text" id="usuario" placeholder="Digite seu e-mail">
+<div class="texto">
+Este portal organiza a entrada no ecossistema do sistema editorial Site das Letras.
+A partir daqui, o usuário pode acessar os módulos de planos, pagamento, upload de livro,
+revisão, preview, histórico e a central do capista.
+</div>
 
-<label for="senha">Senha</label>
-<input type="password" id="senha" placeholder="Digite sua senha">
+<div class="badges">
+<span class="badge">Modo emergencial</span>
+<span class="badge">Sessão local</span>
+<span class="badge">Estrutura funcional</span>
+<span class="badge">Lapidar operacional</span>
+</div>
+</div>
 
-<button class="botao" onclick="entrar()">
-Entrar
-</button>
-
-<div id="mensagem" class="mensagem"></div>
-
-<div class="info">
-Acesso editorial controlado. Após o login, você será direcionado ao painel de departamentos do Lapidar.
+<div class="rodape">
+Nesta versão emergencial, o login funciona localmente no navegador para destravar o fluxo.
+Depois, a gente fortalece com autenticação reforçada, rastreio e aprovação de dispositivo.
 </div>
 
 </div>
+
+
+
+<div class="bloco card-form">
+
+<div class="form-titulo">Entrar no sistema</div>
+<div class="form-subtitulo">
+Informe os dados de acesso para ativar a sessão neste dispositivo.
+</div>
+
+<div class="campo">
+<label for="usuarioLogin">Usuário</label>
+<input type="text" id="usuarioLogin" placeholder="Digite seu usuário">
+</div>
+
+<div class="campo">
+<label for="senhaLogin">Senha</label>
+<input type="password" id="senhaLogin" placeholder="Digite sua senha">
+</div>
+
+<div class="campo">
+<label for="idiomaInterface">Idioma da interface</label>
+<select id="idiomaInterface">
+<option value="pt-BR">Português</option>
+<option value="en-US">Inglês</option>
+<option value="es-ES">Espanhol</option>
+<option value="it-IT">Italiano</option>
+<option value="fr-FR">Francês</option>
+<option value="de-DE">Alemão</option>
+</select>
+</div>
+
+<div class="actions">
+<button class="botao botao-laranja" onclick="entrarSistema()">Entrar</button>
+<button class="botao botao-azul" onclick="preencherTeste()">Preencher teste</button>
+<button class="botao botao-escuro" onclick="limparCampos()">Limpar</button>
+</div>
+
+<div class="status-box" id="statusLogin">
+Aguardando autenticação.
+</div>
+
+<div class="linha-info">
+Usuário padrão emergencial: <strong>admin</strong><br>
+Senha padrão emergencial: <strong>1234</strong>
+</div>
+
+</div>
+
+</div>
+
+
 
 <script>
-function entrar(){
 
-const usuario = document.getElementById("usuario").value.trim().toLowerCase();
-const senha = document.getElementById("senha").value.trim();
-const mensagem = document.getElementById("mensagem");
+function entrarSistema(){
 
-const adminEmail1 = "admin@sitedasletras.com";
-const adminEmail2 = "admin@sitedasletrasedicoesliterarias.com";
+const usuario = document.getElementById("usuarioLogin").value.trim();
+const senha = document.getElementById("senhaLogin").value.trim();
+const idioma = document.getElementById("idiomaInterface").value;
+const status = document.getElementById("statusLogin");
 
-/*
-Troque a senha abaixo pela senha que você quiser usar no admin.
-*/
-const senhaAdmin = "123456";
-
-if(
-(usuario === adminEmail1 || usuario === adminEmail2) &&
-senha === senhaAdmin
-){
-localStorage.setItem("SDL_sessao_ativa","sim");
-localStorage.setItem("SDL_usuario_logado",usuario);
-localStorage.setItem("SDL_ADMIN","true");
-window.location.href = "painel_departamentos.html";
+if(!usuario || !senha){
+status.innerHTML = "Preencha usuário e senha antes de entrar.";
+status.style.background = "rgba(255,112,112,0.10)";
+status.style.border = "1px solid rgba(255,112,112,0.22)";
+status.style.color = "#ffd3d3";
 return;
 }
 
-mensagem.innerText = "E-mail ou senha inválidos.";
+if(usuario === "admin" && senha === "1234"){
+localStorage.setItem("SDL_sessao_ativa","sim");
+localStorage.setItem("SDL_usuario_nome",usuario);
+localStorage.setItem("SDL_idioma_interface",idioma);
+
+status.innerHTML = "Login realizado com sucesso. Redirecionando para o índice...";
+status.style.background = "rgba(23,77,39,0.28)";
+status.style.border = "1px solid rgba(156,253,178,0.18)";
+status.style.color = "#dfffe8";
+
+setTimeout(function(){
+window.location.href = "_Indice.html";
+}, 700);
+
+return;
 }
 
-if(localStorage.getItem("SDL_sessao_ativa") === "sim"){
-window.location.href = "painel_departamentos.html";
+status.innerHTML = "Usuário ou senha inválidos para esta versão emergencial.";
+status.style.background = "rgba(255,112,112,0.10)";
+status.style.border = "1px solid rgba(255,112,112,0.22)";
+status.style.color = "#ffd3d3";
 }
+
+function preencherTeste(){
+document.getElementById("usuarioLogin").value = "admin";
+document.getElementById("senhaLogin").value = "1234";
+document.getElementById("statusLogin").innerHTML = "Campos de teste preenchidos.";
+document.getElementById("statusLogin").style.background = "rgba(247,178,44,0.12)";
+document.getElementById("statusLogin").style.border = "1px solid rgba(247,178,44,0.2)";
+document.getElementById("statusLogin").style.color = "#ffe7b0";
+}
+
+function limparCampos(){
+document.getElementById("usuarioLogin").value = "";
+document.getElementById("senhaLogin").value = "";
+document.getElementById("idiomaInterface").selectedIndex = 0;
+
+const status = document.getElementById("statusLogin");
+status.innerHTML = "Campos limpos. Aguardando autenticação.";
+status.style.background = "rgba(247,178,44,0.12)";
+status.style.border = "1px solid rgba(247,178,44,0.2)";
+status.style.color = "#ffe7b0";
+}
+
+(function verificarSessaoExistente(){
+const sessao = localStorage.getItem("SDL_sessao_ativa");
+if(sessao === "sim"){
+document.getElementById("statusLogin").innerHTML = "Já existe uma sessão ativa neste dispositivo.";
+document.getElementById("statusLogin").style.background = "rgba(23,77,39,0.28)";
+document.getElementById("statusLogin").style.border = "1px solid rgba(156,253,178,0.18)";
+document.getElementById("statusLogin").style.color = "#dfffe8";
+}
+})();
+
 </script>
 
 </body>
 </html>
-
