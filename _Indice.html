@@ -3,22 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lapidar — Índice do Sistema</title>
+<title>Lapidar — Painel Principal</title>
 
 <style>
 
 :root{
 --bg:#0d0603;
 --card:#140c08;
---text:#ffffff;
---muted:#ffd2b3;
+--cardHover:#1b100a;
 --orange:#f7b22c;
---orange-strong:#ff5a00;
---blue:#6ea8ff;
 --green:#9cfdb2;
---danger:#ff7070;
 --border:rgba(255,123,44,0.18);
---shadow:0 10px 26px rgba(0,0,0,0.28);
 }
 
 body{
@@ -31,14 +26,7 @@ color:white;
 .container{
 width:min(1200px,95%);
 margin:auto;
-padding:30px 0 50px 0;
-}
-
-.topo{
-display:flex;
-justify-content:space-between;
-align-items:center;
-flex-wrap:wrap;
+padding:40px 0;
 }
 
 .titulo{
@@ -46,65 +34,78 @@ font-size:40px;
 font-weight:bold;
 }
 
-.usuario{
-color:var(--muted);
-}
-
-.plano{
-margin-top:6px;
+.subtitulo{
 color:var(--orange);
+margin-top:4px;
 }
 
 .grid{
 margin-top:30px;
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-gap:20px;
+gap:18px;
 }
 
 .card{
+
 background:var(--card);
-border-radius:18px;
+
 padding:22px;
-cursor:pointer;
-transition:0.2s;
+
+border-radius:16px;
+
 border:1px solid var(--border);
-box-shadow:var(--shadow);
+
+cursor:pointer;
+
+transition:.2s;
+
 }
 
 .card:hover{
-transform:translateY(-3px);
+
+background:var(--cardHover);
+
 }
 
-.card-title{
+.cardTitulo{
+
 font-size:20px;
+
 font-weight:bold;
-margin-bottom:10px;
+
+margin-bottom:6px;
+
 }
 
-.card-desc{
-color:var(--muted);
-line-height:1.6;
+.cardDesc{
+
+color:#ffd2b3;
+
+font-size:14px;
+
 }
 
-.botao{
-margin-top:20px;
+.logout{
+
+margin-top:30px;
+
+}
+
+button{
+
 border:none;
-padding:14px 18px;
-border-radius:999px;
-font-weight:bold;
-cursor:pointer;
-background:#24150f;
-color:white;
-}
 
-.status-box{
-margin-top:20px;
-padding:18px;
-border-radius:14px;
-background:rgba(247,178,44,0.12);
-border:1px solid rgba(247,178,44,0.2);
-color:#ffe7b0;
+padding:14px 18px;
+
+border-radius:999px;
+
+cursor:pointer;
+
+background:#24150f;
+
+color:white;
+
 }
 
 </style>
@@ -114,106 +115,77 @@ color:#ffe7b0;
 
 <div class="container">
 
-<div class="topo">
-
-<div>
-
 <div class="titulo">
-LAPIDAR
+Lapidar
 </div>
 
-<div id="usuarioSistema" class="usuario">
-Carregando usuário...
-</div>
-
-<div id="planoSistema" class="plano">
-Carregando plano...
-</div>
-
-</div>
-
-<div>
-
-<button class="botao" onclick="encerrarSessao()">
-Sair do sistema
-</button>
-
-</div>
-
-</div>
-
-
-
-<div class="status-box" id="statusSistema">
-Inicializando ambiente Lapidar...
+<div class="subtitulo">
+Painel Editorial Site das Letras
 </div>
 
 
 
 <div class="grid">
 
-<div class="card" onclick="abrirStatusPlano()">
-<div class="card-title">Status do plano</div>
-<div class="card-desc">
-Consulta situação atual do plano ativo.
-</div>
+<div class="card" onclick="abrirUpload()">
+<div class="cardTitulo">Cadastro do Projeto</div>
+<div class="cardDesc">Criar ou atualizar dados da obra</div>
 </div>
 
-
-<div class="card" onclick="abrirPlanos()">
-<div class="card-title">Planos e doações</div>
-<div class="card-desc">
-Escolha plano editorial ou registrar apoio.
-</div>
+<div class="card" onclick="abrirPreview()">
+<div class="cardTitulo">Preview do Projeto</div>
+<div class="cardDesc">Visualizar informações da obra ativa</div>
 </div>
 
+<div class="card" onclick="abrirHistorico()">
+<div class="cardTitulo">Histórico de Projetos</div>
+<div class="cardDesc">Alternar entre obras cadastradas</div>
+</div>
+
+<div class="card" onclick="abrirRevisao()">
+<div class="cardTitulo">Pedidos Editoriais</div>
+<div class="cardDesc">Solicitações técnicas da obra</div>
+</div>
+
+<div class="card" onclick="abrirCapista()">
+<div class="cardTitulo">Solicitação de Capa</div>
+<div class="cardDesc">Registrar identidade visual do livro</div>
+</div>
+
+<div class="card" onclick="abrirPlano()">
+<div class="cardTitulo">Selecionar Plano</div>
+<div class="cardDesc">Escolher pacote editorial</div>
+</div>
 
 <div class="card" onclick="abrirPagamento()">
-<div class="card-title">Pagamento</div>
-<div class="card-desc">
-Registrar forma de pagamento do plano.
+<div class="cardTitulo">Registrar Pagamento</div>
+<div class="cardDesc">Confirmar ativação do serviço</div>
 </div>
+
+<div class="card" onclick="abrirStatusPlano()">
+<div class="cardTitulo">Status do Plano</div>
+<div class="cardDesc">Verificar liberação do serviço</div>
+</div>
+
+<div class="card" onclick="abrirTimeline()">
+<div class="cardTitulo">Timeline da Obra</div>
+<div class="cardDesc">Histórico cronológico editorial</div>
+</div>
+
+<div class="card" onclick="abrirAuditoria()">
+<div class="cardTitulo">Auditoria Editorial</div>
+<div class="cardDesc">Logs institucionais do sistema</div>
+</div>
+
 </div>
 
 
-<div class="card" onclick="abrirUploadLivro()">
-<div class="card-title">Upload do livro</div>
-<div class="card-desc">
-Registrar dados do projeto editorial.
-</div>
-</div>
 
+<div class="logout">
 
-<div class="card" onclick="abrirPreviewProjeto()">
-<div class="card-title">Preview do projeto</div>
-<div class="card-desc">
-Visualizar estrutura atual da obra.
-</div>
-</div>
-
-
-<div class="card" onclick="abrirHistoricoProjetos()">
-<div class="card-title">Histórico de projetos</div>
-<div class="card-desc">
-Consultar registros anteriores.
-</div>
-</div>
-
-
-<div class="card" onclick="abrirRevisaoPedido()">
-<div class="card-title">Revisão e pedidos</div>
-<div class="card-desc">
-Solicitações editoriais e ajustes técnicos.
-</div>
-</div>
-
-
-<div class="card" onclick="abrirCapistaPlanos()">
-<div class="card-title">Capista</div>
-<div class="card-desc">
-Solicitações de capa e acompanhamento.
-</div>
-</div>
+<button onclick="sairSistema()">
+Encerrar sessão
+</button>
 
 </div>
 
@@ -225,9 +197,7 @@ Solicitações de capa e acompanhamento.
 
 function verificarSessao(){
 
-const sessao=localStorage.getItem("SDL_sessao_ativa")
-
-if(sessao!=="sim"){
+if(localStorage.getItem("SDL_sessao_ativa")!=="sim"){
 
 window.location.href="login.html"
 
@@ -235,82 +205,41 @@ window.location.href="login.html"
 
 }
 
+function abrirUpload(){
 
-
-function carregarUsuario(){
-
-try{
-
-const usuario=localStorage.getItem("SDL_usuario")||"Usuário não identificado"
-
-document.getElementById("usuarioSistema").innerHTML=
-"Usuário ativo: "+usuario
-
-}catch(e){
-
-document.getElementById("usuarioSistema").innerHTML=
-"Erro ao carregar usuário"
+window.location.href="upload_livro.html"
 
 }
 
-}
+function abrirPreview(){
 
-
-
-function carregarPlano(){
-
-try{
-
-const plano=localStorage.getItem("SDL_plano")||"Plano não definido"
-
-document.getElementById("planoSistema").innerHTML=
-"Plano atual: "+plano
-
-}catch(e){
-
-document.getElementById("planoSistema").innerHTML=
-"Plano indisponível"
+window.location.href="preview_projeto.html"
 
 }
 
-}
+function abrirHistorico(){
 
-
-
-function atualizarStatusSistema(){
-
-document.getElementById("statusSistema").innerHTML=
-"Ambiente editorial carregado com sucesso."
+window.location.href="historico_projetos.html"
 
 }
 
+function abrirRevisao(){
 
-
-function encerrarSessao(){
-
-localStorage.removeItem("SDL_sessao_ativa")
-
-window.location.href="login.html"
+window.location.href="revisao_pedido.html"
 
 }
 
+function abrirCapista(){
 
-
-function abrirStatusPlano(){
-
-window.location.href="status_plano.html"
+window.location.href="capista_planos.html"
 
 }
 
-
-
-function abrirPlanos(){
+function abrirPlano(){
 
 window.location.href="planos_doacoes.html"
 
 }
-
-
 
 function abrirPagamento(){
 
@@ -318,52 +247,33 @@ window.location.href="pagamento.html"
 
 }
 
+function abrirStatusPlano(){
 
-
-function abrirUploadLivro(){
-
-window.location.href="upload_livro.html"
+window.location.href="status_plano.html"
 
 }
 
+function abrirTimeline(){
 
-
-function abrirPreviewProjeto(){
-
-window.location.href="preview_projeto.html"
+window.location.href="timeline_projeto.html"
 
 }
 
+function abrirAuditoria(){
 
-
-function abrirHistoricoProjetos(){
-
-window.location.href="historico_projetos.html"
+window.location.href="auditoria.html"
 
 }
 
+function sairSistema(){
 
+localStorage.removeItem("SDL_sessao_ativa")
 
-function abrirRevisaoPedido(){
-
-window.location.href="revisao_pedido.html"
-
-}
-
-
-
-function abrirCapistaPlanos(){
-
-window.location.href="capista_planos.html"
+window.location.href="login.html"
 
 }
-
-
 
 verificarSessao()
-carregarUsuario()
-carregarPlano()
-atualizarStatusSistema()
 
 </script>
 
