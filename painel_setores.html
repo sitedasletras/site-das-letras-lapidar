@@ -271,13 +271,14 @@ Verificando sessão ativa...
 
 <script src="auditoria.js"></script>
 <script src="planos_usuario.js"></script>
+<script src="sessao_unica.js"></script>
 
 <script>
 function verificarSessao(){
-  if(localStorage.getItem("SDL_sessao_ativa") !== "sim"){
-    window.location.href = "login.html";
-    return;
-  }
+  const tokenAtual = localStorage.getItem("SDL_token_sessao");
+
+  SDL_validarSessao();
+  SDL_forcarSessaoUnica(tokenAtual);
 
   document.getElementById("statusPainelSetores").innerHTML =
     "Sessão validada. Escolha o setor editorial desejado.";
@@ -355,8 +356,8 @@ function encerrarSessao(){
   try{
     SDL_registrarAuditoria("Encerramento manual da sessão", "painel_setores");
   }catch(e){}
-  localStorage.removeItem("SDL_sessao_ativa");
-  window.location.href = "login.html";
+
+  SDL_encerrarSessao();
 }
 
 verificarSessao();
