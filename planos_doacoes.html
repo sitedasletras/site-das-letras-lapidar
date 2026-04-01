@@ -3,20 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lapidar — Planos e Doações</title>
+<title>Planos e Doações — Lapidar</title>
 
 <style>
 
 :root{
 --bg:#0d0603;
 --card:#140c08;
---card-2:#1b100a;
+--card2:#1b100a;
 --text:#ffffff;
 --muted:#ffd2b3;
 --orange:#f7b22c;
---orange-strong:#ff5a00;
---blue:#6ea8ff;
+--orangeStrong:#ff5a00;
 --green:#9cfdb2;
+--danger:#ff7070;
 --border:rgba(255,123,44,0.18);
 --shadow:0 10px 26px rgba(0,0,0,0.28);
 }
@@ -25,59 +25,71 @@ body{
 margin:0;
 font-family:Arial;
 background:var(--bg);
-color:var(--text);
+color:white;
 }
 
 .container{
-width:min(1100px,94%);
+width:min(1100px,95%);
 margin:auto;
-padding:30px 0 50px 0;
+padding:40px 0;
 }
 
 .titulo{
-font-size:40px;
+font-size:38px;
 font-weight:bold;
 }
 
 .subtitulo{
-color:var(--orange);
 margin-top:6px;
-font-size:18px;
-}
-
-.bloco{
-background:var(--card);
-border:1px solid var(--border);
-border-radius:18px;
-padding:22px;
-margin-top:24px;
-box-shadow:var(--shadow);
+color:var(--orange);
 }
 
 .grid{
+margin-top:30px;
 display:grid;
-grid-template-columns:1fr 1fr 1fr;
-gap:18px;
-margin-top:20px;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:20px;
 }
 
 .card{
-background:var(--card-2);
+background:var(--card);
+padding:22px;
+border-radius:18px;
+border:1px solid var(--border);
+box-shadow:var(--shadow);
+cursor:pointer;
+transition:0.2s;
+}
+
+.card:hover{
+transform:translateY(-3px);
+}
+
+.nomePlano{
+font-size:22px;
+font-weight:bold;
+margin-bottom:10px;
+}
+
+.descPlano{
+color:var(--muted);
+line-height:1.7;
+}
+
+.statusBox{
+margin-top:30px;
 padding:18px;
 border-radius:14px;
-border:1px solid rgba(255,255,255,0.05);
+background:rgba(247,178,44,0.12);
+border:1px solid rgba(247,178,44,0.2);
+color:#ffe7b0;
+}
+
+.actions{
+margin-top:26px;
 display:flex;
-flex-direction:column;
-justify-content:space-between;
-}
-
-.card h3{
-margin-top:0;
-}
-
-.info{
-color:var(--muted);
-line-height:1.8;
+flex-wrap:wrap;
+gap:12px;
 }
 
 .botao{
@@ -88,70 +100,14 @@ font-weight:bold;
 cursor:pointer;
 }
 
-.botao-laranja{
-background:var(--orange-strong);
+.botaoIndice{
+background:#24150f;
 color:white;
 }
 
-.botao-azul{
-background:var(--blue);
-color:white;
-}
-
-.botao-verde{
+.botaoStatus{
 background:#174d27;
 color:#dfffe8;
-}
-
-.botao-escuro{
-background:#24150f;
-color:white;
-}
-
-.actions{
-margin-top:16px;
-display:flex;
-gap:10px;
-flex-wrap:wrap;
-}
-
-.status-box{
-margin-top:20px;
-padding:18px;
-border-radius:14px;
-background:rgba(247,178,44,0.12);
-border:1px solid rgba(247,178,44,0.2);
-color:#ffe7b0;
-}
-
-.rodape{
-margin-top:30px;
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:18px;
-}
-
-.link-btn{
-display:block;
-margin-top:10px;
-text-decoration:none;
-text-align:center;
-padding:14px;
-border-radius:999px;
-background:#24150f;
-color:white;
-}
-
-@media(max-width:900px){
-
-.grid{
-grid-template-columns:1fr;
-}
-
-.rodape{
-grid-template-columns:1fr;
-}
-
 }
 
 </style>
@@ -161,200 +117,68 @@ grid-template-columns:1fr;
 
 <div class="container">
 
-<div>
-
 <div class="titulo">
 PLANOS E DOAÇÕES
 </div>
 
 <div class="subtitulo">
-Escolha operacional da modalidade de permanência no ambiente Lapidar
-</div>
-
-</div>
-
-
-
-<div class="bloco">
-
-<div class="info">
-
-Selecione abaixo a modalidade desejada para continuidade do fluxo editorial.
-A escolha será registrada neste dispositivo e utilizada pelo painel operacional.
-
-</div>
-
-<div class="status-box" id="statusPlano">
-
-Nenhum plano selecionado ainda neste dispositivo.
-
-</div>
-
+Selecione o plano editorial desejado para liberar recursos do sistema Lapidar
 </div>
 
 
 
 <div class="grid">
 
+<div class="card" onclick="selecionarPlano('Plano Essencial')">
+<div class="nomePlano">Plano Essencial</div>
+<div class="descPlano">
+Ideal para registro inicial do projeto e organização editorial básica.
+</div>
+</div>
 
-<div class="card">
 
-<h3>Plano Essencial</h3>
+<div class="card" onclick="selecionarPlano('Plano Profissional')">
+<div class="nomePlano">Plano Profissional</div>
+<div class="descPlano">
+Liberação de revisão editorial, estruturação e acompanhamento técnico.
+</div>
+</div>
 
-<div class="info">
 
-Indicado para acesso básico ao ambiente editorial.
-Permite utilização dos módulos principais do sistema Lapidar.
+<div class="card" onclick="selecionarPlano('Plano Completo')">
+<div class="nomePlano">Plano Completo</div>
+<div class="descPlano">
+Acesso total ao fluxo editorial Lapidar incluindo capa e análise completa.
+</div>
+</div>
+
+
+<div class="card" onclick="registrarDoacao()">
+<div class="nomePlano">Doação de apoio</div>
+<div class="descPlano">
+Apoio voluntário ao sistema editorial Site das Letras.
+</div>
+</div>
 
 </div>
+
+
+
+<div id="statusPlano" class="statusBox">
+Nenhum plano selecionado ainda.
+</div>
+
+
 
 <div class="actions">
 
-<button class="botao botao-laranja"
-onclick="selecionarPlano('Plano Essencial')">
-
-Selecionar plano
-
+<button class="botao botaoIndice" onclick="voltarIndice()">
+Voltar ao índice
 </button>
 
-</div>
-
-</div>
-
-
-
-<div class="card">
-
-<h3>Plano Profissional</h3>
-
-<div class="info">
-
-Indicado para autores com produção contínua.
-Amplia o acesso operacional e libera recursos adicionais.
-
-</div>
-
-<div class="actions">
-
-<button class="botao botao-azul"
-onclick="selecionarPlano('Plano Profissional')">
-
-Selecionar plano
-
-</button>
-
-</div>
-
-</div>
-
-
-
-<div class="card">
-
-<h3>Plano Mecenas</h3>
-
-<div class="info">
-
-Modalidade de apoio ampliado ao sistema editorial.
-Mantém acesso completo e suporte prioritário.
-
-</div>
-
-<div class="actions">
-
-<button class="botao botao-verde"
-onclick="selecionarPlano('Plano Mecenas')">
-
-Selecionar plano
-
-</button>
-
-</div>
-
-</div>
-
-
-
-</div>
-
-
-
-<div class="bloco">
-
-<div class="actions">
-
-<button class="botao botao-laranja"
-onclick="abrirPagamento()">
-
-Ir para pagamento
-
-</button>
-
-<button class="botao botao-escuro"
-onclick="abrirStatusPlano()">
-
+<button class="botao botaoStatus" onclick="abrirStatusPlano()">
 Ver status do plano
-
 </button>
-
-<button class="botao botao-escuro"
-onclick="voltarIndice()">
-
-Voltar ao índice
-
-</button>
-
-</div>
-
-</div>
-
-
-
-<div class="rodape">
-
-
-<div class="bloco">
-
-<h3>Atalhos rápidos</h3>
-
-<a class="link-btn"
-href="status_plano.html">
-
-Status do plano
-
-</a>
-
-<a class="link-btn"
-href="pagamento.html">
-
-Pagamento
-
-</a>
-
-<a class="link-btn"
-href="_Indice.html">
-
-Voltar ao índice
-
-</a>
-
-</div>
-
-
-
-<div class="bloco">
-
-<h3>Recado da casa</h3>
-
-<div class="info">
-
-A escolha do plano organiza o fluxo operacional interno do sistema.
-O pagamento correspondente pode ser registrado posteriormente na área financeira.
-
-</div>
-
-</div>
-
 
 </div>
 
@@ -368,13 +192,11 @@ O pagamento correspondente pode ser registrado posteriormente na área financeir
 
 function verificarSessao(){
 
-const sessao =
-localStorage.getItem("SDL_sessao_ativa");
+const sessao=localStorage.getItem("SDL_sessao_ativa")
 
-if(sessao !== "sim"){
+if(sessao!=="sim"){
 
-window.location.href =
-"login.html";
+window.location.href="login.html"
 
 }
 
@@ -382,68 +204,44 @@ window.location.href =
 
 
 
-function selecionarPlano(nomePlano){
+function selecionarPlano(plano){
 
-localStorage.setItem(
-"SDL_plano_nome",
-nomePlano
-);
+try{
 
-localStorage.setItem(
-"SDL_plano_status",
-"pendente"
-);
+localStorage.setItem("SDL_plano",plano)
 
-alert(
-nomePlano +
-" selecionado com sucesso."
-);
+document.getElementById("statusPlano").innerHTML=
+"Plano selecionado com sucesso: "+plano
 
-atualizarStatusPlano();
+document.getElementById("statusPlano").style.background=
+"rgba(23,77,39,0.28)"
+
+}catch(e){
+
+document.getElementById("statusPlano").innerHTML=
+"Erro ao registrar plano."
+
+}
 
 }
 
 
 
-function atualizarStatusPlano(){
+function registrarDoacao(){
 
-const plano =
-localStorage.getItem("SDL_plano_nome");
+try{
 
-const el =
-document.getElementById("statusPlano");
+localStorage.setItem("SDL_doacao","registrada")
 
-if(!plano){
+document.getElementById("statusPlano").innerHTML=
+"Doação registrada com sucesso. Obrigado pelo apoio."
 
-el.innerHTML =
-"Nenhum plano selecionado ainda neste dispositivo.";
+}catch(e){
 
-return;
-
-}
-
-el.innerHTML =
-"Plano selecionado: <strong>" +
-plano +
-"</strong>. Agora prossiga para pagamento.";
+document.getElementById("statusPlano").innerHTML=
+"Erro ao registrar doação."
 
 }
-
-
-
-function abrirPagamento(){
-
-window.location.href =
-"pagamento.html";
-
-}
-
-
-
-function abrirStatusPlano(){
-
-window.location.href =
-"status_plano.html";
 
 }
 
@@ -451,19 +249,23 @@ window.location.href =
 
 function voltarIndice(){
 
-window.location.href =
-"_Indice.html";
+window.location.href="_Indice.html"
 
 }
 
 
 
-verificarSessao();
+function abrirStatusPlano(){
 
-atualizarStatusPlano();
+window.location.href="status_plano.html"
+
+}
+
+
+
+verificarSessao()
 
 </script>
-
 
 </body>
 </html>
