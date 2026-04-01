@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Timeline Editorial — Lapidar</title>
+
+<style>
+
+:root{
+--bg:#0d0603;
+--card:#140c08;
+--card2:#1b100a;
+--orange:#f7b22c;
+--green:#9cfdb2;
+--border:rgba(255,123,44,0.18);
+}
+
+body{
+margin:0;
+font-family:Arial;
+background:var(--bg);
+color:white;
+}
+
+.container{
+width:min(1100px,95%);
+margin:auto;
+padding:40px 0;
+}
+
+.titulo{
+font-size:36px;
+font-weight:bold;
+}
+
+.subtitulo{
+margin-top:6px;
+color:var(--orange);
+}
+
+.timeline{
+
+margin-top:30px;
+
+}
+
+.evento{
+
+background:var(--card);
+
+border:1px solid var(--border);
+
+border-radius:14px;
+
+padding:18px;
+
+margin-bottom:14px;
+
+}
+
+.data{
+
+color:var(--orange);
+
+font-size:14px;
+
+margin-top:4px;
+
+}
+
+.actions{
+
+margin-top:20px;
+
+}
+
+button{
+
+border:none;
+
+padding:14px 18px;
+
+border-radius:999px;
+
+cursor:pointer;
+
+background:#24150f;
+
+color:white;
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="titulo">
+Timeline Editorial da Obra
+</div>
+
+<div class="subtitulo">
+Histórico automático do projeto ativo
+</div>
+
+<div id="timelineArea" class="timeline">
+
+Carregando timeline...
+
+</div>
+
+<div class="actions">
+
+<button onclick="voltarIndice()">
+Voltar ao índice
+</button>
+
+</div>
+
+</div>
+
+<script>
+
+function verificarSessao(){
+
+if(localStorage.getItem("SDL_sessao_ativa")!=="sim"){
+
+window.location.href="login.html"
+
+}
+
+}
+
+function obterProjetoAtivo(){
+
+try{
+
+const lista=
+JSON.parse(localStorage.getItem("SDL_projetos_lista")||"[]")
+
+const ativo=
+localStorage.getItem("SDL_projeto_ativo")
+
+return lista.find(p=>p.id===ativo)
+
+}catch{
+
+return null
+
+}
+
+}
+
+function carregarTimeline(){
+
+const projeto=obterProjetoAtivo()
+
+if(!projeto){
+
+document.getElementById("timelineArea").innerHTML=
+"Nenhum projeto ativo selecionado."
+
+return
+
+}
+
+let eventos=[]
+
+eventos.push({
+
+titulo:"Projeto criado",
+
+data:projeto.dataRegistro
+
+})
+
+if(localStorage.getItem("SDL_plano")){
+
+eventos.push({
+
+titulo:"Plano editorial selecionado",
+
+data:"registrado no sistema"
+
+})
+
+}
+
+if(localStorage.getItem("SDL_pagamento")){
+
+eventos.push({
+
+titulo:"Pagamento registrado",
+
+data:"registrado no sistema"
+
+})
+
+}
+
+let pedidos=
+
+JSON.parse(localStorage.getItem("SDL_pedidos_lista")||"[]")
+
+pedidos
+
+.filter(p=>p.projetoID===projeto.id)
+
+.forEach(p=>{
+
+eventos.push({
+
+titulo:"Pedido editorial: "+p.tipo,
+
+data:p.dataRegistro
+
+})
+
+})
+
+let capas=
+
+JSON.parse(localStorage.getItem("SDL_capas_lista")||"[]")
+
+capas
+
+.filter(c=>c.projetoID===projeto.id)
+
+.forEach(c=>{
+
+eventos.push({
+
+titulo:"Solicitação de capa registrada",
+
+data:c.dataRegistro
+
+})
+
+})
+
+renderizarTimeline(eventos)
+
+}
+
+function renderizarTimeline(eventos){
+
+eventos.sort((a,b)=>new Date(a.data)-new Date(b.data))
+
+let html=""
+
+eventos.forEach(e=>{
+
+html+=`
+
+<div class="evento">
+
+<strong>${e.titulo}</strong>
+
+<div class="data">
+
+${formatarData(e.data)}
+
+</div>
+
+</div>
+
+`
+
+})
+
+document.getElementById("timelineArea").innerHTML=html
+
+}
+
+function formatarData(d){
+
+if(d==="registrado no sistema") return d
+
+try{
+
+return new Date(d).toLocaleString("pt-BR")
+
+}catch{
+
+return d
+
+}
+
+}
+
+function voltarIndice(){
+
+window.location.href="_Indice.html"
+
+}
+
+verificarSessao()
+
+carregarTimeline()
+
+</script>
+
+</body>
+</html>
