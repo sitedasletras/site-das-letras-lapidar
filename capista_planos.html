@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Capista — Planos de Capa</title>
+<title>Capista — Solicitação de Capa</title>
 
 <style>
 
@@ -12,7 +12,6 @@
 --card:#140c08;
 --card2:#1b100a;
 --text:#ffffff;
---muted:#ffd2b3;
 --orange:#f7b22c;
 --orangeStrong:#ff5a00;
 --green:#9cfdb2;
@@ -35,7 +34,7 @@ padding:40px 0;
 }
 
 .titulo{
-font-size:38px;
+font-size:36px;
 font-weight:bold;
 }
 
@@ -53,55 +52,54 @@ border:1px solid var(--border);
 box-shadow:var(--shadow);
 }
 
-.statusBox{
-margin-top:20px;
-padding:18px;
-border-radius:14px;
+.status{
+margin-top:18px;
+padding:16px;
+border-radius:12px;
 background:rgba(247,178,44,0.12);
-border:1px solid rgba(247,178,44,0.2);
-color:#ffe7b0;
+border:1px solid rgba(247,178,44,0.25);
 }
 
-.planoBox{
+.box{
 margin-top:20px;
 padding:18px;
 border-radius:14px;
 background:var(--card2);
-line-height:1.8;
+line-height:1.7;
 }
 
 .actions{
-margin-top:26px;
+margin-top:24px;
 display:flex;
 flex-wrap:wrap;
 gap:12px;
 }
 
-.botao{
+button{
 border:none;
 padding:14px 18px;
 border-radius:999px;
-font-weight:bold;
 cursor:pointer;
+font-weight:bold;
 }
 
-.botaoIndice{
-background:#24150f;
+.btnSolicitar{
+background:#174d27;
 color:white;
 }
 
-.botaoPagamento{
-background:#174d27;
-color:#dfffe8;
-}
-
-.botaoPlano{
+.btnPagamento{
 background:var(--orangeStrong);
 color:white;
 }
 
-.botaoSolicitar{
-background:#1e5d35;
+.btnPlano{
+background:#5a2c00;
+color:white;
+}
+
+.btnIndice{
+background:#24150f;
 color:white;
 }
 
@@ -113,50 +111,46 @@ color:white;
 <div class="container">
 
 <div class="titulo">
-SERVIÇOS DO CAPISTA
+Solicitação de Capa
 </div>
 
 <div class="subtitulo">
-Solicitação de criação de capa dentro do ambiente Lapidar
+Serviço vinculado ao projeto ativo no Lapidar
 </div>
 
 
 
-<div class="card">
-
-<div id="statusCapista" class="statusBox">
-Verificando liberação do serviço...
+<div id="statusSistema" class="status">
+Verificando ambiente editorial...
 </div>
 
-<div id="planoDetectado" class="planoBox">
-Carregando informações do plano...
-</div>
 
+
+<div id="dadosProjeto" class="box">
+Carregando projeto...
 </div>
 
 
 
 <div class="actions">
 
-<button class="botao botaoSolicitar" onclick="solicitarCapa()">
+<button class="btnSolicitar" onclick="registrarPedidoCapa()">
 Solicitar capa
 </button>
 
-<button class="botao botaoPagamento" onclick="abrirPagamento()">
+<button class="btnPagamento" onclick="abrirPagamento()">
 Registrar pagamento
 </button>
 
-<button class="botao botaoPlano" onclick="abrirPlanos()">
+<button class="btnPlano" onclick="abrirPlano()">
 Escolher plano
 </button>
 
-<button class="botao botaoIndice" onclick="voltarIndice()">
+<button class="btnIndice" onclick="voltarIndice()">
 Voltar ao índice
 </button>
 
 </div>
-
-
 
 </div>
 
@@ -170,7 +164,7 @@ const sessao = localStorage.getItem("SDL_sessao_ativa")
 
 if(sessao !== "sim"){
 
-window.location.href = "login.html"
+window.location.href="login.html"
 
 }
 
@@ -178,48 +172,67 @@ window.location.href = "login.html"
 
 
 
-function verificarPlanoCapista(){
-
-let plano = null
-let pagamento = null
+function obterProjetoAtivo(){
 
 try{
 
-plano = localStorage.getItem("SDL_plano")
-pagamento = localStorage.getItem("SDL_pagamento")
+const lista = JSON.parse(
+localStorage.getItem("SDL_projetos_lista") || "[]"
+)
 
-}catch(e){}
+const ativo = localStorage.getItem("SDL_projeto_ativo")
+
+return lista.find(p => p.id === ativo)
+
+}catch{
+
+return null
+
+}
+
+}
 
 
 
-const statusBox = document.getElementById("statusCapista")
-const planoBox = document.getElementById("planoDetectado")
+function verificarSistema(){
 
-if(!plano){
+const projeto = obterProjetoAtivo()
 
-statusBox.innerHTML =
-"Nenhum plano selecionado. Escolha um plano para liberar o serviço do capista."
+const plano = localStorage.getItem("SDL_plano")
+const pagamento = localStorage.getItem("SDL_pagamento")
 
-planoBox.innerHTML =
-"Plano atual: não definido"
+const status = document.getElementById("statusSistema")
+
+if(!projeto){
+
+status.innerHTML =
+"Nenhum projeto ativo selecionado."
 
 return
 
 }
 
+document.getElementById("dadosProjeto").innerHTML =
+
+"Projeto ativo: <strong>" + projeto.titulo + "</strong>"
 
 
-planoBox.innerHTML =
-"Plano detectado: <strong>" + plano + "</strong>"
 
+if(!plano){
 
+status.innerHTML =
+"Selecione um plano antes de solicitar a capa."
+
+return
+
+}
 
 if(!pagamento){
 
-statusBox.innerHTML =
-"Plano selecionado, porém pagamento ainda não registrado."
+status.innerHTML =
+"Plano selecionado, mas pagamento ainda não registrado."
 
-statusBox.style.background =
+status.style.background =
 "rgba(255,112,112,0.12)"
 
 return
@@ -228,32 +241,76 @@ return
 
 
 
-statusBox.innerHTML =
-"Serviço do capista liberado para solicitação de capa."
+status.innerHTML =
+"Serviço liberado para solicitação de capa."
 
-statusBox.style.background =
+status.style.background =
 "rgba(23,77,39,0.28)"
 
 }
 
 
 
-function solicitarCapa(){
+function registrarPedidoCapa(){
 
-let plano = localStorage.getItem("SDL_plano")
-let pagamento = localStorage.getItem("SDL_pagamento")
+const projeto = obterProjetoAtivo()
+
+if(!projeto){
+
+alert("Nenhum projeto ativo.")
+return
+
+}
+
+const plano = localStorage.getItem("SDL_plano")
+const pagamento = localStorage.getItem("SDL_pagamento")
 
 if(!plano || !pagamento){
 
-alert("Serviço do capista ainda não está liberado.")
-
+alert("Serviço ainda não liberado.")
 return
 
 }
 
 
 
-alert("Solicitação de capa registrada com sucesso (modo inicial).")
+const pedido = {
+
+id:"capa_"+Date.now(),
+
+projetoID:projeto.id,
+tituloProjeto:projeto.titulo,
+
+plano,
+
+dataRegistro:new Date().toISOString(),
+
+status:"Solicitado"
+
+}
+
+
+
+let lista = []
+
+try{
+
+lista = JSON.parse(
+localStorage.getItem("SDL_capas_lista") || "[]"
+)
+
+}catch{}
+
+lista.push(pedido)
+
+localStorage.setItem(
+"SDL_capas_lista",
+JSON.stringify(lista)
+)
+
+
+
+alert("Solicitação de capa registrada com sucesso.")
 
 }
 
@@ -261,15 +318,15 @@ alert("Solicitação de capa registrada com sucesso (modo inicial).")
 
 function abrirPagamento(){
 
-window.location.href = "pagamento.html"
+window.location.href="pagamento.html"
 
 }
 
 
 
-function abrirPlanos(){
+function abrirPlano(){
 
-window.location.href = "planos_doacoes.html"
+window.location.href="planos_doacoes.html"
 
 }
 
@@ -277,14 +334,14 @@ window.location.href = "planos_doacoes.html"
 
 function voltarIndice(){
 
-window.location.href = "_Indice.html"
+window.location.href="_Indice.html"
 
 }
 
 
 
 verificarSessao()
-verificarPlanoCapista()
+verificarSistema()
 
 </script>
 
