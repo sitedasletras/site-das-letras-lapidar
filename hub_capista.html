@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hub do Capista — Lapidar</title>
+
+<style>
+:root{
+--bg:#0d0603;
+--card:#140c08;
+--cardHover:#1b100a;
+--border:rgba(255,123,44,0.18);
+--orange:#f7b22c;
+--muted:#ffd2b3;
+--ok:#9cfdb2;
+}
+
+body{
+margin:0;
+font-family:Arial, sans-serif;
+background:var(--bg);
+color:white;
+}
+
+.container{
+width:min(1200px,95%);
+margin:auto;
+padding:40px 0 60px;
+}
+
+.titulo{
+font-size:38px;
+font-weight:bold;
+}
+
+.subtitulo{
+margin-top:6px;
+color:var(--orange);
+}
+
+.status{
+margin-top:18px;
+padding:16px;
+border-radius:12px;
+background:rgba(247,178,44,0.12);
+border:1px solid rgba(247,178,44,0.25);
+}
+
+.grid{
+margin-top:30px;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:18px;
+}
+
+.card{
+background:var(--card);
+padding:22px;
+border-radius:16px;
+border:1px solid var(--border);
+cursor:pointer;
+transition:.2s;
+}
+
+.card:hover{
+background:var(--cardHover);
+}
+
+.cardTitulo{
+font-size:20px;
+font-weight:bold;
+margin-bottom:6px;
+}
+
+.cardDesc{
+color:var(--muted);
+font-size:14px;
+line-height:1.7;
+}
+
+.badge{
+margin-top:12px;
+display:inline-block;
+padding:6px 12px;
+border-radius:999px;
+background:#2a160d;
+font-size:13px;
+}
+
+.badge.ok{
+background:rgba(23,77,39,0.35);
+color:var(--ok);
+}
+
+.actions{
+margin-top:40px;
+}
+
+button{
+border:none;
+padding:14px 18px;
+border-radius:999px;
+background:#24150f;
+color:white;
+cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="titulo">Hub do Capista</div>
+<div class="subtitulo">Central executiva do setor de identidade visual da obra</div>
+
+<div id="statusHubCapista" class="status">
+Verificando projeto ativo...
+</div>
+
+<div class="grid">
+
+<div class="card" onclick="abrirPlanosCapista()">
+<div class="cardTitulo">Planos do Capista</div>
+<div class="cardDesc">
+Validação de liberação do serviço visual e solicitação de capa.
+</div>
+<div id="badgePlanosCapista" class="badge">Verificando...</div>
+</div>
+
+<div class="card" onclick="abrirConfiguracaoCapa()">
+<div class="cardTitulo">Configuração Técnica</div>
+<div class="cardDesc">
+Formato, páginas, papel, lombada e base estrutural da capa.
+</div>
+<div id="badgeConfiguracaoCapa" class="badge">Verificando...</div>
+</div>
+
+<div class="card" onclick="abrirTextosCapa()">
+<div class="cardTitulo">Textos da Capa</div>
+<div class="cardDesc">
+Sinopse, biografia, orelhas e conteúdos editoriais da capa.
+</div>
+<div id="badgeTextosCapa" class="badge">Verificando...</div>
+</div>
+
+<div class="card" onclick="abrirGeradorCapa()">
+<div class="cardTitulo">Gerador Técnico</div>
+<div class="cardDesc">
+Prévia estrutural da frente, lombada e contra-capa.
+</div>
+<div id="badgeGeradorCapa" class="badge">Verificando...</div>
+</div>
+
+<div class="card" onclick="abrirRelatorioCapista()">
+<div class="cardTitulo">Relatório do Capista</div>
+<div class="cardDesc">
+Documento técnico consolidado do setor visual da obra.
+</div>
+<div id="badgeRelatorioCapista" class="badge">Verificando...</div>
+</div>
+
+<div class="card" onclick="abrirCapaInicio()">
+<div class="cardTitulo">Painel do Capista</div>
+<div class="cardDesc">
+Entrada geral do setor de capa dentro do Lapidar.
+</div>
+<div class="badge ok">Disponível</div>
+</div>
+
+</div>
+
+<div class="actions">
+<button onclick="voltarIndice()">Voltar ao índice</button>
+</div>
+
+</div>
+
+<script src="auditoria.js"></script>
+
+<script>
+function obterProjetoAtivo(){
+  try{
+    const lista = JSON.parse(localStorage.getItem("SDL_projetos_lista") || "[]");
+    const ativo = localStorage.getItem("SDL_projeto_ativo");
+    return lista.find(p => p.id === ativo) || null;
+  }catch{
+    return null;
+  }
+}
+
+function lerJSON(chave){
+  try{
+    return JSON.parse(localStorage.getItem(chave) || "null");
+  }catch{
+    return null;
+  }
+}
+
+function atualizarStatusHubCapista(){
+  const projeto = obterProjetoAtivo();
+
+  if(!projeto){
+    statusHubCapista.innerHTML = "Nenhum projeto ativo selecionado.";
+    return;
+  }
+
+  statusHubCapista.innerHTML =
+    "Setor de capa vinculado à obra: <strong>" + projeto.titulo + "</strong>";
+
+  statusHubCapista.style.background = "rgba(23,77,39,0.28)";
+
+  let capas = [];
+  try{
+    capas = JSON.parse(localStorage.getItem("SDL_capas_lista") || "[]");
+  }catch(e){}
+
+  const solicitacao = capas.some(c => c.projetoID === projeto.id);
+  const configuracao = lerJSON("SDL_configuracao_capa_ativa");
+  const textos = lerJSON("SDL_textos_capa_ativos");
+
+  aplicarBadge("badgePlanosCapista", solicitacao);
+  aplicarBadge("badgeConfiguracaoCapa", configuracao && configuracao.projetoID === projeto.id);
+  aplicarBadge("badgeTextosCapa", textos && textos.projetoID === projeto.id);
+  aplicarBadge("badgeGeradorCapa", configuracao && configuracao.projetoID === projeto.id);
+  aplicarBadge("badgeRelatorioCapista", configuracao && configuracao.projetoID === projeto.id);
+}
+
+function aplicarBadge(id, status){
+  const el = document.getElementById(id);
+
+  if(status){
+    el.classList.add("ok");
+    el.innerHTML = "Disponível";
+  }else{
+    el.innerHTML = "Pendente";
+  }
+}
+
+function abrirPlanosCapista(){ window.location.href = "capista_planos.html"; }
+function abrirConfiguracaoCapa(){ window.location.href = "capista_configurar_capa.html"; }
+function abrirTextosCapa(){ window.location.href = "capista_upload_textos.html"; }
+function abrirGeradorCapa(){ window.location.href = "capista_gerar_capa.html"; }
+function abrirRelatorioCapista(){ window.location.href = "relatorio_capista.html"; }
+function abrirCapaInicio(){ window.location.href = "capista_inicio.html"; }
+
+function voltarIndice(){ window.location.href = "_Indice.html"; }
+
+try{
+  SDL_registrarAuditoria("Acesso ao hub do capista", "hub_capista");
+}catch(e){}
+
+atualizarStatusHubCapista();
+</script>
+
+</body>
+</html>
