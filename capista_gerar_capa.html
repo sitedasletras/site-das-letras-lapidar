@@ -3,166 +3,148 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gerar capa — Projeto Capista</title>
+<title>Capista — Gerar Capa</title>
 
 <style>
+:root{
+--bg:#0d0603;
+--card:#140c08;
+--card2:#1b100a;
+--text:#ffffff;
+--muted:#ffd2b3;
+--orange:#f7b22c;
+--border:rgba(255,123,44,0.18);
+--shadow:0 10px 26px rgba(0,0,0,0.28);
+}
+
 body{
 margin:0;
 font-family:Arial, sans-serif;
-background:#0d0603;
-color:white;
-display:flex;
-justify-content:center;
+background:var(--bg);
+color:var(--text);
 }
 
 .container{
-max-width:820px;
-width:92%;
-padding:40px 0 60px 0;
+width:min(1100px,95%);
+margin:auto;
+padding:40px 0 60px;
 }
 
 .titulo{
-font-size:34px;
-text-align:center;
+font-size:36px;
 font-weight:bold;
 }
 
 .subtitulo{
-text-align:center;
-color:#ff7b2c;
-margin-top:10px;
-margin-bottom:28px;
-line-height:1.6;
+margin-top:6px;
+color:var(--orange);
 }
 
 .card{
-background:#140c08;
-border-radius:14px;
-padding:24px;
-margin-top:18px;
-line-height:1.7;
-}
-
-.label{
-color:#ff7b2c;
-font-weight:bold;
-}
-
-.valor{
-color:#ffd2b3;
-}
-
-.alerta{
-margin-top:16px;
-color:#9cffb2;
-font-weight:bold;
-line-height:1.6;
-}
-
-.botao{
-width:100%;
-padding:18px;
-margin-top:18px;
-border:none;
-border-radius:40px;
-background:#ff5a00;
-color:white;
-font-size:18px;
-font-weight:bold;
-cursor:pointer;
-}
-
-.botao:hover{
-background:#ff6f1a;
-}
-
-.botaoCinza{
-background:#444;
-}
-
-.botaoCinza:hover{
-background:#666;
-}
-
-.sucesso{
-margin-top:20px;
-text-align:center;
-color:#9cffb2;
-font-weight:bold;
-line-height:1.6;
-}
-
-.previewWrap{
-display:flex;
-justify-content:center;
-margin-top:18px;
-}
-
-.previewCapa{
-width:260px;
-height:390px;
-border-radius:14px;
-background:linear-gradient(180deg,#25130a 0%, #140c08 100%);
-border:1px solid rgba(255,255,255,0.08);
-box-shadow:0 10px 30px rgba(0,0,0,0.35);
-padding:22px 18px;
-display:flex;
-flex-direction:column;
-justify-content:space-between;
-}
-
-.previewTopo{
-text-align:center;
-}
-
-.previewSelo{
-font-size:12px;
-letter-spacing:1px;
-color:#ffcfaa;
-opacity:0.9;
-}
-
-.previewTitulo{
-margin-top:18px;
-font-size:28px;
-font-weight:bold;
-line-height:1.2;
-color:#ffffff;
-word-break:break-word;
-}
-
-.previewSubtitulo{
-margin-top:10px;
-font-size:15px;
-line-height:1.5;
-color:#ffd2b3;
-word-break:break-word;
-}
-
-.previewRodape{
-text-align:center;
-}
-
-.previewAutor{
-font-size:18px;
-font-weight:bold;
-color:#ffffff;
-word-break:break-word;
-}
-
-.previewIdioma{
-margin-top:10px;
-font-size:13px;
-color:#ffcfaa;
+margin-top:24px;
+background:var(--card);
+border:1px solid var(--border);
+border-radius:18px;
+padding:22px;
+box-shadow:var(--shadow);
 }
 
 .status{
-margin-top:14px;
-padding:14px;
+margin-top:18px;
+padding:16px;
+border-radius:12px;
+background:rgba(247,178,44,0.12);
+border:1px solid rgba(247,178,44,0.25);
+color:#ffe7b0;
+}
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:18px;
+margin-top:18px;
+}
+
+.box{
+padding:18px;
+border-radius:14px;
+background:var(--card2);
+line-height:1.8;
+}
+
+.canvasTecnico{
+margin-top:18px;
+padding:18px;
+border-radius:14px;
+background:#120b07;
+border:1px dashed rgba(255,123,44,0.28);
+}
+
+.faixa{
+display:flex;
+height:180px;
+border:1px solid rgba(255,255,255,0.08);
+overflow:hidden;
 border-radius:10px;
-background:#1d120d;
-color:#ffd2b3;
-line-height:1.6;
+}
+
+.coluna{
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+padding:10px;
+font-weight:bold;
+font-size:14px;
+line-height:1.5;
+}
+
+.frente{
+background:#1d130d;
+}
+
+.lombada{
+background:#2a160d;
+}
+
+.contra{
+background:#1a110b;
+}
+
+.actions{
+margin-top:24px;
+display:flex;
+flex-wrap:wrap;
+gap:12px;
+}
+
+button{
+border:none;
+padding:14px 18px;
+border-radius:999px;
+cursor:pointer;
+font-weight:bold;
+}
+
+.btnVoltar{
+background:#24150f;
+color:#fff;
+}
+
+.btnConfig{
+background:#5a2c00;
+color:#fff;
+}
+
+.btnPrint{
+background:#174d27;
+color:#fff;
+}
+
+@media(max-width:900px){
+.grid{
+grid-template-columns:1fr;
+}
 }
 </style>
 </head>
@@ -171,189 +153,135 @@ line-height:1.6;
 
 <div class="container">
 
-<div class="titulo">
-Gerar capa editorial
+<div class="titulo">Gerador Técnico da Capa</div>
+<div class="subtitulo">Prévia estrutural baseada na configuração salva</div>
+
+<div id="statusGerador" class="status">
+Carregando configuração da capa...
 </div>
 
-<div class="subtitulo">
-Preparação estrutural da capa com base nos dados enviados
-</div>
+<div class="grid">
+  <div class="card">
+    <div id="dadosTecnicos" class="box">
+      Nenhuma configuração carregada.
+    </div>
+  </div>
 
-<div class="card">
-
-<div id="statusDoacao" class="status">
-Verificando sua doação ao Projeto Capista...
-</div>
-
-<div style="margin-top:14px">
-<span class="label">Título</span><br>
-<span id="tituloMostrado" class="valor"></span>
-</div>
-
-<div style="margin-top:14px">
-<span class="label">Autor</span><br>
-<span id="autorMostrado" class="valor"></span>
-</div>
-
-<div style="margin-top:14px">
-<span class="label">Idioma principal</span><br>
-<span id="idiomaPrincipalMostrado" class="valor"></span>
-</div>
-
-<div style="margin-top:14px">
-<span class="label">Idioma adicional</span><br>
-<span id="idiomaExtraMostrado" class="valor"></span>
-</div>
-
-<div style="margin-top:14px">
-<span class="label">Tipo de capa</span><br>
-<span id="tipoCapaMostrado" class="valor"></span>
-</div>
-
+  <div class="card">
+    <div id="dadosTextuais" class="box">
+      Nenhum conteúdo carregado.
+    </div>
+  </div>
 </div>
 
 <div class="card">
-
-<div class="alerta">
-Prévia visual da capa
+  <div class="canvasTecnico">
+    <div id="faixaTecnica" class="faixa">
+      <div class="coluna contra" style="width:40%;">Contra-capa</div>
+      <div class="coluna lombada" style="width:20%;">Lombada</div>
+      <div class="coluna frente" style="width:40%;">Frente</div>
+    </div>
+  </div>
 </div>
 
-<div class="previewWrap">
-<div class="previewCapa" id="previewCapa">
-
-<div class="previewTopo">
-<div class="previewSelo">SITE DAS LETRAS</div>
-<div class="previewTitulo" id="previewTitulo">Título da obra</div>
-<div class="previewSubtitulo" id="previewSubtitulo">Estrutura editorial da capa em preparação</div>
-</div>
-
-<div class="previewRodape">
-<div class="previewAutor" id="previewAutor">Nome do autor</div>
-<div class="previewIdioma" id="previewIdioma">Português</div>
-</div>
-
-</div>
+<div class="actions">
+  <button class="btnConfig" onclick="abrirConfiguracao()">Voltar à configuração técnica</button>
+  <button class="btnPrint" onclick="window.print()">Exportar PDF técnico</button>
+  <button class="btnVoltar" onclick="voltarIndice()">Voltar ao índice</button>
 </div>
 
 </div>
 
-<div class="card">
-
-<div class="alerta">
-O Projeto Capista irá preparar a capa considerando:
-</div>
-
-<div class="valor">
-• título editorial<br>
-• subtítulo (se houver)<br>
-• autor<br>
-• sinopse<br>
-• biografia<br>
-• orelhas (quando configuradas)<br>
-• selo editorial (quando ativado)<br>
-• versão multilíngue (quando configurada)
-</div>
-
-</div>
-
-<button class="botao" onclick="gerarCapa()">
-Gerar estrutura da capa
-</button>
-
-<button class="botao botaoCinza" onclick="window.location.href='capista_upload_textos.html'">
-Voltar para textos da capa
-</button>
-
-<button class="botao botaoCinza" onclick="window.location.href='_Indice.html'">
-Voltar para casa do original
-</button>
-
-<div id="statusGeracao" class="sucesso"></div>
-
-</div>
+<script src="auditoria.js"></script>
 
 <script>
-function traduzirIdioma(codigo){
-if(codigo === "pt") return "Português";
-if(codigo === "en") return "English";
-if(codigo === "es") return "Español";
-if(codigo === "it") return "Italiano";
-if(codigo === "fr") return "Français";
-if(codigo === "de") return "Deutsch";
-if(!codigo || codigo === "nenhum") return "Não utilizado";
-return "Português";
+function verificarSessao(){
+  if(localStorage.getItem("SDL_sessao_ativa") !== "sim"){
+    window.location.href = "login.html";
+  }
 }
 
-function traduzirTipoCapa(valor){
-if(valor === "fisica") return "Livro físico";
-if(valor === "epub") return "EPUB digital";
-if(valor === "ambos") return "Livro físico + EPUB";
-return "Não informado";
+function obterProjetoAtivo(){
+  try{
+    const lista = JSON.parse(localStorage.getItem("SDL_projetos_lista") || "[]");
+    const ativo = localStorage.getItem("SDL_projeto_ativo");
+    return lista.find(p => p.id === ativo) || null;
+  }catch{
+    return null;
+  }
 }
 
-function verificarDoacaoCapista(){
-const doacaoAtiva = localStorage.getItem("CAPISTA_doacao_ativa");
-const statusCapista = localStorage.getItem("CAPISTA_status");
-const planoAtivo = localStorage.getItem("CAPISTA_plano_ativo");
-const nomePlano = localStorage.getItem("CAPISTA_nome_plano") || "não identificado";
-const valorDoacao = localStorage.getItem("CAPISTA_valor_doacao") || "não identificado";
+function carregarGerador(){
+  const projeto = obterProjetoAtivo();
+  const status = document.getElementById("statusGerador");
 
-if(doacaoAtiva === "sim" || statusCapista === "ativo" || planoAtivo === "sim"){
-document.getElementById("statusDoacao").innerHTML =
-"Sua doação ao Projeto Capista foi identificada.<br><br>" +
-"Modalidade registrada: <strong>" + nomePlano + "</strong><br>" +
-"Valor registrado: <strong>" + valorDoacao + "</strong>";
-return true;
+  if(!projeto){
+    status.innerHTML = "Nenhum projeto ativo selecionado.";
+    return;
+  }
+
+  let cfg = null;
+
+  try{
+    cfg = JSON.parse(localStorage.getItem("SDL_configuracao_capa_ativa") || "null");
+  }catch(e){}
+
+  if(!cfg || cfg.projetoID !== projeto.id){
+    status.innerHTML = "Nenhuma configuração técnica salva para este projeto.";
+    return;
+  }
+
+  status.innerHTML = "Configuração técnica carregada para: <strong>" + (cfg.titulo || projeto.titulo || "Sem título") + "</strong>";
+  status.style.background = "rgba(23,77,39,0.28)";
+
+  document.getElementById("dadosTecnicos").innerHTML =
+    "<strong>Formato:</strong> " + (cfg.formato || "—") + "<br>" +
+    "<strong>Dimensão da capa:</strong> " + (cfg.largura || "—") + " x " + (cfg.altura || "—") + " mm<br>" +
+    "<strong>Páginas:</strong> " + (cfg.paginas || "—") + "<br>" +
+    "<strong>Papel:</strong> " + (cfg.papelNome || "—") + "<br>" +
+    "<strong>Gramatura:</strong> " + (cfg.gramatura || "—") + "<br>" +
+    "<strong>Lombada:</strong> " + (cfg.lombada || "—") + " mm<br>" +
+    "<strong>Largura aberta:</strong> " + (cfg.larguraAberta || "—") + " mm<br>" +
+    "<strong>Selo:</strong> " + (cfg.selo || "—");
+
+  document.getElementById("dadosTextuais").innerHTML =
+    "<strong>Título:</strong> " + (cfg.titulo || "—") + "<br>" +
+    "<strong>Subtítulo:</strong> " + (cfg.subtitulo || "—") + "<br>" +
+    "<strong>Autor:</strong> " + (cfg.autor || "—") + "<br><br>" +
+    "<strong>Observações técnicas:</strong><br>" + (cfg.observacoes || "Sem observações");
+
+  renderizarFaixa(cfg);
+
+  try{
+    SDL_registrarAuditoria("Gerador técnico da capa aberto", "capista_gerar_capa");
+  }catch(e){}
 }
 
-document.getElementById("statusDoacao").innerHTML =
-"Sua doação ao Projeto Capista ainda não foi identificada.<br><br>" +
-"Volte à etapa anterior e registre sua doação antes de continuar.";
-return false;
+function renderizarFaixa(cfg){
+  const largura = Number(cfg.largura) || 148;
+  const lombada = Number(cfg.lombada) || 10;
+  const total = largura * 2 + lombada;
+
+  const contraPct = ((largura / total) * 100).toFixed(2);
+  const lombadaPct = ((lombada / total) * 100).toFixed(2);
+  const frentePct = ((largura / total) * 100).toFixed(2);
+
+  document.getElementById("faixaTecnica").innerHTML =
+    '<div class="coluna contra" style="width:' + contraPct + '%;">Contra-capa<br>' + largura + ' mm</div>' +
+    '<div class="coluna lombada" style="width:' + lombadaPct + '%;">Lombada<br>' + lombada + ' mm</div>' +
+    '<div class="coluna frente" style="width:' + frentePct + '%;">Frente<br>' + largura + ' mm</div>';
 }
 
-function carregarDados(){
-const titulo = localStorage.getItem("CAPISTA_titulo") || localStorage.getItem("SDL_titulo_livro") || "Título não informado";
-const subtitulo = localStorage.getItem("CAPISTA_subtitulo") || "Estrutura editorial da capa em preparação";
-const autor = localStorage.getItem("CAPISTA_autor") || localStorage.getItem("SDL_nome_autor") || "Autor não informado";
-const idiomaPrincipal = localStorage.getItem("CAPISTA_idioma_principal") || localStorage.getItem("SDL_idioma_obra") || "pt";
-const idiomaExtra = localStorage.getItem("CAPISTA_idioma_extra") || "nenhum";
-const tipoCapa = localStorage.getItem("CAPISTA_tipo_capa") || "fisica";
-
-document.getElementById("tituloMostrado").innerText = titulo;
-document.getElementById("autorMostrado").innerText = autor;
-document.getElementById("idiomaPrincipalMostrado").innerText = traduzirIdioma(idiomaPrincipal);
-document.getElementById("idiomaExtraMostrado").innerText = traduzirIdioma(idiomaExtra);
-document.getElementById("tipoCapaMostrado").innerText = traduzirTipoCapa(tipoCapa);
-
-document.getElementById("previewTitulo").innerText = titulo;
-document.getElementById("previewSubtitulo").innerText = subtitulo || "Estrutura editorial da capa em preparação";
-document.getElementById("previewAutor").innerText = autor;
-document.getElementById("previewIdioma").innerText = traduzirIdioma(idiomaPrincipal);
+function abrirConfiguracao(){
+  window.location.href = "capista_configurar_capa.html";
 }
 
-function gerarCapa(){
-const doacaoOk = verificarDoacaoCapista();
-
-if(!doacaoOk){
-alert("Sua doação ao Projeto Capista ainda não foi identificada.");
-return;
+function voltarIndice(){
+  window.location.href = "_Indice.html";
 }
 
-localStorage.setItem("CAPISTA_status_geracao","preparada");
-localStorage.setItem("CAPISTA_preview_gerado","sim");
-localStorage.setItem("SDL_capista_preview_gerado","sim");
-
-document.getElementById("statusGeracao").innerText =
-"Estrutura da capa preparada com sucesso.";
-
-setTimeout(function(){
-window.location.href = "relatorio_capista.html";
-},1200);
-}
-
-verificarDoacaoCapista();
-carregarDados();
+verificarSessao();
+carregarGerador();
 </script>
 
 </body>
