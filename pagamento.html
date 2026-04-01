@@ -3,19 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lapidar — Pagamento</title>
+<title>Pagamento — Lapidar</title>
 
 <style>
 
 :root{
 --bg:#0d0603;
 --card:#140c08;
---card-2:#1b100a;
+--card2:#1b100a;
 --text:#ffffff;
 --muted:#ffd2b3;
 --orange:#f7b22c;
---orange-strong:#ff5a00;
---blue:#6ea8ff;
+--orangeStrong:#ff5a00;
 --green:#9cfdb2;
 --danger:#ff7070;
 --border:rgba(255,123,44,0.18);
@@ -26,51 +25,68 @@ body{
 margin:0;
 font-family:Arial;
 background:var(--bg);
-color:var(--text);
+color:white;
 }
 
 .container{
-width:min(1100px,94%);
+width:min(900px,95%);
 margin:auto;
-padding:30px 0 50px 0;
+padding:40px 0;
 }
 
 .titulo{
-font-size:40px;
+font-size:38px;
 font-weight:bold;
 }
 
 .subtitulo{
-color:var(--orange);
 margin-top:6px;
-font-size:18px;
-}
-
-.bloco{
-background:var(--card);
-border:1px solid var(--border);
-border-radius:18px;
-padding:22px;
-margin-top:24px;
-box-shadow:var(--shadow);
-}
-
-.grid{
-display:grid;
-grid-template-columns:1fr 1fr 1fr;
-gap:18px;
-margin-top:20px;
+color:var(--orange);
 }
 
 .card{
-background:var(--card-2);
-padding:18px;
-border-radius:14px;
-border:1px solid rgba(255,255,255,0.05);
+margin-top:30px;
+background:var(--card);
+padding:24px;
+border-radius:18px;
+border:1px solid var(--border);
+box-shadow:var(--shadow);
 }
 
-.card h3{
-margin-top:0;
+.linha{
+margin-top:12px;
+color:var(--muted);
+}
+
+.rotulo{
+color:var(--orange);
+font-weight:bold;
+}
+
+select{
+margin-top:12px;
+width:100%;
+padding:14px;
+border-radius:12px;
+border:none;
+background:#1b0e07;
+color:white;
+}
+
+.statusBox{
+margin-top:22px;
+padding:18px;
+border-radius:14px;
+background:rgba(247,178,44,0.12);
+border:1px solid rgba(247,178,44,0.2);
+color:#ffe7b0;
+}
+
+.actions{
+margin-top:26px;
+display:flex;
+flex-wrap:wrap;
+gap:12px;
 }
 
 .botao{
@@ -81,73 +97,19 @@ font-weight:bold;
 cursor:pointer;
 }
 
-.botao-laranja{
-background:var(--orange-strong);
-color:white;
-}
-
-.botao-azul{
-background:var(--blue);
-color:white;
-}
-
-.botao-verde{
+.botaoConfirmar{
 background:#174d27;
 color:#dfffe8;
 }
 
-.botao-escuro{
+.botaoIndice{
 background:#24150f;
 color:white;
 }
 
-.actions{
-margin-top:16px;
-display:flex;
-gap:10px;
-flex-wrap:wrap;
-}
-
-.info{
-color:var(--muted);
-line-height:1.8;
-}
-
-.status-box{
-margin-top:20px;
-padding:18px;
-border-radius:14px;
-background:rgba(247,178,44,0.12);
-border:1px solid rgba(247,178,44,0.2);
-color:#ffe7b0;
-}
-
-.rodape{
-margin-top:30px;
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:18px;
-}
-
-.link-btn{
-display:block;
-margin-top:10px;
-text-decoration:none;
-text-align:center;
-padding:14px;
-border-radius:999px;
-background:#24150f;
+.botaoPlano{
+background:var(--orangeStrong);
 color:white;
-}
-
-@media(max-width:900px){
-.grid{
-grid-template-columns:1fr;
-}
-
-.rodape{
-grid-template-columns:1fr;
-}
 }
 
 </style>
@@ -157,151 +119,65 @@ grid-template-columns:1fr;
 
 <div class="container">
 
-<div>
-
 <div class="titulo">
-PAGAMENTO
+REGISTRO DE PAGAMENTO
 </div>
 
 <div class="subtitulo">
-Regularização operacional do acesso ao sistema Lapidar
+Confirmação do pagamento do plano editorial Lapidar
 </div>
 
-</div>
-
-
-<div class="bloco">
-
-<div class="info">
-
-Esta área permite registrar a regularização do plano ativo no dispositivo atual.
-Após confirmar o pagamento, o sistema marca o status como <strong>ativo</strong> localmente.
-
-</div>
-
-<div class="status-box" id="statusAtual">
-
-Verificando status do plano...
-
-</div>
-
-</div>
-
-
-<div class="grid">
-
-<div class="card">
-
-<h3>Pagamento via PIX</h3>
-
-<div class="info">
-Utilize esta opção para registrar pagamento manual realizado via PIX.
-Após confirmação, o plano será marcado como ativo neste dispositivo.
-</div>
-
-<div class="actions">
-<button class="botao botao-laranja" onclick="confirmarPagamento('PIX')">
-Confirmar pagamento PIX
-</button>
-</div>
-
-</div>
 
 
 <div class="card">
 
-<h3>Pagamento via Cartão</h3>
-
-<div class="info">
-Registro operacional de pagamento via cartão.
-Esta ação ativa o plano localmente para continuidade do fluxo editorial.
-</div>
-
-<div class="actions">
-<button class="botao botao-azul" onclick="confirmarPagamento('Cartão')">
-Confirmar pagamento cartão
-</button>
-</div>
-
+<div class="linha">
+<span class="rotulo">Plano selecionado:</span>
+<span id="planoSelecionado">Verificando...</span>
 </div>
 
 
-<div class="card">
+<select id="formaPagamento">
 
-<h3>Pagamento via Doação</h3>
+<option value="">Selecione a forma de pagamento</option>
 
-<div class="info">
-Registro de contribuição voluntária vinculada ao plano editorial.
-Ativa o acesso local após confirmação.
-</div>
+<option>PIX</option>
 
-<div class="actions">
-<button class="botao botao-verde" onclick="confirmarPagamento('Doação')">
-Confirmar doação
-</button>
-</div>
+<option>Transferência</option>
 
+<option>Depósito</option>
+
+<option>Cartão</option>
+
+<option>Outro</option>
+
+</select>
+
+
+<div class="statusBox" id="statusPagamento">
+Nenhum pagamento registrado ainda.
 </div>
 
 </div>
 
 
-<div class="bloco">
 
 <div class="actions">
 
-<button class="botao botao-escuro" onclick="abrirStatusPlano()">
-Ver status do plano
+<button class="botao botaoConfirmar" onclick="registrarPagamento()">
+Confirmar pagamento
 </button>
 
-<button class="botao botao-escuro" onclick="abrirPlanos()">
-Ver planos disponíveis
+<button class="botao botaoPlano" onclick="abrirPlanos()">
+Escolher plano
 </button>
 
-<button class="botao botao-escuro" onclick="voltarIndice()">
+<button class="botao botaoIndice" onclick="voltarIndice()">
 Voltar ao índice
 </button>
 
 </div>
 
-</div>
-
-
-<div class="rodape">
-
-<div class="bloco">
-
-<h3>Atalhos rápidos</h3>
-
-<a class="link-btn" href="status_plano.html">
-Status do plano
-</a>
-
-<a class="link-btn" href="planos_doacoes.html">
-Planos
-</a>
-
-<a class="link-btn" href="_Indice.html">
-Voltar ao índice
-</a>
-
-</div>
-
-
-<div class="bloco">
-
-<h3>Recado da casa</h3>
-
-<div class="info">
-
-O registro local de pagamento organiza o fluxo operacional do ambiente.
-Ele não substitui a confirmação financeira externa, mas mantém a navegação ativa dentro do painel.
-
-</div>
-
-</div>
-
-</div>
 
 
 </div>
@@ -312,81 +188,111 @@ Ele não substitui a confirmação financeira externa, mas mantém a navegação
 
 function verificarSessao(){
 
-const sessao = localStorage.getItem("SDL_sessao_ativa");
+const sessao=localStorage.getItem("SDL_sessao_ativa")
 
-if(sessao !== "sim"){
-window.location.href = "login.html";
+if(sessao!=="sim"){
+
+window.location.href="login.html"
+
 }
 
 }
 
 
 
-function abrirStatusPlano(){
-window.location.href = "status_plano.html";
+function carregarPlano(){
+
+try{
+
+const plano=localStorage.getItem("SDL_plano")
+
+if(plano){
+
+document.getElementById("planoSelecionado").innerHTML=plano
+
+}else{
+
+document.getElementById("planoSelecionado").innerHTML=
+"Nenhum plano selecionado"
+
+}
+
+}catch(e){
+
+document.getElementById("planoSelecionado").innerHTML=
+"Erro ao carregar plano"
+
+}
+
+}
+
+
+
+function registrarPagamento(){
+
+const forma=document.getElementById("formaPagamento").value
+
+const plano=localStorage.getItem("SDL_plano")
+
+if(!plano){
+
+document.getElementById("statusPagamento").innerHTML=
+"Selecione primeiro um plano antes de registrar pagamento."
+
+return
+
+}
+
+if(!forma){
+
+document.getElementById("statusPagamento").innerHTML=
+"Selecione uma forma de pagamento."
+
+return
+
+}
+
+try{
+
+localStorage.setItem("SDL_pagamento",forma)
+
+document.getElementById("statusPagamento").innerHTML=
+"Pagamento registrado com sucesso via "+forma
+
+document.getElementById("statusPagamento").style.background=
+"rgba(23,77,39,0.28)"
+
+}catch(e){
+
+document.getElementById("statusPagamento").innerHTML=
+"Erro ao registrar pagamento."
+
+}
+
 }
 
 
 
 function abrirPlanos(){
-window.location.href = "planos_doacoes.html";
+
+window.location.href="planos_doacoes.html"
+
 }
 
 
 
 function voltarIndice(){
-window.location.href = "_Indice.html";
-}
 
-
-
-function atualizarStatusTela(){
-
-const status = localStorage.getItem("SDL_plano_status");
-
-const el = document.getElementById("statusAtual");
-
-
-if(status === "ativo"){
-
-el.innerHTML = "Plano marcado como ATIVO neste dispositivo.";
-el.style.background = "rgba(23,77,39,0.28)";
-el.style.border = "1px solid rgba(156,253,178,0.18)";
-el.style.color = "#dfffe8";
-
-return;
-
-}
-
-
-el.innerHTML = "Plano ainda não regularizado neste dispositivo.";
+window.location.href="_Indice.html"
 
 }
 
 
 
-function confirmarPagamento(tipo){
-
-localStorage.setItem("SDL_plano_status","ativo");
-
-localStorage.setItem("SDL_plano_forma_pagamento",tipo);
-
-localStorage.setItem("SDL_plano_vencimento","12 meses");
-
-alert("Pagamento registrado com sucesso via " + tipo);
-
-atualizarStatusTela();
-
-}
-
-
-
-verificarSessao();
-
-atualizarStatusTela();
+verificarSessao()
+carregarPlano()
 
 </script>
-
 
 </body>
 </html>
