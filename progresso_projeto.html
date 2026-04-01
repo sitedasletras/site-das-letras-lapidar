@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Progresso da Obra — Lapidar</title>
+
+<style>
+
+:root{
+--bg:#0d0603;
+--card:#140c08;
+--ok:#9cfdb2;
+--warn:#f7b22c;
+--border:rgba(255,123,44,0.18);
+}
+
+body{
+margin:0;
+font-family:Arial;
+background:var(--bg);
+color:white;
+}
+
+.container{
+width:min(1000px,95%);
+margin:auto;
+padding:40px 0;
+}
+
+.titulo{
+font-size:36px;
+font-weight:bold;
+}
+
+.subtitulo{
+color:var(--warn);
+margin-top:6px;
+}
+
+.progressbar{
+
+margin-top:30px;
+
+height:26px;
+
+background:#1b100a;
+
+border-radius:999px;
+
+overflow:hidden;
+
+border:1px solid var(--border);
+
+}
+
+.progress{
+
+height:100%;
+
+background:var(--ok);
+
+width:0%;
+
+transition:.5s;
+
+}
+
+.etapas{
+
+margin-top:30px;
+
+}
+
+.etapa{
+
+background:var(--card);
+
+padding:16px;
+
+border-radius:14px;
+
+margin-bottom:12px;
+
+border:1px solid var(--border);
+
+display:flex;
+
+justify-content:space-between;
+
+}
+
+.ok{
+
+color:var(--ok);
+
+}
+
+.pendente{
+
+color:#ffd2b3;
+
+}
+
+button{
+
+margin-top:20px;
+
+padding:14px 18px;
+
+border:none;
+
+border-radius:999px;
+
+background:#24150f;
+
+color:white;
+
+cursor:pointer;
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="titulo">
+Progresso Editorial da Obra
+</div>
+
+<div class="subtitulo">
+Checklist automático baseado nas etapas registradas
+</div>
+
+<div class="progressbar">
+<div id="barra" class="progress"></div>
+</div>
+
+<div id="listaEtapas" class="etapas">
+
+Carregando progresso...
+
+</div>
+
+<button onclick="voltarIndice()">
+Voltar ao índice
+</button>
+
+</div>
+
+<script>
+
+function verificarSessao(){
+
+if(localStorage.getItem("SDL_sessao_ativa")!=="sim"){
+
+window.location.href="login.html"
+
+}
+
+}
+
+function obterProjetoAtivo(){
+
+try{
+
+const lista=
+JSON.parse(localStorage.getItem("SDL_projetos_lista")||"[]")
+
+const ativo=
+localStorage.getItem("SDL_projeto_ativo")
+
+return lista.find(p=>p.id===ativo)
+
+}catch{
+
+return null
+
+}
+
+}
+
+function calcularProgresso(){
+
+const projeto=obterProjetoAtivo()
+
+if(!projeto){
+
+document.getElementById("listaEtapas").innerHTML=
+"Nenhum projeto ativo."
+
+return
+
+}
+
+let etapas=[
+
+{
+nome:"Projeto cadastrado",
+ok:true
+},
+
+{
+nome:"Plano selecionado",
+ok:localStorage.getItem("SDL_plano")
+},
+
+{
+nome:"Pagamento registrado",
+ok:localStorage.getItem("SDL_pagamento")
+},
+
+{
+nome:"Pedido editorial registrado",
+ok:verificarPedidos(projeto.id)
+},
+
+{
+nome:"Solicitação de capa registrada",
+ok:verificarCapas(projeto.id)
+}
+
+]
+
+renderizar(etapas)
+
+}
+
+function verificarPedidos(id){
+
+let pedidos=
+JSON.parse(localStorage.getItem("SDL_pedidos_lista")||"[]")
+
+return pedidos.some(p=>p.projetoID===id)
+
+}
+
+function verificarCapas(id){
+
+let capas=
+JSON.parse(localStorage.getItem("SDL_capas_lista")||"[]")
+
+return capas.some(c=>c.projetoID===id)
+
+}
+
+function renderizar(etapas){
+
+let html=""
+
+let total=etapas.length
+
+let concluidas=0
+
+etapas.forEach(e=>{
+
+if(e.ok) concluidas++
+
+html+=`
+
+<div class="etapa">
+
+<span>${e.nome}</span>
+
+<span class="${e.ok ? "ok" : "pendente"}">
+
+${e.ok ? "Concluído" : "Pendente"}
+
+</span>
+
+</div>
+
+`
+
+})
+
+document.getElementById("listaEtapas").innerHTML=html
+
+let percentual=(concluidas/total)*100
+
+document.getElementById("barra").style.width=
+
+percentual+"%"
+
+}
+
+function voltarIndice(){
+
+window.location.href="_Indice.html"
+
+}
+
+verificarSessao()
+
+calcularProgresso()
+
+</script>
+
+</body>
+</html>
