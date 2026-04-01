@@ -290,13 +290,14 @@ Registro institucional das operações realizadas no sistema.
 </div>
 
 <script src="auditoria.js"></script>
+<script src="sessao_unica.js"></script>
 
 <script>
 function verificarSessao(){
-  if(localStorage.getItem("SDL_sessao_ativa") !== "sim"){
-    window.location.href = "login.html";
-    return;
-  }
+  const tokenAtual = localStorage.getItem("SDL_token_sessao");
+
+  SDL_validarSessao();
+  SDL_forcarSessaoUnica(tokenAtual);
 
   document.getElementById("statusSistema").innerHTML =
     "Sessão editorial ativa e validada.";
@@ -367,8 +368,7 @@ function encerrarSessao(){
     );
   }catch(e){}
 
-  localStorage.removeItem("SDL_sessao_ativa");
-  window.location.href = "login.html";
+  SDL_encerrarSessao();
 }
 
 verificarSessao();
