@@ -3,22 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Timeline Editorial — Lapidar</title>
+<title>Timeline da Obra — Lapidar</title>
 
 <style>
-
 :root{
 --bg:#0d0603;
 --card:#140c08;
 --card2:#1b100a;
---orange:#f7b22c;
---green:#9cfdb2;
 --border:rgba(255,123,44,0.18);
+--orange:#f7b22c;
+--muted:#ffd2b3;
+--ok:#9cfdb2;
 }
 
 body{
 margin:0;
-font-family:Arial;
+font-family:Arial, sans-serif;
 background:var(--bg);
 color:white;
 }
@@ -26,11 +26,11 @@ color:white;
 .container{
 width:min(1100px,95%);
 margin:auto;
-padding:40px 0;
+padding:40px 0 60px;
 }
 
 .titulo{
-font-size:36px;
+font-size:38px;
 font-weight:bold;
 }
 
@@ -39,58 +39,82 @@ margin-top:6px;
 color:var(--orange);
 }
 
+.status{
+margin-top:18px;
+padding:16px;
+border-radius:12px;
+background:rgba(247,178,44,0.12);
+border:1px solid rgba(247,178,44,0.25);
+color:#ffe7b0;
+}
+
 .timeline{
-
-margin-top:30px;
-
+margin-top:28px;
+display:flex;
+flex-direction:column;
+gap:16px;
 }
 
 .evento{
-
 background:var(--card);
-
 border:1px solid var(--border);
-
-border-radius:14px;
-
+border-radius:16px;
 padding:18px;
-
-margin-bottom:14px;
-
+position:relative;
 }
 
-.data{
+.evento::before{
+content:"";
+position:absolute;
+left:-10px;
+top:22px;
+width:12px;
+height:12px;
+border-radius:50%;
+background:var(--orange);
+}
 
+.eventoTitulo{
+font-size:18px;
+font-weight:bold;
+margin-bottom:6px;
+}
+
+.eventoData{
 color:var(--orange);
-
 font-size:14px;
+margin-bottom:6px;
+}
 
-margin-top:4px;
+.eventoDesc{
+color:var(--muted);
+line-height:1.7;
+}
 
+.vazio{
+margin-top:24px;
+padding:18px;
+border-radius:14px;
+background:var(--card2);
+line-height:1.8;
 }
 
 .actions{
-
-margin-top:20px;
-
+margin-top:32px;
+display:flex;
+gap:12px;
+flex-wrap:wrap;
 }
 
 button{
-
 border:none;
-
 padding:14px 18px;
-
 border-radius:999px;
-
-cursor:pointer;
-
 background:#24150f;
-
 color:white;
-
+cursor:pointer;
+font-weight:bold;
 }
-
 </style>
 </head>
 
@@ -98,209 +122,254 @@ color:white;
 
 <div class="container">
 
-<div class="titulo">
-Timeline Editorial da Obra
+<div class="titulo">Timeline da Obra</div>
+<div class="subtitulo">Linha do tempo editorial da obra ativa</div>
+
+<div id="statusTimeline" class="status">
+Verificando obra ativa...
 </div>
 
-<div class="subtitulo">
-Histórico automático do projeto ativo
-</div>
-
-<div id="timelineArea" class="timeline">
-
+<div id="areaTimeline" class="timeline">
 Carregando timeline...
-
 </div>
 
 <div class="actions">
-
-<button onclick="voltarIndice()">
-Voltar ao índice
-</button>
-
+<button onclick="abrirCentroObra()">Abrir centro da obra</button>
+<button onclick="voltarIndice()">Voltar ao índice</button>
 </div>
 
 </div>
+
+<script src="auditoria.js"></script>
 
 <script>
-
-function verificarSessao(){
-
-if(localStorage.getItem("SDL_sessao_ativa")!=="sim"){
-
-window.location.href="login.html"
-
-}
-
+function lerJSON(chave){
+  try{
+    return JSON.parse(localStorage.getItem(chave) || "null");
+  }catch{
+    return null;
+  }
 }
 
 function obterProjetoAtivo(){
-
-try{
-
-const lista=
-JSON.parse(localStorage.getItem("SDL_projetos_lista")||"[]")
-
-const ativo=
-localStorage.getItem("SDL_projeto_ativo")
-
-return lista.find(p=>p.id===ativo)
-
-}catch{
-
-return null
-
+  try{
+    const lista = JSON.parse(localStorage.getItem("SDL_projetos_lista") || "[]");
+    const ativo = localStorage.getItem("SDL_projeto_ativo");
+    return lista.find(p => p.id === ativo) || null;
+  }catch{
+    return null;
+  }
 }
 
+function obterPedidosProjeto(id){
+  try{
+    const lista = JSON.parse(localStorage.getItem("SDL_pedidos_lista") || "[]");
+    return lista.filter(p => p.projetoID === id);
+  }catch{
+    return [];
+  }
 }
 
-function carregarTimeline(){
-
-const projeto=obterProjetoAtivo()
-
-if(!projeto){
-
-document.getElementById("timelineArea").innerHTML=
-"Nenhum projeto ativo selecionado."
-
-return
-
-}
-
-let eventos=[]
-
-eventos.push({
-
-titulo:"Projeto criado",
-
-data:projeto.dataRegistro
-
-})
-
-if(localStorage.getItem("SDL_plano")){
-
-eventos.push({
-
-titulo:"Plano editorial selecionado",
-
-data:"registrado no sistema"
-
-})
-
-}
-
-if(localStorage.getItem("SDL_pagamento")){
-
-eventos.push({
-
-titulo:"Pagamento registrado",
-
-data:"registrado no sistema"
-
-})
-
-}
-
-let pedidos=
-
-JSON.parse(localStorage.getItem("SDL_pedidos_lista")||"[]")
-
-pedidos
-
-.filter(p=>p.projetoID===projeto.id)
-
-.forEach(p=>{
-
-eventos.push({
-
-titulo:"Pedido editorial: "+p.tipo,
-
-data:p.dataRegistro
-
-})
-
-})
-
-let capas=
-
-JSON.parse(localStorage.getItem("SDL_capas_lista")||"[]")
-
-capas
-
-.filter(c=>c.projetoID===projeto.id)
-
-.forEach(c=>{
-
-eventos.push({
-
-titulo:"Solicitação de capa registrada",
-
-data:c.dataRegistro
-
-})
-
-})
-
-renderizarTimeline(eventos)
-
-}
-
-function renderizarTimeline(eventos){
-
-eventos.sort((a,b)=>new Date(a.data)-new Date(b.data))
-
-let html=""
-
-eventos.forEach(e=>{
-
-html+=`
-
-<div class="evento">
-
-<strong>${e.titulo}</strong>
-
-<div class="data">
-
-${formatarData(e.data)}
-
-</div>
-
-</div>
-
-`
-
-})
-
-document.getElementById("timelineArea").innerHTML=html
-
+function obterCapasProjeto(id){
+  try{
+    const lista = JSON.parse(localStorage.getItem("SDL_capas_lista") || "[]");
+    return lista.filter(c => c.projetoID === id);
+  }catch{
+    return [];
+  }
 }
 
 function formatarData(d){
-
-if(d==="registrado no sistema") return d
-
-try{
-
-return new Date(d).toLocaleString("pt-BR")
-
-}catch{
-
-return d
-
+  if(!d) return "Data não disponível";
+  try{
+    return new Date(d).toLocaleString("pt-BR");
+  }catch{
+    return d;
+  }
 }
 
+function pushEvento(eventos, titulo, data, descricao){
+  if(!data) return;
+  eventos.push({ titulo, data, descricao });
+}
+
+function montarTimeline(){
+  const projeto = obterProjetoAtivo();
+  const status = document.getElementById("statusTimeline");
+  const area = document.getElementById("areaTimeline");
+
+  if(!projeto){
+    status.innerHTML = "Nenhum projeto ativo selecionado.";
+    area.innerHTML = '<div class="vazio">Selecione uma obra para visualizar a timeline editorial.</div>';
+    return;
+  }
+
+  status.innerHTML = 'Timeline vinculada à obra: <strong>' + (projeto.titulo || "Sem título") + '</strong>';
+  status.style.background = "rgba(23,77,39,0.28)";
+
+  const eventos = [];
+
+  pushEvento(
+    eventos,
+    "Projeto criado",
+    projeto.dataRegistro,
+    "Cadastro inicial da obra no Lapidar."
+  );
+
+  const plano = localStorage.getItem("SDL_plano");
+  if(plano){
+    pushEvento(
+      eventos,
+      "Plano editorial selecionado",
+      new Date().toISOString(),
+      "Plano atual registrado no sistema: " + plano + "."
+    );
+  }
+
+  const pagamento = localStorage.getItem("SDL_pagamento");
+  if(pagamento){
+    pushEvento(
+      eventos,
+      "Pagamento registrado",
+      new Date().toISOString(),
+      "Confirmação de pagamento armazenada no sistema."
+    );
+  }
+
+  const pedidos = obterPedidosProjeto(projeto.id);
+  pedidos.forEach(p => {
+    pushEvento(
+      eventos,
+      "Pedido editorial registrado",
+      p.dataRegistro,
+      "Tipo: " + (p.tipo || "—") + " | Título: " + (p.titulo || "—")
+    );
+  });
+
+  const capas = obterCapasProjeto(projeto.id);
+  capas.forEach(c => {
+    pushEvento(
+      eventos,
+      "Solicitação de capa registrada",
+      c.dataRegistro,
+      "Plano vinculado: " + (c.plano || "—") + "."
+    );
+  });
+
+  const cfgCapa = lerJSON("SDL_configuracao_capa_ativa");
+  if(cfgCapa && cfgCapa.projetoID === projeto.id){
+    pushEvento(
+      eventos,
+      "Configuração técnica da capa salva",
+      cfgCapa.dataRegistro,
+      "Formato: " + (cfgCapa.formato || "—") + " | Lombada: " + (cfgCapa.lombada || "—") + " mm."
+    );
+  }
+
+  const textosCapa = lerJSON("SDL_textos_capa_ativos");
+  if(textosCapa && textosCapa.projetoID === projeto.id){
+    pushEvento(
+      eventos,
+      "Textos da capa salvos",
+      textosCapa.dataRegistro,
+      "Sinopse, biografia, orelhas e textos editoriais registrados."
+    );
+  }
+
+  const planejamentoMiolo = lerJSON("SDL_planejamento_miolo_ativo");
+  if(planejamentoMiolo && planejamentoMiolo.projetoID === projeto.id){
+    pushEvento(
+      eventos,
+      "Planejamento do miolo salvo",
+      planejamentoMiolo.dataRegistro,
+      "Formato do miolo e estrutura editorial registrados."
+    );
+  }
+
+  const elementosTecnicos = lerJSON("SDL_elementos_tecnicos_ativos");
+  if(elementosTecnicos && elementosTecnicos.projetoID === projeto.id){
+    pushEvento(
+      eventos,
+      "Elementos técnicos salvos",
+      elementosTecnicos.dataRegistro,
+      "Peças internas do miolo organizadas."
+    );
+  }
+
+  const padraoDiagramacao = lerJSON("SDL_padrao_diagramacao");
+  if(padraoDiagramacao && padraoDiagramacao.idProjeto === projeto.id){
+    pushEvento(
+      eventos,
+      "Padrão de diagramação salvo",
+      padraoDiagramacao.data,
+      "DNA visual do miolo definido."
+    );
+  }
+
+  const planejamentoTraducao = lerJSON("SDL_planejamento_traducao_ativo");
+  if(planejamentoTraducao && planejamentoTraducao.projetoID === projeto.id){
+    pushEvento(
+      eventos,
+      "Planejamento da tradução salvo",
+      planejamentoTraducao.dataRegistro,
+      "Estratégia tradutória definida para a obra."
+    );
+  }
+
+  const glossarioTraducao = lerJSON("SDL_glossario_traducao_ativo");
+  if(glossarioTraducao && glossarioTraducao.projetoID === projeto.id){
+    pushEvento(
+      eventos,
+      "Glossário da tradução salvo",
+      glossarioTraducao.dataRegistro,
+      "Padronização de nomes e termos registrada."
+    );
+  }
+
+  const leituraTecnica = lerJSON("SDL_leitura_tecnica_ativa");
+  if(leituraTecnica && leituraTecnica.projetoID === projeto.id){
+    pushEvento(
+      eventos,
+      "Leitura técnica salva",
+      leituraTecnica.dataRegistro,
+      "Parecer editorial analítico disponível."
+    );
+  }
+
+  eventos.sort((a, b) => new Date(a.data) - new Date(b.data));
+
+  if(!eventos.length){
+    area.innerHTML = '<div class="vazio">Ainda não há eventos registrados para esta obra.</div>';
+    return;
+  }
+
+  let html = "";
+  eventos.forEach(evento => {
+    html += `
+      <div class="evento">
+        <div class="eventoTitulo">${evento.titulo}</div>
+        <div class="eventoData">${formatarData(evento.data)}</div>
+        <div class="eventoDesc">${evento.descricao}</div>
+      </div>
+    `;
+  });
+
+  area.innerHTML = html;
+
+  try{
+    SDL_registrarAuditoria("Acesso à timeline da obra", "timeline_projeto");
+  }catch(e){}
+}
+
+function abrirCentroObra(){
+  window.location.href = "centro_obra.html";
 }
 
 function voltarIndice(){
-
-window.location.href="_Indice.html"
-
+  window.location.href = "_Indice.html";
 }
 
-verificarSessao()
-
-carregarTimeline()
-
+montarTimeline();
 </script>
 
 </body>
