@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Capista — Solicitação de Capa</title>
+<title>Solicitação de Capa — Lapidar</title>
 
 <style>
 
@@ -118,19 +118,13 @@ Solicitação de Capa
 Serviço vinculado ao projeto ativo no Lapidar
 </div>
 
-
-
 <div id="statusSistema" class="status">
 Verificando ambiente editorial...
 </div>
 
-
-
 <div id="dadosProjeto" class="box">
 Carregando projeto...
 </div>
-
-
 
 <div class="actions">
 
@@ -154,7 +148,7 @@ Voltar ao índice
 
 </div>
 
-
+<script src="auditoria.js"></script>
 
 <script>
 
@@ -163,24 +157,20 @@ function verificarSessao(){
 const sessao = localStorage.getItem("SDL_sessao_ativa")
 
 if(sessao !== "sim"){
-
 window.location.href="login.html"
-
 }
 
 }
-
-
 
 function obterProjetoAtivo(){
 
 try{
 
-const lista = JSON.parse(
-localStorage.getItem("SDL_projetos_lista") || "[]"
-)
+const lista =
+JSON.parse(localStorage.getItem("SDL_projetos_lista") || "[]")
 
-const ativo = localStorage.getItem("SDL_projeto_ativo")
+const ativo =
+localStorage.getItem("SDL_projeto_ativo")
 
 return lista.find(p => p.id === ativo)
 
@@ -192,13 +182,12 @@ return null
 
 }
 
-
-
 function verificarSistema(){
 
 const projeto = obterProjetoAtivo()
 
 const plano = localStorage.getItem("SDL_plano")
+
 const pagamento = localStorage.getItem("SDL_pagamento")
 
 const status = document.getElementById("statusSistema")
@@ -213,10 +202,7 @@ return
 }
 
 document.getElementById("dadosProjeto").innerHTML =
-
 "Projeto ativo: <strong>" + projeto.titulo + "</strong>"
-
-
 
 if(!plano){
 
@@ -239,8 +225,6 @@ return
 
 }
 
-
-
 status.innerHTML =
 "Serviço liberado para solicitação de capa."
 
@@ -248,8 +232,6 @@ status.style.background =
 "rgba(23,77,39,0.28)"
 
 }
-
-
 
 function registrarPedidoCapa(){
 
@@ -262,8 +244,11 @@ return
 
 }
 
-const plano = localStorage.getItem("SDL_plano")
-const pagamento = localStorage.getItem("SDL_pagamento")
+const plano =
+localStorage.getItem("SDL_plano")
+
+const pagamento =
+localStorage.getItem("SDL_pagamento")
 
 if(!plano || !pagamento){
 
@@ -272,34 +257,25 @@ return
 
 }
 
-
-
 const pedido = {
 
 id:"capa_"+Date.now(),
 
 projetoID:projeto.id,
+
 tituloProjeto:projeto.titulo,
 
 plano,
 
-dataRegistro:new Date().toISOString(),
+status:"Solicitado",
 
-status:"Solicitado"
+dataRegistro:new Date().toISOString()
 
 }
 
+let lista =
 
-
-let lista = []
-
-try{
-
-lista = JSON.parse(
-localStorage.getItem("SDL_capas_lista") || "[]"
-)
-
-}catch{}
+JSON.parse(localStorage.getItem("SDL_capas_lista") || "[]")
 
 lista.push(pedido)
 
@@ -308,37 +284,32 @@ localStorage.setItem(
 JSON.stringify(lista)
 )
 
+/* auditoria automática */
 
+try{
+
+SDL_registrarAuditoria(
+"Solicitação de capa registrada",
+"capista"
+)
+
+}catch(e){}
 
 alert("Solicitação de capa registrada com sucesso.")
 
 }
 
-
-
 function abrirPagamento(){
-
 window.location.href="pagamento.html"
-
 }
-
-
 
 function abrirPlano(){
-
 window.location.href="planos_doacoes.html"
-
 }
-
-
 
 function voltarIndice(){
-
 window.location.href="_Indice.html"
-
 }
-
-
 
 verificarSessao()
 verificarSistema()
