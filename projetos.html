@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Projetos — Lapidar</title>
+
+<style>
+:root{
+--bg:#0d0603;
+--card:#140c08;
+--cardHover:#1b100a;
+--orange:#f7b22c;
+--border:rgba(255,123,44,0.18);
+}
+
+body{
+margin:0;
+font-family:Arial, sans-serif;
+background:var(--bg);
+color:white;
+}
+
+.container{
+width:min(1100px,95%);
+margin:auto;
+padding:40px 0 60px;
+}
+
+.titulo{
+font-size:36px;
+font-weight:bold;
+}
+
+.subtitulo{
+margin-top:5px;
+color:var(--orange);
+}
+
+.status{
+margin-top:20px;
+padding:16px;
+border-radius:12px;
+background:rgba(247,178,44,0.12);
+border:1px solid rgba(247,178,44,0.25);
+color:#ffe7b0;
+}
+
+.grid{
+margin-top:28px;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:18px;
+}
+
+.card{
+background:var(--card);
+padding:22px;
+border-radius:16px;
+border:1px solid var(--border);
+cursor:pointer;
+transition:.2s;
+}
+
+.card:hover{
+background:var(--cardHover);
+}
+
+.cardTitulo{
+font-size:20px;
+font-weight:bold;
+margin-bottom:6px;
+}
+
+.cardDesc{
+color:#ffd2b3;
+font-size:14px;
+line-height:1.6;
+}
+
+.actions{
+margin-top:28px;
+display:flex;
+gap:12px;
+flex-wrap:wrap;
+}
+
+button{
+border:none;
+padding:14px 18px;
+border-radius:999px;
+cursor:pointer;
+background:#24150f;
+color:white;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="titulo">
+Projetos
+</div>
+
+<div class="subtitulo">
+Central das obras em produção dentro do Lapidar
+</div>
+
+<div id="statusProjetos" class="status">
+Verificando projeto ativo...
+</div>
+
+<div class="grid">
+
+<div class="card" onclick="abrirCadastroProjeto()">
+<div class="cardTitulo">Cadastro do Projeto</div>
+<div class="cardDesc">
+Criar ou atualizar os dados centrais da obra.
+</div>
+</div>
+
+<div class="card" onclick="abrirPreviewProjeto()">
+<div class="cardTitulo">Preview do Projeto</div>
+<div class="cardDesc">
+Visualizar rapidamente as informações da obra ativa.
+</div>
+</div>
+
+<div class="card" onclick="abrirHistoricoProjetos()">
+<div class="cardTitulo">Histórico de Projetos</div>
+<div class="cardDesc">
+Selecionar, alternar e revisar obras cadastradas.
+</div>
+</div>
+
+<div class="card" onclick="abrirTimelineProjeto()">
+<div class="cardTitulo">Timeline da Obra</div>
+<div class="cardDesc">
+Acompanhar o histórico cronológico editorial da obra.
+</div>
+</div>
+
+<div class="card" onclick="abrirProgressoProjeto()">
+<div class="cardTitulo">Progresso da Obra</div>
+<div class="cardDesc">
+Checklist automático do andamento editorial.
+</div>
+</div>
+
+<div class="card" onclick="abrirRelatorioProjeto()">
+<div class="cardTitulo">Relatório da Obra</div>
+<div class="cardDesc">
+Resumo editorial simplificado para acompanhamento.
+</div>
+</div>
+
+</div>
+
+<div class="actions">
+<button onclick="voltarIndice()">Voltar ao índice</button>
+</div>
+
+</div>
+
+<script src="auditoria.js"></script>
+
+<script>
+function verificarSessao(){
+  if(localStorage.getItem("SDL_sessao_ativa") !== "sim"){
+    window.location.href = "login.html";
+  }
+}
+
+function obterProjetoAtivo(){
+  try{
+    const lista = JSON.parse(localStorage.getItem("SDL_projetos_lista") || "[]");
+    const ativo = localStorage.getItem("SDL_projeto_ativo");
+    return lista.find(p => p.id === ativo) || null;
+  }catch{
+    return null;
+  }
+}
+
+function carregarStatusProjetos(){
+  const projeto = obterProjetoAtivo();
+
+  if(!projeto){
+    document.getElementById("statusProjetos").innerHTML =
+      "Nenhum projeto ativo selecionado.";
+    return;
+  }
+
+  document.getElementById("statusProjetos").innerHTML =
+    "Projeto ativo no sistema: <strong>" + (projeto.titulo || "Sem título") + "</strong>";
+  document.getElementById("statusProjetos").style.background =
+    "rgba(23,77,39,0.28)";
+}
+
+function abrirCadastroProjeto(){
+  try{
+    SDL_registrarAuditoria("Acesso ao cadastro do projeto", "projetos");
+  }catch(e){}
+  window.location.href = "upload_livro.html";
+}
+
+function abrirPreviewProjeto(){
+  try{
+    SDL_registrarAuditoria("Acesso ao preview do projeto", "projetos");
+  }catch(e){}
+  window.location.href = "preview_projeto.html";
+}
+
+function abrirHistoricoProjetos(){
+  try{
+    SDL_registrarAuditoria("Acesso ao histórico de projetos", "projetos");
+  }catch(e){}
+  window.location.href = "historico_projetos.html";
+}
+
+function abrirTimelineProjeto(){
+  try{
+    SDL_registrarAuditoria("Acesso à timeline da obra", "projetos");
+  }catch(e){}
+  window.location.href = "timeline_projeto.html";
+}
+
+function abrirProgressoProjeto(){
+  try{
+    SDL_registrarAuditoria("Acesso ao progresso da obra", "projetos");
+  }catch(e){}
+  window.location.href = "progresso_projeto.html";
+}
+
+function abrirRelatorioProjeto(){
+  try{
+    SDL_registrarAuditoria("Acesso ao relatório da obra", "projetos");
+  }catch(e){}
+  window.location.href = "relatorio_projeto.html";
+}
+
+function voltarIndice(){
+  window.location.href = "_Indice.html";
+}
+
+verificarSessao();
+carregarStatusProjetos();
+</script>
+
+</body>
+</html>
