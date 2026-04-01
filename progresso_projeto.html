@@ -6,120 +6,166 @@
 <title>Progresso da Obra — Lapidar</title>
 
 <style>
-
 :root{
 --bg:#0d0603;
 --card:#140c08;
---ok:#9cfdb2;
---warn:#f7b22c;
+--card2:#1b100a;
 --border:rgba(255,123,44,0.18);
+--orange:#f7b22c;
+--muted:#ffd2b3;
+--ok:#9cfdb2;
+--warn:#ffe7b0;
 }
 
 body{
 margin:0;
-font-family:Arial;
+font-family:Arial, sans-serif;
 background:var(--bg);
 color:white;
 }
 
 .container{
-width:min(1000px,95%);
+width:min(1100px,95%);
 margin:auto;
-padding:40px 0;
+padding:40px 0 60px;
 }
 
 .titulo{
-font-size:36px;
+font-size:38px;
 font-weight:bold;
 }
 
 .subtitulo{
-color:var(--warn);
 margin-top:6px;
+color:var(--orange);
+}
+
+.status{
+margin-top:18px;
+padding:16px;
+border-radius:12px;
+background:rgba(247,178,44,0.12);
+border:1px solid rgba(247,178,44,0.25);
+color:var(--warn);
+}
+
+.card{
+margin-top:24px;
+background:var(--card);
+border:1px solid var(--border);
+border-radius:18px;
+padding:22px;
+}
+
+.cardTitulo{
+font-size:22px;
+font-weight:bold;
+margin-bottom:10px;
 }
 
 .progressbar{
-
-margin-top:30px;
-
-height:26px;
-
+margin-top:18px;
+height:28px;
 background:#1b100a;
-
 border-radius:999px;
-
 overflow:hidden;
-
 border:1px solid var(--border);
-
 }
 
 .progress{
-
 height:100%;
-
 background:var(--ok);
-
 width:0%;
-
 transition:.5s;
-
 }
 
-.etapas{
-
-margin-top:30px;
-
+.percentual{
+margin-top:14px;
+font-size:16px;
+color:var(--muted);
 }
 
-.etapa{
-
-background:var(--card);
-
-padding:16px;
-
-border-radius:14px;
-
-margin-bottom:12px;
-
-border:1px solid var(--border);
-
+.lista{
+margin-top:20px;
 display:flex;
+flex-direction:column;
+gap:14px;
+}
 
+.item{
+background:var(--card2);
+border-radius:14px;
+padding:16px;
+display:flex;
 justify-content:space-between;
-
+align-items:center;
+gap:16px;
 }
 
-.ok{
+.itemTitulo{
+font-weight:bold;
+margin-bottom:4px;
+}
 
+.itemDesc{
+color:var(--muted);
+font-size:14px;
+line-height:1.7;
+}
+
+.badge{
+display:inline-block;
+padding:8px 12px;
+border-radius:999px;
+font-size:13px;
+font-weight:bold;
+background:#2a160d;
+color:#ffe7b0;
+white-space:nowrap;
+}
+
+.badge.ok{
+background:rgba(23,77,39,0.35);
 color:var(--ok);
-
 }
 
-.pendente{
+.badge.medio{
+background:rgba(247,178,44,0.18);
+color:#ffe7b0;
+}
 
-color:#ffd2b3;
+.resumo{
+margin-top:18px;
+padding:18px;
+border-radius:14px;
+background:var(--card2);
+line-height:1.8;
+color:var(--muted);
+}
 
+.actions{
+margin-top:32px;
+display:flex;
+gap:12px;
+flex-wrap:wrap;
 }
 
 button{
-
-margin-top:20px;
-
-padding:14px 18px;
-
 border:none;
-
+padding:14px 18px;
 border-radius:999px;
-
 background:#24150f;
-
 color:white;
-
 cursor:pointer;
-
+font-weight:bold;
 }
 
+@media(max-width:800px){
+.item{
+flex-direction:column;
+align-items:flex-start;
+}
+}
 </style>
 </head>
 
@@ -127,176 +173,258 @@ cursor:pointer;
 
 <div class="container">
 
-<div class="titulo">
-Progresso Editorial da Obra
+<div class="titulo">Progresso da Obra</div>
+<div class="subtitulo">Acompanhamento consolidado da obra ativa</div>
+
+<div id="statusProgresso" class="status">
+Verificando obra ativa...
 </div>
 
-<div class="subtitulo">
-Checklist automático baseado nas etapas registradas
+<div class="card">
+  <div class="cardTitulo">Percentual Geral</div>
+  <div class="progressbar">
+    <div id="barraProgresso" class="progress"></div>
+  </div>
+  <div id="textoPercentual" class="percentual">Calculando progresso...</div>
+  <div id="resumoProgresso" class="resumo">Carregando resumo do progresso...</div>
 </div>
 
-<div class="progressbar">
-<div id="barra" class="progress"></div>
+<div class="card">
+  <div class="cardTitulo">Etapas da Obra</div>
+  <div id="listaEtapas" class="lista">
+    Carregando etapas...
+  </div>
 </div>
 
-<div id="listaEtapas" class="etapas">
-
-Carregando progresso...
+<div class="actions">
+  <button onclick="abrirCentroObra()">Abrir centro da obra</button>
+  <button onclick="abrirStatusFluxo()">Abrir status do fluxo</button>
+  <button onclick="voltarIndice()">Voltar ao índice</button>
+</div>
 
 </div>
 
-<button onclick="voltarIndice()">
-Voltar ao índice
-</button>
-
-</div>
+<script src="auditoria.js"></script>
 
 <script>
-
-function verificarSessao(){
-
-if(localStorage.getItem("SDL_sessao_ativa")!=="sim"){
-
-window.location.href="login.html"
-
-}
-
+function lerJSON(chave){
+  try{
+    return JSON.parse(localStorage.getItem(chave) || "null");
+  }catch{
+    return null;
+  }
 }
 
 function obterProjetoAtivo(){
-
-try{
-
-const lista=
-JSON.parse(localStorage.getItem("SDL_projetos_lista")||"[]")
-
-const ativo=
-localStorage.getItem("SDL_projeto_ativo")
-
-return lista.find(p=>p.id===ativo)
-
-}catch{
-
-return null
-
+  try{
+    const lista = JSON.parse(localStorage.getItem("SDL_projetos_lista") || "[]");
+    const ativo = localStorage.getItem("SDL_projeto_ativo");
+    return lista.find(p => p.id === ativo) || null;
+  }catch{
+    return null;
+  }
 }
 
+function obterPedidosProjeto(id){
+  try{
+    const lista = JSON.parse(localStorage.getItem("SDL_pedidos_lista") || "[]");
+    return lista.filter(p => p.projetoID === id);
+  }catch{
+    return [];
+  }
 }
 
-function calcularProgresso(){
-
-const projeto=obterProjetoAtivo()
-
-if(!projeto){
-
-document.getElementById("listaEtapas").innerHTML=
-"Nenhum projeto ativo."
-
-return
-
+function obterCapasProjeto(id){
+  try{
+    const lista = JSON.parse(localStorage.getItem("SDL_capas_lista") || "[]");
+    return lista.filter(c => c.projetoID === id);
+  }catch{
+    return [];
+  }
 }
 
-let etapas=[
-
-{
-nome:"Projeto cadastrado",
-ok:true
-},
-
-{
-nome:"Plano selecionado",
-ok:localStorage.getItem("SDL_plano")
-},
-
-{
-nome:"Pagamento registrado",
-ok:localStorage.getItem("SDL_pagamento")
-},
-
-{
-nome:"Pedido editorial registrado",
-ok:verificarPedidos(projeto.id)
-},
-
-{
-nome:"Solicitação de capa registrada",
-ok:verificarCapas(projeto.id)
+function criarEtapa(nome, descricao, nivel){
+  return { nome, descricao, nivel };
 }
 
-]
-
-renderizar(etapas)
-
+function nivelParaBadge(nivel){
+  if(nivel === "ok") return { classe: "ok", texto: "Concluído" };
+  if(nivel === "medio") return { classe: "medio", texto: "Parcial" };
+  return { classe: "", texto: "Pendente" };
 }
 
-function verificarPedidos(id){
+function montarProgresso(){
+  const projeto = obterProjetoAtivo();
+  const status = document.getElementById("statusProgresso");
+  const listaEtapas = document.getElementById("listaEtapas");
 
-let pedidos=
-JSON.parse(localStorage.getItem("SDL_pedidos_lista")||"[]")
+  if(!projeto){
+    status.innerHTML = "Nenhum projeto ativo selecionado.";
+    document.getElementById("textoPercentual").innerHTML = "0%";
+    document.getElementById("resumoProgresso").innerHTML = "Selecione uma obra para visualizar o progresso.";
+    listaEtapas.innerHTML = "Sem etapas disponíveis.";
+    document.getElementById("barraProgresso").style.width = "0%";
+    return;
+  }
 
-return pedidos.some(p=>p.projetoID===id)
+  status.innerHTML = 'Progresso vinculado à obra: <strong>' + (projeto.titulo || "Sem título") + '</strong>';
+  status.style.background = "rgba(23,77,39,0.28)";
 
+  const plano = localStorage.getItem("SDL_plano") || "";
+  const pagamento = localStorage.getItem("SDL_pagamento") || "";
+  const pedidos = obterPedidosProjeto(projeto.id);
+  const capas = obterCapasProjeto(projeto.id);
+
+  const cfgCapa = lerJSON("SDL_configuracao_capa_ativa");
+  const textosCapa = lerJSON("SDL_textos_capa_ativos");
+
+  const planejamentoMiolo = lerJSON("SDL_planejamento_miolo_ativo");
+  const elementosMiolo = lerJSON("SDL_elementos_tecnicos_ativos");
+  const padraoMiolo = lerJSON("SDL_padrao_diagramacao");
+
+  const planejamentoTraducao = lerJSON("SDL_planejamento_traducao_ativo");
+  const glossarioTraducao = lerJSON("SDL_glossario_traducao_ativo");
+
+  const leituraTecnica = lerJSON("SDL_leitura_tecnica_ativa");
+
+  let etapas = [];
+
+  etapas.push(
+    criarEtapa(
+      "Projeto cadastrado",
+      "A obra já existe e está ativa no sistema.",
+      projeto ? "ok" : ""
+    )
+  );
+
+  if(plano && pagamento){
+    etapas.push(criarEtapa("Planejamento editorial", "Plano selecionado e pagamento registrado.", "ok"));
+  }else if(plano || pagamento){
+    etapas.push(criarEtapa("Planejamento editorial", "Plano ou pagamento parcialmente registrados.", "medio"));
+  }else{
+    etapas.push(criarEtapa("Planejamento editorial", "Aguardando plano e pagamento.", ""));
+  }
+
+  const capaOk = capas.length > 0 && cfgCapa && cfgCapa.projetoID === projeto.id && textosCapa && textosCapa.projetoID === projeto.id;
+  const capaParcial = capas.length > 0 || (cfgCapa && cfgCapa.projetoID === projeto.id) || (textosCapa && textosCapa.projetoID === projeto.id);
+
+  if(capaOk){
+    etapas.push(criarEtapa("Setor de capa", "Solicitação, configuração e textos da capa concluídos.", "ok"));
+  }else if(capaParcial){
+    etapas.push(criarEtapa("Setor de capa", "A capa já tem movimentação, mas ainda falta completar etapas.", "medio"));
+  }else{
+    etapas.push(criarEtapa("Setor de capa", "Ainda não iniciado.", ""));
+  }
+
+  const mioloOk =
+    planejamentoMiolo && planejamentoMiolo.projetoID === projeto.id &&
+    elementosMiolo && elementosMiolo.projetoID === projeto.id &&
+    padraoMiolo && padraoMiolo.idProjeto === projeto.id;
+
+  const mioloParcial =
+    (planejamentoMiolo && planejamentoMiolo.projetoID === projeto.id) ||
+    (elementosMiolo && elementosMiolo.projetoID === projeto.id) ||
+    (padraoMiolo && padraoMiolo.idProjeto === projeto.id);
+
+  if(mioloOk){
+    etapas.push(criarEtapa("Setor de miolo", "Planejamento, elementos técnicos e padrão editorial concluídos.", "ok"));
+  }else if(mioloParcial){
+    etapas.push(criarEtapa("Setor de miolo", "O miolo já está em construção, mas ainda não está completo.", "medio"));
+  }else{
+    etapas.push(criarEtapa("Setor de miolo", "Ainda não iniciado.", ""));
+  }
+
+  const traducaoOk =
+    planejamentoTraducao && planejamentoTraducao.projetoID === projeto.id &&
+    glossarioTraducao && glossarioTraducao.projetoID === projeto.id;
+
+  const traducaoParcial =
+    (planejamentoTraducao && planejamentoTraducao.projetoID === projeto.id) ||
+    (glossarioTraducao && glossarioTraducao.projetoID === projeto.id);
+
+  if(traducaoOk){
+    etapas.push(criarEtapa("Setor de tradução", "Planejamento e glossário concluídos.", "ok"));
+  }else if(traducaoParcial){
+    etapas.push(criarEtapa("Setor de tradução", "A tradução já tem base montada, mas ainda não está completa.", "medio"));
+  }else{
+    etapas.push(criarEtapa("Setor de tradução", "Ainda não iniciado.", ""));
+  }
+
+  if(leituraTecnica && leituraTecnica.projetoID === projeto.id){
+    etapas.push(criarEtapa("Leitura técnica", "Parecer editorial técnico salvo.", "ok"));
+  }else{
+    etapas.push(criarEtapa("Leitura técnica", "Parecer técnico ainda não salvo.", ""));
+  }
+
+  if(pedidos.length > 0){
+    etapas.push(criarEtapa("Movimentação editorial", "Há pedidos editoriais registrados para a obra.", "ok"));
+  }else{
+    etapas.push(criarEtapa("Movimentação editorial", "Ainda não há pedidos editoriais registrados.", ""));
+  }
+
+  const pesos = {
+    ok: 1,
+    medio: 0.5,
+    "": 0
+  };
+
+  let soma = 0;
+  etapas.forEach(e => soma += pesos[e.nivel] || 0);
+
+  const percentual = Math.round((soma / etapas.length) * 100);
+
+  document.getElementById("barraProgresso").style.width = percentual + "%";
+  document.getElementById("textoPercentual").innerHTML =
+    "Percentual consolidado da obra: <strong>" + percentual + "%</strong>";
+
+  let resumo = "";
+  if(percentual >= 80){
+    resumo = "A obra está em estágio avançado de estruturação editorial.";
+  }else if(percentual >= 50){
+    resumo = "A obra já possui uma base sólida de produção, mas ainda demanda complementos.";
+  }else if(percentual >= 20){
+    resumo = "A obra está em desenvolvimento inicial, com parte da estrutura montada.";
+  }else{
+    resumo = "A obra ainda está em fase inicial de organização no sistema.";
+  }
+
+  document.getElementById("resumoProgresso").innerHTML = resumo;
+
+  let html = "";
+  etapas.forEach(etapa => {
+    const badge = nivelParaBadge(etapa.nivel);
+
+    html += `
+      <div class="item">
+        <div>
+          <div class="itemTitulo">${etapa.nome}</div>
+          <div class="itemDesc">${etapa.descricao}</div>
+        </div>
+        <div class="badge ${badge.classe}">${badge.texto}</div>
+      </div>
+    `;
+  });
+
+  listaEtapas.innerHTML = html;
+
+  try{
+    SDL_registrarAuditoria("Acesso ao progresso da obra", "progresso_projeto");
+  }catch(e){}
 }
 
-function verificarCapas(id){
-
-let capas=
-JSON.parse(localStorage.getItem("SDL_capas_lista")||"[]")
-
-return capas.some(c=>c.projetoID===id)
-
+function abrirCentroObra(){
+  window.location.href = "centro_obra.html";
 }
 
-function renderizar(etapas){
-
-let html=""
-
-let total=etapas.length
-
-let concluidas=0
-
-etapas.forEach(e=>{
-
-if(e.ok) concluidas++
-
-html+=`
-
-<div class="etapa">
-
-<span>${e.nome}</span>
-
-<span class="${e.ok ? "ok" : "pendente"}">
-
-${e.ok ? "Concluído" : "Pendente"}
-
-</span>
-
-</div>
-
-`
-
-})
-
-document.getElementById("listaEtapas").innerHTML=html
-
-let percentual=(concluidas/total)*100
-
-document.getElementById("barra").style.width=
-
-percentual+"%"
-
+function abrirStatusFluxo(){
+  window.location.href = "status_fluxo_editorial.html";
 }
 
 function voltarIndice(){
-
-window.location.href="_Indice.html"
-
+  window.location.href = "_Indice.html";
 }
 
-verificarSessao()
-
-calcularProgresso()
-
+montarProgresso();
 </script>
 
 </body>
