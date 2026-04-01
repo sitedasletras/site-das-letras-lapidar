@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Relatório Editorial — Lapidar</title>
+<title>Relatório Editorial Institucional — Site das Letras</title>
 
 <style>
 
@@ -20,9 +20,18 @@ margin:auto;
 padding:40px 0;
 }
 
+.cabecalho{
+margin-bottom:30px;
+}
+
 .titulo{
-font-size:36px;
+font-size:34px;
 font-weight:bold;
+}
+
+.sub{
+color:#f7b22c;
+margin-top:4px;
 }
 
 .card{
@@ -46,6 +55,16 @@ color:#f7b22c;
 margin-top:10px;
 
 font-weight:bold;
+
+}
+
+.assinatura{
+
+margin-top:40px;
+
+font-size:14px;
+
+opacity:.8;
 
 }
 
@@ -74,14 +93,26 @@ cursor:pointer;
 
 <div class="container">
 
+<div class="cabecalho">
+
 <div class="titulo">
-Relatório Editorial da Obra
+Relatório Editorial Institucional
+</div>
+
+<div class="sub">
+Site das Letras Edições Literárias
+</div>
+
 </div>
 
 <div id="conteudo"></div>
 
+<div class="assinatura">
+Documento gerado automaticamente pelo sistema Lapidar
+</div>
+
 <button onclick="window.print()">
-Exportar como PDF
+Exportar PDF institucional
 </button>
 
 <button onclick="voltarIndice()">
@@ -112,6 +143,24 @@ return null
 
 }
 
+function obterPedidos(id){
+
+let lista=
+JSON.parse(localStorage.getItem("SDL_pedidos_lista")||"[]")
+
+return lista.filter(p=>p.projetoID===id)
+
+}
+
+function obterCapas(id){
+
+let lista=
+JSON.parse(localStorage.getItem("SDL_capas_lista")||"[]")
+
+return lista.filter(p=>p.projetoID===id)
+
+}
+
 function montarRelatorio(){
 
 const projeto=obterProjeto()
@@ -119,74 +168,57 @@ const projeto=obterProjeto()
 if(!projeto){
 
 document.getElementById("conteudo").innerHTML=
-"Nenhum projeto ativo."
+"Nenhum projeto ativo selecionado."
 
 return
 
 }
+
+const plano=localStorage.getItem("SDL_plano")
+
+const pagamento=localStorage.getItem("SDL_pagamento")
+
+const pedidos=obterPedidos(projeto.id)
+
+const capas=obterCapas(projeto.id)
 
 let html=""
 
 html+=`
 <div class="card">
 
-<div class="label">Título</div>
+<div class="label">Título da obra</div>
 ${projeto.titulo}
 
 <div class="label">Autor</div>
 ${projeto.autor}
 
-<div class="label">Formato</div>
+<div class="label">Formato editorial</div>
 ${projeto.formato || "-"}
 
+<div class="label">Data de cadastro</div>
+${formatarData(projeto.dataRegistro)}
+
 </div>
 `
-
-const plano=localStorage.getItem("SDL_plano")
 
 html+=`
 <div class="card">
 
-<div class="label">Plano editorial</div>
+<div class="label">Plano editorial selecionado</div>
 ${plano || "Não selecionado"}
 
-</div>
-`
-
-const pagamento=localStorage.getItem("SDL_pagamento")
-
-html+=`
-<div class="card">
-
-<div class="label">Pagamento</div>
-${pagamento ? "Registrado" : "Não registrado"}
+<div class="label">Pagamento registrado</div>
+${pagamento ? "Sim" : "Não"}
 
 </div>
 `
 
-let pedidos=
-JSON.parse(localStorage.getItem("SDL_pedidos_lista")||"[]")
-
-pedidos=
-pedidos.filter(p=>p.projetoID===projeto.id)
-
 html+=`
 <div class="card">
 
-<div class="label">Pedidos editoriais</div>
+<div class="label">Pedidos editoriais vinculados</div>
 ${pedidos.length}
-
-</div>
-`
-
-let capas=
-JSON.parse(localStorage.getItem("SDL_capas_lista")||"[]")
-
-capas=
-capas.filter(c=>c.projetoID===projeto.id)
-
-html+=`
-<div class="card">
 
 <div class="label">Solicitação de capa</div>
 ${capas.length ? "Registrada" : "Não registrada"}
@@ -194,7 +226,52 @@ ${capas.length ? "Registrada" : "Não registrada"}
 </div>
 `
 
+html+=`
+<div class="card">
+
+<div class="label">Status institucional da obra</div>
+
+${gerarStatus(plano,pagamento,pedidos,capas)}
+
+</div>
+`
+
 document.getElementById("conteudo").innerHTML=html
+
+}
+
+function gerarStatus(plano,pagamento,pedidos,capas){
+
+if(!plano)
+return "Aguardando seleção de plano editorial"
+
+if(plano && !pagamento)
+return "Plano selecionado aguardando confirmação de pagamento"
+
+if(pagamento && pedidos.length===0)
+return "Pagamento confirmado aguardando pedidos editoriais"
+
+if(pedidos.length>0 && capas.length===0)
+return "Pedidos editoriais registrados aguardando solicitação de capa"
+
+if(capas.length>0)
+return "Fluxo editorial ativo com identidade visual solicitada"
+
+return "Status não identificado"
+
+}
+
+function formatarData(d){
+
+try{
+
+return new Date(d).toLocaleString("pt-BR")
+
+}catch{
+
+return d
+
+}
 
 }
 
