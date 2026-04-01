@@ -120,6 +120,11 @@ background:#ff5a00;
 color:#fff;
 }
 
+.btnGerar{
+background:#5a2c00;
+color:#fff;
+}
+
 .btnIndice{
 background:#24150f;
 color:#fff;
@@ -210,6 +215,7 @@ Verificando projeto ativo...
   <div class="actions">
     <button class="btnCalcular" onclick="calcularCapa()">Calcular capa técnica</button>
     <button class="btnSalvar" onclick="salvarConfiguracaoCapa()">Salvar configuração</button>
+    <button class="btnGerar" onclick="abrirGeradorCapa()">Abrir gerador de capa</button>
     <button class="btnIndice" onclick="voltarIndice()">Voltar ao índice</button>
   </div>
 
@@ -255,6 +261,40 @@ function carregarProjetoNaTela(){
   document.getElementById("subtituloObra").value = projeto.subtitulo || "";
   document.getElementById("autorObra").value = projeto.autor || "";
   document.getElementById("formatoObra").value = projeto.formato || "A5";
+
+  carregarConfiguracaoAnterior();
+}
+
+function carregarConfiguracaoAnterior(){
+  try{
+    const cfg = JSON.parse(localStorage.getItem("SDL_configuracao_capa_ativa") || "null");
+    const projeto = obterProjetoAtivo();
+
+    if(!cfg || !projeto || cfg.projetoID !== projeto.id){
+      return;
+    }
+
+    document.getElementById("tituloObra").value = cfg.titulo || document.getElementById("tituloObra").value;
+    document.getElementById("subtituloObra").value = cfg.subtitulo || "";
+    document.getElementById("autorObra").value = cfg.autor || document.getElementById("autorObra").value;
+    document.getElementById("formatoObra").value = cfg.formato || "A5";
+    document.getElementById("paginasObra").value = cfg.paginas || "";
+    document.getElementById("gramaturaObra").value = cfg.gramatura || "75g";
+    document.getElementById("seloObra").value = cfg.selo || "Site das Letras Edições Literárias";
+    document.getElementById("observacoesCapa").value = cfg.observacoes || "";
+
+    const papelSelect = document.getElementById("papelObra");
+    for(let i=0;i<papelSelect.options.length;i++){
+      if(parseFloat(papelSelect.options[i].value) === Number(cfg.fatorPapel)){
+        papelSelect.selectedIndex = i;
+        break;
+      }
+    }
+
+    if(cfg.previewHTML){
+      document.getElementById("previewCapa").innerHTML = cfg.previewHTML;
+    }
+  }catch(e){}
 }
 
 function obterDimensoesFormato(formato){
@@ -268,20 +308,20 @@ function obterDimensoesFormato(formato){
   return mapa[formato] || mapa["A5"];
 }
 
-function calcularCapa(){
+function montarResumoTecnico(){
   const titulo = document.getElementById("tituloObra").value.trim();
+  const subtitulo = document.getElementById("subtituloObra").value.trim();
   const autor = document.getElementById("autorObra").value.trim();
   const formato = document.getElementById("formatoObra").value;
   const paginas = parseInt(document.getElementById("paginasObra").value, 10);
   const fator = parseFloat(document.getElementById("papelObra").value);
+  const papelNome = document.getElementById("papelObra").selectedOptions[0].text;
   const gramatura = document.getElementById("gramaturaObra").value;
   const selo = document.getElementById("seloObra").value.trim();
   const observacoes = document.getElementById("observacoesCapa").value.trim();
 
   if(!titulo || !autor || !paginas || paginas < 1){
-    document.getElementById("previewCapa").innerHTML =
-      "Preencha pelo menos título, autor e total de páginas.";
-    return;
+    return null;
   }
 
   const dim = obterDimensoesFormato(formato);
@@ -290,10 +330,11 @@ function calcularCapa(){
 
   let html = "";
   html += "<strong>Título:</strong> " + titulo + "<br>";
+  html += "<strong>Subtítulo:</strong> " + (subtitulo || "—") + "<br>";
   html += "<strong>Autor:</strong> " + autor + "<br>";
   html += "<strong>Formato:</strong> " + formato + " (" + dim.largura + " x " + dim.altura + " mm)<br>";
   html += "<strong>Páginas:</strong> " + paginas + "<br>";
-  html += "<strong>Tipo de papel:</strong> " + document.getElementById("papelObra").selectedOptions[0].text + "<br>";
+  html += "<strong>Tipo de papel:</strong> " + papelNome + "<br>";
   html += "<strong>Gramatura:</strong> " + gramatura + "<br>";
   html += "<strong>Lombada estimada:</strong> " + lombada + " mm<br>";
   html += "<strong>Largura total da capa aberta:</strong> " + larguraAberta + " mm<br>";
@@ -302,7 +343,35 @@ function calcularCapa(){
   html += "<strong>Observações:</strong> " + (observacoes || "Sem observações") + "<br><br>";
   html += "Recomendação: usar esta base para montar frente + lombada + contra-capa com margem de segurança e validação final da gráfica.";
 
-  document.getElementById("previewCapa").innerHTML = html;
+  return {
+    titulo,
+    subtitulo,
+    autor,
+    formato,
+    paginas,
+    fatorPapel: fator,
+    papelNome,
+    gramatura,
+    selo,
+    observacoes,
+    largura: dim.largura,
+    altura: dim.altura,
+    lombada,
+    larguraAberta,
+    previewHTML: html
+  };
+}
+
+function calcularCapa(){
+  const resumo = montarResumoTecnico();
+
+  if(!resumo){
+    document.getElementById("previewCapa").innerHTML =
+      "Preencha pelo menos título, autor e total de páginas.";
+    return;
+  }
+
+  document.getElementById("previewCapa").innerHTML = resumo.previewHTML;
 }
 
 function salvarConfiguracaoCapa(){
@@ -313,19 +382,17 @@ function salvarConfiguracaoCapa(){
     return;
   }
 
+  const resumo = montarResumoTecnico();
+
+  if(!resumo){
+    alert("Preencha pelo menos título, autor e total de páginas antes de salvar.");
+    return;
+  }
+
   const configuracao = {
     projetoID: projeto.id,
-    titulo: document.getElementById("tituloObra").value.trim(),
-    subtitulo: document.getElementById("subtituloObra").value.trim(),
-    autor: document.getElementById("autorObra").value.trim(),
-    formato: document.getElementById("formatoObra").value,
-    paginas: parseInt(document.getElementById("paginasObra").value, 10) || 0,
-    papel: document.getElementById("papelObra").selectedOptions[0].text,
-    fatorPapel: parseFloat(document.getElementById("papelObra").value),
-    gramatura: document.getElementById("gramaturaObra").value,
-    selo: document.getElementById("seloObra").value.trim(),
-    observacoes: document.getElementById("observacoesCapa").value.trim(),
-    dataRegistro: new Date().toISOString()
+    dataRegistro: new Date().toISOString(),
+    ...resumo
   };
 
   localStorage.setItem("SDL_configuracao_capa_ativa", JSON.stringify(configuracao));
@@ -334,7 +401,12 @@ function salvarConfiguracaoCapa(){
     SDL_registrarAuditoria("Configuração técnica da capa salva", "capista_configurar_capa");
   }catch(e){}
 
+  document.getElementById("previewCapa").innerHTML = resumo.previewHTML;
   alert("Configuração técnica da capa salva com sucesso.");
+}
+
+function abrirGeradorCapa(){
+  window.location.href = "capista_gerar_capa.html";
 }
 
 function voltarIndice(){
