@@ -12,7 +12,6 @@
 --card:#140c08;
 --cardHover:#1b100a;
 --orange:#f7b22c;
---green:#9cfdb2;
 --border:rgba(255,123,44,0.18);
 }
 
@@ -47,65 +46,53 @@ gap:18px;
 }
 
 .card{
-
 background:var(--card);
-
 padding:22px;
-
 border-radius:16px;
-
 border:1px solid var(--border);
-
 cursor:pointer;
-
 transition:.2s;
-
 }
 
 .card:hover{
-
 background:var(--cardHover);
-
 }
 
 .cardTitulo{
-
 font-size:20px;
-
 font-weight:bold;
-
 margin-bottom:6px;
-
 }
 
 .cardDesc{
-
 color:#ffd2b3;
-
 font-size:14px;
-
+line-height:1.6;
 }
 
 .logout{
-
 margin-top:30px;
-
+display:flex;
+gap:12px;
+flex-wrap:wrap;
 }
 
 button{
-
 border:none;
-
 padding:14px 18px;
-
 border-radius:999px;
-
 cursor:pointer;
-
 background:#24150f;
-
 color:white;
+}
 
+.status{
+margin-top:20px;
+padding:16px;
+border-radius:12px;
+background:rgba(247,178,44,0.12);
+border:1px solid rgba(247,178,44,0.25);
+color:#ffe7b0;
 }
 
 </style>
@@ -123,7 +110,9 @@ Lapidar
 Painel Editorial Site das Letras
 </div>
 
-
+<div id="statusPainel" class="status">
+Verificando ambiente editorial...
+</div>
 
 <div class="grid">
 
@@ -172,14 +161,32 @@ Painel Editorial Site das Letras
 <div class="cardDesc">Histórico cronológico editorial</div>
 </div>
 
+<div class="card" onclick="abrirProgresso()">
+<div class="cardTitulo">Progresso da Obra</div>
+<div class="cardDesc">Checklist automático editorial</div>
+</div>
+
 <div class="card" onclick="abrirAuditoria()">
 <div class="cardTitulo">Auditoria Editorial</div>
 <div class="cardDesc">Logs institucionais do sistema</div>
 </div>
 
+<div class="card" onclick="abrirRelatorioProjeto()">
+<div class="cardTitulo">Relatório Editorial</div>
+<div class="cardDesc">Resumo técnico e institucional da obra</div>
 </div>
 
+<div class="card" onclick="abrirFichaEditorial()">
+<div class="cardTitulo">Ficha Editorial Integrada</div>
+<div class="cardDesc">Gerar ficha técnica da obra</div>
+</div>
 
+<div class="card" onclick="abrirLombada()">
+<div class="cardTitulo">Cálculo de Lombada</div>
+<div class="cardDesc">Espessura automática da lombada</div>
+</div>
+
+</div>
 
 <div class="logout">
 
@@ -191,86 +198,81 @@ Encerrar sessão
 
 </div>
 
-
-
 <script>
 
 function verificarSessao(){
 
 if(localStorage.getItem("SDL_sessao_ativa")!=="sim"){
-
 window.location.href="login.html"
-
+return
 }
 
+document.getElementById("statusPainel").innerHTML =
+"Ambiente editorial carregado com sucesso."
+
+document.getElementById("statusPainel").style.background =
+"rgba(23,77,39,0.28)"
 }
 
 function abrirUpload(){
-
 window.location.href="upload_livro.html"
-
 }
 
 function abrirPreview(){
-
 window.location.href="preview_projeto.html"
-
 }
 
 function abrirHistorico(){
-
 window.location.href="historico_projetos.html"
-
 }
 
 function abrirRevisao(){
-
 window.location.href="revisao_pedido.html"
-
 }
 
 function abrirCapista(){
-
 window.location.href="capista_planos.html"
-
 }
 
 function abrirPlano(){
-
 window.location.href="planos_doacoes.html"
-
 }
 
 function abrirPagamento(){
-
 window.location.href="pagamento.html"
-
 }
 
 function abrirStatusPlano(){
-
 window.location.href="status_plano.html"
-
 }
 
 function abrirTimeline(){
-
 window.location.href="timeline_projeto.html"
+}
 
+function abrirProgresso(){
+window.location.href="progresso_projeto.html"
 }
 
 function abrirAuditoria(){
-
 window.location.href="auditoria.html"
+}
 
+function abrirRelatorioProjeto(){
+window.location.href="relatorio_projeto.html"
+}
+
+function abrirFichaEditorial(){
+window.location.href="ficha_editorial_integrada.html"
+}
+
+function abrirLombada(){
+window.location.href="calculo_lombada.html"
 }
 
 function sairSistema(){
-
 localStorage.removeItem("SDL_sessao_ativa")
-
 window.location.href="login.html"
-
 }
 
 verificarSessao()
