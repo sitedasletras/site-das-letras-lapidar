@@ -131,8 +131,6 @@ Cadastro do Projeto Editorial
 Registro da obra dentro do ambiente Lapidar
 </div>
 
-
-
 <div class="card">
 
 <div class="grid">
@@ -192,8 +190,6 @@ Nenhum projeto salvo ainda.
 
 </div>
 
-
-
 <div class="actions">
 
 <button class="btnSalvar" onclick="salvarProjeto()">
@@ -214,6 +210,8 @@ Voltar ao índice
 
 
 
+<script src="auditoria.js"></script>
+
 <script>
 
 function verificarSessao(){
@@ -222,7 +220,7 @@ const sessao = localStorage.getItem("SDL_sessao_ativa")
 
 if(sessao !== "sim"){
 
-window.location.href = "login.html"
+window.location.href="login.html"
 
 }
 
@@ -299,6 +297,19 @@ localStorage.setItem(
 "SDL_projeto_ativo",
 projeto.id
 )
+
+
+
+/* auditoria automática */
+
+try{
+
+SDL_registrarAuditoria(
+"Projeto criado",
+"upload_livro"
+)
+
+}catch(e){}
 
 
 
