@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diagramador — Planejamento do Miolo</title>
+
+<style>
+:root{
+--bg:#0d0603;
+--card:#140c08;
+--card2:#1b100a;
+--text:#ffffff;
+--orange:#f7b22c;
+--border:rgba(255,123,44,0.18);
+--shadow:0 10px 26px rgba(0,0,0,0.28);
+}
+
+body{
+margin:0;
+font-family:Arial, sans-serif;
+background:var(--bg);
+color:var(--text);
+}
+
+.container{
+width:min(1100px,95%);
+margin:auto;
+padding:40px 0 60px;
+}
+
+.titulo{
+font-size:36px;
+font-weight:bold;
+}
+
+.subtitulo{
+margin-top:6px;
+color:var(--orange);
+}
+
+.status{
+margin-top:20px;
+padding:16px;
+border-radius:12px;
+background:rgba(247,178,44,0.12);
+border:1px solid rgba(247,178,44,0.25);
+color:#ffe7b0;
+}
+
+.card{
+margin-top:24px;
+background:var(--card);
+border:1px solid var(--border);
+border-radius:18px;
+padding:22px;
+box-shadow:var(--shadow);
+}
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:18px;
+}
+
+label{
+display:block;
+margin-bottom:6px;
+color:var(--orange);
+font-weight:bold;
+}
+
+input, select, textarea{
+width:100%;
+padding:14px;
+border:none;
+border-radius:12px;
+background:#1b0e07;
+color:#fff;
+box-sizing:border-box;
+font-family:Arial, sans-serif;
+}
+
+textarea{
+min-height:140px;
+resize:vertical;
+}
+
+.preview{
+margin-top:18px;
+padding:18px;
+border-radius:14px;
+background:var(--card2);
+line-height:1.8;
+}
+
+.actions{
+margin-top:24px;
+display:flex;
+flex-wrap:wrap;
+gap:12px;
+}
+
+button{
+border:none;
+padding:14px 18px;
+border-radius:999px;
+cursor:pointer;
+font-weight:bold;
+}
+
+.btnSalvar{
+background:#174d27;
+color:#fff;
+}
+
+.btnRecarregar{
+background:#5a2c00;
+color:#fff;
+}
+
+.btnIndice{
+background:#24150f;
+color:#fff;
+}
+
+@media(max-width:900px){
+.grid{
+grid-template-columns:1fr;
+}
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="titulo">Planejamento do Miolo</div>
+<div class="subtitulo">Estrutura técnica do livro antes da diagramação</div>
+
+<div id="statusPlanejamento" class="status">
+Verificando projeto ativo...
+</div>
+
+<div class="card">
+  <div class="grid">
+    <div>
+      <label for="formatoMiolo">Formato do miolo</label>
+      <select id="formatoMiolo">
+        <option>A5</option>
+        <option>16x23</option>
+        <option>16x27</option>
+        <option>6x9</option>
+        <option>A4</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="paginasEstimadas">Páginas estimadas</label>
+      <input id="paginasEstimadas" type="number" min="1" placeholder="Ex.: 180">
+    </div>
+
+    <div>
+      <label for="margensEspelhadas">Margens espelhadas</label>
+      <select id="margensEspelhadas">
+        <option>Sim</option>
+        <option>Não</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="recuoParagrafo">Recuo de parágrafo</label>
+      <input id="recuoParagrafo" placeholder="Ex.: 1,25 cm">
+    </div>
+
+    <div>
+      <label for="alinhamentoTexto">Alinhamento do texto</label>
+      <select id="alinhamentoTexto">
+        <option>Justificado</option>
+        <option>À esquerda</option>
+        <option>Centralizado</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="fonteMiolo">Fonte do miolo</label>
+      <input id="fonteMiolo" placeholder="Ex.: Garamond, EB Garamond, Inter...">
+    </div>
+
+    <div>
+      <label for="quantidadeCapitulos">Quantidade de capítulos</label>
+      <input id="quantidadeCapitulos" type="number" min="1" placeholder="Ex.: 18">
+    </div>
+
+    <div>
+      <label for="numeracaoPagina">Numeração de página</label>
+      <select id="numeracaoPagina">
+        <option>Começa na história</option>
+        <option>Começa no prefácio</option>
+        <option>Sem numeração inicial</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="temPrefacio">Prefácio</label>
+      <select id="temPrefacio">
+        <option>Sim</option>
+        <option>Não</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="temPrologo">Prólogo</label>
+      <select id="temPrologo">
+        <option>Sim</option>
+        <option>Não</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="temSumario">Sumário</label>
+      <select id="temSumario">
+        <option>Sim</option>
+        <option>Não</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="temFichaEditorial">Ficha editorial / dados da obra</label>
+      <select id="temFichaEditorial">
+        <option>Sim</option>
+        <option>Não</option>
+      </select>
+    </div>
+  </div>
+
+  <div style="margin-top:18px;">
+    <label for="observacoesMiolo">Observações do miolo</label>
+    <textarea id="observacoesMiolo" placeholder="Ex.: bastante diálogo, sem espaços extras entre parágrafos, travessão nas falas, estilo A5 Site das Letras..."></textarea>
+  </div>
+
+  <div class="actions">
+    <button class="btnSalvar" onclick="salvarPlanejamentoMiolo()">Salvar planejamento</button>
+    <button class="btnRecarregar" onclick="carregarPlanejamentoMiolo()">Recarregar planejamento</button>
+    <button class="btnIndice" onclick="voltarDiagramador()">Voltar ao diagramador</button>
+  </div>
+
+  <div id="previewPlanejamento" class="preview">
+    A prévia do planejamento do miolo aparecerá aqui.
+  </div>
+</div>
+
+</div>
+
+<script src="auditoria.js"></script>
+
+<script>
+function obterProjetoAtivo(){
+  try{
+    const lista = JSON.parse(localStorage.getItem("SDL_projetos_lista") || "[]");
+    const ativo = localStorage.getItem("SDL_projeto_ativo");
+    return lista.find(p => p.id === ativo) || null;
+  }catch{
+    return null;
+  }
+}
+
+function carregarStatusProjeto(){
+  const projeto = obterProjetoAtivo();
+
+  if(!projeto){
+    document.getElementById("statusPlanejamento").innerHTML =
+      "Nenhum projeto ativo selecionado.";
+    return;
+  }
+
+  document.getElementById("statusPlanejamento").innerHTML =
+    "Projeto ativo no planejamento do miolo: <strong>" + (projeto.titulo || "Sem título") + "</strong>";
+  document.getElementById("statusPlanejamento").style.background =
+    "rgba(23,77,39,0.28)";
+}
+
+function montarObjetoPlanejamento(){
+  const projeto = obterProjetoAtivo();
+
+  if(!projeto){
+    return null;
+  }
+
+  return {
+    projetoID: projeto.id,
+    tituloProjeto: projeto.titulo || "",
+    formatoMiolo: document.getElementById("formatoMiolo").value,
+    paginasEstimadas: document.getElementById("paginasEstimadas").value.trim(),
+    margensEspelhadas: document.getElementById("margensEspelhadas").value,
+    recuoParagrafo: document.getElementById("recuoParagrafo").value.trim(),
+    alinhamentoTexto: document.getElementById("alinhamentoTexto").value,
+    fonteMiolo: document.getElementById("fonteMiolo").value.trim(),
+    quantidadeCapitulos: document.getElementById("quantidadeCapitulos").value.trim(),
+    numeracaoPagina: document.getElementById("numeracaoPagina").value,
+    temPrefacio: document.getElementById("temPrefacio").value,
+    temPrologo: document.getElementById("temPrologo").value,
+    temSumario: document.getElementById("temSumario").value,
+    temFichaEditorial: document.getElementById("temFichaEditorial").value,
+    observacoesMiolo: document.getElementById("observacoesMiolo").value.trim(),
+    dataRegistro: new Date().toISOString()
+  };
+}
+
+function salvarPlanejamentoMiolo(){
+  const planejamento = montarObjetoPlanejamento();
+
+  if(!planejamento){
+    alert("Nenhum projeto ativo selecionado.");
+    return;
+  }
+
+  localStorage.setItem("SDL_planejamento_miolo_ativo", JSON.stringify(planejamento));
+
+  try{
+    SDL_registrarAuditoria("Planejamento do miolo salvo", "diagramador_planejamento_miolo");
+  }catch(e){}
+
+  renderizarPreview(planejamento);
+  alert("Planejamento do miolo salvo com sucesso.");
+}
+
+function carregarPlanejamentoMiolo(){
+  const projeto = obterProjetoAtivo();
+
+  if(!projeto){
+    alert("Nenhum projeto ativo selecionado.");
+    return;
+  }
+
+  try{
+    const planejamento = JSON.parse(localStorage.getItem("SDL_planejamento_miolo_ativo") || "null");
+
+    if(!planejamento || planejamento.projetoID !== projeto.id){
+      document.getElementById("previewPlanejamento").innerHTML =
+        "Nenhum planejamento salvo para este projeto.";
+      return;
+    }
+
+    document.getElementById("formatoMiolo").value = planejamento.formatoMiolo || "A5";
+    document.getElementById("paginasEstimadas").value = planejamento.paginasEstimadas || "";
+    document.getElementById("margensEspelhadas").value = planejamento.margensEspelhadas || "Sim";
+    document.getElementById("recuoParagrafo").value = planejamento.recuoParagrafo || "";
+    document.getElementById("alinhamentoTexto").value = planejamento.alinhamentoTexto || "Justificado";
+    document.getElementById("fonteMiolo").value = planejamento.fonteMiolo || "";
+    document.getElementById("quantidadeCapitulos").value = planejamento.quantidadeCapitulos || "";
+    document.getElementById("numeracaoPagina").value = planejamento.numeracaoPagina || "Começa na história";
+    document.getElementById("temPrefacio").value = planejamento.temPrefacio || "Sim";
+    document.getElementById("temPrologo").value = planejamento.temPrologo || "Sim";
+    document.getElementById("temSumario").value = planejamento.temSumario || "Sim";
+    document.getElementById("temFichaEditorial").value = planejamento.temFichaEditorial || "Sim";
+    document.getElementById("observacoesMiolo").value = planejamento.observacoesMiolo || "";
+
+    renderizarPreview(planejamento);
+  }catch(e){
+    document.getElementById("previewPlanejamento").innerHTML =
+      "Erro ao carregar planejamento salvo.";
+  }
+}
+
+function renderizarPreview(planejamento){
+  let html = "";
+  html += "<strong>Projeto:</strong> " + (planejamento.tituloProjeto || "—") + "<br><br>";
+  html += "<strong>Formato do miolo:</strong> " + (planejamento.formatoMiolo || "—") + "<br>";
+  html += "<strong>Páginas estimadas:</strong> " + (planejamento.paginasEstimadas || "—") + "<br>";
+  html += "<strong>Margens espelhadas:</strong> " + (planejamento.margensEspelhadas || "—") + "<br>";
+  html += "<strong>Recuo de parágrafo:</strong> " + (planejamento.recuoParagrafo || "—") + "<br>";
+  html += "<strong>Alinhamento:</strong> " + (planejamento.alinhamentoTexto || "—") + "<br>";
+  html += "<strong>Fonte:</strong> " + (planejamento.fonteMiolo || "—") + "<br>";
+  html += "<strong>Capítulos:</strong> " + (planejamento.quantidadeCapitulos || "—") + "<br>";
+  html += "<strong>Numeração:</strong> " + (planejamento.numeracaoPagina || "—") + "<br>";
+  html += "<strong>Prefácio:</strong> " + (planejamento.temPrefacio || "—") + "<br>";
+  html += "<strong>Prólogo:</strong> " + (planejamento.temPrologo || "—") + "<br>";
+  html += "<strong>Sumário:</strong> " + (planejamento.temSumario || "—") + "<br>";
+  html += "<strong>Ficha editorial:</strong> " + (planejamento.temFichaEditorial || "—") + "<br>";
+  html += "<strong>Data:</strong> " + formatarData(planejamento.dataRegistro) + "<br><br>";
+  html += "<strong>Observações do miolo:</strong><br>" + escapeHtml(planejamento.observacoesMiolo || "—");
+
+  document.getElementById("previewPlanejamento").innerHTML = html;
+}
+
+function formatarData(d){
+  if(!d) return "—";
+  try{
+    return new Date(d).toLocaleString("pt-BR");
+  }catch{
+    return d;
+  }
+}
+
+function escapeHtml(texto){
+  return String(texto)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;")
+    .replaceAll("\n", "<br>");
+}
+
+function voltarDiagramador(){
+  window.location.href = "diagramador_inicio.html";
+}
+
+carregarStatusProjeto();
+carregarPlanejamentoMiolo();
+</script>
+
+</body>
+</html>
