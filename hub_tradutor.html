@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hub do Tradutor — Lapidar</title>
+
+<style>
+:root{
+--bg:#0d0603;
+--card:#140c08;
+--cardHover:#1b100a;
+--border:rgba(255,123,44,0.18);
+--orange:#f7b22c;
+--muted:#ffd2b3;
+--ok:#9cfdb2;
+}
+
+body{
+margin:0;
+font-family:Arial, sans-serif;
+background:var(--bg);
+color:white;
+}
+
+.container{
+width:min(1200px,95%);
+margin:auto;
+padding:40px 0 60px;
+}
+
+.titulo{
+font-size:38px;
+font-weight:bold;
+}
+
+.subtitulo{
+margin-top:6px;
+color:var(--orange);
+}
+
+.status{
+margin-top:18px;
+padding:16px;
+border-radius:12px;
+background:rgba(247,178,44,0.12);
+border:1px solid rgba(247,178,44,0.25);
+}
+
+.grid{
+margin-top:30px;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:18px;
+}
+
+.card{
+background:var(--card);
+padding:22px;
+border-radius:16px;
+border:1px solid var(--border);
+cursor:pointer;
+transition:.2s;
+}
+
+.card:hover{
+background:var(--cardHover);
+}
+
+.cardTitulo{
+font-size:20px;
+font-weight:bold;
+margin-bottom:6px;
+}
+
+.cardDesc{
+color:var(--muted);
+font-size:14px;
+line-height:1.7;
+}
+
+.badge{
+margin-top:12px;
+display:inline-block;
+padding:6px 12px;
+border-radius:999px;
+background:#2a160d;
+font-size:13px;
+}
+
+.badge.ok{
+background:rgba(23,77,39,0.35);
+color:var(--ok);
+}
+
+.actions{
+margin-top:40px;
+}
+
+button{
+border:none;
+padding:14px 18px;
+border-radius:999px;
+background:#24150f;
+color:white;
+cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="titulo">Hub do Tradutor</div>
+<div class="subtitulo">Central executiva do setor de tradução editorial</div>
+
+<div id="statusHubTradutor" class="status">
+Verificando projeto ativo...
+</div>
+
+<div class="grid">
+
+<div class="card" onclick="abrirPlanejamentoTraducao()">
+<div class="cardTitulo">Planejamento da Tradução</div>
+<div class="cardDesc">
+Idioma de origem, idioma de destino, adaptação cultural e estratégia editorial.
+</div>
+<div id="badgePlanejamentoTraducao" class="badge">Verificando...</div>
+</div>
+
+<div class="card" onclick="abrirGlossarioTraducao()">
+<div class="cardTitulo">Glossário e Nomes</div>
+<div class="cardDesc">
+Padronização de nomes próprios, termos técnicos e expressões sensíveis.
+</div>
+<div id="badgeGlossarioTraducao" class="badge">Verificando...</div>
+</div>
+
+<div class="card" onclick="abrirChecklistTraducao()">
+<div class="cardTitulo">Checklist da Tradução</div>
+<div class="cardDesc">
+Validação técnica do fluxo tradutório antes da consolidação final.
+</div>
+<div id="badgeChecklistTraducao" class="badge">Verificando...</div>
+</div>
+
+<div class="card" onclick="abrirRelatorioTradutor()">
+<div class="cardTitulo">Relatório do Tradutor</div>
+<div class="cardDesc">
+Documento executivo da estratégia tradutória e da prontidão editorial.
+</div>
+<div id="badgeRelatorioTradutor" class="badge">Verificando...</div>
+</div>
+
+<div class="card" onclick="abrirInicioTradutor()">
+<div class="cardTitulo">Painel do Tradutor</div>
+<div class="cardDesc">
+Entrada geral do setor de tradução dentro do Lapidar.
+</div>
+<div class="badge ok">Disponível</div>
+</div>
+
+</div>
+
+<div class="actions">
+<button onclick="voltarIndice()">Voltar ao índice</button>
+</div>
+
+</div>
+
+<script src="auditoria.js"></script>
+
+<script>
+function obterProjetoAtivo(){
+  try{
+    const lista = JSON.parse(localStorage.getItem("SDL_projetos_lista") || "[]");
+    const ativo = localStorage.getItem("SDL_projeto_ativo");
+    return lista.find(p => p.id === ativo) || null;
+  }catch{
+    return null;
+  }
+}
+
+function lerJSON(chave){
+  try{
+    return JSON.parse(localStorage.getItem(chave) || "null");
+  }catch{
+    return null;
+  }
+}
+
+function atualizarStatusHubTradutor(){
+  const projeto = obterProjetoAtivo();
+
+  if(!projeto){
+    statusHubTradutor.innerHTML = "Nenhum projeto ativo selecionado.";
+    return;
+  }
+
+  statusHubTradutor.innerHTML =
+    "Setor de tradução vinculado à obra: <strong>" + projeto.titulo + "</strong>";
+
+  statusHubTradutor.style.background = "rgba(23,77,39,0.28)";
+
+  const planejamento = lerJSON("SDL_planejamento_traducao_ativo");
+  const glossario = lerJSON("SDL_glossario_traducao_ativo");
+
+  aplicarBadge("badgePlanejamentoTraducao", planejamento && planejamento.projetoID === projeto.id);
+  aplicarBadge("badgeGlossarioTraducao", glossario && glossario.projetoID === projeto.id);
+  aplicarBadge("badgeChecklistTraducao",
+    (planejamento && planejamento.projetoID === projeto.id) &&
+    (glossario && glossario.projetoID === projeto.id)
+  );
+  aplicarBadge("badgeRelatorioTradutor",
+    (planejamento && planejamento.projetoID === projeto.id) ||
+    (glossario && glossario.projetoID === projeto.id)
+  );
+}
+
+function aplicarBadge(id, status){
+  const el = document.getElementById(id);
+
+  if(status){
+    el.classList.add("ok");
+    el.innerHTML = "Disponível";
+  }else{
+    el.innerHTML = "Pendente";
+  }
+}
+
+function abrirPlanejamentoTraducao(){ window.location.href = "tradutor_planejamento.html"; }
+function abrirGlossarioTraducao(){ window.location.href = "tradutor_glossario.html"; }
+function abrirChecklistTraducao(){ window.location.href = "tradutor_checklist.html"; }
+function abrirRelatorioTradutor(){ window.location.href = "relatorio_tradutor.html"; }
+function abrirInicioTradutor(){ window.location.href = "tradutor_inicio.html"; }
+
+function voltarIndice(){ window.location.href = "_Indice.html"; }
+
+try{
+  SDL_registrarAuditoria("Acesso ao hub do tradutor", "hub_tradutor");
+}catch(e){}
+
+atualizarStatusHubTradutor();
+</script>
+
+</body>
+</html>
