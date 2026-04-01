@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hub do Diagramador — Lapidar</title>
+
+<style>
+:root{
+--bg:#0d0603;
+--card:#140c08;
+--cardHover:#1b100a;
+--border:rgba(255,123,44,0.18);
+--orange:#f7b22c;
+--muted:#ffd2b3;
+--ok:#9cfdb2;
+}
+
+body{
+margin:0;
+font-family:Arial, sans-serif;
+background:var(--bg);
+color:white;
+}
+
+.container{
+width:min(1200px,95%);
+margin:auto;
+padding:40px 0 60px;
+}
+
+.titulo{
+font-size:38px;
+font-weight:bold;
+}
+
+.subtitulo{
+margin-top:6px;
+color:var(--orange);
+}
+
+.status{
+margin-top:18px;
+padding:16px;
+border-radius:12px;
+background:rgba(247,178,44,0.12);
+border:1px solid rgba(247,178,44,0.25);
+}
+
+.grid{
+margin-top:30px;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:18px;
+}
+
+.card{
+background:var(--card);
+padding:22px;
+border-radius:16px;
+border:1px solid var(--border);
+cursor:pointer;
+transition:.2s;
+}
+
+.card:hover{
+background:var(--cardHover);
+}
+
+.cardTitulo{
+font-size:20px;
+font-weight:bold;
+margin-bottom:6px;
+}
+
+.cardDesc{
+color:var(--muted);
+font-size:14px;
+line-height:1.7;
+}
+
+.badge{
+margin-top:12px;
+display:inline-block;
+padding:6px 12px;
+border-radius:999px;
+background:#2a160d;
+font-size:13px;
+}
+
+.badge.ok{
+background:rgba(23,77,39,0.35);
+color:var(--ok);
+}
+
+.actions{
+margin-top:40px;
+}
+
+button{
+border:none;
+padding:14px 18px;
+border-radius:999px;
+background:#24150f;
+color:white;
+cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="titulo">Hub do Diagramador</div>
+<div class="subtitulo">Central executiva do setor de miolo editorial</div>
+
+<div id="statusHubDiagramador" class="status">
+Verificando projeto ativo...
+</div>
+
+<div class="grid">
+
+<div class="card" onclick="abrirPlanejamentoMiolo()">
+<div class="cardTitulo">Planejamento do Miolo</div>
+<div class="cardDesc">
+Formato, páginas, margens, capítulos e estrutura editorial da obra.
+</div>
+<div id="badgePlanejamentoMiolo" class="badge">Verificando...</div>
+</div>
+
+<div class="card" onclick="abrirElementosTecnicos()">
+<div class="cardTitulo">Elementos Técnicos</div>
+<div class="cardDesc">
+Dedicatória, prefácio, prólogo, sumário, expediente e peças internas.
+</div>
+<div id="badgeElementosTecnicos" class="badge">Verificando...</div>
+</div>
+
+<div class="card" onclick="abrirPadraoDiagramacao()">
+<div class="cardTitulo">Padrão de Diagramação</div>
+<div class="cardDesc">
+Fonte, alinhamento, travessão, hifenização e DNA visual do miolo.
+</div>
+<div id="badgePadraoDiagramacao" class="badge">Verificando...</div>
+</div>
+
+<div class="card" onclick="abrirChecklistMiolo()">
+<div class="cardTitulo">Checklist do Miolo</div>
+<div class="cardDesc">
+Validação técnica final do setor de diagramação antes do avanço.
+</div>
+<div id="badgeChecklistMiolo" class="badge">Verificando...</div>
+</div>
+
+<div class="card" onclick="abrirRelatorioLapidacao()">
+<div class="cardTitulo">Relatório de Lapidação</div>
+<div class="cardDesc">
+Documento técnico do tratamento editorial e organização do miolo.
+</div>
+<div id="badgeRelatorioLapidacao" class="badge">Verificando...</div>
+</div>
+
+<div class="card" onclick="abrirInicioDiagramador()">
+<div class="cardTitulo">Painel do Diagramador</div>
+<div class="cardDesc">
+Entrada geral do setor de diagramação dentro do Lapidar.
+</div>
+<div class="badge ok">Disponível</div>
+</div>
+
+</div>
+
+<div class="actions">
+<button onclick="voltarIndice()">Voltar ao índice</button>
+</div>
+
+</div>
+
+<script src="auditoria.js"></script>
+
+<script>
+function obterProjetoAtivo(){
+  try{
+    const lista = JSON.parse(localStorage.getItem("SDL_projetos_lista") || "[]");
+    const ativo = localStorage.getItem("SDL_projeto_ativo");
+    return lista.find(p => p.id === ativo) || null;
+  }catch{
+    return null;
+  }
+}
+
+function lerJSON(chave){
+  try{
+    return JSON.parse(localStorage.getItem(chave) || "null");
+  }catch{
+    return null;
+  }
+}
+
+function atualizarStatusHubDiagramador(){
+  const projeto = obterProjetoAtivo();
+
+  if(!projeto){
+    statusHubDiagramador.innerHTML = "Nenhum projeto ativo selecionado.";
+    return;
+  }
+
+  statusHubDiagramador.innerHTML =
+    "Setor de diagramação vinculado à obra: <strong>" + projeto.titulo + "</strong>";
+
+  statusHubDiagramador.style.background = "rgba(23,77,39,0.28)";
+
+  const planejamento = lerJSON("SDL_planejamento_miolo_ativo");
+  const elementos = lerJSON("SDL_elementos_tecnicos_ativos");
+  const padrao = lerJSON("SDL_padrao_diagramacao");
+
+  aplicarBadge("badgePlanejamentoMiolo", planejamento && planejamento.projetoID === projeto.id);
+  aplicarBadge("badgeElementosTecnicos", elementos && elementos.projetoID === projeto.id);
+  aplicarBadge("badgePadraoDiagramacao", padrao && padrao.idProjeto === projeto.id);
+  aplicarBadge("badgeChecklistMiolo",
+    (planejamento && planejamento.projetoID === projeto.id) &&
+    (elementos && elementos.projetoID === projeto.id) &&
+    (padrao && padrao.idProjeto === projeto.id)
+  );
+  aplicarBadge("badgeRelatorioLapidacao",
+    (planejamento && planejamento.projetoID === projeto.id) ||
+    (elementos && elementos.projetoID === projeto.id) ||
+    (padrao && padrao.idProjeto === projeto.id)
+  );
+}
+
+function aplicarBadge(id, status){
+  const el = document.getElementById(id);
+
+  if(status){
+    el.classList.add("ok");
+    el.innerHTML = "Disponível";
+  }else{
+    el.innerHTML = "Pendente";
+  }
+}
+
+function abrirPlanejamentoMiolo(){ window.location.href = "diagramador_planejamento_miolo.html"; }
+function abrirElementosTecnicos(){ window.location.href = "diagramador_elementos_tecnicos.html"; }
+function abrirPadraoDiagramacao(){ window.location.href = "diagramador_padrao.html"; }
+function abrirChecklistMiolo(){ window.location.href = "diagramador_checklist.html"; }
+function abrirRelatorioLapidacao(){ window.location.href = "relatorio_lapidacao.html"; }
+function abrirInicioDiagramador(){ window.location.href = "diagramador_inicio.html"; }
+
+function voltarIndice(){ window.location.href = "_Indice.html"; }
+
+try{
+  SDL_registrarAuditoria("Acesso ao hub do diagramador", "hub_diagramador");
+}catch(e){}
+
+atualizarStatusHubDiagramador();
+</script>
+
+</body>
+</html>
