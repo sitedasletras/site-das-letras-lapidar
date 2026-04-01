@@ -1,230 +1,189 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Doações — Colaborador Tradutor</title>
+<title>Tradutor — Doações</title>
 
 <style>
-
 body{
 margin:0;
-font-family:Arial;
-background:white;
-color:#12307a;
-display:flex;
-justify-content:center;
+font-family:Arial,sans-serif;
+background:#167a45;
+color:#ffffff;
 }
 
 .container{
-max-width:820px;
-width:94%;
-padding:40px 0 60px 0;
+width:min(1100px,95%);
+margin:auto;
+padding:40px 0 60px;
 }
 
 .titulo{
-font-size:34px;
-text-align:center;
+font-size:38px;
 font-weight:bold;
 }
 
 .subtitulo{
-text-align:center;
-margin-top:10px;
-margin-bottom:30px;
-line-height:1.6;
-color:#3b4f88;
-}
-
-.card{
-background:#f5f8ff;
-border-radius:16px;
-padding:26px;
-margin-top:18px;
+margin-top:8px;
 line-height:1.7;
-border:1px solid #dbe5ff;
-}
-
-.plano{
-margin-top:14px;
-padding:18px;
-border-radius:12px;
-background:white;
-border:1px solid #d0dcff;
-}
-
-.valor{
-font-weight:bold;
-font-size:20px;
-margin-top:6px;
-}
-
-.botao{
-width:100%;
-padding:18px;
-margin-top:18px;
-border-radius:40px;
-font-size:18px;
-font-weight:bold;
-cursor:pointer;
-background:white;
-border:2px solid #0e5eff;
-color:#0e5eff;
-}
-
-.botao:hover{
-opacity:.92;
-}
-
-.botaoAzul{
-background:#0e5eff;
-color:white;
+color:#eefcf4;
 }
 
 .status{
-margin-top:18px;
-padding:14px;
+margin-top:20px;
+padding:16px;
 border-radius:12px;
-background:#eef3ff;
+background:rgba(255,255,255,0.12);
+border:1px solid rgba(255,255,255,0.30);
 }
 
-.ok{
-background:#e7fff1;
-color:#0f6b3c;
+.grid{
+margin-top:28px;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:18px;
 }
 
+.card{
+background:#1a8a4f;
+border:2px solid #ffffff;
+border-radius:18px;
+padding:22px;
+cursor:pointer;
+transition:.2s;
+box-shadow:0 10px 26px rgba(0,0,0,0.25);
+}
+
+.card:hover{
+transform:translateY(-2px);
+}
+
+.cardTitulo{
+font-size:20px;
+font-weight:bold;
+margin-bottom:8px;
+}
+
+.cardValor{
+font-size:28px;
+font-weight:bold;
+margin-bottom:10px;
+}
+
+.cardDesc{
+line-height:1.7;
+font-size:14px;
+color:#eefcf4;
+}
+
+.actions{
+margin-top:30px;
+display:flex;
+gap:12px;
+flex-wrap:wrap;
+}
+
+button{
+border:none;
+padding:14px 18px;
+border-radius:999px;
+background:#ffffff;
+color:#111111;
+border:2px solid #111111;
+cursor:pointer;
+font-weight:bold;
+}
 </style>
-
 </head>
 
 <body>
 
 <div class="container">
 
-<div class="titulo">
-Doações — Colaborador Tradutor
-</div>
-
+<div class="titulo">Tradutor</div>
 <div class="subtitulo">
-Apoio colaborativo para preparação editorial multilíngue da obra
+Escolha a modalidade de doação do setor de tradução editorial.
 </div>
 
-
-<div class="card">
-
-Este módulo permite:
-
-<br><br>
-
-• preparação de versão internacional da obra  
-• organização editorial multilíngue  
-• adaptação estrutural de idioma  
-• geração de fluxo traduzido compatível com publicação  
-
+<div id="statusTradutorDoacoes" class="status">
+Selecione uma modalidade para continuar.
 </div>
 
+<div class="grid">
 
-<div class="card">
-
-<div class="plano">
-
-Idioma adicional editorial
-
-<div class="valor">
-R$ 9,90
+<div class="card" onclick="selecionarPlano('tradutor_avulso','Doação avulsa')">
+<div class="cardTitulo">Avulsa</div>
+<div class="cardValor">R$ 2,99</div>
+<div class="cardDesc">
+Entrada unitária para uso pontual do setor de tradução.
+</div>
 </div>
 
-Preparação de versão complementar da obra em novo idioma editorial.
-
+<div class="card" onclick="selecionarPlano('tradutor_30','30 dias')">
+<div class="cardTitulo">30 dias</div>
+<div class="cardValor">R$ 19,99</div>
+<div class="cardDesc">
+Acesso mensal ao setor tradutor.
+</div>
 </div>
 
-
-<div class="plano">
-
-Configuração multilíngue completa
-
-<div class="valor">
-R$ 19,90
+<div class="card" onclick="selecionarPlano('tradutor_90','90 dias')">
+<div class="cardTitulo">90 dias</div>
+<div class="cardValor">R$ 44,99</div>
+<div class="cardDesc">
+Acesso trimestral ao fluxo de tradução editorial.
+</div>
 </div>
 
-Preparação simultânea para múltiplos idiomas editoriais.
-
+<div class="card" onclick="selecionarPlano('tradutor_180','180 dias')">
+<div class="cardTitulo">180 dias</div>
+<div class="cardValor">R$ 74,99</div>
+<div class="cardDesc">
+Meio ano de acesso ao setor de tradução.
+</div>
 </div>
 
-
-<div class="plano">
-
-Tradução editorial assistida completa
-
-<div class="valor">
-R$ 40,00
+<div class="card" onclick="selecionarPlano('tradutor_365','365 dias')">
+<div class="cardTitulo">365 dias</div>
+<div class="cardValor">R$ 119,99</div>
+<div class="cardDesc">
+Acesso anual completo ao setor tradutor.
 </div>
-
-Validação estrutural detalhada da versão traduzida com análise editorial ampliada.
+</div>
 
 </div>
 
+<div class="actions">
+<button onclick="abrirTradutor()">Entrar no setor</button>
+<button onclick="voltarSetores()">Voltar aos setores</button>
+</div>
 
 </div>
 
-
-<button class="botaoAzul botao" onclick="confirmarDoacaoTradutor()">
-Confirmar apoio ao módulo tradutor
-</button>
-
-
-<button class="botao" onclick="voltarTradutorInicio()">
-Voltar ao colaborador tradutor
-</button>
-
-
-<div id="statusDoacao" class="status">
-Nenhuma doação registrada neste módulo ainda.
-</div>
-
-
-</div>
-
+<script src="auditoria.js"></script>
 
 <script>
+function selecionarPlano(codigo, nome){
+  localStorage.setItem("SDL_plano_tradutor", codigo);
+  localStorage.setItem("SDL_plano_tradutor_nome", nome);
 
-function adminAtivo(){
+  document.getElementById("statusTradutorDoacoes").innerHTML =
+    "Plano selecionado no Tradutor: <strong>" + nome + "</strong>";
 
-return localStorage.getItem("SDL_ADMIN") === "true";
-
+  try{
+    SDL_registrarAuditoria("Plano do tradutor selecionado", "tradutor_doacoes");
+  }catch(e){}
 }
 
-function confirmarDoacaoTradutor(){
-
-localStorage.setItem("SDL_doacao_tradutor","ativa");
-
-document.getElementById("statusDoacao").innerText=
-"Apoio registrado com sucesso. Fluxo multilíngue liberado.";
-
-document.getElementById("statusDoacao").classList.add("ok");
-
+function abrirTradutor(){
+  window.location.href = "tradutor_inicio.html";
 }
 
-function voltarTradutorInicio(){
-
-window.location.href="tradutor_inicio.html";
-
+function voltarSetores(){
+  window.location.href = "painel_setores.html";
 }
-
-if(adminAtivo()){
-
-document.getElementById("statusDoacao").innerText=
-"Modo administrador ativo. Fluxo multilíngue liberado automaticamente.";
-
-document.getElementById("statusDoacao").classList.add("ok");
-
-}
-
 </script>
 
 </body>
-
 </html>
