@@ -60,7 +60,7 @@ cursor:pointer;
 transition:.2s;
 box-shadow:0 10px 26px rgba(0,0,0,0.25);
 border:3px solid transparent;
-min-height:220px;
+min-height:250px;
 display:flex;
 flex-direction:column;
 justify-content:space-between;
@@ -89,6 +89,28 @@ border-radius:999px;
 font-weight:bold;
 font-size:14px;
 width:max-content;
+}
+
+.badgeStatus{
+margin-top:16px;
+display:inline-block;
+padding:8px 12px;
+border-radius:999px;
+font-size:13px;
+font-weight:bold;
+background:rgba(0,0,0,0.18);
+}
+
+.badgePlano{
+background:rgba(23,77,39,0.28);
+}
+
+.badgeAvulso{
+background:rgba(255,255,255,0.18);
+}
+
+.badgeBloqueado{
+background:rgba(90,0,0,0.20);
 }
 
 /* DIAGRAMADOR */
@@ -195,6 +217,7 @@ Verificando sessão ativa...
       Setor do miolo editorial, estrutura interna, planejamento técnico,
       elementos do livro, padrão de diagramação e checklist final.
     </div>
+    <div id="badgeDiagramador" class="badgeStatus">Verificando...</div>
   </div>
   <div class="botaoInterno">Entrar no Diagramador</div>
 </div>
@@ -206,6 +229,7 @@ Verificando sessão ativa...
       Setor da identidade visual da obra, com solicitação de capa,
       textos editoriais, configuração técnica e montagem estrutural.
     </div>
+    <div id="badgeCapista" class="badgeStatus">Verificando...</div>
   </div>
   <div class="botaoInterno">Entrar no Capista</div>
 </div>
@@ -217,6 +241,7 @@ Verificando sessão ativa...
       Setor de tradução editorial, adaptação linguística,
       glossário técnico, checklist tradutório e consolidação final.
     </div>
+    <div id="badgeTradutor" class="badgeStatus">Verificando...</div>
   </div>
   <div class="botaoInterno">Entrar no Tradutor</div>
 </div>
@@ -228,6 +253,7 @@ Verificando sessão ativa...
       Setor de leitura técnica, parecer editorial, relatório da obra,
       relatório mestre, relatório do capista e relatório do tradutor.
     </div>
+    <div id="badgeRelatorios" class="badgeStatus">Disponível</div>
   </div>
   <div class="botaoInterno">Entrar nos Relatórios</div>
 </div>
@@ -244,6 +270,7 @@ Verificando sessão ativa...
 </div>
 
 <script src="auditoria.js"></script>
+<script src="planos_usuario.js"></script>
 
 <script>
 function verificarSessao(){
@@ -256,6 +283,36 @@ function verificarSessao(){
     "Sessão validada. Escolha o setor editorial desejado.";
   document.getElementById("statusPainelSetores").style.background =
     "rgba(23,77,39,0.28)";
+}
+
+function aplicarStatusBadge(id, setor){
+  const el = document.getElementById(id);
+  const status = SDL_statusSetor(setor);
+
+  el.classList.remove("badgePlano", "badgeAvulso", "badgeBloqueado");
+
+  if(status === "plano"){
+    const dados = JSON.parse(localStorage.getItem("SDL_plano_" + setor) || "null");
+    let nomePlano = dados && dados.plano ? dados.plano : "Plano ativo";
+    el.innerHTML = nomePlano;
+    el.classList.add("badgePlano");
+    return;
+  }
+
+  if(status === "avulso"){
+    el.innerHTML = "Avulso registrado";
+    el.classList.add("badgeAvulso");
+    return;
+  }
+
+  el.innerHTML = "Disponível para contratar";
+  el.classList.add("badgeBloqueado");
+}
+
+function carregarStatusSetores(){
+  aplicarStatusBadge("badgeDiagramador", "diagramador");
+  aplicarStatusBadge("badgeCapista", "capista");
+  aplicarStatusBadge("badgeTradutor", "tradutor");
 }
 
 function abrirDiagramador(){
@@ -303,6 +360,7 @@ function encerrarSessao(){
 }
 
 verificarSessao();
+carregarStatusSetores();
 </script>
 
 </body>
