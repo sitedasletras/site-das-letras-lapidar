@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Recuperar Senha — Lapidar</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+font-family:Arial,sans-serif;
+background:#f5f5f5;
+margin:0;
+padding:0;
+}
+
+.container{
+width:420px;
+max-width:92%;
+margin:50px auto;
+background:white;
+padding:30px;
+border-radius:10px;
+box-shadow:0px 0px 15px rgba(0,0,0,0.15);
+}
+
+h1{
+text-align:center;
+margin-bottom:10px;
+}
+
+.subtitulo{
+text-align:center;
+font-size:14px;
+color:#666;
+margin-bottom:25px;
+line-height:1.6;
+}
+
+label{
+display:block;
+margin-top:12px;
+font-weight:bold;
+}
+
+input{
+width:100%;
+padding:10px;
+margin-top:5px;
+border-radius:5px;
+border:1px solid #ccc;
+box-sizing:border-box;
+}
+
+button{
+margin-top:20px;
+width:100%;
+padding:12px;
+background:#2b7cff;
+color:white;
+border:none;
+border-radius:6px;
+font-size:16px;
+cursor:pointer;
+}
+
+button:hover{
+background:#1d5ed8;
+}
+
+.status{
+margin-top:18px;
+padding:12px;
+border-radius:8px;
+background:#f2f6ff;
+border:1px solid #d9e6ff;
+font-size:14px;
+line-height:1.6;
+color:#333;
+}
+
+.voltar{
+margin-top:20px;
+text-align:center;
+}
+
+.voltar a{
+text-decoration:none;
+color:#2b7cff;
+font-weight:bold;
+}
+
+.oculto{
+display:none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Recuperar Senha</h1>
+
+<div class="subtitulo">
+Informe o e-mail cadastrado para solicitar a recuperação de acesso ao Lapidar.
+</div>
+
+<div id="etapaEmail">
+
+<label for="emailRecuperacao">E-mail cadastrado</label>
+<input type="email" id="emailRecuperacao" placeholder="Digite seu e-mail">
+
+<button onclick="solicitarRecuperacao()">
+Solicitar recuperação
+</button>
+
+</div>
+
+<div id="etapaNovaSenha" class="oculto">
+
+<label for="codigoTemporario">Código temporário</label>
+<input type="text" id="codigoTemporario" placeholder="Digite o código recebido">
+
+<label for="novaSenha">Nova senha</label>
+<input type="password" id="novaSenha" placeholder="Digite a nova senha">
+
+<label for="confirmarNovaSenha">Confirmar nova senha</label>
+<input type="password" id="confirmarNovaSenha" placeholder="Confirme a nova senha">
+
+<button onclick="redefinirSenha()">
+Salvar nova senha
+</button>
+
+</div>
+
+<div id="statusRecuperacao" class="status">
+Ao solicitar a recuperação, o sistema preparará um código temporário para redefinir sua senha.
+</div>
+
+<div class="voltar">
+<a href="login.html">Voltar ao login</a>
+</div>
+
+</div>
+
+<script>
+function solicitarRecuperacao(){
+  const email = document.getElementById("emailRecuperacao").value.trim();
+
+  if(!email){
+    document.getElementById("statusRecuperacao").innerHTML =
+      "Informe o e-mail cadastrado para continuar.";
+    return;
+  }
+
+  const codigoTemporario = gerarCodigoTemporario();
+
+  localStorage.setItem("SDL_email_recuperacao", email);
+  localStorage.setItem("SDL_codigo_recuperacao", codigoTemporario);
+  localStorage.setItem("SDL_data_recuperacao", new Date().toISOString());
+
+  document.getElementById("statusRecuperacao").innerHTML =
+    "Solicitação registrada com sucesso.<br><br>" +
+    "Código temporário gerado para teste interno: <strong>" + codigoTemporario + "</strong><br><br>" +
+    "Na versão avançada, esse código será enviado automaticamente para o e-mail cadastrado.";
+
+  document.getElementById("etapaNovaSenha").classList.remove("oculto");
+}
+
+function redefinirSenha(){
+  const codigoInformado = document.getElementById("codigoTemporario").value.trim();
+  const novaSenha = document.getElementById("novaSenha").value.trim();
+  const confirmarNovaSenha = document.getElementById("confirmarNovaSenha").value.trim();
+
+  const codigoSalvo = localStorage.getItem("SDL_codigo_recuperacao");
+
+  if(!codigoInformado || !novaSenha || !confirmarNovaSenha){
+    document.getElementById("statusRecuperacao").innerHTML =
+      "Preencha o código temporário e os dois campos de senha.";
+    return;
+  }
+
+  if(codigoInformado !== codigoSalvo){
+    document.getElementById("statusRecuperacao").innerHTML =
+      "O código temporário informado não confere.";
+    return;
+  }
+
+  if(novaSenha !== confirmarNovaSenha){
+    document.getElementById("statusRecuperacao").innerHTML =
+      "A nova senha e a confirmação não coincidem.";
+    return;
+  }
+
+  if(novaSenha.length < 4){
+    document.getElementById("statusRecuperacao").innerHTML =
+      "A nova senha precisa ter pelo menos 4 caracteres.";
+    return;
+  }
+
+  localStorage.setItem("SDL_senha_recuperada", novaSenha);
+  localStorage.removeItem("SDL_codigo_recuperacao");
+
+  document.getElementById("statusRecuperacao").innerHTML =
+    "Senha redefinida com sucesso.<br><br>" +
+    "Na próxima etapa, vamos integrar isso ao cadastro real de usuários do Lapidar.";
+
+  setTimeout(function(){
+    window.location.href = "login.html";
+  }, 1200);
+}
+
+function gerarCodigoTemporario(){
+  return "LAP-" + Math.floor(100000 + Math.random() * 900000);
+}
+</script>
+
+</body>
+</html>
