@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diagramador — Elementos Técnicos</title>
+
+<style>
+:root{
+--bg:#0d0603;
+--card:#140c08;
+--card2:#1b100a;
+--text:#ffffff;
+--orange:#f7b22c;
+--border:rgba(255,123,44,0.18);
+--shadow:0 10px 26px rgba(0,0,0,0.28);
+}
+
+body{
+margin:0;
+font-family:Arial, sans-serif;
+background:var(--bg);
+color:var(--text);
+}
+
+.container{
+width:min(1100px,95%);
+margin:auto;
+padding:40px 0 60px;
+}
+
+.titulo{
+font-size:36px;
+font-weight:bold;
+}
+
+.subtitulo{
+margin-top:6px;
+color:var(--orange);
+}
+
+.status{
+margin-top:20px;
+padding:16px;
+border-radius:12px;
+background:rgba(247,178,44,0.12);
+border:1px solid rgba(247,178,44,0.25);
+color:#ffe7b0;
+}
+
+.card{
+margin-top:24px;
+background:var(--card);
+border:1px solid var(--border);
+border-radius:18px;
+padding:22px;
+box-shadow:var(--shadow);
+}
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:18px;
+}
+
+label{
+display:block;
+margin-bottom:6px;
+color:var(--orange);
+font-weight:bold;
+}
+
+select, textarea, input{
+width:100%;
+padding:14px;
+border:none;
+border-radius:12px;
+background:#1b0e07;
+color:#fff;
+box-sizing:border-box;
+font-family:Arial, sans-serif;
+}
+
+textarea{
+min-height:120px;
+resize:vertical;
+}
+
+.preview{
+margin-top:18px;
+padding:18px;
+border-radius:14px;
+background:var(--card2);
+line-height:1.8;
+}
+
+.actions{
+margin-top:24px;
+display:flex;
+flex-wrap:wrap;
+gap:12px;
+}
+
+button{
+border:none;
+padding:14px 18px;
+border-radius:999px;
+cursor:pointer;
+font-weight:bold;
+}
+
+.btnSalvar{
+background:#174d27;
+color:#fff;
+}
+
+.btnRecarregar{
+background:#5a2c00;
+color:#fff;
+}
+
+.btnIndice{
+background:#24150f;
+color:#fff;
+}
+
+@media(max-width:900px){
+.grid{
+grid-template-columns:1fr;
+}
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="titulo">Elementos Técnicos do Miolo</div>
+<div class="subtitulo">Controle estrutural das partes internas da obra</div>
+
+<div id="statusElementos" class="status">
+Verificando projeto ativo...
+</div>
+
+<div class="card">
+
+  <div class="grid">
+    <div>
+      <label for="temDedicatoria">Dedicatória</label>
+      <select id="temDedicatoria">
+        <option>Sim</option>
+        <option>Não</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="temEpigrafe">Epígrafe</label>
+      <select id="temEpigrafe">
+        <option>Sim</option>
+        <option>Não</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="temPrefacio">Prefácio</label>
+      <select id="temPrefacio">
+        <option>Sim</option>
+        <option>Não</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="temPrologo">Prólogo</label>
+      <select id="temPrologo">
+        <option>Sim</option>
+        <option>Não</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="temSumario">Sumário</label>
+      <select id="temSumario">
+        <option>Sim</option>
+        <option>Não</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="temFichaEditorial">Ficha editorial / dados da obra</label>
+      <select id="temFichaEditorial">
+        <option>Sim</option>
+        <option>Não</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="temExpediente">Expediente</label>
+      <select id="temExpediente">
+        <option>Sim</option>
+        <option>Não</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="temNotaAutor">Nota do autor</label>
+      <select id="temNotaAutor">
+        <option>Sim</option>
+        <option>Não</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="temPosfacio">Posfácio</label>
+      <select id="temPosfacio">
+        <option>Sim</option>
+        <option>Não</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="temApendices">Apêndices / anexos</label>
+      <select id="temApendices">
+        <option>Sim</option>
+        <option>Não</option>
+      </select>
+    </div>
+  </div>
+
+  <div style="margin-top:18px;">
+    <label for="ordemElementos">Ordem e observações dos elementos técnicos</label>
+    <textarea id="ordemElementos" placeholder="Ex.: Dedicatória → Epígrafe → Prefácio → Ficha editorial → Sumário → Prólogo..."></textarea>
+  </div>
+
+  <div class="actions">
+    <button class="btnSalvar" onclick="salvarElementosTecnicos()">Salvar elementos</button>
+    <button class="btnRecarregar" onclick="carregarElementosTecnicos()">Recarregar elementos</button>
+    <button class="btnIndice" onclick="voltarDiagramador()">Voltar ao diagramador</button>
+  </div>
+
+  <div id="previewElementos" class="preview">
+    A prévia dos elementos técnicos aparecerá aqui.
+  </div>
+</div>
+
+</div>
+
+<script src="auditoria.js"></script>
+
+<script>
+function obterProjetoAtivo(){
+  try{
+    const lista = JSON.parse(localStorage.getItem("SDL_projetos_lista") || "[]");
+    const ativo = localStorage.getItem("SDL_projeto_ativo");
+    return lista.find(p => p.id === ativo) || null;
+  }catch{
+    return null;
+  }
+}
+
+function carregarStatusProjeto(){
+  const projeto = obterProjetoAtivo();
+
+  if(!projeto){
+    document.getElementById("statusElementos").innerHTML =
+      "Nenhum projeto ativo selecionado.";
+    return;
+  }
+
+  document.getElementById("statusElementos").innerHTML =
+    "Projeto ativo nos elementos técnicos: <strong>" + (projeto.titulo || "Sem título") + "</strong>";
+  document.getElementById("statusElementos").style.background =
+    "rgba(23,77,39,0.28)";
+}
+
+function montarObjetoElementos(){
+  const projeto = obterProjetoAtivo();
+
+  if(!projeto){
+    return null;
+  }
+
+  return {
+    projetoID: projeto.id,
+    tituloProjeto: projeto.titulo || "",
+    temDedicatoria: document.getElementById("temDedicatoria").value,
+    temEpigrafe: document.getElementById("temEpigrafe").value,
+    temPrefacio: document.getElementById("temPrefacio").value,
+    temPrologo: document.getElementById("temPrologo").value,
+    temSumario: document.getElementById("temSumario").value,
+    temFichaEditorial: document.getElementById("temFichaEditorial").value,
+    temExpediente: document.getElementById("temExpediente").value,
+    temNotaAutor: document.getElementById("temNotaAutor").value,
+    temPosfacio: document.getElementById("temPosfacio").value,
+    temApendices: document.getElementById("temApendices").value,
+    ordemElementos: document.getElementById("ordemElementos").value.trim(),
+    dataRegistro: new Date().toISOString()
+  };
+}
+
+function salvarElementosTecnicos(){
+  const elementos = montarObjetoElementos();
+
+  if(!elementos){
+    alert("Nenhum projeto ativo selecionado.");
+    return;
+  }
+
+  localStorage.setItem("SDL_elementos_tecnicos_ativos", JSON.stringify(elementos));
+
+  try{
+    SDL_registrarAuditoria("Elementos técnicos do miolo salvos", "diagramador_elementos_tecnicos");
+  }catch(e){}
+
+  renderizarPreview(elementos);
+  alert("Elementos técnicos salvos com sucesso.");
+}
+
+function carregarElementosTecnicos(){
+  const projeto = obterProjetoAtivo();
+
+  if(!projeto){
+    alert("Nenhum projeto ativo selecionado.");
+    return;
+  }
+
+  try{
+    const elementos = JSON.parse(localStorage.getItem("SDL_elementos_tecnicos_ativos") || "null");
+
+    if(!elementos || elementos.projetoID !== projeto.id){
+      document.getElementById("previewElementos").innerHTML =
+        "Nenhum elemento técnico salvo para este projeto.";
+      return;
+    }
+
+    document.getElementById("temDedicatoria").value = elementos.temDedicatoria || "Sim";
+    document.getElementById("temEpigrafe").value = elementos.temEpigrafe || "Sim";
+    document.getElementById("temPrefacio").value = elementos.temPrefacio || "Sim";
+    document.getElementById("temPrologo").value = elementos.temPrologo || "Sim";
+    document.getElementById("temSumario").value = elementos.temSumario || "Sim";
+    document.getElementById("temFichaEditorial").value = elementos.temFichaEditorial || "Sim";
+    document.getElementById("temExpediente").value = elementos.temExpediente || "Sim";
+    document.getElementById("temNotaAutor").value = elementos.temNotaAutor || "Não";
+    document.getElementById("temPosfacio").value = elementos.temPosfacio || "Não";
+    document.getElementById("temApendices").value = elementos.temApendices || "Não";
+    document.getElementById("ordemElementos").value = elementos.ordemElementos || "";
+
+    renderizarPreview(elementos);
+  }catch(e){
+    document.getElementById("previewElementos").innerHTML =
+      "Erro ao carregar elementos técnicos salvos.";
+  }
+}
+
+function renderizarPreview(elementos){
+  let html = "";
+  html += "<strong>Projeto:</strong> " + (elementos.tituloProjeto || "—") + "<br><br>";
+  html += "<strong>Dedicatória:</strong> " + (elementos.temDedicatoria || "—") + "<br>";
+  html += "<strong>Epígrafe:</strong> " + (elementos.temEpigrafe || "—") + "<br>";
+  html += "<strong>Prefácio:</strong> " + (elementos.temPrefacio || "—") + "<br>";
+  html += "<strong>Prólogo:</strong> " + (elementos.temPrologo || "—") + "<br>";
+  html += "<strong>Sumário:</strong> " + (elementos.temSumario || "—") + "<br>";
+  html += "<strong>Ficha editorial:</strong> " + (elementos.temFichaEditorial || "—") + "<br>";
+  html += "<strong>Expediente:</strong> " + (elementos.temExpediente || "—") + "<br>";
+  html += "<strong>Nota do autor:</strong> " + (elementos.temNotaAutor || "—") + "<br>";
+  html += "<strong>Posfácio:</strong> " + (elementos.temPosfacio || "—") + "<br>";
+  html += "<strong>Apêndices / anexos:</strong> " + (elementos.temApendices || "—") + "<br>";
+  html += "<strong>Data:</strong> " + formatarData(elementos.dataRegistro) + "<br><br>";
+  html += "<strong>Ordem e observações:</strong><br>" + escapeHtml(elementos.ordemElementos || "—");
+
+  document.getElementById("previewElementos").innerHTML = html;
+}
+
+function formatarData(d){
+  if(!d) return "—";
+  try{
+    return new Date(d).toLocaleString("pt-BR");
+  }catch{
+    return d;
+  }
+}
+
+function escapeHtml(texto){
+  return String(texto)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;")
+    .replaceAll("\n", "<br>");
+}
+
+function voltarDiagramador(){
+  window.location.href = "diagramador_inicio.html";
+}
+
+carregarStatusProjeto();
+carregarElementosTecnicos();
+</script>
+
+</body>
+</html>
