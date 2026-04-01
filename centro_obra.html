@@ -148,6 +148,11 @@ background:rgba(23,77,39,0.35);
 color:var(--ok);
 }
 
+.badge.medio{
+background:rgba(247,178,44,0.18);
+color:#ffe7b0;
+}
+
 .actions{
 margin-top:28px;
 display:flex;
@@ -214,32 +219,32 @@ Verificando obra ativa...
     <div id="badgeProjetos" class="badge">Verificando...</div>
   </div>
 
-  <div class="blocoSetor" onclick="abrirCapista()">
-    <div class="nomeSetor">Capista</div>
+  <div class="blocoSetor" onclick="abrirHubCapista()">
+    <div class="nomeSetor">Hub do Capista</div>
     <div class="descSetor">
-      Solicitação de capa, configuração técnica, textos da capa e gerador.
+      Solicitação, configuração, textos, gerador e relatório do setor visual.
     </div>
     <div id="badgeCapista" class="badge">Verificando...</div>
   </div>
 
-  <div class="blocoSetor" onclick="abrirDiagramador()">
-    <div class="nomeSetor">Diagramador</div>
+  <div class="blocoSetor" onclick="abrirHubDiagramador()">
+    <div class="nomeSetor">Hub do Diagramador</div>
     <div class="descSetor">
       Planejamento do miolo, elementos técnicos, padrão editorial e checklist.
     </div>
     <div id="badgeDiagramador" class="badge">Verificando...</div>
   </div>
 
-  <div class="blocoSetor" onclick="abrirTradutor()">
-    <div class="nomeSetor">Tradutor</div>
+  <div class="blocoSetor" onclick="abrirHubTradutor()">
+    <div class="nomeSetor">Hub do Tradutor</div>
     <div class="descSetor">
       Planejamento da tradução, glossário, checklist e relatório executivo.
     </div>
     <div id="badgeTradutor" class="badge">Verificando...</div>
   </div>
 
-  <div class="blocoSetor" onclick="abrirRelatorios()">
-    <div class="nomeSetor">Relatórios</div>
+  <div class="blocoSetor" onclick="abrirHubRelatorios()">
+    <div class="nomeSetor">Hub de Relatórios</div>
     <div class="descSetor">
       Relatório da obra, relatório mestre, leitura técnica e relatórios setoriais.
     </div>
@@ -257,9 +262,11 @@ Verificando obra ativa...
 </div>
 
 <div class="actions">
+  <button onclick="abrirStatusFluxo()">Abrir status do fluxo</button>
+  <button onclick="abrirExportador()">Abrir exportador da obra</button>
+  <button onclick="abrirRelatorioMestre()">Abrir relatório mestre</button>
   <button onclick="abrirTimeline()">Abrir timeline</button>
   <button onclick="abrirProgresso()">Abrir progresso</button>
-  <button onclick="abrirRelatorioMestre()">Abrir relatório mestre</button>
   <button onclick="voltarIndice()">Voltar ao índice</button>
 </div>
 
@@ -304,6 +311,19 @@ function obterCapasProjeto(id){
   }
 }
 
+function aplicarBadge(id, tipo, texto){
+  const el = document.getElementById(id);
+  el.classList.remove("ok", "medio");
+
+  if(tipo === "ok"){
+    el.classList.add("ok");
+  }else if(tipo === "medio"){
+    el.classList.add("medio");
+  }
+
+  el.innerHTML = texto;
+}
+
 function montarStatus(){
   const projeto = obterProjetoAtivo();
   const status = document.getElementById("statusCentro");
@@ -324,6 +344,9 @@ function montarStatus(){
   const pedidos = obterPedidosProjeto(projeto.id);
   const capas = obterCapasProjeto(projeto.id);
 
+  const configuracaoCapa = lerJSON("SDL_configuracao_capa_ativa");
+  const textosCapa = lerJSON("SDL_textos_capa_ativos");
+
   const planejamentoMiolo = lerJSON("SDL_planejamento_miolo_ativo");
   const elementosTecnicos = lerJSON("SDL_elementos_tecnicos_ativos");
   const padraoDiagramacao = lerJSON("SDL_padrao_diagramacao");
@@ -331,8 +354,6 @@ function montarStatus(){
   const planejamentoTraducao = lerJSON("SDL_planejamento_traducao_ativo");
   const glossarioTraducao = lerJSON("SDL_glossario_traducao_ativo");
 
-  const configuracaoCapa = lerJSON("SDL_configuracao_capa_ativa");
-  const textosCapa = lerJSON("SDL_textos_capa_ativos");
   const leituraTecnica = lerJSON("SDL_leitura_tecnica_ativa");
   const logs = JSON.parse(localStorage.getItem("SDL_auditoria_logs") || "[]");
 
@@ -344,20 +365,36 @@ function montarStatus(){
     '<div class="linha"><span class="rotulo">Plano:</span> ' + (plano || "Não selecionado") + '</div>' +
     '<div class="linha"><span class="rotulo">Pagamento:</span> ' + (pagamento ? "Registrado" : "Não registrado") + '</div>';
 
-  let etapas = [
-    !!projeto,
+  const projetoOk = !!projeto;
+  const capaOk = capas.length > 0 && configuracaoCapa && configuracaoCapa.projetoID === projeto.id && textosCapa && textosCapa.projetoID === projeto.id;
+  const capaParcial = capas.length > 0 || (configuracaoCapa && configuracaoCapa.projetoID === projeto.id);
+  const mioloOk =
+    planejamentoMiolo && planejamentoMiolo.projetoID === projeto.id &&
+    elementosTecnicos && elementosTecnicos.projetoID === projeto.id &&
+    padraoDiagramacao && padraoDiagramacao.idProjeto === projeto.id;
+  const mioloParcial =
+    (planejamentoMiolo && planejamentoMiolo.projetoID === projeto.id) ||
+    (elementosTecnicos && elementosTecnicos.projetoID === projeto.id) ||
+    (padraoDiagramacao && padraoDiagramacao.idProjeto === projeto.id);
+
+  const traducaoOk =
+    planejamentoTraducao && planejamentoTraducao.projetoID === projeto.id &&
+    glossarioTraducao && glossarioTraducao.projetoID === projeto.id;
+  const traducaoParcial =
+    (planejamentoTraducao && planejamentoTraducao.projetoID === projeto.id) ||
+    (glossarioTraducao && glossarioTraducao.projetoID === projeto.id);
+
+  const relatoriosOk = !!leituraTecnica && leituraTecnica.projetoID === projeto.id;
+
+  const etapas = [
+    projetoOk,
     !!plano,
     !!pagamento,
     pedidos.length > 0,
-    capas.length > 0,
-    !!(configuracaoCapa && configuracaoCapa.projetoID === projeto.id),
-    !!(textosCapa && textosCapa.projetoID === projeto.id),
-    !!(planejamentoMiolo && planejamentoMiolo.projetoID === projeto.id),
-    !!(elementosTecnicos && elementosTecnicos.projetoID === projeto.id),
-    !!(padraoDiagramacao && padraoDiagramacao.idProjeto === projeto.id),
-    !!(planejamentoTraducao && planejamentoTraducao.projetoID === projeto.id),
-    !!(glossarioTraducao && glossarioTraducao.projetoID === projeto.id),
-    !!(leituraTecnica && leituraTecnica.projetoID === projeto.id)
+    capaOk,
+    mioloOk,
+    traducaoOk,
+    relatoriosOk
   ];
 
   const concluidas = etapas.filter(Boolean).length;
@@ -370,49 +407,47 @@ function montarStatus(){
     projeto, plano, pagamento, pedidos, capas, configuracaoCapa, textosCapa
   );
 
-  aplicarBadge("badgeProjetos", !!projeto, projeto ? "Obra ativa selecionada" : "Sem obra ativa");
-  aplicarBadge("badgeCapista",
-    capas.length > 0 || (configuracaoCapa && configuracaoCapa.projetoID === projeto.id),
-    (capas.length > 0 || (configuracaoCapa && configuracaoCapa.projetoID === projeto.id)) ? "Setor em andamento" : "Ainda não iniciado"
-  );
+  aplicarBadge("badgeProjetos", "ok", "Obra ativa");
+  if(capaOk){
+    aplicarBadge("badgeCapista", "ok", "Concluído");
+  }else if(capaParcial){
+    aplicarBadge("badgeCapista", "medio", "Parcial");
+  }else{
+    aplicarBadge("badgeCapista", "", "Pendente");
+  }
 
-  aplicarBadge("badgeDiagramador",
-    !!((planejamentoMiolo && planejamentoMiolo.projetoID === projeto.id) ||
-       (elementosTecnicos && elementosTecnicos.projetoID === projeto.id) ||
-       (padraoDiagramacao && padraoDiagramacao.idProjeto === projeto.id)),
-    ((planejamentoMiolo && planejamentoMiolo.projetoID === projeto.id) ||
-     (elementosTecnicos && elementosTecnicos.projetoID === projeto.id) ||
-     (padraoDiagramacao && padraoDiagramacao.idProjeto === projeto.id)) ? "Setor em andamento" : "Ainda não iniciado"
-  );
+  if(mioloOk){
+    aplicarBadge("badgeDiagramador", "ok", "Concluído");
+  }else if(mioloParcial){
+    aplicarBadge("badgeDiagramador", "medio", "Parcial");
+  }else{
+    aplicarBadge("badgeDiagramador", "", "Pendente");
+  }
 
-  aplicarBadge("badgeTradutor",
-    !!((planejamentoTraducao && planejamentoTraducao.projetoID === projeto.id) ||
-       (glossarioTraducao && glossarioTraducao.projetoID === projeto.id)),
-    ((planejamentoTraducao && planejamentoTraducao.projetoID === projeto.id) ||
-     (glossarioTraducao && glossarioTraducao.projetoID === projeto.id)) ? "Setor em andamento" : "Ainda não iniciado"
-  );
+  if(traducaoOk){
+    aplicarBadge("badgeTradutor", "ok", "Concluído");
+  }else if(traducaoParcial){
+    aplicarBadge("badgeTradutor", "medio", "Parcial");
+  }else{
+    aplicarBadge("badgeTradutor", "", "Pendente");
+  }
 
-  aplicarBadge("badgeRelatorios",
-    !!(leituraTecnica && leituraTecnica.projetoID === projeto.id),
-    (leituraTecnica && leituraTecnica.projetoID === projeto.id) ? "Relatórios ativos" : "Relatórios parciais"
-  );
+  if(relatoriosOk){
+    aplicarBadge("badgeRelatorios", "ok", "Ativos");
+  }else{
+    aplicarBadge("badgeRelatorios", "medio", "Parciais");
+  }
 
   const logsProjeto = logs.filter(l => l.projetoID === projeto.id || l.projetoTitulo === projeto.titulo);
-  aplicarBadge("badgeAuditoria", logsProjeto.length > 0, logsProjeto.length > 0 ? (logsProjeto.length + " registros") : "Sem registros");
+  if(logsProjeto.length > 0){
+    aplicarBadge("badgeAuditoria", "ok", logsProjeto.length + " registros");
+  }else{
+    aplicarBadge("badgeAuditoria", "", "Sem registros");
+  }
 
   try{
     SDL_registrarAuditoria("Acesso ao centro de controle da obra", "centro_obra");
   }catch(e){}
-}
-
-function aplicarBadge(id, ok, texto){
-  const el = document.getElementById(id);
-  el.innerHTML = texto;
-  if(ok){
-    el.classList.add("ok");
-  }else{
-    el.classList.remove("ok");
-  }
 }
 
 function gerarStatusInstitucional(projeto, plano, pagamento, pedidos, capas, cfg, textos){
@@ -428,14 +463,16 @@ function gerarStatusInstitucional(projeto, plano, pagamento, pedidos, capas, cfg
 }
 
 function abrirProjetos(){ window.location.href = "projetos.html"; }
-function abrirCapista(){ window.location.href = "capista_inicio.html"; }
-function abrirDiagramador(){ window.location.href = "diagramador_inicio.html"; }
-function abrirTradutor(){ window.location.href = "tradutor_inicio.html"; }
-function abrirRelatorios(){ window.location.href = "relatorios_tecnicos.html"; }
+function abrirHubCapista(){ window.location.href = "hub_capista.html"; }
+function abrirHubDiagramador(){ window.location.href = "hub_diagramador.html"; }
+function abrirHubTradutor(){ window.location.href = "hub_tradutor.html"; }
+function abrirHubRelatorios(){ window.location.href = "hub_relatorios.html"; }
 function abrirAuditoria(){ window.location.href = "auditoria.html"; }
+function abrirStatusFluxo(){ window.location.href = "status_fluxo_editorial.html"; }
+function abrirExportador(){ window.location.href = "exportador_obra.html"; }
+function abrirRelatorioMestre(){ window.location.href = "relatorio_lapidar.html"; }
 function abrirTimeline(){ window.location.href = "timeline_projeto.html"; }
 function abrirProgresso(){ window.location.href = "progresso_projeto.html"; }
-function abrirRelatorioMestre(){ window.location.href = "relatorio_lapidar.html"; }
 function voltarIndice(){ window.location.href = "_Indice.html"; }
 
 montarStatus();
