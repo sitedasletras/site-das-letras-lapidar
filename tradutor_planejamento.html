@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tradutor — Planejamento da Tradução</title>
+
+<style>
+:root{
+--bg:#0d0603;
+--card:#140c08;
+--card2:#1b100a;
+--text:#ffffff;
+--orange:#f7b22c;
+--border:rgba(255,123,44,0.18);
+--shadow:0 10px 26px rgba(0,0,0,0.28);
+}
+
+body{
+margin:0;
+font-family:Arial, sans-serif;
+background:var(--bg);
+color:var(--text);
+}
+
+.container{
+width:min(1100px,95%);
+margin:auto;
+padding:40px 0 60px;
+}
+
+.titulo{
+font-size:36px;
+font-weight:bold;
+}
+
+.subtitulo{
+margin-top:6px;
+color:var(--orange);
+}
+
+.status{
+margin-top:20px;
+padding:16px;
+border-radius:12px;
+background:rgba(247,178,44,0.12);
+border:1px solid rgba(247,178,44,0.25);
+color:#ffe7b0;
+}
+
+.card{
+margin-top:24px;
+background:var(--card);
+border:1px solid var(--border);
+border-radius:18px;
+padding:22px;
+box-shadow:var(--shadow);
+}
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:18px;
+}
+
+label{
+display:block;
+margin-bottom:6px;
+color:var(--orange);
+font-weight:bold;
+}
+
+select, input, textarea{
+width:100%;
+padding:14px;
+border:none;
+border-radius:12px;
+background:#1b0e07;
+color:#fff;
+box-sizing:border-box;
+font-family:Arial, sans-serif;
+}
+
+textarea{
+min-height:140px;
+resize:vertical;
+}
+
+.preview{
+margin-top:18px;
+padding:18px;
+border-radius:14px;
+background:var(--card2);
+line-height:1.8;
+}
+
+.actions{
+margin-top:24px;
+display:flex;
+flex-wrap:wrap;
+gap:12px;
+}
+
+button{
+border:none;
+padding:14px 18px;
+border-radius:999px;
+cursor:pointer;
+font-weight:bold;
+}
+
+.btnSalvar{
+background:#174d27;
+color:#fff;
+}
+
+.btnRecarregar{
+background:#5a2c00;
+color:#fff;
+}
+
+.btnIndice{
+background:#24150f;
+color:#fff;
+}
+
+@media(max-width:900px){
+.grid{
+grid-template-columns:1fr;
+}
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="titulo">Planejamento da Tradução</div>
+<div class="subtitulo">Estratégia editorial da versão traduzida da obra</div>
+
+<div id="statusTraducao" class="status">
+Verificando projeto ativo...
+</div>
+
+<div class="card">
+
+  <div class="grid">
+    <div>
+      <label for="idiomaOrigem">Idioma de origem</label>
+      <select id="idiomaOrigem">
+        <option>Português</option>
+        <option>Inglês</option>
+        <option>Espanhol</option>
+        <option>Italiano</option>
+        <option>Francês</option>
+        <option>Alemão</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="idiomaDestino">Idioma de destino</label>
+      <select id="idiomaDestino">
+        <option>Inglês</option>
+        <option>Espanhol</option>
+        <option>Italiano</option>
+        <option>Francês</option>
+        <option>Alemão</option>
+        <option>Português</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="tipoTraducao">Tipo de tradução</label>
+      <select id="tipoTraducao">
+        <option>Literal</option>
+        <option>Adaptada</option>
+        <option>Literária</option>
+        <option>Técnica</option>
+        <option>Híbrida</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="nivelAdaptacao">Nível de adaptação cultural</label>
+      <select id="nivelAdaptacao">
+        <option>Baixo</option>
+        <option>Médio</option>
+        <option>Alto</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="publicoDestino">Público da tradução</label>
+      <input id="publicoDestino" placeholder="Ex.: mercado internacional geral, leitores infantis, nicho acadêmico...">
+    </div>
+
+    <div>
+      <label for="manterNomes">Manter nomes próprios originais</label>
+      <select id="manterNomes">
+        <option>Sim</option>
+        <option>Não</option>
+        <option>Parcialmente</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="usarGlossario">Necessita glossário</label>
+      <select id="usarGlossario">
+        <option>Sim</option>
+        <option>Não</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="revisaoNativa">Exigir revisão nativa</label>
+      <select id="revisaoNativa">
+        <option>Sim</option>
+        <option>Não</option>
+      </select>
+    </div>
+  </div>
+
+  <div style="margin-top:18px;">
+    <label for="observacoesTraducao">Observações da tradução</label>
+    <textarea id="observacoesTraducao" placeholder="Ex.: manter tom poético, preservar termos templários, adaptar expressões idiomáticas, manter nomes de heterônimos..."></textarea>
+  </div>
+
+  <div class="actions">
+    <button class="btnSalvar" onclick="salvarPlanejamentoTraducao()">Salvar planejamento</button>
+    <button class="btnRecarregar" onclick="carregarPlanejamentoTraducao()">Recarregar planejamento</button>
+    <button class="btnIndice" onclick="voltarTradutor()">Voltar ao tradutor</button>
+  </div>
+
+  <div id="previewTraducao" class="preview">
+    A prévia do planejamento da tradução aparecerá aqui.
+  </div>
+</div>
+
+</div>
+
+<script src="auditoria.js"></script>
+
+<script>
+function obterProjetoAtivo(){
+  try{
+    const lista = JSON.parse(localStorage.getItem("SDL_projetos_lista") || "[]");
+    const ativo = localStorage.getItem("SDL_projeto_ativo");
+    return lista.find(p => p.id === ativo) || null;
+  }catch{
+    return null;
+  }
+}
+
+function carregarStatusTraducao(){
+  const projeto = obterProjetoAtivo();
+
+  if(!projeto){
+    document.getElementById("statusTraducao").innerHTML =
+      "Nenhum projeto ativo selecionado.";
+    return;
+  }
+
+  document.getElementById("statusTraducao").innerHTML =
+    "Projeto ativo no planejamento da tradução: <strong>" + (projeto.titulo || "Sem título") + "</strong>";
+  document.getElementById("statusTraducao").style.background =
+    "rgba(23,77,39,0.28)";
+}
+
+function montarObjetoTraducao(){
+  const projeto = obterProjetoAtivo();
+
+  if(!projeto){
+    return null;
+  }
+
+  return {
+    projetoID: projeto.id,
+    tituloProjeto: projeto.titulo || "",
+    idiomaOrigem: document.getElementById("idiomaOrigem").value,
+    idiomaDestino: document.getElementById("idiomaDestino").value,
+    tipoTraducao: document.getElementById("tipoTraducao").value,
+    nivelAdaptacao: document.getElementById("nivelAdaptacao").value,
+    publicoDestino: document.getElementById("publicoDestino").value.trim(),
+    manterNomes: document.getElementById("manterNomes").value,
+    usarGlossario: document.getElementById("usarGlossario").value,
+    revisaoNativa: document.getElementById("revisaoNativa").value,
+    observacoesTraducao: document.getElementById("observacoesTraducao").value.trim(),
+    dataRegistro: new Date().toISOString()
+  };
+}
+
+function salvarPlanejamentoTraducao(){
+  const dados = montarObjetoTraducao();
+
+  if(!dados){
+    alert("Nenhum projeto ativo selecionado.");
+    return;
+  }
+
+  localStorage.setItem("SDL_planejamento_traducao_ativo", JSON.stringify(dados));
+
+  try{
+    SDL_registrarAuditoria("Planejamento da tradução salvo", "tradutor_planejamento");
+  }catch(e){}
+
+  renderizarPreview(dados);
+  alert("Planejamento da tradução salvo com sucesso.");
+}
+
+function carregarPlanejamentoTraducao(){
+  const projeto = obterProjetoAtivo();
+
+  if(!projeto){
+    alert("Nenhum projeto ativo selecionado.");
+    return;
+  }
+
+  try{
+    const dados = JSON.parse(localStorage.getItem("SDL_planejamento_traducao_ativo") || "null");
+
+    if(!dados || dados.projetoID !== projeto.id){
+      document.getElementById("previewTraducao").innerHTML =
+        "Nenhum planejamento de tradução salvo para este projeto.";
+      return;
+    }
+
+    document.getElementById("idiomaOrigem").value = dados.idiomaOrigem || "Português";
+    document.getElementById("idiomaDestino").value = dados.idiomaDestino || "Inglês";
+    document.getElementById("tipoTraducao").value = dados.tipoTraducao || "Literária";
+    document.getElementById("nivelAdaptacao").value = dados.nivelAdaptacao || "Médio";
+    document.getElementById("publicoDestino").value = dados.publicoDestino || "";
+    document.getElementById("manterNomes").value = dados.manterNomes || "Sim";
+    document.getElementById("usarGlossario").value = dados.usarGlossario || "Sim";
+    document.getElementById("revisaoNativa").value = dados.revisaoNativa || "Sim";
+    document.getElementById("observacoesTraducao").value = dados.observacoesTraducao || "";
+
+    renderizarPreview(dados);
+  }catch(e){
+    document.getElementById("previewTraducao").innerHTML =
+      "Erro ao carregar planejamento salvo.";
+  }
+}
+
+function renderizarPreview(dados){
+  let html = "";
+  html += "<strong>Projeto:</strong> " + (dados.tituloProjeto || "—") + "<br><br>";
+  html += "<strong>Idioma de origem:</strong> " + (dados.idiomaOrigem || "—") + "<br>";
+  html += "<strong>Idioma de destino:</strong> " + (dados.idiomaDestino || "—") + "<br>";
+  html += "<strong>Tipo de tradução:</strong> " + (dados.tipoTraducao || "—") + "<br>";
+  html += "<strong>Nível de adaptação cultural:</strong> " + (dados.nivelAdaptacao || "—") + "<br>";
+  html += "<strong>Público da tradução:</strong> " + (dados.publicoDestino || "—") + "<br>";
+  html += "<strong>Manter nomes próprios:</strong> " + (dados.manterNomes || "—") + "<br>";
+  html += "<strong>Necessita glossário:</strong> " + (dados.usarGlossario || "—") + "<br>";
+  html += "<strong>Exigir revisão nativa:</strong> " + (dados.revisaoNativa || "—") + "<br>";
+  html += "<strong>Data:</strong> " + formatarData(dados.dataRegistro) + "<br><br>";
+  html += "<strong>Observações da tradução:</strong><br>" + escapeHtml(dados.observacoesTraducao || "—");
+
+  document.getElementById("previewTraducao").innerHTML = html;
+}
+
+function formatarData(d){
+  if(!d) return "—";
+  try{
+    return new Date(d).toLocaleString("pt-BR");
+  }catch{
+    return d;
+  }
+}
+
+function escapeHtml(texto){
+  return String(texto)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;")
+    .replaceAll("\n", "<br>");
+}
+
+function voltarTradutor(){
+  window.location.href = "tradutor_inicio.html";
+}
+
+carregarStatusTraducao();
+carregarPlanejamentoTraducao();
+</script>
+
+</body>
+</html>
