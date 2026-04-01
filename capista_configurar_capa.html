@@ -1,213 +1,349 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Configurar geração de capa — Capista</title>
+<title>Capista — Configurar Capa</title>
 
 <style>
+:root{
+--bg:#0d0603;
+--card:#140c08;
+--card2:#1b100a;
+--text:#ffffff;
+--muted:#ffd2b3;
+--orange:#f7b22c;
+--green:#9cfdb2;
+--border:rgba(255,123,44,0.18);
+--shadow:0 10px 26px rgba(0,0,0,0.28);
+}
 
 body{
 margin:0;
-background:#0c0603;
-font-family:Arial;
-color:white;
-display:flex;
-justify-content:center;
+font-family:Arial, sans-serif;
+background:var(--bg);
+color:var(--text);
 }
 
 .container{
-max-width:720px;
-width:92%;
-padding:40px 0 60px 0;
+width:min(1100px,95%);
+margin:auto;
+padding:40px 0 60px;
 }
 
 .titulo{
-font-size:34px;
-text-align:center;
+font-size:36px;
 font-weight:bold;
 }
 
 .subtitulo{
-text-align:center;
-color:#ff7b2c;
-margin-top:10px;
-margin-bottom:28px;
+margin-top:6px;
+color:var(--orange);
 }
 
 .card{
-background:#140c08;
-border-radius:14px;
-padding:26px;
-margin-top:20px;
+margin-top:24px;
+background:var(--card);
+border:1px solid var(--border);
+border-radius:18px;
+padding:22px;
+box-shadow:var(--shadow);
+}
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:18px;
 }
 
 label{
 display:block;
-margin-top:18px;
-color:#ffd2b3;
-}
-
-select{
-width:100%;
-padding:12px;
-margin-top:6px;
-border-radius:8px;
-border:none;
-}
-
-.botao{
-width:100%;
-padding:18px;
-margin-top:24px;
-border:none;
-border-radius:40px;
-background:#ff5a00;
-color:white;
-font-size:18px;
+margin-bottom:6px;
+color:var(--orange);
 font-weight:bold;
+}
+
+input, select, textarea{
+width:100%;
+padding:14px;
+border:none;
+border-radius:12px;
+background:#1b0e07;
+color:#fff;
+box-sizing:border-box;
+}
+
+textarea{
+min-height:120px;
+resize:vertical;
+}
+
+.status{
+margin-top:18px;
+padding:16px;
+border-radius:12px;
+background:rgba(247,178,44,0.12);
+border:1px solid rgba(247,178,44,0.25);
+color:#ffe7b0;
+}
+
+.preview{
+margin-top:18px;
+padding:18px;
+border-radius:14px;
+background:var(--card2);
+line-height:1.8;
+}
+
+.actions{
+margin-top:24px;
+display:flex;
+flex-wrap:wrap;
+gap:12px;
+}
+
+button{
+border:none;
+padding:14px 18px;
+border-radius:999px;
 cursor:pointer;
+font-weight:bold;
 }
 
-.info{
-margin-top:14px;
-font-size:14px;
-color:#ffcfaa;
+.btnSalvar{
+background:#174d27;
+color:#fff;
 }
 
+.btnCalcular{
+background:#ff5a00;
+color:#fff;
+}
+
+.btnIndice{
+background:#24150f;
+color:#fff;
+}
+
+@media(max-width:900px){
+.grid{
+grid-template-columns:1fr;
+}
+}
 </style>
-
 </head>
 
 <body>
 
 <div class="container">
 
-<div class="titulo">
+<div class="titulo">Configuração Técnica da Capa</div>
+<div class="subtitulo">Integração entre projeto, ficha editorial e cálculo de lombada</div>
 
-Configurar geração da capa
-
-</div>
-
-<div class="subtitulo">
-
-Escolha o formato editorial da capa antes de gerar
-
+<div id="statusSistema" class="status">
+Verificando projeto ativo...
 </div>
 
 <div class="card">
+  <div class="grid">
+    <div>
+      <label for="tituloObra">Título da obra</label>
+      <input id="tituloObra">
+    </div>
 
-<label>
+    <div>
+      <label for="subtituloObra">Subtítulo</label>
+      <input id="subtituloObra">
+    </div>
 
-Tipo de capa
+    <div>
+      <label for="autorObra">Autor / identidade autoral</label>
+      <input id="autorObra">
+    </div>
 
-</label>
+    <div>
+      <label for="formatoObra">Formato</label>
+      <select id="formatoObra">
+        <option>A5</option>
+        <option>16x23</option>
+        <option>16x27</option>
+        <option>6x9</option>
+        <option>A4</option>
+      </select>
+    </div>
 
-<select id="tipoCapa">
+    <div>
+      <label for="paginasObra">Total de páginas</label>
+      <input id="paginasObra" type="number" min="1" placeholder="Ex.: 120">
+    </div>
 
-<option value="fisica">Livro físico</option>
-<option value="epub">EPUB digital</option>
-<option value="ambos">Livro físico + EPUB</option>
+    <div>
+      <label for="papelObra">Tipo de papel</label>
+      <select id="papelObra">
+        <option value="0.050">Offset 75g</option>
+        <option value="0.060">Offset 90g</option>
+        <option value="0.070">Pólen 80g</option>
+        <option value="0.065">Premium 90g</option>
+      </select>
+    </div>
 
-</select>
+    <div>
+      <label for="gramaturaObra">Gramatura exibida</label>
+      <select id="gramaturaObra">
+        <option>75g</option>
+        <option>80g</option>
+        <option>90g</option>
+      </select>
+    </div>
 
-<label>
+    <div>
+      <label for="seloObra">Selo editorial</label>
+      <input id="seloObra" value="Site das Letras Edições Literárias">
+    </div>
+  </div>
 
-Idioma principal da capa
+  <div style="margin-top:18px;">
+    <label for="observacoesCapa">Observações técnicas da capa</label>
+    <textarea id="observacoesCapa" placeholder="Ex.: selo no canto inferior esquerdo, sem ISBN, lombada com tipografia oficial, orelha traseira sem foto..."></textarea>
+  </div>
 
-</label>
+  <div class="actions">
+    <button class="btnCalcular" onclick="calcularCapa()">Calcular capa técnica</button>
+    <button class="btnSalvar" onclick="salvarConfiguracaoCapa()">Salvar configuração</button>
+    <button class="btnIndice" onclick="voltarIndice()">Voltar ao índice</button>
+  </div>
 
-<select id="idiomaPrincipal">
-
-<option value="pt">Português</option>
-<option value="en">English</option>
-<option value="es">Español</option>
-<option value="it">Italiano</option>
-<option value="fr">Français</option>
-<option value="de">Deutsch</option>
-
-</select>
-
-<label>
-
-Gerar capa também em outro idioma (até 20%)
-
-</label>
-
-<select id="idiomaExtra">
-
-<option value="nenhum">Não gerar outro idioma</option>
-<option value="en">English</option>
-<option value="es">Español</option>
-<option value="it">Italiano</option>
-<option value="fr">Français</option>
-<option value="de">Deutsch</option>
-
-</select>
-
-<div class="info">
-
-Planos Capista permitem até 20% das capas em idioma alternativo.
+  <div id="previewCapa" class="preview">
+    A prévia técnica da capa aparecerá aqui.
+  </div>
+</div>
 
 </div>
 
-<button class="botao"
-
-onclick="registrarConfiguracaoCapa()">
-
-Confirmar configuração da capa
-
-</button>
-
-<button class="botao"
-
-onclick="window.location.href='_Indice.html'">
-
-Voltar para casa do original
-
-</button>
-
-</div>
-
-</div>
+<script src="auditoria.js"></script>
 
 <script>
-
-function registrarConfiguracaoCapa(){
-
-const tipoCapa =
-
-document.getElementById("tipoCapa").value;
-
-const idiomaPrincipal =
-
-document.getElementById("idiomaPrincipal").value;
-
-const idiomaExtra =
-
-document.getElementById("idiomaExtra").value;
-
-localStorage.setItem("CAPISTA_tipo_capa", tipoCapa);
-
-localStorage.setItem("CAPISTA_idioma_principal", idiomaPrincipal);
-
-if(idiomaExtra !== "nenhum"){
-
-localStorage.setItem("CAPISTA_idioma_extra", idiomaExtra);
-
+function verificarSessao(){
+  if(localStorage.getItem("SDL_sessao_ativa") !== "sim"){
+    window.location.href = "login.html";
+  }
 }
 
-alert("Configuração registrada com sucesso.");
-
-window.location.href = "capista_gerar_capa.html";
-
+function obterProjetoAtivo(){
+  try{
+    const lista = JSON.parse(localStorage.getItem("SDL_projetos_lista") || "[]");
+    const ativo = localStorage.getItem("SDL_projeto_ativo");
+    return lista.find(p => p.id === ativo) || null;
+  }catch{
+    return null;
+  }
 }
 
+function carregarProjetoNaTela(){
+  const projeto = obterProjetoAtivo();
+  const status = document.getElementById("statusSistema");
+
+  if(!projeto){
+    status.innerHTML = "Nenhum projeto ativo selecionado.";
+    return;
+  }
+
+  status.innerHTML = "Projeto ativo carregado: <strong>" + (projeto.titulo || "Sem título") + "</strong>";
+  status.style.background = "rgba(23,77,39,0.28)";
+
+  document.getElementById("tituloObra").value = projeto.titulo || "";
+  document.getElementById("subtituloObra").value = projeto.subtitulo || "";
+  document.getElementById("autorObra").value = projeto.autor || "";
+  document.getElementById("formatoObra").value = projeto.formato || "A5";
+}
+
+function obterDimensoesFormato(formato){
+  const mapa = {
+    "A5": { largura: 148, altura: 210 },
+    "16x23": { largura: 160, altura: 230 },
+    "16x27": { largura: 160, altura: 270 },
+    "6x9": { largura: 152.4, altura: 228.6 },
+    "A4": { largura: 210, altura: 297 }
+  };
+  return mapa[formato] || mapa["A5"];
+}
+
+function calcularCapa(){
+  const titulo = document.getElementById("tituloObra").value.trim();
+  const autor = document.getElementById("autorObra").value.trim();
+  const formato = document.getElementById("formatoObra").value;
+  const paginas = parseInt(document.getElementById("paginasObra").value, 10);
+  const fator = parseFloat(document.getElementById("papelObra").value);
+  const gramatura = document.getElementById("gramaturaObra").value;
+  const selo = document.getElementById("seloObra").value.trim();
+  const observacoes = document.getElementById("observacoesCapa").value.trim();
+
+  if(!titulo || !autor || !paginas || paginas < 1){
+    document.getElementById("previewCapa").innerHTML =
+      "Preencha pelo menos título, autor e total de páginas.";
+    return;
+  }
+
+  const dim = obterDimensoesFormato(formato);
+  const lombada = (paginas * fator).toFixed(2);
+  const larguraAberta = (dim.largura * 2 + Number(lombada)).toFixed(2);
+
+  let html = "";
+  html += "<strong>Título:</strong> " + titulo + "<br>";
+  html += "<strong>Autor:</strong> " + autor + "<br>";
+  html += "<strong>Formato:</strong> " + formato + " (" + dim.largura + " x " + dim.altura + " mm)<br>";
+  html += "<strong>Páginas:</strong> " + paginas + "<br>";
+  html += "<strong>Tipo de papel:</strong> " + document.getElementById("papelObra").selectedOptions[0].text + "<br>";
+  html += "<strong>Gramatura:</strong> " + gramatura + "<br>";
+  html += "<strong>Lombada estimada:</strong> " + lombada + " mm<br>";
+  html += "<strong>Largura total da capa aberta:</strong> " + larguraAberta + " mm<br>";
+  html += "<strong>Altura da capa:</strong> " + dim.altura + " mm<br>";
+  html += "<strong>Selo editorial:</strong> " + (selo || "Não informado") + "<br>";
+  html += "<strong>Observações:</strong> " + (observacoes || "Sem observações") + "<br><br>";
+  html += "Recomendação: usar esta base para montar frente + lombada + contra-capa com margem de segurança e validação final da gráfica.";
+
+  document.getElementById("previewCapa").innerHTML = html;
+}
+
+function salvarConfiguracaoCapa(){
+  const projeto = obterProjetoAtivo();
+
+  if(!projeto){
+    alert("Nenhum projeto ativo selecionado.");
+    return;
+  }
+
+  const configuracao = {
+    projetoID: projeto.id,
+    titulo: document.getElementById("tituloObra").value.trim(),
+    subtitulo: document.getElementById("subtituloObra").value.trim(),
+    autor: document.getElementById("autorObra").value.trim(),
+    formato: document.getElementById("formatoObra").value,
+    paginas: parseInt(document.getElementById("paginasObra").value, 10) || 0,
+    papel: document.getElementById("papelObra").selectedOptions[0].text,
+    fatorPapel: parseFloat(document.getElementById("papelObra").value),
+    gramatura: document.getElementById("gramaturaObra").value,
+    selo: document.getElementById("seloObra").value.trim(),
+    observacoes: document.getElementById("observacoesCapa").value.trim(),
+    dataRegistro: new Date().toISOString()
+  };
+
+  localStorage.setItem("SDL_configuracao_capa_ativa", JSON.stringify(configuracao));
+
+  try{
+    SDL_registrarAuditoria("Configuração técnica da capa salva", "capista_configurar_capa");
+  }catch(e){}
+
+  alert("Configuração técnica da capa salva com sucesso.");
+}
+
+function voltarIndice(){
+  window.location.href = "_Indice.html";
+}
+
+verificarSessao();
+carregarProjetoNaTela();
 </script>
 
 </body>
-
 </html>
