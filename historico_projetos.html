@@ -3,19 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lapidar — Histórico de Projetos</title>
+<title>Histórico de Projetos — Lapidar</title>
 
 <style>
 
 :root{
 --bg:#0d0603;
 --card:#140c08;
---card-2:#1b100a;
+--card2:#1b100a;
 --text:#ffffff;
 --muted:#ffd2b3;
 --orange:#f7b22c;
---orange-strong:#ff5a00;
---blue:#6ea8ff;
+--orangeStrong:#ff5a00;
 --green:#9cfdb2;
 --danger:#ff7070;
 --border:rgba(255,123,44,0.18);
@@ -26,46 +25,45 @@ body{
 margin:0;
 font-family:Arial;
 background:var(--bg);
-color:var(--text);
+color:white;
 }
 
 .container{
-width:min(1100px,94%);
+width:min(1100px,95%);
 margin:auto;
-padding:30px 0 50px 0;
+padding:40px 0;
 }
 
 .titulo{
-font-size:40px;
+font-size:38px;
 font-weight:bold;
 }
 
 .subtitulo{
-color:var(--orange);
 margin-top:6px;
-font-size:18px;
-}
-
-.bloco{
-background:var(--card);
-border:1px solid var(--border);
-border-radius:18px;
-padding:22px;
-margin-top:24px;
-box-shadow:var(--shadow);
+color:var(--orange);
 }
 
 .card{
-background:var(--card-2);
+margin-top:30px;
+background:var(--card);
+padding:24px;
+border-radius:18px;
+border:1px solid var(--border);
+box-shadow:var(--shadow);
+}
+
+.statusBox{
+margin-top:20px;
 padding:18px;
 border-radius:14px;
-border:1px solid rgba(255,255,255,0.05);
-margin-top:16px;
+background:rgba(247,178,44,0.12);
+border:1px solid rgba(247,178,44,0.2);
+color:#ffe7b0;
 }
 
 .linha{
-margin-top:10px;
-line-height:1.8;
+margin-top:12px;
 color:var(--muted);
 }
 
@@ -75,10 +73,10 @@ font-weight:bold;
 }
 
 .actions{
-margin-top:20px;
+margin-top:26px;
 display:flex;
-gap:12px;
 flex-wrap:wrap;
+gap:12px;
 }
 
 .botao{
@@ -89,54 +87,24 @@ font-weight:bold;
 cursor:pointer;
 }
 
-.botao-laranja{
-background:var(--orange-strong);
+.botaoIndice{
+background:#24150f;
 color:white;
 }
 
-.botao-azul{
-background:var(--blue);
+.botaoPreview{
+background:var(--orangeStrong);
 color:white;
 }
 
-.botao-verde{
+.botaoUpload{
 background:#174d27;
 color:#dfffe8;
 }
 
-.botao-escuro{
-background:#24150f;
+.botaoLimpar{
+background:#5a1c1c;
 color:white;
-}
-
-.botao-danger{
-background:#641919;
-color:#ffd9d9;
-}
-
-.status-box{
-margin-top:20px;
-padding:18px;
-border-radius:14px;
-background:rgba(247,178,44,0.12);
-border:1px solid rgba(247,178,44,0.2);
-color:#ffe7b0;
-}
-
-.link-btn{
-display:block;
-margin-top:10px;
-text-decoration:none;
-text-align:center;
-padding:14px;
-border-radius:999px;
-background:#24150f;
-color:white;
-}
-
-.info{
-color:var(--muted);
-line-height:1.8;
 }
 
 </style>
@@ -146,79 +114,45 @@ line-height:1.8;
 
 <div class="container">
 
-<div>
-
 <div class="titulo">
-HISTÓRICO DE PROJETOS
+HISTÓRICO DO PROJETO ATIVO
 </div>
 
 <div class="subtitulo">
-Consulta local do projeto atualmente registrado no ambiente Lapidar
-</div>
-
-</div>
-
-
-
-<div class="bloco">
-
-<div class="info">
-Este painel mostra o projeto salvo neste dispositivo.  
-Nesta versão emergencial, o histórico local trabalha com o projeto ativo mais recente.
-</div>
-
-<div class="status-box" id="statusHistorico">
-Carregando histórico...
-</div>
-
+Leitura do cadastro editorial salvo no ambiente Lapidar
 </div>
 
 
 
-<div class="bloco">
+<div class="card">
 
-<div id="areaProjeto">
+<div id="statusHistorico" class="statusBox">
+Carregando projeto...
 </div>
+
+<div id="dadosProjeto"></div>
+
+</div>
+
+
 
 <div class="actions">
 
-<button class="botao botao-laranja" onclick="abrirUploadLivro()">
-Novo registro
-</button>
-
-<button class="botao botao-azul" onclick="abrirPreviewProjeto()">
+<button class="botao botaoPreview" onclick="abrirPreview()">
 Abrir preview
 </button>
 
-<button class="botao botao-danger" onclick="limparHistorico()">
-Limpar histórico local
+<button class="botao botaoUpload" onclick="abrirUpload()">
+Editar projeto
 </button>
 
-<button class="botao botao-escuro" onclick="voltarIndice()">
-Voltar ao índice
+<button class="botao botaoLimpar" onclick="limparProjeto()">
+Limpar projeto
 </button>
 
-</div>
-
-</div>
-
-
-
-<div class="bloco">
-
-<h3>Atalhos rápidos</h3>
-
-<a class="link-btn" href="upload_livro.html">
-Upload do livro
-</a>
-
-<a class="link-btn" href="preview_projeto.html">
-Preview do projeto
-</a>
-
-<a class="link-btn" href="_Indice.html">
+<button class="botao botaoIndice" onclick="voltarIndice()">
 Voltar ao índice
-</a>
+</button>
 
 </div>
 
@@ -232,91 +166,151 @@ Voltar ao índice
 
 function verificarSessao(){
 
-const sessao = localStorage.getItem("SDL_sessao_ativa");
+const sessao = localStorage.getItem("SDL_sessao_ativa")
 
 if(sessao !== "sim"){
-window.location.href = "login.html";
-}
+
+window.location.href = "login.html"
 
 }
 
+}
 
 
-function carregarHistorico(){
 
-const projetoBruto = localStorage.getItem("SDL_projeto_ativo");
-const status = document.getElementById("statusHistorico");
-const area = document.getElementById("areaProjeto");
+function carregarProjeto(){
 
-if(!projetoBruto){
+let projeto = null
 
-status.innerHTML = "Nenhum projeto registrado neste dispositivo.";
-area.innerHTML = "";
+try{
 
-return;
+const bruto = localStorage.getItem("SDL_projeto_ativo")
+
+if(bruto){
+
+projeto = JSON.parse(bruto)
 
 }
 
-const projeto = JSON.parse(projetoBruto);
+}catch(e){
 
-status.innerHTML = "Projeto encontrado com sucesso neste dispositivo.";
+console.log("Erro ao ler projeto")
+
+}
+
+
+
+const status = document.getElementById("statusHistorico")
+const area = document.getElementById("dadosProjeto")
+
+if(!projeto){
+
+status.innerHTML =
+"Nenhum projeto cadastrado ainda neste dispositivo."
+
+area.innerHTML = ""
+
+return
+
+}
+
+
+
+status.innerHTML =
+"Projeto carregado com sucesso."
+
+status.style.background =
+"rgba(23,77,39,0.28)"
+
+
 
 area.innerHTML = `
-<div class="card">
-<div class="linha"><span class="rotulo">Título:</span> ${projeto.titulo || ""}</div>
-<div class="linha"><span class="rotulo">Subtítulo:</span> ${projeto.subtitulo || "Não informado"}</div>
-<div class="linha"><span class="rotulo">Autor / Heterônimo:</span> ${projeto.autor || ""}</div>
-<div class="linha"><span class="rotulo">Coleção:</span> ${projeto.colecao || "Não informada"}</div>
-<div class="linha"><span class="rotulo">Formato:</span> ${projeto.formato || ""}</div>
-<div class="linha"><span class="rotulo">Status:</span> ${projeto.status || ""}</div>
-<div class="linha"><span class="rotulo">Observações:</span> ${projeto.observacoes || "Sem observações"}</div>
-</div>
-`;
+
+<div class="linha"><span class="rotulo">Título:</span> ${projeto.titulo || "—"}</div>
+
+<div class="linha"><span class="rotulo">Subtítulo:</span> ${projeto.subtitulo || "—"}</div>
+
+<div class="linha"><span class="rotulo">Autor:</span> ${projeto.autor || "—"}</div>
+
+<div class="linha"><span class="rotulo">Coleção:</span> ${projeto.colecao || "—"}</div>
+
+<div class="linha"><span class="rotulo">Formato:</span> ${projeto.formato || "—"}</div>
+
+<div class="linha"><span class="rotulo">Status editorial:</span> ${projeto.status || "—"}</div>
+
+<div class="linha"><span class="rotulo">Observações:</span> ${projeto.observacoes || "—"}</div>
+
+<div class="linha"><span class="rotulo">Registrado em:</span> ${formatarData(projeto.dataRegistro)}</div>
+
+`
 
 }
 
 
 
-function limparHistorico(){
+function formatarData(data){
 
-const confirmar = confirm("Deseja realmente limpar o histórico local deste dispositivo?");
+if(!data) return "—"
 
-if(!confirmar){
-return;
+try{
+
+return new Date(data).toLocaleString("pt-BR")
+
+}catch(e){
+
+return data
+
 }
 
-localStorage.removeItem("SDL_projeto_ativo");
-
-document.getElementById("statusHistorico").innerHTML = "Histórico local removido com sucesso.";
-document.getElementById("areaProjeto").innerHTML = "";
-
-}
-
-
-
-function abrirUploadLivro(){
-window.location.href = "upload_livro.html";
 }
 
 
 
-function abrirPreviewProjeto(){
-window.location.href = "preview_projeto.html";
+function limparProjeto(){
+
+const confirmar = confirm("Deseja remover o projeto ativo deste dispositivo?")
+
+if(!confirmar) return
+
+localStorage.removeItem("SDL_projeto_ativo")
+
+document.getElementById("statusHistorico").innerHTML =
+"Projeto removido com sucesso."
+
+document.getElementById("dadosProjeto").innerHTML = ""
+
+}
+
+
+
+function abrirPreview(){
+
+window.location.href = "preview_projeto.html"
+
+}
+
+
+
+function abrirUpload(){
+
+window.location.href = "upload_livro.html"
+
 }
 
 
 
 function voltarIndice(){
-window.location.href = "_Indice.html";
+
+window.location.href = "_Indice.html"
+
 }
 
 
 
-verificarSessao();
-carregarHistorico();
+verificarSessao()
+carregarProjeto()
 
 </script>
-
 
 </body>
 </html>
