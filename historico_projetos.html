@@ -3,95 +3,142 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Histórico editorial — Lapidar</title>
+<title>Lapidar — Histórico de Projetos</title>
 
 <style>
+
+:root{
+--bg:#0d0603;
+--card:#140c08;
+--card-2:#1b100a;
+--text:#ffffff;
+--muted:#ffd2b3;
+--orange:#f7b22c;
+--orange-strong:#ff5a00;
+--blue:#6ea8ff;
+--green:#9cfdb2;
+--danger:#ff7070;
+--border:rgba(255,123,44,0.18);
+--shadow:0 10px 26px rgba(0,0,0,0.28);
+}
+
 body{
 margin:0;
-font-family:Arial, sans-serif;
-background:#0d0603;
-color:white;
-display:flex;
-justify-content:center;
+font-family:Arial;
+background:var(--bg);
+color:var(--text);
 }
 
 .container{
-max-width:760px;
-width:92%;
-padding:40px 0 60px 0;
+width:min(1100px,94%);
+margin:auto;
+padding:30px 0 50px 0;
 }
 
 .titulo{
-font-size:36px;
-text-align:center;
+font-size:40px;
 font-weight:bold;
 }
 
 .subtitulo{
-text-align:center;
-color:#ff7b2c;
-margin-top:10px;
-margin-bottom:28px;
-line-height:1.6;
+color:var(--orange);
+margin-top:6px;
+font-size:18px;
+}
+
+.bloco{
+background:var(--card);
+border:1px solid var(--border);
+border-radius:18px;
+padding:22px;
+margin-top:24px;
+box-shadow:var(--shadow);
 }
 
 .card{
-background:#140c08;
+background:var(--card-2);
+padding:18px;
 border-radius:14px;
-padding:22px;
-margin-top:18px;
-line-height:1.7;
+border:1px solid rgba(255,255,255,0.05);
+margin-top:16px;
 }
 
 .linha{
-margin-top:14px;
+margin-top:10px;
+line-height:1.8;
+color:var(--muted);
 }
 
-.label{
-color:#ff7b2c;
+.rotulo{
+color:var(--orange);
 font-weight:bold;
 }
 
-.valor{
-color:#ffd2b3;
-}
-
-.alerta{
-margin-top:18px;
-color:#9cffb2;
-font-weight:bold;
-text-align:center;
+.actions{
+margin-top:20px;
+display:flex;
+gap:12px;
+flex-wrap:wrap;
 }
 
 .botao{
-width:100%;
-padding:18px;
-margin-top:18px;
 border:none;
-border-radius:40px;
-background:#ff5a00;
-color:white;
-font-size:18px;
+padding:14px 18px;
+border-radius:999px;
 font-weight:bold;
 cursor:pointer;
 }
 
-.botao:hover{
-background:#ff6f1a;
+.botao-laranja{
+background:var(--orange-strong);
+color:white;
 }
 
-.botaoCinza{
-background:#444;
+.botao-azul{
+background:var(--blue);
+color:white;
 }
 
-.botaoCinza:hover{
-background:#666;
+.botao-verde{
+background:#174d27;
+color:#dfffe8;
 }
 
-.lista{
-margin-top:14px;
+.botao-escuro{
+background:#24150f;
+color:white;
+}
+
+.botao-danger{
+background:#641919;
+color:#ffd9d9;
+}
+
+.status-box{
+margin-top:20px;
+padding:18px;
+border-radius:14px;
+background:rgba(247,178,44,0.12);
+border:1px solid rgba(247,178,44,0.2);
+color:#ffe7b0;
+}
+
+.link-btn{
+display:block;
+margin-top:10px;
+text-decoration:none;
+text-align:center;
+padding:14px;
+border-radius:999px;
+background:#24150f;
+color:white;
+}
+
+.info{
+color:var(--muted);
 line-height:1.8;
 }
+
 </style>
 </head>
 
@@ -99,171 +146,177 @@ line-height:1.8;
 
 <div class="container">
 
+<div>
+
 <div class="titulo">
-Histórico editorial
+HISTÓRICO DE PROJETOS
 </div>
 
 <div class="subtitulo">
-Registro das ações realizadas dentro do ambiente Lapidar
-</div>
-
-<div class="card">
-
-<div class="linha">
-<span class="label">Original enviado</span><br>
-<span id="originalStatus" class="valor"></span>
-</div>
-
-<div class="linha">
-<span class="label">Idioma principal definido</span><br>
-<span id="idiomaStatus" class="valor"></span>
-</div>
-
-<div class="linha">
-<span class="label">Preferências de diagramação</span><br>
-<span id="diagramacaoStatus" class="valor"></span>
-</div>
-
-<div class="linha">
-<span class="label">Projeto Capista</span><br>
-<span id="capistaStatus" class="valor"></span>
-</div>
-
-<div class="linha">
-<span class="label">Leitura Técnica Editorial</span><br>
-<span id="leituraStatus" class="valor"></span>
+Consulta local do projeto atualmente registrado no ambiente Lapidar
 </div>
 
 </div>
 
-<div class="card">
 
-<div class="label">
-Registro técnico do ambiente
+
+<div class="bloco">
+
+<div class="info">
+Este painel mostra o projeto salvo neste dispositivo.  
+Nesta versão emergencial, o histórico local trabalha com o projeto ativo mais recente.
 </div>
 
-<div id="registroSistema" class="lista"></div>
+<div class="status-box" id="statusHistorico">
+Carregando histórico...
+</div>
 
 </div>
 
-<div class="alerta" id="mensagemFinal"></div>
 
-<button class="botao"
-onclick="window.location.href='_Indice.html'">
 
-Voltar para a casa do original
+<div class="bloco">
 
+<div id="areaProjeto">
+</div>
+
+<div class="actions">
+
+<button class="botao botao-laranja" onclick="abrirUploadLivro()">
+Novo registro
 </button>
 
-<button class="botao botaoCinza"
-onclick="limparHistorico()">
+<button class="botao botao-azul" onclick="abrirPreviewProjeto()">
+Abrir preview
+</button>
 
-Limpar histórico local deste navegador
+<button class="botao botao-danger" onclick="limparHistorico()">
+Limpar histórico local
+</button>
 
+<button class="botao botao-escuro" onclick="voltarIndice()">
+Voltar ao índice
 </button>
 
 </div>
+
+</div>
+
+
+
+<div class="bloco">
+
+<h3>Atalhos rápidos</h3>
+
+<a class="link-btn" href="upload_livro.html">
+Upload do livro
+</a>
+
+<a class="link-btn" href="preview_projeto.html">
+Preview do projeto
+</a>
+
+<a class="link-btn" href="_Indice.html">
+Voltar ao índice
+</a>
+
+</div>
+
+
+
+</div>
+
+
 
 <script>
 
-function status(valor){
+function verificarSessao(){
 
-if(valor)
-return "Registrado";
+const sessao = localStorage.getItem("SDL_sessao_ativa");
 
-return "Não registrado";
+if(sessao !== "sim"){
+window.location.href = "login.html";
+}
 
 }
+
+
 
 function carregarHistorico(){
 
-const original =
-localStorage.getItem("SDL_original_enviado");
+const projetoBruto = localStorage.getItem("SDL_projeto_ativo");
+const status = document.getElementById("statusHistorico");
+const area = document.getElementById("areaProjeto");
 
-const idioma =
-localStorage.getItem("SDL_idioma_obra");
+if(!projetoBruto){
 
-const diagramacao =
-localStorage.getItem("SDL_preferencias_diag");
+status.innerHTML = "Nenhum projeto registrado neste dispositivo.";
+area.innerHTML = "";
 
-const capista =
-localStorage.getItem("CAPISTA_status_geracao");
-
-const leitura =
-localStorage.getItem("LTE_status");
-
-document.getElementById("originalStatus")
-.innerText = status(original);
-
-document.getElementById("idiomaStatus")
-.innerText = status(idioma);
-
-document.getElementById("diagramacaoStatus")
-.innerText = status(diagramacao);
-
-document.getElementById("capistaStatus")
-.innerText = status(capista);
-
-document.getElementById("leituraStatus")
-.innerText = status(leitura);
-
-gerarRegistroTecnico();
+return;
 
 }
 
-function gerarRegistroTecnico(){
+const projeto = JSON.parse(projetoBruto);
 
-const idiomaSistema =
-localStorage.getItem("SDL_idioma_interface");
+status.innerHTML = "Projeto encontrado com sucesso neste dispositivo.";
 
-const usuario =
-localStorage.getItem("SDL_usuario_logado");
-
-const plano =
-localStorage.getItem("SDL_plano_lapidar");
-
-const pagamento =
-localStorage.getItem("SDL_status_pagamento");
-
-let texto = "";
-
-texto += "Usuário ativo: " + (usuario || "Não identificado") + "<br>";
-
-texto += "Idioma da interface: "
-+ (idiomaSistema || "Não definido") + "<br>";
-
-texto += "Plano Lapidar: "
-+ (plano || "Não selecionado") + "<br>";
-
-texto += "Situação de pagamento: "
-+ (pagamento || "Não registrada") + "<br>";
-
-document.getElementById("registroSistema")
-.innerHTML = texto;
-
-if(usuario){
-
-document.getElementById("mensagemFinal")
-.innerText =
-"O ambiente editorial Lapidar está registrando corretamente as ações desta sessão.";
+area.innerHTML = `
+<div class="card">
+<div class="linha"><span class="rotulo">Título:</span> ${projeto.titulo || ""}</div>
+<div class="linha"><span class="rotulo">Subtítulo:</span> ${projeto.subtitulo || "Não informado"}</div>
+<div class="linha"><span class="rotulo">Autor / Heterônimo:</span> ${projeto.autor || ""}</div>
+<div class="linha"><span class="rotulo">Coleção:</span> ${projeto.colecao || "Não informada"}</div>
+<div class="linha"><span class="rotulo">Formato:</span> ${projeto.formato || ""}</div>
+<div class="linha"><span class="rotulo">Status:</span> ${projeto.status || ""}</div>
+<div class="linha"><span class="rotulo">Observações:</span> ${projeto.observacoes || "Sem observações"}</div>
+</div>
+`;
 
 }
 
-}
+
 
 function limparHistorico(){
 
-localStorage.clear();
+const confirmar = confirm("Deseja realmente limpar o histórico local deste dispositivo?");
 
-alert("Histórico local removido deste navegador.");
+if(!confirmar){
+return;
+}
 
-window.location.href = "login.html";
+localStorage.removeItem("SDL_projeto_ativo");
+
+document.getElementById("statusHistorico").innerHTML = "Histórico local removido com sucesso.";
+document.getElementById("areaProjeto").innerHTML = "";
 
 }
 
+
+
+function abrirUploadLivro(){
+window.location.href = "upload_livro.html";
+}
+
+
+
+function abrirPreviewProjeto(){
+window.location.href = "preview_projeto.html";
+}
+
+
+
+function voltarIndice(){
+window.location.href = "_Indice.html";
+}
+
+
+
+verificarSessao();
 carregarHistorico();
 
 </script>
+
 
 </body>
 </html>
