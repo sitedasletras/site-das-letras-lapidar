@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Centro da Obra — Lapidar</title>
+
+<style>
+:root{
+--bg:#0d0603;
+--card:#140c08;
+--cardHover:#1b100a;
+--card2:#1b100a;
+--text:#ffffff;
+--muted:#ffd2b3;
+--orange:#f7b22c;
+--ok:#9cfdb2;
+--border:rgba(255,123,44,0.18);
+--shadow:0 10px 26px rgba(0,0,0,0.28);
+}
+
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:var(--bg);
+color:var(--text);
+}
+
+.container{
+width:min(1200px,95%);
+margin:auto;
+padding:40px 0 60px;
+}
+
+.titulo{
+font-size:38px;
+font-weight:bold;
+}
+
+.subtitulo{
+margin-top:6px;
+color:var(--orange);
+}
+
+.status{
+margin-top:20px;
+padding:16px;
+border-radius:12px;
+background:rgba(247,178,44,0.12);
+border:1px solid rgba(247,178,44,0.25);
+color:#ffe7b0;
+}
+
+.gridTopo{
+margin-top:24px;
+display:grid;
+grid-template-columns:1.2fr 0.8fr;
+gap:18px;
+}
+
+.card{
+background:var(--card);
+border:1px solid var(--border);
+border-radius:18px;
+padding:22px;
+box-shadow:var(--shadow);
+}
+
+.cardTitulo{
+font-size:22px;
+font-weight:bold;
+margin-bottom:10px;
+}
+
+.linha{
+margin-top:10px;
+line-height:1.8;
+color:var(--muted);
+}
+
+.rotulo{
+color:var(--orange);
+font-weight:bold;
+}
+
+.progressbar{
+margin-top:18px;
+height:26px;
+background:#1b100a;
+border-radius:999px;
+overflow:hidden;
+border:1px solid var(--border);
+}
+
+.progress{
+height:100%;
+background:var(--ok);
+width:0%;
+transition:.5s;
+}
+
+.gridSetores{
+margin-top:24px;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:18px;
+}
+
+.blocoSetor{
+background:var(--card);
+border:1px solid var(--border);
+border-radius:16px;
+padding:20px;
+cursor:pointer;
+transition:.2s;
+box-shadow:var(--shadow);
+}
+
+.blocoSetor:hover{
+background:var(--cardHover);
+}
+
+.nomeSetor{
+font-size:20px;
+font-weight:bold;
+margin-bottom:8px;
+}
+
+.descSetor{
+color:var(--muted);
+line-height:1.7;
+font-size:14px;
+}
+
+.badge{
+display:inline-block;
+margin-top:14px;
+padding:8px 12px;
+border-radius:999px;
+font-size:13px;
+font-weight:bold;
+background:#2a160d;
+color:#ffe7b0;
+}
+
+.badge.ok{
+background:rgba(23,77,39,0.35);
+color:var(--ok);
+}
+
+.actions{
+margin-top:28px;
+display:flex;
+gap:12px;
+flex-wrap:wrap;
+}
+
+button{
+border:none;
+padding:14px 18px;
+border-radius:999px;
+cursor:pointer;
+background:#24150f;
+color:white;
+font-weight:bold;
+}
+
+@media(max-width:900px){
+.gridTopo{
+grid-template-columns:1fr;
+}
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="titulo">Centro de Controle da Obra</div>
+<div class="subtitulo">Painel executivo da obra ativa dentro do Lapidar</div>
+
+<div id="statusCentro" class="status">
+Verificando obra ativa...
+</div>
+
+<div class="gridTopo">
+
+  <div class="card">
+    <div class="cardTitulo">Resumo da Obra</div>
+    <div id="resumoObra">
+      Carregando resumo...
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="cardTitulo">Progresso Consolidado</div>
+    <div id="percentualTexto" class="linha">Calculando progresso...</div>
+    <div class="progressbar">
+      <div id="barraProgresso" class="progress"></div>
+    </div>
+    <div id="statusInstitucional" class="linha"></div>
+  </div>
+
+</div>
+
+<div class="gridSetores">
+
+  <div class="blocoSetor" onclick="abrirProjetos()">
+    <div class="nomeSetor">Projetos</div>
+    <div class="descSetor">
+      Cadastro, preview, histórico, timeline e acompanhamento da obra.
+    </div>
+    <div id="badgeProjetos" class="badge">Verificando...</div>
+  </div>
+
+  <div class="blocoSetor" onclick="abrirCapista()">
+    <div class="nomeSetor">Capista</div>
+    <div class="descSetor">
+      Solicitação de capa, configuração técnica, textos da capa e gerador.
+    </div>
+    <div id="badgeCapista" class="badge">Verificando...</div>
+  </div>
+
+  <div class="blocoSetor" onclick="abrirDiagramador()">
+    <div class="nomeSetor">Diagramador</div>
+    <div class="descSetor">
+      Planejamento do miolo, elementos técnicos, padrão editorial e checklist.
+    </div>
+    <div id="badgeDiagramador" class="badge">Verificando...</div>
+  </div>
+
+  <div class="blocoSetor" onclick="abrirTradutor()">
+    <div class="nomeSetor">Tradutor</div>
+    <div class="descSetor">
+      Planejamento da tradução, glossário, checklist e relatório executivo.
+    </div>
+    <div id="badgeTradutor" class="badge">Verificando...</div>
+  </div>
+
+  <div class="blocoSetor" onclick="abrirRelatorios()">
+    <div class="nomeSetor">Relatórios</div>
+    <div class="descSetor">
+      Relatório da obra, relatório mestre, leitura técnica e relatórios setoriais.
+    </div>
+    <div id="badgeRelatorios" class="badge">Verificando...</div>
+  </div>
+
+  <div class="blocoSetor" onclick="abrirAuditoria()">
+    <div class="nomeSetor">Auditoria</div>
+    <div class="descSetor">
+      Trilhas institucionais da obra e registros do sistema.
+    </div>
+    <div id="badgeAuditoria" class="badge">Verificando...</div>
+  </div>
+
+</div>
+
+<div class="actions">
+  <button onclick="abrirTimeline()">Abrir timeline</button>
+  <button onclick="abrirProgresso()">Abrir progresso</button>
+  <button onclick="abrirRelatorioMestre()">Abrir relatório mestre</button>
+  <button onclick="voltarIndice()">Voltar ao índice</button>
+</div>
+
+</div>
+
+<script src="auditoria.js"></script>
+
+<script>
+function lerJSON(chave){
+  try{
+    return JSON.parse(localStorage.getItem(chave) || "null");
+  }catch{
+    return null;
+  }
+}
+
+function obterProjetoAtivo(){
+  try{
+    const lista = JSON.parse(localStorage.getItem("SDL_projetos_lista") || "[]");
+    const ativo = localStorage.getItem("SDL_projeto_ativo");
+    return lista.find(p => p.id === ativo) || null;
+  }catch{
+    return null;
+  }
+}
+
+function obterPedidosProjeto(id){
+  try{
+    const lista = JSON.parse(localStorage.getItem("SDL_pedidos_lista") || "[]");
+    return lista.filter(p => p.projetoID === id);
+  }catch{
+    return [];
+  }
+}
+
+function obterCapasProjeto(id){
+  try{
+    const lista = JSON.parse(localStorage.getItem("SDL_capas_lista") || "[]");
+    return lista.filter(c => c.projetoID === id);
+  }catch{
+    return [];
+  }
+}
+
+function montarStatus(){
+  const projeto = obterProjetoAtivo();
+  const status = document.getElementById("statusCentro");
+
+  if(!projeto){
+    status.innerHTML = "Nenhum projeto ativo selecionado.";
+    document.getElementById("resumoObra").innerHTML = "Sem obra ativa no momento.";
+    document.getElementById("percentualTexto").innerHTML = "0%";
+    document.getElementById("statusInstitucional").innerHTML = "Selecione uma obra para iniciar o centro de controle.";
+    return;
+  }
+
+  status.innerHTML = "Centro carregado para a obra: <strong>" + (projeto.titulo || "Sem título") + "</strong>";
+  status.style.background = "rgba(23,77,39,0.28)";
+
+  const plano = localStorage.getItem("SDL_plano") || "";
+  const pagamento = localStorage.getItem("SDL_pagamento") || "";
+  const pedidos = obterPedidosProjeto(projeto.id);
+  const capas = obterCapasProjeto(projeto.id);
+
+  const planejamentoMiolo = lerJSON("SDL_planejamento_miolo_ativo");
+  const elementosTecnicos = lerJSON("SDL_elementos_tecnicos_ativos");
+  const padraoDiagramacao = lerJSON("SDL_padrao_diagramacao");
+
+  const planejamentoTraducao = lerJSON("SDL_planejamento_traducao_ativo");
+  const glossarioTraducao = lerJSON("SDL_glossario_traducao_ativo");
+
+  const configuracaoCapa = lerJSON("SDL_configuracao_capa_ativa");
+  const textosCapa = lerJSON("SDL_textos_capa_ativos");
+  const leituraTecnica = lerJSON("SDL_leitura_tecnica_ativa");
+  const logs = JSON.parse(localStorage.getItem("SDL_auditoria_logs") || "[]");
+
+  document.getElementById("resumoObra").innerHTML =
+    '<div class="linha"><span class="rotulo">Título:</span> ' + (projeto.titulo || "—") + '</div>' +
+    '<div class="linha"><span class="rotulo">Autor:</span> ' + (projeto.autor || "—") + '</div>' +
+    '<div class="linha"><span class="rotulo">Formato:</span> ' + (projeto.formato || "—") + '</div>' +
+    '<div class="linha"><span class="rotulo">Status editorial:</span> ' + (projeto.status || "—") + '</div>' +
+    '<div class="linha"><span class="rotulo">Plano:</span> ' + (plano || "Não selecionado") + '</div>' +
+    '<div class="linha"><span class="rotulo">Pagamento:</span> ' + (pagamento ? "Registrado" : "Não registrado") + '</div>';
+
+  let etapas = [
+    !!projeto,
+    !!plano,
+    !!pagamento,
+    pedidos.length > 0,
+    capas.length > 0,
+    !!(configuracaoCapa && configuracaoCapa.projetoID === projeto.id),
+    !!(textosCapa && textosCapa.projetoID === projeto.id),
+    !!(planejamentoMiolo && planejamentoMiolo.projetoID === projeto.id),
+    !!(elementosTecnicos && elementosTecnicos.projetoID === projeto.id),
+    !!(padraoDiagramacao && padraoDiagramacao.idProjeto === projeto.id),
+    !!(planejamentoTraducao && planejamentoTraducao.projetoID === projeto.id),
+    !!(glossarioTraducao && glossarioTraducao.projetoID === projeto.id),
+    !!(leituraTecnica && leituraTecnica.projetoID === projeto.id)
+  ];
+
+  const concluidas = etapas.filter(Boolean).length;
+  const percentual = Math.round((concluidas / etapas.length) * 100);
+
+  document.getElementById("percentualTexto").innerHTML = "Percentual consolidado: <strong>" + percentual + "%</strong>";
+  document.getElementById("barraProgresso").style.width = percentual + "%";
+
+  document.getElementById("statusInstitucional").innerHTML = gerarStatusInstitucional(
+    projeto, plano, pagamento, pedidos, capas, configuracaoCapa, textosCapa
+  );
+
+  aplicarBadge("badgeProjetos", !!projeto, projeto ? "Obra ativa selecionada" : "Sem obra ativa");
+  aplicarBadge("badgeCapista",
+    capas.length > 0 || (configuracaoCapa && configuracaoCapa.projetoID === projeto.id),
+    (capas.length > 0 || (configuracaoCapa && configuracaoCapa.projetoID === projeto.id)) ? "Setor em andamento" : "Ainda não iniciado"
+  );
+
+  aplicarBadge("badgeDiagramador",
+    !!((planejamentoMiolo && planejamentoMiolo.projetoID === projeto.id) ||
+       (elementosTecnicos && elementosTecnicos.projetoID === projeto.id) ||
+       (padraoDiagramacao && padraoDiagramacao.idProjeto === projeto.id)),
+    ((planejamentoMiolo && planejamentoMiolo.projetoID === projeto.id) ||
+     (elementosTecnicos && elementosTecnicos.projetoID === projeto.id) ||
+     (padraoDiagramacao && padraoDiagramacao.idProjeto === projeto.id)) ? "Setor em andamento" : "Ainda não iniciado"
+  );
+
+  aplicarBadge("badgeTradutor",
+    !!((planejamentoTraducao && planejamentoTraducao.projetoID === projeto.id) ||
+       (glossarioTraducao && glossarioTraducao.projetoID === projeto.id)),
+    ((planejamentoTraducao && planejamentoTraducao.projetoID === projeto.id) ||
+     (glossarioTraducao && glossarioTraducao.projetoID === projeto.id)) ? "Setor em andamento" : "Ainda não iniciado"
+  );
+
+  aplicarBadge("badgeRelatorios",
+    !!(leituraTecnica && leituraTecnica.projetoID === projeto.id),
+    (leituraTecnica && leituraTecnica.projetoID === projeto.id) ? "Relatórios ativos" : "Relatórios parciais"
+  );
+
+  const logsProjeto = logs.filter(l => l.projetoID === projeto.id || l.projetoTitulo === projeto.titulo);
+  aplicarBadge("badgeAuditoria", logsProjeto.length > 0, logsProjeto.length > 0 ? (logsProjeto.length + " registros") : "Sem registros");
+
+  try{
+    SDL_registrarAuditoria("Acesso ao centro de controle da obra", "centro_obra");
+  }catch(e){}
+}
+
+function aplicarBadge(id, ok, texto){
+  const el = document.getElementById(id);
+  el.innerHTML = texto;
+  if(ok){
+    el.classList.add("ok");
+  }else{
+    el.classList.remove("ok");
+  }
+}
+
+function gerarStatusInstitucional(projeto, plano, pagamento, pedidos, capas, cfg, textos){
+  if(!projeto) return "Nenhuma obra ativa selecionada.";
+  if(!plano) return "Obra cadastrada aguardando seleção de plano.";
+  if(plano && !pagamento) return "Plano selecionado aguardando pagamento.";
+  if(pagamento && pedidos.length === 0) return "Pagamento confirmado aguardando abertura editorial.";
+  if(pedidos.length > 0 && capas.length === 0) return "Fluxo editorial iniciado aguardando etapa visual.";
+  if(capas.length > 0 && !(cfg && cfg.projetoID === projeto.id)) return "Solicitação de capa registrada aguardando configuração técnica.";
+  if(cfg && cfg.projetoID === projeto.id && !(textos && textos.projetoID === projeto.id)) return "Configuração da capa pronta aguardando textos.";
+  if(cfg && textos && cfg.projetoID === projeto.id && textos.projetoID === projeto.id) return "Obra com fluxo editorial e visual estruturado.";
+  return "Status institucional em atualização.";
+}
+
+function abrirProjetos(){ window.location.href = "projetos.html"; }
+function abrirCapista(){ window.location.href = "capista_inicio.html"; }
+function abrirDiagramador(){ window.location.href = "diagramador_inicio.html"; }
+function abrirTradutor(){ window.location.href = "tradutor_inicio.html"; }
+function abrirRelatorios(){ window.location.href = "relatorios_tecnicos.html"; }
+function abrirAuditoria(){ window.location.href = "auditoria.html"; }
+function abrirTimeline(){ window.location.href = "timeline_projeto.html"; }
+function abrirProgresso(){ window.location.href = "progresso_projeto.html"; }
+function abrirRelatorioMestre(){ window.location.href = "relatorio_lapidar.html"; }
+function voltarIndice(){ window.location.href = "_Indice.html"; }
+
+montarStatus();
+</script>
+
+</body>
+</html>
