@@ -1,63 +1,83 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Relatório Capista — Site das Letras</title>
+<title>Relatório do Capista — Lapidar</title>
 
 <style>
 body{
 margin:0;
-background:#0c0603;
-font-family:Arial;
+font-family:Arial, sans-serif;
+background:#0d0603;
 color:white;
-display:flex;
-justify-content:center;
 }
+
 .container{
-max-width:720px;
-width:92%;
-padding:40px 0 60px 0;
+width:min(1000px,95%);
+margin:auto;
+padding:40px 0 60px;
 }
+
 .titulo{
 font-size:34px;
-text-align:center;
 font-weight:bold;
 }
+
 .subtitulo{
-text-align:center;
-color:#ff7b2c;
-margin-top:10px;
-margin-bottom:28px;
+margin-top:6px;
+color:#f7b22c;
 }
+
 .card{
+margin-top:24px;
 background:#140c08;
-border-radius:14px;
-padding:26px;
-margin-top:20px;
+border:1px solid rgba(255,123,44,0.18);
+border-radius:16px;
+padding:20px;
 line-height:1.8;
 }
-.item{
-margin-bottom:10px;
-color:#ffd2b3;
-}
-.destaque{
-color:#9cffb2;
+
+.label{
+color:#f7b22c;
 font-weight:bold;
+margin-top:10px;
 }
-.botao{
-width:100%;
-padding:18px;
-margin-top:24px;
+
+.actions{
+margin-top:28px;
+display:flex;
+gap:12px;
+flex-wrap:wrap;
+}
+
+button{
 border:none;
-border-radius:40px;
-background:#ff5a00;
+padding:14px 18px;
+border-radius:999px;
+background:#24150f;
 color:white;
-font-size:18px;
-font-weight:bold;
 cursor:pointer;
 }
+
+.status{
+margin-top:18px;
+padding:16px;
+border-radius:12px;
+background:rgba(247,178,44,0.12);
+border:1px solid rgba(247,178,44,0.25);
+color:#ffe7b0;
+}
+
+.blocoTexto{
+margin-top:14px;
+padding:16px;
+border-radius:12px;
+background:#1b100a;
+white-space:pre-line;
+line-height:1.8;
+}
+
 </style>
 </head>
 
@@ -65,86 +85,237 @@ cursor:pointer;
 
 <div class="container">
 
-<div class="titulo">
-Relatório do Projeto Capista
+<div class="titulo">Relatório do Capista</div>
+<div class="subtitulo">Documento técnico da identidade visual da obra</div>
+
+<div id="statusRelatorio" class="status">
+Carregando dados do relatório...
 </div>
 
-<div class="subtitulo">
-Resumo técnico da capa gerada dentro do sistema
+<div id="conteudoRelatorio"></div>
+
+<div class="actions">
+  <button onclick="window.print()">Exportar PDF técnico</button>
+  <button onclick="voltarIndice()">Voltar ao índice</button>
 </div>
 
-<div class="card" id="conteudoRelatorio">
-Gerando relatório da capa...
 </div>
 
-<button class="botao" onclick="window.location.href='_Indice.html'">
-Voltar para casa do original
-</button>
-
-</div>
+<script src="auditoria.js"></script>
 
 <script>
-
-function traduzirIdioma(codigo){
-if(codigo === "pt") return "Português";
-if(codigo === "en") return "English";
-if(codigo === "es") return "Español";
-if(codigo === "it") return "Italiano";
-if(codigo === "fr") return "Français";
-if(codigo === "de") return "Deutsch";
-return "Português";
+function obterProjetoAtivo(){
+  try{
+    const lista = JSON.parse(localStorage.getItem("SDL_projetos_lista") || "[]");
+    const ativo = localStorage.getItem("SDL_projeto_ativo");
+    return lista.find(p => p.id === ativo) || null;
+  }catch{
+    return null;
+  }
 }
 
-function montarRelatorio(){
+function carregarRelatorioCapista(){
+  const projeto = obterProjetoAtivo();
+  const status = document.getElementById("statusRelatorio");
+  const area = document.getElementById("conteudoRelatorio");
 
-const plano =
-localStorage.getItem("CAPISTA_plano") || "não informado";
+  if(!projeto){
+    status.innerHTML = "Nenhum projeto ativo selecionado.";
+    area.innerHTML = "";
+    return;
+  }
 
-const nomePlano =
-localStorage.getItem("CAPISTA_nome_plano") || "não informado";
+  let cfg = null;
+  let textos = null;
+  let capas = [];
 
-const tipoCapa =
-localStorage.getItem("CAPISTA_tipo_capa") || "não informado";
+  try{
+    cfg = JSON.parse(localStorage.getItem("SDL_configuracao_capa_ativa") || "null");
+  }catch(e){}
 
-const idiomaPrincipal =
-localStorage.getItem("CAPISTA_idioma_principal") || "pt";
+  try{
+    textos = JSON.parse(localStorage.getItem("SDL_textos_capa_ativos") || "null");
+  }catch(e){}
 
-const idiomaExtra =
-localStorage.getItem("CAPISTA_idioma_extra") || "nenhum";
+  try{
+    capas = JSON.parse(localStorage.getItem("SDL_capas_lista") || "[]");
+  }catch(e){}
 
-const usadasFisicas =
-localStorage.getItem("CAPISTA_usadas_fisicas") || "0";
+  const capaProjeto = capas.filter(c => c.projetoID === projeto.id);
+  const ultimaSolicitacao = capaProjeto.length ? capaProjeto[capaProjeto.length - 1] : null;
 
-const usadasEpub =
-localStorage.getItem("CAPISTA_usadas_epub") || "0";
+  status.innerHTML = "Relatório do capista carregado para: <strong>" + (projeto.titulo || "Sem título") + "</strong>";
+  status.style.background = "rgba(23,77,39,0.28)";
 
-const usadasOutroIdioma =
-localStorage.getItem("CAPISTA_usadas_outro_idioma") || "0";
+  let html = "";
 
-document.getElementById("conteudoRelatorio").innerHTML =
+  html += `
+    <div class="card">
+      <div class="label">Projeto</div>
+      ${projeto.titulo || "—"}
 
-"<div class='item'>Plano ativo: <span class='destaque'>" + nomePlano + " (" + plano + ")" + "</span></div>" +
+      <div class="label">Autor</div>
+      ${projeto.autor || "—"}
 
-"<div class='item'>Tipo de capa gerada: <span class='destaque'>" + tipoCapa + "</span></div>" +
+      <div class="label">Formato editorial</div>
+      ${projeto.formato || "—"}
 
-"<div class='item'>Idioma principal: <span class='destaque'>" + traduzirIdioma(idiomaPrincipal) + "</span></div>" +
+      <div class="label">Data do projeto</div>
+      ${formatarData(projeto.dataRegistro)}
+    </div>
+  `;
 
-"<div class='item'>Idioma extra: <span class='destaque'>" + (idiomaExtra === "nenhum" ? "Não utilizado" : traduzirIdioma(idiomaExtra)) + "</span></div>" +
+  html += `
+    <div class="card">
+      <div class="label">Status da solicitação de capa</div>
+      ${ultimaSolicitacao ? (ultimaSolicitacao.status || "Solicitado") : "Nenhuma solicitação registrada"}
 
-"<div class='item'>Capas físicas utilizadas: <span class='destaque'>" + usadasFisicas + "</span></div>" +
+      <div class="label">Plano vinculado</div>
+      ${ultimaSolicitacao ? (ultimaSolicitacao.plano || "—") : "—"}
 
-"<div class='item'>Capas EPUB utilizadas: <span class='destaque'>" + usadasEpub + "</span></div>" +
+      <div class="label">Data da última solicitação</div>
+      ${ultimaSolicitacao ? formatarData(ultimaSolicitacao.dataRegistro) : "—"}
+    </div>
+  `;
 
-"<div class='item'>Capas em outro idioma utilizadas: <span class='destaque'>" + usadasOutroIdioma + "</span></div>" +
+  if(cfg && cfg.projetoID === projeto.id){
+    html += `
+      <div class="card">
+        <div class="label">Título na capa</div>
+        ${cfg.titulo || "—"}
 
-"<div class='item'>Resumo editorial: <span class='destaque'>A capa foi registrada com sucesso dentro do Projeto Capista.</span></div>" +
+        <div class="label">Subtítulo</div>
+        ${cfg.subtitulo || "—"}
 
-"<div class='item'>Observação: <span class='destaque'>O sistema mantém separadamente os créditos de capa física e capa EPUB.</span></div>";
+        <div class="label">Autor na capa</div>
+        ${cfg.autor || "—"}
 
+        <div class="label">Formato</div>
+        ${cfg.formato || "—"}
+
+        <div class="label">Dimensão base</div>
+        ${(cfg.largura || "—")} x ${(cfg.altura || "—")} mm
+
+        <div class="label">Páginas</div>
+        ${cfg.paginas || "—"}
+
+        <div class="label">Tipo de papel</div>
+        ${cfg.papelNome || "—"}
+
+        <div class="label">Gramatura</div>
+        ${cfg.gramatura || "—"}
+
+        <div class="label">Lombada estimada</div>
+        ${cfg.lombada || "—"} mm
+
+        <div class="label">Largura total da capa aberta</div>
+        ${cfg.larguraAberta || "—"} mm
+
+        <div class="label">Selo editorial</div>
+        ${cfg.selo || "—"}
+
+        <div class="label">Data da configuração técnica</div>
+        ${formatarData(cfg.dataRegistro)}
+      </div>
+    `;
+  } else {
+    html += `
+      <div class="card">
+        <div class="label">Configuração técnica da capa</div>
+        Nenhuma configuração técnica salva para este projeto.
+      </div>
+    `;
+  }
+
+  if(textos && textos.projetoID === projeto.id){
+    html += `
+      <div class="card">
+        <div class="label">Sinopse / Contra-capa</div>
+        <div class="blocoTexto">${escapeHtml(textos.sinopse || "—")}</div>
+
+        <div class="label">Biografia do autor</div>
+        <div class="blocoTexto">${escapeHtml(textos.biografia || "—")}</div>
+
+        <div class="label">Orelha dianteira</div>
+        <div class="blocoTexto">${escapeHtml(textos.orelhaDianteira || "—")}</div>
+
+        <div class="label">Orelha traseira</div>
+        <div class="blocoTexto">${escapeHtml(textos.orelhaTraseira || "—")}</div>
+
+        <div class="label">Texto extra</div>
+        <div class="blocoTexto">${escapeHtml(textos.textoExtra || "—")}</div>
+
+        <div class="label">Data dos textos salvos</div>
+        ${formatarData(textos.dataRegistro)}
+      </div>
+    `;
+  } else {
+    html += `
+      <div class="card">
+        <div class="label">Textos da capa</div>
+        Nenhum texto de capa salvo para este projeto.
+      </div>
+    `;
+  }
+
+  html += `
+    <div class="card">
+      <div class="label">Status institucional do módulo capista</div>
+      ${gerarStatusCapista(cfg, textos, ultimaSolicitacao)}
+    </div>
+  `;
+
+  area.innerHTML = html;
+
+  try{
+    SDL_registrarAuditoria("Relatório do capista gerado", "relatorio_capista");
+  }catch(e){}
 }
 
-montarRelatorio();
+function gerarStatusCapista(cfg, textos, solicitacao){
+  if(!solicitacao){
+    return "Aguardando solicitação formal de capa.";
+  }
 
+  if(solicitacao && !cfg){
+    return "Solicitação registrada, aguardando configuração técnica da capa.";
+  }
+
+  if(cfg && !textos){
+    return "Configuração técnica pronta, aguardando textos da capa.";
+  }
+
+  if(cfg && textos){
+    return "Material técnico e textual da capa disponíveis para produção.";
+  }
+
+  return "Status não identificado.";
+}
+
+function formatarData(d){
+  if(!d) return "—";
+  try{
+    return new Date(d).toLocaleString("pt-BR");
+  }catch{
+    return d;
+  }
+}
+
+function escapeHtml(texto){
+  return String(texto)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;")
+    .replaceAll("\n", "<br>");
+}
+
+function voltarIndice(){
+  window.location.href = "_Indice.html";
+}
+
+carregarRelatorioCapista();
 </script>
 
 </body>
