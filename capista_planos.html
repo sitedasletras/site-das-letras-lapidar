@@ -1,724 +1,292 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lapidar — Capista e Planos</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Capista — Planos de Capa</title>
 
-  <style>
-    :root{
-      --bg:#0d0603;
-      --card:#140c08;
-      --card-2:#1b100a;
-      --text:#ffffff;
-      --muted:#ffd2b3;
-      --orange:#f7b22c;
-      --orange-strong:#ff5a00;
-      --blue:#6ea8ff;
-      --green:#9cfdb2;
-      --danger:#ff7070;
-      --border:rgba(255,123,44,0.18);
-      --shadow:0 10px 26px rgba(0,0,0,0.28);
-    }
+<style>
 
-    *{
-      box-sizing:border-box;
-    }
+:root{
+--bg:#0d0603;
+--card:#140c08;
+--card2:#1b100a;
+--text:#ffffff;
+--muted:#ffd2b3;
+--orange:#f7b22c;
+--orangeStrong:#ff5a00;
+--green:#9cfdb2;
+--danger:#ff7070;
+--border:rgba(255,123,44,0.18);
+--shadow:0 10px 26px rgba(0,0,0,0.28);
+}
 
-    body{
-      margin:0;
-      font-family:Arial, sans-serif;
-      background:var(--bg);
-      color:var(--text);
-    }
+body{
+margin:0;
+font-family:Arial;
+background:var(--bg);
+color:white;
+}
 
-    .container{
-      width:min(1100px, 94%);
-      margin:0 auto;
-      padding:28px 0 54px 0;
-    }
+.container{
+width:min(1100px,95%);
+margin:auto;
+padding:40px 0;
+}
 
-    .topo{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:14px;
-      flex-wrap:wrap;
-      margin-bottom:22px;
-    }
+.titulo{
+font-size:38px;
+font-weight:bold;
+}
 
-    .titulo{
-      font-size:40px;
-      font-weight:bold;
-      letter-spacing:1px;
-      margin:0;
-    }
+.subtitulo{
+margin-top:6px;
+color:var(--orange);
+}
 
-    .subtitulo{
-      color:var(--orange);
-      margin-top:6px;
-      font-size:18px;
-      line-height:1.6;
-    }
+.card{
+margin-top:30px;
+background:var(--card);
+padding:24px;
+border-radius:18px;
+border:1px solid var(--border);
+box-shadow:var(--shadow);
+}
 
-    .bloco{
-      background:var(--card);
-      border:1px solid var(--border);
-      border-radius:18px;
-      box-shadow:var(--shadow);
-    }
+.statusBox{
+margin-top:20px;
+padding:18px;
+border-radius:14px;
+background:rgba(247,178,44,0.12);
+border:1px solid rgba(247,178,44,0.2);
+color:#ffe7b0;
+}
 
-    .hero{
-      margin-top:22px;
-      padding:22px;
-    }
+.planoBox{
+margin-top:20px;
+padding:18px;
+border-radius:14px;
+background:var(--card2);
+line-height:1.8;
+}
 
-    .hero-grid{
-      display:grid;
-      grid-template-columns:1.4fr 1fr;
-      gap:18px;
-    }
+.actions{
+margin-top:26px;
+display:flex;
+flex-wrap:wrap;
+gap:12px;
+}
 
-    .boasvindas{
-      color:var(--muted);
-      line-height:1.75;
-      font-size:17px;
-    }
+.botao{
+border:none;
+padding:14px 18px;
+border-radius:999px;
+font-weight:bold;
+cursor:pointer;
+}
 
-    .status-box{
-      background:var(--card-2);
-      border-radius:16px;
-      padding:18px;
-      border:1px solid rgba(255,255,255,0.04);
-    }
+.botaoIndice{
+background:#24150f;
+color:white;
+}
 
-    .linha{
-      margin-top:10px;
-      line-height:1.7;
-    }
+.botaoPagamento{
+background:#174d27;
+color:#dfffe8;
+}
 
-    .label{
-      color:var(--orange);
-      font-weight:bold;
-    }
+.botaoPlano{
+background:var(--orangeStrong);
+color:white;
+}
 
-    .valor{
-      color:var(--muted);
-    }
+.botaoSolicitar{
+background:#1e5d35;
+color:white;
+}
 
-    .grid{
-      margin-top:24px;
-      display:grid;
-      grid-template-columns:repeat(3, 1fr);
-      gap:18px;
-    }
-
-    .card{
-      padding:18px;
-      min-height:230px;
-      display:flex;
-      flex-direction:column;
-      justify-content:space-between;
-    }
-
-    .card-titulo{
-      font-size:24px;
-      font-weight:bold;
-      margin-bottom:8px;
-    }
-
-    .card-texto{
-      color:var(--muted);
-      line-height:1.7;
-      font-size:15px;
-    }
-
-    .badges{
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
-      margin-top:14px;
-    }
-
-    .badge{
-      padding:7px 12px;
-      border-radius:999px;
-      font-size:13px;
-      font-weight:bold;
-      background:rgba(255,123,44,0.12);
-      color:var(--orange);
-      border:1px solid rgba(255,123,44,0.18);
-    }
-
-    .actions{
-      margin-top:18px;
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-    }
-
-    .botao{
-      appearance:none;
-      border:none;
-      border-radius:999px;
-      padding:14px 18px;
-      font-size:15px;
-      font-weight:bold;
-      cursor:pointer;
-      transition:opacity .18s ease, transform .18s ease;
-      text-decoration:none;
-      display:inline-block;
-      text-align:center;
-    }
-
-    .botao:hover{
-      opacity:.95;
-      transform:translateY(-1px);
-    }
-
-    .botao-laranja{
-      background:var(--orange-strong);
-      color:#fff;
-    }
-
-    .botao-azul{
-      background:var(--blue);
-      color:#fff;
-    }
-
-    .botao-escuro{
-      background:#24150f;
-      color:#fff;
-      border:1px solid rgba(255,255,255,0.06);
-    }
-
-    .botao-verde{
-      background:#174d27;
-      color:#dfffe8;
-    }
-
-    .rodape{
-      margin-top:26px;
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:18px;
-    }
-
-    .rodape .bloco{
-      padding:18px;
-    }
-
-    .rodape h3{
-      margin:0 0 10px 0;
-      font-size:22px;
-    }
-
-    .rodape p{
-      margin:0;
-      color:var(--muted);
-      line-height:1.7;
-    }
-
-    .aviso{
-      margin-top:22px;
-      padding:16px 18px;
-      border-left:4px solid var(--orange);
-      color:var(--muted);
-    }
-
-    .link-lista{
-      margin-top:12px;
-      display:grid;
-      gap:10px;
-    }
-
-    .link-btn{
-      text-decoration:none;
-      display:inline-block;
-      width:100%;
-      text-align:center;
-    }
-
-    .painel-resultado{
-      margin-top:24px;
-      padding:22px;
-    }
-
-    .painel-resultado h2{
-      margin-top:0;
-      margin-bottom:12px;
-      font-size:24px;
-    }
-
-    .caixa-preview{
-      background:var(--card-2);
-      border:1px solid rgba(255,255,255,0.05);
-      border-radius:14px;
-      padding:18px;
-      color:var(--muted);
-      line-height:1.8;
-      min-height:180px;
-      white-space:pre-line;
-    }
-
-    .form-grid{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:16px;
-      margin-top:18px;
-    }
-
-    .campo{
-      display:flex;
-      flex-direction:column;
-      gap:8px;
-    }
-
-    .campo label{
-      color:var(--orange);
-      font-weight:bold;
-      font-size:14px;
-    }
-
-    .campo input,
-    .campo select,
-    .campo textarea{
-      width:100%;
-      border:1px solid rgba(255,255,255,0.08);
-      background:#120b07;
-      color:#fff;
-      border-radius:12px;
-      padding:14px;
-      font-size:15px;
-      outline:none;
-    }
-
-    .campo textarea{
-      min-height:130px;
-      resize:vertical;
-    }
-
-    .campo-full{
-      grid-column:1 / -1;
-    }
-
-    @media (max-width: 920px){
-      .hero-grid{
-        grid-template-columns:1fr;
-      }
-
-      .grid{
-        grid-template-columns:1fr 1fr;
-      }
-
-      .rodape{
-        grid-template-columns:1fr;
-      }
-
-      .form-grid{
-        grid-template-columns:1fr;
-      }
-    }
-
-    @media (max-width: 640px){
-      .titulo{
-        font-size:32px;
-      }
-
-      .grid{
-        grid-template-columns:1fr;
-      }
-
-      .container{
-        width:92%;
-      }
-    }
-  </style>
+</style>
 </head>
+
 <body>
-  <div class="container">
 
-    <div class="topo">
-      <div>
-        <h1 class="titulo">CAPISTA</h1>
-        <div class="subtitulo">Planos, produção visual e organização da frente de capas</div>
-      </div>
+<div class="container">
 
-      <div class="actions">
-        <button class="botao botao-verde" onclick="abrirStatusPlano()">Status do plano</button>
-        <button class="botao botao-escuro" onclick="voltarIndice()">Voltar ao índice</button>
-        <button class="botao botao-escuro" onclick="encerrarSessao()">Encerrar sessão</button>
-      </div>
-    </div>
+<div class="titulo">
+SERVIÇOS DO CAPISTA
+</div>
 
-    <div class="hero bloco">
-      <div class="hero-grid">
-        <div>
-          <div class="card-titulo">Central do capista</div>
-          <div class="boasvindas">
-            Aqui você centraliza os fluxos ligados à criação visual da obra.  
-            Esta área foi organizada para separar planos, briefing, geração de capas, revisão e acompanhamento da etapa visual.
-          </div>
+<div class="subtitulo">
+Solicitação de criação de capa dentro do ambiente Lapidar
+</div>
 
-          <div class="badges">
-            <span class="badge">Sessão ativa</span>
-            <span class="badge">Ambiente protegido</span>
-            <span class="badge">Modo produção</span>
-            <span class="badge">Lapidar visual</span>
-          </div>
-        </div>
 
-        <div class="status-box">
-          <div class="linha"><span class="label">Ambiente:</span> <span class="valor">Capista / Painel protegido</span></div>
-          <div class="linha"><span class="label">Status:</span> <span class="valor">Pronto para briefing e geração</span></div>
-          <div class="linha"><span class="label">Idioma:</span> <span class="valor" id="idiomaAtual">Carregando...</span></div>
-          <div class="linha"><span class="label">Sessão:</span> <span class="valor">Ativa no dispositivo atual</span></div>
-        </div>
-      </div>
-    </div>
 
-    <div class="grid">
+<div class="card">
 
-      <div class="card bloco">
-        <div>
-          <div class="card-titulo">Planos do capista</div>
-          <div class="card-texto">
-            Consulta da modalidade ativa, status operacional e encaminhamento para pagamento ou ajuste de permanência no módulo.
-          </div>
-        </div>
-        <div class="actions">
-          <button class="botao botao-laranja" onclick="abrirPlanos()">Abrir planos</button>
-          <button class="botao botao-azul" onclick="abrirPagamento()">Pagamento</button>
-        </div>
-      </div>
+<div id="statusCapista" class="statusBox">
+Verificando liberação do serviço...
+</div>
 
-      <div class="card bloco">
-        <div>
-          <div class="card-titulo">Briefing de capa</div>
-          <div class="card-texto">
-            Espaço para organizar título, subtítulo, autor, coleção, estilo visual, referências, cores e observações obrigatórias da capa.
-          </div>
-        </div>
-        <div class="actions">
-          <button class="botao botao-laranja" onclick="mostrarPainel('briefing')">Abrir briefing</button>
-        </div>
-      </div>
+<div id="planoDetectado" class="planoBox">
+Carregando informações do plano...
+</div>
 
-      <div class="card bloco">
-        <div>
-          <div class="card-titulo">Gerar capa</div>
-          <div class="card-texto">
-            Área de preparo para capa frontal, contra-capa, lombada e orelhas, respeitando o padrão editorial do projeto.
-          </div>
-        </div>
-        <div class="actions">
-          <button class="botao botao-laranja" onclick="mostrarPainel('geracao')">Abrir geração</button>
-        </div>
-      </div>
+</div>
 
-      <div class="card bloco">
-        <div>
-          <div class="card-titulo">Idioma da capa</div>
-          <div class="card-texto">
-            Controle de idioma da frente visual da obra para versões em português, inglês, espanhol, italiano, francês e alemão.
-          </div>
-        </div>
-        <div class="actions">
-          <button class="botao botao-laranja" onclick="mostrarPainel('idioma')">Configurar idioma</button>
-        </div>
-      </div>
 
-      <div class="card bloco">
-        <div>
-          <div class="card-titulo">Prévia visual</div>
-          <div class="card-texto">
-            Espaço para anotação operacional da composição, equilíbrio visual, posição de selo, tipografia e distribuição dos elementos.
-          </div>
-        </div>
-        <div class="actions">
-          <button class="botao botao-laranja" onclick="mostrarPainel('preview')">Abrir prévia</button>
-        </div>
-      </div>
 
-      <div class="card bloco">
-        <div>
-          <div class="card-titulo">Histórico do capista</div>
-          <div class="card-texto">
-            Registro de ações ligadas ao módulo visual, útil para rastrear decisões, versões, aprovações e alterações internas.
-          </div>
-        </div>
-        <div class="actions">
-          <button class="botao botao-escuro" onclick="mostrarPainel('historico')">Ver histórico</button>
-        </div>
-      </div>
+<div class="actions">
 
-    </div>
+<button class="botao botaoSolicitar" onclick="solicitarCapa()">
+Solicitar capa
+</button>
 
-    <div class="painel-resultado bloco">
-      <h2>Painel operacional</h2>
+<button class="botao botaoPagamento" onclick="abrirPagamento()">
+Registrar pagamento
+</button>
 
-      <div id="painelConteudo" class="caixa-preview">
-Selecione um dos módulos acima para abrir a área correspondente.
-      </div>
+<button class="botao botaoPlano" onclick="abrirPlanos()">
+Escolher plano
+</button>
 
-      <div id="formularioBriefing" style="display:none;">
-        <div class="form-grid">
-          <div class="campo">
-            <label for="tituloLivro">Título da obra</label>
-            <input type="text" id="tituloLivro" placeholder="Digite o título da obra">
-          </div>
+<button class="botao botaoIndice" onclick="voltarIndice()">
+Voltar ao índice
+</button>
 
-          <div class="campo">
-            <label for="subtituloLivro">Subtítulo</label>
-            <input type="text" id="subtituloLivro" placeholder="Digite o subtítulo, se houver">
-          </div>
+</div>
 
-          <div class="campo">
-            <label for="nomeAutor">Autor</label>
-            <input type="text" id="nomeAutor" placeholder="Digite o nome do autor">
-          </div>
 
-          <div class="campo">
-            <label for="colecaoLivro">Coleção</label>
-            <input type="text" id="colecaoLivro" placeholder="Digite a coleção, se houver">
-          </div>
 
-          <div class="campo">
-            <label for="estiloCapa">Estilo visual</label>
-            <select id="estiloCapa">
-              <option value="Clássico">Clássico</option>
-              <option value="Moderno">Moderno</option>
-              <option value="Minimalista">Minimalista</option>
-              <option value="Dramático">Dramático</option>
-              <option value="Ilustrado">Ilustrado</option>
-              <option value="Editorial">Editorial</option>
-            </select>
-          </div>
+</div>
 
-          <div class="campo">
-            <label for="idiomaCapa">Idioma da capa</label>
-            <select id="idiomaCapa">
-              <option value="Português">Português</option>
-              <option value="Inglês">Inglês</option>
-              <option value="Espanhol">Espanhol</option>
-              <option value="Italiano">Italiano</option>
-              <option value="Francês">Francês</option>
-              <option value="Alemão">Alemão</option>
-            </select>
-          </div>
 
-          <div class="campo campo-full">
-            <label for="referenciasVisuais">Referências visuais</label>
-            <textarea id="referenciasVisuais" placeholder="Descreva referências, atmosfera, objetos, símbolos, personagens, cenário e direção visual"></textarea>
-          </div>
 
-          <div class="campo campo-full">
-            <label for="observacoesTecnicas">Observações técnicas</label>
-            <textarea id="observacoesTecnicas" placeholder="Ex.: selo no canto inferior esquerdo, sem ISBN, lombada com Caveat, orelha traseira sem foto, etc."></textarea>
-          </div>
-        </div>
+<script>
 
-        <div class="actions" style="margin-top:18px;">
-          <button class="botao botao-laranja" onclick="gerarResumoBriefing()">Gerar resumo do briefing</button>
-          <button class="botao botao-azul" onclick="limparBriefing()">Limpar campos</button>
-        </div>
-      </div>
-    </div>
+function verificarSessao(){
 
-    <div class="rodape">
-      <div class="bloco">
-        <h3>Atalhos rápidos</h3>
-        <div class="link-lista">
-          <a class="link-btn botao botao-escuro" href="status_plano.html">Status do plano</a>
-          <a class="link-btn botao botao-escuro" href="pagamento.html">Pagamento</a>
-          <a class="link-btn botao botao-escuro" href="planos_doacoes.html">Planos</a>
-          <a class="link-btn botao botao-escuro" href="_Indice.html">Voltar ao índice</a>
-        </div>
-      </div>
+const sessao = localStorage.getItem("SDL_sessao_ativa")
 
-      <div class="bloco">
-        <h3>Recado da casa</h3>
-        <p>
-          A frente visual da obra também é narrativa. Uma capa bem conduzida não apenas enfeita: ela apresenta, promete e posiciona o livro diante do leitor.
-        </p>
-      </div>
-    </div>
+if(sessao !== "sim"){
 
-    <div class="bloco aviso">
-      Este módulo foi preparado para servir como central operacional do capista. Os botões externos levam para áreas específicas; os painéis internos ajudam na organização do briefing e do preparo da capa.
-    </div>
+window.location.href = "login.html"
 
-  </div>
+}
 
-  <script>
-    function idiomaLegivel(codigo){
-      if(!codigo) return "Português";
-      if(codigo.startsWith("pt")) return "Português";
-      if(codigo.startsWith("en")) return "Inglês";
-      if(codigo.startsWith("es")) return "Espanhol";
-      if(codigo.startsWith("it")) return "Italiano";
-      if(codigo.startsWith("fr")) return "Francês";
-      if(codigo.startsWith("de")) return "Alemão";
-      return codigo;
-    }
+}
 
-    function carregarIdioma(){
-      const salvo = localStorage.getItem("SDL_idioma_interface") || navigator.language || "pt-BR";
-      const el = document.getElementById("idiomaAtual");
-      if(el) el.textContent = idiomaLegivel(salvo);
-    }
 
-    function verificarSessao(){
-      const sessao = localStorage.getItem("SDL_sessao_ativa");
-      if(sessao !== "sim"){
-        window.location.href = "login.html";
-      }
-    }
 
-    function abrirPlanos(){
-      window.location.href = "planos_doacoes.html";
-    }
+function verificarPlanoCapista(){
 
-    function abrirPagamento(){
-      window.location.href = "pagamento.html";
-    }
+let plano = null
+let pagamento = null
 
-    function abrirStatusPlano(){
-      window.location.href = "status_plano.html";
-    }
+try{
 
-    function voltarIndice(){
-      window.location.href = "_Indice.html";
-    }
+plano = localStorage.getItem("SDL_plano")
+pagamento = localStorage.getItem("SDL_pagamento")
 
-    function encerrarSessao(){
-      localStorage.removeItem("SDL_sessao_ativa");
-      window.location.href = "login.html";
-    }
+}catch(e){}
 
-    function mostrarPainel(tipo){
-      const painel = document.getElementById("painelConteudo");
-      const formulario = document.getElementById("formularioBriefing");
 
-      formulario.style.display = "none";
 
-      if(tipo === "briefing"){
-        painel.innerText = "Preencha os campos abaixo para montar o resumo do briefing da capa.";
-        formulario.style.display = "block";
-        return;
-      }
+const statusBox = document.getElementById("statusCapista")
+const planoBox = document.getElementById("planoDetectado")
 
-      if(tipo === "geracao"){
-        painel.innerText =
-`Módulo de geração visual
+if(!plano){
 
-Aqui você pode organizar:
-• capa frontal
-• contra-capa
-• lombada
-• orelha dianteira
-• orelha traseira
+statusBox.innerHTML =
+"Nenhum plano selecionado. Escolha um plano para liberar o serviço do capista."
 
-Use as observações técnicas do briefing para manter consistência editorial.`;
-        return;
-      }
+planoBox.innerHTML =
+"Plano atual: não definido"
 
-      if(tipo === "idioma"){
-        painel.innerText =
-`Configuração de idioma da capa
+return
 
-Idiomas disponíveis:
-• Português
-• Inglês
-• Espanhol
-• Italiano
-• Francês
-• Alemão
+}
 
-O idioma selecionado no briefing pode orientar a frente visual da obra.`;
-        return;
-      }
 
-      if(tipo === "preview"){
-        painel.innerText =
-`Prévia visual operacional
 
-Verifique:
-• hierarquia do título
-• legibilidade do nome do autor
-• equilíbrio entre imagem e texto
-• posição do selo editorial
-• ausência de ISBN quando não utilizado
-• coerência da lombada com o padrão do projeto`;
-        return;
-      }
+planoBox.innerHTML =
+"Plano detectado: <strong>" + plano + "</strong>"
 
-      if(tipo === "historico"){
-        painel.innerText =
-`Histórico do capista
 
-Área reservada para:
-• registro de versões
-• observações de ajuste
-• aprovações
-• trocas de tipografia
-• mudanças de cor
-• revisões solicitadas`;
-        return;
-      }
 
-      painel.innerText = "Selecione um dos módulos acima para abrir a área correspondente.";
-    }
+if(!pagamento){
 
-    function gerarResumoBriefing(){
-      const titulo = document.getElementById("tituloLivro").value.trim();
-      const subtitulo = document.getElementById("subtituloLivro").value.trim();
-      const autor = document.getElementById("nomeAutor").value.trim();
-      const colecao = document.getElementById("colecaoLivro").value.trim();
-      const estilo = document.getElementById("estiloCapa").value;
-      const idioma = document.getElementById("idiomaCapa").value;
-      const referencias = document.getElementById("referenciasVisuais").value.trim();
-      const observacoes = document.getElementById("observacoesTecnicas").value.trim();
+statusBox.innerHTML =
+"Plano selecionado, porém pagamento ainda não registrado."
 
-      if(!titulo || !autor){
-        alert("Preencha pelo menos o título da obra e o nome do autor.");
-        return;
-      }
+statusBox.style.background =
+"rgba(255,112,112,0.12)"
 
-      let resumo = `Resumo do briefing da capa
+return
 
-Título: ${titulo}
-Subtítulo: ${subtitulo || "Não informado"}
-Autor: ${autor}
-Coleção: ${colecao || "Não informada"}
-Estilo visual: ${estilo}
-Idioma da capa: ${idioma}
+}
 
-Referências visuais:
-${referencias || "Não informadas"}
 
-Observações técnicas:
-${observacoes || "Não informadas"}`;
 
-      document.getElementById("painelConteudo").innerText = resumo;
-      document.getElementById("formularioBriefing").style.display = "block";
-    }
+statusBox.innerHTML =
+"Serviço do capista liberado para solicitação de capa."
 
-    function limparBriefing(){
-      document.getElementById("tituloLivro").value = "";
-      document.getElementById("subtituloLivro").value = "";
-      document.getElementById("nomeAutor").value = "";
-      document.getElementById("colecaoLivro").value = "";
-      document.getElementById("estiloCapa").selectedIndex = 0;
-      document.getElementById("idiomaCapa").selectedIndex = 0;
-      document.getElementById("referenciasVisuais").value = "";
-      document.getElementById("observacoesTecnicas").value = "";
+statusBox.style.background =
+"rgba(23,77,39,0.28)"
 
-      document.getElementById("painelConteudo").innerText = "Preencha os campos abaixo para montar o resumo do briefing da capa.";
-    }
+}
 
-    verificarSessao();
-    carregarIdioma();
-  </script>
+
+
+function solicitarCapa(){
+
+let plano = localStorage.getItem("SDL_plano")
+let pagamento = localStorage.getItem("SDL_pagamento")
+
+if(!plano || !pagamento){
+
+alert("Serviço do capista ainda não está liberado.")
+
+return
+
+}
+
+
+
+alert("Solicitação de capa registrada com sucesso (modo inicial).")
+
+}
+
+
+
+function abrirPagamento(){
+
+window.location.href = "pagamento.html"
+
+}
+
+
+
+function abrirPlanos(){
+
+window.location.href = "planos_doacoes.html"
+
+}
+
+
+
+function voltarIndice(){
+
+window.location.href = "_Indice.html"
+
+}
+
+
+
+verificarSessao()
+verificarPlanoCapista()
+
+</script>
+
 </body>
 </html>
