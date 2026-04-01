@@ -14,9 +14,7 @@
 --text:#ffffff;
 --muted:#ffd2b3;
 --orange:#f7b22c;
---orangeStrong:#ff5a00;
 --green:#9cfdb2;
---danger:#ff7070;
 --border:rgba(255,123,44,0.18);
 --shadow:0 10px 26px rgba(0,0,0,0.28);
 }
@@ -39,13 +37,8 @@ font-size:38px;
 font-weight:bold;
 }
 
-.subtitulo{
-margin-top:6px;
-color:var(--orange);
-}
-
 .card{
-margin-top:30px;
+margin-top:25px;
 background:var(--card);
 padding:24px;
 border-radius:18px;
@@ -53,57 +46,44 @@ border:1px solid var(--border);
 box-shadow:var(--shadow);
 }
 
-.statusBox{
-margin-top:20px;
+.projeto{
 padding:18px;
+margin-top:14px;
 border-radius:14px;
-background:rgba(247,178,44,0.12);
-border:1px solid rgba(247,178,44,0.2);
-color:#ffe7b0;
-}
-
-.linha{
-margin-top:12px;
-color:var(--muted);
-}
-
-.rotulo{
-color:var(--orange);
-font-weight:bold;
-}
-
-.actions{
-margin-top:26px;
-display:flex;
-flex-wrap:wrap;
-gap:12px;
-}
-
-.botao{
-border:none;
-padding:14px 18px;
-border-radius:999px;
-font-weight:bold;
+background:var(--card2);
 cursor:pointer;
 }
 
-.botaoIndice{
-background:#24150f;
-color:white;
+.projeto:hover{
+background:#23140c;
 }
 
-.botaoPreview{
-background:var(--orangeStrong);
-color:white;
+.actions{
+margin-top:20px;
+display:flex;
+gap:10px;
+flex-wrap:wrap;
 }
 
-.botaoUpload{
+button{
+border:none;
+padding:12px 18px;
+border-radius:999px;
+cursor:pointer;
+}
+
+.btnAtivar{
 background:#174d27;
-color:#dfffe8;
+color:white;
 }
 
-.botaoLimpar{
+.btnExcluir{
 background:#5a1c1c;
+color:white;
+}
+
+.btnIndice{
+background:#24150f;
 color:white;
 }
 
@@ -115,48 +95,18 @@ color:white;
 <div class="container">
 
 <div class="titulo">
-HISTÓRICO DO PROJETO ATIVO
+HISTÓRICO DE PROJETOS
 </div>
 
-<div class="subtitulo">
-Leitura do cadastro editorial salvo no ambiente Lapidar
-</div>
-
-
-
-<div class="card">
-
-<div id="statusHistorico" class="statusBox">
-Carregando projeto...
-</div>
-
-<div id="dadosProjeto"></div>
-
-</div>
-
-
+<div id="listaProjetos"></div>
 
 <div class="actions">
 
-<button class="botao botaoPreview" onclick="abrirPreview()">
-Abrir preview
-</button>
-
-<button class="botao botaoUpload" onclick="abrirUpload()">
-Editar projeto
-</button>
-
-<button class="botao botaoLimpar" onclick="limparProjeto()">
-Limpar projeto
-</button>
-
-<button class="botao botaoIndice" onclick="voltarIndice()">
+<button class="btnIndice" onclick="voltarIndice()">
 Voltar ao índice
 </button>
 
 </div>
-
-
 
 </div>
 
@@ -166,49 +116,43 @@ Voltar ao índice
 
 function verificarSessao(){
 
-const sessao = localStorage.getItem("SDL_sessao_ativa")
+const sessao=localStorage.getItem("SDL_sessao_ativa")
 
-if(sessao !== "sim"){
+if(sessao!=="sim"){
 
-window.location.href = "login.html"
-
-}
+window.location.href="login.html"
 
 }
 
+}
 
 
-function carregarProjeto(){
 
-let projeto = null
+function carregarProjetos(){
+
+let lista=[]
 
 try{
 
-const bruto = localStorage.getItem("SDL_projeto_ativo")
+const bruto=localStorage.getItem("SDL_projetos_lista")
 
 if(bruto){
 
-projeto = JSON.parse(bruto)
+lista=JSON.parse(bruto)
 
 }
 
-}catch(e){
-
-console.log("Erro ao ler projeto")
-
-}
+}catch(e){}
 
 
 
-const status = document.getElementById("statusHistorico")
-const area = document.getElementById("dadosProjeto")
+const ativo=localStorage.getItem("SDL_projeto_ativo")
 
-if(!projeto){
+const area=document.getElementById("listaProjetos")
 
-status.innerHTML =
-"Nenhum projeto cadastrado ainda neste dispositivo."
+if(lista.length===0){
 
-area.innerHTML = ""
+area.innerHTML="Nenhum projeto registrado ainda."
 
 return
 
@@ -216,84 +160,92 @@ return
 
 
 
-status.innerHTML =
-"Projeto carregado com sucesso."
-
-status.style.background =
-"rgba(23,77,39,0.28)"
+area.innerHTML=""
 
 
 
-area.innerHTML = `
+lista.forEach(p=>{
 
-<div class="linha"><span class="rotulo">Título:</span> ${projeto.titulo || "—"}</div>
+area.innerHTML+=`
 
-<div class="linha"><span class="rotulo">Subtítulo:</span> ${projeto.subtitulo || "—"}</div>
+<div class="card">
 
-<div class="linha"><span class="rotulo">Autor:</span> ${projeto.autor || "—"}</div>
+<strong>${p.titulo}</strong><br>
 
-<div class="linha"><span class="rotulo">Coleção:</span> ${projeto.colecao || "—"}</div>
+Autor: ${p.autor || "—"}<br>
 
-<div class="linha"><span class="rotulo">Formato:</span> ${projeto.formato || "—"}</div>
+Formato: ${p.formato || "—"}<br>
 
-<div class="linha"><span class="rotulo">Status editorial:</span> ${projeto.status || "—"}</div>
+Status: ${p.status || "—"}<br>
 
-<div class="linha"><span class="rotulo">Observações:</span> ${projeto.observacoes || "—"}</div>
+Registrado em:
+${formatarData(p.dataRegistro)}
 
-<div class="linha"><span class="rotulo">Registrado em:</span> ${formatarData(projeto.dataRegistro)}</div>
+<br><br>
+
+<button class="btnAtivar"
+onclick="ativarProjeto('${p.id}')">
+
+${ativo===p.id ? "Projeto ativo" : "Ativar projeto"}
+
+</button>
+
+<button class="btnExcluir"
+onclick="excluirProjeto('${p.id}')">
+
+Excluir
+
+</button>
+
+</div>
 
 `
 
+})
+
 }
 
 
 
-function formatarData(data){
+function ativarProjeto(id){
 
-if(!data) return "—"
+localStorage.setItem("SDL_projeto_ativo",id)
+
+alert("Projeto ativado.")
+
+carregarProjetos()
+
+}
+
+
+
+function excluirProjeto(id){
+
+let lista=JSON.parse(localStorage.getItem("SDL_projetos_lista")||"[]")
+
+lista=lista.filter(p=>p.id!==id)
+
+localStorage.setItem("SDL_projetos_lista",JSON.stringify(lista))
+
+carregarProjetos()
+
+}
+
+
+
+function formatarData(d){
+
+if(!d) return "—"
 
 try{
 
-return new Date(data).toLocaleString("pt-BR")
+return new Date(d).toLocaleString("pt-BR")
 
-}catch(e){
+}catch{
 
-return data
-
-}
+return d
 
 }
-
-
-
-function limparProjeto(){
-
-const confirmar = confirm("Deseja remover o projeto ativo deste dispositivo?")
-
-if(!confirmar) return
-
-localStorage.removeItem("SDL_projeto_ativo")
-
-document.getElementById("statusHistorico").innerHTML =
-"Projeto removido com sucesso."
-
-document.getElementById("dadosProjeto").innerHTML = ""
-
-}
-
-
-
-function abrirPreview(){
-
-window.location.href = "preview_projeto.html"
-
-}
-
-
-
-function abrirUpload(){
-
-window.location.href = "upload_livro.html"
 
 }
 
@@ -301,14 +253,14 @@ window.location.href = "upload_livro.html"
 
 function voltarIndice(){
 
-window.location.href = "_Indice.html"
+window.location.href="_Indice.html"
 
 }
 
 
 
 verificarSessao()
-carregarProjeto()
+carregarProjetos()
 
 </script>
 
