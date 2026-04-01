@@ -1,280 +1,252 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Assistente Diagramador do Autor — Lapidar</title>
-  <style>
-    body{
-      margin:0;
-      font-family:Arial, sans-serif;
-      background:#0e5eff;
-      color:white;
-      display:flex;
-      justify-content:center;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diagramador — Início</title>
 
-    .container{
-      max-width:860px;
-      width:94%;
-      padding:40px 0 60px 0;
-    }
+<style>
+:root{
+--bg:#0d0603;
+--card:#140c08;
+--cardHover:#1b100a;
+--orange:#f7b22c;
+--border:rgba(255,123,44,0.18);
+}
 
-    .titulo{
-      font-size:38px;
-      font-weight:bold;
-      text-align:center;
-    }
+body{
+margin:0;
+font-family:Arial, sans-serif;
+background:var(--bg);
+color:white;
+}
 
-    .subtitulo{
-      text-align:center;
-      margin-top:10px;
-      margin-bottom:28px;
-      line-height:1.6;
-      color:#e9f0ff;
-    }
+.container{
+width:min(1100px,95%);
+margin:auto;
+padding:40px 0 60px;
+}
 
-    .card{
-      background:white;
-      color:#12307a;
-      border-radius:18px;
-      padding:24px;
-      margin-top:18px;
-      line-height:1.7;
-      box-sizing:border-box;
-    }
+.titulo{
+font-size:36px;
+font-weight:bold;
+}
 
-    .cardTitulo{
-      font-size:24px;
-      font-weight:bold;
-      margin-bottom:10px;
-    }
+.subtitulo{
+margin-top:5px;
+color:var(--orange);
+}
 
-    .info{
-      color:#48609a;
-    }
+.status{
+margin-top:20px;
+padding:16px;
+border-radius:12px;
+background:rgba(247,178,44,0.12);
+border:1px solid rgba(247,178,44,0.25);
+color:#ffe7b0;
+}
 
-    .status{
-      margin-top:18px;
-      padding:14px;
-      border-radius:12px;
-      background:#eef3ff;
-      color:#12307a;
-      line-height:1.6;
-    }
+.grid{
+margin-top:28px;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:18px;
+}
 
-    .statusOk{
-      background:#e7fff1;
-      color:#0f6b3c;
-    }
+.card{
+background:var(--card);
+padding:22px;
+border-radius:16px;
+border:1px solid var(--border);
+cursor:pointer;
+transition:.2s;
+}
 
-    .statusAviso{
-      background:#fff4df;
-      color:#8a5a00;
-    }
+.card:hover{
+background:var(--cardHover);
+}
 
-    .preview{
-      margin-top:14px;
-      padding:16px;
-      border-radius:12px;
-      background:#f7f9ff;
-      color:#12307a;
-      line-height:1.7;
-    }
+.cardTitulo{
+font-size:20px;
+font-weight:bold;
+margin-bottom:6px;
+}
 
-    .botao{
-      width:100%;
-      padding:18px;
-      margin-top:16px;
-      border-radius:40px;
-      font-size:18px;
-      font-weight:bold;
-      cursor:pointer;
-      border:2px solid white;
-      background:#0e5eff;
-      color:white;
-    }
+.cardDesc{
+color:#ffd2b3;
+font-size:14px;
+line-height:1.6;
+}
 
-    .botao:hover{
-      opacity:.94;
-    }
+.actions{
+margin-top:28px;
+display:flex;
+gap:12px;
+flex-wrap:wrap;
+}
 
-    .botaoSec{
-      background:white;
-      color:#0e5eff;
-      border:2px solid #0e5eff;
-    }
-
-    .botaoEscuro{
-      background:#16316e;
-      color:white;
-      border:2px solid white;
-    }
-
-    .grid{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:16px;
-    }
-
-    @media (max-width:720px){
-      .grid{
-        grid-template-columns:1fr;
-      }
-    }
-  </style>
+button{
+border:none;
+padding:14px 18px;
+border-radius:999px;
+cursor:pointer;
+background:#24150f;
+color:white;
+}
+</style>
 </head>
+
 <body>
 
-  <div class="container">
+<div class="container">
 
-    <div class="titulo">
-      Assistente Diagramador do Autor
-    </div>
+<div class="titulo">
+Diagramador — Painel Inicial
+</div>
 
-    <div class="subtitulo">
-      Diagramação assistida do miolo com leitura editorial inicial, avaliação colaborativa e preparação da rota técnica da obra
-    </div>
+<div class="subtitulo">
+Fluxo técnico do miolo editorial dentro do Lapidar
+</div>
 
-    <div id="statusAcesso" class="status">
-      Verificando acesso ao módulo...
-    </div>
+<div id="statusDiagramador" class="status">
+Verificando projeto ativo...
+</div>
 
-    <div class="card">
-      <div class="cardTitulo">
-        O que este módulo faz
-      </div>
+<div class="grid">
 
-      <div class="info">
-        • recebe a obra para leitura inicial<br>
-        • identifica título, autoria, idioma e categoria provável<br>
-        • sugere preferências editoriais do miolo<br>
-        • produz avaliação colaborativa inicial<br>
-        • prepara a rota de diagramação da obra
-      </div>
-    </div>
+<div class="card" onclick="abrirDoacoesDiagramador()">
+<div class="cardTitulo">Doações do Diagramador</div>
+<div class="cardDesc">
+Validação de acesso e apoio ao setor de diagramação.
+</div>
+</div>
 
-    <div class="card">
-      <div class="cardTitulo">
-        Fluxo da obra
-      </div>
+<div class="card" onclick="abrirPlanejamentoMiolo()">
+<div class="cardTitulo">Planejamento do Miolo</div>
+<div class="cardDesc">
+Definir formato, margens, páginas, capítulos e estrutura editorial.
+</div>
+</div>
 
-      <div class="preview">
-        1. Subir a obra para análise<br>
-        2. O sistema lê e identifica a categoria provável<br>
-        3. O sistema gera a avaliação colaborativa inicial<br>
-        4. A obra segue para configuração editorial e preview do miolo
-      </div>
-    </div>
+<div class="card" onclick="abrirElementosTecnicos()">
+<div class="cardTitulo">Elementos Técnicos</div>
+<div class="cardDesc">
+Organizar ficha editorial, sumário, expediente, prefácio e partes técnicas.
+</div>
+</div>
 
-    <div class="card">
-      <div class="cardTitulo">
-        Avaliação colaborativa da obra
-      </div>
+<div class="card" onclick="abrirPadraoDiagramacao()">
+<div class="cardTitulo">Padrão de Diagramação</div>
+<div class="cardDesc">
+Configurar alinhamento, recuos, tipografia, espelhamento e fluxo de leitura.
+</div>
+</div>
 
-      <div class="preview">
-        A avaliação colaborativa entrega uma devolutiva inicial e enxuta, com:
-        <br><br>
-        • nota inicial da obra<br>
-        • identificação provável do tipo de texto<br>
-        • força geral do material<br>
-        • potencial de continuidade<br>
-        • indicação simples: material bom, ótimo ou excelente
-      </div>
+<div class="card" onclick="abrirChecklistMiolo()">
+<div class="cardTitulo">Checklist do Miolo</div>
+<div class="cardDesc">
+Acompanhar o andamento técnico do livro antes da exportação final.
+</div>
+</div>
 
-      <div class="status statusAviso">
-        A leitura e a devolutiva deste módulo são liberadas mediante doação confirmada ou modo administrador ativo.
-      </div>
-    </div>
+<div class="card" onclick="abrirRelatorioLapidacao()">
+<div class="cardTitulo">Relatório de Lapidação</div>
+<div class="cardDesc">
+Consultar o relatório técnico do tratamento editorial da obra.
+</div>
+</div>
 
-    <div class="grid">
-      <button class="botao" onclick="subirObraParaAnalise()">
-        Subir obra para análise
-      </button>
+</div>
 
-      <button class="botao" onclick="receberAnaliseDaObra()">
-        Receber análise da obra
-      </button>
-    </div>
+<div class="actions">
+<button onclick="voltarIndice()">Voltar ao índice</button>
+</div>
 
-    <button class="botao botaoSec" onclick="abrirDoacoesDiagramador()">
-      Ver valores de doação deste módulo
-    </button>
+</div>
 
-    <button class="botao botaoSec" onclick="abrirUploadCompleto()">
-      Abrir configuração completa da obra
-    </button>
+<script src="auditoria.js"></script>
 
-    <button class="botao botaoEscuro" onclick="voltarPaginaInicial()">
-      Voltar para a página inicial
-    </button>
+<script>
+function verificarSessao(){
+  if(localStorage.getItem("SDL_sessao_ativa") !== "sim"){
+    window.location.href = "login.html";
+  }
+}
 
-  </div>
+function obterProjetoAtivo(){
+  try{
+    const lista = JSON.parse(localStorage.getItem("SDL_projetos_lista") || "[]");
+    const ativo = localStorage.getItem("SDL_projeto_ativo");
+    return lista.find(p => p.id === ativo) || null;
+  }catch{
+    return null;
+  }
+}
 
-  <script>
-    function adminAtivo(){
-      return localStorage.getItem("SDL_ADMIN") === "true";
-    }
+function carregarStatusDiagramador(){
+  const projeto = obterProjetoAtivo();
 
-    function doacaoConfirmada(){
-      return (
-        localStorage.getItem("SDL_status_pagamento") === "confirmado" ||
-        localStorage.getItem("SDL_doacao_status") === "ativa" ||
-        localStorage.getItem("SDL_plano_ativo") === "sim" ||
-        localStorage.getItem("SDL_doacao_diagramador") === "ativa" ||
-        adminAtivo()
-      );
-    }
+  if(!projeto){
+    document.getElementById("statusDiagramador").innerHTML =
+      "Nenhum projeto ativo selecionado.";
+    return;
+  }
 
-    function atualizarStatusAcesso(){
-      const el = document.getElementById("statusAcesso");
+  document.getElementById("statusDiagramador").innerHTML =
+    "Projeto ativo no módulo de diagramação: <strong>" + (projeto.titulo || "Sem título") + "</strong>";
+  document.getElementById("statusDiagramador").style.background =
+    "rgba(23,77,39,0.28)";
+}
 
-      if(adminAtivo()){
-        el.className = "status statusOk";
-        el.innerHTML = "Modo administrador ativo. Leitura da obra e devolutiva editorial inicial liberadas para testes.";
-        return;
-      }
+function abrirDoacoesDiagramador(){
+  try{
+    SDL_registrarAuditoria("Acesso a doações do diagramador", "diagramador_inicio");
+  }catch(e){}
+  window.location.href = "diagramador_doacoes.html";
+}
 
-      if(doacaoConfirmada()){
-        el.className = "status statusOk";
-        el.innerHTML = "Doação identificada. Subida da obra e devolutiva colaborativa inicial estão liberadas.";
-        return;
-      }
+function abrirPlanejamentoMiolo(){
+  try{
+    SDL_registrarAuditoria("Acesso ao planejamento do miolo", "diagramador_inicio");
+  }catch(e){}
+  window.location.href = "diagramador_planejamento_miolo.html";
+}
 
-      el.className = "status statusAviso";
-      el.innerHTML = "Modo visual ativo. Para subir a obra e receber a análise colaborativa, confirme a doação deste módulo.";
-    }
+function abrirElementosTecnicos(){
+  try{
+    SDL_registrarAuditoria("Acesso aos elementos técnicos do miolo", "diagramador_inicio");
+  }catch(e){}
+  window.location.href = "diagramador_elementos_tecnicos.html";
+}
 
-    function subirObraParaAnalise(){
-      if(!doacaoConfirmada()){
-        alert("Confirme a doação deste módulo para liberar a subida da obra para análise.");
-        return;
-      }
-      window.location.href = "upload_livro.html";
-    }
+function abrirPadraoDiagramacao(){
+  try{
+    SDL_registrarAuditoria("Acesso ao padrão de diagramação", "diagramador_inicio");
+  }catch(e){}
+  window.location.href = "diagramador_padrao.html";
+}
 
-    function receberAnaliseDaObra(){
-      if(!doacaoConfirmada()){
-        alert("Confirme a doação deste módulo para liberar a devolutiva da análise da obra.");
-        return;
-      }
-      window.location.href = "preview_projeto.html";
-    }
+function abrirChecklistMiolo(){
+  try{
+    SDL_registrarAuditoria("Acesso ao checklist do miolo", "diagramador_inicio");
+  }catch(e){}
+  window.location.href = "diagramador_checklist.html";
+}
 
-    function abrirDoacoesDiagramador(){
-      window.location.href = "diagramador_doacoes.html";
-    }
+function abrirRelatorioLapidacao(){
+  try{
+    SDL_registrarAuditoria("Acesso ao relatório de lapidação", "diagramador_inicio");
+  }catch(e){}
+  window.location.href = "relatorio_lapidacao.html";
+}
 
-    function abrirUploadCompleto(){
-      window.location.href = "upload_livro.html";
-    }
+function voltarIndice(){
+  window.location.href = "_Indice.html";
+}
 
-    function voltarPaginaInicial(){
-      window.location.href = "painel_departamentos.html";
-    }
-
-    atualizarStatusAcesso();
-  </script>
+verificarSessao();
+carregarStatusDiagramador();
+</script>
 
 </body>
 </html>
