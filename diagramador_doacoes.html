@@ -1,335 +1,190 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Doações — Assistente Diagramador do Autor</title>
-  <style>
-    body{
-      margin:0;
-      font-family:Arial, sans-serif;
-      background:#0e5eff;
-      color:white;
-      display:flex;
-      justify-content:center;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diagramador — Doações</title>
 
-    .container{
-      max-width:860px;
-      width:94%;
-      padding:40px 0 60px 0;
-    }
+<style>
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:#0f3d91;
+color:#ffffff;
+}
 
-    .titulo{
-      font-size:34px;
-      text-align:center;
-      font-weight:bold;
-    }
+.container{
+width:min(1100px,95%);
+margin:auto;
+padding:40px 0 60px;
+}
 
-    .subtitulo{
-      text-align:center;
-      margin-top:10px;
-      margin-bottom:30px;
-      line-height:1.6;
-      color:#e8f0ff;
-    }
+.titulo{
+font-size:38px;
+font-weight:bold;
+}
 
-    .card{
-      background:white;
-      color:#12307a;
-      border-radius:16px;
-      padding:24px;
-      margin-top:18px;
-      line-height:1.7;
-    }
+.subtitulo{
+margin-top:8px;
+line-height:1.7;
+color:#e8f0ff;
+}
 
-    .cardTitulo{
-      font-size:22px;
-      font-weight:bold;
-      margin-bottom:10px;
-    }
+.status{
+margin-top:20px;
+padding:16px;
+border-radius:12px;
+background:rgba(255,255,255,0.12);
+border:1px solid rgba(255,255,255,0.30);
+}
 
-    .baseValor{
-      font-size:28px;
-      font-weight:bold;
-      margin-top:10px;
-      color:#0e5eff;
-    }
+.grid{
+margin-top:28px;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:18px;
+}
 
-    .lista{
-      margin-top:12px;
-      color:#48609a;
-    }
+.card{
+background:#1146a7;
+border:2px solid #ffffff;
+border-radius:18px;
+padding:22px;
+cursor:pointer;
+transition:.2s;
+box-shadow:0 10px 26px rgba(0,0,0,0.25);
+}
 
-    .extra{
-      margin-top:14px;
-      padding:16px;
-      border-radius:12px;
-      background:#f7f9ff;
-      border:1px solid #dce5ff;
-    }
+.card:hover{
+transform:translateY(-2px);
+}
 
-    .extraTitulo{
-      font-weight:bold;
-    }
+.cardTitulo{
+font-size:20px;
+font-weight:bold;
+margin-bottom:8px;
+}
 
-    .extraValor{
-      margin-top:6px;
-      font-weight:bold;
-      color:#0e5eff;
-    }
+.cardValor{
+font-size:28px;
+font-weight:bold;
+margin-bottom:10px;
+}
 
-    .previewMini{
-      margin-top:10px;
-      padding:10px 12px;
-      background:#eef3ff;
-      border-radius:10px;
-      font-size:14px;
-      color:#12307a;
-    }
+.cardDesc{
+line-height:1.7;
+font-size:14px;
+color:#eef4ff;
+}
 
-    .checkWrap{
-      margin-top:10px;
-      display:flex;
-      gap:10px;
-      align-items:flex-start;
-    }
+.actions{
+margin-top:30px;
+display:flex;
+gap:12px;
+flex-wrap:wrap;
+}
 
-    input[type="checkbox"]{
-      margin-top:3px;
-    }
+button{
+border:none;
+padding:14px 18px;
+border-radius:999px;
+background:#0f3d91;
+color:#ffffff;
+border:2px solid #ffffff;
+cursor:pointer;
+font-weight:bold;
+}
 
-    .total{
-      margin-top:18px;
-      padding:16px;
-      border-radius:12px;
-      background:#e7fff1;
-      color:#0f6b3c;
-      font-weight:bold;
-      font-size:18px;
-    }
-
-    .botao{
-      width:100%;
-      padding:18px;
-      margin-top:18px;
-      border-radius:40px;
-      font-size:18px;
-      font-weight:bold;
-      cursor:pointer;
-      border:2px solid white;
-      background:#0e5eff;
-      color:white;
-    }
-
-    .botao:hover{
-      opacity:.94;
-    }
-
-    .botaoSec{
-      background:white;
-      color:#0e5eff;
-      border:2px solid #0e5eff;
-    }
-
-    .status{
-      margin-top:16px;
-      padding:14px;
-      border-radius:12px;
-      background:#eef3ff;
-      color:#12307a;
-      line-height:1.6;
-    }
-
-    .statusOk{
-      background:#e7fff1;
-      color:#0f6b3c;
-    }
-  </style>
+</style>
 </head>
+
 <body>
 
-  <div class="container">
+<div class="container">
 
-    <div class="titulo">
-      Doações — Assistente Diagramador do Autor
-    </div>
+<div class="titulo">Diagramador</div>
+<div class="subtitulo">
+Escolha a modalidade de doação do setor de diagramação editorial.
+</div>
 
-    <div class="subtitulo">
-      Escolha a base editorial e, se desejar, adicione recursos de acabamento para valorizar o miolo da obra
-    </div>
+<div id="statusDiagramadorDoacoes" class="status">
+Selecione uma modalidade para continuar.
+</div>
 
-    <div class="card">
-      <div class="cardTitulo">
-        Base editorial do módulo
-      </div>
+<div class="grid">
 
-      <div class="baseValor">
-        R$ 1,99
-      </div>
+<div class="card" onclick="selecionarPlano('diagramador_avulso','Doação avulsa')">
+<div class="cardTitulo">Avulsa</div>
+<div class="cardValor">R$ 1,99</div>
+<div class="cardDesc">
+Entrada unitária para uso pontual do setor de diagramação.
+</div>
+</div>
 
-      <div class="lista">
-        Inclui:
-        <br><br>
-        • leitura inicial da obra<br>
-        • identificação de título, autoria, idioma e categoria provável<br>
-        • avaliação colaborativa inicial<br>
-        • preparação editorial do miolo<br>
-        • preview estrutural da obra
-      </div>
-    </div>
+<div class="card" onclick="selecionarPlano('diagramador_30','30 dias')">
+<div class="cardTitulo">30 dias</div>
+<div class="cardValor">R$ 14,99</div>
+<div class="cardDesc">
+Acesso mensal ao fluxo do diagramador.
+</div>
+</div>
 
-    <div class="card">
-      <div class="cardTitulo">
-        Acabamentos editoriais opcionais
-      </div>
+<div class="card" onclick="selecionarPlano('diagramador_90','90 dias')">
+<div class="cardTitulo">90 dias</div>
+<div class="cardValor">R$ 34,99</div>
+<div class="cardDesc">
+Acesso trimestral para produção de miolo e estrutura editorial.
+</div>
+</div>
 
-      <div class="extra">
-        <div class="extraTitulo">Moldura editorial simples</div>
-        <div class="extraValor">+ R$ 1,50</div>
-        <div class="previewMini">
-          Sugestão visual leve para valorizar páginas de abertura ou seções internas.
-        </div>
-        <div class="checkWrap">
-          <input type="checkbox" id="extraMoldura" onchange="atualizarTotal()">
-          <label for="extraMoldura">Adicionar moldura simples</label>
-        </div>
-      </div>
+<div class="card" onclick="selecionarPlano('diagramador_180','180 dias')">
+<div class="cardTitulo">180 dias</div>
+<div class="cardValor">R$ 59,99</div>
+<div class="cardDesc">
+Meio ano de acesso ao setor de diagramação.
+</div>
+</div>
 
-      <div class="extra">
-        <div class="extraTitulo">Separador de capítulos</div>
-        <div class="extraValor">+ R$ 1,50</div>
-        <div class="previewMini">
-          Divisores simples entre capítulos para melhorar a organização visual.
-        </div>
-        <div class="checkWrap">
-          <input type="checkbox" id="extraSeparadorCap" onchange="atualizarTotal()">
-          <label for="extraSeparadorCap">Adicionar separador de capítulos</label>
-        </div>
-      </div>
+<div class="card" onclick="selecionarPlano('diagramador_365','365 dias')">
+<div class="cardTitulo">365 dias</div>
+<div class="cardValor">R$ 99,99</div>
+<div class="cardDesc">
+Acesso anual completo ao setor de diagramador.
+</div>
+</div>
 
-      <div class="extra">
-        <div class="extraTitulo">Separador interno de blocos</div>
-        <div class="extraValor">+ R$ 1,00</div>
-        <div class="previewMini">
-          Útil para receitas, seções temáticas, listas ou subdivisões internas.
-        </div>
-        <div class="checkWrap">
-          <input type="checkbox" id="extraSeparadorInterno" onchange="atualizarTotal()">
-          <label for="extraSeparadorInterno">Adicionar separador interno</label>
-        </div>
-      </div>
+</div>
 
-      <div class="extra">
-        <div class="extraTitulo">Ornamentação por gênero</div>
-        <div class="extraValor">+ R$ 1,50</div>
-        <div class="previewMini">
-          Aplicação simples de acabamento coerente com o gênero da obra.
-        </div>
-        <div class="checkWrap">
-          <input type="checkbox" id="extraOrnamentacao" onchange="atualizarTotal()">
-          <label for="extraOrnamentacao">Adicionar ornamentação por gênero</label>
-        </div>
-      </div>
+<div class="actions">
+<button onclick="abrirDiagramador()">Entrar no setor</button>
+<button onclick="voltarSetores()">Voltar aos setores</button>
+</div>
 
-      <div class="extra">
-        <div class="extraTitulo">Estilo tipográfico recomendado</div>
-        <div class="extraValor">+ R$ 1,00</div>
-        <div class="previewMini">
-          Aplicação guiada de combinação tipográfica editorial mais valorizada.
-        </div>
-        <div class="checkWrap">
-          <input type="checkbox" id="extraTipografia" onchange="atualizarTotal()">
-          <label for="extraTipografia">Adicionar tipografia recomendada</label>
-        </div>
-      </div>
+</div>
 
-      <div id="totalFinal" class="total">
-        Valor total atual: R$ 1,99
-      </div>
+<script src="auditoria.js"></script>
 
-      <div id="statusUpgrade" class="status">
-        Você pode manter a base essencial ou personalizar com adicionais.
-      </div>
+<script>
+function selecionarPlano(codigo, nome){
+  localStorage.setItem("SDL_plano_diagramador", codigo);
+  localStorage.setItem("SDL_plano_diagramador_nome", nome);
 
-      <button class="botao" onclick="confirmarDoacaoDiagramador()">
-        Confirmar doação deste módulo
-      </button>
+  document.getElementById("statusDiagramadorDoacoes").innerHTML =
+    "Plano selecionado no Diagramador: <strong>" + nome + "</strong>";
 
-      <button class="botao botaoSec" onclick="window.location.href='diagramador_inicio.html'">
-        Voltar ao assistente diagramador
-      </button>
-    </div>
+  try{
+    SDL_registrarAuditoria("Plano do diagramador selecionado", "diagramador_doacoes");
+  }catch(e){}
+}
 
-  </div>
+function abrirDiagramador(){
+  window.location.href = "diagramador_inicio.html";
+}
 
-  <script>
-    function valorMoeda(numero){
-      return numero.toFixed(2).replace(".", ",");
-    }
-
-    function atualizarTotal(){
-      let total = 1.99;
-
-      const moldura = document.getElementById("extraMoldura").checked;
-      const cap = document.getElementById("extraSeparadorCap").checked;
-      const interno = document.getElementById("extraSeparadorInterno").checked;
-      const ornamentacao = document.getElementById("extraOrnamentacao").checked;
-      const tipografia = document.getElementById("extraTipografia").checked;
-
-      if(moldura) total += 1.50;
-      if(cap) total += 1.50;
-      if(interno) total += 1.00;
-      if(ornamentacao) total += 1.50;
-      if(tipografia) total += 1.00;
-
-      document.getElementById("totalFinal").innerText =
-        "Valor total atual: R$ " + valorMoeda(total);
-
-      const status = document.getElementById("statusUpgrade");
-
-      if(total >= 4.99){
-        status.className = "status statusOk";
-        status.innerText =
-          "Pacote editorial ampliado atingido. Sua seleção já se aproxima de um acabamento mais completo.";
-      }else{
-        status.className = "status";
-        status.innerText =
-          "Você pode manter a base essencial ou personalizar com adicionais.";
-      }
-    }
-
-    function confirmarDoacaoDiagramador(){
-      let total = 1.99;
-
-      const moldura = document.getElementById("extraMoldura").checked;
-      const cap = document.getElementById("extraSeparadorCap").checked;
-      const interno = document.getElementById("extraSeparadorInterno").checked;
-      const ornamentacao = document.getElementById("extraOrnamentacao").checked;
-      const tipografia = document.getElementById("extraTipografia").checked;
-
-      if(moldura) total += 1.50;
-      if(cap) total += 1.50;
-      if(interno) total += 1.00;
-      if(ornamentacao) total += 1.50;
-      if(tipografia) total += 1.00;
-
-      localStorage.setItem("SDL_doacao_diagramador", "ativa");
-      localStorage.setItem("SDL_status_pagamento", "confirmado");
-      localStorage.setItem("SDL_doacao_diagramador_valor", valorMoeda(total));
-
-      localStorage.setItem("SDL_extra_moldura", moldura ? "sim" : "nao");
-      localStorage.setItem("SDL_extra_separador_capitulo", cap ? "sim" : "nao");
-      localStorage.setItem("SDL_extra_separador_interno", interno ? "sim" : "nao");
-      localStorage.setItem("SDL_extra_ornamentacao_genero", ornamentacao ? "sim" : "nao");
-      localStorage.setItem("SDL_extra_tipografia", tipografia ? "sim" : "nao");
-
-      alert("Doação do Assistente Diagramador registrada com sucesso.");
-      window.location.href = "diagramador_inicio.html";
-    }
-
-    atualizarTotal();
-  </script>
+function voltarSetores(){
+  window.location.href = "painel_setores.html";
+}
+</script>
 
 </body>
 </html>
