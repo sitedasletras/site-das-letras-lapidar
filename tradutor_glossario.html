@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tradutor — Glossário e Nomes</title>
+
+<style>
+:root{
+--bg:#0d0603;
+--card:#140c08;
+--card2:#1b100a;
+--text:#ffffff;
+--orange:#f7b22c;
+--border:rgba(255,123,44,0.18);
+--shadow:0 10px 26px rgba(0,0,0,0.28);
+}
+
+body{
+margin:0;
+font-family:Arial, sans-serif;
+background:var(--bg);
+color:var(--text);
+}
+
+.container{
+width:min(1100px,95%);
+margin:auto;
+padding:40px 0 60px;
+}
+
+.titulo{
+font-size:36px;
+font-weight:bold;
+}
+
+.subtitulo{
+margin-top:6px;
+color:var(--orange);
+}
+
+.status{
+margin-top:20px;
+padding:16px;
+border-radius:12px;
+background:rgba(247,178,44,0.12);
+border:1px solid rgba(247,178,44,0.25);
+color:#ffe7b0;
+}
+
+.card{
+margin-top:24px;
+background:var(--card);
+border:1px solid var(--border);
+border-radius:18px;
+padding:22px;
+box-shadow:var(--shadow);
+}
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:18px;
+}
+
+label{
+display:block;
+margin-bottom:6px;
+color:var(--orange);
+font-weight:bold;
+}
+
+input, textarea, select{
+width:100%;
+padding:14px;
+border:none;
+border-radius:12px;
+background:#1b0e07;
+color:#fff;
+box-sizing:border-box;
+font-family:Arial, sans-serif;
+}
+
+textarea{
+min-height:130px;
+resize:vertical;
+}
+
+.preview{
+margin-top:18px;
+padding:18px;
+border-radius:14px;
+background:var(--card2);
+line-height:1.8;
+white-space:pre-line;
+}
+
+.actions{
+margin-top:24px;
+display:flex;
+flex-wrap:wrap;
+gap:12px;
+}
+
+button{
+border:none;
+padding:14px 18px;
+border-radius:999px;
+cursor:pointer;
+font-weight:bold;
+}
+
+.btnSalvar{
+background:#174d27;
+color:#fff;
+}
+
+.btnRecarregar{
+background:#5a2c00;
+color:#fff;
+}
+
+.btnIndice{
+background:#24150f;
+color:#fff;
+}
+
+@media(max-width:900px){
+.grid{
+grid-template-columns:1fr;
+}
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="titulo">Glossário e Nomes</div>
+<div class="subtitulo">Padronização terminológica da tradução editorial</div>
+
+<div id="statusGlossario" class="status">
+Verificando projeto ativo...
+</div>
+
+<div class="card">
+
+  <div class="grid">
+    <div>
+      <label for="nomesProprios">Nomes próprios</label>
+      <textarea id="nomesProprios" placeholder="Ex.: personagens, cidades, reinos, instituições..."></textarea>
+    </div>
+
+    <div>
+      <label for="termosFixos">Termos fixos / técnicos</label>
+      <textarea id="termosFixos" placeholder="Ex.: termos religiosos, históricos, editoriais, mágicos ou técnicos..."></textarea>
+    </div>
+
+    <div>
+      <label for="expressoesSensíveis">Expressões sensíveis</label>
+      <textarea id="expressoesSensíveis" placeholder="Ex.: expressões idiomáticas, frases recorrentes, construções culturais..."></textarea>
+    </div>
+
+    <div>
+      <label for="naoTraduzir">Termos que não devem ser traduzidos</label>
+      <textarea id="naoTraduzir" placeholder="Ex.: nomes de ordens, conceitos próprios, marcas narrativas..."></textarea>
+    </div>
+
+    <div>
+      <label for="adaptarLivremente">Termos com adaptação livre</label>
+      <textarea id="adaptarLivremente" placeholder="Ex.: expressões populares, provérbios, ditados, equivalências..."></textarea>
+    </div>
+
+    <div>
+      <label for="observacoesGlossario">Observações do glossário</label>
+      <textarea id="observacoesGlossario" placeholder="Critérios de padronização e observações gerais"></textarea>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button class="btnSalvar" onclick="salvarGlossario()">Salvar glossário</button>
+    <button class="btnRecarregar" onclick="carregarGlossario()">Recarregar glossário</button>
+    <button class="btnIndice" onclick="voltarTradutor()">Voltar ao tradutor</button>
+  </div>
+
+  <div id="previewGlossario" class="preview">
+    A prévia do glossário aparecerá aqui.
+  </div>
+</div>
+
+</div>
+
+<script src="auditoria.js"></script>
+
+<script>
+function obterProjetoAtivo(){
+  try{
+    const lista = JSON.parse(localStorage.getItem("SDL_projetos_lista") || "[]");
+    const ativo = localStorage.getItem("SDL_projeto_ativo");
+    return lista.find(p => p.id === ativo) || null;
+  }catch{
+    return null;
+  }
+}
+
+function carregarStatusGlossario(){
+  const projeto = obterProjetoAtivo();
+
+  if(!projeto){
+    document.getElementById("statusGlossario").innerHTML =
+      "Nenhum projeto ativo selecionado.";
+    return;
+  }
+
+  document.getElementById("statusGlossario").innerHTML =
+    "Projeto ativo no glossário da tradução: <strong>" + (projeto.titulo || "Sem título") + "</strong>";
+  document.getElementById("statusGlossario").style.background =
+    "rgba(23,77,39,0.28)";
+}
+
+function montarObjetoGlossario(){
+  const projeto = obterProjetoAtivo();
+
+  if(!projeto){
+    return null;
+  }
+
+  return {
+    projetoID: projeto.id,
+    tituloProjeto: projeto.titulo || "",
+    nomesProprios: document.getElementById("nomesProprios").value.trim(),
+    termosFixos: document.getElementById("termosFixos").value.trim(),
+    expressoesSensíveis: document.getElementById("expressoesSensíveis").value.trim(),
+    naoTraduzir: document.getElementById("naoTraduzir").value.trim(),
+    adaptarLivremente: document.getElementById("adaptarLivremente").value.trim(),
+    observacoesGlossario: document.getElementById("observacoesGlossario").value.trim(),
+    dataRegistro: new Date().toISOString()
+  };
+}
+
+function salvarGlossario(){
+  const dados = montarObjetoGlossario();
+
+  if(!dados){
+    alert("Nenhum projeto ativo selecionado.");
+    return;
+  }
+
+  localStorage.setItem("SDL_glossario_traducao_ativo", JSON.stringify(dados));
+
+  try{
+    SDL_registrarAuditoria("Glossário da tradução salvo", "tradutor_glossario");
+  }catch(e){}
+
+  renderizarPreview(dados);
+  alert("Glossário salvo com sucesso.");
+}
+
+function carregarGlossario(){
+  const projeto = obterProjetoAtivo();
+
+  if(!projeto){
+    alert("Nenhum projeto ativo selecionado.");
+    return;
+  }
+
+  try{
+    const dados = JSON.parse(localStorage.getItem("SDL_glossario_traducao_ativo") || "null");
+
+    if(!dados || dados.projetoID !== projeto.id){
+      document.getElementById("previewGlossario").innerHTML =
+        "Nenhum glossário salvo para este projeto.";
+      return;
+    }
+
+    document.getElementById("nomesProprios").value = dados.nomesProprios || "";
+    document.getElementById("termosFixos").value = dados.termosFixos || "";
+    document.getElementById("expressoesSensíveis").value = dados.expressoesSensíveis || "";
+    document.getElementById("naoTraduzir").value = dados.naoTraduzir || "";
+    document.getElementById("adaptarLivremente").value = dados.adaptarLivremente || "";
+    document.getElementById("observacoesGlossario").value = dados.observacoesGlossario || "";
+
+    renderizarPreview(dados);
+  }catch(e){
+    document.getElementById("previewGlossario").innerHTML =
+      "Erro ao carregar glossário salvo.";
+  }
+}
+
+function renderizarPreview(dados){
+  let html = "";
+  html += "Projeto: " + (dados.tituloProjeto || "—") + "\n\n";
+  html += "Nomes próprios:\n" + (dados.nomesProprios || "—") + "\n\n";
+  html += "Termos fixos / técnicos:\n" + (dados.termosFixos || "—") + "\n\n";
+  html += "Expressões sensíveis:\n" + (dados.expressoesSensíveis || "—") + "\n\n";
+  html += "Não traduzir:\n" + (dados.naoTraduzir || "—") + "\n\n";
+  html += "Adaptação livre:\n" + (dados.adaptarLivremente || "—") + "\n\n";
+  html += "Observações:\n" + (dados.observacoesGlossario || "—") + "\n\n";
+  html += "Data: " + formatarData(dados.dataRegistro);
+
+  document.getElementById("previewGlossario").textContent = html;
+}
+
+function formatarData(d){
+  if(!d) return "—";
+  try{
+    return new Date(d).toLocaleString("pt-BR");
+  }catch{
+    return d;
+  }
+}
+
+function voltarTradutor(){
+  window.location.href = "tradutor_inicio.html";
+}
+
+carregarStatusGlossario();
+carregarGlossario();
+</script>
+
+</body>
+</html>
