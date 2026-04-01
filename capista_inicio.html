@@ -1,280 +1,221 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Ajudante Capista — Lapidar</title>
+<title>Capista — Início</title>
 
 <style>
+:root{
+--bg:#0d0603;
+--card:#140c08;
+--cardHover:#1b100a;
+--orange:#f7b22c;
+--border:rgba(255,123,44,0.18);
+}
 
 body{
-
 margin:0;
 font-family:Arial;
-
-background:#ffd400;
-
-color:#1b1b1b;
-
-display:flex;
-justify-content:center;
-
+background:var(--bg);
+color:white;
 }
 
 .container{
-
-max-width:760px;
-width:94%;
-
-padding:40px 0 60px 0;
-
+width:min(1100px,95%);
+margin:auto;
+padding:40px 0;
 }
 
 .titulo{
-
 font-size:36px;
 font-weight:bold;
-
-text-align:center;
-
 }
 
 .subtitulo{
+margin-top:5px;
+color:var(--orange);
+}
 
-text-align:center;
+.status{
+margin-top:20px;
+padding:16px;
+border-radius:12px;
+background:rgba(247,178,44,0.12);
+border:1px solid rgba(247,178,44,0.25);
+color:#ffe7b0;
+}
 
-margin-top:10px;
-margin-bottom:30px;
-
-line-height:1.6;
-
+.grid{
+margin-top:28px;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:18px;
 }
 
 .card{
-
-background:white;
-
-padding:26px;
-
+background:var(--card);
+padding:22px;
 border-radius:16px;
-
-margin-top:18px;
-
-line-height:1.7;
-
-}
-
-.label{
-
-font-weight:bold;
-
-margin-bottom:10px;
-
-display:block;
-
-}
-
-.botao{
-
-width:100%;
-
-padding:18px;
-
-margin-top:20px;
-
-border-radius:40px;
-
-font-size:18px;
-
-font-weight:bold;
-
+border:1px solid var(--border);
 cursor:pointer;
-
-background:#ffd400;
-
-border:2px solid #168f3e;
-
-color:#1b1b1b;
-
+transition:.2s;
 }
 
-.botao:hover{
-
-opacity:.92;
-
+.card:hover{
+background:var(--cardHover);
 }
 
-.botaoSecundario{
-
-background:white;
-
-border:2px solid #168f3e;
-
-color:#168f3e;
-
+.cardTitulo{
+font-size:20px;
+font-weight:bold;
+margin-bottom:6px;
 }
 
-.info{
-
-margin-top:18px;
-
+.cardDesc{
+color:#ffd2b3;
+font-size:14px;
 line-height:1.6;
+}
 
+.actions{
+margin-top:28px;
+display:flex;
+gap:12px;
+flex-wrap:wrap;
+}
+
+button{
+border:none;
+padding:14px 18px;
+border-radius:999px;
+cursor:pointer;
+background:#24150f;
+color:white;
 }
 
 </style>
-
 </head>
 
 <body>
 
 <div class="container">
 
-
 <div class="titulo">
-
-Ajudante Capista
-
+Capista — Painel Inicial
 </div>
-
 
 <div class="subtitulo">
+Fluxo visual e técnico da capa dentro do Lapidar
+</div>
 
-Preparação estrutural da capa editorial com suporte multilíngue,
-orelhas configuráveis e uso opcional de imagem autoral
+<div id="statusCapista" class="status">
+Verificando projeto ativo...
+</div>
+
+<div class="grid">
+
+<div class="card" onclick="abrirPlanosCapista()">
+<div class="cardTitulo">Planos do Capista</div>
+<div class="cardDesc">Validar liberação do serviço visual</div>
+</div>
+
+<div class="card" onclick="abrirConfigurarCapa()">
+<div class="cardTitulo">Configurar Capa Técnica</div>
+<div class="cardDesc">Definir formato, páginas, papel, lombada e base técnica</div>
+</div>
+
+<div class="card" onclick="abrirIdiomaCapa()">
+<div class="cardTitulo">Idioma da Capa</div>
+<div class="cardDesc">Preparar título e elementos visuais por idioma</div>
+</div>
+
+<div class="card" onclick="abrirUploadTextos()">
+<div class="cardTitulo">Upload de Textos</div>
+<div class="cardDesc">Inserir sinopse, orelhas, biografia e textos da capa</div>
+</div>
+
+<div class="card" onclick="abrirGerarCapa()">
+<div class="cardTitulo">Gerar Capa</div>
+<div class="cardDesc">Seguir para a montagem visual da capa</div>
+</div>
+
+<div class="card" onclick="abrirConfiguracaoCapista()">
+<div class="cardTitulo">Configuração Avançada</div>
+<div class="cardDesc">Ajustar parâmetros visuais e técnicos complementares</div>
+</div>
 
 </div>
 
-
-
-<div class="card">
-
-<span class="label">
-
-Este módulo permite:
-
-</span>
-
-• geração de capa física editorial  
-• geração de capa EPUB  
-• preparação de orelhas (quando aplicável)  
-• inclusão de selo editorial  
-• uso opcional de imagem enviada pelo autor  
-
+<div class="actions">
+<button onclick="voltarIndice()">Voltar ao índice</button>
 </div>
 
-
-
-<div class="card">
-
-<span class="label">
-
-Imagem autoral para a capa (opcional)
-
-</span>
-
-Deseja enviar uma imagem de sua autoria para possível uso na capa?
-
-<br><br>
-
-<input type="file" id="imagemAutor">
-
-<br>
-
-<button class="botao"
-
-onclick="confirmarImagem()">
-
-Confirmar envio da imagem
-
-</button>
-
 </div>
-
-
-
-<div class="card">
-
-<span class="label">
-
-Declaração de responsabilidade autoral
-
-</span>
-
-Ao enviar uma imagem, você declara possuir os direitos legais de uso editorial.
-
-O ambiente Lapidar e o selo Site das Letras Edições Literárias não se responsabilizam por uso indevido de material protegido por direitos autorais.
-
-</div>
-
-
-
-<button class="botao"
-
-onclick="iniciarConfiguracaoCapista()">
-
-Iniciar configuração da capa
-
-</button>
-
-
-
-<button class="botaoSecundario botao"
-
-onclick="abrirDoacoesCapista()">
-
-Ver valores de doação deste módulo
-
-</button>
-
-
-
-</div>
-
-
 
 <script>
-
-function confirmarImagem(){
-
-const arquivo=document.getElementById("imagemAutor").files[0];
-
-if(!arquivo){
-
-alert("Nenhuma imagem selecionada.");
-
-return;
-
+function verificarSessao(){
+  if(localStorage.getItem("SDL_sessao_ativa") !== "sim"){
+    window.location.href = "login.html";
+  }
 }
 
-localStorage.setItem("CAPISTA_imagem_autoral","sim");
-
-alert("Imagem registrada com sucesso.");
-
+function obterProjetoAtivo(){
+  try{
+    const lista = JSON.parse(localStorage.getItem("SDL_projetos_lista") || "[]");
+    const ativo = localStorage.getItem("SDL_projeto_ativo");
+    return lista.find(p => p.id === ativo) || null;
+  }catch{
+    return null;
+  }
 }
 
+function carregarStatusCapista(){
+  const projeto = obterProjetoAtivo();
 
+  if(!projeto){
+    document.getElementById("statusCapista").innerHTML =
+      "Nenhum projeto ativo selecionado.";
+    return;
+  }
 
-function iniciarConfiguracaoCapista(){
-
-window.location.href="capista_configurar_capa.html";
-
+  document.getElementById("statusCapista").innerHTML =
+    "Projeto ativo no módulo capista: <strong>" + (projeto.titulo || "Sem título") + "</strong>";
+  document.getElementById("statusCapista").style.background =
+    "rgba(23,77,39,0.28)";
 }
 
-
-
-function abrirDoacoesCapista(){
-
-window.location.href="capista_doacoes.html";
-
+function abrirPlanosCapista(){
+  window.location.href = "capista_planos.html";
 }
 
+function abrirConfigurarCapa(){
+  window.location.href = "capista_configurar_capa.html";
+}
+
+function abrirIdiomaCapa(){
+  window.location.href = "capista_idioma.html";
+}
+
+function abrirUploadTextos(){
+  window.location.href = "capista_upload_textos.html";
+}
+
+function abrirGerarCapa(){
+  window.location.href = "capista_gerar_capa.html";
+}
+
+function abrirConfiguracaoCapista(){
+  window.location.href = "capista_configuracao.html";
+}
+
+function voltarIndice(){
+  window.location.href = "_Indice.html";
+}
+
+verificarSessao();
+carregarStatusCapista();
 </script>
-
-
 
 </body>
 </html>
