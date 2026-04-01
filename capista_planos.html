@@ -3,106 +3,97 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Solicitação de Capa — Lapidar</title>
+<title>Capista — Planos</title>
 
 <style>
-
-:root{
---bg:#0d0603;
---card:#140c08;
---card2:#1b100a;
---text:#ffffff;
---orange:#f7b22c;
---orangeStrong:#ff5a00;
---green:#9cfdb2;
---danger:#ff7070;
---border:rgba(255,123,44,0.18);
---shadow:0 10px 26px rgba(0,0,0,0.28);
-}
-
 body{
 margin:0;
-font-family:Arial;
-background:var(--bg);
-color:white;
+font-family:Arial,sans-serif;
+background:#f2c230;
+color:#111111;
 }
 
 .container{
 width:min(1100px,95%);
 margin:auto;
-padding:40px 0;
+padding:40px 0 60px;
 }
 
 .titulo{
-font-size:36px;
+font-size:38px;
 font-weight:bold;
 }
 
 .subtitulo{
-margin-top:6px;
-color:var(--orange);
-}
-
-.card{
-margin-top:30px;
-background:var(--card);
-padding:24px;
-border-radius:18px;
-border:1px solid var(--border);
-box-shadow:var(--shadow);
+margin-top:8px;
+line-height:1.7;
+color:#2a2200;
 }
 
 .status{
-margin-top:18px;
+margin-top:20px;
 padding:16px;
 border-radius:12px;
-background:rgba(247,178,44,0.12);
-border:1px solid rgba(247,178,44,0.25);
+background:rgba(17,17,17,0.08);
+border:1px solid rgba(17,17,17,0.25);
 }
 
-.box{
-margin-top:20px;
-padding:18px;
-border-radius:14px;
-background:var(--card2);
+.grid{
+margin-top:28px;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:18px;
+}
+
+.card{
+background:#f4cc4d;
+border:2px solid #111111;
+border-radius:18px;
+padding:22px;
+cursor:pointer;
+transition:.2s;
+box-shadow:0 10px 26px rgba(0,0,0,0.18);
+}
+
+.card:hover{
+transform:translateY(-2px);
+}
+
+.cardTitulo{
+font-size:20px;
+font-weight:bold;
+margin-bottom:8px;
+}
+
+.cardValor{
+font-size:28px;
+font-weight:bold;
+margin-bottom:10px;
+}
+
+.cardDesc{
 line-height:1.7;
+font-size:14px;
+color:#2a2200;
 }
 
 .actions{
-margin-top:24px;
+margin-top:30px;
 display:flex;
-flex-wrap:wrap;
 gap:12px;
+flex-wrap:wrap;
 }
 
 button{
 border:none;
 padding:14px 18px;
 border-radius:999px;
+background:#f2c230;
+color:#111111;
+border:2px solid #111111;
 cursor:pointer;
 font-weight:bold;
 }
-
-.btnSolicitar{
-background:#174d27;
-color:white;
-}
-
-.btnPagamento{
-background:var(--orangeStrong);
-color:white;
-}
-
-.btnPlano{
-background:#5a2c00;
-color:white;
-}
-
-.btnIndice{
-background:#24150f;
-color:white;
-}
-
 </style>
 </head>
 
@@ -110,40 +101,62 @@ color:white;
 
 <div class="container">
 
-<div class="titulo">
-Solicitação de Capa
-</div>
-
+<div class="titulo">Capista</div>
 <div class="subtitulo">
-Serviço vinculado ao projeto ativo no Lapidar
+Escolha a modalidade de doação do setor de identidade visual da obra.
 </div>
 
-<div id="statusSistema" class="status">
-Verificando ambiente editorial...
+<div id="statusCapistaPlanos" class="status">
+Selecione uma modalidade para continuar.
 </div>
 
-<div id="dadosProjeto" class="box">
-Carregando projeto...
+<div class="grid">
+
+<div class="card" onclick="selecionarPlano('capista_avulso','Doação avulsa')">
+<div class="cardTitulo">Avulsa</div>
+<div class="cardValor">R$ 2,99</div>
+<div class="cardDesc">
+Entrada unitária para uso pontual do setor de capa.
+</div>
+</div>
+
+<div class="card" onclick="selecionarPlano('capista_30','30 dias')">
+<div class="cardTitulo">30 dias</div>
+<div class="cardValor">R$ 19,99</div>
+<div class="cardDesc">
+Acesso mensal ao setor capista.
+</div>
+</div>
+
+<div class="card" onclick="selecionarPlano('capista_90','90 dias')">
+<div class="cardTitulo">90 dias</div>
+<div class="cardValor">R$ 44,99</div>
+<div class="cardDesc">
+Acesso trimestral ao fluxo de capa.
+</div>
+</div>
+
+<div class="card" onclick="selecionarPlano('capista_180','180 dias')">
+<div class="cardTitulo">180 dias</div>
+<div class="cardValor">R$ 74,99</div>
+<div class="cardDesc">
+Meio ano de acesso ao setor de capa.
+</div>
+</div>
+
+<div class="card" onclick="selecionarPlano('capista_365','365 dias')">
+<div class="cardTitulo">365 dias</div>
+<div class="cardValor">R$ 119,99</div>
+<div class="cardDesc">
+Acesso anual completo ao setor capista.
+</div>
+</div>
+
 </div>
 
 <div class="actions">
-
-<button class="btnSolicitar" onclick="registrarPedidoCapa()">
-Solicitar capa
-</button>
-
-<button class="btnPagamento" onclick="abrirPagamento()">
-Registrar pagamento
-</button>
-
-<button class="btnPlano" onclick="abrirPlano()">
-Escolher plano
-</button>
-
-<button class="btnIndice" onclick="voltarIndice()">
-Voltar ao índice
-</button>
-
+<button onclick="abrirCapista()">Entrar no setor</button>
+<button onclick="voltarSetores()">Voltar aos setores</button>
 </div>
 
 </div>
@@ -151,169 +164,25 @@ Voltar ao índice
 <script src="auditoria.js"></script>
 
 <script>
+function selecionarPlano(codigo, nome){
+  localStorage.setItem("SDL_plano_capista", codigo);
+  localStorage.setItem("SDL_plano_capista_nome", nome);
 
-function verificarSessao(){
+  document.getElementById("statusCapistaPlanos").innerHTML =
+    "Plano selecionado no Capista: <strong>" + nome + "</strong>";
 
-const sessao = localStorage.getItem("SDL_sessao_ativa")
-
-if(sessao !== "sim"){
-window.location.href="login.html"
+  try{
+    SDL_registrarAuditoria("Plano do capista selecionado", "capista_planos");
+  }catch(e){}
 }
 
+function abrirCapista(){
+  window.location.href = "capista_inicio.html";
 }
 
-function obterProjetoAtivo(){
-
-try{
-
-const lista =
-JSON.parse(localStorage.getItem("SDL_projetos_lista") || "[]")
-
-const ativo =
-localStorage.getItem("SDL_projeto_ativo")
-
-return lista.find(p => p.id === ativo)
-
-}catch{
-
-return null
-
+function voltarSetores(){
+  window.location.href = "painel_setores.html";
 }
-
-}
-
-function verificarSistema(){
-
-const projeto = obterProjetoAtivo()
-
-const plano = localStorage.getItem("SDL_plano")
-
-const pagamento = localStorage.getItem("SDL_pagamento")
-
-const status = document.getElementById("statusSistema")
-
-if(!projeto){
-
-status.innerHTML =
-"Nenhum projeto ativo selecionado."
-
-return
-
-}
-
-document.getElementById("dadosProjeto").innerHTML =
-"Projeto ativo: <strong>" + projeto.titulo + "</strong>"
-
-if(!plano){
-
-status.innerHTML =
-"Selecione um plano antes de solicitar a capa."
-
-return
-
-}
-
-if(!pagamento){
-
-status.innerHTML =
-"Plano selecionado, mas pagamento ainda não registrado."
-
-status.style.background =
-"rgba(255,112,112,0.12)"
-
-return
-
-}
-
-status.innerHTML =
-"Serviço liberado para solicitação de capa."
-
-status.style.background =
-"rgba(23,77,39,0.28)"
-
-}
-
-function registrarPedidoCapa(){
-
-const projeto = obterProjetoAtivo()
-
-if(!projeto){
-
-alert("Nenhum projeto ativo.")
-return
-
-}
-
-const plano =
-localStorage.getItem("SDL_plano")
-
-const pagamento =
-localStorage.getItem("SDL_pagamento")
-
-if(!plano || !pagamento){
-
-alert("Serviço ainda não liberado.")
-return
-
-}
-
-const pedido = {
-
-id:"capa_"+Date.now(),
-
-projetoID:projeto.id,
-
-tituloProjeto:projeto.titulo,
-
-plano,
-
-status:"Solicitado",
-
-dataRegistro:new Date().toISOString()
-
-}
-
-let lista =
-
-JSON.parse(localStorage.getItem("SDL_capas_lista") || "[]")
-
-lista.push(pedido)
-
-localStorage.setItem(
-"SDL_capas_lista",
-JSON.stringify(lista)
-)
-
-/* auditoria automática */
-
-try{
-
-SDL_registrarAuditoria(
-"Solicitação de capa registrada",
-"capista"
-)
-
-}catch(e){}
-
-alert("Solicitação de capa registrada com sucesso.")
-
-}
-
-function abrirPagamento(){
-window.location.href="pagamento.html"
-}
-
-function abrirPlano(){
-window.location.href="planos_doacoes.html"
-}
-
-function voltarIndice(){
-window.location.href="_Indice.html"
-}
-
-verificarSessao()
-verificarSistema()
-
 </script>
 
 </body>
