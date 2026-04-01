@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Painel de Auditoria — Lapidar</title>
+
+<style>
+
+:root{
+--bg:#0d0603;
+--card:#140c08;
+--card2:#1b100a;
+--text:#ffffff;
+--muted:#ffd2b3;
+--orange:#f7b22c;
+--green:#9cfdb2;
+--border:rgba(255,123,44,0.18);
+--shadow:0 10px 26px rgba(0,0,0,0.28);
+}
+
+body{
+margin:0;
+font-family:Arial;
+background:var(--bg);
+color:white;
+}
+
+.container{
+width:min(1200px,95%);
+margin:auto;
+padding:40px 0;
+}
+
+.titulo{
+font-size:36px;
+font-weight:bold;
+}
+
+.subtitulo{
+margin-top:6px;
+color:var(--orange);
+}
+
+.card{
+margin-top:30px;
+background:var(--card);
+padding:24px;
+border-radius:18px;
+border:1px solid var(--border);
+box-shadow:var(--shadow);
+}
+
+.filtros{
+display:flex;
+gap:12px;
+flex-wrap:wrap;
+margin-top:20px;
+}
+
+select{
+padding:12px;
+border-radius:10px;
+border:none;
+background:#1b0e07;
+color:white;
+}
+
+.log{
+margin-top:14px;
+padding:16px;
+border-radius:12px;
+background:var(--card2);
+line-height:1.6;
+}
+
+.actions{
+margin-top:24px;
+display:flex;
+gap:12px;
+flex-wrap:wrap;
+}
+
+button{
+border:none;
+padding:14px 18px;
+border-radius:999px;
+cursor:pointer;
+font-weight:bold;
+}
+
+.btnIndice{
+background:#24150f;
+color:white;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="titulo">
+Painel de Auditoria Editorial
+</div>
+
+<div class="subtitulo">
+Registro completo de ações do sistema Lapidar
+</div>
+
+
+
+<div class="card">
+
+<div class="filtros">
+
+<select id="filtroProjeto" onchange="renderizarLogs()">
+<option value="">Todos os projetos</option>
+</select>
+
+<select id="filtroModulo" onchange="renderizarLogs()">
+<option value="">Todos os módulos</option>
+<option>upload_livro</option>
+<option>preview</option>
+<option>revisao_pedido</option>
+<option>capista</option>
+<option>login</option>
+<option>sistema</option>
+</select>
+
+<select id="filtroUsuario" onchange="renderizarLogs()">
+<option value="">Todos os usuários</option>
+</select>
+
+</div>
+
+
+
+<div id="areaLogs"></div>
+
+</div>
+
+
+
+<div class="actions">
+
+<button class="btnIndice" onclick="voltarIndice()">
+Voltar ao índice
+</button>
+
+</div>
+
+</div>
+
+
+
+<script src="auditoria.js"></script>
+
+<script>
+
+function verificarSessao(){
+
+const sessao = localStorage.getItem("SDL_sessao_ativa")
+
+if(sessao !== "sim"){
+
+window.location.href="login.html"
+
+}
+
+}
+
+
+
+function carregarFiltros(){
+
+let logs = JSON.parse(
+localStorage.getItem("SDL_auditoria_logs") || "[]"
+)
+
+const projetos = new Set()
+const usuarios = new Set()
+
+logs.forEach(l => {
+
+projetos.add(l.projetoTitulo)
+usuarios.add(l.usuario)
+
+})
+
+const selectProjeto =
+document.getElementById("filtroProjeto")
+
+const selectUsuario =
+document.getElementById("filtroUsuario")
+
+projetos.forEach(p => {
+
+if(p !== "sem_projeto"){
+
+selectProjeto.innerHTML +=
+`<option>${p}</option>`
+
+}
+
+})
+
+usuarios.forEach(u => {
+
+selectUsuario.innerHTML +=
+`<option>${u}</option>`
+
+})
+
+}
+
+
+
+function renderizarLogs(){
+
+let logs = JSON.parse(
+localStorage.getItem("SDL_auditoria_logs") || "[]"
+)
+
+const filtroProjeto =
+document.getElementById("filtroProjeto").value
+
+const filtroModulo =
+document.getElementById("filtroModulo").value
+
+const filtroUsuario =
+document.getElementById("filtroUsuario").value
+
+logs = logs.reverse()
+
+const area = document.getElementById("areaLogs")
+
+area.innerHTML = ""
+
+logs.forEach(l => {
+
+if(filtroProjeto && l.projetoTitulo !== filtroProjeto)
+return
+
+if(filtroModulo && l.modulo !== filtroModulo)
+return
+
+if(filtroUsuario && l.usuario !== filtroUsuario)
+return
+
+area.innerHTML += `
+
+<div class="log">
+
+<strong>${l.acao}</strong><br>
+
+Projeto:
+${l.projetoTitulo}<br>
+
+Usuário:
+${l.usuario}<br>
+
+Módulo:
+${l.modulo}<br>
+
+Data:
+${formatarData(l.data)}
+
+</div>
+
+`
+
+})
+
+}
+
+
+
+function formatarData(d){
+
+try{
+
+return new Date(d).toLocaleString("pt-BR")
+
+}catch{
+
+return d
+
+}
+
+}
+
+
+
+function voltarIndice(){
+
+window.location.href="_Indice.html"
+
+}
+
+
+
+verificarSessao()
+carregarFiltros()
+renderizarLogs()
+
+</script>
+
+</body>
+</html>
