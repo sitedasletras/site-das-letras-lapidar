@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tradutor — Checklist da Tradução</title>
+
+<style>
+:root{
+--bg:#0d0603;
+--card:#140c08;
+--card2:#1b100a;
+--text:#ffffff;
+--orange:#f7b22c;
+--ok:#9cfdb2;
+--border:rgba(255,123,44,0.18);
+--shadow:0 10px 26px rgba(0,0,0,0.28);
+}
+
+body{
+margin:0;
+font-family:Arial, sans-serif;
+background:var(--bg);
+color:var(--text);
+}
+
+.container{
+width:min(1100px,95%);
+margin:auto;
+padding:40px 0 60px;
+}
+
+.titulo{
+font-size:36px;
+font-weight:bold;
+}
+
+.subtitulo{
+margin-top:6px;
+color:var(--orange);
+}
+
+.status{
+margin-top:20px;
+padding:16px;
+border-radius:12px;
+background:rgba(247,178,44,0.12);
+border:1px solid rgba(247,178,44,0.25);
+color:#ffe7b0;
+}
+
+.card{
+margin-top:24px;
+background:var(--card);
+border:1px solid var(--border);
+border-radius:18px;
+padding:22px;
+box-shadow:var(--shadow);
+}
+
+.item{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:12px;
+padding:14px 0;
+border-bottom:1px solid rgba(255,255,255,0.06);
+}
+
+.item:last-child{
+border-bottom:none;
+}
+
+.nomeItem{
+font-weight:bold;
+}
+
+.infoItem{
+color:#ffd2b3;
+font-size:14px;
+margin-top:4px;
+}
+
+.badge{
+padding:8px 12px;
+border-radius:999px;
+font-size:13px;
+font-weight:bold;
+background:#2a160d;
+color:#ffe7b0;
+}
+
+.badge.ok{
+background:rgba(23,77,39,0.35);
+color:var(--ok);
+}
+
+.progressbar{
+margin-top:24px;
+height:26px;
+background:#1b100a;
+border-radius:999px;
+overflow:hidden;
+border:1px solid var(--border);
+}
+
+.progress{
+height:100%;
+background:var(--ok);
+width:0%;
+transition:.5s;
+}
+
+.preview{
+margin-top:18px;
+padding:18px;
+border-radius:14px;
+background:var(--card2);
+line-height:1.8;
+}
+
+.actions{
+margin-top:24px;
+display:flex;
+flex-wrap:wrap;
+gap:12px;
+}
+
+button{
+border:none;
+padding:14px 18px;
+border-radius:999px;
+cursor:pointer;
+font-weight:bold;
+}
+
+.btnAtualizar{
+background:#174d27;
+color:#fff;
+}
+
+.btnIndice{
+background:#24150f;
+color:#fff;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="titulo">Checklist da Tradução</div>
+<div class="subtitulo">Validação técnica do fluxo tradutório da obra</div>
+
+<div id="statusChecklistTraducao" class="status">
+Verificando projeto ativo...
+</div>
+
+<div class="card">
+  <div class="progressbar">
+    <div id="barraChecklistTraducao" class="progress"></div>
+  </div>
+
+  <div id="listaChecklistTraducao" class="preview">
+    Carregando checklist da tradução...
+  </div>
+
+  <div class="actions">
+    <button class="btnAtualizar" onclick="carregarChecklistTraducao()">Atualizar checklist</button>
+    <button class="btnIndice" onclick="voltarTradutor()">Voltar ao tradutor</button>
+  </div>
+</div>
+
+</div>
+
+<script src="auditoria.js"></script>
+
+<script>
+function obterProjetoAtivo(){
+  try{
+    const lista = JSON.parse(localStorage.getItem("SDL_projetos_lista") || "[]");
+    const ativo = localStorage.getItem("SDL_projeto_ativo");
+    return lista.find(p => p.id === ativo) || null;
+  }catch{
+    return null;
+  }
+}
+
+function lerJSON(chave){
+  try{
+    return JSON.parse(localStorage.getItem(chave) || "null");
+  }catch{
+    return null;
+  }
+}
+
+function carregarStatusProjeto(){
+  const projeto = obterProjetoAtivo();
+
+  if(!projeto){
+    document.getElementById("statusChecklistTraducao").innerHTML =
+      "Nenhum projeto ativo selecionado.";
+    return false;
+  }
+
+  document.getElementById("statusChecklistTraducao").innerHTML =
+    "Checklist da tradução aplicado ao projeto: <strong>" + (projeto.titulo || "Sem título") + "</strong>";
+  document.getElementById("statusChecklistTraducao").style.background =
+    "rgba(23,77,39,0.28)";
+  return true;
+}
+
+function itemChecklist(nome, ok, detalhe){
+  return {
+    nome,
+    ok: !!ok,
+    detalhe: detalhe || (ok ? "Concluído" : "Pendente")
+  };
+}
+
+function montarChecklistTraducao(){
+  const projeto = obterProjetoAtivo();
+  if(!projeto) return [];
+
+  const planejamento = lerJSON("SDL_planejamento_traducao_ativo");
+  const glossario = lerJSON("SDL_glossario_traducao_ativo");
+
+  const planejamentoOk = planejamento && planejamento.projetoID === projeto.id;
+  const glossarioOk = glossario && glossario.projetoID === projeto.id;
+
+  const idiomaOrigemOk = planejamentoOk && planejamento.idiomaOrigem;
+  const idiomaDestinoOk = planejamentoOk && planejamento.idiomaDestino;
+  const tipoTraducaoOk = planejamentoOk && planejamento.tipoTraducao;
+  const adaptacaoOk = planejamentoOk && planejamento.nivelAdaptacao;
+  const publicoOk = planejamentoOk && planejamento.publicoDestino;
+  const nomesOk = planejamentoOk && planejamento.manterNomes;
+  const glossarioNecessarioOk = planejamentoOk && planejamento.usarGlossario;
+  const revisaoNativaOk = planejamentoOk && planejamento.revisaoNativa;
+
+  const nomesPropriosOk = glossarioOk && glossario.nomesProprios;
+  const termosFixosOk = glossarioOk && glossario.termosFixos;
+  const observacoesGlossarioOk = glossarioOk && glossario.observacoesGlossario;
+
+  return [
+    itemChecklist("Planejamento da tradução salvo", planejamentoOk, planejamentoOk ? "Estratégia tradutória disponível" : "Planejamento ainda não salvo"),
+    itemChecklist("Idioma de origem definido", idiomaOrigemOk, idiomaOrigemOk ? "Idioma de origem registrado" : "Defina o idioma de origem"),
+    itemChecklist("Idioma de destino definido", idiomaDestinoOk, idiomaDestinoOk ? "Idioma de destino registrado" : "Defina o idioma de destino"),
+    itemChecklist("Tipo de tradução definido", tipoTraducaoOk, tipoTraducaoOk ? "Modelo de tradução registrado" : "Defina o tipo de tradução"),
+    itemChecklist("Nível de adaptação cultural definido", adaptacaoOk, adaptacaoOk ? "Estratégia cultural registrada" : "Defina o nível de adaptação"),
+    itemChecklist("Público da tradução definido", publicoOk, publicoOk ? "Público-alvo registrado" : "Descreva o público da tradução"),
+    itemChecklist("Política de nomes próprios definida", nomesOk, nomesOk ? "Tratamento dos nomes registrado" : "Defina a política de nomes"),
+    itemChecklist("Necessidade de glossário definida", glossarioNecessarioOk, glossarioNecessarioOk ? "Uso de glossário registrado" : "Defina se haverá glossário"),
+    itemChecklist("Revisão nativa definida", revisaoNativaOk, revisaoNativaOk ? "Revisão nativa prevista" : "Defina a revisão nativa"),
+    itemChecklist("Glossário salvo", glossarioOk, glossarioOk ? "Glossário técnico disponível" : "Glossário ainda não salvo"),
+    itemChecklist("Nomes próprios registrados", nomesPropriosOk, nomesPropriosOk ? "Lista de nomes disponível" : "Registre nomes próprios"),
+    itemChecklist("Termos fixos registrados", termosFixosOk, termosFixosOk ? "Termos fixos disponíveis" : "Registre termos fixos"),
+    itemChecklist("Observações do glossário registradas", observacoesGlossarioOk, observacoesGlossarioOk ? "Observações disponíveis" : "Acrescente observações do glossário"),
+    itemChecklist("Tradução apta para relatório final", planejamentoOk && glossarioOk, (planejamentoOk && glossarioOk) ? "Base técnica pronta para relatório do tradutor" : "Ainda faltam módulos essenciais")
+  ];
+}
+
+function renderizarChecklistTraducao(itens){
+  const area = document.getElementById("listaChecklistTraducao");
+
+  if(!itens.length){
+    area.innerHTML = "Nenhum checklist disponível.";
+    document.getElementById("barraChecklistTraducao").style.width = "0%";
+    return;
+  }
+
+  let html = "";
+  let concluidos = 0;
+
+  itens.forEach(item => {
+    if(item.ok) concluidos++;
+
+    html += `
+      <div class="item">
+        <div>
+          <div class="nomeItem">${item.nome}</div>
+          <div class="infoItem">${item.detalhe}</div>
+        </div>
+        <div class="badge ${item.ok ? "ok" : ""}">
+          ${item.ok ? "Concluído" : "Pendente"}
+        </div>
+      </div>
+    `;
+  });
+
+  const percentual = Math.round((concluidos / itens.length) * 100);
+
+  area.innerHTML = html + `
+    <div style="margin-top:18px;">
+      <strong>Progresso técnico da tradução:</strong> ${percentual}%
+    </div>
+  `;
+
+  document.getElementById("barraChecklistTraducao").style.width = percentual + "%";
+}
+
+function carregarChecklistTraducao(){
+  const ok = carregarStatusProjeto();
+  if(!ok){
+    document.getElementById("listaChecklistTraducao").innerHTML = "Nenhum projeto ativo selecionado.";
+    document.getElementById("barraChecklistTraducao").style.width = "0%";
+    return;
+  }
+
+  const itens = montarChecklistTraducao();
+  renderizarChecklistTraducao(itens);
+
+  try{
+    SDL_registrarAuditoria("Checklist da tradução atualizado", "tradutor_checklist");
+  }catch(e){}
+}
+
+function voltarTradutor(){
+  window.location.href = "tradutor_inicio.html";
+}
+
+carregarChecklistTraducao();
+</script>
+
+</body>
+</html>
