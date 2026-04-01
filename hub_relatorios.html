@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hub de Relatórios — Lapidar</title>
+
+<style>
+
+:root{
+--bg:#0d0603;
+--card:#140c08;
+--cardHover:#1b100a;
+--border:rgba(255,123,44,0.18);
+--orange:#f7b22c;
+--muted:#ffd2b3;
+--ok:#9cfdb2;
+}
+
+body{
+margin:0;
+font-family:Arial, sans-serif;
+background:var(--bg);
+color:white;
+}
+
+.container{
+width:min(1200px,95%);
+margin:auto;
+padding:40px 0 60px;
+}
+
+.titulo{
+font-size:38px;
+font-weight:bold;
+}
+
+.subtitulo{
+margin-top:6px;
+color:var(--orange);
+}
+
+.status{
+margin-top:18px;
+padding:16px;
+border-radius:12px;
+background:rgba(247,178,44,0.12);
+border:1px solid rgba(247,178,44,0.25);
+}
+
+.grid{
+margin-top:30px;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:18px;
+}
+
+.card{
+background:var(--card);
+padding:22px;
+border-radius:16px;
+border:1px solid var(--border);
+cursor:pointer;
+transition:.2s;
+}
+
+.card:hover{
+background:var(--cardHover);
+}
+
+.cardTitulo{
+font-size:20px;
+font-weight:bold;
+margin-bottom:6px;
+}
+
+.cardDesc{
+color:var(--muted);
+font-size:14px;
+line-height:1.7;
+}
+
+.badge{
+margin-top:12px;
+display:inline-block;
+padding:6px 12px;
+border-radius:999px;
+background:#2a160d;
+font-size:13px;
+}
+
+.badge.ok{
+background:rgba(23,77,39,0.35);
+color:var(--ok);
+}
+
+.actions{
+margin-top:40px;
+}
+
+button{
+border:none;
+padding:14px 18px;
+border-radius:999px;
+background:#24150f;
+color:white;
+cursor:pointer;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="titulo">Hub de Relatórios</div>
+<div class="subtitulo">Central executiva dos relatórios editoriais da obra</div>
+
+<div id="statusHubRelatorios" class="status">
+Verificando projeto ativo...
+</div>
+
+<div class="grid">
+
+<div class="card" onclick="abrirRelatorioObra()">
+<div class="cardTitulo">Relatório da Obra</div>
+<div class="cardDesc">
+Resumo editorial simplificado para acompanhamento do autor.
+</div>
+<div id="badgeRelatorioObra" class="badge">Verificando...</div>
+</div>
+
+<div class="card" onclick="abrirRelatorioCapista()">
+<div class="cardTitulo">Relatório do Capista</div>
+<div class="cardDesc">
+Documento técnico da identidade visual da capa.
+</div>
+<div id="badgeRelatorioCapista" class="badge">Verificando...</div>
+</div>
+
+<div class="card" onclick="abrirLeituraTecnica()">
+<div class="cardTitulo">Leitura Técnica</div>
+<div class="cardDesc">
+Ficha analítica editorial da obra com parecer técnico.
+</div>
+<div id="badgeLeituraTecnica" class="badge">Verificando...</div>
+</div>
+
+<div class="card" onclick="abrirRelatorioTradutor()">
+<div class="cardTitulo">Relatório do Tradutor</div>
+<div class="cardDesc">
+Documento técnico da tradução editorial da obra.
+</div>
+<div id="badgeRelatorioTradutor" class="badge">Verificando...</div>
+</div>
+
+<div class="card" onclick="abrirRelatorioMestre()">
+<div class="cardTitulo">Relatório Mestre</div>
+<div class="cardDesc">
+Prontuário editorial consolidado da obra.
+</div>
+<div id="badgeRelatorioMestre" class="badge">Verificando...</div>
+</div>
+
+<div class="card" onclick="abrirExportador()">
+<div class="cardTitulo">Exportador Técnico</div>
+<div class="cardDesc">
+Central de exportação editorial da obra.
+</div>
+<div class="badge">Disponível</div>
+</div>
+
+</div>
+
+<div class="actions">
+<button onclick="voltarIndice()">Voltar ao índice</button>
+</div>
+
+</div>
+
+<script src="auditoria.js"></script>
+
+<script>
+
+function obterProjetoAtivo(){
+try{
+const lista=JSON.parse(localStorage.getItem("SDL_projetos_lista")||"[]")
+const ativo=localStorage.getItem("SDL_projeto_ativo")
+return lista.find(p=>p.id===ativo)||null
+}catch{
+return null
+}
+}
+
+function lerJSON(chave){
+try{
+return JSON.parse(localStorage.getItem(chave)||"null")
+}catch{
+return null
+}
+}
+
+function atualizarStatus(){
+
+const projeto=obterProjetoAtivo()
+
+if(!projeto){
+statusHubRelatorios.innerHTML="Nenhum projeto ativo selecionado."
+return
+}
+
+statusHubRelatorios.innerHTML=
+"Relatórios vinculados à obra: <strong>"+projeto.titulo+"</strong>"
+
+statusHubRelatorios.style.background="rgba(23,77,39,0.28)"
+
+const leitura=lerJSON("SDL_leitura_tecnica_ativa")
+const capa=lerJSON("SDL_configuracao_capa_ativa")
+const tradutor=lerJSON("SDL_planejamento_traducao_ativo")
+
+aplicarBadge("badgeRelatorioObra",true)
+aplicarBadge("badgeRelatorioCapista",capa && capa.projetoID===projeto.id)
+aplicarBadge("badgeLeituraTecnica",leitura && leitura.projetoID===projeto.id)
+aplicarBadge("badgeRelatorioTradutor",tradutor && tradutor.projetoID===projeto.id)
+aplicarBadge("badgeRelatorioMestre",leitura && leitura.projetoID===projeto.id)
+
+}
+
+function aplicarBadge(id,status){
+
+const el=document.getElementById(id)
+
+if(status){
+el.classList.add("ok")
+el.innerHTML="Disponível"
+}else{
+el.innerHTML="Pendente"
+}
+
+}
+
+function abrirRelatorioObra(){ window.location.href="relatorio_projeto.html" }
+function abrirRelatorioCapista(){ window.location.href="relatorio_capista.html" }
+function abrirLeituraTecnica(){ window.location.href="relatorio_leitura_tecnica.html" }
+function abrirRelatorioTradutor(){ window.location.href="relatorio_tradutor.html" }
+function abrirRelatorioMestre(){ window.location.href="relatorio_lapidar.html" }
+function abrirExportador(){ window.location.href="exportador_obra.html" }
+
+function voltarIndice(){ window.location.href="_Indice.html" }
+
+try{
+SDL_registrarAuditoria("Acesso ao hub de relatórios","hub_relatorios")
+}catch(e){}
+
+atualizarStatus()
+
+</script>
+
+</body>
+</html>
