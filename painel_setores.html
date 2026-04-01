@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Painel de Setores — Lapidar</title>
+
+<style>
+:root{
+--bg:#0d0603;
+--card:#140c08;
+--border:rgba(255,123,44,0.18);
+--text:#ffffff;
+}
+
+body{
+margin:0;
+font-family:Arial, sans-serif;
+background:var(--bg);
+color:var(--text);
+}
+
+.container{
+width:min(1200px,95%);
+margin:auto;
+padding:40px 0 60px;
+}
+
+.titulo{
+font-size:42px;
+font-weight:bold;
+}
+
+.subtitulo{
+margin-top:8px;
+font-size:16px;
+color:#f7b22c;
+line-height:1.7;
+}
+
+.status{
+margin-top:20px;
+padding:16px;
+border-radius:12px;
+background:rgba(247,178,44,0.12);
+border:1px solid rgba(247,178,44,0.25);
+color:#ffe7b0;
+}
+
+.grid{
+margin-top:30px;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:20px;
+}
+
+.card{
+padding:28px 22px;
+border-radius:20px;
+cursor:pointer;
+transition:.2s;
+box-shadow:0 10px 26px rgba(0,0,0,0.25);
+border:3px solid transparent;
+min-height:220px;
+display:flex;
+flex-direction:column;
+justify-content:space-between;
+}
+
+.card:hover{
+transform:translateY(-2px);
+}
+
+.cardTitulo{
+font-size:26px;
+font-weight:bold;
+margin-bottom:10px;
+}
+
+.cardDesc{
+font-size:15px;
+line-height:1.7;
+}
+
+.botaoInterno{
+margin-top:18px;
+display:inline-block;
+padding:12px 16px;
+border-radius:999px;
+font-weight:bold;
+font-size:14px;
+width:max-content;
+}
+
+/* DIAGRAMADOR */
+.azul{
+background:#0f3d91;
+color:#ffffff;
+border-color:#ffffff;
+}
+.azul .botaoInterno{
+background:#0f3d91;
+color:#ffffff;
+border:2px solid #ffffff;
+}
+
+/* CAPISTA */
+.amarelo{
+background:#f2c230;
+color:#111111;
+border-color:#111111;
+}
+.amarelo .botaoInterno{
+background:#f2c230;
+color:#111111;
+border:2px solid #111111;
+}
+
+/* TRADUTOR */
+.verde{
+background:#167a45;
+color:#ffffff;
+border-color:#ffffff;
+}
+.verde .botaoInterno{
+background:#ffffff;
+color:#111111;
+border:2px solid #111111;
+}
+
+/* RELATÓRIOS */
+.branco{
+background:#ffffff;
+color:#111111;
+border-color:#111111;
+}
+.branco .botaoInterno{
+background:#ffffff;
+color:#111111;
+border:2px solid #111111;
+}
+
+.actions{
+margin-top:34px;
+display:flex;
+gap:12px;
+flex-wrap:wrap;
+}
+
+button{
+border:none;
+padding:14px 18px;
+border-radius:999px;
+cursor:pointer;
+background:#24150f;
+color:white;
+font-weight:bold;
+}
+
+.btnSair{
+background:#5a0000;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="titulo">Lapidar</div>
+<div class="subtitulo">
+Escolha o setor editorial que deseja acessar.<br>
+Cada área possui identidade visual, doações e fluxo próprio.
+</div>
+
+<div id="statusPainelSetores" class="status">
+Verificando sessão ativa...
+</div>
+
+<div class="grid">
+
+<div class="card azul" onclick="abrirDiagramador()">
+  <div>
+    <div class="cardTitulo">Diagramador</div>
+    <div class="cardDesc">
+      Setor do miolo editorial, estrutura interna, planejamento técnico,
+      elementos do livro, padrão de diagramação e checklist final.
+    </div>
+  </div>
+  <div class="botaoInterno">Entrar no Diagramador</div>
+</div>
+
+<div class="card amarelo" onclick="abrirCapista()">
+  <div>
+    <div class="cardTitulo">Capista</div>
+    <div class="cardDesc">
+      Setor da identidade visual da obra, com solicitação de capa,
+      textos editoriais, configuração técnica e montagem estrutural.
+    </div>
+  </div>
+  <div class="botaoInterno">Entrar no Capista</div>
+</div>
+
+<div class="card verde" onclick="abrirTradutor()">
+  <div>
+    <div class="cardTitulo">Tradutor</div>
+    <div class="cardDesc">
+      Setor de tradução editorial, adaptação linguística,
+      glossário técnico, checklist tradutório e consolidação final.
+    </div>
+  </div>
+  <div class="botaoInterno">Entrar no Tradutor</div>
+</div>
+
+<div class="card branco" onclick="abrirRelatorios()">
+  <div>
+    <div class="cardTitulo">Relatórios</div>
+    <div class="cardDesc">
+      Setor de leitura técnica, parecer editorial, relatório da obra,
+      relatório mestre, relatório do capista e relatório do tradutor.
+    </div>
+  </div>
+  <div class="botaoInterno">Entrar nos Relatórios</div>
+</div>
+
+</div>
+
+<div class="actions">
+<button onclick="abrirPainelTecnico()">Abrir painel técnico</button>
+<button onclick="abrirProjetos()">Projetos</button>
+<button class="btnSair" onclick="encerrarSessao()">Sair do sistema</button>
+</div>
+
+</div>
+
+<script src="auditoria.js"></script>
+
+<script>
+function verificarSessao(){
+  if(localStorage.getItem("SDL_sessao_ativa") !== "sim"){
+    window.location.href = "login.html";
+    return;
+  }
+
+  document.getElementById("statusPainelSetores").innerHTML =
+    "Sessão validada. Escolha o setor editorial desejado.";
+  document.getElementById("statusPainelSetores").style.background =
+    "rgba(23,77,39,0.28)";
+}
+
+function abrirDiagramador(){
+  try{
+    SDL_registrarAuditoria("Acesso ao setor Diagramador", "painel_setores");
+  }catch(e){}
+  window.location.href = "diagramador_doacoes.html";
+}
+
+function abrirCapista(){
+  try{
+    SDL_registrarAuditoria("Acesso ao setor Capista", "painel_setores");
+  }catch(e){}
+  window.location.href = "capista_planos.html";
+}
+
+function abrirTradutor(){
+  try{
+    SDL_registrarAuditoria("Acesso ao setor Tradutor", "painel_setores");
+  }catch(e){}
+  window.location.href = "tradutor_doacoes.html";
+}
+
+function abrirRelatorios(){
+  try{
+    SDL_registrarAuditoria("Acesso ao setor Relatórios", "painel_setores");
+  }catch(e){}
+  window.location.href = "hub_relatorios.html";
+}
+
+function abrirPainelTecnico(){
+  window.location.href = "_Indice.html";
+}
+
+function abrirProjetos(){
+  window.location.href = "projetos.html";
+}
+
+function encerrarSessao(){
+  try{
+    SDL_registrarAuditoria("Encerramento manual da sessão", "painel_setores");
+  }catch(e){}
+  localStorage.removeItem("SDL_sessao_ativa");
+  window.location.href = "login.html";
+}
+
+verificarSessao();
+</script>
+
+</body>
+</html>
