@@ -6,127 +6,87 @@
 <title>Login — Lapidar</title>
 
 <style>
-
 :root{
 --bg:#0d0603;
 --card:#140c08;
 --text:#ffffff;
 --orange:#f7b22c;
---green:#9cfdb2;
 --border:rgba(255,123,44,0.18);
 --shadow:0 10px 26px rgba(0,0,0,0.28);
 }
 
 body{
 margin:0;
-font-family:Arial;
+font-family:Arial, sans-serif;
 background:var(--bg);
 color:white;
 display:flex;
 align-items:center;
 justify-content:center;
-height:100vh;
+min-height:100vh;
+padding:20px;
+box-sizing:border-box;
 }
 
 .card{
-
-width:90%;
-max-width:420px;
-
+width:100%;
+max-width:430px;
 background:var(--card);
-
 padding:30px;
-
 border-radius:18px;
-
 border:1px solid var(--border);
-
 box-shadow:var(--shadow);
-
 }
 
 .titulo{
-
 font-size:32px;
-
 font-weight:bold;
-
 margin-bottom:10px;
-
 }
 
 .subtitulo{
-
 color:var(--orange);
-
-margin-bottom:20px;
-
+margin-bottom:22px;
+line-height:1.6;
 }
 
 label{
-
 display:block;
-
 margin-top:12px;
-
-margin-bottom:5px;
-
+margin-bottom:6px;
 color:var(--orange);
-
 font-weight:bold;
-
 }
 
 input{
-
 width:100%;
-
 padding:14px;
-
 border-radius:12px;
-
 border:none;
-
 background:#1b0e07;
-
 color:white;
-
+box-sizing:border-box;
 }
 
 button{
-
-margin-top:20px;
-
+margin-top:22px;
 width:100%;
-
 padding:14px;
-
 border:none;
-
 border-radius:999px;
-
 background:#174d27;
-
 color:white;
-
 font-weight:bold;
-
 cursor:pointer;
-
 }
 
 .status{
-
 margin-top:18px;
-
 padding:12px;
-
 border-radius:12px;
-
 background:rgba(247,178,44,0.12);
-
+line-height:1.6;
 }
-
 </style>
 </head>
 
@@ -134,118 +94,54 @@ background:rgba(247,178,44,0.12);
 
 <div class="card">
 
-<div class="titulo">
-Lapidar
-</div>
-
+<div class="titulo">Lapidar</div>
 <div class="subtitulo">
-Ambiente Editorial Site das Letras
+Acesso ao sistema editorial integrado do Site das Letras.
 </div>
 
+<label for="usuario">Usuário</label>
+<input id="usuario" type="text">
 
-<label>Usuário</label>
-<input id="usuario">
-
-
-<label>Senha</label>
+<label for="senha">Senha</label>
 <input id="senha" type="password">
 
-
-<button onclick="entrarSistema()">
-Entrar
-</button>
-
+<button onclick="entrarSistema()">Entrar</button>
 
 <div id="statusLogin" class="status">
-Informe seus dados para acessar
+Informe seus dados para acessar o sistema.
 </div>
 
-
 </div>
-
-
 
 <script src="auditoria.js"></script>
 
 <script>
-
 function entrarSistema(){
+  const usuario = document.getElementById("usuario").value.trim();
+  const senha = document.getElementById("senha").value.trim();
 
-const usuario =
-document.getElementById("usuario").value.trim()
+  if(!usuario || !senha){
+    document.getElementById("statusLogin").innerHTML =
+      "Preencha usuário e senha.";
+    return;
+  }
 
-const senha =
-document.getElementById("senha").value.trim()
+  localStorage.setItem("SDL_sessao_ativa", "sim");
+  localStorage.setItem("SDL_usuario", usuario);
 
-if(!usuario || !senha){
+  try{
+    SDL_registrarAuditoria("Login realizado no sistema", "login");
+  }catch(e){}
 
-document.getElementById("statusLogin").innerHTML =
-"Preencha usuário e senha."
+  document.getElementById("statusLogin").innerHTML =
+    "Acesso autorizado. Redirecionando para os setores do Lapidar...";
+  document.getElementById("statusLogin").style.background =
+    "rgba(23,77,39,0.28)";
 
-return
-
+  setTimeout(() => {
+    window.location.href = "painel_setores.html";
+  }, 500);
 }
-
-
-
-/* ativa sessão */
-
-localStorage.setItem(
-"SDL_sessao_ativa",
-"sim"
-)
-
-
-
-/* registra usuário */
-
-localStorage.setItem(
-"SDL_usuario",
-usuario
-)
-
-
-
-/* log institucional */
-
-try{
-
-SDL_registrarAuditoria(
-
-"Login realizado no sistema",
-
-"login"
-
-)
-
-}catch(e){
-
-console.warn("Falha auditoria login")
-
-}
-
-
-
-/* feedback visual */
-
-document.getElementById("statusLogin").innerHTML =
-"Acesso autorizado."
-
-document.getElementById("statusLogin").style.background =
-"rgba(23,77,39,0.28)"
-
-
-
-/* redirecionamento */
-
-setTimeout(()=>{
-
-window.location.href="_Indice.html"
-
-},700)
-
-}
-
 </script>
 
 </body>
