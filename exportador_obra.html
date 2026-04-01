@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Exportador da Obra — Lapidar</title>
+
+<style>
+:root{
+--bg:#0d0603;
+--card:#140c08;
+--cardHover:#1b100a;
+--border:rgba(255,123,44,0.18);
+--orange:#f7b22c;
+--muted:#ffd2b3;
+--ok:#9cfdb2;
+}
+
+body{
+margin:0;
+font-family:Arial, sans-serif;
+background:var(--bg);
+color:white;
+}
+
+.container{
+width:min(1200px,95%);
+margin:auto;
+padding:40px 0 60px;
+}
+
+.titulo{
+font-size:38px;
+font-weight:bold;
+}
+
+.subtitulo{
+margin-top:6px;
+color:var(--orange);
+}
+
+.status{
+margin-top:18px;
+padding:16px;
+border-radius:12px;
+background:rgba(247,178,44,0.12);
+border:1px solid rgba(247,178,44,0.25);
+}
+
+.grid{
+margin-top:30px;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:18px;
+}
+
+.card{
+background:var(--card);
+padding:22px;
+border-radius:16px;
+border:1px solid var(--border);
+cursor:pointer;
+transition:.2s;
+}
+
+.card:hover{
+background:var(--cardHover);
+}
+
+.cardTitulo{
+font-size:20px;
+font-weight:bold;
+margin-bottom:6px;
+}
+
+.cardDesc{
+color:var(--muted);
+font-size:14px;
+line-height:1.7;
+}
+
+.badge{
+margin-top:12px;
+display:inline-block;
+padding:6px 12px;
+border-radius:999px;
+background:#2a160d;
+font-size:13px;
+}
+
+.badge.ok{
+background:rgba(23,77,39,0.35);
+color:var(--ok);
+}
+
+.actions{
+margin-top:40px;
+display:flex;
+gap:12px;
+flex-wrap:wrap;
+}
+
+button{
+border:none;
+padding:14px 18px;
+border-radius:999px;
+background:#24150f;
+color:white;
+cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="titulo">Exportador da Obra</div>
+<div class="subtitulo">Central técnica de saída editorial da obra ativa</div>
+
+<div id="statusExportador" class="status">
+Verificando obra ativa...
+</div>
+
+<div class="grid">
+
+<div class="card" onclick="abrirRelatorioObra()">
+<div class="cardTitulo">Exportar Relatório da Obra</div>
+<div class="cardDesc">
+Resumo editorial simplificado para compartilhamento com o autor.
+</div>
+<div id="badgeRelatorioObraExport" class="badge">Verificando...</div>
+</div>
+
+<div class="card" onclick="abrirRelatorioMestre()">
+<div class="cardTitulo">Exportar Relatório Mestre</div>
+<div class="cardDesc">
+Prontuário editorial consolidado da obra.
+</div>
+<div id="badgeRelatorioMestreExport" class="badge">Verificando...</div>
+</div>
+
+<div class="card" onclick="abrirLeituraTecnica()">
+<div class="cardTitulo">Exportar Leitura Técnica</div>
+<div class="cardDesc">
+Parecer analítico e recomendação editorial da obra.
+</div>
+<div id="badgeLeituraTecnicaExport" class="badge">Verificando...</div>
+</div>
+
+<div class="card" onclick="abrirRelatorioCapista()">
+<div class="cardTitulo">Exportar Relatório do Capista</div>
+<div class="cardDesc">
+Documento técnico da identidade visual e estrutura da capa.
+</div>
+<div id="badgeRelatorioCapistaExport" class="badge">Verificando...</div>
+</div>
+
+<div class="card" onclick="abrirRelatorioTradutor()">
+<div class="cardTitulo">Exportar Relatório do Tradutor</div>
+<div class="cardDesc">
+Documento executivo da estratégia tradutória da obra.
+</div>
+<div id="badgeRelatorioTradutorExport" class="badge">Verificando...</div>
+</div>
+
+<div class="card" onclick="abrirFichaEditorial()">
+<div class="cardTitulo">Exportar Ficha Editorial</div>
+<div class="cardDesc">
+Ficha Editorial Integrada da obra para uso técnico interno.
+</div>
+<div id="badgeFichaEditorialExport" class="badge">Verificando...</div>
+</div>
+
+<div class="card" onclick="abrirLombada()">
+<div class="cardTitulo">Exportar Cálculo de Lombada</div>
+<div class="cardDesc">
+Base técnica da espessura da lombada para capa completa.
+</div>
+<div id="badgeLombadaExport" class="badge">Verificando...</div>
+</div>
+
+<div class="card" onclick="abrirHubRelatorios()">
+<div class="cardTitulo">Abrir Hub de Relatórios</div>
+<div class="cardDesc">
+Central executiva de consulta e geração dos relatórios editoriais.
+</div>
+<div class="badge ok">Disponível</div>
+</div>
+
+</div>
+
+<div class="actions">
+<button onclick="abrirCentroObra()">Abrir centro da obra</button>
+<button onclick="voltarIndice()">Voltar ao índice</button>
+</div>
+
+</div>
+
+<script src="auditoria.js"></script>
+
+<script>
+function obterProjetoAtivo(){
+  try{
+    const lista = JSON.parse(localStorage.getItem("SDL_projetos_lista") || "[]");
+    const ativo = localStorage.getItem("SDL_projeto_ativo");
+    return lista.find(p => p.id === ativo) || null;
+  }catch{
+    return null;
+  }
+}
+
+function lerJSON(chave){
+  try{
+    return JSON.parse(localStorage.getItem(chave) || "null");
+  }catch{
+    return null;
+  }
+}
+
+function aplicarBadge(id, status){
+  const el = document.getElementById(id);
+
+  if(status){
+    el.classList.add("ok");
+    el.innerHTML = "Disponível";
+  }else{
+    el.innerHTML = "Pendente";
+  }
+}
+
+function atualizarStatusExportador(){
+  const projeto = obterProjetoAtivo();
+
+  if(!projeto){
+    statusExportador.innerHTML = "Nenhum projeto ativo selecionado.";
+    return;
+  }
+
+  statusExportador.innerHTML =
+    "Central de exportação vinculada à obra: <strong>" + projeto.titulo + "</strong>";
+
+  statusExportador.style.background = "rgba(23,77,39,0.28)";
+
+  const leitura = lerJSON("SDL_leitura_tecnica_ativa");
+  const capa = lerJSON("SDL_configuracao_capa_ativa");
+  const tradutor = lerJSON("SDL_planejamento_traducao_ativo");
+  const ficha = lerJSON("SDL_ficha_editorial_integrada_ativa");
+  const planejamentoMiolo = lerJSON("SDL_planejamento_miolo_ativo");
+
+  aplicarBadge("badgeRelatorioObraExport", !!projeto);
+  aplicarBadge("badgeRelatorioMestreExport", !!projeto);
+  aplicarBadge("badgeLeituraTecnicaExport", leitura && leitura.projetoID === projeto.id);
+  aplicarBadge("badgeRelatorioCapistaExport", capa && capa.projetoID === projeto.id);
+  aplicarBadge("badgeRelatorioTradutorExport", tradutor && tradutor.projetoID === projeto.id);
+  aplicarBadge("badgeFichaEditorialExport", !!ficha || !!planejamentoMiolo);
+  aplicarBadge("badgeLombadaExport", true);
+
+  try{
+    SDL_registrarAuditoria("Acesso ao exportador da obra", "exportador_obra");
+  }catch(e){}
+}
+
+function abrirRelatorioObra(){ window.location.href = "relatorio_projeto.html"; }
+function abrirRelatorioMestre(){ window.location.href = "relatorio_lapidar.html"; }
+function abrirLeituraTecnica(){ window.location.href = "relatorio_leitura_tecnica.html"; }
+function abrirRelatorioCapista(){ window.location.href = "relatorio_capista.html"; }
+function abrirRelatorioTradutor(){ window.location.href = "relatorio_tradutor.html"; }
+function abrirFichaEditorial(){ window.location.href = "ficha_editorial_integrada.html"; }
+function abrirLombada(){ window.location.href = "calculo_lombada.html"; }
+function abrirHubRelatorios(){ window.location.href = "hub_relatorios.html"; }
+function abrirCentroObra(){ window.location.href = "centro_obra.html"; }
+function voltarIndice(){ window.location.href = "_Indice.html"; }
+
+atualizarStatusExportador();
+</script>
+
+</body>
+</html>
