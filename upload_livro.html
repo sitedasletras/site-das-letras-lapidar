@@ -3,20 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lapidar — Upload do Livro</title>
+<title>Upload do Livro — Lapidar</title>
 
 <style>
 
 :root{
 --bg:#0d0603;
 --card:#140c08;
---card-2:#1b100a;
 --text:#ffffff;
 --muted:#ffd2b3;
 --orange:#f7b22c;
---orange-strong:#ff5a00;
---blue:#6ea8ff;
+--orangeStrong:#ff5a00;
 --green:#9cfdb2;
+--danger:#ff7070;
 --border:rgba(255,123,44,0.18);
 --shadow:0 10px 26px rgba(0,0,0,0.28);
 }
@@ -25,32 +24,31 @@ body{
 margin:0;
 font-family:Arial;
 background:var(--bg);
-color:var(--text);
+color:white;
 }
 
 .container{
-width:min(1100px,94%);
+width:min(1000px,95%);
 margin:auto;
-padding:30px 0 50px 0;
+padding:40px 0;
 }
 
 .titulo{
-font-size:40px;
+font-size:38px;
 font-weight:bold;
 }
 
 .subtitulo{
-color:var(--orange);
 margin-top:6px;
-font-size:18px;
+color:var(--orange);
 }
 
-.bloco{
+.card{
+margin-top:30px;
 background:var(--card);
-border:1px solid var(--border);
+padding:24px;
 border-radius:18px;
-padding:22px;
-margin-top:24px;
+border:1px solid var(--border);
 box-shadow:var(--shadow);
 }
 
@@ -58,7 +56,7 @@ box-shadow:var(--shadow);
 display:grid;
 grid-template-columns:1fr 1fr;
 gap:18px;
-margin-top:20px;
+margin-top:18px;
 }
 
 label{
@@ -68,79 +66,72 @@ color:var(--orange);
 font-weight:bold;
 }
 
-input, select, textarea{
+input, textarea, select{
+
 width:100%;
-padding:12px;
-border-radius:10px;
+padding:14px;
+border-radius:12px;
 border:none;
-background:#1a0f09;
+background:#1b0e07;
 color:white;
+
 }
 
 textarea{
-min-height:120px;
+
+min-height:140px;
+resize:vertical;
+
 }
 
-.actions{
-margin-top:20px;
-display:flex;
-gap:12px;
-flex-wrap:wrap;
-}
+.statusBox{
 
-.botao{
-border:none;
-padding:14px 18px;
-border-radius:999px;
-font-weight:bold;
-cursor:pointer;
-}
-
-.botao-laranja{
-background:var(--orange-strong);
-color:white;
-}
-
-.botao-azul{
-background:var(--blue);
-color:white;
-}
-
-.botao-verde{
-background:#174d27;
-color:#dfffe8;
-}
-
-.botao-escuro{
-background:#24150f;
-color:white;
-}
-
-.status-box{
-margin-top:20px;
+margin-top:22px;
 padding:18px;
 border-radius:14px;
 background:rgba(247,178,44,0.12);
 border:1px solid rgba(247,178,44,0.2);
 color:#ffe7b0;
+
 }
 
-.link-btn{
-display:block;
-margin-top:10px;
-text-decoration:none;
-text-align:center;
-padding:14px;
+.actions{
+
+margin-top:26px;
+display:flex;
+flex-wrap:wrap;
+gap:12px;
+
+}
+
+.botao{
+
+border:none;
+padding:14px 18px;
 border-radius:999px;
+font-weight:bold;
+cursor:pointer;
+
+}
+
+.botaoSalvar{
+
+background:#174d27;
+color:#dfffe8;
+
+}
+
+.botaoIndice{
+
 background:#24150f;
 color:white;
+
 }
 
-@media(max-width:900px){
+.botaoPreview{
 
-.grid{
-grid-template-columns:1fr;
-}
+background:var(--orangeStrong);
+color:white;
 
 }
 
@@ -151,105 +142,99 @@ grid-template-columns:1fr;
 
 <div class="container">
 
-<div>
-
 <div class="titulo">
-UPLOAD DO LIVRO
+REGISTRO DO PROJETO EDITORIAL
 </div>
 
 <div class="subtitulo">
-Registro inicial da obra dentro do ambiente Lapidar
+Cadastro da obra dentro do ambiente Lapidar
 </div>
 
-</div>
 
 
-
-<div class="bloco">
+<div class="card">
 
 <div class="grid">
-
 
 <div>
 
 <label>Título da obra</label>
-<input id="tituloLivro">
-
+<input id="titulo">
 
 </div>
-
 
 
 <div>
 
 <label>Subtítulo</label>
-<input id="subtituloLivro">
-
+<input id="subtitulo">
 
 </div>
-
 
 
 <div>
 
 <label>Autor / Heterônimo</label>
-<input id="autorLivro">
-
+<input id="autor">
 
 </div>
-
 
 
 <div>
 
 <label>Coleção</label>
-<input id="colecaoLivro">
-
+<input id="colecao">
 
 </div>
-
 
 
 <div>
 
 <label>Formato do livro</label>
-<select id="formatoLivro">
+<select id="formato">
 
 <option>A5</option>
 <option>16x23</option>
 <option>6x9</option>
 <option>A4</option>
-<option>Infantil</option>
 
 </select>
 
 </div>
-
 
 
 <div>
 
-<label>Status inicial</label>
-<select id="statusLivro">
+<label>Status editorial</label>
+<select id="status">
 
 <option>Em preparação</option>
-<option>Em diagramação</option>
 <option>Em revisão</option>
-<option>Pronto para capa</option>
+<option>Em diagramação</option>
+<option>Finalizado</option>
 
 </select>
 
 </div>
 
+</div>
+
+
+
+<div style="margin-top:18px;">
+
+<label>Observações do projeto</label>
+<textarea id="observacoes"></textarea>
 
 </div>
 
 
 
-<div style="margin-top:18px">
+<div class="statusBox" id="statusProjeto">
 
-<label>Observações do projeto</label>
-<textarea id="observacoesLivro"></textarea>
+Nenhum projeto registrado ainda.
+
+</div>
 
 </div>
 
@@ -257,69 +242,25 @@ Registro inicial da obra dentro do ambiente Lapidar
 
 <div class="actions">
 
-<button class="botao botao-laranja"
-onclick="registrarProjeto()">
+<button class="botao botaoSalvar" onclick="salvarProjeto()">
 
-Registrar projeto
-
-</button>
-
-
-<button class="botao botao-azul"
-onclick="abrirPreviewProjeto()">
-
-Preview do projeto
+Salvar projeto
 
 </button>
 
 
-<button class="botao botao-escuro"
-onclick="voltarIndice()">
+<button class="botao botaoPreview" onclick="abrirPreview()">
+
+Abrir preview
+
+</button>
+
+
+<button class="botao botaoIndice" onclick="voltarIndice()">
 
 Voltar ao índice
 
 </button>
-
-</div>
-
-
-
-<div class="status-box"
-id="statusProjeto">
-
-Nenhum projeto registrado ainda neste dispositivo.
-
-</div>
-
-
-</div>
-
-
-
-<div class="bloco">
-
-<h3>Atalhos rápidos</h3>
-
-<a class="link-btn"
-href="historico_projetos.html">
-
-Histórico de projetos
-
-</a>
-
-<a class="link-btn"
-href="preview_projeto.html">
-
-Preview do projeto
-
-</a>
-
-<a class="link-btn"
-href="_Indice.html">
-
-Voltar ao índice
-
-</a>
 
 </div>
 
@@ -333,13 +274,11 @@ Voltar ao índice
 
 function verificarSessao(){
 
-const sessao =
-localStorage.getItem("SDL_sessao_ativa");
+const sessao=localStorage.getItem("SDL_sessao_ativa")
 
-if(sessao !== "sim"){
+if(sessao!=="sim"){
 
-window.location.href =
-"login.html";
+window.location.href="login.html"
 
 }
 
@@ -347,75 +286,67 @@ window.location.href =
 
 
 
-function registrarProjeto(){
+function salvarProjeto(){
 
-const titulo =
-document.getElementById("tituloLivro").value;
+const titulo=document.getElementById("titulo").value.trim()
+const subtitulo=document.getElementById("subtitulo").value.trim()
+const autor=document.getElementById("autor").value.trim()
+const colecao=document.getElementById("colecao").value.trim()
+const formato=document.getElementById("formato").value
+const status=document.getElementById("status").value
+const observacoes=document.getElementById("observacoes").value.trim()
 
-const autor =
-document.getElementById("autorLivro").value;
+if(!titulo){
 
-if(!titulo || !autor){
+document.getElementById("statusProjeto").innerHTML=
+"O título da obra é obrigatório."
 
-alert("Título e autor são obrigatórios.");
-
-return;
+return
 
 }
 
+const projeto={
 
-const projeto = {
-
-titulo:
-
-document.getElementById("tituloLivro").value,
-
-subtitulo:
-
-document.getElementById("subtituloLivro").value,
-
-autor:
-
-document.getElementById("autorLivro").value,
-
-colecao:
-
-document.getElementById("colecaoLivro").value,
-
-formato:
-
-document.getElementById("formatoLivro").value,
-
-status:
-
-document.getElementById("statusLivro").value,
-
-observacoes:
-
-document.getElementById("observacoesLivro").value
-
-};
-
-
-localStorage.setItem(
-"SDL_projeto_ativo",
-JSON.stringify(projeto)
-);
-
-
-document.getElementById("statusProjeto").innerHTML =
-"Projeto registrado com sucesso: <strong>" +
-projeto.titulo +
-"</strong>";
+titulo,
+subtitulo,
+autor,
+colecao,
+formato,
+status,
+observacoes,
+dataRegistro:new Date().toISOString()
 
 }
 
 
 
-function abrirPreviewProjeto(){
+try{
 
-window.location.href =
-"preview_projeto.html";
+localStorage.setItem("SDL_projeto_ativo",JSON.stringify(projeto))
+
+document.getElementById("statusProjeto").innerHTML=
+
+"Projeto salvo com sucesso."
+
+document.getElementById("statusProjeto").style.background=
+
+"rgba(23,77,39,0.28)"
+
+}catch(e){
+
+document.getElementById("statusProjeto").innerHTML=
+
+"Erro ao salvar projeto."
+
+}
+
+}
+
+
+
+function abrirPreview(){
+
+window.location.href="preview_projeto.html"
 
 }
 
@@ -423,17 +354,15 @@ window.location.href =
 
 function voltarIndice(){
 
-window.location.href =
-"_Indice.html";
+window.location.href="_Indice.html"
 
 }
 
 
 
-verificarSessao();
+verificarSessao()
 
 </script>
-
 
 </body>
 </html>
