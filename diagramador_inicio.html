@@ -1,383 +1,816 @@
-<!DOCTYPE html>
-<html lang="pt-br">
+<!DOCTYPE html><html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Painel do Diagramador</title>
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lapidar — Diagramador</title>
   <style>
-    *{box-sizing:border-box;}
+    :root {
+      --bg: #f4efe6;
+      --bg-2: #efe2cb;
+      --paper: #fffaf2;
+      --paper-2: #f7efe1;
+      --ink: #2d2418;
+      --muted: #766955;
+      --line: #d8c9b0;
+      --accent: #9b7b43;
+      --accent-dark: #70572f;
+      --success: #355d3a;
+      --warning: #8a5a17;
+      --shadow: 0 14px 34px rgba(58, 43, 23, 0.12);
+      --radius: 22px;
+      --radius-sm: 14px;
+      --max: 1460px;
+    }* { box-sizing: border-box; }
 
-    body{
-      margin:0;
-      font-family:Arial, Helvetica, sans-serif;
-      background:linear-gradient(180deg,#0b1d46 0%, #10285f 45%, #0b1633 100%);
-      color:#ffffff;
-      min-height:100vh;
-    }
+body {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at top left, #fbf4e7 0%, transparent 28%),
+    radial-gradient(circle at bottom right, #ead9b9 0%, transparent 26%),
+    var(--bg);
+  min-height: 100vh;
+}
 
-    .wrap{
-      width:100%;
-      max-width:980px;
-      margin:0 auto;
-      padding:28px 18px 40px;
-    }
+button, input, select { font: inherit; }
 
-    .topo{
-      margin-bottom:24px;
-    }
+.page {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 28px;
+}
 
-    .marca{
-      font-size:13px;
-      opacity:.72;
-      letter-spacing:.4px;
-      margin-bottom:8px;
-    }
+.hero {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
 
-    h1{
-      margin:0;
-      font-size:clamp(34px, 8vw, 58px);
-      line-height:1.05;
-    }
+.hero small {
+  display: block;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 12px;
+  margin-bottom: 8px;
+}
 
-    .sub{
-      margin-top:14px;
-      font-size:clamp(18px, 3.2vw, 26px);
-      color:#dbeafe;
-      line-height:1.4;
-    }
+.hero h1 {
+  margin: 0;
+  font-size: clamp(32px, 4vw, 50px);
+  color: var(--accent-dark);
+  line-height: 1.02;
+}
 
-    .alerta{
-      margin-top:22px;
-      background:rgba(255,255,255,0.08);
-      border:1px solid rgba(255,255,255,0.14);
-      color:#f8fafc;
-      border-radius:20px;
-      padding:18px 20px;
-      font-size:16px;
-      line-height:1.5;
-    }
+.hero p {
+  margin: 12px 0 0;
+  max-width: 780px;
+  color: var(--muted);
+  line-height: 1.65;
+  font-size: 15px;
+}
 
-    .grade{
-      display:grid;
-      grid-template-columns:repeat(2,1fr);
-      gap:18px;
-      margin-top:24px;
-    }
+.hero-badges {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
 
-    .card{
-      background:rgba(4,18,52,0.62);
-      border:1px solid rgba(255,255,255,0.10);
-      border-radius:26px;
-      padding:24px;
-      box-shadow:0 18px 40px rgba(0,0,0,.22);
-    }
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(216, 201, 176, 0.9);
+  background: rgba(255, 250, 242, 0.92);
+  box-shadow: var(--shadow);
+  color: var(--muted);
+  font-size: 14px;
+}
 
-    .card h2{
-      margin:0 0 12px 0;
-      font-size:clamp(24px, 4vw, 34px);
-      line-height:1.15;
-      color:#ffffff;
-    }
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--success);
+  box-shadow: 0 0 0 6px rgba(53, 93, 58, 0.1);
+}
 
-    .card p{
-      margin:0;
-      font-size:17px;
-      line-height:1.7;
-      color:#dbeafe;
-    }
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(360px, 0.95fr);
+  gap: 24px;
+  align-items: start;
+}
 
-    .status{
-      display:inline-block;
-      margin-top:18px;
-      padding:10px 16px;
-      border-radius:999px;
-      font-weight:bold;
-      font-size:14px;
-      background:#1d4ed8;
-      color:#eff6ff;
-    }
+.panel {
+  background: rgba(255, 250, 242, 0.94);
+  border: 1px solid rgba(216, 201, 176, 0.9);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
 
-    .acoes{
-      margin-top:16px;
-      display:grid;
-      gap:10px;
-    }
+.panel-header {
+  padding: 22px 24px 18px;
+  border-bottom: 1px solid rgba(216, 201, 176, 0.72);
+  background: linear-gradient(180deg, rgba(255,255,255,0.42), rgba(255,250,242,0));
+}
 
-    .botao{
-      border:none;
-      border-radius:16px;
-      padding:14px 16px;
-      cursor:pointer;
-      font-size:15px;
-      font-weight:bold;
-      color:#fff;
-      background:#2563eb;
-      transition:.2s ease;
-      width:100%;
-    }
+.panel-header small {
+  display: block;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 12px;
+  margin-bottom: 8px;
+}
 
-    .botao:hover{
-      transform:translateY(-1px);
-      background:#1d4ed8;
-    }
+.panel-header h2 {
+  margin: 0;
+  font-size: clamp(22px, 2.8vw, 30px);
+  color: var(--accent-dark);
+  line-height: 1.14;
+}
 
-    .botao.sec{
-      background:#334155;
-    }
+.panel-header p {
+  margin: 12px 0 0;
+  color: var(--muted);
+  line-height: 1.62;
+  font-size: 15px;
+}
 
-    .botao.sec:hover{
-      background:#475569;
-    }
+.panel-body { padding: 24px; }
 
-    .upload-box{
-      margin-top:26px;
-      background:rgba(4,18,52,0.62);
-      border:1px solid rgba(255,255,255,0.10);
-      border-radius:26px;
-      padding:24px;
-      box-shadow:0 18px 40px rgba(0,0,0,.22);
-    }
+.mode-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-bottom: 24px;
+}
 
-    .upload-box h2{
-      margin:0 0 10px 0;
-      font-size:32px;
-      color:#ffffff;
-    }
+.mode-card {
+  border: 1px solid rgba(216, 201, 176, 0.84);
+  border-radius: 18px;
+  background: rgba(255,255,255,0.58);
+  padding: 18px;
+  display: grid;
+  gap: 10px;
+}
 
-    .upload-box p{
-      margin:0 0 18px 0;
-      font-size:16px;
-      line-height:1.6;
-      color:#dbeafe;
-    }
+.mode-card.active {
+  border-color: rgba(112, 87, 47, 0.55);
+  background: linear-gradient(180deg, rgba(255,255,255,0.82), rgba(244, 234, 213, 0.94));
+  box-shadow: 0 10px 20px rgba(58, 43, 23, 0.08);
+}
 
-    .input-arquivo{
-      width:100%;
-      padding:14px;
-      border-radius:16px;
-      border:1px dashed rgba(255,255,255,0.18);
-      background:rgba(255,255,255,0.06);
-      color:#fff;
-      margin-bottom:16px;
-    }
+.mode-card small {
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 11px;
+}
 
-    .lista-arquivos{
-      display:grid;
-      gap:12px;
-      margin-top:14px;
-    }
+.mode-card h3 {
+  margin: 0;
+  color: var(--accent-dark);
+  font-size: 20px;
+}
 
-    .arquivo-item{
-      background:rgba(255,255,255,0.06);
-      border:1px solid rgba(255,255,255,0.10);
-      border-radius:18px;
-      padding:14px;
-    }
+.mode-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.55;
+  font-size: 14px;
+}
 
-    .arquivo-nome{
-      font-weight:bold;
-      color:#fff;
-      margin-bottom:6px;
-      word-break:break-word;
-    }
+.mode-card button {
+  border: none;
+  border-radius: 12px;
+  padding: 11px 14px;
+  cursor: pointer;
+  font-weight: 700;
+  background: var(--accent-dark);
+  color: #fffaf2;
+}
 
-    .arquivo-meta{
-      font-size:13px;
-      color:#cbd5e1;
-      line-height:1.5;
-    }
+.sub-panels {
+  display: grid;
+  gap: 24px;
+}
 
-    .rodape{
-      margin-top:28px;
-      display:flex;
-      gap:12px;
-      flex-wrap:wrap;
-    }
+.plan-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
 
-    .vazio{
-      font-size:15px;
-      color:#cbd5e1;
-      opacity:.85;
-    }
+.plan-card {
+  border: 1px solid rgba(216, 201, 176, 0.82);
+  border-radius: 18px;
+  background: rgba(255,255,255,0.56);
+  padding: 18px;
+  display: grid;
+  gap: 10px;
+}
 
-    @media (max-width:760px){
-      .grade{
-        grid-template-columns:1fr;
-      }
-    }
+.plan-card strong {
+  color: var(--accent-dark);
+  font-size: 22px;
+  line-height: 1;
+}
+
+.plan-card span {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.plan-card .meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.plan-card .tag {
+  display: inline-flex;
+  padding: 7px 10px;
+  border-radius: 999px;
+  background: rgba(155, 123, 67, 0.12);
+  color: var(--accent-dark);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.station-grid {
+  display: grid;
+  gap: 18px;
+}
+
+.station {
+  border: 1px solid rgba(216, 201, 176, 0.82);
+  border-radius: 18px;
+  background: rgba(255,255,255,0.55);
+  overflow: hidden;
+}
+
+.station-header {
+  padding: 16px 18px;
+  border-bottom: 1px solid rgba(216, 201, 176, 0.72);
+  background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,250,242,0));
+}
+
+.station-header h3 {
+  margin: 0;
+  font-size: 18px;
+  color: var(--accent-dark);
+}
+
+.station-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(240px, 320px);
+  gap: 18px;
+  padding: 18px;
+  align-items: start;
+}
+
+.options {
+  display: grid;
+  gap: 10px;
+}
+
+.option {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+  align-items: center;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(216, 201, 176, 0.75);
+  background: rgba(255,255,255,0.72);
+}
+
+.option.active {
+  border-color: rgba(112, 87, 47, 0.5);
+  background: linear-gradient(180deg, rgba(255,255,255,0.92), rgba(244,234,213,0.94));
+}
+
+.option label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.option .price {
+  color: var(--accent-dark);
+  font-weight: 700;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.preview {
+  border-radius: 18px;
+  border: 1px solid rgba(216, 201, 176, 0.82);
+  background: linear-gradient(180deg, #fffdf8 0%, #f7efe1 100%);
+  min-height: 250px;
+  position: relative;
+  overflow: hidden;
+  padding: 22px;
+}
+
+.preview-page {
+  position: relative;
+  height: 100%;
+  min-height: 210px;
+  border-radius: 14px;
+  background: #fffdf8;
+  border: 1px solid rgba(216, 201, 176, 0.82);
+  box-shadow: inset 0 0 0 18px rgba(240, 230, 210, 0.18);
+  padding: 22px 24px 18px;
+  overflow: hidden;
+}
+
+.preview-page h4 {
+  margin: 0 0 14px;
+  color: var(--accent-dark);
+}
+
+.preview-lines {
+  display: grid;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.preview-line {
+  height: 9px;
+  border-radius: 999px;
+  background: rgba(118, 105, 85, 0.18);
+}
+
+.preview-line.w70 { width: 70%; }
+.preview-line.w82 { width: 82%; }
+.preview-line.w90 { width: 90%; }
+.preview-line.w96 { width: 96%; }
+
+.page-number {
+  position: absolute;
+  font-size: 15px;
+  color: rgba(112, 87, 47, 0.88);
+  font-weight: 700;
+}
+
+.page-number.bottom-center { bottom: 10px; left: 50%; transform: translateX(-50%); }
+.page-number.outer-right { bottom: 10px; right: 18px; }
+.page-number.top-center { top: 10px; left: 50%; transform: translateX(-50%); }
+
+.preview-note {
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.sidebar-stack {
+  display: grid;
+  gap: 24px;
+}
+
+.sticky-box {
+  position: sticky;
+  top: 20px;
+  display: grid;
+  gap: 24px;
+}
+
+.meter {
+  display: grid;
+  gap: 14px;
+}
+
+.meter-item {
+  padding: 14px 16px;
+  border-radius: 16px;
+  border: 1px solid rgba(216, 201, 176, 0.82);
+  background: rgba(255,255,255,0.62);
+}
+
+.meter-item small {
+  display: block;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 11px;
+  margin-bottom: 6px;
+}
+
+.meter-item strong {
+  color: var(--accent-dark);
+  font-size: 21px;
+}
+
+.cta-box {
+  padding: 18px;
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.8), rgba(245,235,216,0.96));
+  border: 1px solid rgba(216, 201, 176, 0.88);
+}
+
+.cta-box p {
+  margin: 0 0 14px;
+  color: var(--muted);
+  line-height: 1.6;
+  font-size: 14px;
+}
+
+.btn {
+  border: none;
+  border-radius: 14px;
+  padding: 14px 18px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  width: 100%;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(58,43,23,0.14);
+}
+
+.btn-primary {
+  background: var(--accent-dark);
+  color: #fffaf2;
+}
+
+.notice {
+  padding: 16px 18px;
+  border-left: 4px solid var(--accent);
+  border-radius: 12px;
+  background: rgba(255,255,255,0.55);
+  color: var(--muted);
+  line-height: 1.65;
+  font-size: 14px;
+}
+
+.notice strong { color: var(--accent-dark); }
+
+.rules-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.rules-list li {
+  padding: 14px 16px;
+  border: 1px solid rgba(216, 201, 176, 0.78);
+  border-radius: 16px;
+  background: rgba(255,255,255,0.58);
+}
+
+.rules-list strong {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--accent-dark);
+  font-size: 15px;
+}
+
+.rules-list span {
+  display: block;
+  color: var(--muted);
+  line-height: 1.55;
+  font-size: 14px;
+}
+
+@media (max-width: 1180px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .sticky-box {
+    position: static;
+  }
+}
+
+@media (max-width: 860px) {
+  .mode-grid,
+  .plan-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .station-body {
+    grid-template-columns: 1fr;
+  }
+}
+
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="topo">
-      <div class="marca">Setor 1 — Entrada geral</div>
-      <h1>Painel do Diagramador</h1>
-      <div class="sub">Ambiente central do miolo editorial dentro do Lapidar</div>
-
-      <div class="alerta" id="projetoAtivoBox">
-        Projeto ativo: em preparação.
-      </div>
-    </div>
-
-    <div class="grade">
-      <div class="card">
-        <h2>Planejamento</h2>
-        <p>Organização do formato, estrutura, capítulos, margens e fluxo do miolo.</p>
-        <span class="status">Disponível</span>
-        <div class="acoes">
-          <button class="botao" onclick="abrirPagina('diagramador_planejamento_miolo.html')">Abrir planejamento</button>
-        </div>
-      </div>
-
-      <div class="card">
-        <h2>Elementos Técnicos</h2>
-        <p>Peças internas da obra, front matter, expediente e estrutura complementar.</p>
-        <span class="status">Disponível</span>
-        <div class="acoes">
-          <button class="botao" onclick="abrirPagina('diagramador_elementos_tecnicos.html')">Abrir elementos técnicos</button>
-        </div>
-      </div>
-
-      <div class="card">
-        <h2>Checklist</h2>
-        <p>Validação do setor antes do avanço para outras etapas do Lapidar.</p>
-        <span class="status">Disponível</span>
-        <div class="acoes">
-          <button class="botao" onclick="abrirPagina('diagramador_checklist.html')">Abrir checklist</button>
-        </div>
-      </div>
-
-      <div class="card">
-        <h2>Relatórios</h2>
-        <p>Acompanhamento técnico do tratamento editorial e registro de lapidação.</p>
-        <span class="status">Disponível</span>
-        <div class="acoes">
-          <button class="botao" onclick="abrirPagina('relatorio_lapidacao.html')">Abrir relatório</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="upload-box">
-      <h2>Documentos do Setor</h2>
-      <p>
-        Área para registrar documentos de qualquer formato relacionados ao setor de diagramação.
-      </p>
-
-      <input class="input-arquivo" type="file" id="uploadDocumentos" multiple>
-
-      <div class="acoes">
-        <button class="botao" onclick="registrarUploads()">Registrar arquivos</button>
-        <button class="botao sec" onclick="limparUploads()">Limpar lista</button>
-      </div>
-
-      <div id="listaArquivos" class="lista-arquivos"></div>
-    </div>
-
-    <div class="rodape">
-      <button class="botao sec" style="max-width:260px;" onclick="abrirPagina('hub_diagramador.html')">Voltar ao Assistente</button>
-      <button class="botao sec" style="max-width:260px;" onclick="abrirPagina('painel_setores.html')">Voltar ao índice</button>
-    </div>
+  <div class="page">
+    <header class="hero">
+      <div>
+        <small>Lapidar • Setor 1</small>
+        <h1>Assistente de Diagramação do Autor</h1>
+        <p>
+          Escolha como deseja construir o miolo da sua obra: com seleção manual, com montagem automática equilibrada ou com montagem automática mais refinada.
+        </p>
+      </div><div class="hero-badges">
+    <div class="badge"><span class="dot"></span>Posição editorial ativa no setor</div>
+    <div class="badge">Integração pronta com o Capista</div>
   </div>
+</header>
 
-  <script>
-    function abrirPagina(pagina){
-      window.location.href = pagina;
-    }
+<main class="layout">
+  <section class="sub-panels">
+    <section class="panel">
+      <div class="panel-header">
+        <small>Modo de construção</small>
+        <h2>Escolha como o miolo será montado</h2>
+        <p>
+          Você pode selecionar item por item ou deixar o sistema montar automaticamente uma diagramação boa ou uma diagramação mais refinada.
+        </p>
+      </div>
+      <div class="panel-body">
+        <div class="mode-grid">
+          <article class="mode-card active">
+            <small>Modo 1</small>
+            <h3>Manual</h3>
+            <p>Você escolhe cada estação editorial do miolo conforme sua preferência.</p>
+            <button>Selecionar Manual</button>
+          </article>
 
-    function formatarTamanho(bytes){
-      if(bytes < 1024) return bytes + " B";
-      if(bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + " KB";
-      if(bytes < 1024 * 1024 * 1024) return (bytes / (1024 * 1024)).toFixed(1) + " MB";
-      return (bytes / (1024 * 1024 * 1024)).toFixed(1) + " GB";
-    }
+          <article class="mode-card">
+            <small>Modo 2</small>
+            <h3>Medium</h3>
+            <p>O sistema monta automaticamente uma diagramação boa, equilibrada e com layout bem resolvido.</p>
+            <button>Selecionar Medium</button>
+          </article>
 
-    function carregarProjetoAtivo(){
-      const box = document.getElementById("projetoAtivoBox");
-      const projeto = localStorage.getItem("lapidarProjetoAtivo");
+          <article class="mode-card">
+            <small>Modo 3</small>
+            <h3>Open</h3>
+            <p>O sistema monta automaticamente uma diagramação mais forte, refinada e visualmente mais impactante.</p>
+            <button>Selecionar Open</button>
+          </article>
+        </div>
+      </div>
+    </section>
 
-      if(!projeto){
-        const provis = {
-          nome: "Projeto em preparação",
-          origem: "Painel do Diagramador"
-        };
-        localStorage.setItem("lapidarProjetoAtivo", JSON.stringify(provis));
-        box.textContent = "Projeto ativo: Projeto em preparação";
-        return;
-      }
+    <section class="panel">
+      <div class="panel-header">
+        <small>Planos de época</small>
+        <h2>Modalidades do Diagramador</h2>
+        <p>
+          Os créditos deste setor são independentes dos demais. Ao final de cada ciclo, o saldo é encerrado e reiniciado após a renovação da sua contribuição.
+        </p>
+      </div>
+      <div class="panel-body">
+        <div class="plan-grid">
+          <article class="plan-card">
+            <div class="meta"><span class="tag">Avulso</span><strong>R$ 3,99</strong></div>
+            <span>1 diagramação. Posição editorial inicial do projeto na categoria avulso.</span>
+          </article>
 
-      try{
-        const dados = JSON.parse(projeto);
-        box.textContent = "Projeto ativo: " + (dados.nome || "Projeto em preparação");
-      }catch(e){
-        box.textContent = "Projeto ativo: Projeto em preparação";
-      }
-    }
+          <article class="plan-card">
+            <div class="meta"><span class="tag">Mensal</span><strong>R$ 19,99</strong></div>
+            <span>10 diagramações válidas por 30 dias a partir da ativação.</span>
+          </article>
 
-    function pegarListaUploads(){
-      const dados = localStorage.getItem("lapidar_uploads_diagramador");
-      return dados ? JSON.parse(dados) : [];
-    }
+          <article class="plan-card">
+            <div class="meta"><span class="tag">Mensal</span><strong>R$ 39,99</strong></div>
+            <span>30 diagramações válidas por 30 dias a partir da ativação.</span>
+          </article>
 
-    function salvarListaUploads(lista){
-      localStorage.setItem("lapidar_uploads_diagramador", JSON.stringify(lista));
-    }
+          <article class="plan-card">
+            <div class="meta"><span class="tag">Mensal</span><strong>R$ 59,99</strong></div>
+            <span>50 diagramações válidas por 30 dias a partir da ativação.</span>
+          </article>
 
-    function registrarUploads(){
-      const input = document.getElementById("uploadDocumentos");
-      const arquivos = Array.from(input.files || []);
+          <article class="plan-card">
+            <div class="meta"><span class="tag">Mensal</span><strong>R$ 99,99</strong></div>
+            <span>90 diagramações válidas por 30 dias a partir da ativação.</span>
+          </article>
 
-      if(!arquivos.length){
-        alert("Selecione ao menos um arquivo.");
-        return;
-      }
+          <article class="plan-card">
+            <div class="meta"><span class="tag">Livre</span><strong>R$ 299,99</strong></div>
+            <span>Modo livre completo para o setor durante o ciclo vigente.</span>
+          </article>
 
-      const lista = pegarListaUploads();
+          <article class="plan-card">
+            <div class="meta"><span class="tag">Trimestral</span><strong>R$ 55 / 120 / 150 / 270</strong></div>
+            <span>Planos de 10, 30, 50 e 90 diagramações por mês, durante 3 ciclos consecutivos.</span>
+          </article>
 
-      arquivos.forEach((arquivo) => {
-        lista.unshift({
-          nome: arquivo.name,
-          tamanho: arquivo.size,
-          tipo: arquivo.type || "Formato não identificado",
-          data: new Date().toLocaleString("pt-BR")
-        });
-      });
+          <article class="plan-card">
+            <div class="meta"><span class="tag">Semestral / Anual</span><strong>R$ 100–980</strong></div>
+            <span>Mesma lógica dos planos mensais, respeitando a validade de cada ciclo editorial.</span>
+          </article>
+        </div>
+      </div>
+    </section>
 
-      salvarListaUploads(lista);
-      input.value = "";
-      renderizarUploads();
-      alert("Arquivos registrados.");
-    }
+    <section class="panel">
+      <div class="panel-header">
+        <small>Estações do miolo</small>
+        <h2>Escolhas editoriais com visualização imediata</h2>
+        <p>
+          Cada estação possui pelo menos uma opção gratuita. Ao escolher uma alternativa, a prévia ao lado mostra o impacto visual da sua decisão.
+        </p>
+      </div>
+      <div class="panel-body">
+        <div class="station-grid">
+          <article class="station">
+            <div class="station-header">
+              <h3>Corpo do texto</h3>
+            </div>
+            <div class="station-body">
+              <div class="options">
+                <div class="option active">
+                  <label><input type="radio" name="corpo" checked /> Times New Roman</label>
+                  <div class="price">0,00</div>
+                </div>
+                <div class="option">
+                  <label><input type="radio" name="corpo" /> EB Garamond</label>
+                  <div class="price">0,15</div>
+                </div>
+                <div class="option">
+                  <label><input type="radio" name="corpo" /> Arial</label>
+                  <div class="price">0,12</div>
+                </div>
+              </div>
+              <div class="preview">
+                <div class="preview-page" style="font-family: 'Times New Roman', serif;">
+                  <h4>Capítulo em construção</h4>
+                  <div class="preview-lines">
+                    <div class="preview-line w96"></div>
+                    <div class="preview-line w90"></div>
+                    <div class="preview-line w82"></div>
+                    <div class="preview-line w96"></div>
+                    <div class="preview-line w70"></div>
+                  </div>
+                </div>
+                <div class="preview-note">Prévia ilustrativa do corpo do texto aplicado ao miolo.</div>
+              </div>
+            </div>
+          </article>
 
-    function limparUploads(){
-      localStorage.removeItem("lapidar_uploads_diagramador");
-      renderizarUploads();
-    }
+          <article class="station">
+            <div class="station-header">
+              <h3>Título do capítulo</h3>
+            </div>
+            <div class="station-body">
+              <div class="options">
+                <div class="option active">
+                  <label><input type="radio" name="titulo" checked /> Arial</label>
+                  <div class="price">0,00</div>
+                </div>
+                <div class="option">
+                  <label><input type="radio" name="titulo" /> Times New Roman</label>
+                  <div class="price">0,09</div>
+                </div>
+                <div class="option">
+                  <label><input type="radio" name="titulo" /> EB Garamond</label>
+                  <div class="price">0,18</div>
+                </div>
+              </div>
+              <div class="preview">
+                <div class="preview-page">
+                  <h4 style="font-family: Arial, sans-serif;">CAPÍTULO 1</h4>
+                  <div class="preview-lines">
+                    <div class="preview-line w82"></div>
+                    <div class="preview-line w96"></div>
+                    <div class="preview-line w90"></div>
+                    <div class="preview-line w82"></div>
+                  </div>
+                </div>
+                <div class="preview-note">A prévia exibe a hierarquia escolhida para abertura dos capítulos.</div>
+              </div>
+            </div>
+          </article>
 
-    function renderizarUploads(){
-      const alvo = document.getElementById("listaArquivos");
-      const lista = pegarListaUploads();
+          <article class="station">
+            <div class="station-header">
+              <h3>Numeração de páginas</h3>
+            </div>
+            <div class="station-body">
+              <div class="options">
+                <div class="option active">
+                  <label><input type="radio" name="numeracao" checked /> Numeração simples inferior</label>
+                  <div class="price">0,00</div>
+                </div>
+                <div class="option">
+                  <label><input type="radio" name="numeracao" /> Numeração externa editorial</label>
+                  <div class="price">0,08</div>
+                </div>
+                <div class="option">
+                  <label><input type="radio" name="numeracao" /> Numeração superior clássica</label>
+                  <div class="price">0,14</div>
+                </div>
+              </div>
+              <div class="preview">
+                <div class="preview-page">
+                  <h4>Visualização da página</h4>
+                  <div class="preview-lines">
+                    <div class="preview-line w96"></div>
+                    <div class="preview-line w90"></div>
+                    <div class="preview-line w82"></div>
+                    <div class="preview-line w96"></div>
+                  </div>
+                  <div class="page-number outer-right">32</div>
+                </div>
+                <div class="preview-note">A posição do número muda conforme a opção escolhida na estação.</div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </section>
 
-      if(!lista.length){
-        alvo.innerHTML = '<div class="vazio">Nenhum documento registrado ainda.</div>';
-        return;
-      }
-
-      alvo.innerHTML = lista.map(item => `
-        <div class="arquivo-item">
-          <div class="arquivo-nome">${item.nome}</div>
-          <div class="arquivo-meta">
-            Tipo: ${item.tipo}<br>
-            Tamanho: ${formatarTamanho(item.tamanho)}<br>
-            Registrado em: ${item.data}
+  <aside class="sidebar-stack">
+    <div class="sticky-box">
+      <section class="panel">
+        <div class="panel-header">
+          <small>Resumo editorial do setor</small>
+          <h2>Montagem atual do miolo</h2>
+          <p>
+            Este painel acompanha a combinação escolhida no setor Diagramador e prepara o envio posterior ao Mesário Setorial.
+          </p>
+        </div>
+        <div class="panel-body">
+          <div class="meter">
+            <div class="meter-item">
+              <small>Modo ativo</small>
+              <strong>Manual</strong>
+            </div>
+            <div class="meter-item">
+              <small>Contribuição mínima atual</small>
+              <strong>R$ 4,14</strong>
+            </div>
+            <div class="meter-item">
+              <small>Integração com capa</small>
+              <strong>Pronta para conector 2</strong>
+            </div>
           </div>
         </div>
-      `).join("");
-    }
+      </section>
 
-    localStorage.setItem("lapidarSetorAtivo", "diagramador");
-    carregarProjetoAtivo();
-    renderizarUploads();
-  </script>
+      <section class="panel">
+        <div class="panel-header">
+          <small>Orientações do setor</small>
+          <h2>Regras desta etapa</h2>
+        </div>
+        <div class="panel-body">
+          <ul class="rules-list">
+            <li>
+              <strong>A capa não faz parte da diagramação do miolo</strong>
+              <span>Se desejar capa, o sistema encaminhará os dados técnicos ao Capista por meio dos conectores internos.</span>
+            </li>
+            <li>
+              <strong>Cada estação possui uma opção gratuita</strong>
+              <span>As demais escolhas funcionam como recursos editoriais complementares com contribuição mínima específica.</span>
+            </li>
+            <li>
+              <strong>Os setores são independentes, porém coligados</strong>
+              <span>O saldo do Diagramador não consome saldo do Capista, do Tradutor ou da Avaliação.</span>
+            </li>
+          </ul>
+
+          <div class="notice" style="margin-top: 18px;">
+            <strong>Texto institucional dos planos:</strong><br />
+            Esta modalidade contempla 30 diagramações válidas por 30 dias, contados a partir da data de ativação. Ao final desse período,
+            havendo ou não diagramações ainda não realizadas, o saldo será encerrado automaticamente e reiniciado após a renovação da sua contribuição,
+            seja ela mensal, trimestral, semestral ou anual. Recursos editoriais complementares poderão ser incorporados conforme as escolhas realizadas por você ao longo da realização deste projeto,
+            respeitando as contribuições voluntárias sugeridas mínimas indicadas para cada etapa selecionada e para cada produto escolhido.
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-body">
+          <div class="cta-box">
+            <p>
+              Se desejar criar capa para este projeto, o sistema poderá encaminhar automaticamente os dados técnicos já reunidos para o setor Capista.
+            </p>
+            <button class="btn btn-primary">Encaminhar para o Capista</button>
+          </div>
+        </div>
+      </section>
+    </div>
+  </aside>
+</main>
+
+  </div>
 </body>
 </html>
