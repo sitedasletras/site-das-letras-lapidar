@@ -22,7 +22,7 @@
 
     .container{
       width:100%;
-      max-width:900px;
+      max-width:1080px;
       background:#0f172a;
       border:1px solid rgba(255,255,255,0.08);
       border-radius:24px;
@@ -45,6 +45,16 @@
       margin:0 0 8px 0;
       font-size:30px;
       letter-spacing:1px;
+    }
+
+    h2{
+      margin:0 0 12px 0;
+      font-size:22px;
+    }
+
+    h3{
+      margin:0 0 10px 0;
+      font-size:18px;
     }
 
     .subtitulo{
@@ -101,7 +111,7 @@
       margin-top:16px;
       font-size:14px;
       line-height:1.5;
-      opacity:.9;
+      opacity:.92;
       background:rgba(255,255,255,0.04);
       border:1px solid rgba(255,255,255,0.08);
       border-radius:14px;
@@ -148,6 +158,14 @@
       background:#374151;
     }
 
+    .botao.perigo{
+      background:#7f1d1d;
+    }
+
+    .botao.perigo:hover{
+      background:#991b1b;
+    }
+
     .grade-servicos{
       display:grid;
       grid-template-columns:repeat(2, 1fr);
@@ -171,6 +189,100 @@
       background:#162033;
     }
 
+    .bloco-licencas{
+      margin-top:20px;
+      background:#0f172a;
+      border:1px solid rgba(255,255,255,0.07);
+      border-radius:18px;
+      padding:18px;
+    }
+
+    .grid-licencas{
+      display:grid;
+      grid-template-columns:repeat(2, 1fr);
+      gap:12px;
+      margin-top:14px;
+    }
+
+    .licenca-card{
+      background:#111827;
+      border:1px solid rgba(255,255,255,0.08);
+      border-radius:16px;
+      padding:14px;
+    }
+
+    .licenca-topo{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:10px;
+      margin-bottom:10px;
+      flex-wrap:wrap;
+    }
+
+    .licenca-nome{
+      font-size:15px;
+      font-weight:bold;
+    }
+
+    .licenca-status{
+      font-size:12px;
+      padding:6px 10px;
+      border-radius:999px;
+      font-weight:bold;
+      background:#1f2937;
+    }
+
+    .licenca-status.ativa{
+      background:#14532d;
+    }
+
+    .licenca-status.inativa{
+      background:#7f1d1d;
+    }
+
+    .licenca-dados{
+      font-size:13px;
+      line-height:1.55;
+      opacity:.92;
+    }
+
+    .licenca-botoes{
+      display:grid;
+      gap:8px;
+      margin-top:12px;
+    }
+
+    .mini-botao{
+      border:none;
+      border-radius:10px;
+      padding:10px 12px;
+      cursor:pointer;
+      font-size:13px;
+      font-weight:bold;
+      color:#fff;
+      background:#334155;
+    }
+
+    .mini-botao:hover{
+      background:#475569;
+    }
+
+    .mini-botao.perigo{
+      background:#7f1d1d;
+    }
+
+    .mini-botao.perigo:hover{
+      background:#991b1b;
+    }
+
+    .rodape-licenca{
+      margin-top:12px;
+      font-size:12px;
+      opacity:.7;
+      line-height:1.45;
+    }
+
     .footer{
       margin-top:22px;
       font-size:12px;
@@ -179,8 +291,9 @@
       text-align:center;
     }
 
-    @media (max-width:640px){
-      .grade-servicos{
+    @media (max-width:760px){
+      .grade-servicos,
+      .grid-licencas{
         grid-template-columns:1fr;
       }
     }
@@ -279,14 +392,74 @@
       </div>
 
       <div class="mensagem">
-        Acesso privado da ala de heterônimos liberado. Este ambiente é reservado e separado das cortesias operacionais.
+        Acesso ampliado liberado. O heterônimo pode circular pelos setores primos, áreas autorais e acionar licenças em modo campo, sem acessar financeiro, auditoria, controles internos de admin e área administrativa.
       </div>
 
       <div class="grade-servicos">
+        <div class="card-servico" onclick="abrirPagina('painel_setores.html')">Painel de Setores</div>
+        <div class="card-servico" onclick="abrirPagina('painel_departamentos.html')">Painel de Departamentos</div>
+        <div class="card-servico" onclick="abrirPagina('hub_diagramador.html')">1 — Diagramador</div>
+        <div class="card-servico" onclick="abrirPagina('hub_capista.html')">3 — Capista</div>
+        <div class="card-servico" onclick="abrirPagina('hub_tradutor.html')">5 — Tradutor</div>
+        <div class="card-servico" onclick="abrirPagina('hub_relatorios.html')">7 — Parecer / Laudo</div>
+        <div class="card-servico" onclick="abrirPagina('leitura_tecnica_editorial.html')">11 — Analisador de obra</div>
+        <div class="card-servico" onclick="abrirPagina('ficha_editorial_integrada.html')">13 — Ferramentas técnicas editoriais</div>
         <div class="card-servico" onclick="abrirPagina('criar_perfil.html')">Criar perfil autoral</div>
-        <div class="card-servico" onclick="abrirPagina('painel_departamentos.html')">Painel reservado</div>
         <div class="card-servico" onclick="abrirPagina('projetos.html')">Projetos autorais</div>
         <div class="card-servico" onclick="abrirPagina('historico_projetos.html')">Histórico de projetos</div>
+        <div class="card-servico" onclick="abrirPagina('idioma_obra.html')">Idioma da obra</div>
+      </div>
+
+      <div class="bloco-licencas">
+        <h3>Licenças — modo Zorro</h3>
+        <div class="mensagem" style="margin-top:0;">
+          Aqui o heterônimo pode <strong>acionar uso</strong> de licenças já configuradas, sem bloquear, sem revogar e sem mexer no bastidor sensível.
+        </div>
+        <div id="gridLicencasHeteronimo" class="grid-licencas"></div>
+      </div>
+
+      <div class="acoes">
+        <button class="botao secundario" onclick="trocarUsuario()">Trocar usuário</button>
+        <button class="botao escuro" onclick="sairSistema()">Sair geral</button>
+      </div>
+    </div>
+
+    <div id="painelAdmin" class="painel hidden">
+      <div class="linha">
+        <span class="label">Usuário</span>
+        <span id="nomeAdmin" class="valor">—</span>
+      </div>
+
+      <div class="linha">
+        <span class="label">Perfil</span>
+        <span class="badge">Admin</span>
+      </div>
+
+      <div class="mensagem">
+        Acesso total liberado. O admin pode circular por toda a plataforma e gerenciar licenças integralmente.
+      </div>
+
+      <div class="grade-servicos">
+        <div class="card-servico" onclick="abrirPagina('painel_setores.html')">Painel de Setores</div>
+        <div class="card-servico" onclick="abrirPagina('painel_departamentos.html')">Painel de Departamentos</div>
+        <div class="card-servico" onclick="abrirPagina('hub_diagramador.html')">1 — Diagramador</div>
+        <div class="card-servico" onclick="abrirPagina('hub_capista.html')">3 — Capista</div>
+        <div class="card-servico" onclick="abrirPagina('hub_tradutor.html')">5 — Tradutor</div>
+        <div class="card-servico" onclick="abrirPagina('hub_relatorios.html')">7 — Parecer / Laudo</div>
+        <div class="card-servico" onclick="abrirPagina('leitura_tecnica_editorial.html')">11 — Analisador de obra</div>
+        <div class="card-servico" onclick="abrirPagina('ficha_editorial_integrada.html')">13 — Ferramentas técnicas editoriais</div>
+        <div class="card-servico" onclick="abrirPagina('pagamento.html')">Pagamento</div>
+        <div class="card-servico" onclick="abrirPagina('planos_doacoes.html')">Planos / Doações</div>
+        <div class="card-servico" onclick="abrirPagina('idioma_obra.html')">Idioma da obra</div>
+        <div class="card-servico" onclick="abrirPagina('login.html')">Permissões / Login</div>
+      </div>
+
+      <div class="bloco-licencas">
+        <h3>Gestão completa de licenças</h3>
+        <div class="mensagem" style="margin-top:0;">
+          Aqui o admin pode ativar, desativar, bloquear e acompanhar o uso das licenças.
+        </div>
+        <div id="gridLicencasAdmin" class="grid-licencas"></div>
       </div>
 
       <div class="acoes">
@@ -343,20 +516,15 @@
 
     function dadosDoPerfil(perfil) {
       const perfis = {
-        admin: {
-          descricao: "Acesso total estrutural e institucional.",
-          mensagem: "Perfil com comando completo do sistema, áreas privadas, auditoria e gestão estratégica.",
-          acao: "Abrir login administrativo"
-        },
         autor: {
           descricao: "Acesso de autor com envio e acompanhamento de obra.",
           mensagem: "Perfil voltado ao fluxo editorial do autor.",
-          acao: "Abrir centro da obra"
+          acao: "Abrir painel de setores"
         },
         usuario: {
           descricao: "Acesso funcional padrão.",
           mensagem: "Perfil de uso comum da plataforma.",
-          acao: "Abrir painel do usuário"
+          acao: "Abrir painel de setores"
         },
         visitante: {
           descricao: "Acesso mínimo de visualização.",
@@ -372,6 +540,174 @@
       };
     }
 
+    function listarLicencas() {
+      const lista = [];
+
+      lista.push({
+        id: "cortesia_quimera",
+        titulo: "Cortesia da Quimera",
+        tipo: "permanente",
+        ativa: localStorage.getItem("cfg_quimera_ativa") === "true",
+        beneficiado: "Uso institucional permanente",
+        duracao: "Permanente"
+      });
+
+      lista.push({
+        id: "cortesia_valleti",
+        titulo: "Cortesia da ValletiBooks",
+        tipo: "permanente",
+        ativa: localStorage.getItem("cfg_valleti_ativa") === "true",
+        beneficiado: "Uso institucional permanente",
+        duracao: "Permanente"
+      });
+
+      lista.push({
+        id: "cortesia_acl",
+        titulo: "Cortesia ACL",
+        tipo: "semestral",
+        ativa: localStorage.getItem("cfg_acl_ativa") === "true",
+        beneficiado: "Divulgação",
+        duracao: "Semestral"
+      });
+
+      lista.push({
+        id: "cortesia_andre",
+        titulo: "Cortesia André Instituição",
+        tipo: "semestral",
+        ativa: localStorage.getItem("cfg_andre_ativa") === "true",
+        beneficiado: "Divulgação",
+        duracao: "Semestral"
+      });
+
+      lista.push({
+        id: "cortesia_estilo",
+        titulo: "Cortesia Estilo e Poesia",
+        tipo: "semestral",
+        ativa: localStorage.getItem("cfg_estilo_ativa") === "true",
+        beneficiado: "Divulgação",
+        duracao: "Semestral"
+      });
+
+      for (let i = 1; i <= 10; i++) {
+        const slot = String(i).padStart(4, "0");
+        lista.push({
+          id: "solidaria_" + slot,
+          titulo: "Licença Solidária " + slot,
+          tipo: "solidaria",
+          ativa: localStorage.getItem(`solidaria_${slot}_ativa`) === "true",
+          beneficiado: localStorage.getItem(`solidaria_${slot}_beneficiado`) || "Não definido",
+          duracao: formatarDuracao(localStorage.getItem(`solidaria_${slot}_duracao`) || "180")
+        });
+      }
+
+      return lista;
+    }
+
+    function formatarDuracao(valor) {
+      const mapa = {
+        "30": "30 dias",
+        "90": "90 dias",
+        "180": "180 dias",
+        "365": "12 meses",
+        "99999": "Ilimitado"
+      };
+      return mapa[valor] || valor + " dias";
+    }
+
+    function acionarLicenca(id) {
+      alert("Uso acionado para: " + id);
+    }
+
+    function ativarLicencaAdmin(id) {
+      if (id === "cortesia_quimera") localStorage.setItem("cfg_quimera_ativa", "true");
+      if (id === "cortesia_valleti") localStorage.setItem("cfg_valleti_ativa", "true");
+      if (id === "cortesia_acl") localStorage.setItem("cfg_acl_ativa", "true");
+      if (id === "cortesia_andre") localStorage.setItem("cfg_andre_ativa", "true");
+      if (id === "cortesia_estilo") localStorage.setItem("cfg_estilo_ativa", "true");
+
+      if (id.startsWith("solidaria_")) {
+        const slot = id.replace("solidaria_", "");
+        localStorage.setItem(`solidaria_${slot}_ativa`, "true");
+      }
+
+      alert("Licença ativada.");
+      renderizar();
+    }
+
+    function bloquearLicencaAdmin(id) {
+      if (id === "cortesia_quimera") localStorage.setItem("cfg_quimera_ativa", "false");
+      if (id === "cortesia_valleti") localStorage.setItem("cfg_valleti_ativa", "false");
+      if (id === "cortesia_acl") localStorage.setItem("cfg_acl_ativa", "false");
+      if (id === "cortesia_andre") localStorage.setItem("cfg_andre_ativa", "false");
+      if (id === "cortesia_estilo") localStorage.setItem("cfg_estilo_ativa", "false");
+
+      if (id.startsWith("solidaria_")) {
+        const slot = id.replace("solidaria_", "");
+        localStorage.setItem(`solidaria_${slot}_ativa`, "false");
+      }
+
+      alert("Licença bloqueada.");
+      renderizar();
+    }
+
+    function montarCardLicenca(item, modo) {
+      const statusClasse = item.ativa ? "ativa" : "inativa";
+      const statusTexto = item.ativa ? "Ativa" : "Inativa";
+
+      let botoes = "";
+
+      if (modo === "admin") {
+        botoes = `
+          <button class="mini-botao" onclick="acionarLicenca('${item.id}')">Acionar uso</button>
+          <button class="mini-botao" onclick="ativarLicencaAdmin('${item.id}')">Ativar</button>
+          <button class="mini-botao perigo" onclick="bloquearLicencaAdmin('${item.id}')">Bloquear</button>
+        `;
+      }
+
+      if (modo === "heteronimo") {
+        botoes = `
+          <button class="mini-botao" onclick="acionarLicenca('${item.id}')">Acionar uso</button>
+        `;
+      }
+
+      return `
+        <div class="licenca-card">
+          <div class="licenca-topo">
+            <div class="licenca-nome">${item.titulo}</div>
+            <div class="licenca-status ${statusClasse}">${statusTexto}</div>
+          </div>
+
+          <div class="licenca-dados">
+            <div><strong>Tipo:</strong> ${item.tipo}</div>
+            <div><strong>Beneficiado:</strong> ${item.beneficiado}</div>
+            <div><strong>Duração:</strong> ${item.duracao}</div>
+          </div>
+
+          <div class="licenca-botoes">
+            ${botoes}
+          </div>
+
+          <div class="rodape-licenca">
+            ${modo === "heteronimo"
+              ? "Modo Zorro: pode acionar, mas não bloquear."
+              : "Modo Admin: gestão completa da licença."}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderizarLicencasAdmin() {
+      const alvo = document.getElementById("gridLicencasAdmin");
+      if (!alvo) return;
+      alvo.innerHTML = listarLicencas().map(item => montarCardLicenca(item, "admin")).join("");
+    }
+
+    function renderizarLicencasHeteronimo() {
+      const alvo = document.getElementById("gridLicencasHeteronimo");
+      if (!alvo) return;
+      alvo.innerHTML = listarLicencas().map(item => montarCardLicenca(item, "heteronimo")).join("");
+    }
+
     function renderizar() {
       const sessao = pegarSessao();
 
@@ -379,12 +715,14 @@
       const painelPadrao = document.getElementById("painelPadrao");
       const painelOperacionalPrimos = document.getElementById("painelOperacionalPrimos");
       const painelHeteronimo = document.getElementById("painelHeteronimo");
+      const painelAdmin = document.getElementById("painelAdmin");
       const rodapeTexto = document.getElementById("rodapeTexto");
 
       semLogin.classList.add("hidden");
       painelPadrao.classList.add("hidden");
       painelOperacionalPrimos.classList.add("hidden");
       painelHeteronimo.classList.add("hidden");
+      painelAdmin.classList.add("hidden");
 
       if (!sessao) {
         semLogin.classList.remove("hidden");
@@ -392,10 +730,19 @@
         return;
       }
 
-      if (sessao.tipoAcesso === "heteronimo_privado" || sessao.perfil === "heteronimo") {
+      if (sessao.perfil === "admin" || sessao.tipoAcesso === "institucional_total") {
+        painelAdmin.classList.remove("hidden");
+        document.getElementById("nomeAdmin").textContent = sessao.nome || "Admin";
+        renderizarLicencasAdmin();
+        rodapeTexto.textContent = "Acesso administrativo total";
+        return;
+      }
+
+      if (sessao.perfil === "heteronimo" || sessao.tipoAcesso === "heteronimo_privado") {
         painelHeteronimo.classList.remove("hidden");
         document.getElementById("nomeHeteronimo").textContent = sessao.nome || "Heterônimo";
-        rodapeTexto.textContent = "Ala privada de heterônimos";
+        renderizarLicencasHeteronimo();
+        rodapeTexto.textContent = "Modo Zorro editorial";
         return;
       }
 
@@ -417,28 +764,10 @@
       document.getElementById("mensagemPerfilPadrao").textContent = dadosPerfil.mensagem;
 
       const botaoPrincipal = document.getElementById("botaoPrincipalPadrao");
-
-      if (sessao.perfil === "autor") {
-        botaoPrincipal.textContent = "Abrir centro da obra";
-        botaoPrincipal.onclick = function() {
-          abrirPagina("centro_obra.html");
-        };
-      } else if (sessao.perfil === "admin") {
-        botaoPrincipal.textContent = "Voltar ao login administrativo";
-        botaoPrincipal.onclick = function() {
-          abrirPagina("login.html");
-        };
-      } else if (sessao.perfil === "usuario") {
-        botaoPrincipal.textContent = "Abrir painel de setores";
-        botaoPrincipal.onclick = function() {
-          abrirPagina("painel_setores.html");
-        };
-      } else {
-        botaoPrincipal.textContent = dadosPerfil.acao;
-        botaoPrincipal.onclick = function() {
-          abrirPagina("painel_setores.html");
-        };
-      }
+      botaoPrincipal.textContent = dadosPerfil.acao;
+      botaoPrincipal.onclick = function() {
+        abrirPagina("painel_setores.html");
+      };
 
       rodapeTexto.textContent = "Plataforma editorial proprietária";
     }
