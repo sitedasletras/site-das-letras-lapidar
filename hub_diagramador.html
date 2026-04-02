@@ -1,261 +1,429 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hub do Diagramador — Lapidar</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Assistente de Diagramação do Autor</title>
 
-<style>
-:root{
---bg:#0d0603;
---card:#140c08;
---cardHover:#1b100a;
---border:rgba(255,123,44,0.18);
---orange:#f7b22c;
---muted:#ffd2b3;
---ok:#9cfdb2;
-}
+  <style>
+    *{box-sizing:border-box;}
 
-body{
-margin:0;
-font-family:Arial, sans-serif;
-background:var(--bg);
-color:white;
-}
+    body{
+      margin:0;
+      font-family:Arial, Helvetica, sans-serif;
+      background:linear-gradient(180deg,#0b1d46 0%, #10285f 45%, #0b1633 100%);
+      color:#ffffff;
+      min-height:100vh;
+    }
 
-.container{
-width:min(1200px,95%);
-margin:auto;
-padding:40px 0 60px;
-}
+    .wrap{
+      width:100%;
+      max-width:980px;
+      margin:0 auto;
+      padding:28px 18px 40px;
+    }
 
-.titulo{
-font-size:38px;
-font-weight:bold;
-}
+    .topo{
+      text-align:left;
+      margin-bottom:24px;
+    }
 
-.subtitulo{
-margin-top:6px;
-color:var(--orange);
-}
+    .marca{
+      font-size:13px;
+      opacity:.72;
+      letter-spacing:.4px;
+      margin-bottom:8px;
+    }
 
-.status{
-margin-top:18px;
-padding:16px;
-border-radius:12px;
-background:rgba(247,178,44,0.12);
-border:1px solid rgba(247,178,44,0.25);
-}
+    h1{
+      margin:0;
+      font-size:clamp(34px, 8vw, 64px);
+      line-height:1.02;
+      color:#ffffff;
+    }
 
-.grid{
-margin-top:30px;
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-gap:18px;
-}
+    .sub{
+      margin-top:14px;
+      font-size:clamp(18px, 3.5vw, 28px);
+      color:#dbeafe;
+      line-height:1.4;
+    }
 
-.card{
-background:var(--card);
-padding:22px;
-border-radius:16px;
-border:1px solid var(--border);
-cursor:pointer;
-transition:.2s;
-}
+    .alerta{
+      margin-top:22px;
+      background:rgba(255,255,255,0.08);
+      border:1px solid rgba(255,255,255,0.14);
+      color:#f8fafc;
+      border-radius:20px;
+      padding:18px 20px;
+      font-size:16px;
+      line-height:1.5;
+    }
 
-.card:hover{
-background:var(--cardHover);
-}
+    .grade{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:18px;
+      margin-top:24px;
+    }
 
-.cardTitulo{
-font-size:20px;
-font-weight:bold;
-margin-bottom:6px;
-}
+    .card{
+      background:rgba(4,18,52,0.62);
+      border:1px solid rgba(255,255,255,0.10);
+      border-radius:26px;
+      padding:24px;
+      box-shadow:0 18px 40px rgba(0,0,0,.22);
+    }
 
-.cardDesc{
-color:var(--muted);
-font-size:14px;
-line-height:1.7;
-}
+    .card h2{
+      margin:0 0 12px 0;
+      font-size:clamp(24px, 4vw, 34px);
+      line-height:1.15;
+      color:#ffffff;
+    }
 
-.badge{
-margin-top:12px;
-display:inline-block;
-padding:6px 12px;
-border-radius:999px;
-background:#2a160d;
-font-size:13px;
-}
+    .card p{
+      margin:0;
+      font-size:17px;
+      line-height:1.7;
+      color:#dbeafe;
+    }
 
-.badge.ok{
-background:rgba(23,77,39,0.35);
-color:var(--ok);
-}
+    .status{
+      display:inline-block;
+      margin-top:18px;
+      padding:10px 16px;
+      border-radius:999px;
+      font-weight:bold;
+      font-size:14px;
+      background:#1e3a8a;
+      color:#dbeafe;
+    }
 
-.actions{
-margin-top:40px;
-}
+    .status.ok{
+      background:#14532d;
+      color:#dcfce7;
+    }
 
-button{
-border:none;
-padding:14px 18px;
-border-radius:999px;
-background:#24150f;
-color:white;
-cursor:pointer;
-}
-</style>
+    .status.info{
+      background:#1d4ed8;
+      color:#eff6ff;
+    }
+
+    .acoes{
+      margin-top:16px;
+      display:grid;
+      gap:10px;
+    }
+
+    .botao{
+      border:none;
+      border-radius:16px;
+      padding:14px 16px;
+      cursor:pointer;
+      font-size:15px;
+      font-weight:bold;
+      color:#fff;
+      background:#2563eb;
+      transition:.2s ease;
+      width:100%;
+    }
+
+    .botao:hover{
+      transform:translateY(-1px);
+      background:#1d4ed8;
+    }
+
+    .botao.sec{
+      background:#334155;
+    }
+
+    .botao.sec:hover{
+      background:#475569;
+    }
+
+    .botao.verde{
+      background:#166534;
+    }
+
+    .botao.verde:hover{
+      background:#15803d;
+    }
+
+    .upload-box{
+      margin-top:26px;
+      background:rgba(4,18,52,0.62);
+      border:1px solid rgba(255,255,255,0.10);
+      border-radius:26px;
+      padding:24px;
+      box-shadow:0 18px 40px rgba(0,0,0,.22);
+    }
+
+    .upload-box h2{
+      margin:0 0 10px 0;
+      font-size:32px;
+      color:#ffffff;
+    }
+
+    .upload-box p{
+      margin:0 0 18px 0;
+      font-size:16px;
+      line-height:1.6;
+      color:#dbeafe;
+    }
+
+    .input-arquivo{
+      width:100%;
+      padding:14px;
+      border-radius:16px;
+      border:1px dashed rgba(255,255,255,0.18);
+      background:rgba(255,255,255,0.06);
+      color:#fff;
+      margin-bottom:16px;
+    }
+
+    .lista-arquivos{
+      display:grid;
+      gap:12px;
+      margin-top:14px;
+    }
+
+    .arquivo-item{
+      background:rgba(255,255,255,0.06);
+      border:1px solid rgba(255,255,255,0.10);
+      border-radius:18px;
+      padding:14px;
+    }
+
+    .arquivo-nome{
+      font-weight:bold;
+      color:#fff;
+      margin-bottom:6px;
+      word-break:break-word;
+    }
+
+    .arquivo-meta{
+      font-size:13px;
+      color:#cbd5e1;
+      line-height:1.5;
+    }
+
+    .rodape{
+      margin-top:28px;
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+
+    .vazio{
+      font-size:15px;
+      color:#cbd5e1;
+      opacity:.85;
+    }
+
+    @media (max-width:760px){
+      .grade{
+        grid-template-columns:1fr;
+      }
+    }
+  </style>
 </head>
-
 <body>
+  <div class="wrap">
+    <div class="topo">
+      <div class="marca">Setor 1 — Miolo editorial</div>
+      <h1>Assistente de<br>Diagramação do Autor</h1>
+      <div class="sub">Central executiva do setor de miolo editorial</div>
 
-<div class="container">
+      <div class="alerta" id="projetoAtivoBox">
+        Nenhum projeto ativo selecionado.
+      </div>
+    </div>
 
-<div class="titulo">Hub do Diagramador</div>
-<div class="subtitulo">Central executiva do setor de miolo editorial</div>
+    <div class="grade">
+      <div class="card">
+        <h2>Planejamento do Miolo</h2>
+        <p>Formato, páginas, margens, capítulos e estrutura editorial da obra.</p>
+        <span class="status info">Disponível</span>
+        <div class="acoes">
+          <button class="botao" onclick="abrirPagina('diagramador_planejamento_miolo.html')">Abrir planejamento</button>
+        </div>
+      </div>
 
-<div id="statusHubDiagramador" class="status">
-Verificando projeto ativo...
-</div>
+      <div class="card">
+        <h2>Elementos Técnicos</h2>
+        <p>Dedicatória, prefácio, prólogo, sumário, expediente e peças internas.</p>
+        <span class="status info">Disponível</span>
+        <div class="acoes">
+          <button class="botao" onclick="abrirPagina('diagramador_elementos_tecnicos.html')">Abrir elementos técnicos</button>
+        </div>
+      </div>
 
-<div class="grid">
+      <div class="card">
+        <h2>Checklist do Miolo</h2>
+        <p>Validação técnica final do setor de diagramação antes do avanço.</p>
+        <span class="status info">Disponível</span>
+        <div class="acoes">
+          <button class="botao" onclick="abrirPagina('diagramador_checklist.html')">Abrir checklist</button>
+        </div>
+      </div>
 
-<div class="card" onclick="abrirPlanejamentoMiolo()">
-<div class="cardTitulo">Planejamento do Miolo</div>
-<div class="cardDesc">
-Formato, páginas, margens, capítulos e estrutura editorial da obra.
-</div>
-<div id="badgePlanejamentoMiolo" class="badge">Verificando...</div>
-</div>
+      <div class="card">
+        <h2>Relatório de Lapidação</h2>
+        <p>Documento técnico do tratamento editorial e organização do miolo.</p>
+        <span class="status info">Disponível</span>
+        <div class="acoes">
+          <button class="botao" onclick="abrirPagina('relatorio_lapidacao.html')">Abrir relatório</button>
+        </div>
+      </div>
 
-<div class="card" onclick="abrirElementosTecnicos()">
-<div class="cardTitulo">Elementos Técnicos</div>
-<div class="cardDesc">
-Dedicatória, prefácio, prólogo, sumário, expediente e peças internas.
-</div>
-<div id="badgeElementosTecnicos" class="badge">Verificando...</div>
-</div>
+      <div class="card">
+        <h2>Painel do Diagramador</h2>
+        <p>Entrada geral do setor de diagramação dentro do Lapidar.</p>
+        <span class="status ok">Disponível</span>
+        <div class="acoes">
+          <button class="botao verde" onclick="abrirPainelDiagramador()">Entrar no painel</button>
+        </div>
+      </div>
 
-<div class="card" onclick="abrirPadraoDiagramacao()">
-<div class="cardTitulo">Padrão de Diagramação</div>
-<div class="cardDesc">
-Fonte, alinhamento, travessão, hifenização e DNA visual do miolo.
-</div>
-<div id="badgePadraoDiagramacao" class="badge">Verificando...</div>
-</div>
+      <div class="card">
+        <h2>Preferências de Diagramação</h2>
+        <p>Regras de formatação, tipografia, margens e estilo editorial da obra.</p>
+        <span class="status info">Disponível</span>
+        <div class="acoes">
+          <button class="botao" onclick="abrirPagina('preferencias_diagramacao.html')">Abrir preferências</button>
+        </div>
+      </div>
+    </div>
 
-<div class="card" onclick="abrirChecklistMiolo()">
-<div class="cardTitulo">Checklist do Miolo</div>
-<div class="cardDesc">
-Validação técnica final do setor de diagramação antes do avanço.
-</div>
-<div id="badgeChecklistMiolo" class="badge">Verificando...</div>
-</div>
+    <div class="upload-box">
+      <h2>Upload de Documentos</h2>
+      <p>
+        Aqui você pode anexar documentos de qualquer formato para uso no setor de diagramação.
+        Esta área aceita múltiplos arquivos.
+      </p>
 
-<div class="card" onclick="abrirRelatorioLapidacao()">
-<div class="cardTitulo">Relatório de Lapidação</div>
-<div class="cardDesc">
-Documento técnico do tratamento editorial e organização do miolo.
-</div>
-<div id="badgeRelatorioLapidacao" class="badge">Verificando...</div>
-</div>
+      <input class="input-arquivo" type="file" id="uploadDocumentos" multiple>
 
-<div class="card" onclick="abrirInicioDiagramador()">
-<div class="cardTitulo">Painel do Diagramador</div>
-<div class="cardDesc">
-Entrada geral do setor de diagramação dentro do Lapidar.
-</div>
-<div class="badge ok">Disponível</div>
-</div>
+      <div class="acoes">
+        <button class="botao" onclick="registrarUploads()">Registrar arquivos</button>
+        <button class="botao sec" onclick="limparUploads()">Limpar lista</button>
+      </div>
 
-</div>
+      <div id="listaArquivos" class="lista-arquivos"></div>
+    </div>
 
-<div class="actions">
-<button onclick="voltarIndice()">Voltar ao índice</button>
-</div>
+    <div class="rodape">
+      <button class="botao sec" style="max-width:240px;" onclick="abrirPagina('painel_setores.html')">Voltar ao índice</button>
+    </div>
+  </div>
 
-</div>
+  <script>
+    function abrirPagina(pagina){
+      window.location.href = pagina;
+    }
 
-<script src="auditoria.js"></script>
+    function formatarTamanho(bytes){
+      if(bytes < 1024) return bytes + " B";
+      if(bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + " KB";
+      if(bytes < 1024 * 1024 * 1024) return (bytes / (1024 * 1024)).toFixed(1) + " MB";
+      return (bytes / (1024 * 1024 * 1024)).toFixed(1) + " GB";
+    }
 
-<script>
-function obterProjetoAtivo(){
-  try{
-    const lista = JSON.parse(localStorage.getItem("SDL_projetos_lista") || "[]");
-    const ativo = localStorage.getItem("SDL_projeto_ativo");
-    return lista.find(p => p.id === ativo) || null;
-  }catch{
-    return null;
-  }
-}
+    function carregarProjetoAtivo(){
+      const box = document.getElementById("projetoAtivoBox");
+      const projeto = localStorage.getItem("lapidarProjetoAtivo");
 
-function lerJSON(chave){
-  try{
-    return JSON.parse(localStorage.getItem(chave) || "null");
-  }catch{
-    return null;
-  }
-}
+      if(!projeto){
+        box.textContent = "Nenhum projeto ativo selecionado.";
+        return;
+      }
 
-function atualizarStatusHubDiagramador(){
-  const projeto = obterProjetoAtivo();
+      try{
+        const dados = JSON.parse(projeto);
+        box.textContent = "Projeto ativo: " + (dados.nome || "Projeto em preparação");
+      }catch(e){
+        box.textContent = "Projeto ativo selecionado.";
+      }
+    }
 
-  if(!projeto){
-    statusHubDiagramador.innerHTML = "Nenhum projeto ativo selecionado.";
-    return;
-  }
+    function abrirPainelDiagramador(){
+      localStorage.setItem("lapidarSetorAtivo", "diagramador");
 
-  statusHubDiagramador.innerHTML =
-    "Setor de diagramação vinculado à obra: <strong>" + projeto.titulo + "</strong>";
+      if(!localStorage.getItem("lapidarProjetoAtivo")){
+        const projetoTemporario = {
+          nome: "Projeto em preparação",
+          origem: "Assistente de Diagramação do Autor"
+        };
+        localStorage.setItem("lapidarProjetoAtivo", JSON.stringify(projetoTemporario));
+      }
 
-  statusHubDiagramador.style.background = "rgba(23,77,39,0.28)";
+      window.location.href = "diagramador_inicio.html";
+    }
 
-  const planejamento = lerJSON("SDL_planejamento_miolo_ativo");
-  const elementos = lerJSON("SDL_elementos_tecnicos_ativos");
-  const padrao = lerJSON("SDL_padrao_diagramacao");
+    function pegarListaUploads(){
+      const dados = localStorage.getItem("lapidar_uploads_diagramador");
+      return dados ? JSON.parse(dados) : [];
+    }
 
-  aplicarBadge("badgePlanejamentoMiolo", planejamento && planejamento.projetoID === projeto.id);
-  aplicarBadge("badgeElementosTecnicos", elementos && elementos.projetoID === projeto.id);
-  aplicarBadge("badgePadraoDiagramacao", padrao && padrao.idProjeto === projeto.id);
-  aplicarBadge("badgeChecklistMiolo",
-    (planejamento && planejamento.projetoID === projeto.id) &&
-    (elementos && elementos.projetoID === projeto.id) &&
-    (padrao && padrao.idProjeto === projeto.id)
-  );
-  aplicarBadge("badgeRelatorioLapidacao",
-    (planejamento && planejamento.projetoID === projeto.id) ||
-    (elementos && elementos.projetoID === projeto.id) ||
-    (padrao && padrao.idProjeto === projeto.id)
-  );
-}
+    function salvarListaUploads(lista){
+      localStorage.setItem("lapidar_uploads_diagramador", JSON.stringify(lista));
+    }
 
-function aplicarBadge(id, status){
-  const el = document.getElementById(id);
+    function registrarUploads(){
+      const input = document.getElementById("uploadDocumentos");
+      const arquivos = Array.from(input.files || []);
 
-  if(status){
-    el.classList.add("ok");
-    el.innerHTML = "Disponível";
-  }else{
-    el.innerHTML = "Pendente";
-  }
-}
+      if(!arquivos.length){
+        alert("Selecione ao menos um arquivo.");
+        return;
+      }
 
-function abrirPlanejamentoMiolo(){ window.location.href = "diagramador_planejamento_miolo.html"; }
-function abrirElementosTecnicos(){ window.location.href = "diagramador_elementos_tecnicos.html"; }
-function abrirPadraoDiagramacao(){ window.location.href = "diagramador_padrao.html"; }
-function abrirChecklistMiolo(){ window.location.href = "diagramador_checklist.html"; }
-function abrirRelatorioLapidacao(){ window.location.href = "relatorio_lapidacao.html"; }
-function abrirInicioDiagramador(){ window.location.href = "diagramador_inicio.html"; }
+      const lista = pegarListaUploads();
 
-function voltarIndice(){ window.location.href = "_Indice.html"; }
+      arquivos.forEach((arquivo) => {
+        lista.unshift({
+          nome: arquivo.name,
+          tamanho: arquivo.size,
+          tipo: arquivo.type || "Formato não identificado",
+          data: new Date().toLocaleString("pt-BR")
+        });
+      });
 
-try{
-  SDL_registrarAuditoria("Acesso ao hub do diagramador", "hub_diagramador");
-}catch(e){}
+      salvarListaUploads(lista);
+      input.value = "";
+      renderizarUploads();
+      alert("Arquivos registrados no setor de diagramação.");
+    }
 
-atualizarStatusHubDiagramador();
-</script>
+    function limparUploads(){
+      localStorage.removeItem("lapidar_uploads_diagramador");
+      renderizarUploads();
+    }
 
+    function renderizarUploads(){
+      const alvo = document.getElementById("listaArquivos");
+      const lista = pegarListaUploads();
+
+      if(!lista.length){
+        alvo.innerHTML = '<div class="vazio">Nenhum documento registrado ainda.</div>';
+        return;
+      }
+
+      alvo.innerHTML = lista.map(item => `
+        <div class="arquivo-item">
+          <div class="arquivo-nome">${item.nome}</div>
+          <div class="arquivo-meta">
+            Tipo: ${item.tipo}<br>
+            Tamanho: ${formatarTamanho(item.tamanho)}<br>
+            Registrado em: ${item.data}
+          </div>
+        </div>
+      `).join("");
+    }
+
+    carregarProjetoAtivo();
+    renderizarUploads();
+  </script>
 </body>
 </html>
