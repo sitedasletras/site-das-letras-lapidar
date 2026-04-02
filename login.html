@@ -3,179 +3,182 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lapidar • Login</title>
+  <title>Lapidar • Acesso ao Sistema</title>
   <style>
     :root{
-      --bg:#edf4ff;
-      --bg2:#f8fbff;
+      --bg:#ead9b8;
+      --cross:#d8c29a;
       --panel:#ffffff;
-      --line:#dbe6f3;
-      --text:#162033;
-      --muted:#64748b;
-      --primary:#2563eb;
-      --primary-strong:#1d4ed8;
-      --primary-soft:#dbeafe;
-      --success:#15803d;
-      --success-soft:#dcfce7;
-      --danger:#b91c1c;
-      --danger-soft:#fee2e2;
-      --shadow:0 18px 45px rgba(15,23,42,.10);
+      --panel-soft:#fffaf2;
+      --line:#d8c8aa;
+      --text:#2f2418;
+      --muted:#6e5d49;
+      --deep:#1e2a44;
+      --deep-2:#2f436d;
+      --gold:#cda85a;
+      --gold-2:#b9913f;
+      --shadow:0 20px 45px rgba(40,26,10,.16);
       --radius-xl:28px;
       --radius-lg:22px;
       --radius-md:16px;
       --radius-sm:12px;
     }
 
-    *{box-sizing:border-box}
+    *{
+      box-sizing:border-box;
+    }
 
     html,body{
       margin:0;
       padding:0;
       font-family:Arial, Helvetica, sans-serif;
       color:var(--text);
-      background:
-        radial-gradient(circle at top left, rgba(37,99,235,.14), transparent 24%),
-        radial-gradient(circle at top right, rgba(14,165,233,.08), transparent 20%),
-        linear-gradient(180deg, #edf4ff 0%, #f7faff 40%, #eef4fb 100%);
-    }
-
-    body{
+      background:var(--bg);
       min-height:100vh;
     }
 
-    .app-shell{
-      max-width:1180px;
-      margin:0 auto;
-      padding:28px 20px 48px;
-    }
-
-    .hero{
+    body{
       position:relative;
-      overflow:hidden;
-      background:linear-gradient(135deg, #0f172a 0%, #14305f 48%, #2563eb 100%);
-      color:#fff;
-      border-radius:32px;
-      padding:34px 34px 28px;
-      box-shadow:0 24px 60px rgba(15,23,42,.22);
-      margin-bottom:24px;
+      overflow-x:hidden;
     }
 
-    .hero::after{
-      content:"";
-      position:absolute;
-      right:-60px;
-      bottom:-60px;
-      width:240px;
-      height:240px;
-      border-radius:50%;
-      background:rgba(255,255,255,.08);
-      filter:blur(8px);
+    .cross-vertical{
+      position:fixed;
+      top:0;
+      bottom:0;
+      left:50%;
+      width:260px;
+      transform:translateX(-50%);
+      background:linear-gradient(180deg, #d7be92 0%, #d1b98f 100%);
+      z-index:0;
+      box-shadow:inset 0 0 0 1px rgba(120,89,36,.08);
     }
 
-    .hero-top{
+    .cross-horizontal{
+      position:fixed;
+      left:0;
+      right:0;
+      top:50%;
+      height:220px;
+      transform:translateY(-50%);
+      background:linear-gradient(90deg, #d7be92 0%, #d1b98f 100%);
+      z-index:0;
+      box-shadow:inset 0 0 0 1px rgba(120,89,36,.08);
+    }
+
+    .app-shell{
+      position:relative;
+      z-index:2;
+      min-height:100vh;
       display:flex;
-      flex-wrap:wrap;
-      gap:12px;
       align-items:center;
-      justify-content:space-between;
-      margin-bottom:18px;
+      justify-content:center;
+      padding:28px 18px 42px;
     }
 
-    .hero-chip{
-      display:inline-flex;
+    .page-wrap{
+      width:100%;
+      max-width:1180px;
+      display:grid;
+      grid-template-columns:minmax(0, 1fr) 340px;
+      gap:28px;
       align-items:center;
+    }
+
+    .main-column{
+      display:grid;
+      justify-items:center;
+      gap:18px;
+    }
+
+    .brand-stack{
+      display:grid;
+      justify-items:center;
+      text-align:center;
       gap:10px;
-      padding:10px 16px;
-      border-radius:999px;
-      background:rgba(255,255,255,.10);
-      border:1px solid rgba(255,255,255,.18);
-      font-size:14px;
+      margin-bottom:4px;
+    }
+
+    .brasao-wrap{
+      width:210px;
+      height:210px;
+      border-radius:28px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:rgba(255,255,255,.12);
+      backdrop-filter:blur(2px);
+      box-shadow:0 18px 40px rgba(61,39,10,.16);
+      border:1px solid rgba(132,95,35,.15);
+      padding:14px;
+    }
+
+    .brasao-wrap img{
+      max-width:100%;
+      max-height:100%;
+      object-fit:contain;
+      display:block;
+    }
+
+    .brand-title{
+      font-family:Georgia, "Times New Roman", serif;
+      font-size:38px;
+      letter-spacing:4px;
+      color:#ffffff;
+      text-transform:uppercase;
+      text-shadow:0 3px 10px rgba(40,26,10,.22);
       font-weight:700;
     }
 
-    .hero-chip .dot{
-      width:11px;
-      height:11px;
-      border-radius:50%;
-      background:#7dd3fc;
-      box-shadow:0 0 0 5px rgba(125,211,252,.12);
+    .brand-subtitle{
+      font-size:14px;
+      color:#fffdf9;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      text-shadow:0 2px 8px rgba(40,26,10,.18);
+      font-weight:700;
     }
 
-    .hero h1{
+    .brand-subline{
+      font-size:13px;
+      color:#f8f2e7;
+      letter-spacing:.04em;
+      text-shadow:0 2px 8px rgba(40,26,10,.18);
+      font-weight:700;
+    }
+
+    .login-card{
+      width:100%;
+      max-width:430px;
+      background:rgba(255,255,255,.96);
+      border:1px solid rgba(140,110,58,.18);
+      border-radius:24px;
+      box-shadow:0 24px 55px rgba(53,34,12,.18);
+      padding:28px 26px;
+      backdrop-filter:blur(2px);
+    }
+
+    .login-card h1{
       margin:0 0 8px;
-      font-size:clamp(28px, 4vw, 42px);
+      font-size:29px;
       line-height:1.06;
       letter-spacing:-.02em;
+      color:var(--deep);
+      text-align:center;
     }
 
-    .hero p{
-      margin:0;
-      max-width:920px;
-      color:rgba(255,255,255,.88);
-      line-height:1.7;
-      font-size:16px;
-    }
-
-    .hero-quote{
-      margin-top:16px;
-      font-size:15px;
-      line-height:1.7;
-      color:rgba(255,255,255,.95);
-      font-weight:700;
-    }
-
-    .layout{
-      display:grid;
-      grid-template-columns:minmax(0, 1fr) 360px;
-      gap:24px;
-      align-items:start;
-    }
-
-    .panel{
-      background:var(--panel);
-      border:1px solid rgba(148,163,184,.16);
-      border-radius:28px;
-      box-shadow:var(--shadow);
-      overflow:hidden;
-    }
-
-    .panel-header{
-      padding:26px 26px 0;
-    }
-
-    .panel-header small{
-      display:inline-block;
-      margin-bottom:10px;
-      color:var(--primary);
-      font-size:12px;
-      text-transform:uppercase;
-      letter-spacing:.12em;
-      font-weight:800;
-    }
-
-    .panel-header h2{
-      margin:0 0 10px;
-      font-size:28px;
-      line-height:1.1;
-      letter-spacing:-.02em;
-    }
-
-    .panel-header p{
-      margin:0;
+    .login-card p{
+      margin:0 0 18px;
       color:var(--muted);
+      font-size:14px;
       line-height:1.7;
-      font-size:15px;
-    }
-
-    .panel-body{
-      padding:24px 26px 28px;
-      display:grid;
-      gap:18px;
+      text-align:center;
     }
 
     .field{
       display:grid;
       gap:8px;
+      margin-bottom:14px;
     }
 
     .field label{
@@ -183,39 +186,42 @@
       font-weight:800;
       text-transform:uppercase;
       letter-spacing:.08em;
-      color:#334155;
+      color:#6e573b;
     }
 
-    .field input,
-    .field select{
+    .field input{
       width:100%;
-      border:1px solid var(--line);
+      border:1px solid #dccba8;
+      background:#fffdf9;
       border-radius:14px;
       padding:13px 14px;
       font-size:14px;
       color:var(--text);
-      background:#fff;
       outline:none;
+    }
+
+    .field input:focus{
+      border-color:#b9913f;
+      box-shadow:0 0 0 3px rgba(205,168,90,.14);
     }
 
     .helper{
       color:var(--muted);
       font-size:13px;
       line-height:1.6;
+      margin:2px 0 14px;
+      text-align:center;
     }
 
     .btn{
       border:none;
       border-radius:14px;
-      padding:13px 18px;
+      padding:13px 16px;
       font-size:14px;
-      font-weight:800;
+      font-weight:900;
       cursor:pointer;
-      transition:.22s ease;
-      text-decoration:none;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
+      transition:.2s ease;
+      width:100%;
     }
 
     .btn:hover{
@@ -223,43 +229,128 @@
     }
 
     .btn-primary{
-      background:linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
+      background:linear-gradient(135deg, var(--deep) 0%, var(--deep-2) 100%);
       color:#fff;
-      box-shadow:0 16px 28px rgba(37,99,235,.22);
-      width:100%;
+      box-shadow:0 14px 26px rgba(30,42,68,.22);
     }
 
-    .btn-soft{
-      background:#e8f0ff;
-      color:#1d4ed8;
-      width:100%;
-    }
-
-    .btn-outline{
-      background:#fff;
-      color:#334155;
-      border:1px solid var(--line);
-      width:100%;
-    }
-
-    .block{
-      border:1px solid var(--line);
-      border-radius:22px;
-      background:linear-gradient(180deg,#ffffff 0%, #f8fbff 100%);
-      padding:18px;
+    .link-blocks{
       display:grid;
-      gap:14px;
+      gap:12px;
+      margin-top:16px;
     }
 
-    .block-title{
-      font-size:18px;
-      font-weight:800;
-      line-height:1.3;
+    .mini-card{
+      border:1px solid #e4d5b5;
+      background:linear-gradient(180deg, #fffdfa 0%, #f8f1e5 100%);
+      border-radius:18px;
+      padding:16px;
+      display:grid;
+      gap:8px;
+    }
+
+    .mini-card strong{
+      font-size:15px;
+      line-height:1.4;
+      color:#47331e;
+    }
+
+    .mini-card span{
+      font-size:13px;
+      line-height:1.6;
+      color:var(--muted);
+    }
+
+    .mini-link{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      text-decoration:none;
+      border-radius:12px;
+      padding:11px 14px;
+      font-size:14px;
+      font-weight:900;
+      margin-top:4px;
+      transition:.2s ease;
+    }
+
+    .mini-link:hover{
+      transform:translateY(-1px);
+    }
+
+    .mini-link.gold{
+      background:linear-gradient(135deg, var(--gold) 0%, var(--gold-2) 100%);
+      color:#fff;
+      box-shadow:0 12px 22px rgba(185,145,63,.22);
+    }
+
+    .mini-link.outline{
+      background:#fff;
+      border:1px solid #d9c7a0;
+      color:#61492e;
+    }
+
+    .success-box{
+      margin-top:14px;
+      border-radius:16px;
+      padding:14px;
+      background:#eef8f0;
+      border:1px solid #b8dfc0;
+      color:#1f6b36;
+      line-height:1.6;
+      font-size:14px;
+      display:none;
+      text-align:center;
+    }
+
+    .success-box.show{
+      display:block;
+    }
+
+    .side-column{
+      display:grid;
+      gap:18px;
+    }
+
+    .side-card{
+      background:rgba(255,250,242,.94);
+      border:1px solid rgba(142,108,55,.16);
+      border-radius:22px;
+      box-shadow:var(--shadow);
+      padding:20px 18px;
+    }
+
+    .side-card small{
+      display:block;
+      margin-bottom:8px;
+      color:#8f7446;
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      font-weight:900;
+    }
+
+    .side-card h2{
+      margin:0 0 10px;
+      font-size:22px;
+      line-height:1.1;
+      letter-spacing:-.02em;
+      color:#3f2e1d;
+    }
+
+    .side-card p{
+      margin:0;
+      color:var(--muted);
+      line-height:1.7;
+      font-size:14px;
     }
 
     .summary-list{
       display:grid;
       gap:12px;
+      margin-top:14px;
+      padding-top:14px;
+      border-top:1px solid #e4d5b5;
     }
 
     .summary-item{
@@ -277,122 +368,100 @@
     .summary-item strong{
       text-align:right;
       line-height:1.45;
+      color:#4b3520;
     }
 
     .notice{
-      border-radius:18px;
-      padding:16px;
-      background:#fff7ed;
-      border:1px solid #fed7aa;
-      color:#7c2d12;
+      margin-top:14px;
+      border-radius:16px;
+      padding:14px;
+      background:#fff4df;
+      border:1px solid #efd4a4;
+      color:#7a5621;
       line-height:1.7;
-      font-size:14px;
-    }
-
-    .success-box{
-      border-radius:18px;
-      padding:16px;
-      background:#f0fdf4;
-      border:1px solid #bbf7d0;
-      color:#166534;
-      line-height:1.7;
-      font-size:14px;
-      display:none;
-    }
-
-    .success-box.show{
-      display:block;
-    }
-
-    .rules-list{
-      list-style:none;
-      padding:0;
-      margin:0;
-      display:grid;
-      gap:14px;
-    }
-
-    .rules-list li{
-      border:1px solid var(--line);
-      border-radius:18px;
-      background:#fbfdff;
-      padding:16px;
-    }
-
-    .rules-list strong{
-      display:block;
-      margin-bottom:7px;
-      font-size:15px;
-      line-height:1.45;
-    }
-
-    .rules-list span{
-      display:block;
-      color:var(--muted);
-      line-height:1.65;
-      font-size:14px;
-    }
-
-    .footer-note{
-      margin-top:20px;
-      text-align:center;
-      color:#60708a;
       font-size:13px;
     }
 
-    @media (max-width: 1000px){
-      .layout{
+    .footer-note{
+      position:fixed;
+      left:0;
+      right:0;
+      bottom:10px;
+      text-align:center;
+      color:#6d5a43;
+      font-size:12px;
+      letter-spacing:.04em;
+      z-index:2;
+      font-weight:700;
+    }
+
+    @media (max-width: 1080px){
+      .page-wrap{
         grid-template-columns:1fr;
+        max-width:540px;
+      }
+
+      .side-column{
+        order:2;
+      }
+
+      .main-column{
+        order:1;
       }
     }
 
     @media (max-width: 760px){
+      .cross-vertical{
+        width:170px;
+      }
+
+      .cross-horizontal{
+        height:180px;
+      }
+
       .app-shell{
-        padding:16px 12px 34px;
+        padding:20px 12px 36px;
       }
 
-      .hero{
-        padding:24px 18px 20px;
+      .brasao-wrap{
+        width:178px;
+        height:178px;
       }
 
-      .panel-header,
-      .panel-body{
-        padding-left:18px;
-        padding-right:18px;
+      .brand-title{
+        font-size:30px;
+        letter-spacing:3px;
+      }
+
+      .login-card{
+        padding:22px 18px;
       }
     }
   </style>
 </head>
 <body>
+  <div class="cross-vertical"></div>
+  <div class="cross-horizontal"></div>
+
   <div class="app-shell">
-    <header class="hero">
-      <div class="hero-top">
-        <div class="hero-chip">
-          <span class="dot"></span>
-          Lapidar • Acesso ao Sistema
+    <div class="page-wrap">
+
+      <section class="main-column">
+        <div class="brand-stack">
+          <div class="brasao-wrap">
+            <img src="brasao.png" alt="Brasão institucional do Site das Letras" />
+          </div>
+          <div class="brand-title">Lapidar</div>
+          <div class="brand-subtitle">Produto institucional do Celeiro Literário</div>
+          <div class="brand-subline">Site das Letras Edições Literárias</div>
         </div>
-      </div>
 
-      <h1>Entre no Lapidar com seu acesso já liberado</h1>
-      <p>
-        O cadastro fica na entrada. Assim, quem entra no sistema já chega com login, senha e recuperação de acesso preparados, sem precisar preencher ficha depois.
-      </p>
-      <div class="hero-quote">
-        Lapidar é o local onde seu carvão vira diamante, através do trabalho árduo de suas próprias mãos.
-      </div>
-    </header>
-
-    <main class="layout">
-      <section class="panel">
-        <div class="panel-header">
-          <small>Entrada oficial</small>
-          <h2>Login do usuário</h2>
+        <div class="login-card">
+          <h1>Acesso ao sistema</h1>
           <p>
-            Informe seu login ou e-mail e sua senha para entrar. O sistema identifica o perfil e leva você para a sala de reuniões.
+            Entre com seu login e senha para acessar sua área dentro do Lapidar.
           </p>
-        </div>
 
-        <div class="panel-body">
           <form id="loginForm">
             <div class="field">
               <label>Login ou e-mail</label>
@@ -405,7 +474,7 @@
             </div>
 
             <div class="helper">
-              Depois do acesso, o sistema abre a sala de reuniões já com o perfil correto carregado.
+              O perfil é reconhecido automaticamente pelo seu acesso.
             </div>
 
             <button class="btn btn-primary" type="submit">Entrar no Lapidar</button>
@@ -416,73 +485,64 @@
             Redirecionando para a sala de reuniões...
           </div>
 
-          <div class="block">
-            <div class="block-title">Ainda não tem acesso?</div>
-            <div class="helper">
-              Crie primeiro o seu cadastro. O login será liberado imediatamente dentro do sistema.
+          <div class="link-blocks">
+            <div class="mini-card">
+              <strong>Ainda não tem acesso?</strong>
+              <span>
+                Crie seu cadastro de entrada. Ao concluir esta etapa, seu login será liberado no sistema.
+              </span>
+              <a class="mini-link gold" href="cadastro.html">Criar cadastro</a>
             </div>
-            <a class="btn btn-soft" href="cadastro.html">Criar cadastro</a>
-          </div>
 
-          <div class="block">
-            <div class="block-title">Esqueceu sua senha?</div>
-            <div class="helper">
-              Use as perguntas de segurança que você cadastrou para redefinir sua senha dentro do próprio sistema.
-            </div>
-            <a class="btn btn-outline" href="recuperar_senha.html">Recuperar senha</a>
-          </div>
-
-          <div class="block">
-            <div class="block-title">Último acesso criado</div>
-            <div class="summary-list">
-              <div class="summary-item">
-                <span>Último login cadastrado</span>
-                <strong id="lastRegisteredLogin">—</strong>
-              </div>
-              <div class="summary-item">
-                <span>Perfil salvo na sessão</span>
-                <strong id="currentStoredProfile">—</strong>
-              </div>
+            <div class="mini-card">
+              <strong>Recuperar acesso</strong>
+              <span>
+                Use suas perguntas de segurança para redefinir sua senha dentro do próprio sistema.
+              </span>
+              <a class="mini-link outline" href="recuperar_senha.html">Recuperar senha</a>
             </div>
           </div>
         </div>
       </section>
 
-      <aside class="panel">
-        <div class="panel-header">
-          <small>Como funciona</small>
-          <h2>Fluxo de entrada do sistema</h2>
+      <aside class="side-column">
+        <div class="side-card">
+          <small>Último acesso criado</small>
+          <h2>Referência da entrada</h2>
           <p>
-            Agora o acesso segue a ordem correta: cadastro primeiro, uso depois.
+            Este bloco ajuda a acompanhar o último login cadastrado e o último perfil salvo em sessão.
           </p>
+
+          <div class="summary-list">
+            <div class="summary-item">
+              <span>Último login cadastrado</span>
+              <strong id="lastRegisteredLogin">—</strong>
+            </div>
+            <div class="summary-item">
+              <span>Último perfil salvo</span>
+              <strong id="currentStoredProfile">—</strong>
+            </div>
+          </div>
         </div>
 
-        <div class="panel-body">
-          <ul class="rules-list">
-            <li>
-              <strong>Primeiro cria o cadastro</strong>
-              <span>O usuário define login, senha e perguntas de segurança antes de entrar na plataforma.</span>
-            </li>
-            <li>
-              <strong>Depois entra com o perfil certo</strong>
-              <span>O login identifica se o acesso é Admin, Heterônimo ou Cortesia.</span>
-            </li>
-            <li>
-              <strong>A sala de reuniões abre como ponto central</strong>
-              <span>Depois da autenticação, o fluxo segue para a sala principal do sistema.</span>
-            </li>
-          </ul>
+        <div class="side-card">
+          <small>Acessos-base do sistema</small>
+          <h2>Perfis já semeados</h2>
+          <p>
+            O sistema cria automaticamente os acessos-base para evitar que a entrada fique bloqueada.
+          </p>
 
           <div class="notice">
-            Dentro do Lapidar, a entrada do usuário deve ser simples, limpa e coerente. Ninguém deve preencher ficha só no final do percurso.
+            Admin, Heterônimo e as Cortesias 0001 a 0010 são preparados automaticamente no primeiro carregamento desta tela.
           </div>
         </div>
       </aside>
-    </main>
 
-    <div class="footer-note">
-      Lapidar • Celeiro Literário • Login
     </div>
+  </div>
+
+  <div class="footer-note">
+    Lapidar • Celeiro Literário • Site das Letras Edições Literárias
   </div>
 
   <script>
@@ -499,9 +559,76 @@
       return labels[profile] || "—";
     }
 
+    function seedBaseUsers() {
+      const currentUsers = JSON.parse(localStorage.getItem("lapidar_users") || "[]");
+
+      if (currentUsers.length > 0) {
+        return;
+      }
+
+      const baseUsers = [
+        {
+          fullName: "Administrador do Sistema",
+          email: "admin@lapidar.local",
+          login: "admin",
+          profile: "admin",
+          password: "admin123",
+          access_level: "FULL",
+          courtesy_label: "",
+          courtesy_duration: "permanente",
+          courtesy_days: null,
+          permanent: true,
+          security: [
+            { question: "Qual palavra secreta você quer usar?", answer: "admin" },
+            { question: "Qual frase curta você quer usar para recuperação?", answer: "lapidar" }
+          ]
+        },
+        {
+          fullName: "Heterônimo do Sistema",
+          email: "heteronimo@lapidar.local",
+          login: "heteronimo",
+          profile: "heteronimo",
+          password: "heteronimo123",
+          access_level: "FULL",
+          courtesy_label: "",
+          courtesy_duration: "permanente",
+          courtesy_days: null,
+          permanent: true,
+          security: [
+            { question: "Qual palavra secreta você quer usar?", answer: "heteronimo" },
+            { question: "Qual frase curta você quer usar para recuperação?", answer: "celeiro" }
+          ]
+        }
+      ];
+
+      for (let i = 1; i <= 10; i++) {
+        const padded = String(i).padStart(4, "0");
+        const isAndre = i === 1;
+
+        baseUsers.push({
+          fullName: isAndre ? "Cortesia André Capista" : `Cortesia ${padded}`,
+          email: `cortesia${padded}@lapidar.local`,
+          login: `cortesia${padded}`,
+          profile: "cortesia",
+          password: `cortesia${padded}`,
+          access_level: "TOP_GLOBAL",
+          courtesy_label: isAndre ? "Cortesia André Capista" : `Cortesia ${padded}`,
+          courtesy_duration: isAndre ? "permanente" : "180 dias",
+          courtesy_days: isAndre ? null : 180,
+          permanent: isAndre ? true : false,
+          security: [
+            { question: "Qual palavra secreta você quer usar?", answer: `cortesia${padded}` },
+            { question: "Qual frase curta você quer usar para recuperação?", answer: "sitedasletras" }
+          ]
+        });
+      }
+
+      localStorage.setItem("lapidar_users", JSON.stringify(baseUsers));
+    }
+
     function refreshLoginInfo() {
       const lastRegistered = localStorage.getItem("lapidar_last_registered_login") || "—";
-      const storedProfile = localStorage.getItem("lapidar_sala_reunioes_profile");
+      const storedProfile = localStorage.getItem("lapidar_current_profile") || localStorage.getItem("lapidar_sala_reunioes_profile");
       document.getElementById("lastRegisteredLogin").textContent = lastRegistered;
       document.getElementById("currentStoredProfile").textContent = getProfileLabel(storedProfile);
     }
@@ -536,9 +663,10 @@
 
       setTimeout(() => {
         window.location.href = "sala_reunioes.html";
-      }, 1400);
+      }, 1200);
     });
 
+    seedBaseUsers();
     refreshLoginInfo();
   </script>
 </body>
