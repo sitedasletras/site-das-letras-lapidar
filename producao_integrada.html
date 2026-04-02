@@ -247,52 +247,39 @@
       padding:24px 26px 28px;
     }
 
-    .profile-strip{
+    .profile-state{
       display:grid;
-      grid-template-columns:1fr auto;
-      gap:16px;
-      align-items:end;
+      grid-template-columns:repeat(3, minmax(0,1fr));
+      gap:14px;
+    }
+
+    .profile-card{
       border:1px solid var(--line);
-      border-radius:24px;
+      border-radius:18px;
       background:linear-gradient(180deg,#ffffff 0%, #f8fbff 100%);
-      padding:18px;
-      margin-bottom:18px;
+      padding:16px;
     }
 
-    .field{
-      display:grid;
-      gap:8px;
-    }
-
-    .field label{
+    .profile-card small{
+      display:block;
+      margin-bottom:8px;
+      color:var(--muted);
       font-size:12px;
       font-weight:800;
       text-transform:uppercase;
       letter-spacing:.08em;
-      color:#334155;
     }
 
-    .field input,
-    .field select,
-    .field textarea{
-      width:100%;
-      border:1px solid var(--line);
-      border-radius:14px;
-      padding:13px 14px;
-      font-size:14px;
-      color:var(--text);
-      background:#fff;
-      outline:none;
+    .profile-card strong{
+      display:block;
+      font-size:20px;
+      line-height:1.15;
+      margin-bottom:6px;
     }
 
-    .field textarea{
-      min-height:86px;
-      resize:vertical;
-    }
-
-    .helper{
+    .profile-card span{
       color:var(--muted);
-      font-size:13px;
+      font-size:14px;
       line-height:1.6;
     }
 
@@ -327,8 +314,45 @@
       gap:14px;
     }
 
+    .field{
+      display:grid;
+      gap:8px;
+    }
+
     .field.full{
       grid-column:1 / -1;
+    }
+
+    .field label{
+      font-size:12px;
+      font-weight:800;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      color:#334155;
+    }
+
+    .field input,
+    .field select,
+    .field textarea{
+      width:100%;
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:13px 14px;
+      font-size:14px;
+      color:var(--text);
+      background:#fff;
+      outline:none;
+    }
+
+    .field textarea{
+      min-height:86px;
+      resize:vertical;
+    }
+
+    .helper{
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.6;
     }
 
     .action-row{
@@ -825,7 +849,7 @@
 
     @media (max-width: 900px){
       .field-grid{grid-template-columns:1fr}
-      .profile-strip{grid-template-columns:1fr}
+      .profile-state{grid-template-columns:1fr}
       .journey-line{grid-template-columns:1fr}
       .journey-footer{grid-template-columns:1fr}
     }
@@ -848,7 +872,7 @@
 
         <div class="hero-actions">
           <a class="btn btn-ghost" href="sala_reunioes.html">Voltar à sala de reuniões</a>
-          <a class="btn btn-ghost" href="login.html">Sair geral</a>
+          <a class="btn btn-ghost" href="login.html" id="logoutBtn">Sair geral</a>
           <button class="btn btn-light" type="button" id="savePageBtn">Salvar fluxo</button>
         </div>
       </div>
@@ -874,27 +898,31 @@
         <section class="panel">
           <div class="panel-header">
             <small>Perfil operacional</small>
-            <h2>Visualização da produção por tipo de acesso</h2>
+            <h2>Leitura automática do perfil logado</h2>
             <p>
-              Para teste, você pode alternar o perfil abaixo. Admin e Heterônimo acompanham a operação completa. Cortesia entra na Produção sem exposição de CVMI.
+              Esta tela já abre no perfil salvo pelo login. Admin e Heterônimo acompanham a operação completa. Cortesia entra sem exposição de CVMI.
             </p>
           </div>
 
           <div class="panel-body">
-            <div class="profile-strip">
-              <div class="field">
-                <label>Perfil atual</label>
-                <select id="profileSelect">
-                  <option value="admin">Admin</option>
-                  <option value="heteronimo">Heterônimo</option>
-                  <option value="cortesia">Cortesia</option>
-                </select>
-                <div class="helper">
-                  Cortesia não vê CVMI nem lógica financeira interna. Admin e Heterônimo acompanham a operação completa.
-                </div>
+            <div class="profile-state">
+              <div class="profile-card">
+                <small>Perfil atual</small>
+                <strong id="profileName">—</strong>
+                <span id="profileDesc">Aguardando leitura do perfil salvo.</span>
               </div>
 
-              <button class="btn btn-light" type="button" id="saveProfileBtn">Salvar perfil da produção</button>
+              <div class="profile-card">
+                <small>Mesário</small>
+                <strong id="profileMesario">—</strong>
+                <span id="profileMesarioDesc">Aguardando leitura do perfil salvo.</span>
+              </div>
+
+              <div class="profile-card">
+                <small>CVMI</small>
+                <strong id="profileCvmi">—</strong>
+                <span id="profileCvmiDesc">Aguardando leitura do perfil salvo.</span>
+              </div>
             </div>
           </div>
         </section>
@@ -1345,7 +1373,7 @@
               <div class="meter">
                 <div class="meter-item">
                   <small>Perfil atual</small>
-                  <strong id="sideProfile">Admin</strong>
+                  <strong id="sideProfile">—</strong>
                 </div>
                 <div class="meter-item">
                   <small>Entrada da história</small>
@@ -1458,17 +1486,26 @@
       admin: {
         label: "Admin",
         showCVMI: true,
-        mesario: "Completo"
+        mesario: "Completo",
+        desc: "Acompanhamento completo da operação editorial.",
+        mesarioDesc: "Leitura operacional integral permitida.",
+        cvmiDesc: "CVMI visível nas etapas que utilizam esse registro."
       },
       heteronimo: {
         label: "Heterônimo",
         showCVMI: true,
-        mesario: "Completo"
+        mesario: "Completo",
+        desc: "Acompanhamento operacional sem a ala administrativa.",
+        mesarioDesc: "Leitura operacional integral permitida.",
+        cvmiDesc: "CVMI visível nas etapas que utilizam esse registro."
       },
       cortesia: {
         label: "Cortesia",
         showCVMI: false,
-        mesario: "Ornamental"
+        mesario: "Ornamental",
+        desc: "Experiência focada na produção, sem exposição de CVMI.",
+        mesarioDesc: "Leitura ornamental, sem números internos.",
+        cvmiDesc: "CVMI ocultada em toda a produção."
       }
     };
 
@@ -1481,18 +1518,36 @@
       released: false
     };
 
-    function getSelectedSectors() {
-      const selected = [];
-      document.querySelectorAll('.sector-card input[type="checkbox"]').forEach(input => {
-        if (input.checked) {
-          selected.push(input.name.replace("sector_", ""));
-        }
-      });
-      return selected;
+    function getStoredUser() {
+      try {
+        return JSON.parse(localStorage.getItem("lapidar_current_user") || "null");
+      } catch {
+        return null;
+      }
+    }
+
+    function resolveProfile() {
+      const stored = localStorage.getItem("lapidar_producao_integrada_profile");
+      if (stored && profileMeta[stored]) return stored;
+
+      const current = localStorage.getItem("lapidar_current_profile");
+      if (current && profileMeta[current]) return current;
+
+      const user = getStoredUser();
+      if (user && user.profile && profileMeta[user.profile]) return user.profile;
+
+      return "heteronimo";
     }
 
     function applyProfile(profile) {
-      const meta = profileMeta[profile] || profileMeta.admin;
+      const meta = profileMeta[profile] || profileMeta.heteronimo;
+
+      document.getElementById("profileName").textContent = meta.label;
+      document.getElementById("profileDesc").textContent = meta.desc;
+      document.getElementById("profileMesario").textContent = meta.mesario;
+      document.getElementById("profileMesarioDesc").textContent = meta.mesarioDesc;
+      document.getElementById("profileCvmi").textContent = meta.showCVMI ? "Visível" : "Oculta";
+      document.getElementById("profileCvmiDesc").textContent = meta.cvmiDesc;
       document.getElementById("sideProfile").textContent = meta.label;
 
       document.querySelectorAll('.hide-courtesy').forEach(el => {
@@ -1505,6 +1560,20 @@
       } else {
         mesarioHelper.textContent = "O Mesário-Mor concentra o fechamento interno da história e confirma a etapa de contribuição.";
       }
+
+      localStorage.setItem("lapidar_current_profile", profile);
+      localStorage.setItem("lapidar_sala_reunioes_profile", profile);
+      localStorage.setItem("lapidar_producao_integrada_profile", profile);
+    }
+
+    function getSelectedSectors() {
+      const selected = [];
+      document.querySelectorAll('.sector-card input[type="checkbox"]').forEach(input => {
+        if (input.checked) {
+          selected.push(input.name.replace("sector_", ""));
+        }
+      });
+      return selected;
     }
 
     function updateTopSummary() {
@@ -1623,12 +1692,12 @@
     }
 
     function syncAll() {
+      applyProfile(resolveProfile());
       updateTopSummary();
       updateSectorCards();
       updateJourney();
       updateProcessPanels();
       updateDownloads();
-      applyProfile(document.getElementById("profileSelect").value);
     }
 
     function collectState() {
@@ -1638,7 +1707,6 @@
       });
 
       return {
-        profile: document.getElementById("profileSelect").value,
         title: document.getElementById("bookTitle").value,
         subtitle: document.getElementById("bookSubtitle").value,
         author: document.getElementById("bookAuthor").value,
@@ -1659,29 +1727,12 @@
       setTimeout(() => btn.textContent = original, 1400);
     }
 
-    function saveProfileOnly() {
-      localStorage.setItem("lapidar_producao_integrada_profile", document.getElementById("profileSelect").value);
-      const btn = document.getElementById("saveProfileBtn");
-      const original = btn.textContent;
-      btn.textContent = "Perfil salvo";
-      setTimeout(() => btn.textContent = original, 1400);
-    }
-
     function restoreState() {
-      const savedProfile = localStorage.getItem("lapidar_producao_integrada_profile");
-      if (savedProfile && profileMeta[savedProfile]) {
-        document.getElementById("profileSelect").value = savedProfile;
-      }
-
       const raw = localStorage.getItem("lapidar_producao_integrada");
       if (!raw) return;
 
       try {
         const data = JSON.parse(raw);
-
-        if (data.profile && profileMeta[data.profile]) {
-          document.getElementById("profileSelect").value = data.profile;
-        }
 
         document.getElementById("bookTitle").value = data.title || "Título da história";
         document.getElementById("bookSubtitle").value = data.subtitle || "";
@@ -1766,12 +1817,13 @@
     });
 
     document.getElementById("savePageBtn").addEventListener("click", saveState);
-    document.getElementById("saveProfileBtn").addEventListener("click", () => {
-      saveProfileOnly();
-      syncAll();
+
+    document.getElementById("logoutBtn").addEventListener("click", () => {
+      localStorage.removeItem("lapidar_current_user");
+      localStorage.removeItem("lapidar_current_profile");
     });
 
-    ["profileSelect","bookTitle","bookSubtitle","bookAuthor","entryPoint","exitPoint","internalMode","internalNote"].forEach(id => {
+    ["bookTitle","bookSubtitle","bookAuthor","entryPoint","exitPoint","internalMode","internalNote"].forEach(id => {
       const el = document.getElementById(id);
       el.addEventListener("input", () => {
         syncAll();
