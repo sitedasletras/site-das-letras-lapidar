@@ -1,219 +1,406 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<title>Recuperar Senha — Lapidar</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lapidar • Recuperar Senha</title>
+  <style>
+    :root{
+      --bg:#edf4ff;
+      --bg2:#f8fbff;
+      --panel:#ffffff;
+      --line:#dbe6f3;
+      --text:#162033;
+      --muted:#64748b;
+      --primary:#2563eb;
+      --primary-strong:#1d4ed8;
+      --primary-soft:#dbeafe;
+      --success:#15803d;
+      --success-soft:#dcfce7;
+      --danger:#b91c1c;
+      --danger-soft:#fee2e2;
+      --shadow:0 18px 45px rgba(15,23,42,.10);
+    }
 
-<style>
-body{
-font-family:Arial,sans-serif;
-background:#f5f5f5;
-margin:0;
-padding:0;
-}
+    *{box-sizing:border-box}
 
-.container{
-width:420px;
-max-width:92%;
-margin:50px auto;
-background:white;
-padding:30px;
-border-radius:10px;
-box-shadow:0px 0px 15px rgba(0,0,0,0.15);
-}
+    html,body{
+      margin:0;
+      padding:0;
+      font-family:Arial, Helvetica, sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(37,99,235,.14), transparent 24%),
+        radial-gradient(circle at top right, rgba(14,165,233,.08), transparent 20%),
+        linear-gradient(180deg, #edf4ff 0%, #f7faff 40%, #eef4fb 100%);
+    }
 
-h1{
-text-align:center;
-margin-bottom:10px;
-}
+    body{
+      min-height:100vh;
+    }
 
-.subtitulo{
-text-align:center;
-font-size:14px;
-color:#666;
-margin-bottom:25px;
-line-height:1.6;
-}
+    .app-shell{
+      max-width:1080px;
+      margin:0 auto;
+      padding:28px 20px 48px;
+    }
 
-label{
-display:block;
-margin-top:12px;
-font-weight:bold;
-}
+    .hero{
+      position:relative;
+      overflow:hidden;
+      background:linear-gradient(135deg, #0f172a 0%, #14305f 48%, #2563eb 100%);
+      color:#fff;
+      border-radius:32px;
+      padding:34px 34px 28px;
+      box-shadow:0 24px 60px rgba(15,23,42,.22);
+      margin-bottom:24px;
+    }
 
-input{
-width:100%;
-padding:10px;
-margin-top:5px;
-border-radius:5px;
-border:1px solid #ccc;
-box-sizing:border-box;
-}
+    .hero h1{
+      margin:0 0 8px;
+      font-size:clamp(28px, 4vw, 42px);
+      line-height:1.06;
+      letter-spacing:-.02em;
+    }
 
-button{
-margin-top:20px;
-width:100%;
-padding:12px;
-background:#2b7cff;
-color:white;
-border:none;
-border-radius:6px;
-font-size:16px;
-cursor:pointer;
-}
+    .hero p{
+      margin:0;
+      max-width:900px;
+      color:rgba(255,255,255,.88);
+      line-height:1.7;
+      font-size:16px;
+    }
 
-button:hover{
-background:#1d5ed8;
-}
+    .btn{
+      border:none;
+      border-radius:14px;
+      padding:13px 18px;
+      font-size:14px;
+      font-weight:800;
+      cursor:pointer;
+      transition:.22s ease;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+    }
 
-.status{
-margin-top:18px;
-padding:12px;
-border-radius:8px;
-background:#f2f6ff;
-border:1px solid #d9e6ff;
-font-size:14px;
-line-height:1.6;
-color:#333;
-}
+    .btn-light{
+      background:#fff;
+      color:#14337a;
+    }
 
-.voltar{
-margin-top:20px;
-text-align:center;
-}
+    .btn-primary{
+      background:linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
+      color:#fff;
+      box-shadow:0 16px 28px rgba(37,99,235,.22);
+      width:100%;
+    }
 
-.voltar a{
-text-decoration:none;
-color:#2b7cff;
-font-weight:bold;
-}
+    .layout{
+      display:grid;
+      grid-template-columns:minmax(0, 1fr) 340px;
+      gap:24px;
+      align-items:start;
+    }
 
-.oculto{
-display:none;
-}
-</style>
+    .panel{
+      background:var(--panel);
+      border:1px solid rgba(148,163,184,.16);
+      border-radius:28px;
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+
+    .panel-header{
+      padding:26px 26px 0;
+    }
+
+    .panel-header small{
+      display:inline-block;
+      margin-bottom:10px;
+      color:var(--primary);
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      font-weight:800;
+    }
+
+    .panel-header h2{
+      margin:0 0 10px;
+      font-size:28px;
+      line-height:1.1;
+      letter-spacing:-.02em;
+    }
+
+    .panel-header p{
+      margin:0;
+      color:var(--muted);
+      line-height:1.7;
+      font-size:15px;
+    }
+
+    .panel-body{
+      padding:24px 26px 28px;
+      display:grid;
+      gap:18px;
+    }
+
+    .field{
+      display:grid;
+      gap:8px;
+    }
+
+    .field label{
+      font-size:12px;
+      font-weight:800;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      color:#334155;
+    }
+
+    .field input{
+      width:100%;
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:13px 14px;
+      font-size:14px;
+      color:var(--text);
+      background:#fff;
+      outline:none;
+    }
+
+    .notice{
+      border-radius:18px;
+      padding:16px;
+      background:#fff7ed;
+      border:1px solid #fed7aa;
+      color:#7c2d12;
+      line-height:1.7;
+      font-size:14px;
+    }
+
+    .success-box{
+      border-radius:18px;
+      padding:16px;
+      background:#f0fdf4;
+      border:1px solid #bbf7d0;
+      color:#166534;
+      line-height:1.7;
+      font-size:14px;
+      display:none;
+    }
+
+    .success-box.show{
+      display:block;
+    }
+
+    .hidden{
+      display:none !important;
+    }
+
+    .helper{
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.6;
+    }
+
+    .footer-note{
+      margin-top:20px;
+      text-align:center;
+      color:#60708a;
+      font-size:13px;
+    }
+
+    @media (max-width: 1000px){
+      .layout{
+        grid-template-columns:1fr;
+      }
+    }
+
+    @media (max-width: 760px){
+      .app-shell{
+        padding:16px 12px 34px;
+      }
+
+      .hero{
+        padding:24px 18px 20px;
+      }
+
+      .panel-header,
+      .panel-body{
+        padding-left:18px;
+        padding-right:18px;
+      }
+    }
+  </style>
 </head>
-
 <body>
+  <div class="app-shell">
+    <header class="hero">
+      <a class="btn btn-light" href="login.html" style="margin-bottom:18px;">Voltar ao login</a>
+      <h1>Recuperação de acesso</h1>
+      <p>
+        Informe seu login ou e-mail, responda às duas perguntas de segurança e redefina sua senha diretamente dentro do sistema.
+      </p>
+    </header>
 
-<div class="container">
+    <main class="layout">
+      <section class="panel">
+        <div class="panel-header">
+          <small>Recuperação interna</small>
+          <h2>Esqueci minha senha</h2>
+          <p>
+            O Lapidar usa perguntas de segurança definidas no cadastro para liberar a redefinição da senha.
+          </p>
+        </div>
 
-<h1>Recuperar Senha</h1>
+        <div class="panel-body">
+          <div class="field">
+            <label>Login ou e-mail</label>
+            <input type="text" id="identifier" placeholder="Digite seu login ou e-mail" />
+          </div>
 
-<div class="subtitulo">
-Informe o e-mail cadastrado para solicitar a recuperação de acesso ao Lapidar.
-</div>
+          <button class="btn btn-primary" type="button" id="searchUserBtn">Localizar cadastro</button>
 
-<div id="etapaEmail">
+          <div id="securityArea" class="hidden">
+            <div class="field">
+              <label id="question1Label">Pergunta 1</label>
+              <input type="text" id="answer1" placeholder="Digite sua resposta" />
+            </div>
 
-<label for="emailRecuperacao">E-mail cadastrado</label>
-<input type="email" id="emailRecuperacao" placeholder="Digite seu e-mail">
+            <div class="field">
+              <label id="question2Label">Pergunta 2</label>
+              <input type="text" id="answer2" placeholder="Digite sua resposta" />
+            </div>
 
-<button onclick="solicitarRecuperacao()">
-Solicitar recuperação
-</button>
+            <button class="btn btn-primary" type="button" id="validateAnswersBtn">Validar respostas</button>
+          </div>
 
-</div>
+          <div id="resetArea" class="hidden">
+            <div class="field">
+              <label>Nova senha</label>
+              <input type="password" id="newPassword" placeholder="Digite a nova senha" />
+            </div>
 
-<div id="etapaNovaSenha" class="oculto">
+            <div class="field">
+              <label>Confirmar nova senha</label>
+              <input type="password" id="confirmNewPassword" placeholder="Repita a nova senha" />
+            </div>
 
-<label for="codigoTemporario">Código temporário</label>
-<input type="text" id="codigoTemporario" placeholder="Digite o código recebido">
+            <button class="btn btn-primary" type="button" id="resetPasswordBtn">Redefinir senha</button>
+          </div>
 
-<label for="novaSenha">Nova senha</label>
-<input type="password" id="novaSenha" placeholder="Digite a nova senha">
+          <div class="success-box" id="successBox">
+            Senha redefinida com sucesso.<br><br>
+            Agora você já pode entrar normalmente pela tela de login.
+          </div>
+        </div>
+      </section>
 
-<label for="confirmarNovaSenha">Confirmar nova senha</label>
-<input type="password" id="confirmarNovaSenha" placeholder="Confirme a nova senha">
+      <aside class="panel">
+        <div class="panel-header">
+          <small>Orientações</small>
+          <h2>Como esse fluxo funciona</h2>
+          <p>
+            O sistema localiza o cadastro e só libera a troca da senha após a dupla confirmação das respostas.
+          </p>
+        </div>
 
-<button onclick="redefinirSenha()">
-Salvar nova senha
-</button>
+        <div class="panel-body">
+          <div class="notice">
+            O usuário não precisa depender de envio de e-mail para recuperar o acesso. A validação acontece aqui mesmo, dentro do Lapidar.
+          </div>
 
-</div>
+          <div class="helper">
+            Depois que a senha for redefinida, o ideal é voltar ao login e entrar normalmente.
+          </div>
+        </div>
+      </aside>
+    </main>
 
-<div id="statusRecuperacao" class="status">
-Ao solicitar a recuperação, o sistema preparará um código temporário para redefinir sua senha.
-</div>
+    <div class="footer-note">
+      Lapidar • Celeiro Literário • Recuperação de Acesso
+    </div>
+  </div>
 
-<div class="voltar">
-<a href="login.html">Voltar ao login</a>
-</div>
+  <script>
+    function normalizeText(text) {
+      return (text || "").trim().toLowerCase();
+    }
 
-</div>
+    let foundUserIndex = -1;
+    let foundUser = null;
 
-<script>
-function solicitarRecuperacao(){
-  const email = document.getElementById("emailRecuperacao").value.trim();
+    document.getElementById("searchUserBtn").addEventListener("click", function() {
+      const identifier = normalizeText(document.getElementById("identifier").value);
+      const users = JSON.parse(localStorage.getItem("lapidar_users") || "[]");
 
-  if(!email){
-    document.getElementById("statusRecuperacao").innerHTML =
-      "Informe o e-mail cadastrado para continuar.";
-    return;
-  }
+      foundUserIndex = users.findIndex(user =>
+        normalizeText(user.login) === identifier || normalizeText(user.email) === identifier
+      );
 
-  const codigoTemporario = gerarCodigoTemporario();
+      if (foundUserIndex === -1) {
+        alert("Cadastro não encontrado.");
+        return;
+      }
 
-  localStorage.setItem("SDL_email_recuperacao", email);
-  localStorage.setItem("SDL_codigo_recuperacao", codigoTemporario);
-  localStorage.setItem("SDL_data_recuperacao", new Date().toISOString());
+      foundUser = users[foundUserIndex];
 
-  document.getElementById("statusRecuperacao").innerHTML =
-    "Solicitação registrada com sucesso.<br><br>" +
-    "Código temporário gerado para teste interno: <strong>" + codigoTemporario + "</strong><br><br>" +
-    "Na versão avançada, esse código será enviado automaticamente para o e-mail cadastrado.";
+      document.getElementById("question1Label").textContent = foundUser.security[0].question;
+      document.getElementById("question2Label").textContent = foundUser.security[1].question;
+      document.getElementById("securityArea").classList.remove("hidden");
+      document.getElementById("resetArea").classList.add("hidden");
+    });
 
-  document.getElementById("etapaNovaSenha").classList.remove("oculto");
-}
+    document.getElementById("validateAnswersBtn").addEventListener("click", function() {
+      if (!foundUser) {
+        alert("Localize primeiro o cadastro.");
+        return;
+      }
 
-function redefinirSenha(){
-  const codigoInformado = document.getElementById("codigoTemporario").value.trim();
-  const novaSenha = document.getElementById("novaSenha").value.trim();
-  const confirmarNovaSenha = document.getElementById("confirmarNovaSenha").value.trim();
+      const answer1 = normalizeText(document.getElementById("answer1").value);
+      const answer2 = normalizeText(document.getElementById("answer2").value);
 
-  const codigoSalvo = localStorage.getItem("SDL_codigo_recuperacao");
+      if (
+        answer1 === normalizeText(foundUser.security[0].answer) &&
+        answer2 === normalizeText(foundUser.security[1].answer)
+      ) {
+        document.getElementById("resetArea").classList.remove("hidden");
+      } else {
+        alert("As respostas não conferem.");
+      }
+    });
 
-  if(!codigoInformado || !novaSenha || !confirmarNovaSenha){
-    document.getElementById("statusRecuperacao").innerHTML =
-      "Preencha o código temporário e os dois campos de senha.";
-    return;
-  }
+    document.getElementById("resetPasswordBtn").addEventListener("click", function() {
+      if (foundUserIndex === -1) {
+        alert("Localize primeiro o cadastro.");
+        return;
+      }
 
-  if(codigoInformado !== codigoSalvo){
-    document.getElementById("statusRecuperacao").innerHTML =
-      "O código temporário informado não confere.";
-    return;
-  }
+      const newPassword = document.getElementById("newPassword").value;
+      const confirmNewPassword = document.getElementById("confirmNewPassword").value;
 
-  if(novaSenha !== confirmarNovaSenha){
-    document.getElementById("statusRecuperacao").innerHTML =
-      "A nova senha e a confirmação não coincidem.";
-    return;
-  }
+      if (!newPassword || !confirmNewPassword) {
+        alert("Preencha a nova senha e a confirmação.");
+        return;
+      }
 
-  if(novaSenha.length < 4){
-    document.getElementById("statusRecuperacao").innerHTML =
-      "A nova senha precisa ter pelo menos 4 caracteres.";
-    return;
-  }
+      if (newPassword !== confirmNewPassword) {
+        alert("As novas senhas não conferem.");
+        return;
+      }
 
-  localStorage.setItem("SDL_senha_recuperada", novaSenha);
-  localStorage.removeItem("SDL_codigo_recuperacao");
+      const users = JSON.parse(localStorage.getItem("lapidar_users") || "[]");
+      users[foundUserIndex].password = newPassword;
+      localStorage.setItem("lapidar_users", JSON.stringify(users));
 
-  document.getElementById("statusRecuperacao").innerHTML =
-    "Senha redefinida com sucesso.<br><br>" +
-    "Na próxima etapa, vamos integrar isso ao cadastro real de usuários do Lapidar.";
+      document.getElementById("successBox").classList.add("show");
 
-  setTimeout(function(){
-    window.location.href = "login.html";
-  }, 1200);
-}
-
-function gerarCodigoTemporario(){
-  return "LAP-" + Math.floor(100000 + Math.random() * 900000);
-}
-</script>
-
+      setTimeout(() => {
+        window.location.href = "login.html";
+      }, 1800);
+    });
+  </script>
 </body>
 </html>
