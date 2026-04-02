@@ -6,9 +6,7 @@
   <title>Login — Lapidar</title>
 
   <style>
-    *{
-      box-sizing:border-box;
-    }
+    *{box-sizing:border-box;}
 
     body{
       margin:0;
@@ -62,9 +60,7 @@
       box-shadow:0 10px 28px rgba(0,0,0,.35);
     }
 
-    h1,h2,h3{
-      margin:0 0 10px 0;
-    }
+    h1,h2,h3{margin:0 0 10px 0;}
 
     .subtitulo{
       font-size:14px;
@@ -233,9 +229,7 @@
       margin-top:6px;
     }
 
-    .hidden{
-      display:none;
-    }
+    .hidden{display:none;}
 
     @media (max-width:900px){
       .grade-admin,
@@ -394,15 +388,6 @@
     const ADMIN_OFICIAL = "admin@sitedasletras.com";
     const ACESSO_PRIMOS = [1, 3, 5, 7, 11, 13];
 
-    const ROTAS_SETORIAIS = {
-      1: "hub_diagramador.html",
-      3: "hub_capista.html",
-      5: "hub_tradutor.html",
-      7: "hub_relatorios.html",
-      11: "leitura_tecnica_editorial.html",
-      13: "ficha_editorial_integrada.html"
-    };
-
     function iniciarConfigs() {
       definirPadrao("cfg_quimera_ativa", true);
       definirPadrao("cfg_valleti_ativa", true);
@@ -450,7 +435,7 @@
 
       const textos = {
         admin: "Perfil administrativo com acesso estrutural total.",
-        heteronimo: "Perfil institucional reservado para a ala exclusiva de heterônimos.",
+        heteronimo: "Perfil institucional privado da ala de heterônimos.",
         autor: "Perfil de autor para fluxo editorial comum.",
         usuario: "Perfil de usuário para uso padrão do sistema.",
         visitante: "Perfil de visualização inicial da plataforma.",
@@ -642,6 +627,18 @@
         return;
       }
 
+      if (perfil === "heteronimo") {
+        const sessaoHeteronimo = {
+          nome,
+          perfil,
+          tipoAcesso: "heteronimo_privado"
+        };
+
+        localStorage.setItem("lapidarSessao", JSON.stringify(sessaoHeteronimo));
+        window.location.href = "index.html";
+        return;
+      }
+
       if (perfil === "cortesia_quimera" && !pegarBool("cfg_quimera_ativa")) {
         alert("Cortesia da Quimera está desativada pelo admin.");
         return;
@@ -697,10 +694,13 @@
         return;
       }
 
-      if (perfil === "cortesia_quimera" || perfil === "cortesia_valletibooks" ||
-          perfil === "cortesia_acl" || perfil === "cortesia_andre_instituicao" ||
-          perfil === "cortesia_estilo_poesia") {
-
+      if (
+        perfil === "cortesia_quimera" ||
+        perfil === "cortesia_valletibooks" ||
+        perfil === "cortesia_acl" ||
+        perfil === "cortesia_andre_instituicao" ||
+        perfil === "cortesia_estilo_poesia"
+      ) {
         const sessaoEspecial = {
           nome,
           perfil,
