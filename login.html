@@ -1,418 +1,545 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login — Lapidar</title>
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lapidar • Login</title>
   <style>
-    *{box-sizing:border-box;}
+    :root{
+      --bg:#edf4ff;
+      --bg2:#f8fbff;
+      --panel:#ffffff;
+      --line:#dbe6f3;
+      --text:#162033;
+      --muted:#64748b;
+      --primary:#2563eb;
+      --primary-strong:#1d4ed8;
+      --primary-soft:#dbeafe;
+      --success:#15803d;
+      --success-soft:#dcfce7;
+      --danger:#b91c1c;
+      --danger-soft:#fee2e2;
+      --shadow:0 18px 45px rgba(15,23,42,.10);
+      --radius-xl:28px;
+      --radius-lg:22px;
+      --radius-md:16px;
+      --radius-sm:12px;
+    }
+
+    *{box-sizing:border-box}
+
+    html,body{
+      margin:0;
+      padding:0;
+      font-family:Arial, Helvetica, sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(37,99,235,.14), transparent 24%),
+        radial-gradient(circle at top right, rgba(14,165,233,.08), transparent 20%),
+        linear-gradient(180deg, #edf4ff 0%, #f7faff 40%, #eef4fb 100%);
+    }
 
     body{
-      margin:0;
-      font-family:Arial, Helvetica, sans-serif;
-      background:linear-gradient(180deg, #020617 0%, #0f172a 100%);
-      color:#ffffff;
       min-height:100vh;
-      padding:24px;
-      display:flex;
-      justify-content:center;
-      align-items:center;
     }
 
-    .container{
-      width:100%;
-      max-width:520px;
-      background:#0f172a;
-      border:1px solid rgba(255,255,255,0.08);
-      border-radius:24px;
-      padding:32px 24px;
-      box-shadow:0 20px 50px rgba(0,0,0,.5);
-      text-align:center;
+    .app-shell{
+      max-width:1180px;
+      margin:0 auto;
+      padding:28px 20px 48px;
     }
 
-    .logo{
-      width:145px;
-      max-width:50vw;
-      height:auto;
-      display:block;
-      margin:0 auto 18px auto;
-      border-radius:18px;
-      box-shadow:0 10px 28px rgba(0,0,0,.35);
-    }
-
-    h2{
-      margin:0 0 10px 0;
-      font-size:28px;
-    }
-
-    .subtitulo{
-      font-size:14px;
-      opacity:.82;
-      line-height:1.5;
+    .hero{
+      position:relative;
+      overflow:hidden;
+      background:linear-gradient(135deg, #0f172a 0%, #14305f 48%, #2563eb 100%);
+      color:#fff;
+      border-radius:32px;
+      padding:34px 34px 28px;
+      box-shadow:0 24px 60px rgba(15,23,42,.22);
       margin-bottom:24px;
     }
 
-    .campo{
-      text-align:left;
-      margin-bottom:14px;
+    .hero::after{
+      content:"";
+      position:absolute;
+      right:-60px;
+      bottom:-60px;
+      width:240px;
+      height:240px;
+      border-radius:50%;
+      background:rgba(255,255,255,.08);
+      filter:blur(8px);
     }
 
-    .campo label{
-      display:block;
-      margin-bottom:7px;
-      font-size:13px;
-      opacity:.82;
+    .hero-top{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom:18px;
     }
 
-    .campo input,
-    .campo select{
+    .hero-chip{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 16px;
+      border-radius:999px;
+      background:rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.18);
+      font-size:14px;
+      font-weight:700;
+    }
+
+    .hero-chip .dot{
+      width:11px;
+      height:11px;
+      border-radius:50%;
+      background:#7dd3fc;
+      box-shadow:0 0 0 5px rgba(125,211,252,.12);
+    }
+
+    .hero h1{
+      margin:0 0 8px;
+      font-size:clamp(28px, 4vw, 42px);
+      line-height:1.06;
+      letter-spacing:-.02em;
+    }
+
+    .hero p{
+      margin:0;
+      max-width:920px;
+      color:rgba(255,255,255,.88);
+      line-height:1.7;
+      font-size:16px;
+    }
+
+    .hero-quote{
+      margin-top:16px;
+      font-size:15px;
+      line-height:1.7;
+      color:rgba(255,255,255,.95);
+      font-weight:700;
+    }
+
+    .layout{
+      display:grid;
+      grid-template-columns:minmax(0, 1fr) 360px;
+      gap:24px;
+      align-items:start;
+    }
+
+    .panel{
+      background:var(--panel);
+      border:1px solid rgba(148,163,184,.16);
+      border-radius:28px;
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+
+    .panel-header{
+      padding:26px 26px 0;
+    }
+
+    .panel-header small{
+      display:inline-block;
+      margin-bottom:10px;
+      color:var(--primary);
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      font-weight:800;
+    }
+
+    .panel-header h2{
+      margin:0 0 10px;
+      font-size:28px;
+      line-height:1.1;
+      letter-spacing:-.02em;
+    }
+
+    .panel-header p{
+      margin:0;
+      color:var(--muted);
+      line-height:1.7;
+      font-size:15px;
+    }
+
+    .panel-body{
+      padding:24px 26px 28px;
+      display:grid;
+      gap:18px;
+    }
+
+    .field{
+      display:grid;
+      gap:8px;
+    }
+
+    .field label{
+      font-size:12px;
+      font-weight:800;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      color:#334155;
+    }
+
+    .field input,
+    .field select{
       width:100%;
-      padding:14px;
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:13px 14px;
+      font-size:14px;
+      color:var(--text);
+      background:#fff;
+      outline:none;
+    }
+
+    .helper{
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.6;
+    }
+
+    .btn{
       border:none;
       border-radius:14px;
-      background:#1e293b;
-      color:#fff;
-      font-size:15px;
-      outline:none;
-      font-family:Arial, Helvetica, sans-serif;
-    }
-
-    .info{
-      background:rgba(255,255,255,0.04);
-      border:1px solid rgba(255,255,255,0.08);
-      border-radius:14px;
-      padding:14px;
+      padding:13px 18px;
       font-size:14px;
-      line-height:1.5;
-      text-align:left;
-      margin:14px 0 4px 0;
-      opacity:.92;
+      font-weight:800;
+      cursor:pointer;
+      transition:.22s ease;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
     }
 
-    .acoes{
+    .btn:hover{
+      transform:translateY(-1px);
+    }
+
+    .btn-primary{
+      background:linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
+      color:#fff;
+      box-shadow:0 16px 28px rgba(37,99,235,.22);
+      width:100%;
+    }
+
+    .btn-soft{
+      background:#e8f0ff;
+      color:#1d4ed8;
+      width:100%;
+    }
+
+    .btn-outline{
+      background:#fff;
+      color:#334155;
+      border:1px solid var(--line);
+      width:100%;
+    }
+
+    .block{
+      border:1px solid var(--line);
+      border-radius:22px;
+      background:linear-gradient(180deg,#ffffff 0%, #f8fbff 100%);
+      padding:18px;
+      display:grid;
+      gap:14px;
+    }
+
+    .block-title{
+      font-size:18px;
+      font-weight:800;
+      line-height:1.3;
+    }
+
+    .summary-list{
       display:grid;
       gap:12px;
-      margin-top:18px;
     }
 
-    .botao{
-      width:100%;
-      padding:15px;
-      border:none;
-      border-radius:14px;
+    .summary-item{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:12px;
+      font-size:14px;
+    }
+
+    .summary-item span:first-child{
+      color:var(--muted);
+    }
+
+    .summary-item strong{
+      text-align:right;
+      line-height:1.45;
+    }
+
+    .notice{
+      border-radius:18px;
+      padding:16px;
+      background:#fff7ed;
+      border:1px solid #fed7aa;
+      color:#7c2d12;
+      line-height:1.7;
+      font-size:14px;
+    }
+
+    .success-box{
+      border-radius:18px;
+      padding:16px;
+      background:#f0fdf4;
+      border:1px solid #bbf7d0;
+      color:#166534;
+      line-height:1.7;
+      font-size:14px;
+      display:none;
+    }
+
+    .success-box.show{
+      display:block;
+    }
+
+    .rules-list{
+      list-style:none;
+      padding:0;
+      margin:0;
+      display:grid;
+      gap:14px;
+    }
+
+    .rules-list li{
+      border:1px solid var(--line);
+      border-radius:18px;
+      background:#fbfdff;
+      padding:16px;
+    }
+
+    .rules-list strong{
+      display:block;
+      margin-bottom:7px;
       font-size:15px;
-      font-weight:bold;
-      cursor:pointer;
-      transition:.2s ease;
-      color:#fff;
-      background:#7c3aed;
+      line-height:1.45;
     }
 
-    .botao:hover{
-      transform:translateY(-1px);
-      background:#6d28d9;
+    .rules-list span{
+      display:block;
+      color:var(--muted);
+      line-height:1.65;
+      font-size:14px;
     }
 
-    .botao.secundario{
-      background:#334155;
-    }
-
-    .botao.secundario:hover{
-      background:#475569;
-    }
-
-    .footer{
+    .footer-note{
       margin-top:20px;
-      font-size:12px;
-      opacity:.55;
-      line-height:1.5;
+      text-align:center;
+      color:#60708a;
+      font-size:13px;
     }
 
-    .hidden{display:none;}
+    @media (max-width: 1000px){
+      .layout{
+        grid-template-columns:1fr;
+      }
+    }
+
+    @media (max-width: 760px){
+      .app-shell{
+        padding:16px 12px 34px;
+      }
+
+      .hero{
+        padding:24px 18px 20px;
+      }
+
+      .panel-header,
+      .panel-body{
+        padding-left:18px;
+        padding-right:18px;
+      }
+    }
   </style>
 </head>
 <body>
-  <div class="container">
-    <img src="file_00000000760c720ebb734bb5e71340bb.png" alt="Site das Letras Edições Literárias" class="logo">
+  <div class="app-shell">
+    <header class="hero">
+      <div class="hero-top">
+        <div class="hero-chip">
+          <span class="dot"></span>
+          Lapidar • Acesso ao Sistema
+        </div>
+      </div>
 
-    <h2>Acesso ao Lapidar</h2>
+      <h1>Entre no Lapidar com seu acesso já liberado</h1>
+      <p>
+        O cadastro fica na entrada. Assim, quem entra no sistema já chega com login, senha e recuperação de acesso preparados, sem precisar preencher ficha depois.
+      </p>
+      <div class="hero-quote">
+        Lapidar é o local onde seu carvão vira diamante, através do trabalho árduo de suas próprias mãos.
+      </div>
+    </header>
 
-    <div class="subtitulo">
-      Ambiente editorial protegido<br>
-      Site das Letras Edições Literárias
-    </div>
+    <main class="layout">
+      <section class="panel">
+        <div class="panel-header">
+          <small>Entrada oficial</small>
+          <h2>Login do usuário</h2>
+          <p>
+            Informe seu login ou e-mail e sua senha para entrar. O sistema identifica o perfil e leva você para a sala de reuniões.
+          </p>
+        </div>
 
-    <div class="campo">
-      <label for="nome">Nome de acesso</label>
-      <input type="text" id="nome" placeholder="Digite seu nome de acesso">
-    </div>
+        <div class="panel-body">
+          <form id="loginForm">
+            <div class="field">
+              <label>Login ou e-mail</label>
+              <input type="text" id="identifier" placeholder="Digite seu login ou e-mail" required />
+            </div>
 
-    <div class="campo">
-      <label for="senha">Senha</label>
-      <input type="password" id="senha" placeholder="Digite sua senha">
-    </div>
+            <div class="field">
+              <label>Senha</label>
+              <input type="password" id="password" placeholder="Digite sua senha" required />
+            </div>
 
-    <div class="campo">
-      <label for="perfil">Perfil</label>
-      <select id="perfil" onchange="atualizarDescricaoPerfil()">
-        <option value="admin">Admin</option>
-        <option value="heteronimo">Heterônimo</option>
-        <option value="autor">Autor</option>
-        <option value="usuario">Usuário</option>
-        <option value="visitante">Visitante</option>
-        <option value="cortesia_quimera">Cortesia da Quimera</option>
-        <option value="cortesia_valletibooks">Cortesia da ValletiBooks</option>
-        <option value="cortesia_acl">Cortesia ACL</option>
-        <option value="cortesia_andre_instituicao">Cortesia André Instituição</option>
-        <option value="cortesia_estilo_poesia">Cortesia Estilo e Poesia</option>
-        <option value="licenca_solidaria">Licença Solidária</option>
-      </select>
-    </div>
+            <div class="helper">
+              Depois do acesso, o sistema abre a sala de reuniões já com o perfil correto carregado.
+            </div>
 
-    <div class="campo hidden" id="slotSolidariaBox">
-      <label for="slotSolidaria">Número da Licença Solidária</label>
-      <select id="slotSolidaria">
-        <option value="0001">Licença Solidária 0001</option>
-        <option value="0002">Licença Solidária 0002</option>
-        <option value="0003">Licença Solidária 0003</option>
-        <option value="0004">Licença Solidária 0004</option>
-        <option value="0005">Licença Solidária 0005</option>
-        <option value="0006">Licença Solidária 0006</option>
-        <option value="0007">Licença Solidária 0007</option>
-        <option value="0008">Licença Solidária 0008</option>
-        <option value="0009">Licença Solidária 0009</option>
-        <option value="0010">Licença Solidária 0010</option>
-      </select>
-    </div>
+            <button class="btn btn-primary" type="submit">Entrar no Lapidar</button>
+          </form>
 
-    <div id="descricaoPerfil" class="info">
-      Perfil administrativo com acesso estrutural total.
-    </div>
+          <div class="success-box" id="successBox">
+            Acesso validado com sucesso.<br><br>
+            Redirecionando para a sala de reuniões...
+          </div>
 
-    <div class="acoes">
-      <button class="botao" onclick="entrarSistema()">Entrar</button>
-      <button class="botao secundario" onclick="voltarInicio()">Voltar ao início</button>
-    </div>
+          <div class="block">
+            <div class="block-title">Ainda não tem acesso?</div>
+            <div class="helper">
+              Crie primeiro o seu cadastro. O login será liberado imediatamente dentro do sistema.
+            </div>
+            <a class="btn btn-soft" href="cadastro.html">Criar cadastro</a>
+          </div>
 
-    <div class="footer">
-      Admin oficial: admin@sitedasletras.com
+          <div class="block">
+            <div class="block-title">Esqueceu sua senha?</div>
+            <div class="helper">
+              Use as perguntas de segurança que você cadastrou para redefinir sua senha dentro do próprio sistema.
+            </div>
+            <a class="btn btn-outline" href="recuperar_senha.html">Recuperar senha</a>
+          </div>
+
+          <div class="block">
+            <div class="block-title">Último acesso criado</div>
+            <div class="summary-list">
+              <div class="summary-item">
+                <span>Último login cadastrado</span>
+                <strong id="lastRegisteredLogin">—</strong>
+              </div>
+              <div class="summary-item">
+                <span>Perfil salvo na sessão</span>
+                <strong id="currentStoredProfile">—</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <aside class="panel">
+        <div class="panel-header">
+          <small>Como funciona</small>
+          <h2>Fluxo de entrada do sistema</h2>
+          <p>
+            Agora o acesso segue a ordem correta: cadastro primeiro, uso depois.
+          </p>
+        </div>
+
+        <div class="panel-body">
+          <ul class="rules-list">
+            <li>
+              <strong>Primeiro cria o cadastro</strong>
+              <span>O usuário define login, senha e perguntas de segurança antes de entrar na plataforma.</span>
+            </li>
+            <li>
+              <strong>Depois entra com o perfil certo</strong>
+              <span>O login identifica se o acesso é Admin, Heterônimo ou Cortesia.</span>
+            </li>
+            <li>
+              <strong>A sala de reuniões abre como ponto central</strong>
+              <span>Depois da autenticação, o fluxo segue para a sala principal do sistema.</span>
+            </li>
+          </ul>
+
+          <div class="notice">
+            Dentro do Lapidar, a entrada do usuário deve ser simples, limpa e coerente. Ninguém deve preencher ficha só no final do percurso.
+          </div>
+        </div>
+      </aside>
+    </main>
+
+    <div class="footer-note">
+      Lapidar • Celeiro Literário • Login
     </div>
   </div>
 
   <script>
-    const ADMIN_OFICIAL = "admin@sitedasletras.com";
-    const ACESSO_PRIMOS = [1, 3, 5, 7, 11, 13];
-
-    function iniciarConfigs() {
-      definirPadrao("cfg_quimera_ativa", true);
-      definirPadrao("cfg_valleti_ativa", true);
-
-      definirPadrao("cfg_acl_ativa", true);
-      definirPadrao("cfg_andre_ativa", true);
-      definirPadrao("cfg_estilo_ativa", true);
-
-      definirPadrao("cfg_acl_inicio", "");
-      definirPadrao("cfg_andre_inicio", "");
-      definirPadrao("cfg_estilo_inicio", "");
-
-      for (let i = 1; i <= 10; i++) {
-        const id = String(i).padStart(4, "0");
-        definirPadrao(`solidaria_${id}_ativa`, false);
-        definirPadrao(`solidaria_${id}_beneficiado`, "");
-        definirPadrao(`solidaria_${id}_instituicao`, "");
-        definirPadrao(`solidaria_${id}_duracao`, "180");
-        definirPadrao(`solidaria_${id}_observacao`, "");
-        definirPadrao(`solidaria_${id}_setores`, JSON.stringify(ACESSO_PRIMOS));
-      }
+    function normalizeText(text) {
+      return (text || "").trim().toLowerCase();
     }
 
-    function definirPadrao(chave, valor) {
-      if (localStorage.getItem(chave) === null) {
-        localStorage.setItem(chave, typeof valor === "string" ? valor : JSON.stringify(valor));
-      }
-    }
-
-    function pegarBool(chave) {
-      return localStorage.getItem(chave) === "true";
-    }
-
-    function atualizarDescricaoPerfil() {
-      const perfil = document.getElementById("perfil").value;
-      const box = document.getElementById("descricaoPerfil");
-      const slotBox = document.getElementById("slotSolidariaBox");
-
-      slotBox.classList.add("hidden");
-
-      const textos = {
-        admin: "Perfil administrativo com acesso estrutural total.",
-        heteronimo: "Perfil editorial ampliado, com circulação ampla e sem acesso a financeiro, auditoria e área administrativa.",
-        autor: "Perfil de autor para fluxo editorial comum.",
-        usuario: "Perfil de usuário para uso padrão do sistema.",
-        visitante: "Perfil de visualização inicial da plataforma.",
-        cortesia_quimera: "Cortesia permanente com acesso aos setores 1, 3, 5, 7, 11 e 13.",
-        cortesia_valletibooks: "Cortesia permanente com acesso aos setores 1, 3, 5, 7, 11 e 13.",
-        cortesia_acl: "Cortesia semestral de divulgação com acesso aos setores 1, 3, 5, 7, 11 e 13.",
-        cortesia_andre_instituicao: "Cortesia semestral de divulgação com acesso aos setores 1, 3, 5, 7, 11 e 13.",
-        cortesia_estilo_poesia: "Cortesia semestral de divulgação com acesso aos setores 1, 3, 5, 7, 11 e 13.",
-        licenca_solidaria: "Acesso por slot de Licença Solidária configurado previamente."
+    function getProfileLabel(profile) {
+      const labels = {
+        admin: "Admin",
+        heteronimo: "Heterônimo",
+        cortesia: "Cortesia"
       };
-
-      if (perfil === "licenca_solidaria") {
-        slotBox.classList.remove("hidden");
-      }
-
-      box.textContent = textos[perfil] || "Perfil não identificado.";
+      return labels[profile] || "—";
     }
 
-    function semestralValida(chaveAtiva, chaveInicio) {
-      if (!pegarBool(chaveAtiva)) return false;
-
-      const inicio = localStorage.getItem(chaveInicio);
-      if (!inicio) return false;
-
-      const dataInicio = new Date(inicio);
-      const agora = new Date();
-      const dias = Math.floor((agora - dataInicio) / (1000 * 60 * 60 * 24));
-
-      return dias <= 180;
+    function refreshLoginInfo() {
+      const lastRegistered = localStorage.getItem("lapidar_last_registered_login") || "—";
+      const storedProfile = localStorage.getItem("lapidar_sala_reunioes_profile");
+      document.getElementById("lastRegisteredLogin").textContent = lastRegistered;
+      document.getElementById("currentStoredProfile").textContent = getProfileLabel(storedProfile);
     }
 
-    function entrarSistema() {
-      const nome = document.getElementById("nome").value.trim();
-      const senha = document.getElementById("senha").value.trim();
-      const perfil = document.getElementById("perfil").value;
-      const slotSolidaria = document.getElementById("slotSolidaria").value;
+    document.getElementById("loginForm").addEventListener("submit", function(event) {
+      event.preventDefault();
 
-      if (!nome) {
-        alert("Informe o nome de acesso.");
+      const identifier = normalizeText(document.getElementById("identifier").value);
+      const password = document.getElementById("password").value;
+      const users = JSON.parse(localStorage.getItem("lapidar_users") || "[]");
+
+      const user = users.find(item =>
+        normalizeText(item.login) === identifier || normalizeText(item.email) === identifier
+      );
+
+      if (!user) {
+        alert("Login ou e-mail não encontrado.");
         return;
       }
 
-      if (!senha) {
-        alert("Informe a senha.");
+      if (user.password !== password) {
+        alert("Senha incorreta.");
         return;
       }
 
-      if (perfil === "admin") {
-        if (nome.toLowerCase() !== ADMIN_OFICIAL.toLowerCase()) {
-          alert("Admin inválido. Use o e-mail administrativo oficial.");
-          return;
-        }
+      localStorage.setItem("lapidar_current_user", JSON.stringify(user));
+      localStorage.setItem("lapidar_current_profile", user.profile);
+      localStorage.setItem("lapidar_sala_reunioes_profile", user.profile);
+      localStorage.setItem("lapidar_producao_integrada_profile", user.profile);
 
-        const sessao = {
-          nome,
-          perfil,
-          tipoAcesso: "institucional_total"
-        };
+      document.getElementById("successBox").classList.add("show");
 
-        localStorage.setItem("lapidarSessao", JSON.stringify(sessao));
-        window.location.href = "index.html";
-        return;
-      }
+      setTimeout(() => {
+        window.location.href = "sala_reunioes.html";
+      }, 1400);
+    });
 
-      if (perfil === "heteronimo") {
-        const sessao = {
-          nome,
-          perfil,
-          tipoAcesso: "heteronimo_privado"
-        };
-
-        localStorage.setItem("lapidarSessao", JSON.stringify(sessao));
-        window.location.href = "index.html";
-        return;
-      }
-
-      if (perfil === "cortesia_quimera" && !pegarBool("cfg_quimera_ativa")) {
-        alert("Cortesia da Quimera está desativada.");
-        return;
-      }
-
-      if (perfil === "cortesia_valletibooks" && !pegarBool("cfg_valleti_ativa")) {
-        alert("Cortesia da ValletiBooks está desativada.");
-        return;
-      }
-
-      if (perfil === "cortesia_acl" && !semestralValida("cfg_acl_ativa", "cfg_acl_inicio")) {
-        alert("Cortesia ACL está inativa ou expirou.");
-        return;
-      }
-
-      if (perfil === "cortesia_andre_instituicao" && !semestralValida("cfg_andre_ativa", "cfg_andre_inicio")) {
-        alert("Cortesia André Instituição está inativa ou expirou.");
-        return;
-      }
-
-      if (perfil === "cortesia_estilo_poesia" && !semestralValida("cfg_estilo_ativa", "cfg_estilo_inicio")) {
-        alert("Cortesia Estilo e Poesia está inativa ou expirou.");
-        return;
-      }
-
-      if (perfil === "licenca_solidaria") {
-        const ativa = pegarBool(`solidaria_${slotSolidaria}_ativa`);
-        const beneficiado = localStorage.getItem(`solidaria_${slotSolidaria}_beneficiado`) || "";
-        const duracao = parseInt(localStorage.getItem(`solidaria_${slotSolidaria}_duracao`) || "180", 10);
-
-        if (!ativa) {
-          alert(`Licença Solidária ${slotSolidaria} está desativada.`);
-          return;
-        }
-
-        if (!beneficiado) {
-          alert(`Licença Solidária ${slotSolidaria} ainda não possui beneficiado definido.`);
-          return;
-        }
-
-        const sessao = {
-          nome,
-          perfil,
-          slotSolidaria,
-          beneficiado,
-          setoresLiberados: ACESSO_PRIMOS,
-          tipoAcesso: "solidario_operacional",
-          duracao
-        };
-
-        localStorage.setItem("lapidarSessao", JSON.stringify(sessao));
-        window.location.href = "index.html";
-        return;
-      }
-
-      if (
-        perfil === "cortesia_quimera" ||
-        perfil === "cortesia_valletibooks" ||
-        perfil === "cortesia_acl" ||
-        perfil === "cortesia_andre_instituicao" ||
-        perfil === "cortesia_estilo_poesia"
-      ) {
-        const sessao = {
-          nome,
-          perfil,
-          setoresLiberados: ACESSO_PRIMOS,
-          tipoAcesso: "operacional_primos"
-        };
-
-        localStorage.setItem("lapidarSessao", JSON.stringify(sessao));
-        window.location.href = "index.html";
-        return;
-      }
-
-      const sessao = {
-        nome,
-        perfil,
-        tipoAcesso: "padrao"
-      };
-
-      localStorage.setItem("lapidarSessao", JSON.stringify(sessao));
-      window.location.href = "index.html";
-    }
-
-    function voltarInicio() {
-      window.location.href = "index.html";
-    }
-
-    iniciarConfigs();
-    atualizarDescricaoPerfil();
+    refreshLoginInfo();
   </script>
 </body>
 </html>
