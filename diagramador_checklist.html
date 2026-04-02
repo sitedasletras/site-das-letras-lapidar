@@ -141,6 +141,13 @@
       width:100%;
     }
 
+    a.btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      text-decoration:none;
+    }
+
     .hero h1{
       margin:0 0 8px;
       font-size:clamp(28px, 4vw, 42px);
@@ -692,8 +699,9 @@
         </div>
 
         <div class="hero-actions">
-          <button class="btn btn-ghost" type="button">Voltar ao Diagramador</button>
-          <button class="btn btn-light" type="button">Salvar checklist</button>
+          <a class="btn btn-ghost" href="diagramador_elementos_tecnicos.html">Voltar aos elementos</a>
+          <a class="btn btn-ghost" href="login.html">Sair geral</a>
+          <a class="btn btn-light" href="hub_diagramador.html" id="finishStepBtn">Concluir Setor 1</a>
         </div>
       </div>
 
@@ -1023,7 +1031,7 @@
                 <p>
                   Quando o checklist estiver completo, esta etapa poderá ser considerada pronta para o fechamento do miolo dentro do Setor 1.
                 </p>
-                <button class="btn btn-primary" type="button">Consolidar checklist do Diagramador</button>
+                <button class="btn btn-primary" type="button" id="savePageBtn">Salvar checklist</button>
               </div>
             </div>
           </section>
@@ -1161,15 +1169,66 @@
       }
     }
 
+    function collectPageState() {
+      const state = {};
+      document.querySelectorAll('.check-item input[type="checkbox"]').forEach(input => {
+        state[input.name] = input.checked;
+      });
+      return state;
+    }
+
+    function savePageState() {
+      try {
+        localStorage.setItem("lapidar_diagramador_checklist", JSON.stringify(collectPageState()));
+        const saveBtn = document.getElementById("savePageBtn");
+        if (saveBtn) {
+          const originalText = saveBtn.textContent;
+          saveBtn.textContent = "Salvo com sucesso";
+          setTimeout(() => {
+            saveBtn.textContent = originalText;
+          }, 1400);
+        }
+      } catch (error) {
+        console.error("Erro ao salvar estado:", error);
+      }
+    }
+
+    function restorePageState() {
+      try {
+        const raw = localStorage.getItem("lapidar_diagramador_checklist");
+        if (!raw) return;
+
+        const saved = JSON.parse(raw);
+
+        Object.keys(saved).forEach((name) => {
+          const input = document.querySelector('input[name="' + name + '"]');
+          if (input) {
+            input.checked = !!saved[name];
+          }
+        });
+      } catch (error) {
+        console.error("Erro ao restaurar estado:", error);
+      }
+    }
+
     function syncAll() {
       updateCheckVisuals();
       updateDashboard();
     }
 
     document.querySelectorAll('.check-item input').forEach(input => {
-      input.addEventListener('change', syncAll);
+      input.addEventListener('change', () => {
+        syncAll();
+        savePageState();
+      });
     });
 
+    const saveBtn = document.getElementById("savePageBtn");
+    if (saveBtn) {
+      saveBtn.addEventListener("click", savePageState);
+    }
+
+    restorePageState();
     syncAll();
   </script>
 </body>
