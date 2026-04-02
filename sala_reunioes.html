@@ -7,7 +7,6 @@
   <style>
     :root{
       --bg:#edf4ff;
-      --bg2:#f8fbff;
       --panel:#ffffff;
       --line:#dbe6f3;
       --text:#162033;
@@ -17,15 +16,9 @@
       --primary-soft:#dbeafe;
       --success:#15803d;
       --success-soft:#dcfce7;
-      --warning:#b45309;
-      --warning-soft:#ffedd5;
       --violet:#7c3aed;
       --violet-soft:#ede9fe;
       --shadow:0 18px 45px rgba(15,23,42,.10);
-      --radius-xl:28px;
-      --radius-lg:22px;
-      --radius-md:16px;
-      --radius-sm:12px;
     }
 
     *{box-sizing:border-box}
@@ -41,9 +34,7 @@
         linear-gradient(180deg, #edf4ff 0%, #f7faff 40%, #eef4fb 100%);
     }
 
-    body{
-      min-height:100vh;
-    }
+    body{min-height:100vh}
 
     .app-shell{
       max-width:1480px;
@@ -117,11 +108,13 @@
       font-weight:800;
       cursor:pointer;
       transition:.22s ease;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
     }
 
-    .btn:hover{
-      transform:translateY(-1px);
-    }
+    .btn:hover{transform:translateY(-1px)}
 
     .btn-light{
       background:#fff;
@@ -132,13 +125,6 @@
       background:rgba(255,255,255,.12);
       color:#fff;
       border:1px solid rgba(255,255,255,.18);
-    }
-
-    a.btn{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      text-decoration:none;
     }
 
     .hero h1{
@@ -185,7 +171,7 @@
 
     .layout{
       display:grid;
-      grid-template-columns:minmax(0, 1fr) 360px;
+      grid-template-columns:minmax(0,1fr) 360px;
       gap:24px;
       align-items:start;
     }
@@ -198,7 +184,7 @@
     .panel{
       background:var(--panel);
       border:1px solid rgba(148,163,184,.16);
-      border-radius:var(--radius-xl);
+      border-radius:28px;
       box-shadow:var(--shadow);
       overflow:hidden;
     }
@@ -235,56 +221,13 @@
       padding:24px 26px 28px;
     }
 
-    .profile-switch{
-      display:grid;
-      grid-template-columns:1fr auto;
-      gap:16px;
-      align-items:end;
-      border:1px solid var(--line);
-      border-radius:24px;
-      background:linear-gradient(180deg,#ffffff 0%, #f8fbff 100%);
-      padding:18px;
-      margin-bottom:18px;
-    }
-
-    .field{
-      display:grid;
-      gap:8px;
-    }
-
-    .field label{
-      font-size:12px;
-      font-weight:800;
-      text-transform:uppercase;
-      letter-spacing:.08em;
-      color:#334155;
-    }
-
-    .field select, .field input{
-      width:100%;
-      border:1px solid var(--line);
-      border-radius:14px;
-      padding:13px 14px;
-      font-size:14px;
-      color:var(--text);
-      background:#fff;
-      outline:none;
-    }
-
-    .helper{
-      color:var(--muted);
-      font-size:13px;
-      line-height:1.6;
-    }
-
     .room-grid{
       display:grid;
-      grid-template-columns:repeat(3, minmax(0, 1fr));
+      grid-template-columns:repeat(3, minmax(0,1fr));
       gap:18px;
     }
 
     .room-card{
-      position:relative;
       border:1px solid var(--line);
       border-radius:28px;
       overflow:hidden;
@@ -300,8 +243,8 @@
       box-shadow:0 20px 40px rgba(37,99,235,.10);
     }
 
-    .room-card.hidden{
-      display:none;
+    .hidden{
+      display:none !important;
     }
 
     .room-band{
@@ -405,10 +348,6 @@
       color:#fff;
     }
 
-    .room-button:hover{
-      transform:translateY(-1px);
-    }
-
     .status-wrap{
       border:1px solid var(--line);
       border-radius:28px;
@@ -420,7 +359,7 @@
 
     .status-grid{
       display:grid;
-      grid-template-columns:repeat(3, minmax(0, 1fr));
+      grid-template-columns:repeat(3, minmax(0,1fr));
       gap:16px;
     }
 
@@ -452,38 +391,6 @@
       color:var(--muted);
       font-size:14px;
       line-height:1.6;
-    }
-
-    .meeting-board{
-      border:1px solid var(--line);
-      border-radius:24px;
-      background:#fff;
-      padding:18px;
-      display:grid;
-      gap:14px;
-    }
-
-    .board-row{
-      display:flex;
-      justify-content:space-between;
-      align-items:flex-start;
-      gap:12px;
-      border:1px solid var(--line);
-      border-radius:16px;
-      padding:14px;
-      background:#fbfdff;
-    }
-
-    .board-row span{
-      color:var(--muted);
-      font-size:14px;
-      line-height:1.6;
-    }
-
-    .board-row strong{
-      text-align:right;
-      font-size:14px;
-      line-height:1.5;
     }
 
     .sticky-stack{
@@ -537,14 +444,8 @@
       font-size:14px;
     }
 
-    .summary-item span:first-child{
-      color:var(--muted);
-    }
-
-    .summary-item strong{
-      text-align:right;
-      line-height:1.45;
-    }
+    .summary-item span:first-child{color:var(--muted)}
+    .summary-item strong{text-align:right; line-height:1.45}
 
     .rules-list{
       list-style:none;
@@ -594,34 +495,15 @@
     }
 
     @media (max-width: 1240px){
-      .layout{
-        grid-template-columns:1fr;
-      }
-      .sticky-stack{
-        position:relative;
-        top:auto;
-      }
-      .room-grid,
-      .status-grid{
-        grid-template-columns:1fr;
-      }
+      .layout{grid-template-columns:1fr}
+      .sticky-stack{position:relative; top:auto}
+      .room-grid,.status-grid{grid-template-columns:1fr}
     }
 
     @media (max-width: 720px){
-      .app-shell{
-        padding:16px 12px 34px;
-      }
-      .hero{
-        padding:24px 18px 20px;
-      }
-      .panel-header,
-      .panel-body{
-        padding-left:18px;
-        padding-right:18px;
-      }
-      .profile-switch{
-        grid-template-columns:1fr;
-      }
+      .app-shell{padding:16px 12px 34px}
+      .hero{padding:24px 18px 20px}
+      .panel-header,.panel-body{padding-left:18px; padding-right:18px}
     }
   </style>
 </head>
@@ -636,7 +518,7 @@
 
         <div class="hero-actions">
           <a class="btn btn-ghost" href="login.html">Trocar usuário</a>
-          <a class="btn btn-light" href="login.html">Sair geral</a>
+          <a class="btn btn-light" href="login.html" id="logoutBtn">Sair geral</a>
         </div>
       </div>
 
@@ -654,35 +536,6 @@
 
     <main class="layout">
       <section class="main-stack">
-
-        <section class="panel">
-          <div class="panel-header">
-            <small>Controle de perfil</small>
-            <h2>Visualização da sala conforme o tipo de acesso</h2>
-            <p>
-              Para teste, você pode alternar o perfil abaixo. Depois, essa informação pode vir automaticamente do login real.
-            </p>
-          </div>
-
-          <div class="panel-body">
-            <div class="profile-switch">
-              <div class="field">
-                <label>Perfil atual</label>
-                <select id="profileSelect">
-                  <option value="admin">Admin</option>
-                  <option value="heteronimo">Heterônimo</option>
-                  <option value="cortesia">Cortesia</option>
-                </select>
-                <div class="helper">
-                  Admin vê Administrativo, Produção e Cortesias. Heterônimo vê Produção e Cortesias. Cortesia vê apenas Produção.
-                </div>
-              </div>
-
-              <button class="btn btn-light" type="button" id="saveProfileBtn">Salvar perfil da sala</button>
-            </div>
-          </div>
-        </section>
-
         <section class="panel">
           <div class="panel-header">
             <small>Portas principais</small>
@@ -694,7 +547,6 @@
 
           <div class="panel-body">
             <div class="room-grid">
-
               <article class="room-card" id="cardAdmin">
                 <div class="room-band admin"></div>
                 <div class="room-content">
@@ -726,7 +578,7 @@
                   </p>
 
                   <div class="mini-list">
-                    <div class="mini-item">Entrada e saída integradas da obra</div>
+                    <div class="mini-item">Entrada e saída integradas da história</div>
                     <div class="mini-item">Setores 1, 3, 5, 7, 11 e 13</div>
                     <div class="mini-item">Mesário real para Admin e Heterônimo</div>
                   </div>
@@ -757,7 +609,6 @@
                   </div>
                 </div>
               </article>
-
             </div>
           </div>
         </section>
@@ -776,48 +627,29 @@
               <div class="status-grid">
                 <div class="status-card">
                   <small>Perfil carregado</small>
-                  <strong id="statusProfile">Admin</strong>
-                  <span id="statusProfileDesc">Acesso institucional completo à sala de reuniões.</span>
+                  <strong id="statusProfile">—</strong>
+                  <span id="statusProfileDesc">Aguardando leitura do perfil salvo.</span>
                 </div>
 
                 <div class="status-card">
                   <small>Portas disponíveis</small>
-                  <strong id="statusDoors">3 portas</strong>
-                  <span id="statusDoorsDesc">Administrativo, Produção e Cortesias liberados.</span>
+                  <strong id="statusDoors">—</strong>
+                  <span id="statusDoorsDesc">Aguardando leitura do perfil salvo.</span>
                 </div>
 
                 <div class="status-card">
                   <small>Mesário</small>
-                  <strong id="statusMesario">Completo</strong>
-                  <span id="statusMesarioDesc">Visualização integral operacional permitida.</span>
-                </div>
-              </div>
-
-              <div class="meeting-board">
-                <div class="board-row">
-                  <span>Admin</span>
-                  <strong>Vê 3 portas<br />e mesário completo</strong>
-                </div>
-
-                <div class="board-row">
-                  <span>Heterônimo</span>
-                  <strong>Vê Produção e Cortesias<br />com mesário completo</strong>
-                </div>
-
-                <div class="board-row">
-                  <span>Cortesia</span>
-                  <strong>Vê só Produção<br />sem valores e sem administrativo</strong>
+                  <strong id="statusMesario">—</strong>
+                  <span id="statusMesarioDesc">Aguardando leitura do perfil salvo.</span>
                 </div>
               </div>
             </div>
           </div>
         </section>
-
       </section>
 
       <aside>
         <div class="sticky-stack">
-
           <section class="panel">
             <div class="panel-header">
               <small>Resumo da sala</small>
@@ -830,37 +662,37 @@
             <div class="panel-body">
               <div class="meter">
                 <div class="meter-item">
-                  <small>Perfil atual</small>
-                  <strong id="sideProfile">Admin</strong>
+                  <small>Usuário atual</small>
+                  <strong id="sideUser">—</strong>
                 </div>
 
                 <div class="meter-item">
-                  <small>Visualização</small>
-                  <strong id="sideVisibility">Completa</strong>
+                  <small>Perfil atual</small>
+                  <strong id="sideProfile">—</strong>
                 </div>
 
                 <div class="meter-item">
                   <small>Portas liberadas</small>
-                  <strong id="sideDoors">3</strong>
+                  <strong id="sideDoors">—</strong>
                 </div>
               </div>
 
               <div class="summary-list">
                 <div class="summary-item">
                   <span>Administrativo</span>
-                  <strong id="sideAdmin">Visível</strong>
+                  <strong id="sideAdmin">—</strong>
                 </div>
                 <div class="summary-item">
                   <span>Produção</span>
-                  <strong id="sideProduction">Visível</strong>
+                  <strong id="sideProduction">—</strong>
                 </div>
                 <div class="summary-item">
                   <span>Cortesias</span>
-                  <strong id="sideCourtesy">Visível</strong>
+                  <strong id="sideCourtesy">—</strong>
                 </div>
                 <div class="summary-item">
                   <span>Mesário</span>
-                  <strong id="sideMesario">Completo</strong>
+                  <strong id="sideMesario">—</strong>
                 </div>
               </div>
             </div>
@@ -884,13 +716,13 @@
                 </li>
                 <li>
                   <strong>Cortesia</strong>
-                  <span>Entra apenas na Produção. Não vê preços, não vê administrativo, não vê outras cortesias e não opera o mesário real.</span>
+                  <span>Entra apenas na Produção. Não vê CVMI, não vê administrativo e não vê outras cortesias.</span>
                 </li>
               </ul>
 
               <div class="notice">
                 <strong>Observação estrutural:</strong><br>
-                O perfil Cortesia pode até perceber a ambientação do setor, mas sua experiência deve permanecer limpa, premium e sem exposição de valores ou lógica interna de cobrança.
+                Esta sala deve abrir automaticamente no perfil salvo pelo login, sem depender de seleção manual.
               </div>
             </div>
           </section>
@@ -915,7 +747,6 @@
         profileDesc: "Acesso institucional completo à sala de reuniões.",
         doorsDesc: "Administrativo, Produção e Cortesias liberados.",
         mesarioDesc: "Visualização integral operacional permitida.",
-        sideVisibility: "Completa",
         sideAdmin: "Visível",
         sideProduction: "Visível",
         sideCourtesy: "Visível",
@@ -931,7 +762,6 @@
         profileDesc: "Acesso operacional sem a ala administrativa.",
         doorsDesc: "Produção e Cortesias liberados.",
         mesarioDesc: "Acompanhamento operacional completo permitido.",
-        sideVisibility: "Operacional",
         sideAdmin: "Oculto",
         sideProduction: "Visível",
         sideCourtesy: "Visível",
@@ -944,10 +774,9 @@
         productionVisible: true,
         courtesyVisible: false,
         mesario: "Ornamental",
-        profileDesc: "Experiência focada apenas em Produção, sem exposição financeira.",
+        profileDesc: "Experiência focada apenas em Produção, sem exposição de CVMI.",
         doorsDesc: "Somente Produção liberada.",
         mesarioDesc: "Somente leitura ornamental, sem valores.",
-        sideVisibility: "Restrita",
         sideAdmin: "Oculto",
         sideProduction: "Visível",
         sideCourtesy: "Oculto",
@@ -955,8 +784,27 @@
       }
     };
 
+    function getStoredUser() {
+      try {
+        return JSON.parse(localStorage.getItem("lapidar_current_user") || "null");
+      } catch {
+        return null;
+      }
+    }
+
+    function resolveProfile() {
+      const stored = localStorage.getItem("lapidar_current_profile");
+      if (stored && profileMeta[stored]) return stored;
+
+      const user = getStoredUser();
+      if (user && user.profile && profileMeta[user.profile]) return user.profile;
+
+      return "heteronimo";
+    }
+
     function applyProfile(profile) {
-      const meta = profileMeta[profile] || profileMeta.admin;
+      const meta = profileMeta[profile] || profileMeta.heteronimo;
+      const user = getStoredUser();
 
       document.getElementById("cardAdmin").classList.toggle("hidden", !meta.adminVisible);
       document.getElementById("cardProduction").classList.toggle("hidden", !meta.productionVisible);
@@ -969,46 +817,25 @@
       document.getElementById("statusMesario").textContent = meta.mesario;
       document.getElementById("statusMesarioDesc").textContent = meta.mesarioDesc;
 
+      document.getElementById("sideUser").textContent = user ? (user.fullName || user.login || "Usuário") : "Usuário";
       document.getElementById("sideProfile").textContent = meta.label;
-      document.getElementById("sideVisibility").textContent = meta.sideVisibility;
       document.getElementById("sideDoors").textContent = String(meta.doors);
       document.getElementById("sideAdmin").textContent = meta.sideAdmin;
       document.getElementById("sideProduction").textContent = meta.sideProduction;
       document.getElementById("sideCourtesy").textContent = meta.sideCourtesy;
       document.getElementById("sideMesario").textContent = meta.sideMesario;
-    }
 
-    function saveProfile() {
-      const profile = document.getElementById("profileSelect").value;
+      localStorage.setItem("lapidar_current_profile", profile);
       localStorage.setItem("lapidar_sala_reunioes_profile", profile);
-
-      const btn = document.getElementById("saveProfileBtn");
-      const original = btn.textContent;
-      btn.textContent = "Perfil salvo";
-      setTimeout(() => {
-        btn.textContent = original;
-      }, 1400);
+      localStorage.setItem("lapidar_producao_integrada_profile", profile);
     }
 
-    function restoreProfile() {
-      const saved = localStorage.getItem("lapidar_sala_reunioes_profile");
-      if (saved && profileMeta[saved]) {
-        document.getElementById("profileSelect").value = saved;
-      }
-    }
-
-    const profileSelect = document.getElementById("profileSelect");
-    profileSelect.addEventListener("change", () => {
-      applyProfile(profileSelect.value);
+    document.getElementById("logoutBtn").addEventListener("click", () => {
+      localStorage.removeItem("lapidar_current_user");
+      localStorage.removeItem("lapidar_current_profile");
     });
 
-    document.getElementById("saveProfileBtn").addEventListener("click", () => {
-      saveProfile();
-      applyProfile(profileSelect.value);
-    });
-
-    restoreProfile();
-    applyProfile(profileSelect.value);
+    applyProfile(resolveProfile());
   </script>
 </body>
 </html>
