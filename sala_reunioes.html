@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sala de Reuniões</title>
+  <style>
+    :root {
+      --bg: #f4f6fb;
+      --card: #ffffff;
+      --text: #111827;
+      --muted: #6b7280;
+      --border: #dbe3ef;
+      --shadow: 0 10px 24px rgba(17, 24, 39, 0.08);
+
+      --admin: #374151;
+      --admin-hover: #1f2937;
+
+      --diag: #1E3A8A;
+      --capa: #7C3AED;
+      --lingua: #15803D;
+      --avaliacao: #C2410C;
+      --analise: #92400E;
+      --lapidacao: #0F766E;
+
+      --cortesia: #2563EB;
+      --cortesia-hover: #1d4ed8;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .topbar {
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+      color: #fff;
+      padding: 28px 20px;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+
+    .topbar h1 {
+      margin: 0;
+      font-size: 32px;
+      letter-spacing: 0.3px;
+    }
+
+    .topbar p {
+      margin: 8px 0 0;
+      color: #cbd5e1;
+      font-size: 15px;
+    }
+
+    .wrap {
+      max-width: 1200px;
+      margin: 28px auto 40px;
+      padding: 0 16px;
+    }
+
+    .perfil-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 18px 20px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .perfil-info strong {
+      display: block;
+      font-size: 18px;
+      margin-bottom: 4px;
+    }
+
+    .perfil-info span {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .section {
+      margin-bottom: 28px;
+    }
+
+    .section-title {
+      margin: 0 0 14px;
+      font-size: 22px;
+      color: #0f172a;
+      padding-left: 10px;
+      border-left: 5px solid #0f172a;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 18px;
+      box-shadow: var(--shadow);
+      min-height: 220px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card h3 {
+      margin: 0 0 8px;
+      font-size: 18px;
+    }
+
+    .card p {
+      margin: 0 0 14px;
+      color: var(--muted);
+      line-height: 1.5;
+      font-size: 14px;
+    }
+
+    .button-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: auto;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 12px;
+      padding: 12px 14px;
+      text-align: left;
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s ease;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      justify-content: flex-start;
+      text-decoration: none;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.04);
+    }
+
+    .btn-admin {
+      background: var(--admin);
+    }
+
+    .btn-admin:hover {
+      background: var(--admin-hover);
+    }
+
+    .btn-cortesia {
+      background: var(--cortesia);
+    }
+
+    .btn-cortesia:hover {
+      background: var(--cortesia-hover);
+    }
+
+    .btn-diag { background: var(--diag); }
+    .btn-capa { background: var(--capa); }
+    .btn-lingua { background: var(--lingua); }
+    .btn-avaliacao { background: var(--avaliacao); }
+    .btn-analise { background: var(--analise); }
+    .btn-lapidacao { background: var(--lapidacao); }
+
+    .dot {
+      width: 11px;
+      height: 11px;
+      min-width: 11px;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 0 0 2px rgba(255,255,255,0.18);
+    }
+
+    .dot-diag { background: var(--diag); }
+    .dot-capa { background: var(--capa); }
+    .dot-lingua { background: var(--lingua); }
+    .dot-avaliacao { background: var(--avaliacao); }
+    .dot-analise { background: var(--analise); }
+    .dot-lapidacao { background: var(--lapidacao); }
+    .dot-cortesia { background: #93c5fd; }
+
+    .footer-actions {
+      margin-top: 26px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .footer-btn {
+      background: #0f172a;
+      color: #fff;
+      padding: 12px 16px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 14px;
+      border: none;
+      cursor: pointer;
+    }
+
+    .footer-btn.secondary {
+      background: #475569;
+    }
+
+    .footer-btn:hover {
+      filter: brightness(1.05);
+    }
+
+    .tag {
+      display: inline-block;
+      background: #e2e8f0;
+      color: #334155;
+      border-radius: 999px;
+      font-size: 12px;
+      padding: 6px 10px;
+      font-weight: bold;
+      margin-top: 6px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    @media (max-width: 980px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="topbar">
+    <h1>Sala de Reuniões</h1>
+    <p>Centro de coordenação do ambiente editorial Lapidar</p>
+  </header>
+
+  <main class="wrap">
+    <section class="perfil-box">
+      <div class="perfil-info">
+        <strong id="nomePerfil">Administrador do Sistema</strong>
+        <span id="descricaoPerfil">Acesso completo à coordenação administrativa, setores editoriais e cortesias.</span>
+      </div>
+      <div class="tag" id="tagPerfil">Perfil: Admin</div>
+    </section>
+
+    <!-- GESTÃO ADMINISTRATIVA -->
+    <section class="section" id="secaoAdministrativa">
+      <h2 class="section-title">Gestão Administrativa</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>Painéis de Controle</h3>
+          <p>Coordenação central de áreas internas do sistema e organização institucional do Lapidar.</p>
+          <div class="button-list">
+            <a href="#" class="btn btn-admin"><span class="dot dot-diag"></span>Painel de Setores</a>
+            <a href="#" class="btn btn-admin"><span class="dot dot-capa"></span>Painel de Departamentos</a>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Controle de Acesso</h3>
+          <p>Configuração de usuários, permissões, sessões ativas e ajustes de entrada no sistema.</p>
+          <div class="button-list">
+            <a href="#" class="btn btn-admin"><span class="dot dot-avaliacao"></span>Permissões / Login</a>
+            <a href="#" class="btn btn-admin"><span class="dot dot-analise"></span>Gestão de Licenças</a>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Gestão Financeira</h3>
+          <p>Área reservada para administração de pagamentos, planos, doações e organização financeira interna.</p>
+          <div class="button-list">
+            <a href="#" class="btn btn-admin"><span class="dot dot-lingua"></span>Pagamento</a>
+            <a href="#" class="btn btn-admin"><span class="dot dot-lapidacao"></span>Planos / Doações</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SETORES EDITORIAIS -->
+    <section class="section" id="secaoEditorial">
+      <h2 class="section-title">Setores Editoriais do Lapidar</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>Preparação e estrutura</h3>
+          <p>Setores ligados à organização, diagnóstico e aperfeiçoamento da obra antes da publicação.</p>
+          <div class="button-list">
+            <a href="#" class="btn btn-diag">📐 1 — Assistente de Diagramação do Autor</a>
+            <a href="#" class="btn btn-analise">🔎 11 — Analisador de Obra</a>
+            <a href="#" class="btn btn-lapidacao">✨ 13 — Lapidação Literária</a>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Avaliação e internacionalização</h3>
+          <p>Setores que analisam tecnicamente a obra e permitem sua adaptação para outros idiomas.</p>
+          <div class="button-list">
+            <a href="#" class="btn btn-avaliacao">📖 7 — Avaliação Literária</a>
+            <a href="#" class="btn btn-lingua">🌍 5 — Segunda Língua(s)</a>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Identidade visual da obra</h3>
+          <p>Setor responsável pela construção visual da capa e da apresentação estética do livro.</p>
+          <div class="button-list">
+            <a href="#" class="btn btn-capa">🎨 3 — OKapista</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CORTESIAS -->
+    <section class="section" id="secaoCortesias">
+      <h2 class="section-title">Cortesias e Licenças Solidárias</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>Cortesias institucionais</h3>
+          <p>Ativações especiais concedidas por parceria, apoio cultural ou uso estratégico do sistema.</p>
+          <div class="button-list">
+            <a href="#" class="btn btn-cortesia"><span class="dot dot-cortesia"></span>Cortesia da Quimera</a>
+            <a href="#" class="btn btn-cortesia"><span class="dot dot-cortesia"></span>Cortesia da ValletiBooks</a>
+            <a href="#" class="btn btn-cortesia"><span class="dot dot-cortesia"></span>Cortesia ACL</a>
+            <a href="#" class="btn btn-cortesia"><span class="dot dot-cortesia"></span>Cortesia André Instituição</a>
+            <a href="#" class="btn btn-cortesia"><span class="dot dot-cortesia"></span>Cortesia Estilo e Poesia</a>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Licenças Solidárias</h3>
+          <p>Acessos reservados para ações sociais, projetos beneficentes, instituições e apoios especiais.</p>
+          <div class="button-list">
+            <a href="#" class="btn btn-cortesia"><span class="dot dot-cortesia"></span>Licença Solidária 0001</a>
+            <a href="#" class="btn btn-cortesia"><span class="dot dot-cortesia"></span>Licença Solidária 0002</a>
+            <a href="#" class="btn btn-cortesia"><span class="dot dot-cortesia"></span>Licença Solidária 0003</a>
+            <a href="#" class="btn btn-cortesia"><span class="dot dot-cortesia"></span>Licença Solidária 0004</a>
+            <a href="#" class="btn btn-cortesia"><span class="dot dot-cortesia"></span>Licença Solidária 0005</a>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Observação institucional</h3>
+          <p>Usuários de cortesia não visualizam preços, planos, penduricalhos financeiros, CVS ou valores do mesário. O ambiente financeiro pode aparecer apenas como ornamento institucional.</p>
+          <div class="button-list">
+            <a href="#" class="btn btn-cortesia"><span class="dot dot-cortesia"></span>Política de visibilidade de cortesia</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="footer-actions">
+      <button class="footer-btn secondary">Trocar usuário</button>
+      <button class="footer-btn secondary">Voltar ao início</button>
+      <button class="footer-btn">Sair geral</button>
+    </div>
+  </main>
+
+  <script>
+    /*
+      Perfis possíveis:
+      admin
+      heteronimo
+    */
+
+    const perfil = "admin"; // troque para "heteronimo" para testar
+
+    const secaoAdministrativa = document.getElementById("secaoAdministrativa");
+    const nomePerfil = document.getElementById("nomePerfil");
+    const descricaoPerfil = document.getElementById("descricaoPerfil");
+    const tagPerfil = document.getElementById("tagPerfil");
+
+    if (perfil === "heteronimo") {
+      secaoAdministrativa.classList.add("hidden");
+      nomePerfil.textContent = "Heterônimo Editorial";
+      descricaoPerfil.textContent = "Acesso à Sala de Reuniões com setores editoriais e cortesias institucionais.";
+      tagPerfil.textContent = "Perfil: Heterônimo";
+    } else {
+      nomePerfil.textContent = "Administrador do Sistema";
+      descricaoPerfil.textContent = "Acesso completo à coordenação administrativa, setores editoriais e cortesias.";
+      tagPerfil.textContent = "Perfil: Admin";
+    }
+  </script>
+</body>
+</html>
