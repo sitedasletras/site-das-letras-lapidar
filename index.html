@@ -6,9 +6,7 @@
   <title>Lapidar — Site das Letras</title>
 
   <style>
-    *{
-      box-sizing:border-box;
-    }
+    *{box-sizing:border-box;}
 
     body{
       margin:0;
@@ -24,7 +22,7 @@
 
     .container{
       width:100%;
-      max-width:480px;
+      max-width:900px;
       background:#0f172a;
       border:1px solid rgba(255,255,255,0.08);
       border-radius:24px;
@@ -65,6 +63,8 @@
       text-align:left;
     }
 
+    .hidden{display:none;}
+
     .linha{
       margin-bottom:10px;
       font-size:15px;
@@ -95,6 +95,17 @@
       margin-top:2px;
       background:#312e81;
       color:#e0e7ff;
+    }
+
+    .mensagem{
+      margin-top:16px;
+      font-size:14px;
+      line-height:1.5;
+      opacity:.9;
+      background:rgba(255,255,255,0.04);
+      border:1px solid rgba(255,255,255,0.08);
+      border-radius:14px;
+      padding:14px;
     }
 
     .acoes{
@@ -137,19 +148,27 @@
       background:#374151;
     }
 
-    .hidden{
-      display:none;
+    .grade-servicos{
+      display:grid;
+      grid-template-columns:repeat(2, 1fr);
+      gap:12px;
+      margin-top:18px;
     }
 
-    .mensagem{
-      margin-top:16px;
-      font-size:14px;
-      line-height:1.5;
-      opacity:.9;
-      background:rgba(255,255,255,0.04);
-      border:1px solid rgba(255,255,255,0.08);
-      border-radius:14px;
-      padding:14px;
+    .card-servico{
+      background:#0f172a;
+      border:1px solid rgba(255,255,255,0.07);
+      border-radius:16px;
+      padding:16px;
+      text-align:center;
+      font-weight:bold;
+      cursor:pointer;
+      transition:.2s ease;
+    }
+
+    .card-servico:hover{
+      transform:translateY(-1px);
+      background:#162033;
     }
 
     .footer{
@@ -157,6 +176,13 @@
       font-size:12px;
       opacity:.55;
       line-height:1.5;
+      text-align:center;
+    }
+
+    @media (max-width:640px){
+      .grade-servicos{
+        grid-template-columns:1fr;
+      }
     }
   </style>
 </head>
@@ -178,7 +204,7 @@
       </div>
 
       <div class="mensagem">
-        Você ainda não entrou no sistema. Faça o login para acessar o ambiente editorial.
+        Você ainda não entrou no sistema.
       </div>
 
       <div class="acoes">
@@ -186,34 +212,90 @@
       </div>
     </div>
 
-    <div id="comLogin" class="painel hidden">
+    <div id="painelPadrao" class="painel hidden">
       <div class="linha">
         <span class="label">Usuário</span>
-        <span id="nomeUsuario" class="valor">—</span>
+        <span id="nomeUsuarioPadrao" class="valor">—</span>
       </div>
 
       <div class="linha">
         <span class="label">Perfil</span>
-        <span id="perfilUsuario" class="badge">—</span>
+        <span id="perfilUsuarioPadrao" class="badge">—</span>
       </div>
 
       <div class="linha">
         <span class="label">Acesso</span>
-        <span id="descricaoPerfil" class="valor">—</span>
+        <span id="descricaoPerfilPadrao" class="valor">—</span>
       </div>
 
-      <div id="mensagemPerfil" class="mensagem">
-        —
-      </div>
+      <div id="mensagemPerfilPadrao" class="mensagem">—</div>
 
       <div class="acoes">
-        <button id="botaoPrincipal" class="botao">Acessar painel</button>
+        <button id="botaoPrincipalPadrao" class="botao">Acessar painel</button>
         <button class="botao secundario" onclick="trocarUsuario()">Trocar usuário</button>
         <button class="botao escuro" onclick="sairSistema()">Sair geral</button>
       </div>
     </div>
 
-    <div class="footer">
+    <div id="painelOperacionalPrimos" class="painel hidden">
+      <div class="linha">
+        <span class="label">Usuário</span>
+        <span id="nomeOperacional" class="valor">—</span>
+      </div>
+
+      <div class="linha">
+        <span class="label">Perfil</span>
+        <span id="perfilOperacional" class="badge">—</span>
+      </div>
+
+      <div class="mensagem">
+        Acesso operacional liberado. Este ambiente exibe somente os setores técnicos autorizados.
+      </div>
+
+      <div class="grade-servicos">
+        <div class="card-servico" onclick="abrirPagina('hub_diagramador.html')">1 — Diagramador</div>
+        <div class="card-servico" onclick="abrirPagina('hub_capista.html')">3 — Capista</div>
+        <div class="card-servico" onclick="abrirPagina('hub_tradutor.html')">5 — Tradutor</div>
+        <div class="card-servico" onclick="abrirPagina('hub_relatorios.html')">7 — Parecer / Laudo</div>
+        <div class="card-servico" onclick="abrirPagina('leitura_tecnica_editorial.html')">11 — Analisador de obra</div>
+        <div class="card-servico" onclick="abrirPagina('ficha_editorial_integrada.html')">13 — Ferramentas técnicas editoriais</div>
+      </div>
+
+      <div class="acoes">
+        <button class="botao secundario" onclick="trocarUsuario()">Trocar usuário</button>
+        <button class="botao escuro" onclick="sairSistema()">Sair geral</button>
+      </div>
+    </div>
+
+    <div id="painelHeteronimo" class="painel hidden">
+      <div class="linha">
+        <span class="label">Usuário</span>
+        <span id="nomeHeteronimo" class="valor">—</span>
+      </div>
+
+      <div class="linha">
+        <span class="label">Perfil</span>
+        <span class="badge">Heterônimo</span>
+      </div>
+
+      <div class="mensagem">
+        Acesso privado da ala de heterônimos liberado. Este ambiente é reservado e separado das cortesias operacionais.
+      </div>
+
+      <div class="grade-servicos">
+        <div class="card-servico" onclick="abrirPagina('criar_perfil.html')">Criar perfil autoral</div>
+        <div class="card-servico" onclick="abrirPagina('painel_departamentos.html')">Painel reservado</div>
+        <div class="card-servico" onclick="abrirPagina('projetos.html')">Projetos autorais</div>
+        <div class="card-servico" onclick="abrirPagina('historico_projetos.html')">Histórico de projetos</div>
+      </div>
+
+      <div class="acoes">
+        <button class="botao secundario" onclick="trocarUsuario()">Trocar usuário</button>
+        <button class="botao escuro" onclick="sairSistema()">Sair geral</button>
+      </div>
+    </div>
+
+    <div class="footer" id="rodapeTexto">
       Plataforma editorial proprietária
     </div>
   </div>
@@ -238,14 +320,23 @@
       window.location.href = "login.html";
     }
 
+    function abrirPagina(pagina) {
+      window.location.href = pagina;
+    }
+
     function capitalizarPerfil(perfil) {
       const mapa = {
         admin: "Admin",
         heteronimo: "Heterônimo",
         autor: "Autor",
         usuario: "Usuário",
-        beta_cortesia: "Beta Cortesia",
-        visitante: "Visitante"
+        visitante: "Visitante",
+        cortesia_quimera: "Cortesia da Quimera",
+        cortesia_valletibooks: "Cortesia da ValletiBooks",
+        cortesia_acl: "Cortesia ACL",
+        cortesia_andre_instituicao: "Cortesia André Instituição",
+        cortesia_estilo_poesia: "Cortesia Estilo e Poesia",
+        licenca_solidaria: "Licença Solidária"
       };
       return mapa[perfil] || perfil;
     }
@@ -254,69 +345,102 @@
       const perfis = {
         admin: {
           descricao: "Acesso total estrutural e institucional.",
-          mensagem: "Perfil com comando completo do sistema, módulos internos, auditoria, áreas restritas e gestão estratégica.",
-          acao: "Abrir painel administrativo"
-        },
-        heteronimo: {
-          descricao: "Acesso editorial estratégico ampliado.",
-          mensagem: "Perfil com acesso à ala exclusiva de heterônimos, base interna autoral e fluxos reservados do ecossistema editorial.",
-          acao: "Abrir ala de heterônimos"
+          mensagem: "Perfil com comando completo do sistema, áreas privadas, auditoria e gestão estratégica.",
+          acao: "Abrir login administrativo"
         },
         autor: {
           descricao: "Acesso de autor com envio e acompanhamento de obra.",
-          mensagem: "Perfil voltado ao fluxo editorial do autor: submissão de obra, análise, devolutiva e acompanhamento do processo.",
-          acao: "Enviar obra para análise"
+          mensagem: "Perfil voltado ao fluxo editorial do autor.",
+          acao: "Abrir centro da obra"
         },
         usuario: {
-          descricao: "Acesso funcional padrão conforme plano.",
-          mensagem: "Perfil de uso comum da plataforma, com acesso aos fluxos permitidos para contratação e operação editorial.",
+          descricao: "Acesso funcional padrão.",
+          mensagem: "Perfil de uso comum da plataforma.",
           acao: "Abrir painel do usuário"
-        },
-        beta_cortesia: {
-          descricao: "Acesso temporário restrito para testes.",
-          mensagem: "Perfil de uso experimental controlado. Não substitui acesso institucional, administrativo ou de heterônimo.",
-          acao: "Entrar no ambiente beta"
         },
         visitante: {
           descricao: "Acesso mínimo de visualização.",
-          mensagem: "Perfil inicial com acesso reduzido, ideal para conhecer a plataforma antes de avançar para fluxos internos.",
+          mensagem: "Perfil inicial para conhecimento da plataforma.",
           acao: "Conhecer a plataforma"
         }
       };
 
       return perfis[perfil] || {
         descricao: "Acesso não identificado.",
-        mensagem: "Perfil não reconhecido pelo sistema.",
+        mensagem: "Perfil não reconhecido.",
         acao: "Entrar"
       };
     }
 
     function renderizar() {
       const sessao = pegarSessao();
+
       const semLogin = document.getElementById("semLogin");
-      const comLogin = document.getElementById("comLogin");
+      const painelPadrao = document.getElementById("painelPadrao");
+      const painelOperacionalPrimos = document.getElementById("painelOperacionalPrimos");
+      const painelHeteronimo = document.getElementById("painelHeteronimo");
+      const rodapeTexto = document.getElementById("rodapeTexto");
+
+      semLogin.classList.add("hidden");
+      painelPadrao.classList.add("hidden");
+      painelOperacionalPrimos.classList.add("hidden");
+      painelHeteronimo.classList.add("hidden");
 
       if (!sessao) {
         semLogin.classList.remove("hidden");
-        comLogin.classList.add("hidden");
+        rodapeTexto.textContent = "Plataforma editorial proprietária";
         return;
       }
 
-      semLogin.classList.add("hidden");
-      comLogin.classList.remove("hidden");
+      if (sessao.tipoAcesso === "heteronimo_privado" || sessao.perfil === "heteronimo") {
+        painelHeteronimo.classList.remove("hidden");
+        document.getElementById("nomeHeteronimo").textContent = sessao.nome || "Heterônimo";
+        rodapeTexto.textContent = "Ala privada de heterônimos";
+        return;
+      }
+
+      if (sessao.tipoAcesso === "operacional_primos" || sessao.tipoAcesso === "solidario_operacional") {
+        painelOperacionalPrimos.classList.remove("hidden");
+        document.getElementById("nomeOperacional").textContent = sessao.nome || "Usuário";
+        document.getElementById("perfilOperacional").textContent = capitalizarPerfil(sessao.perfil);
+        rodapeTexto.textContent = "Acesso operacional liberado";
+        return;
+      }
+
+      painelPadrao.classList.remove("hidden");
 
       const dadosPerfil = dadosDoPerfil(sessao.perfil);
 
-      document.getElementById("nomeUsuario").textContent = sessao.nome || "Usuário";
-      document.getElementById("perfilUsuario").textContent = capitalizarPerfil(sessao.perfil);
-      document.getElementById("descricaoPerfil").textContent = dadosPerfil.descricao;
-      document.getElementById("mensagemPerfil").textContent = dadosPerfil.mensagem;
+      document.getElementById("nomeUsuarioPadrao").textContent = sessao.nome || "Usuário";
+      document.getElementById("perfilUsuarioPadrao").textContent = capitalizarPerfil(sessao.perfil);
+      document.getElementById("descricaoPerfilPadrao").textContent = dadosPerfil.descricao;
+      document.getElementById("mensagemPerfilPadrao").textContent = dadosPerfil.mensagem;
 
-      const botaoPrincipal = document.getElementById("botaoPrincipal");
-      botaoPrincipal.textContent = dadosPerfil.acao;
-      botaoPrincipal.onclick = function() {
-        alert("Próximo passo do perfil: " + capitalizarPerfil(sessao.perfil));
-      };
+      const botaoPrincipal = document.getElementById("botaoPrincipalPadrao");
+
+      if (sessao.perfil === "autor") {
+        botaoPrincipal.textContent = "Abrir centro da obra";
+        botaoPrincipal.onclick = function() {
+          abrirPagina("centro_obra.html");
+        };
+      } else if (sessao.perfil === "admin") {
+        botaoPrincipal.textContent = "Voltar ao login administrativo";
+        botaoPrincipal.onclick = function() {
+          abrirPagina("login.html");
+        };
+      } else if (sessao.perfil === "usuario") {
+        botaoPrincipal.textContent = "Abrir painel de setores";
+        botaoPrincipal.onclick = function() {
+          abrirPagina("painel_setores.html");
+        };
+      } else {
+        botaoPrincipal.textContent = dadosPerfil.acao;
+        botaoPrincipal.onclick = function() {
+          abrirPagina("painel_setores.html");
+        };
+      }
+
+      rodapeTexto.textContent = "Plataforma editorial proprietária";
     }
 
     renderizar();
