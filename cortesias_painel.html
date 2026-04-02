@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lapidar • Painel de Cortesias</title>
+  <style>
+    :root{
+      --bg:#ead9b8;
+      --panel:#fffaf2;
+      --panel-2:#ffffff;
+      --line:#dcc9a5;
+      --text:#2f2418;
+      --muted:#6d5a43;
+      --deep:#1e2a44;
+      --deep-2:#2f436d;
+      --gold:#cda85a;
+      --gold-2:#b9913f;
+      --green:#1f6b36;
+      --green-bg:#eef8f0;
+      --orange:#8b5a17;
+      --orange-bg:#fff4df;
+      --shadow:0 20px 45px rgba(40,26,10,.12);
+    }
+
+    *{box-sizing:border-box}
+
+    html,body{
+      margin:0;
+      padding:0;
+      font-family:Arial, Helvetica, sans-serif;
+      color:var(--text);
+      background:var(--bg);
+    }
+
+    body{min-height:100vh}
+
+    .app-shell{
+      max-width:1500px;
+      margin:0 auto;
+      padding:28px 20px 48px;
+    }
+
+    .hero{
+      background:linear-gradient(135deg, #1e2a44 0%, #2f436d 100%);
+      color:#fff;
+      border-radius:30px;
+      padding:30px;
+      box-shadow:var(--shadow);
+      margin-bottom:24px;
+    }
+
+    .hero-top{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-bottom:14px;
+    }
+
+    .hero-chip{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 16px;
+      border-radius:999px;
+      background:rgba(255,255,255,.12);
+      border:1px solid rgba(255,255,255,.18);
+      font-size:14px;
+      font-weight:700;
+    }
+
+    .hero-chip .dot{
+      width:10px;
+      height:10px;
+      border-radius:50%;
+      background:#d9b56b;
+    }
+
+    .hero h1{
+      margin:0 0 8px;
+      font-size:38px;
+      line-height:1.05;
+      letter-spacing:-.02em;
+    }
+
+    .hero p{
+      margin:0;
+      max-width:980px;
+      line-height:1.7;
+      color:rgba(255,255,255,.9);
+      font-size:15px;
+    }
+
+    .hero-actions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    .btn{
+      border:none;
+      border-radius:14px;
+      padding:12px 16px;
+      font-size:14px;
+      font-weight:900;
+      cursor:pointer;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      transition:.2s ease;
+    }
+
+    .btn:hover{transform:translateY(-1px)}
+
+    .btn-light{
+      background:#fff;
+      color:#1e2a44;
+    }
+
+    .btn-ghost{
+      background:rgba(255,255,255,.12);
+      color:#fff;
+      border:1px solid rgba(255,255,255,.16);
+    }
+
+    .btn-gold{
+      background:linear-gradient(135deg, var(--gold) 0%, var(--gold-2) 100%);
+      color:#fff;
+    }
+
+    .layout{
+      display:grid;
+      grid-template-columns:minmax(0,1fr) 360px;
+      gap:24px;
+      align-items:start;
+    }
+
+    .main-stack{
+      display:grid;
+      gap:22px;
+    }
+
+    .panel{
+      background:var(--panel);
+      border:1px solid rgba(140,110,58,.16);
+      border-radius:26px;
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+
+    .panel-header{
+      padding:24px 24px 0;
+    }
+
+    .panel-header small{
+      display:inline-block;
+      margin-bottom:10px;
+      color:#8d6f3e;
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      font-weight:900;
+    }
+
+    .panel-header h2{
+      margin:0 0 10px;
+      font-size:28px;
+      line-height:1.08;
+      letter-spacing:-.02em;
+      color:#3a2c1f;
+    }
+
+    .panel-header p{
+      margin:0;
+      color:var(--muted);
+      line-height:1.7;
+      font-size:14px;
+    }
+
+    .panel-body{
+      padding:24px;
+    }
+
+    .summary-grid{
+      display:grid;
+      grid-template-columns:repeat(4, minmax(0,1fr));
+      gap:14px;
+    }
+
+    .summary-card{
+      background:var(--panel-2);
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:16px;
+    }
+
+    .summary-card small{
+      display:block;
+      margin-bottom:8px;
+      color:var(--muted);
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      font-weight:800;
+    }
+
+    .summary-card strong{
+      display:block;
+      font-size:22px;
+      line-height:1.1;
+      margin-bottom:6px;
+      color:#3f2f20;
+    }
+
+    .summary-card span{
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.6;
+    }
+
+    .courtesy-grid{
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0,1fr));
+      gap:16px;
+    }
+
+    .courtesy-card{
+      background:var(--panel-2);
+      border:1px solid var(--line);
+      border-radius:22px;
+      overflow:hidden;
+      display:grid;
+    }
+
+    .courtesy-top{
+      padding:18px 18px 14px;
+      border-bottom:1px solid var(--line);
+      background:linear-gradient(180deg, #fffefb 0%, #f7efe1 100%);
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      align-items:flex-start;
+    }
+
+    .courtesy-top h3{
+      margin:0 0 6px;
+      font-size:20px;
+      line-height:1.15;
+      color:#3f2f20;
+    }
+
+    .courtesy-top p{
+      margin:0;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.6;
+    }
+
+    .tag{
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:11px;
+      font-weight:900;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      white-space:nowrap;
+    }
+
+    .tag.green{
+      background:var(--green-bg);
+      color:var(--green);
+    }
+
+    .tag.orange{
+      background:var(--orange-bg);
+      color:var(--orange);
+    }
+
+    .courtesy-body{
+      padding:18px;
+      display:grid;
+      gap:14px;
+    }
+
+    .field-grid{
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0,1fr));
+      gap:12px;
+    }
+
+    .field{
+      display:grid;
+      gap:8px;
+    }
+
+    .field.full{
+      grid-column:1 / -1;
+    }
+
+    .field label{
+      font-size:11px;
+      font-weight:900;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      color:#7a6140;
+    }
+
+    .field input,
+    .field select{
+      width:100%;
+      border:1px solid var(--line);
+      border-radius:12px;
+      padding:12px 12px;
+      background:#fffdf9;
+      font-size:14px;
+      color:var(--text);
+      outline:none;
+    }
+
+    .helper{
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.6;
+    }
+
+    .sector-box{
+      border:1px solid var(--line);
+      border-radius:16px;
+      background:#fffdf9;
+      padding:14px;
+      display:grid;
+      gap:10px;
+    }
+
+    .sector-box strong{
+      font-size:14px;
+      line-height:1.45;
+      color:#4c3825;
+    }
+
+    .sector-list{
+      display:grid;
+      gap:6px;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.55;
+    }
+
+    .action-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+
+    .mini-btn{
+      border:none;
+      border-radius:12px;
+      padding:10px 12px;
+      font-size:13px;
+      font-weight:900;
+      cursor:pointer;
+      transition:.2s ease;
+    }
+
+    .mini-btn:hover{transform:translateY(-1px)}
+
+    .mini-btn.save{
+      background:#1e2a44;
+      color:#fff;
+    }
+
+    .mini-btn.soft{
+      background:#f1e7d3;
+      color:#5f4b2f;
+    }
+
+    .side-stack{
+      position:sticky;
+      top:18px;
+      display:grid;
+      gap:22px;
+    }
+
+    .list{
+      display:grid;
+      gap:12px;
+      margin-top:8px;
+    }
+
+    .list-item{
+      border:1px solid var(--line);
+      border-radius:16px;
+      background:#fffdf9;
+      padding:14px;
+    }
+
+    .list-item strong{
+      display:block;
+      margin-bottom:6px;
+      font-size:14px;
+      line-height:1.45;
+      color:#4a3522;
+    }
+
+    .list-item span{
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.6;
+    }
+
+    .notice{
+      border-radius:16px;
+      padding:14px;
+      background:#fff4df;
+      border:1px solid #efd4a4;
+      color:#7a5621;
+      line-height:1.7;
+      font-size:13px;
+      margin-top:14px;
+    }
+
+    .footer-note{
+      margin-top:20px;
+      text-align:center;
+      color:#6d5a43;
+      font-size:12px;
+      font-weight:700;
+    }
+
+    @media (max-width: 1200px){
+      .layout{grid-template-columns:1fr}
+      .side-stack{position:relative; top:auto}
+      .summary-grid{grid-template-columns:repeat(2, minmax(0,1fr))}
+      .courtesy-grid{grid-template-columns:1fr}
+    }
+
+    @media (max-width: 760px){
+      .app-shell{padding:16px 12px 34px}
+      .hero{padding:24px 18px 20px}
+      .panel-header,.panel-body{padding-left:18px; padding-right:18px}
+      .summary-grid,.field-grid{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="hero">
+      <div class="hero-top">
+        <div class="hero-chip">
+          <span class="dot"></span>
+          Lapidar • Painel de Cortesias
+        </div>
+
+        <div class="hero-actions">
+          <a class="btn btn-ghost" href="sala_reunioes.html">Voltar à sala de reuniões</a>
+          <a class="btn btn-light" href="login.html" id="logoutBtn">Sair geral</a>
+          <button class="btn btn-gold" type="button" id="saveAllBtn">Salvar cortesias</button>
+        </div>
+      </div>
+
+      <h1>Controle institucional das cortesias</h1>
+      <p>
+        Aqui você acompanha e ajusta as cortesias do sistema. Todas as cortesias têm acesso à linha completa de produção, em nível Top Global, com controle de prazo definido manualmente.
+      </p>
+    </header>
+
+    <main class="layout">
+      <section class="main-stack">
+
+        <section class="panel">
+          <div class="panel-header">
+            <small>Resumo geral</small>
+            <h2>Situação atual das cortesias</h2>
+            <p>
+              As cortesias são preparadas para acesso completo à produção, sem CVMI visível e sem acesso à área administrativa.
+            </p>
+          </div>
+
+          <div class="panel-body">
+            <div class="summary-grid">
+              <div class="summary-card">
+                <small>Total de cortesias</small>
+                <strong id="totalCourtesy">10</strong>
+                <span>Perfis cortesia semeados no sistema.</span>
+              </div>
+
+              <div class="summary-card">
+                <small>Ativas</small>
+                <strong id="activeCourtesy">10</strong>
+                <span>Cortesias atualmente habilitadas.</span>
+              </div>
+
+              <div class="summary-card">
+                <small>Permanentes</small>
+                <strong id="permanentCourtesy">1</strong>
+                <span>Cortesias em uso livre e sem vencimento.</span>
+              </div>
+
+              <div class="summary-card">
+                <small>Nível interno</small>
+                <strong>TOP_GLOBAL</strong>
+                <span>Linha completa de produção liberada.</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-header">
+            <small>Gestão das cortesias</small>
+            <h2>Perfis 0001 a 0010</h2>
+            <p>
+              Defina nome, prazo e condição de cada cortesia. O primeiro perfil já nasce como Cortesia André Capista em modo permanente.
+            </p>
+          </div>
+
+          <div class="panel-body">
+            <div class="courtesy-grid" id="courtesyGrid"></div>
+          </div>
+        </section>
+
+      </section>
+
+      <aside>
+        <div class="side-stack">
+          <section class="panel">
+            <div class="panel-header">
+              <small>Regras oficiais</small>
+              <h2>Como a cortesia funciona</h2>
+            </div>
+
+            <div class="panel-body">
+              <div class="list">
+                <div class="list-item">
+                  <strong>Acesso completo à produção</strong>
+                  <span>Setores 1, 3, 5, 7, 11 e 13 ficam liberados para as cortesias.</span>
+                </div>
+
+                <div class="list-item">
+                  <strong>Sem CVMI visível</strong>
+                  <span>Quem usa a cortesia não vê linguagem interna de contribuição.</span>
+                </div>
+
+                <div class="list-item">
+                  <strong>Sem área administrativa</strong>
+                  <span>As cortesias ficam restritas à Produção, sem acesso administrativo.</span>
+                </div>
+
+                <div class="list-item">
+                  <strong>Mesário ornamental</strong>
+                  <span>A cortesia só percebe a ambiência do setor, sem leitura financeira real.</span>
+                </div>
+              </div>
+
+              <div class="notice">
+                Cortesia 0001 fica definida como <strong>Cortesia André Capista</strong>, em modo permanente, com acesso Top Global em todos os setores produtivos.
+              </div>
+            </div>
+          </section>
+        </div>
+      </aside>
+    </main>
+
+    <div class="footer-note">
+      Lapidar • Celeiro Literário • Painel de Cortesias
+    </div>
+  </div>
+
+  <script>
+    const ALL_SECTORS = [
+      "Setor 1 — Assistente de Diagramação do Autor",
+      "Setor 3 — OKapista",
+      "Setor 5 — Segunda Língua(s)",
+      "Setor 7 — Avaliação Literária",
+      "Setor 11 — Analisador de Obra",
+      "Setor 13 — Lapidação Literária"
+    ];
+
+    function seedUsersIfNeeded() {
+      const users = JSON.parse(localStorage.getItem("lapidar_users") || "[]");
+      if (users.length > 0) return;
+
+      const seeded = [];
+
+      seeded.push({
+        fullName: "Administrador do Sistema",
+        email: "admin@lapidar.local",
+        login: "admin",
+        profile: "admin",
+        password: "admin123",
+        access_level: "FULL",
+        security: [
+          { question: "Qual palavra secreta você quer usar?", answer: "admin" },
+          { question: "Qual frase curta você quer usar para recuperação?", answer: "lapidar" }
+        ]
+      });
+
+      seeded.push({
+        fullName: "Heterônimo do Sistema",
+        email: "heteronimo@lapidar.local",
+        login: "heteronimo",
+        profile: "heteronimo",
+        password: "heteronimo123",
+        access_level: "FULL",
+        security: [
+          { question: "Qual palavra secreta você quer usar?", answer: "heteronimo" },
+          { question: "Qual frase curta você quer usar para recuperação?", answer: "celeiro" }
+        ]
+      });
+
+      for (let i = 1; i <= 10; i++) {
+        const padded = String(i).padStart(4, "0");
+        const isAndre = i === 1;
+
+        seeded.push({
+          fullName: isAndre ? "Cortesia André Capista" : `Cortesia ${padded}`,
+          email: `cortesia${padded}@lapidar.local`,
+          login: `cortesia${padded}`,
+          profile: "cortesia",
+          password: `cortesia${padded}`,
+          access_level: "TOP_GLOBAL",
+          courtesy_label: isAndre ? "Cortesia André Capista" : `Cortesia ${padded}`,
+          courtesy_duration: isAndre ? "permanente" : "180 dias",
+          courtesy_days: isAndre ? null : 180,
+          permanent: isAndre,
+          active: true,
+          sectors: [...ALL_SECTORS],
+          security: [
+            { question: "Qual palavra secreta você quer usar?", answer: `cortesia${padded}` },
+            { question: "Qual frase curta você quer usar para recuperação?", answer: "sitedasletras" }
+          ]
+        });
+      }
+
+      localStorage.setItem("lapidar_users", JSON.stringify(seeded));
+    }
+
+    function getUsers() {
+      return JSON.parse(localStorage.getItem("lapidar_users") || "[]");
+    }
+
+    function saveUsers(users) {
+      localStorage.setItem("lapidar_users", JSON.stringify(users));
+    }
+
+    function getCourtesyUsers() {
+      return getUsers().filter(user => user.profile === "cortesia");
+    }
+
+    function updateSummary() {
+      const courtesyUsers = getCourtesyUsers();
+      const active = courtesyUsers.filter(u => u.active !== false).length;
+      const permanent = courtesyUsers.filter(u => u.permanent === true).length;
+
+      document.getElementById("totalCourtesy").textContent = courtesyUsers.length;
+      document.getElementById("activeCourtesy").textContent = active;
+      document.getElementById("permanentCourtesy").textContent = permanent;
+    }
+
+    function createCourtesyCard(user, index) {
+      const wrapper = document.createElement("article");
+      wrapper.className = "courtesy-card";
+      wrapper.dataset.login = user.login;
+
+      const currentDuration = user.permanent ? "permanente" : (user.courtesy_days ? `${user.courtesy_days} dias` : "180 dias");
+      const tagClass = user.permanent ? "green" : "orange";
+      const tagText = user.permanent ? "Permanente" : currentDuration;
+
+      wrapper.innerHTML = `
+        <div class="courtesy-top">
+          <div>
+            <h3>${user.login}</h3>
+            <p>${user.courtesy_label || user.fullName || user.login}</p>
+          </div>
+          <span class="tag ${tagClass}">${tagText}</span>
+        </div>
+
+        <div class="courtesy-body">
+          <div class="field-grid">
+            <div class="field full">
+              <label>Nome de exibição</label>
+              <input type="text" class="courtesy-name" value="${user.courtesy_label || user.fullName || ""}" />
+            </div>
+
+            <div class="field">
+              <label>Prazo</label>
+              <select class="courtesy-duration">
+                <option value="30 dias" ${currentDuration === "30 dias" ? "selected" : ""}>30 dias</option>
+                <option value="90 dias" ${currentDuration === "90 dias" ? "selected" : ""}>90 dias</option>
+                <option value="180 dias" ${currentDuration === "180 dias" ? "selected" : ""}>180 dias</option>
+                <option value="365 dias" ${currentDuration === "365 dias" ? "selected" : ""}>365 dias</option>
+                <option value="permanente" ${currentDuration === "permanente" ? "selected" : ""}>Permanente</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label>Status</label>
+              <select class="courtesy-active">
+                <option value="ativo" ${(user.active !== false) ? "selected" : ""}>Ativo</option>
+                <option value="inativo" ${(user.active === false) ? "selected" : ""}>Inativo</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="helper">
+            Esta cortesia opera em nível <strong>TOP_GLOBAL</strong>, sem CVMI visível e sem área administrativa.
+          </div>
+
+          <div class="sector-box">
+            <strong>Setores liberados</strong>
+            <div class="sector-list">
+              ${ALL_SECTORS.map(item => `<div>${item}</div>`).join("")}
+            </div>
+          </div>
+
+          <div class="action-row">
+            <button class="mini-btn save" type="button">Salvar esta cortesia</button>
+            <button class="mini-btn soft" type="button">Restaurar padrão</button>
+          </div>
+        </div>
+      `;
+
+      const nameInput = wrapper.querySelector(".courtesy-name");
+      const durationSelect = wrapper.querySelector(".courtesy-duration");
+      const activeSelect = wrapper.querySelector(".courtesy-active");
+      const saveBtn = wrapper.querySelector(".mini-btn.save");
+      const resetBtn = wrapper.querySelector(".mini-btn.soft");
+
+      saveBtn.addEventListener("click", () => {
+        const users = getUsers();
+        const userIndex = users.findIndex(u => u.login === user.login);
+        if (userIndex === -1) return;
+
+        const selectedDuration = durationSelect.value;
+        const isPermanent = selectedDuration === "permanente";
+
+        users[userIndex].courtesy_label = nameInput.value.trim() || users[userIndex].courtesy_label || users[userIndex].fullName;
+        users[userIndex].fullName = users[userIndex].courtesy_label;
+        users[userIndex].permanent = isPermanent;
+        users[userIndex].courtesy_duration = selectedDuration;
+        users[userIndex].courtesy_days = isPermanent ? null : parseInt(selectedDuration, 10);
+        users[userIndex].active = activeSelect.value === "ativo";
+        users[userIndex].access_level = "TOP_GLOBAL";
+        users[userIndex].sectors = [...ALL_SECTORS];
+
+        saveUsers(users);
+        renderCourtesyGrid();
+
+        const original = saveBtn.textContent;
+        saveBtn.textContent = "Salvo";
+        setTimeout(() => {
+          saveBtn.textContent = original;
+        }, 1000);
+      });
+
+      resetBtn.addEventListener("click", () => {
+        const users = getUsers();
+        const userIndex = users.findIndex(u => u.login === user.login);
+        if (userIndex === -1) return;
+
+        const padded = String(index + 1).padStart(4, "0");
+        const isAndre = padded === "0001";
+
+        users[userIndex].courtesy_label = isAndre ? "Cortesia André Capista" : `Cortesia ${padded}`;
+        users[userIndex].fullName = users[userIndex].courtesy_label;
+        users[userIndex].permanent = isAndre;
+        users[userIndex].courtesy_duration = isAndre ? "permanente" : "180 dias";
+        users[userIndex].courtesy_days = isAndre ? null : 180;
+        users[userIndex].active = true;
+        users[userIndex].access_level = "TOP_GLOBAL";
+        users[userIndex].sectors = [...ALL_SECTORS];
+
+        saveUsers(users);
+        renderCourtesyGrid();
+      });
+
+      return wrapper;
+    }
+
+    function renderCourtesyGrid() {
+      const grid = document.getElementById("courtesyGrid");
+      grid.innerHTML = "";
+
+      const courtesyUsers = getCourtesyUsers();
+
+      courtesyUsers.forEach((user, index) => {
+        grid.appendChild(createCourtesyCard(user, index));
+      });
+
+      updateSummary();
+    }
+
+    document.getElementById("saveAllBtn").addEventListener("click", () => {
+      renderCourtesyGrid();
+      const btn = document.getElementById("saveAllBtn");
+      const original = btn.textContent;
+      btn.textContent = "Cortesias salvas";
+      setTimeout(() => {
+        btn.textContent = original;
+      }, 1200);
+    });
+
+    document.getElementById("logoutBtn").addEventListener("click", () => {
+      localStorage.removeItem("lapidar_current_user");
+      localStorage.removeItem("lapidar_current_profile");
+    });
+
+    seedUsersIfNeeded();
+    renderCourtesyGrid();
+  </script>
+</body>
+</html>
