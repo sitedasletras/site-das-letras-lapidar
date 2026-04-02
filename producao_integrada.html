@@ -1,0 +1,1329 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lapidar • Produção Integrada da Obra</title>
+  <style>
+    :root{
+      --bg:#edf4ff;
+      --bg2:#f8fbff;
+      --panel:#ffffff;
+      --line:#dbe6f3;
+      --text:#162033;
+      --muted:#64748b;
+      --primary:#2563eb;
+      --primary-strong:#1d4ed8;
+      --primary-soft:#dbeafe;
+      --success:#15803d;
+      --success-soft:#dcfce7;
+      --warning:#b45309;
+      --warning-soft:#ffedd5;
+      --danger:#b91c1c;
+      --danger-soft:#fee2e2;
+      --shadow:0 18px 45px rgba(15,23,42,.10);
+      --radius-xl:28px;
+      --radius-lg:22px;
+      --radius-md:16px;
+      --radius-sm:12px;
+    }
+
+    *{box-sizing:border-box}
+
+    html,body{
+      margin:0;
+      padding:0;
+      font-family:Arial, Helvetica, sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(37,99,235,.14), transparent 24%),
+        radial-gradient(circle at top right, rgba(14,165,233,.08), transparent 20%),
+        linear-gradient(180deg, #edf4ff 0%, #f7faff 40%, #eef4fb 100%);
+    }
+
+    body{min-height:100vh}
+
+    .app-shell{
+      max-width:1520px;
+      margin:0 auto;
+      padding:28px 20px 48px;
+    }
+
+    .hero{
+      position:relative;
+      overflow:hidden;
+      background:linear-gradient(135deg, #0f172a 0%, #14305f 48%, #2563eb 100%);
+      color:#fff;
+      border-radius:32px;
+      padding:32px 32px 26px;
+      box-shadow:0 24px 60px rgba(15,23,42,.22);
+      margin-bottom:24px;
+    }
+
+    .hero::after{
+      content:"";
+      position:absolute;
+      right:-60px;
+      bottom:-60px;
+      width:220px;
+      height:220px;
+      border-radius:50%;
+      background:rgba(255,255,255,.08);
+      filter:blur(8px);
+    }
+
+    .hero-top{
+      display:flex;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:18px;
+    }
+
+    .hero-chip{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 16px;
+      border-radius:999px;
+      background:rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.18);
+      font-size:14px;
+      font-weight:700;
+    }
+
+    .hero-chip .dot{
+      width:11px;
+      height:11px;
+      border-radius:50%;
+      background:#7dd3fc;
+      box-shadow:0 0 0 5px rgba(125,211,252,.12);
+    }
+
+    .hero-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+
+    .btn{
+      border:none;
+      border-radius:14px;
+      padding:13px 18px;
+      font-size:14px;
+      font-weight:800;
+      cursor:pointer;
+      transition:.22s ease;
+    }
+
+    .btn:hover{transform:translateY(-1px)}
+
+    .btn-light{
+      background:#fff;
+      color:#14337a;
+    }
+
+    .btn-ghost{
+      background:rgba(255,255,255,.12);
+      color:#fff;
+      border:1px solid rgba(255,255,255,.18);
+    }
+
+    .btn-primary{
+      background:linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
+      color:#fff;
+      box-shadow:0 16px 28px rgba(37,99,235,.22);
+    }
+
+    a.btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      text-decoration:none;
+    }
+
+    .hero h1{
+      margin:0 0 8px;
+      font-size:clamp(28px, 4vw, 42px);
+      line-height:1.06;
+      letter-spacing:-.02em;
+    }
+
+    .hero p{
+      margin:0;
+      max-width:1020px;
+      color:rgba(255,255,255,.88);
+      line-height:1.7;
+      font-size:16px;
+    }
+
+    .hero-badges{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      margin-top:22px;
+    }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 14px;
+      border-radius:999px;
+      background:rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.16);
+      font-size:14px;
+      font-weight:700;
+    }
+
+    .badge .badge-dot{
+      width:10px;
+      height:10px;
+      border-radius:50%;
+      background:#86efac;
+      box-shadow:0 0 0 5px rgba(134,239,172,.12);
+    }
+
+    .layout{
+      display:grid;
+      grid-template-columns:minmax(0, 1fr) 370px;
+      gap:24px;
+      align-items:start;
+    }
+
+    .main-stack{
+      display:grid;
+      gap:22px;
+    }
+
+    .panel{
+      background:var(--panel);
+      border:1px solid rgba(148,163,184,.16);
+      border-radius:var(--radius-xl);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+
+    .panel-header{
+      padding:26px 26px 0;
+    }
+
+    .panel-header small{
+      display:inline-block;
+      margin-bottom:10px;
+      color:var(--primary);
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      font-weight:800;
+    }
+
+    .panel-header h2{
+      margin:0 0 10px;
+      font-size:28px;
+      line-height:1.1;
+      letter-spacing:-.02em;
+    }
+
+    .panel-header p{
+      margin:0;
+      color:var(--muted);
+      line-height:1.7;
+      font-size:15px;
+    }
+
+    .panel-body{
+      padding:24px 26px 28px;
+    }
+
+    .upload-box{
+      border:1px dashed #93c5fd;
+      background:linear-gradient(180deg, #f8fbff 0%, #eef6ff 100%);
+      border-radius:24px;
+      padding:22px;
+      display:grid;
+      gap:16px;
+    }
+
+    .upload-grid{
+      display:grid;
+      grid-template-columns:1.2fr .8fr;
+      gap:18px;
+    }
+
+    .upload-card,
+    .confirm-card{
+      border:1px solid var(--line);
+      border-radius:20px;
+      background:#fff;
+      padding:18px;
+      display:grid;
+      gap:14px;
+    }
+
+    .field-grid{
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0,1fr));
+      gap:14px;
+    }
+
+    .field{
+      display:grid;
+      gap:8px;
+    }
+
+    .field.full{
+      grid-column:1 / -1;
+    }
+
+    .field label{
+      font-size:13px;
+      font-weight:800;
+      color:#334155;
+      text-transform:uppercase;
+      letter-spacing:.06em;
+    }
+
+    .field input,
+    .field select,
+    .field textarea{
+      width:100%;
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:13px 14px;
+      font-size:14px;
+      color:var(--text);
+      background:#fff;
+      outline:none;
+    }
+
+    .field textarea{
+      min-height:88px;
+      resize:vertical;
+    }
+
+    .mini-note{
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.6;
+    }
+
+    .action-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+
+    .soft-btn{
+      border:none;
+      border-radius:12px;
+      padding:12px 14px;
+      font-weight:800;
+      font-size:14px;
+      cursor:pointer;
+      background:#e8f0ff;
+      color:#1d4ed8;
+    }
+
+    .soft-btn.success{
+      background:var(--success-soft);
+      color:#166534;
+    }
+
+    .soft-btn.warning{
+      background:var(--warning-soft);
+      color:#9a3412;
+    }
+
+    .flow-grid{
+      display:grid;
+      grid-template-columns:repeat(3, minmax(0, 1fr));
+      gap:18px;
+    }
+
+    .flow-card{
+      border:1px solid var(--line);
+      border-radius:24px;
+      background:linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+      overflow:hidden;
+    }
+
+    .flow-head{
+      padding:18px 18px 14px;
+      border-bottom:1px solid var(--line);
+      background:linear-gradient(180deg, #f7fbff 0%, #eef5ff 100%);
+    }
+
+    .flow-head h3{
+      margin:0 0 6px;
+      font-size:22px;
+      line-height:1.1;
+    }
+
+    .flow-head p{
+      margin:0;
+      color:var(--muted);
+      line-height:1.6;
+      font-size:14px;
+    }
+
+    .flow-body{
+      padding:16px;
+      display:grid;
+      gap:12px;
+    }
+
+    .sector-list{
+      display:grid;
+      gap:10px;
+    }
+
+    .sector-item{
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:14px;
+      background:#fff;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      transition:.2s ease;
+    }
+
+    .sector-item.active{
+      border-color:var(--primary);
+      background:#edf4ff;
+      box-shadow:inset 0 0 0 1px rgba(37,99,235,.08);
+    }
+
+    .sector-item.done{
+      border-color:#86efac;
+      background:#edfdf2;
+    }
+
+    .sector-item label{
+      display:flex;
+      align-items:flex-start;
+      gap:10px;
+      cursor:pointer;
+      font-weight:700;
+      line-height:1.45;
+      font-size:14px;
+    }
+
+    .sector-item input{
+      accent-color:var(--primary);
+      transform:scale(1.08);
+      margin-top:2px;
+    }
+
+    .sector-tag{
+      min-width:64px;
+      text-align:right;
+      font-size:12px;
+      font-weight:800;
+      color:var(--muted);
+      text-transform:uppercase;
+      letter-spacing:.06em;
+    }
+
+    .flow-output{
+      display:grid;
+      gap:12px;
+    }
+
+    .output-box{
+      border:1px solid var(--line);
+      border-radius:18px;
+      background:#fff;
+      padding:16px;
+      display:grid;
+      gap:10px;
+    }
+
+    .output-box strong{
+      font-size:15px;
+      line-height:1.45;
+    }
+
+    .output-box span{
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.6;
+    }
+
+    .journey-wrap{
+      border:1px solid var(--line);
+      border-radius:28px;
+      background:linear-gradient(180deg,#ffffff 0%, #f8fbff 100%);
+      padding:22px;
+      display:grid;
+      gap:18px;
+    }
+
+    .journey-line{
+      display:grid;
+      grid-template-columns:repeat(6, minmax(0,1fr));
+      gap:12px;
+      align-items:stretch;
+    }
+
+    .journey-step{
+      position:relative;
+      border:1px solid var(--line);
+      border-radius:20px;
+      background:#fff;
+      padding:16px 14px;
+      display:grid;
+      gap:8px;
+      min-height:120px;
+    }
+
+    .journey-step.active{
+      border-color:var(--primary);
+      background:#edf4ff;
+    }
+
+    .journey-step.done{
+      border-color:#86efac;
+      background:#edfdf2;
+    }
+
+    .journey-step small{
+      color:var(--muted);
+      text-transform:uppercase;
+      letter-spacing:.06em;
+      font-weight:800;
+      font-size:11px;
+    }
+
+    .journey-step strong{
+      font-size:15px;
+      line-height:1.35;
+    }
+
+    .journey-step span{
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.55;
+    }
+
+    .journey-arrow{
+      text-align:center;
+      font-weight:900;
+      color:#94a3b8;
+      font-size:24px;
+      align-self:center;
+    }
+
+    .journey-footer{
+      display:grid;
+      grid-template-columns:repeat(3, minmax(0,1fr));
+      gap:14px;
+    }
+
+    .metric-card{
+      border:1px solid var(--line);
+      border-radius:18px;
+      background:#fff;
+      padding:16px;
+    }
+
+    .metric-card small{
+      display:block;
+      margin-bottom:8px;
+      color:var(--muted);
+      font-size:12px;
+      font-weight:800;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+    }
+
+    .metric-card strong{
+      display:block;
+      font-size:22px;
+      line-height:1.1;
+      margin-bottom:6px;
+    }
+
+    .metric-card span{
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.6;
+    }
+
+    .sticky-stack{
+      position:sticky;
+      top:18px;
+      display:grid;
+      gap:22px;
+    }
+
+    .meter{
+      display:grid;
+      gap:14px;
+    }
+
+    .meter-item{
+      border:1px solid var(--line);
+      border-radius:18px;
+      background:linear-gradient(180deg,#fff 0%, #f8fbff 100%);
+      padding:16px;
+    }
+
+    .meter-item small{
+      display:block;
+      color:var(--muted);
+      margin-bottom:8px;
+      font-size:12px;
+      font-weight:800;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+    }
+
+    .meter-item strong{
+      display:block;
+      font-size:20px;
+      line-height:1.15;
+    }
+
+    .summary-list{
+      display:grid;
+      gap:12px;
+      margin-top:16px;
+      padding-top:14px;
+      border-top:1px solid var(--line);
+    }
+
+    .summary-item{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:12px;
+      font-size:14px;
+    }
+
+    .summary-item span:first-child{color:var(--muted)}
+    .summary-item strong{text-align:right; line-height:1.45}
+
+    .rules-list{
+      list-style:none;
+      padding:0;
+      margin:0;
+      display:grid;
+      gap:14px;
+    }
+
+    .rules-list li{
+      border:1px solid var(--line);
+      border-radius:18px;
+      background:#fbfdff;
+      padding:16px;
+    }
+
+    .rules-list strong{
+      display:block;
+      margin-bottom:7px;
+      font-size:15px;
+      line-height:1.45;
+    }
+
+    .rules-list span{
+      display:block;
+      color:var(--muted);
+      line-height:1.65;
+      font-size:14px;
+    }
+
+    .notice{
+      border-radius:18px;
+      padding:16px;
+      background:#fff7ed;
+      border:1px solid #fed7aa;
+      color:#7c2d12;
+      line-height:1.7;
+      font-size:14px;
+      margin-top:18px;
+    }
+
+    .footer-note{
+      margin-top:20px;
+      text-align:center;
+      color:#60708a;
+      font-size:13px;
+    }
+
+    @media (max-width: 1280px){
+      .layout{grid-template-columns:1fr}
+      .sticky-stack{position:relative; top:auto}
+      .journey-line{grid-template-columns:repeat(3, minmax(0,1fr))}
+      .upload-grid{grid-template-columns:1fr}
+      .flow-grid{grid-template-columns:1fr}
+    }
+
+    @media (max-width: 900px){
+      .field-grid{grid-template-columns:1fr}
+      .journey-line{grid-template-columns:1fr}
+      .journey-footer{grid-template-columns:1fr}
+    }
+
+    @media (max-width: 720px){
+      .app-shell{padding:16px 12px 34px}
+      .hero{padding:24px 18px 20px}
+      .panel-header,.panel-body{padding-left:18px; padding-right:18px}
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="hero">
+      <div class="hero-top">
+        <div class="hero-chip">
+          <span class="dot"></span>
+          Lapidar • Produção Integrada da Obra
+        </div>
+
+        <div class="hero-actions">
+          <a class="btn btn-ghost" href="sala_reunioes.html">Voltar à sala de reuniões</a>
+          <a class="btn btn-ghost" href="login.html">Sair geral</a>
+          <button class="btn btn-light" type="button" id="savePageBtn">Salvar fluxo</button>
+        </div>
+      </div>
+
+      <h1>Entrada, processamento e saída editorial em fluxo integrado</h1>
+      <p>
+        Esta área organiza a jornada completa da obra: entrada por qualquer setor, processamento por departamentos diferentes,
+        registro no mesário e saída final em qualquer ponto autorizado do pipeline editorial.
+      </p>
+
+      <div class="hero-badges">
+        <div class="badge"><span class="badge-dot"></span>Entrada integrada</div>
+        <div class="badge">Roteamento editorial dinâmico</div>
+        <div class="badge">Saída protegida por mesário e liberação</div>
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="main-stack">
+
+        <section class="panel">
+          <div class="panel-header">
+            <small>Entrada da obra</small>
+            <h2>Upload, leitura inicial e confirmação editorial</h2>
+            <p>
+              O sistema recebe a obra, tenta identificar dados principais e prepara o início do fluxo editorial.
+            </p>
+          </div>
+
+          <div class="panel-body">
+            <div class="upload-box">
+              <div class="upload-grid">
+                <div class="upload-card">
+                  <div class="field-grid">
+                    <div class="field full">
+                      <label>Arquivo da obra</label>
+                      <input type="file" id="bookFile" />
+                    </div>
+
+                    <div class="field">
+                      <label>Título identificado</label>
+                      <input type="text" id="bookTitle" value="Título da obra" />
+                    </div>
+
+                    <div class="field">
+                      <label>Subtítulo identificado</label>
+                      <input type="text" id="bookSubtitle" value="" placeholder="Sem subtítulo" />
+                    </div>
+
+                    <div class="field">
+                      <label>Autor identificado</label>
+                      <input type="text" id="bookAuthor" value="Nome do autor" />
+                    </div>
+
+                    <div class="field">
+                      <label>Entrada inicial</label>
+                      <select id="entryPoint">
+                        <option value="1">Setor 1 — Diagramador</option>
+                        <option value="3">Setor 3 — Capista</option>
+                        <option value="5">Setor 5 — Segunda Língua(s)</option>
+                        <option value="7">Setor 7 — Avaliação Literária</option>
+                        <option value="11">Setor 11 — Analisador de Obra</option>
+                        <option value="13">Setor 13 — Lapidação Literária</option>
+                      </select>
+                    </div>
+
+                    <div class="field">
+                      <label>Modo financeiro interno</label>
+                      <select id="billingMode">
+                        <option value="avulso">Avulso</option>
+                        <option value="plano">Plano</option>
+                        <option value="cortesia">Cortesia</option>
+                        <option value="admin">Admin override</option>
+                      </select>
+                    </div>
+
+                    <div class="field full">
+                      <label>Observação interna</label>
+                      <textarea id="internalNote" placeholder="Campo interno para observações da obra, setor ou fluxo..."></textarea>
+                    </div>
+                  </div>
+
+                  <div class="action-row">
+                    <button class="soft-btn" type="button" id="simulateReadBtn">Simular leitura do documento</button>
+                    <button class="soft-btn success" type="button" id="confirmDataBtn">Confirmar dados da obra</button>
+                  </div>
+
+                  <div class="mini-note">
+                    Esta confirmação é interna. O cliente não precisa ver o motor de roteamento, cobrança base ou controle do mesário.
+                  </div>
+                </div>
+
+                <div class="confirm-card">
+                  <strong style="font-size:18px;">Resumo inicial da entrada</strong>
+                  <div class="summary-list" style="margin-top:0; padding-top:0; border-top:none;">
+                    <div class="summary-item">
+                      <span>Título</span>
+                      <strong id="summaryTitle">Título da obra</strong>
+                    </div>
+                    <div class="summary-item">
+                      <span>Subtítulo</span>
+                      <strong id="summarySubtitle">—</strong>
+                    </div>
+                    <div class="summary-item">
+                      <span>Autor</span>
+                      <strong id="summaryAuthor">Nome do autor</strong>
+                    </div>
+                    <div class="summary-item">
+                      <span>Entrada por</span>
+                      <strong id="summaryEntryPoint">Setor 1 — Diagramador</strong>
+                    </div>
+                    <div class="summary-item">
+                      <span>Modo interno</span>
+                      <strong id="summaryBillingMode">Avulso</strong>
+                    </div>
+                  </div>
+
+                  <div class="notice" style="margin-top:0;">
+                    Quando a obra entra por um setor, o registro interno dessa entrada impede cobrança base duplicada nos departamentos seguintes.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-header">
+            <small>Pipeline editorial</small>
+            <h2>Entrada, processamento e saída por departamento</h2>
+            <p>
+              Selecione os departamentos que a obra utilizará. O sistema organiza internamente a jornada e a futura ida ao mesário.
+            </p>
+          </div>
+
+          <div class="panel-body">
+            <div class="flow-grid">
+              <article class="flow-card">
+                <div class="flow-head">
+                  <h3>Entrada integrada</h3>
+                  <p>Escolha por onde a obra entrou e quais setores receberão a obra ao longo do caminho.</p>
+                </div>
+                <div class="flow-body">
+                  <div class="sector-list" id="sectorList">
+                    <div class="sector-item active" data-sector="1">
+                      <label><input type="checkbox" name="sector_1" checked /> 1 — Assistente de Diagramação do Autor</label>
+                      <div class="sector-tag">Entrada</div>
+                    </div>
+
+                    <div class="sector-item" data-sector="3">
+                      <label><input type="checkbox" name="sector_3" /> 3 — OKapista</label>
+                      <div class="sector-tag">Opcional</div>
+                    </div>
+
+                    <div class="sector-item" data-sector="5">
+                      <label><input type="checkbox" name="sector_5" /> 5 — Segunda Língua(s)</label>
+                      <div class="sector-tag">Opcional</div>
+                    </div>
+
+                    <div class="sector-item" data-sector="7">
+                      <label><input type="checkbox" name="sector_7" /> 7 — Avaliação Literária</label>
+                      <div class="sector-tag">Opcional</div>
+                    </div>
+
+                    <div class="sector-item" data-sector="11">
+                      <label><input type="checkbox" name="sector_11" /> 11 — Analisador de Obra</label>
+                      <div class="sector-tag">Opcional</div>
+                    </div>
+
+                    <div class="sector-item" data-sector="13">
+                      <label><input type="checkbox" name="sector_13" /> 13 — Lapidação Literária</label>
+                      <div class="sector-tag">Opcional</div>
+                    </div>
+                  </div>
+                </div>
+              </article>
+
+              <article class="flow-card">
+                <div class="flow-head">
+                  <h3>Processamento interno</h3>
+                  <p>Cada setor pode receber, processar e encaminhar a obra para outro departamento.</p>
+                </div>
+                <div class="flow-body">
+                  <div class="output-box">
+                    <strong>Regras internas do fluxo</strong>
+                    <span>1. A entrada define o setor de origem da obra.</span>
+                    <span>2. O valor base fica silenciosamente registrado no setor de entrada.</span>
+                    <span>3. Os demais setores só registram adicionais internos.</span>
+                    <span>4. A obra pode sair por qualquer departamento autorizado.</span>
+                  </div>
+
+                  <div class="action-row">
+                    <button class="soft-btn" type="button" id="simulateProcessBtn">Executar processamento interno</button>
+                    <button class="soft-btn success" type="button" id="sendMesarioBtn">Enviar ao Mesário do setor</button>
+                  </div>
+
+                  <div class="output-box">
+                    <strong>Status de processamento</strong>
+                    <span id="processStatus">Aguardando confirmação da obra e definição do fluxo.</span>
+                  </div>
+                </div>
+              </article>
+
+              <article class="flow-card">
+                <div class="flow-head">
+                  <h3>Saída integrada</h3>
+                  <p>A obra pode terminar no setor final escolhido e seguir ao Mesário Geral para cobrança e liberação.</p>
+                </div>
+                <div class="flow-body">
+                  <div class="field">
+                    <label>Setor de saída</label>
+                    <select id="exitPoint">
+                      <option value="1">Setor 1 — Diagramador</option>
+                      <option value="3">Setor 3 — Capista</option>
+                      <option value="5">Setor 5 — Segunda Língua(s)</option>
+                      <option value="7">Setor 7 — Avaliação Literária</option>
+                      <option value="11">Setor 11 — Analisador de Obra</option>
+                      <option value="13">Setor 13 — Lapidação Literária</option>
+                    </select>
+                  </div>
+
+                  <div class="output-box">
+                    <strong>Saída atual prevista</strong>
+                    <span id="exitStatus">A obra está configurada para sair pelo Setor 1 — Diagramador.</span>
+                  </div>
+
+                  <div class="action-row">
+                    <button class="soft-btn warning" type="button" id="sendGeneralBtn">Encaminhar ao Mesário Geral</button>
+                    <button class="soft-btn success" type="button" id="releaseBtn">Marcar pronto para liberação</button>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-header">
+            <small>Mapa do fluxo</small>
+            <h2>Jornada interna da obra</h2>
+            <p>
+              Este painel mostra visualmente por onde a obra entrou, quais setores estão ativos e por onde ela pretende sair.
+            </p>
+          </div>
+
+          <div class="panel-body">
+            <div class="journey-wrap">
+              <div class="journey-line" id="journeyLine">
+                <div class="journey-step" data-journey="1">
+                  <small>Setor 1</small>
+                  <strong>Diagramador</strong>
+                  <span>Entrada, miolo, preferências e saída diagramada.</span>
+                </div>
+                <div class="journey-step" data-journey="3">
+                  <small>Setor 3</small>
+                  <strong>OKapista</strong>
+                  <span>Frente, lombada, contracapa e orelhas.</span>
+                </div>
+                <div class="journey-step" data-journey="5">
+                  <small>Setor 5</small>
+                  <strong>Segunda Língua(s)</strong>
+                  <span>Fluxo de tradução e saída traduzida.</span>
+                </div>
+                <div class="journey-step" data-journey="7">
+                  <small>Setor 7</small>
+                  <strong>Avaliação Literária</strong>
+                  <span>Laudo, parecer e observações críticas.</span>
+                </div>
+                <div class="journey-step" data-journey="11">
+                  <small>Setor 11</small>
+                  <strong>Analisador de Obra</strong>
+                  <span>Diagnóstico interno da estrutura textual.</span>
+                </div>
+                <div class="journey-step" data-journey="13">
+                  <small>Setor 13</small>
+                  <strong>Lapidação Literária</strong>
+                  <span>Humanização e acabamento textual refinado.</span>
+                </div>
+              </div>
+
+              <div class="journey-footer">
+                <div class="metric-card">
+                  <small>Entrada oficial</small>
+                  <strong id="journeyEntry">Setor 1</strong>
+                  <span id="journeyEntryDesc">Obra iniciada pelo Diagramador.</span>
+                </div>
+
+                <div class="metric-card">
+                  <small>Setores ativos</small>
+                  <strong id="journeyCount">1 setor</strong>
+                  <span id="journeyCountDesc">Apenas o setor inicial está ativo.</span>
+                </div>
+
+                <div class="metric-card">
+                  <small>Saída prevista</small>
+                  <strong id="journeyExit">Setor 1</strong>
+                  <span id="journeyExitDesc">Saída final prevista pelo Diagramador.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </section>
+
+      <aside>
+        <div class="sticky-stack">
+
+          <section class="panel">
+            <div class="panel-header">
+              <small>Resumo do fluxo</small>
+              <h2>Leitura interna da obra</h2>
+              <p>
+                Este painel mostra origem, modo financeiro interno e condição atual de roteamento da obra.
+              </p>
+            </div>
+
+            <div class="panel-body">
+              <div class="meter">
+                <div class="meter-item">
+                  <small>Entrada da obra</small>
+                  <strong id="sideEntry">Setor 1 — Diagramador</strong>
+                </div>
+
+                <div class="meter-item">
+                  <small>Modo interno</small>
+                  <strong id="sideBilling">Avulso</strong>
+                </div>
+
+                <div class="meter-item">
+                  <small>Saída prevista</small>
+                  <strong id="sideExit">Setor 1 — Diagramador</strong>
+                </div>
+              </div>
+
+              <div class="summary-list">
+                <div class="summary-item">
+                  <span>Obra confirmada</span>
+                  <strong id="summaryConfirmed">Não</strong>
+                </div>
+                <div class="summary-item">
+                  <span>Processamento interno</span>
+                  <strong id="summaryProcess">Pendente</strong>
+                </div>
+                <div class="summary-item">
+                  <span>Mesário setorial</span>
+                  <strong id="summaryMesario">Pendente</strong>
+                </div>
+                <div class="summary-item">
+                  <span>Mesário geral</span>
+                  <strong id="summaryGeneral">Pendente</strong>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-header">
+              <small>Orientações internas</small>
+              <h2>Regras desse hub</h2>
+            </div>
+
+            <div class="panel-body">
+              <ul class="rules-list">
+                <li>
+                  <strong>O cliente não vê a engenharia financeira interna</strong>
+                  <span>Entry point, billing mode e bloqueio de cobrança base pertencem ao motor do sistema, ao mesário e ao admin.</span>
+                </li>
+                <li>
+                  <strong>Todos os departamentos precisam ter entrada e saída</strong>
+                  <span>A obra pode entrar por qualquer setor, cruzar outros departamentos e sair por outro ponto do pipeline.</span>
+                </li>
+                <li>
+                  <strong>O Mesário é a ponte entre produção e cobrança</strong>
+                  <span>Os valores setoriais sobem ao Mesário Geral apenas quando a obra for encaminhada para fechamento.</span>
+                </li>
+              </ul>
+
+              <div class="notice">
+                <strong>Observação estratégica:</strong><br>
+                Esta tela funciona como base da produção integrada. Depois dela, você poderá acoplar os hubs reais de Diagramador, Capista,
+                Segunda Língua(s), Avaliação, Analisador e Lapidação Literária.
+              </div>
+            </div>
+          </section>
+        </div>
+      </aside>
+    </main>
+
+    <div class="footer-note">
+      Lapidar • Celeiro Literário • Produção Integrada da Obra
+    </div>
+  </div>
+
+  <script>
+    const sectorNames = {
+      "1": "Setor 1 — Diagramador",
+      "3": "Setor 3 — OKapista",
+      "5": "Setor 5 — Segunda Língua(s)",
+      "7": "Setor 7 — Avaliação Literária",
+      "11": "Setor 11 — Analisador de Obra",
+      "13": "Setor 13 — Lapidação Literária"
+    };
+
+    const billingNames = {
+      avulso: "Avulso",
+      plano: "Plano",
+      cortesia: "Cortesia",
+      admin: "Admin override"
+    };
+
+    const internalState = {
+      confirmed: false,
+      processed: false,
+      mesarioSetorial: false,
+      mesarioGeral: false,
+      released: false
+    };
+
+    function getSelectedSectors() {
+      const selected = [];
+      document.querySelectorAll('.sector-item input[type="checkbox"]').forEach(input => {
+        if (input.checked) {
+          selected.push(input.closest('.sector-item').dataset.sector);
+        }
+      });
+      return selected;
+    }
+
+    function updateSummaryCards() {
+      const title = document.getElementById("bookTitle").value.trim() || "Título da obra";
+      const subtitle = document.getElementById("bookSubtitle").value.trim();
+      const author = document.getElementById("bookAuthor").value.trim() || "Nome do autor";
+      const entry = document.getElementById("entryPoint").value;
+      const billing = document.getElementById("billingMode").value;
+      const exit = document.getElementById("exitPoint").value;
+
+      document.getElementById("summaryTitle").textContent = title;
+      document.getElementById("summarySubtitle").textContent = subtitle || "—";
+      document.getElementById("summaryAuthor").textContent = author;
+      document.getElementById("summaryEntryPoint").textContent = sectorNames[entry];
+      document.getElementById("summaryBillingMode").textContent = billingNames[billing];
+
+      document.getElementById("sideEntry").textContent = sectorNames[entry];
+      document.getElementById("sideBilling").textContent = billingNames[billing];
+      document.getElementById("sideExit").textContent = sectorNames[exit];
+
+      document.getElementById("journeyEntry").textContent = "Setor " + entry;
+      document.getElementById("journeyEntryDesc").textContent = "Obra iniciada por " + sectorNames[entry].replace("Setor " + entry + " — ", "") + ".";
+      document.getElementById("journeyExit").textContent = "Setor " + exit;
+      document.getElementById("journeyExitDesc").textContent = "Saída final prevista por " + sectorNames[exit].replace("Setor " + exit + " — ", "") + ".";
+
+      document.getElementById("summaryConfirmed").textContent = internalState.confirmed ? "Sim" : "Não";
+      document.getElementById("summaryProcess").textContent = internalState.processed ? "Concluído" : "Pendente";
+      document.getElementById("summaryMesario").textContent = internalState.mesarioSetorial ? "Enviado" : "Pendente";
+      document.getElementById("summaryGeneral").textContent = internalState.mesarioGeral ? "Encaminhado" : "Pendente";
+
+      document.getElementById("exitStatus").textContent = "A obra está configurada para sair pelo " + sectorNames[exit] + ".";
+    }
+
+    function updateJourney() {
+      const entry = document.getElementById("entryPoint").value;
+      const exit = document.getElementById("exitPoint").value;
+      const selected = getSelectedSectors();
+
+      document.querySelectorAll('.sector-item').forEach(item => {
+        const sector = item.dataset.sector;
+        const tag = item.querySelector('.sector-tag');
+        item.classList.remove('active', 'done');
+
+        if (sector === entry) {
+          item.classList.add('active');
+          tag.textContent = "Entrada";
+        } else if (sector === exit && selected.includes(sector)) {
+          item.classList.add('done');
+          tag.textContent = "Saída";
+        } else if (selected.includes(sector)) {
+          item.classList.add('done');
+          tag.textContent = "Ativo";
+        } else {
+          tag.textContent = "Opcional";
+        }
+      });
+
+      document.querySelectorAll('.journey-step').forEach(step => {
+        const sector = step.dataset.journey;
+        step.classList.remove('active', 'done');
+
+        if (sector === entry) {
+          step.classList.add('active');
+        }
+        if (selected.includes(sector)) {
+          step.classList.add('done');
+        }
+      });
+
+      const count = selected.length;
+      document.getElementById("journeyCount").textContent = count + (count === 1 ? " setor" : " setores");
+
+      if (count === 1) {
+        document.getElementById("journeyCountDesc").textContent = "Apenas o setor inicial está ativo.";
+      } else {
+        document.getElementById("journeyCountDesc").textContent = "A obra circulará por múltiplos setores no pipeline.";
+      }
+    }
+
+    function saveState() {
+      const payload = {
+        title: document.getElementById("bookTitle").value,
+        subtitle: document.getElementById("bookSubtitle").value,
+        author: document.getElementById("bookAuthor").value,
+        entryPoint: document.getElementById("entryPoint").value,
+        billingMode: document.getElementById("billingMode").value,
+        exitPoint: document.getElementById("exitPoint").value,
+        internalNote: document.getElementById("internalNote").value,
+        sectors: {},
+        internalState
+      };
+
+      document.querySelectorAll('.sector-item input[type="checkbox"]').forEach(input => {
+        payload.sectors[input.name] = input.checked;
+      });
+
+      localStorage.setItem("lapidar_producao_integrada", JSON.stringify(payload));
+
+      const saveBtn = document.getElementById("savePageBtn");
+      const originalText = saveBtn.textContent;
+      saveBtn.textContent = "Salvo com sucesso";
+      setTimeout(() => saveBtn.textContent = originalText, 1400);
+    }
+
+    function restoreState() {
+      const raw = localStorage.getItem("lapidar_producao_integrada");
+      if (!raw) return;
+
+      try {
+        const data = JSON.parse(raw);
+
+        document.getElementById("bookTitle").value = data.title || "Título da obra";
+        document.getElementById("bookSubtitle").value = data.subtitle || "";
+        document.getElementById("bookAuthor").value = data.author || "Nome do autor";
+        document.getElementById("entryPoint").value = data.entryPoint || "1";
+        document.getElementById("billingMode").value = data.billingMode || "avulso";
+        document.getElementById("exitPoint").value = data.exitPoint || "1";
+        document.getElementById("internalNote").value = data.internalNote || "";
+
+        if (data.sectors) {
+          document.querySelectorAll('.sector-item input[type="checkbox"]').forEach(input => {
+            if (Object.prototype.hasOwnProperty.call(data.sectors, input.name)) {
+              input.checked = !!data.sectors[input.name];
+            }
+          });
+        }
+
+        if (data.internalState) {
+          internalState.confirmed = !!data.internalState.confirmed;
+          internalState.processed = !!data.internalState.processed;
+          internalState.mesarioSetorial = !!data.internalState.mesarioSetorial;
+          internalState.mesarioGeral = !!data.internalState.mesarioGeral;
+          internalState.released = !!data.internalState.released;
+        }
+      } catch (e) {
+        console.error("Erro ao restaurar estado:", e);
+      }
+    }
+
+    function syncAll() {
+      updateSummaryCards();
+      updateJourney();
+    }
+
+    document.getElementById("simulateReadBtn").addEventListener("click", () => {
+      document.getElementById("bookTitle").value = "Documento carregado";
+      if (!document.getElementById("bookAuthor").value.trim()) {
+        document.getElementById("bookAuthor").value = "Autor identificado";
+      }
+      syncAll();
+      saveState();
+    });
+
+    document.getElementById("confirmDataBtn").addEventListener("click", () => {
+      internalState.confirmed = true;
+      syncAll();
+      saveState();
+      alert("Dados da obra confirmados internamente.");
+    });
+
+    document.getElementById("simulateProcessBtn").addEventListener("click", () => {
+      internalState.processed = true;
+      document.getElementById("processStatus").textContent = "Processamento interno executado. A obra está pronta para registrar no mesário do setor.";
+      syncAll();
+      saveState();
+    });
+
+    document.getElementById("sendMesarioBtn").addEventListener("click", () => {
+      internalState.mesarioSetorial = true;
+      document.getElementById("processStatus").textContent = "Registro encaminhado ao Mesário do setor. A obra pode seguir para saída integrada ou Mesário Geral.";
+      syncAll();
+      saveState();
+    });
+
+    document.getElementById("sendGeneralBtn").addEventListener("click", () => {
+      internalState.mesarioGeral = true;
+      syncAll();
+      saveState();
+      alert("Obra encaminhada ao Mesário Geral.");
+    });
+
+    document.getElementById("releaseBtn").addEventListener("click", () => {
+      internalState.released = true;
+      syncAll();
+      saveState();
+      alert("Obra marcada como pronta para liberação final.");
+    });
+
+    document.getElementById("savePageBtn").addEventListener("click", saveState);
+
+    ["bookTitle","bookSubtitle","bookAuthor","entryPoint","billingMode","exitPoint","internalNote"].forEach(id => {
+      document.getElementById(id).addEventListener("input", () => {
+        syncAll();
+        saveState();
+      });
+      document.getElementById(id).addEventListener("change", () => {
+        syncAll();
+        saveState();
+      });
+    });
+
+    document.querySelectorAll('.sector-item input[type="checkbox"]').forEach(input => {
+      input.addEventListener("change", () => {
+        syncAll();
+        saveState();
+      });
+    });
+
+    restoreState();
+    syncAll();
+  </script>
+</body>
+</html>
