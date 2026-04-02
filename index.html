@@ -1,120 +1,325 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lapidar — Site das Letras</title>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    *{
+      box-sizing:border-box;
+    }
 
-<title>Lapidar — Site das Letras</title>
+    body{
+      margin:0;
+      font-family:Arial, Helvetica, sans-serif;
+      background:linear-gradient(180deg, #0b1120 0%, #111827 100%);
+      color:#ffffff;
+      min-height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      padding:24px;
+    }
 
-<style>
+    .container{
+      width:100%;
+      max-width:480px;
+      background:#0f172a;
+      border:1px solid rgba(255,255,255,0.08);
+      border-radius:24px;
+      padding:32px 24px;
+      box-shadow:0 20px 50px rgba(0,0,0,.45);
+      text-align:center;
+    }
 
-body{
-margin:0;
-font-family:Arial, Helvetica, sans-serif;
-background:#0f172a;
-color:white;
-display:flex;
-justify-content:center;
-align-items:center;
-height:100vh;
-}
+    .logo{
+      width:150px;
+      max-width:50vw;
+      height:auto;
+      display:block;
+      margin:0 auto 18px auto;
+      border-radius:18px;
+      box-shadow:0 10px 28px rgba(0,0,0,.35);
+    }
 
-.container{
-text-align:center;
-background:#111827;
-padding:40px;
-border-radius:20px;
-box-shadow:0 20px 40px rgba(0,0,0,.5);
-width:90%;
-max-width:420px;
-}
+    h1{
+      margin:0 0 8px 0;
+      font-size:30px;
+      letter-spacing:1px;
+    }
 
-.logo{
-width:160px;
-margin-bottom:20px;
-border-radius:20px;
-box-shadow:0 8px 25px rgba(0,0,0,.5);
-}
+    .subtitulo{
+      font-size:14px;
+      line-height:1.5;
+      opacity:.82;
+      margin-bottom:22px;
+    }
 
-h1{
-margin:10px 0;
-font-size:28px;
-letter-spacing:1px;
-}
+    .painel{
+      background:#111827;
+      border:1px solid rgba(255,255,255,0.08);
+      border-radius:18px;
+      padding:18px;
+      margin-top:18px;
+      text-align:left;
+    }
 
-.subtitulo{
-font-size:14px;
-opacity:.7;
-margin-bottom:30px;
-}
+    .linha{
+      margin-bottom:10px;
+      font-size:15px;
+      line-height:1.45;
+    }
 
-.botao{
-display:block;
-width:100%;
-padding:15px;
-margin-top:15px;
-border:none;
-border-radius:12px;
-background:#7c3aed;
-color:white;
-font-size:16px;
-cursor:pointer;
-transition:.2s;
-}
+    .label{
+      opacity:.7;
+      display:block;
+      margin-bottom:4px;
+      font-size:13px;
+      text-transform:uppercase;
+      letter-spacing:.5px;
+    }
 
-.botao:hover{
-background:#6d28d9;
-}
+    .valor{
+      font-weight:bold;
+      word-break:break-word;
+    }
 
-.footer{
-margin-top:25px;
-font-size:12px;
-opacity:.5;
-}
+    .badge{
+      display:inline-block;
+      padding:8px 12px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:bold;
+      letter-spacing:.4px;
+      margin-top:2px;
+      background:#312e81;
+      color:#e0e7ff;
+    }
 
-</style>
+    .acoes{
+      margin-top:22px;
+      display:grid;
+      gap:12px;
+    }
 
+    .botao{
+      width:100%;
+      border:none;
+      border-radius:14px;
+      padding:15px 16px;
+      cursor:pointer;
+      font-size:15px;
+      font-weight:bold;
+      transition:0.2s ease;
+      color:#fff;
+      background:#7c3aed;
+    }
+
+    .botao:hover{
+      transform:translateY(-1px);
+      background:#6d28d9;
+    }
+
+    .botao.secundario{
+      background:#334155;
+    }
+
+    .botao.secundario:hover{
+      background:#475569;
+    }
+
+    .botao.escuro{
+      background:#1f2937;
+    }
+
+    .botao.escuro:hover{
+      background:#374151;
+    }
+
+    .hidden{
+      display:none;
+    }
+
+    .mensagem{
+      margin-top:16px;
+      font-size:14px;
+      line-height:1.5;
+      opacity:.9;
+      background:rgba(255,255,255,0.04);
+      border:1px solid rgba(255,255,255,0.08);
+      border-radius:14px;
+      padding:14px;
+    }
+
+    .footer{
+      margin-top:22px;
+      font-size:12px;
+      opacity:.55;
+      line-height:1.5;
+    }
+  </style>
 </head>
-
 <body>
+  <div class="container">
+    <img src="file_00000000760c720ebb734bb5e71340bb.png" alt="Site das Letras Edições Literárias" class="logo">
 
-<div class="container">
+    <h1>LAPIDAR</h1>
 
-<img src="file_00000000760c720ebb734bb5e71340bb.png" class="logo">
+    <div class="subtitulo">
+      Ambiente Editorial Institucional<br>
+      Site das Letras Edições Literárias
+    </div>
 
-<h1>LAPIDAR</h1>
+    <div id="semLogin" class="painel hidden">
+      <div class="linha">
+        <span class="label">Status</span>
+        <span class="valor">Nenhuma sessão ativa</span>
+      </div>
 
-<div class="subtitulo">
-Ambiente Editorial Institucional<br>
-Site das Letras Edições Literárias
-</div>
+      <div class="mensagem">
+        Você ainda não entrou no sistema. Faça o login para acessar o ambiente editorial.
+      </div>
 
-<button class="botao" onclick="entrar()">
-Entrar no sistema
-</button>
+      <div class="acoes">
+        <button class="botao" onclick="irParaLogin()">Entrar no sistema</button>
+      </div>
+    </div>
 
-<button class="botao" onclick="sairSistema()" style="background:#374151;">
-Sair geral
-</button>
+    <div id="comLogin" class="painel hidden">
+      <div class="linha">
+        <span class="label">Usuário</span>
+        <span id="nomeUsuario" class="valor">—</span>
+      </div>
 
-<div class="footer">
-Plataforma editorial proprietária
-</div>
+      <div class="linha">
+        <span class="label">Perfil</span>
+        <span id="perfilUsuario" class="badge">—</span>
+      </div>
 
-</div>
+      <div class="linha">
+        <span class="label">Acesso</span>
+        <span id="descricaoPerfil" class="valor">—</span>
+      </div>
 
-<script>
+      <div id="mensagemPerfil" class="mensagem">
+        —
+      </div>
 
-function entrar(){
-window.location.href="login.html"
-}
+      <div class="acoes">
+        <button id="botaoPrincipal" class="botao">Acessar painel</button>
+        <button class="botao secundario" onclick="trocarUsuario()">Trocar usuário</button>
+        <button class="botao escuro" onclick="sairSistema()">Sair geral</button>
+      </div>
+    </div>
 
-function sairSistema(){
-alert("Sessão encerrada.")
-}
+    <div class="footer">
+      Plataforma editorial proprietária
+    </div>
+  </div>
 
-</script>
+  <script>
+    function pegarSessao() {
+      const sessao = localStorage.getItem("lapidarSessao");
+      return sessao ? JSON.parse(sessao) : null;
+    }
 
+    function irParaLogin() {
+      window.location.href = "login.html";
+    }
+
+    function trocarUsuario() {
+      window.location.href = "login.html";
+    }
+
+    function sairSistema() {
+      localStorage.removeItem("lapidarSessao");
+      alert("Sessão encerrada.");
+      window.location.href = "login.html";
+    }
+
+    function capitalizarPerfil(perfil) {
+      const mapa = {
+        admin: "Admin",
+        heteronimo: "Heterônimo",
+        autor: "Autor",
+        usuario: "Usuário",
+        beta_cortesia: "Beta Cortesia",
+        visitante: "Visitante"
+      };
+      return mapa[perfil] || perfil;
+    }
+
+    function dadosDoPerfil(perfil) {
+      const perfis = {
+        admin: {
+          descricao: "Acesso total estrutural e institucional.",
+          mensagem: "Perfil com comando completo do sistema, módulos internos, auditoria, áreas restritas e gestão estratégica.",
+          acao: "Abrir painel administrativo"
+        },
+        heteronimo: {
+          descricao: "Acesso editorial estratégico ampliado.",
+          mensagem: "Perfil com acesso à ala exclusiva de heterônimos, base interna autoral e fluxos reservados do ecossistema editorial.",
+          acao: "Abrir ala de heterônimos"
+        },
+        autor: {
+          descricao: "Acesso de autor com envio e acompanhamento de obra.",
+          mensagem: "Perfil voltado ao fluxo editorial do autor: submissão de obra, análise, devolutiva e acompanhamento do processo.",
+          acao: "Enviar obra para análise"
+        },
+        usuario: {
+          descricao: "Acesso funcional padrão conforme plano.",
+          mensagem: "Perfil de uso comum da plataforma, com acesso aos fluxos permitidos para contratação e operação editorial.",
+          acao: "Abrir painel do usuário"
+        },
+        beta_cortesia: {
+          descricao: "Acesso temporário restrito para testes.",
+          mensagem: "Perfil de uso experimental controlado. Não substitui acesso institucional, administrativo ou de heterônimo.",
+          acao: "Entrar no ambiente beta"
+        },
+        visitante: {
+          descricao: "Acesso mínimo de visualização.",
+          mensagem: "Perfil inicial com acesso reduzido, ideal para conhecer a plataforma antes de avançar para fluxos internos.",
+          acao: "Conhecer a plataforma"
+        }
+      };
+
+      return perfis[perfil] || {
+        descricao: "Acesso não identificado.",
+        mensagem: "Perfil não reconhecido pelo sistema.",
+        acao: "Entrar"
+      };
+    }
+
+    function renderizar() {
+      const sessao = pegarSessao();
+      const semLogin = document.getElementById("semLogin");
+      const comLogin = document.getElementById("comLogin");
+
+      if (!sessao) {
+        semLogin.classList.remove("hidden");
+        comLogin.classList.add("hidden");
+        return;
+      }
+
+      semLogin.classList.add("hidden");
+      comLogin.classList.remove("hidden");
+
+      const dadosPerfil = dadosDoPerfil(sessao.perfil);
+
+      document.getElementById("nomeUsuario").textContent = sessao.nome || "Usuário";
+      document.getElementById("perfilUsuario").textContent = capitalizarPerfil(sessao.perfil);
+      document.getElementById("descricaoPerfil").textContent = dadosPerfil.descricao;
+      document.getElementById("mensagemPerfil").textContent = dadosPerfil.mensagem;
+
+      const botaoPrincipal = document.getElementById("botaoPrincipal");
+      botaoPrincipal.textContent = dadosPerfil.acao;
+      botaoPrincipal.onclick = function() {
+        alert("Próximo passo do perfil: " + capitalizarPerfil(sessao.perfil));
+      };
+    }
+
+    renderizar();
+  </script>
 </body>
 </html>
