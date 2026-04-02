@@ -1,124 +1,236 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login — Lapidar</title>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    *{
+      box-sizing:border-box;
+    }
 
-<title>Login — Lapidar</title>
+    body{
+      margin:0;
+      font-family:Arial, Helvetica, sans-serif;
+      background:linear-gradient(180deg, #020617 0%, #0f172a 100%);
+      color:#ffffff;
+      min-height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      padding:24px;
+    }
 
-<style>
+    .container{
+      width:100%;
+      max-width:460px;
+      background:#0f172a;
+      border:1px solid rgba(255,255,255,0.08);
+      border-radius:24px;
+      padding:32px 24px;
+      box-shadow:0 20px 50px rgba(0,0,0,.5);
+      text-align:center;
+    }
 
-body{
-margin:0;
-font-family:Arial, Helvetica, sans-serif;
-background:#020617;
-color:white;
-display:flex;
-justify-content:center;
-align-items:center;
-height:100vh;
-}
+    .logo{
+      width:145px;
+      max-width:50vw;
+      height:auto;
+      display:block;
+      margin:0 auto 18px auto;
+      border-radius:18px;
+      box-shadow:0 10px 28px rgba(0,0,0,.35);
+    }
 
-.container{
-background:#0f172a;
-padding:40px;
-border-radius:20px;
-width:90%;
-max-width:420px;
-text-align:center;
-box-shadow:0 20px 40px rgba(0,0,0,.6);
-}
+    h2{
+      margin:0 0 8px 0;
+      font-size:28px;
+    }
 
-.logo{
-width:140px;
-margin-bottom:20px;
-border-radius:20px;
-box-shadow:0 8px 25px rgba(0,0,0,.5);
-}
+    .subtitulo{
+      font-size:14px;
+      opacity:.8;
+      line-height:1.5;
+      margin-bottom:24px;
+    }
 
-h2{
-margin-bottom:20px;
-}
+    .campo{
+      text-align:left;
+      margin-bottom:14px;
+    }
 
-input{
-width:100%;
-padding:14px;
-margin:10px 0;
-border:none;
-border-radius:10px;
-background:#1e293b;
-color:white;
-font-size:15px;
-}
+    .campo label{
+      display:block;
+      margin-bottom:7px;
+      font-size:13px;
+      opacity:.8;
+    }
 
-button{
-width:100%;
-padding:14px;
-margin-top:15px;
-border:none;
-border-radius:12px;
-background:#7c3aed;
-color:white;
-font-size:16px;
-cursor:pointer;
-}
+    .campo input,
+    .campo select{
+      width:100%;
+      padding:14px 14px;
+      border:none;
+      border-radius:14px;
+      background:#1e293b;
+      color:#fff;
+      font-size:15px;
+      outline:none;
+      appearance:none;
+    }
 
-button:hover{
-background:#6d28d9;
-}
+    .campo input::placeholder{
+      color:rgba(255,255,255,.45);
+    }
 
-.voltar{
-background:#374151;
-}
+    .info{
+      background:rgba(255,255,255,0.04);
+      border:1px solid rgba(255,255,255,0.08);
+      border-radius:14px;
+      padding:14px;
+      font-size:14px;
+      line-height:1.5;
+      text-align:left;
+      margin:14px 0 4px 0;
+      opacity:.92;
+    }
 
-.footer{
-margin-top:20px;
-font-size:12px;
-opacity:.5;
-}
+    .acoes{
+      display:grid;
+      gap:12px;
+      margin-top:18px;
+    }
 
-</style>
+    .botao{
+      width:100%;
+      padding:15px;
+      border:none;
+      border-radius:14px;
+      font-size:15px;
+      font-weight:bold;
+      cursor:pointer;
+      transition:.2s ease;
+      color:#fff;
+      background:#7c3aed;
+    }
 
+    .botao:hover{
+      transform:translateY(-1px);
+      background:#6d28d9;
+    }
+
+    .botao.secundario{
+      background:#334155;
+    }
+
+    .botao.secundario:hover{
+      background:#475569;
+    }
+
+    .footer{
+      margin-top:20px;
+      font-size:12px;
+      opacity:.55;
+      line-height:1.5;
+    }
+  </style>
 </head>
-
 <body>
+  <div class="container">
+    <img src="file_00000000760c720ebb734bb5e71340bb.png" alt="Site das Letras Edições Literárias" class="logo">
 
-<div class="container">
+    <h2>Acesso ao Lapidar</h2>
 
-<img src="file_00000000760c720ebb734bb5e71340bb.png" class="logo">
+    <div class="subtitulo">
+      Ambiente editorial protegido<br>
+      Site das Letras Edições Literárias
+    </div>
 
-<h2>Acesso ao Lapidar</h2>
+    <div class="campo">
+      <label for="nome">Nome de acesso</label>
+      <input type="text" id="nome" placeholder="Digite seu nome de acesso">
+    </div>
 
-<input type="text" placeholder="Login">
+    <div class="campo">
+      <label for="senha">Senha</label>
+      <input type="password" id="senha" placeholder="Digite sua senha">
+    </div>
 
-<input type="password" placeholder="Senha">
+    <div class="campo">
+      <label for="perfil">Perfil</label>
+      <select id="perfil" onchange="atualizarDescricaoPerfil()">
+        <option value="admin">Admin</option>
+        <option value="heteronimo">Heterônimo</option>
+        <option value="autor">Autor</option>
+        <option value="usuario">Usuário</option>
+        <option value="beta_cortesia">Beta Cortesia</option>
+        <option value="visitante">Visitante</option>
+      </select>
+    </div>
 
-<button onclick="entrarSistema()">
-Entrar
-</button>
+    <div id="descricaoPerfil" class="info">
+      Perfil com acesso total estrutural e institucional.
+    </div>
 
-<button class="voltar" onclick="voltarInicio()">
-Voltar ao início
-</button>
+    <div class="acoes">
+      <button class="botao" onclick="entrarSistema()">Entrar</button>
+      <button class="botao secundario" onclick="voltarInicio()">Voltar ao início</button>
+    </div>
 
-<div class="footer">
-Site das Letras — Ambiente editorial protegido
-</div>
+    <div class="footer">
+      Admin e Heterônimo possuem acesso institucional permanente
+    </div>
+  </div>
 
-</div>
+  <script>
+    function mapaPerfis(perfil) {
+      const dados = {
+        admin: "Admin: acesso total estrutural e institucional.",
+        heteronimo: "Heterônimo: acesso editorial estratégico ampliado e ala exclusiva de heterônimos.",
+        autor: "Autor: envio de obra, análise e acompanhamento editorial.",
+        usuario: "Usuário: acesso funcional padrão conforme regras da plataforma.",
+        beta_cortesia: "Beta Cortesia: acesso temporário restrito para testes controlados.",
+        visitante: "Visitante: acesso mínimo para conhecimento inicial da plataforma."
+      };
+      return dados[perfil] || "Perfil não identificado.";
+    }
 
-<script>
+    function atualizarDescricaoPerfil() {
+      const perfil = document.getElementById("perfil").value;
+      document.getElementById("descricaoPerfil").textContent = mapaPerfis(perfil);
+    }
 
-function entrarSistema(){
-alert("Login autorizado (modo beta cortesia)")
-}
+    function entrarSistema() {
+      const nome = document.getElementById("nome").value.trim();
+      const senha = document.getElementById("senha").value.trim();
+      const perfil = document.getElementById("perfil").value;
 
-function voltarInicio(){
-window.location.href="index.html"
-}
+      if (!nome) {
+        alert("Informe o nome de acesso.");
+        return;
+      }
 
-</script>
+      if (!senha) {
+        alert("Informe a senha.");
+        return;
+      }
 
+      const sessao = {
+        nome: nome,
+        perfil: perfil
+      };
+
+      localStorage.setItem("lapidarSessao", JSON.stringify(sessao));
+      alert("Login autorizado.");
+      window.location.href = "index.html";
+    }
+
+    function voltarInicio() {
+      window.location.href = "index.html";
+    }
+
+    atualizarDescricaoPerfil();
+  </script>
 </body>
 </html>
