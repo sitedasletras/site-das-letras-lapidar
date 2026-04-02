@@ -3,22 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lapidar • Setor 1 • Padrão de Diagramação</title>
+  <title>Lapidar • Setor 1 • Diagramador Padrão</title>
   <style>
     :root{
       --bg:#eef4ff;
-      --bg-2:#f8fbff;
+      --bg2:#f8fbff;
       --panel:#ffffff;
       --panel-soft:#f6f9ff;
-      --line:#dce6f5;
+      --line:#dbe6f3;
       --text:#162033;
-      --muted:#637089;
+      --muted:#64748b;
       --primary:#2563eb;
       --primary-strong:#1d4ed8;
       --primary-soft:#dbeafe;
-      --accent:#0f766e;
-      --warning:#b45309;
-      --shadow:0 20px 50px rgba(15, 23, 42, 0.10);
+      --shadow:0 18px 45px rgba(15,23,42,.10);
       --radius-xl:28px;
       --radius-lg:22px;
       --radius-md:16px;
@@ -36,8 +34,8 @@
       color:var(--text);
       background:
         radial-gradient(circle at top left, rgba(37,99,235,.14), transparent 24%),
-        radial-gradient(circle at top right, rgba(14,165,233,.10), transparent 20%),
-        linear-gradient(180deg, #edf4ff 0%, #f7faff 38%, #edf3fb 100%);
+        radial-gradient(circle at top right, rgba(14,165,233,.08), transparent 20%),
+        linear-gradient(180deg, #edf4ff 0%, #f7faff 40%, #eef4fb 100%);
     }
 
     body{
@@ -51,34 +49,34 @@
     }
 
     .hero{
-      background:linear-gradient(135deg, #0f172a 0%, #163264 45%, #2563eb 100%);
+      position:relative;
+      overflow:hidden;
+      background:linear-gradient(135deg, #0f172a 0%, #14305f 48%, #2563eb 100%);
       color:#fff;
       border-radius:32px;
       padding:32px 32px 26px;
       box-shadow:0 24px 60px rgba(15,23,42,.22);
-      position:relative;
-      overflow:hidden;
       margin-bottom:24px;
     }
 
     .hero::after{
       content:"";
       position:absolute;
-      right:-70px;
-      bottom:-70px;
+      right:-60px;
+      bottom:-60px;
       width:220px;
       height:220px;
       border-radius:50%;
       background:rgba(255,255,255,.08);
-      filter:blur(6px);
+      filter:blur(8px);
     }
 
     .hero-top{
       display:flex;
       flex-wrap:wrap;
-      gap:12px;
-      justify-content:space-between;
       align-items:center;
+      justify-content:space-between;
+      gap:12px;
       margin-bottom:18px;
     }
 
@@ -131,6 +129,13 @@
       background:rgba(255,255,255,.12);
       color:#fff;
       border:1px solid rgba(255,255,255,.18);
+    }
+
+    .btn-primary{
+      background:linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
+      color:#fff;
+      box-shadow:0 16px 28px rgba(37,99,235,.22);
+      width:100%;
     }
 
     .hero h1{
@@ -269,11 +274,11 @@
       border:1px solid var(--line);
       border-radius:18px;
       background:#fff;
-      padding:14px 14px;
+      padding:14px;
       display:flex;
       justify-content:space-between;
-      gap:12px;
       align-items:center;
+      gap:12px;
       transition:.22s ease;
     }
 
@@ -306,12 +311,6 @@
       font-size:15px;
     }
 
-    .preview-wrap{
-      display:grid;
-      grid-template-columns:minmax(0, 1fr);
-      gap:18px;
-    }
-
     .preview-stage{
       border:1px solid var(--line);
       border-radius:28px;
@@ -322,8 +321,8 @@
     .preview-title{
       display:flex;
       justify-content:space-between;
-      gap:12px;
       align-items:flex-start;
+      gap:12px;
       margin-bottom:18px;
     }
 
@@ -352,24 +351,61 @@
       background:linear-gradient(180deg, #ffffff 0%, #fffdfa 100%);
       border:1px solid #e6e0d6;
       border-radius:24px;
-      min-height:700px;
+      min-height:720px;
       box-shadow:0 22px 45px rgba(15,23,42,.08);
       overflow:hidden;
     }
 
     .paper{
       position:relative;
+      min-height:720px;
       width:100%;
-      min-height:700px;
       background:#fffdfa;
       color:#1f2937;
     }
 
     .page-content{
       position:relative;
-      height:100%;
-      min-height:700px;
+      min-height:720px;
       transition:.22s ease;
+    }
+
+    .header-line{
+      position:absolute;
+      top:16px;
+      left:0;
+      right:0;
+      display:flex;
+      justify-content:center;
+      font-size:12px;
+      font-weight:700;
+      color:#64748b;
+      opacity:0;
+      transition:.22s ease;
+      pointer-events:none;
+    }
+
+    .header-line.visible{
+      opacity:1;
+    }
+
+    .footer-line{
+      position:absolute;
+      left:0;
+      right:0;
+      bottom:16px;
+      display:flex;
+      justify-content:center;
+      font-size:13px;
+      font-weight:700;
+      color:#475569;
+      transition:.22s ease;
+      pointer-events:none;
+    }
+
+    .footer-line.outer{
+      justify-content:flex-end;
+      padding-right:26px;
     }
 
     .chapter-label{
@@ -392,11 +428,11 @@
 
     .sample-paragraph{
       display:grid;
-      gap:11px;
-      margin-top:16px;
+      gap:10px;
+      margin-top:18px;
     }
 
-    .text-line{
+    .line{
       height:8px;
       border-radius:999px;
       background:linear-gradient(90deg, rgba(55,65,81,.20), rgba(55,65,81,.07));
@@ -410,54 +446,10 @@
     .w88{width:88%}
     .w86{width:86%}
     .w84{width:84%}
-    .w82{width:82%}
     .w80{width:80%}
-    .w78{width:78%}
     .w76{width:76%}
     .w72{width:72%}
     .w68{width:68%}
-
-    .header-line{
-      position:absolute;
-      top:18px;
-      left:0;
-      right:0;
-      display:flex;
-      justify-content:center;
-      font-size:12px;
-      font-weight:700;
-      color:#6b7280;
-      opacity:0;
-      transition:.22s ease;
-      pointer-events:none;
-    }
-
-    .footer-line{
-      position:absolute;
-      left:0;
-      right:0;
-      bottom:16px;
-      display:flex;
-      justify-content:center;
-      font-size:13px;
-      font-weight:700;
-      color:#4b5563;
-      transition:.22s ease;
-      pointer-events:none;
-    }
-
-    .footer-line.outer{
-      justify-content:flex-end;
-      padding-right:26px;
-    }
-
-    .footer-line.hidden{
-      opacity:0;
-    }
-
-    .header-line.visible{
-      opacity:1;
-    }
 
     .visual-cards{
       display:grid;
@@ -502,31 +494,6 @@
       gap:22px;
     }
 
-    .summary-list{
-      display:grid;
-      gap:12px;
-      margin-top:16px;
-      padding-top:14px;
-      border-top:1px solid var(--line);
-    }
-
-    .summary-item{
-      display:flex;
-      justify-content:space-between;
-      gap:12px;
-      align-items:flex-start;
-      font-size:14px;
-    }
-
-    .summary-item span:first-child{
-      color:var(--muted);
-    }
-
-    .summary-item strong{
-      text-align:right;
-      line-height:1.45;
-    }
-
     .meter{
       display:grid;
       gap:14px;
@@ -553,6 +520,31 @@
       display:block;
       font-size:20px;
       line-height:1.15;
+    }
+
+    .summary-list{
+      display:grid;
+      gap:12px;
+      margin-top:16px;
+      padding-top:14px;
+      border-top:1px solid var(--line);
+    }
+
+    .summary-item{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:12px;
+      font-size:14px;
+    }
+
+    .summary-item span:first-child{
+      color:var(--muted);
+    }
+
+    .summary-item strong{
+      text-align:right;
+      line-height:1.45;
     }
 
     .rules-list{
@@ -604,13 +596,6 @@
       margin:0;
       color:var(--muted);
       line-height:1.7;
-    }
-
-    .btn-primary{
-      width:100%;
-      background:linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
-      color:#fff;
-      box-shadow:0 16px 28px rgba(37,99,235,.22);
     }
 
     .footer-note{
@@ -670,25 +655,25 @@
       <div class="hero-top">
         <div class="sector-chip">
           <span class="dot"></span>
-          Lapidar • Setor 1 • Padrão de Diagramação
+          Lapidar • Setor 1 • Diagramador Padrão
         </div>
 
         <div class="hero-actions">
-          <button class="btn btn-ghost" type="button">Voltar ao hub do Diagramador</button>
-          <button class="btn btn-light" type="button">Salvar padrão atual</button>
+          <button class="btn btn-ghost" type="button">Voltar ao Diagramador</button>
+          <button class="btn btn-light" type="button">Salvar padrão do miolo</button>
         </div>
       </div>
 
-      <h1>Defina o padrão visual do miolo com prévia imediata</h1>
+      <h1>Defina o comportamento visual do miolo</h1>
       <p>
-        Nesta etapa, o autor ajusta a arquitetura fina da página: margens, alinhamento, recuo, respiração entre linhas,
-        abertura de capítulo e presença de cabeçalho ou rodapé. Cada escolha aparece na página-modelo ao lado.
+        Nesta etapa, o autor escolhe como a página se comporta no corpo da obra: margens, alinhamento,
+        recuo de parágrafo, espaçamento entre linhas, abertura de capítulo e assinatura de página com cabeçalho ou rodapé.
       </p>
 
       <div class="hero-badges">
         <div class="badge"><span class="badge-dot"></span>Prévia visual ativa</div>
         <div class="badge">Padrão editorial em construção</div>
-        <div class="badge">Base pronta para integração com exportação</div>
+        <div class="badge">Base pronta para o fechamento do miolo</div>
       </div>
     </header>
 
@@ -697,10 +682,11 @@
 
         <section class="panel">
           <div class="panel-header">
-            <small>Arquitetura da página</small>
-            <h2>Escolhas do padrão do miolo</h2>
+            <small>Configuração do padrão</small>
+            <h2>Escolha o comportamento da página</h2>
             <p>
-              Ajuste a respiração interna da obra. Aqui o autor escolhe como o texto se comporta dentro da página, com visualização editorial imediata.
+              Essas definições moldam a leitura e a presença visual do livro. Há opções gratuitas e escolhas complementares
+              com contribuição mínima adicional.
             </p>
           </div>
 
@@ -710,19 +696,17 @@
               <article class="setting-card">
                 <div class="setting-head">
                   <h3>Margens</h3>
-                  <p>Define o espaço interno de respiração do miolo.</p>
+                  <p>Define o respiro interno da página.</p>
                 </div>
                 <div class="setting-options">
                   <div class="option active" data-group="margem" data-value="Margem equilibrada" data-price="0.00">
                     <label><input type="radio" name="margem" checked> Margem equilibrada</label>
                     <div class="price">0,00</div>
                   </div>
-
                   <div class="option" data-group="margem" data-value="Margem compacta" data-price="0.07">
                     <label><input type="radio" name="margem"> Margem compacta</label>
                     <div class="price">0,07</div>
                   </div>
-
                   <div class="option" data-group="margem" data-value="Margem ampla" data-price="0.14">
                     <label><input type="radio" name="margem"> Margem ampla</label>
                     <div class="price">0,14</div>
@@ -732,20 +716,18 @@
 
               <article class="setting-card">
                 <div class="setting-head">
-                  <h3>Alinhamento do texto</h3>
-                  <p>Controla a estrutura visual dos parágrafos.</p>
+                  <h3>Alinhamento</h3>
+                  <p>Controla a postura visual dos parágrafos.</p>
                 </div>
                 <div class="setting-options">
                   <div class="option active" data-group="alinhamento" data-value="Justificado" data-price="0.00">
                     <label><input type="radio" name="alinhamento" checked> Justificado</label>
                     <div class="price">0,00</div>
                   </div>
-
                   <div class="option" data-group="alinhamento" data-value="Alinhado à esquerda" data-price="0.05">
                     <label><input type="radio" name="alinhamento"> Alinhado à esquerda</label>
                     <div class="price">0,05</div>
                   </div>
-
                   <div class="option" data-group="alinhamento" data-value="Centralizado poético" data-price="0.11">
                     <label><input type="radio" name="alinhamento"> Centralizado poético</label>
                     <div class="price">0,11</div>
@@ -756,19 +738,17 @@
               <article class="setting-card">
                 <div class="setting-head">
                   <h3>Recuo do parágrafo</h3>
-                  <p>Escolhe o início visual de cada novo bloco narrativo.</p>
+                  <p>Escolhe o início visual de cada bloco narrativo.</p>
                 </div>
                 <div class="setting-options">
                   <div class="option active" data-group="recuo" data-value="Recuo clássico 1,25 cm" data-price="0.00">
                     <label><input type="radio" name="recuo" checked> Recuo clássico 1,25 cm</label>
                     <div class="price">0,00</div>
                   </div>
-
                   <div class="option" data-group="recuo" data-value="Sem recuo" data-price="0.04">
                     <label><input type="radio" name="recuo"> Sem recuo</label>
                     <div class="price">0,04</div>
                   </div>
-
                   <div class="option" data-group="recuo" data-value="Recuo amplo 1,8 cm" data-price="0.09">
                     <label><input type="radio" name="recuo"> Recuo amplo 1,8 cm</label>
                     <div class="price">0,09</div>
@@ -786,12 +766,10 @@
                     <label><input type="radio" name="espacamento" checked> 1,15 equilibrado</label>
                     <div class="price">0,00</div>
                   </div>
-
                   <div class="option" data-group="espacamento" data-value="1,00 compacto" data-price="0.06">
                     <label><input type="radio" name="espacamento"> 1,00 compacto</label>
                     <div class="price">0,06</div>
                   </div>
-
                   <div class="option" data-group="espacamento" data-value="1,50 respirado" data-price="0.12">
                     <label><input type="radio" name="espacamento"> 1,50 respirado</label>
                     <div class="price">0,12</div>
@@ -802,19 +780,17 @@
               <article class="setting-card">
                 <div class="setting-head">
                   <h3>Abertura de capítulo</h3>
-                  <p>Controla o impacto inicial de cada capítulo.</p>
+                  <p>Controla o impacto da entrada de cada capítulo.</p>
                 </div>
                 <div class="setting-options">
                   <div class="option active" data-group="abertura" data-value="Abertura simples" data-price="0.00">
                     <label><input type="radio" name="abertura" checked> Abertura simples</label>
                     <div class="price">0,00</div>
                   </div>
-
                   <div class="option" data-group="abertura" data-value="Abertura nobre" data-price="0.10">
                     <label><input type="radio" name="abertura"> Abertura nobre</label>
                     <div class="price">0,10</div>
                   </div>
-
                   <div class="option" data-group="abertura" data-value="Abertura de impacto" data-price="0.18">
                     <label><input type="radio" name="abertura"> Abertura de impacto</label>
                     <div class="price">0,18</div>
@@ -825,21 +801,19 @@
               <article class="setting-card">
                 <div class="setting-head">
                   <h3>Cabeçalho / Rodapé</h3>
-                  <p>Escolhe a assinatura visual das páginas corridas.</p>
+                  <p>Escolhe a assinatura visual das páginas.</p>
                 </div>
                 <div class="setting-options">
-                  <div class="option active" data-group="cabecalho" data-value="Rodapé simples" data-price="0.00">
-                    <label><input type="radio" name="cabecalho" checked> Rodapé simples</label>
+                  <div class="option active" data-group="assinatura" data-value="Rodapé simples" data-price="0.00">
+                    <label><input type="radio" name="assinatura" checked> Rodapé simples</label>
                     <div class="price">0,00</div>
                   </div>
-
-                  <div class="option" data-group="cabecalho" data-value="Cabeçalho editorial" data-price="0.08">
-                    <label><input type="radio" name="cabecalho"> Cabeçalho editorial</label>
+                  <div class="option" data-group="assinatura" data-value="Cabeçalho editorial" data-price="0.08">
+                    <label><input type="radio" name="assinatura"> Cabeçalho editorial</label>
                     <div class="price">0,08</div>
                   </div>
-
-                  <div class="option" data-group="cabecalho" data-value="Cabeçalho + rodapé externo" data-price="0.15">
-                    <label><input type="radio" name="cabecalho"> Cabeçalho + rodapé externo</label>
+                  <div class="option" data-group="assinatura" data-value="Cabeçalho + rodapé externo" data-price="0.15">
+                    <label><input type="radio" name="assinatura"> Cabeçalho + rodapé externo</label>
                     <div class="price">0,15</div>
                   </div>
                 </div>
@@ -851,81 +825,79 @@
 
         <section class="panel">
           <div class="panel-header">
-            <small>Prévia editorial</small>
-            <h2>Visualização do padrão aplicado</h2>
+            <small>Prévia do padrão</small>
+            <h2>Visualização da página-modelo</h2>
             <p>
-              A página abaixo reage às escolhas acima, para o autor sentir o efeito editorial antes de consolidar o padrão definitivo.
+              A página abaixo reage às suas escolhas para mostrar o efeito editorial do padrão do miolo antes da consolidação.
             </p>
           </div>
 
           <div class="panel-body">
-            <div class="preview-wrap">
-              <div class="preview-stage">
-                <div class="preview-title">
-                  <div>
-                    <h3>Página-modelo do miolo</h3>
-                    <p>Visual ilustrativo do comportamento da página conforme o padrão escolhido.</p>
+            <div class="preview-stage">
+              <div class="preview-title">
+                <div>
+                  <h3>Comportamento visual da página</h3>
+                  <p>Visual ilustrativo do miolo conforme o padrão selecionado.</p>
+                </div>
+              </div>
+
+              <div class="preview-book-area">
+                <div class="paper-frame">
+                  <div class="paper">
+                    <div class="page-content" id="pageContent">
+                      <div class="header-line" id="headerLine">TÍTULO DA OBRA • CAPÍTULO 1</div>
+
+                      <div id="contentInner">
+                        <h4 class="chapter-label" id="chapterLabel">CAPÍTULO 1</h4>
+                        <div class="chapter-subtitle" id="chapterSubtitle">Abertura ilustrativa da composição</div>
+
+                        <div class="sample-paragraph" id="paragraph1">
+                          <div class="line w96"></div>
+                          <div class="line w92"></div>
+                          <div class="line w90"></div>
+                          <div class="line w96"></div>
+                          <div class="line w76"></div>
+                        </div>
+
+                        <div class="sample-paragraph" id="paragraph2">
+                          <div class="line w96"></div>
+                          <div class="line w94"></div>
+                          <div class="line w88"></div>
+                          <div class="line w96"></div>
+                          <div class="line w80"></div>
+                        </div>
+
+                        <div class="sample-paragraph" id="paragraph3">
+                          <div class="line w96"></div>
+                          <div class="line w90"></div>
+                          <div class="line w86"></div>
+                          <div class="line w96"></div>
+                          <div class="line w72"></div>
+                        </div>
+                      </div>
+
+                      <div class="footer-line" id="footerLine">37</div>
+                    </div>
                   </div>
                 </div>
 
-                <div class="preview-book-area">
-                  <div class="paper-frame">
-                    <div class="paper">
-                      <div class="page-content" id="pageContent">
-                        <div class="header-line" id="headerLine">TÍTULO DA OBRA • CAPÍTULO 1</div>
-
-                        <div id="contentInner">
-                          <h4 class="chapter-label" id="chapterLabel">CAPÍTULO 1</h4>
-                          <div class="chapter-subtitle" id="chapterSubtitle">Abertura ilustrativa da composição</div>
-
-                          <div class="sample-paragraph" id="paragraph1">
-                            <div class="text-line w96"></div>
-                            <div class="text-line w92"></div>
-                            <div class="text-line w90"></div>
-                            <div class="text-line w96"></div>
-                            <div class="text-line w76"></div>
-                          </div>
-
-                          <div class="sample-paragraph" id="paragraph2">
-                            <div class="text-line w96"></div>
-                            <div class="text-line w94"></div>
-                            <div class="text-line w88"></div>
-                            <div class="text-line w96"></div>
-                            <div class="text-line w80"></div>
-                          </div>
-
-                          <div class="sample-paragraph" id="paragraph3">
-                            <div class="text-line w96"></div>
-                            <div class="text-line w90"></div>
-                            <div class="text-line w86"></div>
-                            <div class="text-line w96"></div>
-                            <div class="text-line w72"></div>
-                          </div>
-                        </div>
-
-                        <div class="footer-line" id="footerLine">37</div>
-                      </div>
-                    </div>
+                <div class="visual-cards">
+                  <div class="visual-card">
+                    <small>Leitura visual</small>
+                    <strong id="readingFeel">Equilibrada</strong>
+                    <span id="readingDescription">Composição limpa e estável para narrativa contínua.</span>
                   </div>
 
-                  <div class="visual-cards">
-                    <div class="visual-card">
-                      <small>Leitura visual</small>
-                      <strong id="readingFeel">Equilibrada</strong>
-                      <span id="readingDescription">Composição limpa e estável para narrativa contínua.</span>
-                    </div>
+                  <div class="visual-card">
+                    <small>Abertura do capítulo</small>
+                    <strong id="openingFeel">Simples</strong>
+                    <span id="openingDescription">Entrada direta, limpa e clássica.</span>
+                  </div>
 
-                    <div class="visual-card">
-                      <small>Abertura do capítulo</small>
-                      <strong id="openingFeel">Simples</strong>
-                      <span id="openingDescription">Entrada direta, limpa e clássica.</span>
-                    </div>
-
-                    <div class="visual-card">
-                      <small>Assinatura de página</small>
-                      <strong id="signatureFeel">Rodapé simples</strong>
-                      <span id="signatureDescription">Presença discreta e funcional.</span>
-                    </div>
+                  <div class="visual-card">
+                    <small>Assinatura da página</small>
+                    <strong id="signatureFeel">Rodapé simples</strong>
+                    <span id="signatureDescription">Presença discreta e funcional.</span>
                   </div>
                 </div>
               </div>
@@ -940,10 +912,10 @@
 
           <section class="panel">
             <div class="panel-header">
-              <small>Resumo editorial do padrão</small>
+              <small>Resumo do padrão</small>
               <h2>Configuração atual</h2>
               <p>
-                Este painel acompanha a arquitetura visual do miolo e prepara a etapa seguinte do Setor 1.
+                Este painel consolida o comportamento visual escolhido para o miolo.
               </p>
             </div>
 
@@ -955,13 +927,13 @@
                 </div>
 
                 <div class="meter-item">
-                  <small>Leitura visual predominante</small>
+                  <small>Perfil de leitura</small>
                   <strong id="summaryReading">Equilibrada</strong>
                 </div>
 
                 <div class="meter-item">
-                  <small>Status do padrão</small>
-                  <strong>Pronto para consolidação</strong>
+                  <small>Status da etapa</small>
+                  <strong>Pronto para consolidação do padrão</strong>
                 </div>
               </div>
 
@@ -970,30 +942,25 @@
                   <span>Margens</span>
                   <strong id="summaryMargem">Margem equilibrada</strong>
                 </div>
-
                 <div class="summary-item">
                   <span>Alinhamento</span>
                   <strong id="summaryAlinhamento">Justificado</strong>
                 </div>
-
                 <div class="summary-item">
                   <span>Recuo</span>
                   <strong id="summaryRecuo">Recuo clássico 1,25 cm</strong>
                 </div>
-
                 <div class="summary-item">
                   <span>Espaçamento</span>
                   <strong id="summaryEspacamento">1,15 equilibrado</strong>
                 </div>
-
                 <div class="summary-item">
                   <span>Abertura</span>
                   <strong id="summaryAbertura">Abertura simples</strong>
                 </div>
-
                 <div class="summary-item">
                   <span>Cabeçalho / Rodapé</span>
-                  <strong id="summaryCabecalho">Rodapé simples</strong>
+                  <strong id="summaryAssinatura">Rodapé simples</strong>
                 </div>
               </div>
             </div>
@@ -1002,29 +969,28 @@
           <section class="panel">
             <div class="panel-header">
               <small>Orientações da etapa</small>
-              <h2>Regras desta configuração</h2>
+              <h2>Regras deste padrão</h2>
             </div>
 
             <div class="panel-body">
               <ul class="rules-list">
                 <li>
                   <strong>O padrão define a identidade do miolo</strong>
-                  <span>Essas escolhas servem de base para o comportamento visual recorrente da obra.</span>
+                  <span>Essas escolhas se repetem ao longo da obra e moldam a sensação geral de leitura.</span>
                 </li>
                 <li>
                   <strong>A prévia é ilustrativa</strong>
-                  <span>Ela representa o impacto editorial da escolha, ainda que a exportação final refine detalhes técnicos.</span>
+                  <span>Ela mostra o impacto visual da configuração, ainda que a exportação final refine detalhes técnicos.</span>
                 </li>
                 <li>
-                  <strong>Escolhas complementares podem elevar o acabamento</strong>
-                  <span>Recursos adicionais ajustam percepção de sofisticação, respiro e assinatura gráfica.</span>
+                  <strong>Recursos complementares elevam o acabamento</strong>
+                  <span>Escolhas adicionais podem aumentar a sofisticação, o respiro visual e a assinatura editorial.</span>
                 </li>
               </ul>
 
               <div class="notice">
                 <strong>Observação editorial:</strong><br>
-                O padrão salvo nesta etapa poderá ser utilizado como base automática para novas diagramações dentro do Setor 1,
-                respeitando o plano vigente e as escolhas complementares realizadas ao longo do projeto.
+                O padrão salvo aqui poderá servir como base automática para a diagramação recorrente do miolo dentro do Setor 1.
               </div>
             </div>
           </section>
@@ -1033,7 +999,7 @@
             <div class="panel-body">
               <div class="cta-box">
                 <p>
-                  Quando estiver satisfeito com o comportamento visual do miolo, você poderá consolidar este padrão e seguir para a próxima fase do Diagramador.
+                  Quando o comportamento visual da página estiver como você deseja, consolide esta etapa para seguir na montagem do miolo.
                 </p>
                 <button class="btn btn-primary" type="button">Consolidar padrão do miolo</button>
               </div>
@@ -1045,7 +1011,7 @@
     </main>
 
     <div class="footer-note">
-      Lapidar • Celeiro Literário • Setor 1 • Padrão de Diagramação
+      Lapidar • Celeiro Literário • Setor 1 • Diagramador Padrão
     </div>
   </div>
 
@@ -1056,7 +1022,7 @@
       recuo: { label: "Recuo clássico 1,25 cm", price: 0.00 },
       espacamento: { label: "1,15 equilibrado", price: 0.00 },
       abertura: { label: "Abertura simples", price: 0.00 },
-      cabecalho: { label: "Rodapé simples", price: 0.00 }
+      assinatura: { label: "Rodapé simples", price: 0.00 }
     };
 
     function formatBRL(value){
@@ -1064,8 +1030,8 @@
     }
 
     function getSelectedOption(groupName){
-      const input = document.querySelector(`.option[data-group="${groupName}"] input:checked`);
-      const option = input.closest(".option");
+      const checkedInput = document.querySelector('input[name="' + groupName + '"]:checked');
+      const option = checkedInput.closest(".option");
       return {
         label: option.dataset.value,
         price: parseFloat(option.dataset.price)
@@ -1073,23 +1039,11 @@
     }
 
     function updateOptionVisuals(groupName){
-      const options = document.querySelectorAll(`.option[data-group="${groupName}"]`);
+      const options = document.querySelectorAll('.option[data-group="' + groupName + '"]');
       options.forEach(option => {
         const input = option.querySelector("input");
         option.classList.toggle("active", input.checked);
       });
-    }
-
-    function syncState(){
-      state.margem = getSelectedOption("margem");
-      state.alinhamento = getSelectedOption("alinhamento");
-      state.recuo = getSelectedOption("recuo");
-      state.espacamento = getSelectedOption("espacamento");
-      state.abertura = getSelectedOption("abertura");
-      state.cabecalho = getSelectedOption("cabecalho");
-
-      updatePreview();
-      updateSummary();
     }
 
     function updatePreview(){
@@ -1104,27 +1058,34 @@
         document.getElementById("paragraph2"),
         document.getElementById("paragraph3")
       ];
+      const firstLines = document.querySelectorAll(".sample-paragraph .line:first-child");
 
-      let paddingTop = 74;
-      let paddingRight = 56;
+      let paddingTop = 78;
+      let paddingRight = 58;
       let paddingBottom = 58;
-      let paddingLeft = 56;
+      let paddingLeft = 58;
 
       if(state.margem.label === "Margem compacta"){
-        paddingTop = 52;
-        paddingRight = 34;
-        paddingBottom = 44;
-        paddingLeft = 34;
+        paddingTop = 54;
+        paddingRight = 36;
+        paddingBottom = 46;
+        paddingLeft = 36;
       }
 
       if(state.margem.label === "Margem ampla"){
-        paddingTop = 92;
-        paddingRight = 82;
+        paddingTop = 98;
+        paddingRight = 84;
         paddingBottom = 72;
-        paddingLeft = 82;
+        paddingLeft = 84;
       }
 
-      pageContent.style.padding = `${paddingTop}px ${paddingRight}px ${paddingBottom}px ${paddingLeft}px`;
+      pageContent.style.padding = paddingTop + "px " + paddingRight + "px " + paddingBottom + "px " + paddingLeft + "px";
+
+      paragraphs.forEach(p => {
+        p.style.justifyItems = "stretch";
+        p.style.rowGap = "10px";
+        p.style.marginTop = "18px";
+      });
 
       if(state.alinhamento.label === "Justificado"){
         paragraphs.forEach(p => p.style.justifyItems = "stretch");
@@ -1144,33 +1105,6 @@
         chapterSubtitle.style.textAlign = "center";
       }
 
-      paragraphs.forEach(p => {
-        p.style.marginTop = "16px";
-        p.style.rowGap = "11px";
-      });
-
-      if(state.espacamento.label === "1,00 compacto"){
-        paragraphs.forEach(p => {
-          p.style.rowGap = "8px";
-          p.style.marginTop = "12px";
-        });
-      }
-
-      if(state.espacamento.label === "1,15 equilibrado"){
-        paragraphs.forEach(p => {
-          p.style.rowGap = "11px";
-          p.style.marginTop = "16px";
-        });
-      }
-
-      if(state.espacamento.label === "1,50 respirado"){
-        paragraphs.forEach(p => {
-          p.style.rowGap = "15px";
-          p.style.marginTop = "22px";
-        });
-      }
-
-      const firstLines = document.querySelectorAll(".sample-paragraph .text-line:first-child");
       firstLines.forEach(line => {
         line.style.marginLeft = "28px";
       });
@@ -1187,51 +1121,71 @@
         });
       }
 
+      if(state.espacamento.label === "1,00 compacto"){
+        paragraphs.forEach(p => {
+          p.style.rowGap = "8px";
+          p.style.marginTop = "12px";
+        });
+      }
+
+      if(state.espacamento.label === "1,15 equilibrado"){
+        paragraphs.forEach(p => {
+          p.style.rowGap = "10px";
+          p.style.marginTop = "18px";
+        });
+      }
+
+      if(state.espacamento.label === "1,50 respirado"){
+        paragraphs.forEach(p => {
+          p.style.rowGap = "15px";
+          p.style.marginTop = "24px";
+        });
+      }
+
+      chapterLabel.textContent = "CAPÍTULO 1";
+      chapterSubtitle.textContent = "Abertura ilustrativa da composição";
       chapterLabel.style.fontSize = "30px";
       chapterSubtitle.style.marginBottom = "24px";
       contentInner.style.paddingTop = "0";
 
       if(state.abertura.label === "Abertura simples"){
-        chapterLabel.textContent = "CAPÍTULO 1";
-        chapterSubtitle.textContent = "Abertura ilustrativa da composição";
         chapterLabel.style.fontSize = "30px";
+        chapterSubtitle.textContent = "Abertura ilustrativa da composição";
         chapterSubtitle.style.marginBottom = "24px";
         contentInner.style.paddingTop = "0";
       }
 
       if(state.abertura.label === "Abertura nobre"){
-        chapterLabel.textContent = "CAPÍTULO 1";
+        chapterLabel.style.fontSize = "35px";
         chapterSubtitle.textContent = "Abertura nobre com maior respiro visual";
-        chapterLabel.style.fontSize = "34px";
         chapterSubtitle.style.marginBottom = "34px";
-        contentInner.style.paddingTop = "26px";
+        contentInner.style.paddingTop = "24px";
       }
 
       if(state.abertura.label === "Abertura de impacto"){
-        chapterLabel.textContent = "CAPÍTULO 1";
+        chapterLabel.style.fontSize = "39px";
         chapterSubtitle.textContent = "Abertura de impacto com entrada mais solene";
-        chapterLabel.style.fontSize = "38px";
         chapterSubtitle.style.marginBottom = "42px";
-        contentInner.style.paddingTop = "46px";
+        contentInner.style.paddingTop = "44px";
       }
 
       headerLine.classList.remove("visible");
       footerLine.classList.remove("outer");
-      footerLine.classList.remove("hidden");
+      footerLine.textContent = "37";
 
-      if(state.cabecalho.label === "Rodapé simples"){
+      if(state.assinatura.label === "Rodapé simples"){
         footerLine.textContent = "37";
       }
 
-      if(state.cabecalho.label === "Cabeçalho editorial"){
+      if(state.assinatura.label === "Cabeçalho editorial"){
         headerLine.classList.add("visible");
         footerLine.textContent = "37";
       }
 
-      if(state.cabecalho.label === "Cabeçalho + rodapé externo"){
+      if(state.assinatura.label === "Cabeçalho + rodapé externo"){
         headerLine.classList.add("visible");
-        footerLine.textContent = "37";
         footerLine.classList.add("outer");
+        footerLine.textContent = "37";
       }
 
       updatePerceptionCards();
@@ -1250,35 +1204,35 @@
 
       if(state.margem.label === "Margem compacta" || state.espacamento.label === "1,00 compacto"){
         reading = "Mais densa";
-        readingDesc = "A página concentra mais texto e transmite aproveitamento de espaço.";
-      }
-
-      if(state.margem.label === "Margem ampla" || state.espacamento.label === "1,50 respirado"){
+        readingDesc = "A página concentra mais texto e transmite melhor aproveitamento de espaço.";
+      } else if(state.margem.label === "Margem ampla" || state.espacamento.label === "1,50 respirado"){
         reading = "Mais respirada";
-        readingDesc = "A composição cria sensação de sofisticação e pausa visual mais evidente.";
+        readingDesc = "A composição cria sofisticação e uma pausa visual mais generosa.";
       }
 
       if(state.alinhamento.label === "Centralizado poético"){
         reading = "Lírica";
-        readingDesc = "A organização visual se aproxima de um ritmo mais contemplativo e estilizado.";
+        readingDesc = "A organização visual sugere um ritmo mais contemplativo e estilizado.";
       }
 
       readingFeel.textContent = reading;
       readingDescription.textContent = readingDesc;
 
-      openingFeel.textContent = state.abertura.label.replace("Abertura ", "");
       if(state.abertura.label === "Abertura simples"){
+        openingFeel.textContent = "Simples";
         openingDescription.textContent = "Entrada direta, limpa e clássica.";
       } else if(state.abertura.label === "Abertura nobre"){
+        openingFeel.textContent = "Nobre";
         openingDescription.textContent = "Entrada com mais respiro e presença editorial.";
       } else {
+        openingFeel.textContent = "Impacto";
         openingDescription.textContent = "Entrada mais forte, solene e visualmente marcante.";
       }
 
-      signatureFeel.textContent = state.cabecalho.label;
-      if(state.cabecalho.label === "Rodapé simples"){
+      signatureFeel.textContent = state.assinatura.label;
+      if(state.assinatura.label === "Rodapé simples"){
         signatureDescription.textContent = "Presença discreta e funcional.";
-      } else if(state.cabecalho.label === "Cabeçalho editorial"){
+      } else if(state.assinatura.label === "Cabeçalho editorial"){
         signatureDescription.textContent = "Assinatura superior com leitura mais editorial.";
       } else {
         signatureDescription.textContent = "Página com identidade gráfica mais marcada e profissional.";
@@ -1292,7 +1246,7 @@
         state.recuo.price +
         state.espacamento.price +
         state.abertura.price +
-        state.cabecalho.price;
+        state.assinatura.price;
 
       document.getElementById("summaryContribution").textContent = formatBRL(total);
       document.getElementById("summaryMargem").textContent = state.margem.label;
@@ -1300,15 +1254,25 @@
       document.getElementById("summaryRecuo").textContent = state.recuo.label;
       document.getElementById("summaryEspacamento").textContent = state.espacamento.label;
       document.getElementById("summaryAbertura").textContent = state.abertura.label;
-      document.getElementById("summaryCabecalho").textContent = state.cabecalho.label;
+      document.getElementById("summaryAssinatura").textContent = state.assinatura.label;
+      document.getElementById("summaryReading").textContent = document.getElementById("readingFeel").textContent;
+    }
 
-      const readingText = document.getElementById("readingFeel").textContent;
-      document.getElementById("summaryReading").textContent = readingText;
+    function syncState(){
+      state.margem = getSelectedOption("margem");
+      state.alinhamento = getSelectedOption("alinhamento");
+      state.recuo = getSelectedOption("recuo");
+      state.espacamento = getSelectedOption("espacamento");
+      state.abertura = getSelectedOption("abertura");
+      state.assinatura = getSelectedOption("assinatura");
+
+      updatePreview();
+      updateSummary();
     }
 
     document.querySelectorAll(".option input").forEach(input => {
-      input.addEventListener("change", () => {
-        updateOptionVisuals(input.name);
+      input.addEventListener("change", function(){
+        updateOptionVisuals(this.name);
         syncState();
       });
     });
