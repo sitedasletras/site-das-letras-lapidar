@@ -1,41 +1,124 @@
-<script src="auditoria.js"></script>
-<script src="sessao_unica.js"></script>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Login — Lapidar</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial, Helvetica, sans-serif;
+background:#020617;
+color:white;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+}
+
+.container{
+background:#0f172a;
+padding:40px;
+border-radius:20px;
+width:90%;
+max-width:420px;
+text-align:center;
+box-shadow:0 20px 40px rgba(0,0,0,.6);
+}
+
+.logo{
+width:140px;
+margin-bottom:20px;
+border-radius:20px;
+box-shadow:0 8px 25px rgba(0,0,0,.5);
+}
+
+h2{
+margin-bottom:20px;
+}
+
+input{
+width:100%;
+padding:14px;
+margin:10px 0;
+border:none;
+border-radius:10px;
+background:#1e293b;
+color:white;
+font-size:15px;
+}
+
+button{
+width:100%;
+padding:14px;
+margin-top:15px;
+border:none;
+border-radius:12px;
+background:#7c3aed;
+color:white;
+font-size:16px;
+cursor:pointer;
+}
+
+button:hover{
+background:#6d28d9;
+}
+
+.voltar{
+background:#374151;
+}
+
+.footer{
+margin-top:20px;
+font-size:12px;
+opacity:.5;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<img src="file_00000000760c720ebb734bb5e71340bb.png" class="logo">
+
+<h2>Acesso ao Lapidar</h2>
+
+<input type="text" placeholder="Login">
+
+<input type="password" placeholder="Senha">
+
+<button onclick="entrarSistema()">
+Entrar
+</button>
+
+<button class="voltar" onclick="voltarInicio()">
+Voltar ao início
+</button>
+
+<div class="footer">
+Site das Letras — Ambiente editorial protegido
+</div>
+
+</div>
 
 <script>
 
 function entrarSistema(){
-
-const usuario = document.getElementById("usuario").value.trim()
-const senha = document.getElementById("senha").value.trim()
-
-if(!usuario || !senha){
-
-document.getElementById("statusLogin").innerHTML =
-"Preencha usuário e senha."
-
-return
-
+alert("Login autorizado (modo beta cortesia)")
 }
 
-const token = SDL_iniciarSessao(usuario)
-
-localStorage.setItem("SDL_token_sessao_global", token)
-
-try{
-SDL_registrarAuditoria(
-"Login realizado",
-"login"
-)
-}catch(e){}
-
-document.getElementById("statusLogin").innerHTML =
-"Acesso autorizado. Redirecionando..."
-
-setTimeout(() => {
-
-window.location.href = "painel_setores.html"
-
-}, 400)
-
+function voltarInicio(){
+window.location.href="index.html"
 }
+
 </script>
+
+</body>
+</html>
