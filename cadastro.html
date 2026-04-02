@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lapidar • Cadastro de Acesso</title>
+  <style>
+    :root{
+      --bg:#edf4ff;
+      --bg2:#f8fbff;
+      --panel:#ffffff;
+      --line:#dbe6f3;
+      --text:#162033;
+      --muted:#64748b;
+      --primary:#2563eb;
+      --primary-strong:#1d4ed8;
+      --primary-soft:#dbeafe;
+      --success:#15803d;
+      --success-soft:#dcfce7;
+      --warning:#b45309;
+      --warning-soft:#ffedd5;
+      --danger:#b91c1c;
+      --danger-soft:#fee2e2;
+      --shadow:0 18px 45px rgba(15,23,42,.10);
+      --radius-xl:28px;
+      --radius-lg:22px;
+      --radius-md:16px;
+      --radius-sm:12px;
+    }
+
+    *{box-sizing:border-box}
+
+    html,body{
+      margin:0;
+      padding:0;
+      font-family:Arial, Helvetica, sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(37,99,235,.14), transparent 24%),
+        radial-gradient(circle at top right, rgba(14,165,233,.08), transparent 20%),
+        linear-gradient(180deg, #edf4ff 0%, #f7faff 40%, #eef4fb 100%);
+    }
+
+    body{
+      min-height:100vh;
+    }
+
+    .app-shell{
+      max-width:1180px;
+      margin:0 auto;
+      padding:28px 20px 48px;
+    }
+
+    .hero{
+      position:relative;
+      overflow:hidden;
+      background:linear-gradient(135deg, #0f172a 0%, #14305f 48%, #2563eb 100%);
+      color:#fff;
+      border-radius:32px;
+      padding:34px 34px 28px;
+      box-shadow:0 24px 60px rgba(15,23,42,.22);
+      margin-bottom:24px;
+    }
+
+    .hero::after{
+      content:"";
+      position:absolute;
+      right:-60px;
+      bottom:-60px;
+      width:240px;
+      height:240px;
+      border-radius:50%;
+      background:rgba(255,255,255,.08);
+      filter:blur(8px);
+    }
+
+    .hero-top{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom:18px;
+    }
+
+    .hero-chip{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 16px;
+      border-radius:999px;
+      background:rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.18);
+      font-size:14px;
+      font-weight:700;
+    }
+
+    .hero-chip .dot{
+      width:11px;
+      height:11px;
+      border-radius:50%;
+      background:#7dd3fc;
+      box-shadow:0 0 0 5px rgba(125,211,252,.12);
+    }
+
+    .hero-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+
+    .btn{
+      border:none;
+      border-radius:14px;
+      padding:13px 18px;
+      font-size:14px;
+      font-weight:800;
+      cursor:pointer;
+      transition:.22s ease;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .btn:hover{
+      transform:translateY(-1px);
+    }
+
+    .btn-light{
+      background:#fff;
+      color:#14337a;
+    }
+
+    .btn-ghost{
+      background:rgba(255,255,255,.12);
+      color:#fff;
+      border:1px solid rgba(255,255,255,.18);
+    }
+
+    .btn-primary{
+      background:linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
+      color:#fff;
+      box-shadow:0 16px 28px rgba(37,99,235,.22);
+      width:100%;
+    }
+
+    .hero h1{
+      margin:0 0 8px;
+      font-size:clamp(28px, 4vw, 42px);
+      line-height:1.06;
+      letter-spacing:-.02em;
+    }
+
+    .hero p{
+      margin:0;
+      max-width:960px;
+      color:rgba(255,255,255,.88);
+      line-height:1.7;
+      font-size:16px;
+    }
+
+    .hero-quote{
+      margin-top:16px;
+      font-size:15px;
+      line-height:1.7;
+      color:rgba(255,255,255,.95);
+      font-weight:700;
+    }
+
+    .layout{
+      display:grid;
+      grid-template-columns:minmax(0, 1fr) 360px;
+      gap:24px;
+      align-items:start;
+    }
+
+    .panel{
+      background:var(--panel);
+      border:1px solid rgba(148,163,184,.16);
+      border-radius:28px;
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+
+    .panel-header{
+      padding:26px 26px 0;
+    }
+
+    .panel-header small{
+      display:inline-block;
+      margin-bottom:10px;
+      color:var(--primary);
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      font-weight:800;
+    }
+
+    .panel-header h2{
+      margin:0 0 10px;
+      font-size:28px;
+      line-height:1.1;
+      letter-spacing:-.02em;
+    }
+
+    .panel-header p{
+      margin:0;
+      color:var(--muted);
+      line-height:1.7;
+      font-size:15px;
+    }
+
+    .panel-body{
+      padding:24px 26px 28px;
+    }
+
+    .field-grid{
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0,1fr));
+      gap:14px;
+    }
+
+    .field{
+      display:grid;
+      gap:8px;
+    }
+
+    .field.full{
+      grid-column:1 / -1;
+    }
+
+    .field label{
+      font-size:12px;
+      font-weight:800;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      color:#334155;
+    }
+
+    .field input,
+    .field select,
+    .field textarea{
+      width:100%;
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:13px 14px;
+      font-size:14px;
+      color:var(--text);
+      background:#fff;
+      outline:none;
+    }
+
+    .helper{
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.6;
+    }
+
+    .block{
+      border:1px solid var(--line);
+      border-radius:22px;
+      background:linear-gradient(180deg,#ffffff 0%, #f8fbff 100%);
+      padding:18px;
+      display:grid;
+      gap:14px;
+    }
+
+    .block-title{
+      font-size:18px;
+      font-weight:800;
+      line-height:1.3;
+    }
+
+    .block-subtitle{
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.6;
+    }
+
+    .action-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:4px;
+    }
+
+    .soft-btn{
+      border:none;
+      border-radius:12px;
+      padding:12px 14px;
+      font-weight:800;
+      font-size:14px;
+      cursor:pointer;
+      background:#e8f0ff;
+      color:#1d4ed8;
+    }
+
+    .notice{
+      border-radius:18px;
+      padding:16px;
+      background:#fff7ed;
+      border:1px solid #fed7aa;
+      color:#7c2d12;
+      line-height:1.7;
+      font-size:14px;
+      margin-top:6px;
+    }
+
+    .success-box{
+      border-radius:18px;
+      padding:16px;
+      background:#f0fdf4;
+      border:1px solid #bbf7d0;
+      color:#166534;
+      line-height:1.7;
+      font-size:14px;
+      display:none;
+    }
+
+    .success-box.show{
+      display:block;
+    }
+
+    .summary-list{
+      display:grid;
+      gap:12px;
+    }
+
+    .summary-item{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:12px;
+      font-size:14px;
+    }
+
+    .summary-item span:first-child{
+      color:var(--muted);
+    }
+
+    .summary-item strong{
+      text-align:right;
+      line-height:1.45;
+    }
+
+    .rules-list{
+      list-style:none;
+      padding:0;
+      margin:0;
+      display:grid;
+      gap:14px;
+    }
+
+    .rules-list li{
+      border:1px solid var(--line);
+      border-radius:18px;
+      background:#fbfdff;
+      padding:16px;
+    }
+
+    .rules-list strong{
+      display:block;
+      margin-bottom:7px;
+      font-size:15px;
+      line-height:1.45;
+    }
+
+    .rules-list span{
+      display:block;
+      color:var(--muted);
+      line-height:1.65;
+      font-size:14px;
+    }
+
+    .footer-note{
+      margin-top:20px;
+      text-align:center;
+      color:#60708a;
+      font-size:13px;
+    }
+
+    @media (max-width: 1100px){
+      .layout{
+        grid-template-columns:1fr;
+      }
+    }
+
+    @media (max-width: 760px){
+      .app-shell{
+        padding:16px 12px 34px;
+      }
+
+      .hero{
+        padding:24px 18px 20px;
+      }
+
+      .panel-header,
+      .panel-body{
+        padding-left:18px;
+        padding-right:18px;
+      }
+
+      .field-grid{
+        grid-template-columns:1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="hero">
+      <div class="hero-top">
+        <div class="hero-chip">
+          <span class="dot"></span>
+          Lapidar • Cadastro de Acesso
+        </div>
+
+        <div class="hero-actions">
+          <a class="btn btn-ghost" href="login.html">Voltar ao login</a>
+        </div>
+      </div>
+
+      <h1>Crie seu acesso antes de entrar no sistema</h1>
+      <p>
+        O cadastro acontece na entrada. Assim, o usuário já entra com login liberado, senha definida e recuperação de acesso preparada, sem cair em ficha no final do processo.
+      </p>
+      <div class="hero-quote">
+        Lapidar é o local onde seu carvão vira diamante, através do trabalho árduo de suas próprias mãos.
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="panel">
+        <div class="panel-header">
+          <small>Ficha de entrada</small>
+          <h2>Cadastro principal do usuário</h2>
+          <p>
+            Preencha os dados básicos, crie seu acesso e defina duas perguntas de segurança para recuperação de senha dentro do próprio sistema.
+          </p>
+        </div>
+
+        <div class="panel-body">
+          <form id="registerForm">
+            <div class="block">
+              <div class="block-title">Dados de acesso</div>
+              <div class="field-grid">
+                <div class="field">
+                  <label>Nome completo</label>
+                  <input type="text" id="fullName" placeholder="Maria José da Silva" required />
+                </div>
+
+                <div class="field">
+                  <label>E-mail</label>
+                  <input type="email" id="email" placeholder="voce@exemplo.com" required />
+                </div>
+
+                <div class="field">
+                  <label>Login</label>
+                  <input type="text" id="login" placeholder="seu_login" required />
+                </div>
+
+                <div class="field">
+                  <label>Perfil inicial</label>
+                  <select id="profile" required>
+                    <option value="heteronimo">Heterônimo</option>
+                    <option value="cortesia">Cortesia</option>
+                    <option value="admin">Admin</option>
+                  </select>
+                </div>
+
+                <div class="field">
+                  <label>Senha</label>
+                  <input type="password" id="password" placeholder="Crie sua senha" required />
+                </div>
+
+                <div class="field">
+                  <label>Confirmar senha</label>
+                  <input type="password" id="confirmPassword" placeholder="Repita sua senha" required />
+                </div>
+              </div>
+            </div>
+
+            <div class="block" style="margin-top:18px;">
+              <div class="block-title">Recuperação de acesso</div>
+              <div class="block-subtitle">
+                Escolha duas perguntas de segurança. Elas serão usadas caso você esqueça sua senha.
+              </div>
+
+              <div class="field-grid">
+                <div class="field">
+                  <label>Pergunta de segurança 1</label>
+                  <select id="question1" required>
+                    <option value="">Selecione</option>
+                    <option value="Qual apelido interno você quer usar como chave?">Qual apelido interno você quer usar como chave?</option>
+                    <option value="Qual foi o nome do seu primeiro projeto no sistema?">Qual foi o nome do seu primeiro projeto no sistema?</option>
+                    <option value="Qual palavra secreta você quer usar?">Qual palavra secreta você quer usar?</option>
+                    <option value="Qual frase curta você quer usar para recuperação?">Qual frase curta você quer usar para recuperação?</option>
+                  </select>
+                </div>
+
+                <div class="field">
+                  <label>Resposta 1</label>
+                  <input type="text" id="answer1" placeholder="Digite sua resposta" required />
+                </div>
+
+                <div class="field">
+                  <label>Pergunta de segurança 2</label>
+                  <select id="question2" required>
+                    <option value="">Selecione</option>
+                    <option value="Qual apelido interno você quer usar como chave?">Qual apelido interno você quer usar como chave?</option>
+                    <option value="Qual foi o nome do seu primeiro projeto no sistema?">Qual foi o nome do seu primeiro projeto no sistema?</option>
+                    <option value="Qual palavra secreta você quer usar?">Qual palavra secreta você quer usar?</option>
+                    <option value="Qual frase curta você quer usar para recuperação?">Qual frase curta você quer usar para recuperação?</option>
+                  </select>
+                </div>
+
+                <div class="field">
+                  <label>Resposta 2</label>
+                  <input type="text" id="answer2" placeholder="Digite sua resposta" required />
+                </div>
+              </div>
+
+              <div class="notice">
+                As perguntas devem ser diferentes entre si. As respostas ficam registradas apenas para recuperação de acesso dentro do sistema.
+              </div>
+            </div>
+
+            <div class="action-row" style="margin-top:18px;">
+              <button class="soft-btn" type="button" id="previewBtn">Pré-visualizar cadastro</button>
+            </div>
+
+            <div class="block" style="margin-top:18px;">
+              <div class="block-title">Prévia da liberação</div>
+              <div class="summary-list">
+                <div class="summary-item">
+                  <span>Nome</span>
+                  <strong id="previewName">—</strong>
+                </div>
+                <div class="summary-item">
+                  <span>Login</span>
+                  <strong id="previewLogin">—</strong>
+                </div>
+                <div class="summary-item">
+                  <span>Perfil</span>
+                  <strong id="previewProfile">—</strong>
+                </div>
+                <div class="summary-item">
+                  <span>Recuperação</span>
+                  <strong id="previewRecovery">2 perguntas</strong>
+                </div>
+              </div>
+            </div>
+
+            <div class="success-box" id="successBox" style="margin-top:18px;">
+              Cadastro criado com sucesso.<br><br>
+              Seu login foi liberado dentro do sistema.<br><br>
+              Agora você já pode entrar normalmente pela tela de login.
+            </div>
+
+            <div class="action-row" style="margin-top:18px;">
+              <button class="btn btn-primary" type="submit">Criar cadastro e liberar acesso</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <aside class="panel">
+        <div class="panel-header">
+          <small>Orientações</small>
+          <h2>Como esta entrada funciona</h2>
+          <p>
+            O cadastro fica na porta de entrada do Lapidar, não no final do percurso.
+          </p>
+        </div>
+
+        <div class="panel-body">
+          <ul class="rules-list">
+            <li>
+              <strong>Primeiro o cadastro, depois o uso</strong>
+              <span>Ninguém precisa preencher ficha depois de já ter usado a ferramenta.</span>
+            </li>
+            <li>
+              <strong>Recuperação sem depender de e-mail</strong>
+              <span>O usuário responde às perguntas de segurança e redefine a senha dentro do próprio sistema.</span>
+            </li>
+            <li>
+              <strong>Login liberado imediatamente</strong>
+              <span>Depois do cadastro, o usuário já fica apto a entrar e seguir para a sala de reuniões.</span>
+            </li>
+          </ul>
+        </div>
+      </aside>
+    </main>
+
+    <div class="footer-note">
+      Lapidar • Celeiro Literário • Cadastro de Acesso
+    </div>
+  </div>
+
+  <script>
+    function normalizeText(text) {
+      return (text || "").trim().toLowerCase();
+    }
+
+    function getProfileLabel(profile) {
+      const labels = {
+        admin: "Admin",
+        heteronimo: "Heterônimo",
+        cortesia: "Cortesia"
+      };
+      return labels[profile] || "Heterônimo";
+    }
+
+    function updatePreview() {
+      document.getElementById("previewName").textContent =
+        document.getElementById("fullName").value.trim() || "—";
+
+      document.getElementById("previewLogin").textContent =
+        document.getElementById("login").value.trim() || "—";
+
+      document.getElementById("previewProfile").textContent =
+        getProfileLabel(document.getElementById("profile").value);
+    }
+
+    document.getElementById("previewBtn").addEventListener("click", updatePreview);
+
+    document.getElementById("registerForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      const fullName = document.getElementById("fullName").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const login = document.getElementById("login").value.trim();
+      const profile = document.getElementById("profile").value;
+      const password = document.getElementById("password").value;
+      const confirmPassword = document.getElementById("confirmPassword").value;
+      const question1 = document.getElementById("question1").value;
+      const question2 = document.getElementById("question2").value;
+      const answer1 = document.getElementById("answer1").value.trim();
+      const answer2 = document.getElementById("answer2").value.trim();
+
+      if (!fullName || !email || !login || !password || !confirmPassword || !question1 || !question2 || !answer1 || !answer2) {
+        alert("Preencha todos os campos do cadastro.");
+        return;
+      }
+
+      if (password !== confirmPassword) {
+        alert("As senhas não conferem.");
+        return;
+      }
+
+      if (question1 === question2) {
+        alert("Escolha duas perguntas diferentes.");
+        return;
+      }
+
+      const users = JSON.parse(localStorage.getItem("lapidar_users") || "[]");
+
+      const loginAlreadyExists = users.some(user => normalizeText(user.login) === normalizeText(login));
+      if (loginAlreadyExists) {
+        alert("Esse login já existe. Escolha outro.");
+        return;
+      }
+
+      const emailAlreadyExists = users.some(user => normalizeText(user.email) === normalizeText(email));
+      if (emailAlreadyExists) {
+        alert("Esse e-mail já está cadastrado.");
+        return;
+      }
+
+      const newUser = {
+        fullName,
+        email,
+        login,
+        profile,
+        password,
+        security: [
+          { question: question1, answer: answer1 },
+          { question: question2, answer: answer2 }
+        ],
+        createdAt: new Date().toISOString()
+      };
+
+      users.push(newUser);
+      localStorage.setItem("lapidar_users", JSON.stringify(users));
+      localStorage.setItem("lapidar_last_registered_login", login);
+
+      updatePreview();
+      document.getElementById("successBox").classList.add("show");
+
+      setTimeout(() => {
+        window.location.href = "login.html";
+      }, 1800);
+    });
+  </script>
+</body>
+</html>
