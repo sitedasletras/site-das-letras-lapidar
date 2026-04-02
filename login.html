@@ -16,21 +16,40 @@
       background:linear-gradient(180deg, #020617 0%, #0f172a 100%);
       color:#ffffff;
       min-height:100vh;
-      display:flex;
-      justify-content:center;
-      align-items:center;
       padding:24px;
+    }
+
+    .wrap{
+      width:100%;
+      max-width:1100px;
+      margin:0 auto;
+      display:grid;
+      grid-template-columns:1fr;
+      gap:20px;
     }
 
     .container{
       width:100%;
-      max-width:460px;
+      max-width:520px;
+      margin:0 auto;
       background:#0f172a;
       border:1px solid rgba(255,255,255,0.08);
       border-radius:24px;
       padding:32px 24px;
       box-shadow:0 20px 50px rgba(0,0,0,.5);
       text-align:center;
+    }
+
+    .admin-container{
+      width:100%;
+      max-width:1100px;
+      margin:0 auto;
+      background:#0f172a;
+      border:1px solid rgba(255,255,255,0.08);
+      border-radius:24px;
+      padding:24px;
+      box-shadow:0 20px 50px rgba(0,0,0,.5);
+      display:none;
     }
 
     .logo{
@@ -43,14 +62,13 @@
       box-shadow:0 10px 28px rgba(0,0,0,.35);
     }
 
-    h2{
-      margin:0 0 8px 0;
-      font-size:28px;
+    h1,h2,h3{
+      margin:0 0 10px 0;
     }
 
     .subtitulo{
       font-size:14px;
-      opacity:.8;
+      opacity:.82;
       line-height:1.5;
       margin-bottom:24px;
     }
@@ -64,24 +82,26 @@
       display:block;
       margin-bottom:7px;
       font-size:13px;
-      opacity:.8;
+      opacity:.82;
     }
 
     .campo input,
-    .campo select{
+    .campo select,
+    .campo textarea{
       width:100%;
-      padding:14px 14px;
+      padding:14px;
       border:none;
       border-radius:14px;
       background:#1e293b;
       color:#fff;
       font-size:15px;
       outline:none;
-      appearance:none;
+      font-family:Arial, Helvetica, sans-serif;
     }
 
-    .campo input::placeholder{
-      color:rgba(255,255,255,.45);
+    .campo textarea{
+      min-height:90px;
+      resize:vertical;
     }
 
     .info{
@@ -128,83 +148,471 @@
       background:#475569;
     }
 
+    .botao.escuro{
+      background:#1f2937;
+    }
+
+    .botao.escuro:hover{
+      background:#374151;
+    }
+
     .footer{
       margin-top:20px;
       font-size:12px;
       opacity:.55;
       line-height:1.5;
     }
+
+    .grade-admin{
+      display:grid;
+      grid-template-columns:repeat(2, 1fr);
+      gap:18px;
+      margin-top:20px;
+    }
+
+    .bloco-admin{
+      background:#111827;
+      border:1px solid rgba(255,255,255,0.08);
+      border-radius:18px;
+      padding:18px;
+    }
+
+    .bloco-admin h3{
+      font-size:18px;
+      margin-bottom:12px;
+    }
+
+    .item-check{
+      display:flex;
+      align-items:flex-start;
+      gap:10px;
+      margin-bottom:12px;
+      line-height:1.45;
+      font-size:14px;
+    }
+
+    .item-check input[type="checkbox"]{
+      margin-top:2px;
+      transform:scale(1.15);
+    }
+
+    .item-check strong{
+      display:block;
+      margin-bottom:2px;
+    }
+
+    .linha-fina{
+      height:1px;
+      background:rgba(255,255,255,0.08);
+      margin:14px 0;
+    }
+
+    .grid-solidaria{
+      display:grid;
+      grid-template-columns:repeat(2, 1fr);
+      gap:14px;
+      margin-top:10px;
+    }
+
+    .card-solidaria{
+      background:#0f172a;
+      border:1px solid rgba(255,255,255,0.08);
+      border-radius:16px;
+      padding:14px;
+    }
+
+    .card-solidaria h4{
+      margin:0 0 10px 0;
+      font-size:16px;
+    }
+
+    .mini{
+      font-size:12px;
+      opacity:.7;
+      line-height:1.4;
+      margin-top:6px;
+    }
+
+    .hidden{
+      display:none;
+    }
+
+    @media (max-width:900px){
+      .grade-admin,
+      .grid-solidaria{
+        grid-template-columns:1fr;
+      }
+    }
   </style>
 </head>
 <body>
-  <div class="container">
-    <img src="file_00000000760c720ebb734bb5e71340bb.png" alt="Site das Letras Edições Literárias" class="logo">
+  <div class="wrap">
 
-    <h2>Acesso ao Lapidar</h2>
+    <div class="container" id="loginBox">
+      <img src="file_00000000760c720ebb734bb5e71340bb.png" alt="Site das Letras Edições Literárias" class="logo">
 
-    <div class="subtitulo">
-      Ambiente editorial protegido<br>
-      Site das Letras Edições Literárias
+      <h2>Acesso ao Lapidar</h2>
+
+      <div class="subtitulo">
+        Ambiente editorial protegido<br>
+        Site das Letras Edições Literárias
+      </div>
+
+      <div class="campo">
+        <label for="nome">Nome de acesso</label>
+        <input type="text" id="nome" placeholder="Digite seu nome de acesso">
+      </div>
+
+      <div class="campo">
+        <label for="senha">Senha</label>
+        <input type="password" id="senha" placeholder="Digite sua senha">
+      </div>
+
+      <div class="campo">
+        <label for="perfil">Perfil</label>
+        <select id="perfil" onchange="atualizarDescricaoPerfil()">
+          <option value="admin">Admin</option>
+          <option value="heteronimo">Heterônimo</option>
+          <option value="autor">Autor</option>
+          <option value="usuario">Usuário</option>
+          <option value="visitante">Visitante</option>
+          <option value="cortesia_quimera">Cortesia da Quimera</option>
+          <option value="cortesia_valletibooks">Cortesia da ValletiBooks</option>
+          <option value="cortesia_acl">Cortesia ACL</option>
+          <option value="cortesia_andre_instituicao">Cortesia André Instituição</option>
+          <option value="cortesia_estilo_poesia">Cortesia Estilo e Poesia</option>
+          <option value="licenca_solidaria">Licença Solidária</option>
+        </select>
+      </div>
+
+      <div class="campo hidden" id="slotSolidariaBox">
+        <label for="slotSolidaria">Número da Licença Solidária</label>
+        <select id="slotSolidaria">
+          <option value="0001">Licença Solidária 0001</option>
+          <option value="0002">Licença Solidária 0002</option>
+          <option value="0003">Licença Solidária 0003</option>
+          <option value="0004">Licença Solidária 0004</option>
+          <option value="0005">Licença Solidária 0005</option>
+          <option value="0006">Licença Solidária 0006</option>
+          <option value="0007">Licença Solidária 0007</option>
+          <option value="0008">Licença Solidária 0008</option>
+          <option value="0009">Licença Solidária 0009</option>
+          <option value="0010">Licença Solidária 0010</option>
+        </select>
+      </div>
+
+      <div id="descricaoPerfil" class="info">
+        Perfil administrativo com acesso estrutural total.
+      </div>
+
+      <div class="acoes">
+        <button class="botao" onclick="entrarSistema()">Entrar</button>
+        <button class="botao secundario" onclick="voltarInicio()">Voltar ao início</button>
+      </div>
+
+      <div class="footer">
+        Admin oficial: admin@sitedasletras.com
+      </div>
     </div>
 
-    <div class="campo">
-      <label for="nome">Nome de acesso</label>
-      <input type="text" id="nome" placeholder="Digite seu nome de acesso">
+    <div class="admin-container" id="adminPanel">
+      <h2>Painel Admin — Permissões Especiais</h2>
+      <div class="subtitulo">
+        Controle interno de cortesias permanentes, semestrais e Licenças Solidárias.
+      </div>
+
+      <div class="grade-admin">
+        <div class="bloco-admin">
+          <h3>Cortesias permanentes</h3>
+
+          <label class="item-check">
+            <input type="checkbox" id="cfg_quimera_ativa">
+            <span>
+              <strong>Cortesia da Quimera</strong>
+              Acesso total operacional aos setores 1, 3, 5, 7, 11 e 13.
+            </span>
+          </label>
+
+          <label class="item-check">
+            <input type="checkbox" id="cfg_valleti_ativa">
+            <span>
+              <strong>Cortesia da ValletiBooks</strong>
+              Acesso total operacional aos setores 1, 3, 5, 7, 11 e 13.
+            </span>
+          </label>
+        </div>
+
+        <div class="bloco-admin">
+          <h3>Cortesias semestrais de divulgação</h3>
+
+          <label class="item-check">
+            <input type="checkbox" id="cfg_acl_ativa">
+            <span>
+              <strong>Cortesia ACL</strong>
+              Duração semestral com acesso aos setores 1, 3, 5, 7, 11 e 13.
+            </span>
+          </label>
+
+          <label class="item-check">
+            <input type="checkbox" id="cfg_andre_ativa">
+            <span>
+              <strong>Cortesia André Instituição</strong>
+              Duração semestral com acesso aos setores 1, 3, 5, 7, 11 e 13.
+            </span>
+          </label>
+
+          <label class="item-check">
+            <input type="checkbox" id="cfg_estilo_ativa">
+            <span>
+              <strong>Cortesia Estilo e Poesia</strong>
+              Duração semestral com acesso aos setores 1, 3, 5, 7, 11 e 13.
+            </span>
+          </label>
+        </div>
+      </div>
+
+      <div class="linha-fina"></div>
+
+      <div class="bloco-admin">
+        <h3>Licenças Solidárias</h3>
+        <div class="subtitulo" style="margin-bottom:14px;">
+          Slots livres para ações solidárias, culturais, institucionais ou humanitárias.
+        </div>
+
+        <div class="grid-solidaria" id="gridSolidaria"></div>
+      </div>
+
+      <div class="acoes" style="max-width:420px;">
+        <button class="botao" onclick="salvarConfiguracoesAdmin()">Salvar permissões</button>
+        <button class="botao escuro" onclick="fecharAdmin()">Fechar painel admin</button>
+      </div>
     </div>
 
-    <div class="campo">
-      <label for="senha">Senha</label>
-      <input type="password" id="senha" placeholder="Digite sua senha">
-    </div>
-
-    <div class="campo">
-      <label for="perfil">Perfil</label>
-      <select id="perfil" onchange="atualizarDescricaoPerfil()">
-        <option value="admin">Admin</option>
-        <option value="heteronimo">Heterônimo</option>
-        <option value="autor">Autor</option>
-        <option value="usuario">Usuário</option>
-        <option value="beta_cortesia">Beta Cortesia</option>
-        <option value="visitante">Visitante</option>
-      </select>
-    </div>
-
-    <div id="descricaoPerfil" class="info">
-      Perfil com acesso total estrutural e institucional.
-    </div>
-
-    <div class="acoes">
-      <button class="botao" onclick="entrarSistema()">Entrar</button>
-      <button class="botao secundario" onclick="voltarInicio()">Voltar ao início</button>
-    </div>
-
-    <div class="footer">
-      Admin e Heterônimo possuem acesso institucional permanente
-    </div>
   </div>
 
   <script>
-    function mapaPerfis(perfil) {
-      const dados = {
-        admin: "Admin: acesso total estrutural e institucional.",
-        heteronimo: "Heterônimo: acesso editorial estratégico ampliado e ala exclusiva de heterônimos.",
-        autor: "Autor: envio de obra, análise e acompanhamento editorial.",
-        usuario: "Usuário: acesso funcional padrão conforme regras da plataforma.",
-        beta_cortesia: "Beta Cortesia: acesso temporário restrito para testes controlados.",
-        visitante: "Visitante: acesso mínimo para conhecimento inicial da plataforma."
-      };
-      return dados[perfil] || "Perfil não identificado.";
+    const ADMIN_OFICIAL = "admin@sitedasletras.com";
+    const ACESSO_PRIMOS = [1, 3, 5, 7, 11, 13];
+
+    const ROTAS_SETORIAIS = {
+      1: "hub_diagramador.html",
+      3: "hub_capista.html",
+      5: "hub_tradutor.html",
+      7: "hub_relatorios.html",
+      11: "leitura_tecnica_editorial.html",
+      13: "ficha_editorial_integrada.html"
+    };
+
+    function iniciarConfigs() {
+      definirPadrao("cfg_quimera_ativa", true);
+      definirPadrao("cfg_valleti_ativa", true);
+
+      definirPadrao("cfg_acl_ativa", true);
+      definirPadrao("cfg_andre_ativa", true);
+      definirPadrao("cfg_estilo_ativa", true);
+
+      definirPadrao("cfg_acl_inicio", "");
+      definirPadrao("cfg_andre_inicio", "");
+      definirPadrao("cfg_estilo_inicio", "");
+
+      for (let i = 1; i <= 10; i++) {
+        const id = String(i).padStart(4, "0");
+        definirPadrao(`solidaria_${id}_ativa`, false);
+        definirPadrao(`solidaria_${id}_beneficiado`, "");
+        definirPadrao(`solidaria_${id}_instituicao`, "");
+        definirPadrao(`solidaria_${id}_duracao`, "180");
+        definirPadrao(`solidaria_${id}_observacao`, "");
+        definirPadrao(`solidaria_${id}_setores`, JSON.stringify(ACESSO_PRIMOS));
+      }
+    }
+
+    function definirPadrao(chave, valor) {
+      if (localStorage.getItem(chave) === null) {
+        localStorage.setItem(chave, typeof valor === "string" ? valor : JSON.stringify(valor));
+      }
+    }
+
+    function pegarBool(chave) {
+      const valor = localStorage.getItem(chave);
+      return valor === "true";
+    }
+
+    function salvarBool(chave, valor) {
+      localStorage.setItem(chave, valor ? "true" : "false");
     }
 
     function atualizarDescricaoPerfil() {
       const perfil = document.getElementById("perfil").value;
-      document.getElementById("descricaoPerfil").textContent = mapaPerfis(perfil);
+      const box = document.getElementById("descricaoPerfil");
+      const slotBox = document.getElementById("slotSolidariaBox");
+
+      slotBox.classList.add("hidden");
+
+      const textos = {
+        admin: "Perfil administrativo com acesso estrutural total.",
+        heteronimo: "Perfil institucional reservado para a ala exclusiva de heterônimos.",
+        autor: "Perfil de autor para fluxo editorial comum.",
+        usuario: "Perfil de usuário para uso padrão do sistema.",
+        visitante: "Perfil de visualização inicial da plataforma.",
+        cortesia_quimera: "Cortesia permanente com acesso aos setores 1, 3, 5, 7, 11 e 13.",
+        cortesia_valletibooks: "Cortesia permanente com acesso aos setores 1, 3, 5, 7, 11 e 13.",
+        cortesia_acl: "Cortesia semestral de divulgação com acesso aos setores 1, 3, 5, 7, 11 e 13.",
+        cortesia_andre_instituicao: "Cortesia semestral de divulgação com acesso aos setores 1, 3, 5, 7, 11 e 13.",
+        cortesia_estilo_poesia: "Cortesia semestral de divulgação com acesso aos setores 1, 3, 5, 7, 11 e 13.",
+        licenca_solidaria: "Acesso por slot de Licença Solidária configurado pelo admin."
+      };
+
+      if (perfil === "licenca_solidaria") {
+        slotBox.classList.remove("hidden");
+      }
+
+      box.textContent = textos[perfil] || "Perfil não identificado.";
+    }
+
+    function criarGridSolidaria() {
+      const grid = document.getElementById("gridSolidaria");
+      grid.innerHTML = "";
+
+      for (let i = 1; i <= 10; i++) {
+        const id = String(i).padStart(4, "0");
+
+        const card = document.createElement("div");
+        card.className = "card-solidaria";
+        card.innerHTML = `
+          <h4>Licença Solidária ${id}</h4>
+
+          <label class="item-check">
+            <input type="checkbox" id="solidaria_${id}_ativa_ui">
+            <span>
+              <strong>Ativa</strong>
+              Slot disponível para beneficiado solidário.
+            </span>
+          </label>
+
+          <div class="campo">
+            <label for="solidaria_${id}_beneficiado_ui">Beneficiado</label>
+            <input type="text" id="solidaria_${id}_beneficiado_ui" placeholder="Nome do beneficiado">
+          </div>
+
+          <div class="campo">
+            <label for="solidaria_${id}_instituicao_ui">Instituição</label>
+            <input type="text" id="solidaria_${id}_instituicao_ui" placeholder="Instituição opcional">
+          </div>
+
+          <div class="campo">
+            <label for="solidaria_${id}_duracao_ui">Duração</label>
+            <select id="solidaria_${id}_duracao_ui">
+              <option value="30">30 dias</option>
+              <option value="90">90 dias</option>
+              <option value="180">180 dias</option>
+              <option value="365">12 meses</option>
+              <option value="99999">Ilimitado</option>
+            </select>
+          </div>
+
+          <div class="campo">
+            <label for="solidaria_${id}_observacao_ui">Observação interna</label>
+            <textarea id="solidaria_${id}_observacao_ui" placeholder="Projeto infantil, hospital, ONG, biblioteca comunitária..."></textarea>
+          </div>
+
+          <div class="mini">
+            Acesso padrão: setores 1, 3, 5, 7, 11 e 13.
+          </div>
+        `;
+
+        grid.appendChild(card);
+      }
+    }
+
+    function carregarAdminUI() {
+      document.getElementById("cfg_quimera_ativa").checked = pegarBool("cfg_quimera_ativa");
+      document.getElementById("cfg_valleti_ativa").checked = pegarBool("cfg_valleti_ativa");
+      document.getElementById("cfg_acl_ativa").checked = pegarBool("cfg_acl_ativa");
+      document.getElementById("cfg_andre_ativa").checked = pegarBool("cfg_andre_ativa");
+      document.getElementById("cfg_estilo_ativa").checked = pegarBool("cfg_estilo_ativa");
+
+      for (let i = 1; i <= 10; i++) {
+        const id = String(i).padStart(4, "0");
+        document.getElementById(`solidaria_${id}_ativa_ui`).checked = pegarBool(`solidaria_${id}_ativa`);
+        document.getElementById(`solidaria_${id}_beneficiado_ui`).value = localStorage.getItem(`solidaria_${id}_beneficiado`) || "";
+        document.getElementById(`solidaria_${id}_instituicao_ui`).value = localStorage.getItem(`solidaria_${id}_instituicao`) || "";
+        document.getElementById(`solidaria_${id}_duracao_ui`).value = localStorage.getItem(`solidaria_${id}_duracao`) || "180";
+        document.getElementById(`solidaria_${id}_observacao_ui`).value = localStorage.getItem(`solidaria_${id}_observacao`) || "";
+      }
+    }
+
+    function salvarConfiguracoesAdmin() {
+      salvarBool("cfg_quimera_ativa", document.getElementById("cfg_quimera_ativa").checked);
+      salvarBool("cfg_valleti_ativa", document.getElementById("cfg_valleti_ativa").checked);
+
+      salvarSemestral("cfg_acl_ativa", "cfg_acl_inicio");
+      salvarSemestral("cfg_andre_ativa", "cfg_andre_inicio");
+      salvarSemestral("cfg_estilo_ativa", "cfg_estilo_inicio");
+
+      for (let i = 1; i <= 10; i++) {
+        const id = String(i).padStart(4, "0");
+
+        const ativa = document.getElementById(`solidaria_${id}_ativa_ui`).checked;
+        const beneficiado = document.getElementById(`solidaria_${id}_beneficiado_ui`).value.trim();
+        const instituicao = document.getElementById(`solidaria_${id}_instituicao_ui`).value.trim();
+        const duracao = document.getElementById(`solidaria_${id}_duracao_ui`).value;
+        const observacao = document.getElementById(`solidaria_${id}_observacao_ui`).value.trim();
+
+        salvarBool(`solidaria_${id}_ativa`, ativa);
+        localStorage.setItem(`solidaria_${id}_beneficiado`, beneficiado);
+        localStorage.setItem(`solidaria_${id}_instituicao`, instituicao);
+        localStorage.setItem(`solidaria_${id}_duracao`, duracao);
+        localStorage.setItem(`solidaria_${id}_observacao`, observacao);
+        localStorage.setItem(`solidaria_${id}_setores`, JSON.stringify(ACESSO_PRIMOS));
+      }
+
+      alert("Permissões atualizadas.");
+    }
+
+    function salvarSemestral(chaveAtiva, chaveInicio) {
+      const ativa = document.getElementById(chaveAtiva).checked;
+      const antes = pegarBool(chaveAtiva);
+
+      salvarBool(chaveAtiva, ativa);
+
+      if (ativa && !antes) {
+        localStorage.setItem(chaveInicio, new Date().toISOString());
+      }
+
+      if (!ativa) {
+        localStorage.setItem(chaveInicio, "");
+      }
+    }
+
+    function semestralValida(chaveAtiva, chaveInicio) {
+      if (!pegarBool(chaveAtiva)) return false;
+
+      const inicio = localStorage.getItem(chaveInicio);
+      if (!inicio) return false;
+
+      const dataInicio = new Date(inicio);
+      const agora = new Date();
+      const dias = Math.floor((agora - dataInicio) / (1000 * 60 * 60 * 24));
+
+      return dias <= 180;
+    }
+
+    function abrirAdmin() {
+      document.getElementById("adminPanel").style.display = "block";
+      carregarAdminUI();
+      window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+    }
+
+    function fecharAdmin() {
+      document.getElementById("adminPanel").style.display = "none";
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
     function entrarSistema() {
       const nome = document.getElementById("nome").value.trim();
       const senha = document.getElementById("senha").value.trim();
       const perfil = document.getElementById("perfil").value;
+      const slotSolidaria = document.getElementById("slotSolidaria").value;
 
       if (!nome) {
         alert("Informe o nome de acesso.");
@@ -216,13 +624,102 @@
         return;
       }
 
-      const sessao = {
-        nome: nome,
-        perfil: perfil
+      if (perfil === "admin") {
+        if (nome.toLowerCase() !== ADMIN_OFICIAL.toLowerCase()) {
+          alert("Admin inválido. Use o e-mail administrativo oficial.");
+          return;
+        }
+
+        const sessao = {
+          nome,
+          perfil,
+          tipoAcesso: "institucional_total"
+        };
+
+        localStorage.setItem("lapidarSessao", JSON.stringify(sessao));
+        abrirAdmin();
+        alert("Login admin autorizado.");
+        return;
+      }
+
+      if (perfil === "cortesia_quimera" && !pegarBool("cfg_quimera_ativa")) {
+        alert("Cortesia da Quimera está desativada pelo admin.");
+        return;
+      }
+
+      if (perfil === "cortesia_valletibooks" && !pegarBool("cfg_valleti_ativa")) {
+        alert("Cortesia da ValletiBooks está desativada pelo admin.");
+        return;
+      }
+
+      if (perfil === "cortesia_acl" && !semestralValida("cfg_acl_ativa", "cfg_acl_inicio")) {
+        alert("Cortesia ACL está inativa ou expirou.");
+        return;
+      }
+
+      if (perfil === "cortesia_andre_instituicao" && !semestralValida("cfg_andre_ativa", "cfg_andre_inicio")) {
+        alert("Cortesia André Instituição está inativa ou expirou.");
+        return;
+      }
+
+      if (perfil === "cortesia_estilo_poesia" && !semestralValida("cfg_estilo_ativa", "cfg_estilo_inicio")) {
+        alert("Cortesia Estilo e Poesia está inativa ou expirou.");
+        return;
+      }
+
+      if (perfil === "licenca_solidaria") {
+        const ativa = pegarBool(`solidaria_${slotSolidaria}_ativa`);
+        const beneficiado = localStorage.getItem(`solidaria_${slotSolidaria}_beneficiado`) || "";
+        const duracao = parseInt(localStorage.getItem(`solidaria_${slotSolidaria}_duracao`) || "180", 10);
+
+        if (!ativa) {
+          alert(`Licença Solidária ${slotSolidaria} está desativada.`);
+          return;
+        }
+
+        if (!beneficiado) {
+          alert(`Licença Solidária ${slotSolidaria} ainda não possui beneficiado definido no admin.`);
+          return;
+        }
+
+        const sessaoSolidaria = {
+          nome,
+          perfil,
+          slotSolidaria,
+          beneficiado,
+          setoresLiberados: ACESSO_PRIMOS,
+          tipoAcesso: "solidario_operacional",
+          duracao
+        };
+
+        localStorage.setItem("lapidarSessao", JSON.stringify(sessaoSolidaria));
+        window.location.href = "index.html";
+        return;
+      }
+
+      if (perfil === "cortesia_quimera" || perfil === "cortesia_valletibooks" ||
+          perfil === "cortesia_acl" || perfil === "cortesia_andre_instituicao" ||
+          perfil === "cortesia_estilo_poesia") {
+
+        const sessaoEspecial = {
+          nome,
+          perfil,
+          setoresLiberados: ACESSO_PRIMOS,
+          tipoAcesso: "operacional_primos"
+        };
+
+        localStorage.setItem("lapidarSessao", JSON.stringify(sessaoEspecial));
+        window.location.href = "index.html";
+        return;
+      }
+
+      const sessaoPadrao = {
+        nome,
+        perfil,
+        tipoAcesso: "padrao"
       };
 
-      localStorage.setItem("lapidarSessao", JSON.stringify(sessao));
-      alert("Login autorizado.");
+      localStorage.setItem("lapidarSessao", JSON.stringify(sessaoPadrao));
       window.location.href = "index.html";
     }
 
@@ -230,6 +727,8 @@
       window.location.href = "index.html";
     }
 
+    iniciarConfigs();
+    criarGridSolidaria();
     atualizarDescricaoPerfil();
   </script>
 </body>
