@@ -1,97 +1,64 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Painel de Auditoria — Lapidar</title>
+<title>Auditoria e Controle</title>
 
 <style>
 
-:root{
---bg:#0d0603;
---card:#140c08;
---card2:#1b100a;
---text:#ffffff;
---muted:#ffd2b3;
---orange:#f7b22c;
---green:#9cfdb2;
---border:rgba(255,123,44,0.18);
---shadow:0 10px 26px rgba(0,0,0,0.28);
+body{
+font-family:Arial;
+background:#efe2c2;
+margin:0;
+padding:0;
 }
 
-body{
-margin:0;
-font-family:Arial;
-background:var(--bg);
+header{
+background:#a67c2d;
 color:white;
+padding:20px;
+display:flex;
+justify-content:space-between;
+align-items:center;
 }
 
 .container{
-width:min(1200px,95%);
-margin:auto;
-padding:40px 0;
-}
-
-.titulo{
-font-size:36px;
-font-weight:bold;
-}
-
-.subtitulo{
-margin-top:6px;
-color:var(--orange);
+padding:20px;
 }
 
 .card{
-margin-top:30px;
-background:var(--card);
-padding:24px;
-border-radius:18px;
-border:1px solid var(--border);
-box-shadow:var(--shadow);
-}
-
-.filtros{
-display:flex;
-gap:12px;
-flex-wrap:wrap;
-margin-top:20px;
-}
-
-select{
-padding:12px;
-border-radius:10px;
-border:none;
-background:#1b0e07;
-color:white;
-}
-
-.log{
-margin-top:14px;
-padding:16px;
+background:white;
 border-radius:12px;
-background:var(--card2);
-line-height:1.6;
-}
-
-.actions{
-margin-top:24px;
-display:flex;
-gap:12px;
-flex-wrap:wrap;
+padding:20px;
+margin-bottom:20px;
+box-shadow:0 4px 10px rgba(0,0,0,.1);
 }
 
 button{
+padding:12px 18px;
 border:none;
-padding:14px 18px;
-border-radius:999px;
+border-radius:8px;
+background:#a67c2d;
+color:white;
 cursor:pointer;
-font-weight:bold;
+margin-right:10px;
+margin-top:10px;
 }
 
-.btnIndice{
-background:#24150f;
-color:white;
+button.sec{
+background:#2f436d;
+}
+
+button.alt{
+background:#6c757d;
+}
+
+.lista{
+margin-top:10px;
+padding:10px;
+background:#f7f2e4;
+border-radius:8px;
 }
 
 </style>
@@ -99,213 +66,149 @@ color:white;
 
 <body>
 
+<header>
+
+<h2>Auditoria e Controle</h2>
+
+<button onclick="voltar()">Voltar ao Admin</button>
+
+</header>
+
+
 <div class="container">
 
-<div class="titulo">
-Painel de Auditoria Editorial
+
+<div class="card">
+
+<h3>Status geral do sistema</h3>
+
+<div id="statusSistema">
+
+Sessão ativa e ambiente operacional.
+
 </div>
 
-<div class="subtitulo">
-Registro completo de ações do sistema Lapidar
 </div>
 
 
 
 <div class="card">
 
-<div class="filtros">
+<h3>Registro de acessos recentes</h3>
 
-<select id="filtroProjeto" onchange="renderizarLogs()">
-<option value="">Todos os projetos</option>
-</select>
+<div class="lista" id="acessosRecentes">
 
-<select id="filtroModulo" onchange="renderizarLogs()">
-<option value="">Todos os módulos</option>
-<option>upload_livro</option>
-<option>preview</option>
-<option>revisao_pedido</option>
-<option>capista</option>
-<option>login</option>
-<option>sistema</option>
-</select>
+Nenhum registro recente.
 
-<select id="filtroUsuario" onchange="renderizarLogs()">
-<option value="">Todos os usuários</option>
-</select>
+</div>
+
+<button onclick="registrarAuditoria()">Registrar evento de auditoria</button>
 
 </div>
 
 
 
-<div id="areaLogs"></div>
+<div class="card">
+
+<h3>Ferramentas institucionais</h3>
+
+<button onclick="abrirRelatorios()">Abrir Hub de Relatórios</button>
+
+<button class="sec" onclick="abrirProjetos()">Abrir Projetos</button>
+
+<button class="alt" onclick="abrirEstatisticas()">Abrir Estatísticas</button>
 
 </div>
 
 
-
-<div class="actions">
-
-<button class="btnIndice" onclick="voltarIndice()">
-Voltar ao índice
-</button>
-
 </div>
 
-</div>
-
-
-
-<script src="auditoria.js"></script>
 
 <script>
 
-function verificarSessao(){
+/* =========================
+SESSION GUARD INSTITUCIONAL
+========================= */
 
-const sessao = localStorage.getItem("SDL_sessao_ativa")
+const perfil = localStorage.getItem("lapidar_perfil")
 
-if(sessao !== "sim"){
+if(!perfil){
 
-window.location.href="login.html"
+window.location.href="index.html"
 
 }
 
-}
 
+/* =========================
+CARREGAR AUDITORIA
+========================= */
 
-
-function carregarFiltros(){
-
-let logs = JSON.parse(
-localStorage.getItem("SDL_auditoria_logs") || "[]"
+const historicoAuditoria = JSON.parse(
+localStorage.getItem("lapidar_auditoria_logs") || "[]"
 )
 
-const projetos = new Set()
-const usuarios = new Set()
+if(historicoAuditoria.length){
 
-logs.forEach(l => {
-
-projetos.add(l.projetoTitulo)
-usuarios.add(l.usuario)
-
-})
-
-const selectProjeto =
-document.getElementById("filtroProjeto")
-
-const selectUsuario =
-document.getElementById("filtroUsuario")
-
-projetos.forEach(p => {
-
-if(p !== "sem_projeto"){
-
-selectProjeto.innerHTML +=
-`<option>${p}</option>`
-
-}
-
-})
-
-usuarios.forEach(u => {
-
-selectUsuario.innerHTML +=
-`<option>${u}</option>`
-
-})
+document.getElementById("acessosRecentes").innerHTML =
+historicoAuditoria.slice(-10).reverse().join("<br>")
 
 }
 
 
+/* =========================
+REGISTRAR EVENTO
+========================= */
 
-function renderizarLogs(){
+function registrarAuditoria(){
+
+const data = new Date().toLocaleString("pt-BR")
 
 let logs = JSON.parse(
-localStorage.getItem("SDL_auditoria_logs") || "[]"
+localStorage.getItem("lapidar_auditoria_logs") || "[]"
 )
 
-const filtroProjeto =
-document.getElementById("filtroProjeto").value
+logs.push("Evento registrado em " + data)
 
-const filtroModulo =
-document.getElementById("filtroModulo").value
+localStorage.setItem(
+"lapidar_auditoria_logs",
+JSON.stringify(logs)
+)
 
-const filtroUsuario =
-document.getElementById("filtroUsuario").value
-
-logs = logs.reverse()
-
-const area = document.getElementById("areaLogs")
-
-area.innerHTML = ""
-
-logs.forEach(l => {
-
-if(filtroProjeto && l.projetoTitulo !== filtroProjeto)
-return
-
-if(filtroModulo && l.modulo !== filtroModulo)
-return
-
-if(filtroUsuario && l.usuario !== filtroUsuario)
-return
-
-area.innerHTML += `
-
-<div class="log">
-
-<strong>${l.acao}</strong><br>
-
-Projeto:
-${l.projetoTitulo}<br>
-
-Usuário:
-${l.usuario}<br>
-
-Módulo:
-${l.modulo}<br>
-
-Data:
-${formatarData(l.data)}
-
-</div>
-
-`
-
-})
+location.reload()
 
 }
 
 
+/* =========================
+NAVEGAÇÃO
+========================= */
 
-function formatarData(d){
+function abrirRelatorios(){
 
-try{
-
-return new Date(d).toLocaleString("pt-BR")
-
-}catch{
-
-return d
+window.location.href="hub_relatorios.html"
 
 }
 
-}
+function abrirProjetos(){
 
-
-
-function voltarIndice(){
-
-window.location.href="_Indice.html"
+window.location.href="projetos.html"
 
 }
 
+function abrirEstatisticas(){
 
+window.location.href="estatisticas_lapidar.html"
 
-verificarSessao()
-carregarFiltros()
-renderizarLogs()
+}
+
+function voltar(){
+
+window.location.href="admin.html"
+
+}
 
 </script>
+
 
 </body>
 </html>
