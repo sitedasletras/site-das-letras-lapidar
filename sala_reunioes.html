@@ -363,6 +363,28 @@
       margin-left:8px;
     }
 
+    .joia-button{
+      width:100%;
+      min-height:54px;
+      border:none;
+      border-radius:16px;
+      background:linear-gradient(135deg,#7a5b2e 0%, #a98547 100%);
+      color:#fff;
+      font-size:16px;
+      font-weight:900;
+      cursor:pointer;
+    }
+
+    .joia-panel{
+      display:none;
+      margin-top:14px;
+      gap:12px;
+    }
+
+    .joia-panel.show{
+      display:grid;
+    }
+
     .notice{
       background:#fff4df;
       border:1px solid #efd4a4;
@@ -518,24 +540,28 @@
         <div class="card-head">
           <small>Área escondida</small>
           <h2>Joias da Corte</h2>
-          <p>Logins internos reservados ao Admin e ao Heterônimo.</p>
+          <p>Esta área fica protegida. Só Admin e Heterônimo podem abrir.</p>
         </div>
         <div class="card-body">
-          <div class="secret">
-            <strong>Administrador</strong>
-            <div class="secret-line">Login: <code>admin@sitedasletras.com</code></div>
-            <div class="secret-line">
-              Senha: <span class="pw">••••••••</span>
-              <button class="toggle" onclick="toggleSenha(this,'admin123')">mostrar</button>
-            </div>
-          </div>
+          <button class="joia-button" onclick="toggleJoias()">Entrar em Joias da Corte</button>
 
-          <div class="secret" style="margin-top:12px;">
-            <strong>Heterônimo</strong>
-            <div class="secret-line"><code>heteronimos@sitedasletrasedicoesliterarias.com</code></div>
-            <div class="secret-line">
-              Senha: <span class="pw">••••••••</span>
-              <button class="toggle" onclick="toggleSenha(this,'heteronimo123')">mostrar</button>
+          <div class="joia-panel" id="joiaPanel">
+            <div class="secret">
+              <strong>Administrador</strong>
+              <div class="secret-line">Login: <code>admin@sitedasletras.com</code></div>
+              <div class="secret-line">
+                Senha: <span class="pw">••••••••</span>
+                <button class="toggle" onclick="toggleSenha(this,'admin123')">mostrar</button>
+              </div>
+            </div>
+
+            <div class="secret">
+              <strong>Heterônimo</strong>
+              <div class="secret-line"><code>heteronimos@sitedasletrasedicoesliterarias.com</code></div>
+              <div class="secret-line">
+                Senha: <span class="pw">••••••••</span>
+                <button class="toggle" onclick="toggleSenha(this,'heteronimo123')">mostrar</button>
+              </div>
             </div>
           </div>
         </div>
@@ -574,6 +600,10 @@
         span.innerText = "••••••••";
         btn.innerText = "mostrar";
       }
+    }
+
+    function toggleJoias(){
+      document.getElementById("joiaPanel").classList.toggle("show");
     }
 
     const perfil = localStorage.getItem("lapidar_perfil");
