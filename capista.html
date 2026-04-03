@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OKapista • Lapidar</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial;
+background:#0e0604;
+color:white;
+}
+
+header{
+background:#2f436d;
+padding:18px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.container{
+max-width:1000px;
+margin:auto;
+padding:24px 16px;
+}
+
+.card{
+background:#1c0e08;
+border-radius:14px;
+padding:20px;
+margin-bottom:18px;
+box-shadow:0 6px 18px rgba(0,0,0,.25);
+}
+
+label{
+display:block;
+margin-top:14px;
+margin-bottom:6px;
+font-weight:bold;
+}
+
+input, textarea, select{
+width:100%;
+padding:12px;
+border-radius:10px;
+border:none;
+background:#2a140c;
+color:white;
+}
+
+textarea{
+min-height:120px;
+resize:vertical;
+}
+
+button{
+margin-top:12px;
+padding:12px 16px;
+border:none;
+border-radius:8px;
+background:#2f436d;
+color:white;
+font-weight:bold;
+cursor:pointer;
+}
+
+.alt{
+background:#8a6f3f;
+}
+
+.sec{
+background:#6c757d;
+}
+
+.preview{
+margin-top:12px;
+background:#2a140c;
+padding:12px;
+border-radius:10px;
+font-size:14px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:16px;
+}
+
+@media(max-width:700px){
+
+.grid{
+grid-template-columns:1fr;
+}
+
+}
+
+</style>
+</head>
+<body>
+
+<header>
+
+<h2>OKapista</h2>
+
+<div>
+
+<button onclick="voltar()">Voltar</button>
+
+</div>
+
+</header>
+
+<div class="container">
+
+
+<div class="card">
+
+<h3>Projeto ativo</h3>
+
+<div id="projetoNome">
+
+Nenhum projeto selecionado.
+
+</div>
+
+</div>
+
+
+
+<div class="card">
+
+<h3>Dados da capa</h3>
+
+
+<label>Título da obra</label>
+
+<input id="titulo">
+
+
+<label>Subtítulo</label>
+
+<input id="subtitulo">
+
+
+<label>Autor</label>
+
+<input id="autor">
+
+
+<label>Texto da contra-capa</label>
+
+<textarea id="contracapa"></textarea>
+
+
+<label>Texto da orelha traseira (biografia)</label>
+
+<textarea id="orelha_traseira"></textarea>
+
+
+<label>Texto da orelha dianteira</label>
+
+<textarea id="orelha_dianteira"></textarea>
+
+
+<button onclick="salvarDados()">Salvar dados da capa</button>
+
+
+<div class="preview" id="status">
+
+Dados ainda não registrados.
+
+</div>
+
+</div>
+
+
+
+<div class="card">
+
+<h3>Upload de imagens</h3>
+
+
+<label>Imagem da capa frontal</label>
+
+<input type="file" id="capa_frente" accept="image/*">
+
+
+<label>Imagem da contra-capa</label>
+
+<input type="file" id="contra_capa" accept="image/*">
+
+
+<label>Imagem da lombada</label>
+
+<input type="file" id="lombada" accept="image/*">
+
+
+<label>Imagem orelha dianteira</label>
+
+<input type="file" id="orelha_frente" accept="image/*">
+
+
+<label>Imagem orelha traseira</label>
+
+<input type="file" id="orelha_tras" accept="image/*">
+
+
+<button onclick="registrarImagens()">Registrar imagens</button>
+
+
+<div class="preview" id="status_img">
+
+Nenhuma imagem registrada ainda.
+
+</div>
+
+</div>
+
+
+
+<div class="card">
+
+<h3>Ações rápidas</h3>
+
+<button onclick="abrirDiagramador()">Ir para diagramador</button>
+
+<button class="alt" onclick="abrirExpedicao()">Ir para expedição</button>
+
+<button class="sec" onclick="abrirDepartamentos()">Painel departamentos</button>
+
+</div>
+
+
+</div>
+
+
+
+<script>
+
+
+
+const projeto = localStorage.getItem("lapidar_projeto_ativo");
+
+if(projeto){
+
+document.getElementById("projetoNome").innerText = projeto;
+
+}
+
+
+
+document.getElementById("titulo").value = localStorage.getItem("lapidar_obra_titulo") || "";
+
+document.getElementById("subtitulo").value = localStorage.getItem("lapidar_obra_subtitulo") || "";
+
+document.getElementById("autor").value = localStorage.getItem("lapidar_obra_autor") || "";
+
+
+
+function salvarDados(){
+
+localStorage.setItem("lapidar_capa_titulo",titulo.value);
+
+localStorage.setItem("lapidar_capa_subtitulo",subtitulo.value);
+
+localStorage.setItem("lapidar_capa_autor",autor.value);
+
+localStorage.setItem("lapidar_contracapa",contracapa.value);
+
+localStorage.setItem("lapidar_orelha_traseira",orelha_traseira.value);
+
+localStorage.setItem("lapidar_orelha_dianteira",orelha_dianteira.value);
+
+
+
+document.getElementById("status").innerText="Dados da capa registrados com sucesso.";
+
+}
+
+
+
+function registrarImagens(){
+
+localStorage.setItem("lapidar_img_frente",capa_frente.files.length);
+
+localStorage.setItem("lapidar_img_contra",contra_capa.files.length);
+
+localStorage.setItem("lapidar_img_lombada",lombada.files.length);
+
+localStorage.setItem("lapidar_img_orelha_frente",orelha_frente.files.length);
+
+localStorage.setItem("lapidar_img_orelha_tras",orelha_tras.files.length);
+
+
+
+document.getElementById("status_img").innerText="Imagens registradas no projeto.";
+
+}
+
+
+
+function abrirDiagramador(){
+
+window.location.href="diagramador.html";
+
+}
+
+
+
+function abrirExpedicao(){
+
+window.location.href="expedicao_material.html";
+
+}
+
+
+
+function abrirDepartamentos(){
+
+window.location.href="painel_departamentos.html";
+
+}
+
+
+
+function voltar(){
+
+window.location.href="painel_departamentos.html";
+
+}
+
+
+
+</script>
+
+</body>
+</html>
