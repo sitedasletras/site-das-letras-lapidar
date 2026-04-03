@@ -1,433 +1,179 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Status do Fluxo Editorial — Lapidar</title>
+<title>Status do Fluxo Editorial</title>
 
 <style>
-:root{
---bg:#0d0603;
---card:#140c08;
---card2:#1b100a;
---border:rgba(255,123,44,0.18);
---orange:#f7b22c;
---muted:#ffd2b3;
---ok:#9cfdb2;
---warn:#ffe7b0;
-}
 
 body{
-margin:0;
-font-family:Arial, sans-serif;
-background:var(--bg);
+font-family:Arial;
+background:#120604;
 color:white;
-}
-
-.container{
-width:min(1200px,95%);
-margin:auto;
-padding:40px 0 60px;
-}
-
-.titulo{
-font-size:38px;
-font-weight:bold;
-}
-
-.subtitulo{
-margin-top:6px;
-color:var(--orange);
-}
-
-.status{
-margin-top:18px;
-padding:16px;
-border-radius:12px;
-background:rgba(247,178,44,0.12);
-border:1px solid rgba(247,178,44,0.25);
-color:var(--warn);
-}
-
-.gridTopo{
-margin-top:24px;
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:18px;
+margin:0;
+padding:30px;
 }
 
 .card{
-background:var(--card);
-padding:22px;
-border-radius:16px;
-border:1px solid var(--border);
-}
-
-.cardTitulo{
-font-size:22px;
-font-weight:bold;
-margin-bottom:10px;
-}
-
-.linha{
-margin-top:10px;
-line-height:1.8;
-color:var(--muted);
-}
-
-.rotulo{
-color:var(--orange);
-font-weight:bold;
-}
-
-.gridFluxo{
-margin-top:24px;
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-gap:18px;
-}
-
-.bloco{
-background:var(--card);
+background:#1d0a07;
 padding:20px;
-border-radius:16px;
-border:1px solid var(--border);
-}
-
-.blocoTitulo{
-font-size:20px;
-font-weight:bold;
-margin-bottom:10px;
-}
-
-.badge{
-display:inline-block;
-margin-top:12px;
-padding:8px 12px;
-border-radius:999px;
-font-size:13px;
-font-weight:bold;
-background:#2a160d;
-color:#ffe7b0;
-}
-
-.badge.ok{
-background:rgba(23,77,39,0.35);
-color:var(--ok);
-}
-
-.badge.medio{
-background:rgba(247,178,44,0.18);
-color:#ffe7b0;
-}
-
-.progressbar{
-margin-top:18px;
-height:26px;
-background:#1b100a;
-border-radius:999px;
-overflow:hidden;
-border:1px solid var(--border);
-}
-
-.progress{
-height:100%;
-background:var(--ok);
-width:0%;
-transition:.5s;
-}
-
-.actions{
-margin-top:32px;
-display:flex;
-gap:12px;
-flex-wrap:wrap;
+border-radius:12px;
+margin-bottom:20px;
+box-shadow:0 0 12px rgba(255,120,40,.15);
 }
 
 button{
+padding:12px 18px;
 border:none;
-padding:14px 18px;
-border-radius:999px;
-background:#24150f;
+border-radius:8px;
+background:#2f436d;
 color:white;
+margin-right:10px;
 cursor:pointer;
-font-weight:bold;
 }
 
-@media(max-width:900px){
-.gridTopo{
-grid-template-columns:1fr;
+.badge{
+background:#3a1a11;
+padding:6px 10px;
+border-radius:6px;
+display:inline-block;
+margin-top:10px;
+font-size:12px;
 }
-}
+
 </style>
 </head>
 
+
 <body>
 
-<div class="container">
+<h1>Status do Fluxo Editorial</h1>
 
-<div class="titulo">Status do Fluxo Editorial</div>
-<div class="subtitulo">Semáforo institucional da obra ativa dentro do Lapidar</div>
+<div class="card">
 
-<div id="statusFluxo" class="status">
-Verificando obra ativa...
-</div>
-
-<div class="gridTopo">
-
-  <div class="card">
-    <div class="cardTitulo">Resumo da Obra</div>
-    <div id="resumoObra">
-      Carregando dados da obra...
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="cardTitulo">Indicador Geral</div>
-    <div id="textoPercentual" class="linha">Calculando progresso...</div>
-    <div class="progressbar">
-      <div id="barraFluxo" class="progress"></div>
-    </div>
-    <div id="statusInstitucional" class="linha"></div>
-  </div>
+Nenhum projeto ativo selecionado.
 
 </div>
 
-<div class="gridFluxo">
 
-  <div class="bloco">
-    <div class="blocoTitulo">Planejamento Editorial</div>
-    <div class="linha">Plano e pagamento da obra.</div>
-    <div id="badgePlanejamentoEditorial" class="badge">Verificando...</div>
-  </div>
+<div class="card">
 
-  <div class="bloco">
-    <div class="blocoTitulo">Setor de Capa</div>
-    <div class="linha">Solicitação, configuração e textos da capa.</div>
-    <div id="badgeCapaEditorial" class="badge">Verificando...</div>
-  </div>
-
-  <div class="bloco">
-    <div class="blocoTitulo">Setor de Miolo</div>
-    <div class="linha">Planejamento, elementos técnicos e padrão editorial.</div>
-    <div id="badgeMioloEditorial" class="badge">Verificando...</div>
-  </div>
-
-  <div class="bloco">
-    <div class="blocoTitulo">Setor de Tradução</div>
-    <div class="linha">Planejamento linguístico, glossário e checklist tradutório.</div>
-    <div id="badgeTraducaoEditorial" class="badge">Verificando...</div>
-  </div>
-
-  <div class="bloco">
-    <div class="blocoTitulo">Leitura Técnica</div>
-    <div class="linha">Parecer crítico e recomendação editorial da obra.</div>
-    <div id="badgeLeituraEditorial" class="badge">Verificando...</div>
-  </div>
-
-  <div class="bloco">
-    <div class="blocoTitulo">Prontidão Final</div>
-    <div class="linha">Nível geral de organização editorial da obra.</div>
-    <div id="badgeProntidaoFinal" class="badge">Verificando...</div>
-  </div>
+Resumo da Obra<br>
+Sem obra ativa no momento.
 
 </div>
 
-<div class="actions">
-  <button onclick="abrirCentroObra()">Abrir centro da obra</button>
-  <button onclick="abrirRelatorioMestre()">Abrir relatório mestre</button>
-  <button onclick="voltarIndice()">Voltar ao índice</button>
-</div>
+
+<div class="card">
+
+Indicador Geral<br>
+0%
 
 </div>
 
-<script src="auditoria.js"></script>
+
+<div class="card">
+
+Planejamento Editorial<br>
+<span class="badge">Verificando...</span>
+
+</div>
+
+
+<div class="card">
+
+Setor de Capa<br>
+<span class="badge">Verificando...</span>
+
+</div>
+
+
+<div class="card">
+
+Setor de Miolo<br>
+<span class="badge">Verificando...</span>
+
+</div>
+
+
+<div class="card">
+
+Setor de Tradução<br>
+<span class="badge">Verificando...</span>
+
+</div>
+
+
+<div class="card">
+
+Leitura Técnica<br>
+<span class="badge">Verificando...</span>
+
+</div>
+
+
+<div class="card">
+
+Prontidão Final<br>
+<span class="badge">Verificando...</span>
+
+</div>
+
+
+<br>
+
+
+<button onclick="abrirCentro()">Abrir centro da obra</button>
+
+<button onclick="abrirRelatorio()">Abrir relatório mestre</button>
+
+<button onclick="voltar()">Voltar ao índice</button>
+
 
 <script>
-function lerJSON(chave){
-  try{
-    return JSON.parse(localStorage.getItem(chave) || "null");
-  }catch{
-    return null;
-  }
+
+
+/* ===============================
+SESSION GUARD INSTITUCIONAL
+=============================== */
+
+const perfil = localStorage.getItem("lapidar_perfil")
+
+if(!perfil){
+
+window.location.href="index.html"
+
 }
 
-function obterProjetoAtivo(){
-  try{
-    const lista = JSON.parse(localStorage.getItem("SDL_projetos_lista") || "[]");
-    const ativo = localStorage.getItem("SDL_projeto_ativo");
-    return lista.find(p => p.id === ativo) || null;
-  }catch{
-    return null;
-  }
+
+/* ===============================
+NAVEGAÇÃO
+=============================== */
+
+function abrirCentro(){
+
+window.location.href="painel_setores.html"
+
 }
 
-function obterPedidosProjeto(id){
-  try{
-    const lista = JSON.parse(localStorage.getItem("SDL_pedidos_lista") || "[]");
-    return lista.filter(p => p.projetoID === id);
-  }catch{
-    return [];
-  }
+
+function abrirRelatorio(){
+
+window.location.href="hub_relatorios.html"
+
 }
 
-function obterCapasProjeto(id){
-  try{
-    const lista = JSON.parse(localStorage.getItem("SDL_capas_lista") || "[]");
-    return lista.filter(c => c.projetoID === id);
-  }catch{
-    return [];
-  }
+
+function voltar(){
+
+window.location.href="admin.html"
+
 }
 
-function aplicarBadge(id, tipo, texto){
-  const el = document.getElementById(id);
-  el.classList.remove("ok", "medio");
 
-  if(tipo === "ok"){
-    el.classList.add("ok");
-  }else if(tipo === "medio"){
-    el.classList.add("medio");
-  }
-
-  el.innerHTML = texto;
-}
-
-function montarStatusFluxo(){
-  const projeto = obterProjetoAtivo();
-
-  if(!projeto){
-    document.getElementById("statusFluxo").innerHTML = "Nenhum projeto ativo selecionado.";
-    document.getElementById("resumoObra").innerHTML = "Sem obra ativa no momento.";
-    document.getElementById("textoPercentual").innerHTML = "0%";
-    document.getElementById("statusInstitucional").innerHTML = "Selecione uma obra para iniciar o fluxo editorial.";
-    return;
-  }
-
-  const plano = localStorage.getItem("SDL_plano") || "";
-  const pagamento = localStorage.getItem("SDL_pagamento") || "";
-  const pedidos = obterPedidosProjeto(projeto.id);
-  const capas = obterCapasProjeto(projeto.id);
-
-  const cfgCapa = lerJSON("SDL_configuracao_capa_ativa");
-  const textosCapa = lerJSON("SDL_textos_capa_ativos");
-
-  const planejamentoMiolo = lerJSON("SDL_planejamento_miolo_ativo");
-  const elementosMiolo = lerJSON("SDL_elementos_tecnicos_ativos");
-  const padraoMiolo = lerJSON("SDL_padrao_diagramacao");
-
-  const planejamentoTraducao = lerJSON("SDL_planejamento_traducao_ativo");
-  const glossarioTraducao = lerJSON("SDL_glossario_traducao_ativo");
-
-  const leituraTecnica = lerJSON("SDL_leitura_tecnica_ativa");
-
-  document.getElementById("statusFluxo").innerHTML =
-    "Fluxo editorial aplicado à obra: <strong>" + (projeto.titulo || "Sem título") + "</strong>";
-  document.getElementById("statusFluxo").style.background = "rgba(23,77,39,0.28)";
-
-  document.getElementById("resumoObra").innerHTML =
-    '<div class="linha"><span class="rotulo">Título:</span> ' + (projeto.titulo || "—") + '</div>' +
-    '<div class="linha"><span class="rotulo">Autor:</span> ' + (projeto.autor || "—") + '</div>' +
-    '<div class="linha"><span class="rotulo">Formato:</span> ' + (projeto.formato || "—") + '</div>' +
-    '<div class="linha"><span class="rotulo">Status editorial:</span> ' + (projeto.status || "—") + '</div>';
-
-  const planejamentoOk = !!plano && !!pagamento;
-  const capaOk = capas.length > 0 && cfgCapa && cfgCapa.projetoID === projeto.id && textosCapa && textosCapa.projetoID === projeto.id;
-  const capaParcial = capas.length > 0 || (cfgCapa && cfgCapa.projetoID === projeto.id);
-  const mioloOk = planejamentoMiolo && planejamentoMiolo.projetoID === projeto.id &&
-                  elementosMiolo && elementosMiolo.projetoID === projeto.id &&
-                  padraoMiolo && padraoMiolo.idProjeto === projeto.id;
-  const mioloParcial = (planejamentoMiolo && planejamentoMiolo.projetoID === projeto.id) ||
-                       (elementosMiolo && elementosMiolo.projetoID === projeto.id) ||
-                       (padraoMiolo && padraoMiolo.idProjeto === projeto.id);
-
-  const traducaoOk = planejamentoTraducao && planejamentoTraducao.projetoID === projeto.id &&
-                     glossarioTraducao && glossarioTraducao.projetoID === projeto.id;
-  const traducaoParcial = (planejamentoTraducao && planejamentoTraducao.projetoID === projeto.id) ||
-                          (glossarioTraducao && glossarioTraducao.projetoID === projeto.id);
-
-  const leituraOk = leituraTecnica && leituraTecnica.projetoID === projeto.id;
-
-  if(planejamentoOk){
-    aplicarBadge("badgePlanejamentoEditorial", "ok", "Concluído");
-  }else if(plano || pagamento){
-    aplicarBadge("badgePlanejamentoEditorial", "medio", "Parcial");
-  }else{
-    aplicarBadge("badgePlanejamentoEditorial", "", "Pendente");
-  }
-
-  if(capaOk){
-    aplicarBadge("badgeCapaEditorial", "ok", "Concluído");
-  }else if(capaParcial){
-    aplicarBadge("badgeCapaEditorial", "medio", "Parcial");
-  }else{
-    aplicarBadge("badgeCapaEditorial", "", "Pendente");
-  }
-
-  if(mioloOk){
-    aplicarBadge("badgeMioloEditorial", "ok", "Concluído");
-  }else if(mioloParcial){
-    aplicarBadge("badgeMioloEditorial", "medio", "Parcial");
-  }else{
-    aplicarBadge("badgeMioloEditorial", "", "Pendente");
-  }
-
-  if(traducaoOk){
-    aplicarBadge("badgeTraducaoEditorial", "ok", "Concluído");
-  }else if(traducaoParcial){
-    aplicarBadge("badgeTraducaoEditorial", "medio", "Parcial");
-  }else{
-    aplicarBadge("badgeTraducaoEditorial", "", "Pendente");
-  }
-
-  if(leituraOk){
-    aplicarBadge("badgeLeituraEditorial", "ok", "Concluído");
-  }else{
-    aplicarBadge("badgeLeituraEditorial", "", "Pendente");
-  }
-
-  const etapas = [
-    planejamentoOk,
-    capaOk,
-    mioloOk,
-    traducaoOk,
-    leituraOk,
-    pedidos.length > 0
-  ];
-
-  const concluidas = etapas.filter(Boolean).length;
-  const percentual = Math.round((concluidas / etapas.length) * 100);
-
-  document.getElementById("textoPercentual").innerHTML =
-    "Percentual geral do fluxo: <strong>" + percentual + "%</strong>";
-
-  document.getElementById("barraFluxo").style.width = percentual + "%";
-
-  if(percentual >= 80){
-    aplicarBadge("badgeProntidaoFinal", "ok", "Alta");
-    document.getElementById("statusInstitucional").innerHTML =
-      "A obra está com fluxo editorial avançado e boa prontidão institucional.";
-  }else if(percentual >= 40){
-    aplicarBadge("badgeProntidaoFinal", "medio", "Média");
-    document.getElementById("statusInstitucional").innerHTML =
-      "A obra está em andamento e já possui parte relevante da estrutura consolidada.";
-  }else{
-    aplicarBadge("badgeProntidaoFinal", "", "Baixa");
-    document.getElementById("statusInstitucional").innerHTML =
-      "A obra ainda está em fase inicial de estruturação editorial.";
-  }
-
-  try{
-    SDL_registrarAuditoria("Acesso ao status do fluxo editorial", "status_fluxo_editorial");
-  }catch(e){}
-}
-
-function abrirCentroObra(){ window.location.href = "centro_obra.html"; }
-function abrirRelatorioMestre(){ window.location.href = "relatorio_lapidar.html"; }
-function voltarIndice(){ window.location.href = "_Indice.html"; }
-
-montarStatusFluxo();
 </script>
+
 
 </body>
 </html>
