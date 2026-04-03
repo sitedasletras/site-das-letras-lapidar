@@ -1,81 +1,70 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Relatório do Capista — Lapidar</title>
 
 <style>
+
 body{
 margin:0;
-font-family:Arial, sans-serif;
-background:#0d0603;
+font-family:Arial;
+background:#0e0604;
 color:white;
+}
+
+header{
+background:#2f436d;
+padding:20px;
+display:flex;
+justify-content:space-between;
+align-items:center;
 }
 
 .container{
-width:min(1000px,95%);
+max-width:1000px;
 margin:auto;
-padding:40px 0 60px;
-}
-
-.titulo{
-font-size:34px;
-font-weight:bold;
-}
-
-.subtitulo{
-margin-top:6px;
-color:#f7b22c;
+padding:30px 20px;
 }
 
 .card{
-margin-top:24px;
-background:#140c08;
-border:1px solid rgba(255,123,44,0.18);
-border-radius:16px;
+background:#1c0e08;
+border-radius:14px;
 padding:20px;
-line-height:1.8;
+margin-bottom:20px;
+box-shadow:0 6px 18px rgba(0,0,0,.25);
 }
 
-.label{
-color:#f7b22c;
-font-weight:bold;
+textarea{
+width:100%;
+height:160px;
+border-radius:10px;
+border:none;
+padding:10px;
 margin-top:10px;
-}
-
-.actions{
-margin-top:28px;
-display:flex;
-gap:12px;
-flex-wrap:wrap;
+background:#140a06;
+color:white;
 }
 
 button{
+padding:12px 16px;
 border:none;
-padding:14px 18px;
-border-radius:999px;
-background:#24150f;
-color:white;
+border-radius:8px;
 cursor:pointer;
+font-weight:bold;
+background:#2f436d;
+color:white;
+margin-top:10px;
+margin-right:10px;
 }
 
-.status{
-margin-top:18px;
-padding:16px;
-border-radius:12px;
-background:rgba(247,178,44,0.12);
-border:1px solid rgba(247,178,44,0.25);
-color:#ffe7b0;
+button.alt{
+background:#8a6f3f;
 }
 
-.blocoTexto{
-margin-top:14px;
-padding:16px;
-border-radius:12px;
-background:#1b100a;
-white-space:pre-line;
-line-height:1.8;
+button.sec{
+background:#6c757d;
 }
 
 </style>
@@ -83,240 +72,158 @@ line-height:1.8;
 
 <body>
 
+<header>
+
+<h2>Relatório do Capista</h2>
+
+<button onclick="voltar()">Voltar</button>
+
+</header>
+
+
 <div class="container">
 
-<div class="titulo">Relatório do Capista</div>
-<div class="subtitulo">Documento técnico da identidade visual da obra</div>
 
-<div id="statusRelatorio" class="status">
-Carregando dados do relatório...
-</div>
+<div class="card">
 
-<div id="conteudoRelatorio"></div>
+<h3>Projeto ativo</h3>
 
-<div class="actions">
-  <button onclick="window.print()">Exportar PDF técnico</button>
-  <button onclick="voltarIndice()">Voltar ao índice</button>
+<div id="nomeProjeto">
+
+Nenhum projeto ativo selecionado.
+
 </div>
 
 </div>
 
-<script src="auditoria.js"></script>
+
+
+<div class="card">
+
+<h3>Análise da capa</h3>
+
+<textarea id="campoCapista"
+placeholder="Registrar observações sobre capa, contracapa, orelhas, lombada, tipografia, identidade visual editorial..."></textarea>
+
+<button onclick="salvarRelatorio()">
+
+Salvar relatório do capista
+
+</button>
+
+</div>
+
+
+
+<div class="card">
+
+<h3>Navegação rápida</h3>
+
+<button onclick="abrirDepartamentos()">Departamentos</button>
+
+<button onclick="abrirSetores()">Setores</button>
+
+<button onclick="abrirFluxo()">Fluxo editorial</button>
+
+<button onclick="abrirPreview()" class="alt">Preview</button>
+
+<button onclick="abrirProgresso()" class="sec">Progresso</button>
+
+</div>
+
+
+</div>
+
+
 
 <script>
-function obterProjetoAtivo(){
-  try{
-    const lista = JSON.parse(localStorage.getItem("SDL_projetos_lista") || "[]");
-    const ativo = localStorage.getItem("SDL_projeto_ativo");
-    return lista.find(p => p.id === ativo) || null;
-  }catch{
-    return null;
-  }
+
+/* SESSION GUARD PADRÃO LAPIDAR */
+
+const perfil = localStorage.getItem("lapidar_perfil")
+
+if(!perfil){
+
+window.location.href="index.html"
+
 }
 
-function carregarRelatorioCapista(){
-  const projeto = obterProjetoAtivo();
-  const status = document.getElementById("statusRelatorio");
-  const area = document.getElementById("conteudoRelatorio");
 
-  if(!projeto){
-    status.innerHTML = "Nenhum projeto ativo selecionado.";
-    area.innerHTML = "";
-    return;
-  }
+/* PROJETO ATIVO */
 
-  let cfg = null;
-  let textos = null;
-  let capas = [];
+const projeto = localStorage.getItem("lapidar_projeto_ativo")
 
-  try{
-    cfg = JSON.parse(localStorage.getItem("SDL_configuracao_capa_ativa") || "null");
-  }catch(e){}
+if(projeto){
 
-  try{
-    textos = JSON.parse(localStorage.getItem("SDL_textos_capa_ativos") || "null");
-  }catch(e){}
+document.getElementById("nomeProjeto").innerText = projeto
 
-  try{
-    capas = JSON.parse(localStorage.getItem("SDL_capas_lista") || "[]");
-  }catch(e){}
-
-  const capaProjeto = capas.filter(c => c.projetoID === projeto.id);
-  const ultimaSolicitacao = capaProjeto.length ? capaProjeto[capaProjeto.length - 1] : null;
-
-  status.innerHTML = "Relatório do capista carregado para: <strong>" + (projeto.titulo || "Sem título") + "</strong>";
-  status.style.background = "rgba(23,77,39,0.28)";
-
-  let html = "";
-
-  html += `
-    <div class="card">
-      <div class="label">Projeto</div>
-      ${projeto.titulo || "—"}
-
-      <div class="label">Autor</div>
-      ${projeto.autor || "—"}
-
-      <div class="label">Formato editorial</div>
-      ${projeto.formato || "—"}
-
-      <div class="label">Data do projeto</div>
-      ${formatarData(projeto.dataRegistro)}
-    </div>
-  `;
-
-  html += `
-    <div class="card">
-      <div class="label">Status da solicitação de capa</div>
-      ${ultimaSolicitacao ? (ultimaSolicitacao.status || "Solicitado") : "Nenhuma solicitação registrada"}
-
-      <div class="label">Plano vinculado</div>
-      ${ultimaSolicitacao ? (ultimaSolicitacao.plano || "—") : "—"}
-
-      <div class="label">Data da última solicitação</div>
-      ${ultimaSolicitacao ? formatarData(ultimaSolicitacao.dataRegistro) : "—"}
-    </div>
-  `;
-
-  if(cfg && cfg.projetoID === projeto.id){
-    html += `
-      <div class="card">
-        <div class="label">Título na capa</div>
-        ${cfg.titulo || "—"}
-
-        <div class="label">Subtítulo</div>
-        ${cfg.subtitulo || "—"}
-
-        <div class="label">Autor na capa</div>
-        ${cfg.autor || "—"}
-
-        <div class="label">Formato</div>
-        ${cfg.formato || "—"}
-
-        <div class="label">Dimensão base</div>
-        ${(cfg.largura || "—")} x ${(cfg.altura || "—")} mm
-
-        <div class="label">Páginas</div>
-        ${cfg.paginas || "—"}
-
-        <div class="label">Tipo de papel</div>
-        ${cfg.papelNome || "—"}
-
-        <div class="label">Gramatura</div>
-        ${cfg.gramatura || "—"}
-
-        <div class="label">Lombada estimada</div>
-        ${cfg.lombada || "—"} mm
-
-        <div class="label">Largura total da capa aberta</div>
-        ${cfg.larguraAberta || "—"} mm
-
-        <div class="label">Selo editorial</div>
-        ${cfg.selo || "—"}
-
-        <div class="label">Data da configuração técnica</div>
-        ${formatarData(cfg.dataRegistro)}
-      </div>
-    `;
-  } else {
-    html += `
-      <div class="card">
-        <div class="label">Configuração técnica da capa</div>
-        Nenhuma configuração técnica salva para este projeto.
-      </div>
-    `;
-  }
-
-  if(textos && textos.projetoID === projeto.id){
-    html += `
-      <div class="card">
-        <div class="label">Sinopse / Contra-capa</div>
-        <div class="blocoTexto">${escapeHtml(textos.sinopse || "—")}</div>
-
-        <div class="label">Biografia do autor</div>
-        <div class="blocoTexto">${escapeHtml(textos.biografia || "—")}</div>
-
-        <div class="label">Orelha dianteira</div>
-        <div class="blocoTexto">${escapeHtml(textos.orelhaDianteira || "—")}</div>
-
-        <div class="label">Orelha traseira</div>
-        <div class="blocoTexto">${escapeHtml(textos.orelhaTraseira || "—")}</div>
-
-        <div class="label">Texto extra</div>
-        <div class="blocoTexto">${escapeHtml(textos.textoExtra || "—")}</div>
-
-        <div class="label">Data dos textos salvos</div>
-        ${formatarData(textos.dataRegistro)}
-      </div>
-    `;
-  } else {
-    html += `
-      <div class="card">
-        <div class="label">Textos da capa</div>
-        Nenhum texto de capa salvo para este projeto.
-      </div>
-    `;
-  }
-
-  html += `
-    <div class="card">
-      <div class="label">Status institucional do módulo capista</div>
-      ${gerarStatusCapista(cfg, textos, ultimaSolicitacao)}
-    </div>
-  `;
-
-  area.innerHTML = html;
-
-  try{
-    SDL_registrarAuditoria("Relatório do capista gerado", "relatorio_capista");
-  }catch(e){}
 }
 
-function gerarStatusCapista(cfg, textos, solicitacao){
-  if(!solicitacao){
-    return "Aguardando solicitação formal de capa.";
-  }
 
-  if(solicitacao && !cfg){
-    return "Solicitação registrada, aguardando configuração técnica da capa.";
-  }
+/* CARREGAR RELATÓRIO EXISTENTE */
 
-  if(cfg && !textos){
-    return "Configuração técnica pronta, aguardando textos da capa.";
-  }
+const relatorioCapista = localStorage.getItem("lapidar_relatorio_capista")
 
-  if(cfg && textos){
-    return "Material técnico e textual da capa disponíveis para produção.";
-  }
+if(relatorioCapista){
 
-  return "Status não identificado.";
+document.getElementById("campoCapista").value = relatorioCapista
+
 }
 
-function formatarData(d){
-  if(!d) return "—";
-  try{
-    return new Date(d).toLocaleString("pt-BR");
-  }catch{
-    return d;
-  }
+
+/* SALVAR RELATÓRIO */
+
+function salvarRelatorio(){
+
+const texto = document.getElementById("campoCapista").value
+
+localStorage.setItem("lapidar_relatorio_capista", texto)
+
+alert("Relatório do capista salvo com sucesso.")
+
 }
 
-function escapeHtml(texto){
-  return String(texto)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;")
-    .replaceAll("\n", "<br>");
+
+/* NAVEGAÇÃO */
+
+function abrirDepartamentos(){
+
+window.location.href="painel_departamentos.html"
+
 }
 
-function voltarIndice(){
-  window.location.href = "_Indice.html";
+function abrirSetores(){
+
+window.location.href="painel_setores.html"
+
 }
 
-carregarRelatorioCapista();
+function abrirFluxo(){
+
+window.location.href="status_fluxo_editorial.html"
+
+}
+
+function abrirPreview(){
+
+window.location.href="preview_projeto.html"
+
+}
+
+function abrirProgresso(){
+
+window.location.href="progresso_projeto.html"
+
+}
+
+function voltar(){
+
+window.location.href="painel_departamentos.html"
+
+}
+
 </script>
+
 
 </body>
 </html>
