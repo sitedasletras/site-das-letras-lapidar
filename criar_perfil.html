@@ -3,72 +3,67 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Criar cadastro • Lapidar</title>
 
 <style>
-
 body{
 margin:0;
-font-family:Arial;
+font-family:Arial, Helvetica, sans-serif;
 background:#e6d3a3;
 }
 
 .container{
-
 max-width:520px;
 margin:40px auto;
 background:white;
 padding:30px;
 border-radius:18px;
 box-shadow:0 10px 25px rgba(0,0,0,.12);
-
 }
 
 .logo{
-
 text-align:center;
 font-size:32px;
 font-weight:bold;
 margin-bottom:6px;
-
 }
 
 .sub{
-
 text-align:center;
 font-size:13px;
 color:#777;
 margin-bottom:24px;
-
+line-height:1.6;
 }
 
 .form-group{
-
 margin-bottom:14px;
-
 }
 
 label{
-
 display:block;
 font-size:13px;
 font-weight:bold;
 margin-bottom:6px;
-
+color:#444;
 }
 
-input{
-
+input, select, textarea{
 width:100%;
 padding:14px;
 border-radius:10px;
 border:1px solid #ccc;
+font-size:15px;
+box-sizing:border-box;
+font-family:Arial, Helvetica, sans-serif;
+}
 
+textarea{
+min-height:100px;
+resize:vertical;
 }
 
 button{
-
 width:100%;
 padding:14px;
 border:none;
@@ -76,59 +71,48 @@ border-radius:12px;
 font-size:16px;
 cursor:pointer;
 font-weight:bold;
-
 }
 
 .salvar{
-
 background:#1f3f75;
 color:white;
 margin-bottom:10px;
-
 }
 
 .voltar{
-
 background:#ddd;
-
+color:#333;
 }
 
 .frase{
-
 margin-top:25px;
 font-size:14px;
 text-align:center;
 color:#555;
 line-height:1.6;
-
 }
 
 .msg{
-
 margin-top:12px;
 padding:12px;
 border-radius:10px;
 font-size:14px;
 display:none;
-
 }
 
 .msg.ok{
-
 background:#eef8f0;
 color:#1f6b36;
 display:block;
-
+border:1px solid #b8dfc0;
 }
 
 .msg.erro{
-
 background:#fff1f1;
 color:#a12626;
 display:block;
-
+border:1px solid #efc0c0;
 }
-
 </style>
 </head>
 
@@ -136,265 +120,190 @@ display:block;
 
 <div class="container">
 
-<div class="logo">
-
-Criar cadastro
-
-</div>
+<div class="logo">Criar cadastro</div>
 
 <div class="sub">
-
 Preencha seus dados para criar seu acesso dentro do Lapidar.
-
 </div>
 
-
 <div class="form-group">
-
 <label>Nome completo</label>
-
-<input id="nomeCompleto">
-
+<input id="nomeCompleto" type="text">
 </div>
 
-
 <div class="form-group">
-
-<label>Login</label>
-
-<input id="login">
-
+<label>Telefone / WhatsApp (com código do país)</label>
+<input id="telefone" type="text" placeholder="+55 11 99999-9999">
 </div>
 
-
 <div class="form-group">
-
 <label>E-mail</label>
-
-<input id="email">
-
+<input id="email" type="email">
 </div>
 
-
 <div class="form-group">
-
 <label>Senha</label>
-
 <input id="senha" type="password">
-
 </div>
 
+<div class="form-group">
+<label>Área principal de interesse literário</label>
+<select id="interessePrincipal">
+  <option value="">Selecione</option>
+  <option value="poesia">Poesia</option>
+  <option value="prosa">Prosa</option>
+  <option value="conto">Conto</option>
+  <option value="romance">Romance</option>
+  <option value="cronica">Crônica</option>
+  <option value="infantil">Literatura infantil</option>
+  <option value="traducao">Tradução</option>
+  <option value="diagramacao">Diagramação</option>
+  <option value="capa">Capas</option>
+  <option value="avaliacao">Avaliação literária</option>
+  <option value="outro">Outro</option>
+</select>
+</div>
 
 <div class="form-group">
+<label>Fale um pouco do que você curte ou produz</label>
+<textarea id="perfilLiterario" placeholder="Ex.: poesia, contos, romance, literatura espiritual, fantasia, revisão, capa, diagramação..."></textarea>
+</div>
 
+<div class="form-group">
 <label>Pergunta de segurança 1</label>
-
-<input id="pergunta1" placeholder="Qual é o seu nome do meio?">
-
+<input id="pergunta1" placeholder="Ex.: Qual o nome da sua sobrinha favorita?">
 </div>
 
-
 <div class="form-group">
-
 <label>Resposta 1</label>
-
-<input id="resposta1">
-
+<input id="resposta1" type="text">
 </div>
 
-
 <div class="form-group">
-
 <label>Pergunta de segurança 2</label>
-
-<input id="pergunta2" placeholder="Qual é o número da sua casa?">
-
+<input id="pergunta2" placeholder="Ex.: Qual o nome da sua primeira namorada?">
 </div>
-
 
 <div class="form-group">
-
 <label>Resposta 2</label>
-
-<input id="resposta2">
-
+<input id="resposta2" type="text">
 </div>
-
 
 <button class="salvar" onclick="salvarCadastro()">
-
 Salvar cadastro
-
 </button>
-
 
 <button class="voltar" onclick="voltarLogin()">
-
 Voltar ao login
-
 </button>
-
 
 <div id="mensagem" class="msg"></div>
 
-
 <div class="frase">
-
 Este Celeiro Literário era um sonho — e aqui está a prova de que sonhos também podem tornar-se reais.<br>
 Bem-vindo ao Lapidar.
-
 </div>
 
-
 </div>
-
-
 
 <script>
-
 function detectarIdioma(){
-
-const nav=(navigator.language||"pt").toLowerCase()
-
-if(nav.startsWith("en"))return"en"
-
-if(nav.startsWith("es"))return"es"
-
-return"pt"
-
+  const nav = (navigator.language || "pt").toLowerCase();
+  if(nav.startsWith("en")) return "en";
+  if(nav.startsWith("es")) return "es";
+  return "pt";
 }
-
-
 
 function carregarCadastros(){
-
-return JSON.parse(localStorage.getItem("lapidar_cadastros")||"[]")
-
+  try{
+    return JSON.parse(localStorage.getItem("lapidar_cadastros") || "[]");
+  }catch(e){
+    return [];
+  }
 }
-
-
 
 function salvarCadastros(lista){
-
-localStorage.setItem("lapidar_cadastros",JSON.stringify(lista))
-
+  localStorage.setItem("lapidar_cadastros", JSON.stringify(lista));
 }
 
-
-
-function mostrarMensagem(tipo,texto){
-
-const box=document.getElementById("mensagem")
-
-box.className="msg "+tipo
-
-box.innerText=texto
-
+function mostrarMensagem(tipo, texto){
+  const box = document.getElementById("mensagem");
+  box.className = "msg " + tipo;
+  box.innerText = texto;
 }
 
-
+function normalizarTelefone(valor){
+  let limpo = valor.replace(/[^\d+]/g, "");
+  if(!limpo.startsWith("+") && limpo.length > 0){
+    limpo = "+" + limpo;
+  }
+  return limpo;
+}
 
 function salvarCadastro(){
+  const nomeCompleto = document.getElementById("nomeCompleto").value.trim();
+  const telefoneBruto = document.getElementById("telefone").value.trim();
+  const telefone = normalizarTelefone(telefoneBruto);
+  const email = document.getElementById("email").value.trim().toLowerCase();
+  const senha = document.getElementById("senha").value;
+  const interessePrincipal = document.getElementById("interessePrincipal").value;
+  const perfilLiterario = document.getElementById("perfilLiterario").value.trim();
+  const pergunta1 = document.getElementById("pergunta1").value.trim();
+  const resposta1 = document.getElementById("resposta1").value.trim();
+  const pergunta2 = document.getElementById("pergunta2").value.trim();
+  const resposta2 = document.getElementById("resposta2").value.trim();
 
+  if(!nomeCompleto || !telefone || !email || !senha || !interessePrincipal || !perfilLiterario || !pergunta1 || !resposta1 || !pergunta2 || !resposta2){
+    mostrarMensagem("erro","Preencha todos os campos.");
+    return;
+  }
 
-const nomeCompleto=document.getElementById("nomeCompleto").value.trim()
+  const cadastros = carregarCadastros();
 
-const login=document.getElementById("login").value.trim().toLowerCase()
+  const existe = cadastros.find(item =>
+    item.email === email || item.telefone === telefone
+  );
 
-const email=document.getElementById("email").value.trim().toLowerCase()
+  if(existe){
+    mostrarMensagem("erro","E-mail ou telefone já cadastrado.");
+    return;
+  }
 
-const senha=document.getElementById("senha").value
+  cadastros.push({
+    tipoCadastro: "utilizador",
+    nomeCompleto,
+    telefone,
+    email,
+    senha,
+    perfil: "utilizador",
+    idioma: detectarIdioma(),
+    interessePrincipal,
+    perfilLiterario,
+    pergunta1,
+    resposta1,
+    pergunta2,
+    resposta2,
+    statusFluxo: "cadastro_criado",
+    contribuicaoStatus: "aguardando_contribuicao",
+    downloadLiberado: false
+  });
 
-const pergunta1=document.getElementById("pergunta1").value
+  salvarCadastros(cadastros);
 
-const resposta1=document.getElementById("resposta1").value
+  localStorage.setItem("lapidar_ultimo_cadastro_login", email);
+  localStorage.setItem("lapidar_ultimo_cadastro_telefone", telefone);
+  localStorage.setItem("lapidar_ultimo_cadastro_perfil", "utilizador");
 
-const pergunta2=document.getElementById("pergunta2").value
+  mostrarMensagem("ok","Cadastro salvo com sucesso.");
 
-const resposta2=document.getElementById("resposta2").value
-
-
-
-if(!nomeCompleto||!login||!email||!senha||!pergunta1||!resposta1||!pergunta2||!resposta2){
-
-mostrarMensagem("erro","Preencha todos os campos.")
-
-return
-
+  setTimeout(() => {
+    window.location.href = "index.html";
+  }, 800);
 }
-
-
-
-const cadastros=carregarCadastros()
-
-
-
-const existe=cadastros.find(item=>item.login===login||item.email===email)
-
-
-
-if(existe){
-
-mostrarMensagem("erro","Login ou e-mail já cadastrado.")
-
-return
-
-}
-
-
-
-cadastros.push({
-
-nomeCompleto,
-
-login,
-
-email,
-
-senha,
-
-perfil:"cortesia",
-
-idioma:detectarIdioma(),
-
-pergunta1,
-
-resposta1,
-
-pergunta2,
-
-resposta2
-
-})
-
-
-
-salvarCadastros(cadastros)
-
-
-
-mostrarMensagem("ok","Cadastro salvo com sucesso.")
-
-
-
-setTimeout(()=>{
-
-window.location.href="index.html"
-
-},800)
-
-
-
-}
-
-
 
 function voltarLogin(){
-
-window.location.href="index.html"
-
+  window.location.href = "index.html";
 }
-
 </script>
 
 </body>
