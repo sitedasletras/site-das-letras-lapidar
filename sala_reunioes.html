@@ -17,11 +17,12 @@
       --green2:#1f7c45;
       --violet:#77549a;
       --violet2:#9c79bc;
+      --gold:#a98547;
+      --gold2:#7a5b2e;
       --shadow:0 14px 30px rgba(52,34,10,.14);
     }
 
     *{box-sizing:border-box}
-
     html,body{
       margin:0;
       padding:0;
@@ -90,15 +91,9 @@
     }
 
     .wrap{
-      max-width:1450px;
+      max-width:1150px;
       margin:0 auto;
       padding:22px 16px 32px;
-      display:grid;
-      grid-template-columns:minmax(0,1fr) 360px;
-      gap:22px;
-    }
-
-    .stack{
       display:grid;
       gap:22px;
     }
@@ -155,8 +150,8 @@
       padding:18px;
       display:flex;
       flex-direction:column;
-      gap:12px;
-      min-height:310px;
+      gap:14px;
+      min-height:180px;
     }
 
     .band{
@@ -197,28 +192,12 @@
       color:var(--muted);
     }
 
-    .mini-list{
-      display:grid;
-      gap:8px;
-    }
-
-    .mini-list div{
-      border:1px solid #e5d6b4;
-      border-radius:14px;
-      background:#fffdf9;
-      padding:11px 12px;
-      font-size:13px;
-      line-height:1.55;
-      font-weight:700;
-      color:#4a3522;
-    }
-
     .door a{
       margin-top:auto;
       display:flex;
       justify-content:center;
       align-items:center;
-      min-height:52px;
+      min-height:54px;
       border-radius:15px;
       font-size:15px;
       font-weight:900;
@@ -230,95 +209,35 @@
     .btn-prod{background:linear-gradient(135deg,var(--green2),var(--green))}
     .btn-cort{background:linear-gradient(135deg,var(--violet),var(--violet2))}
 
-    .summary-grid{
-      display:grid;
-      grid-template-columns:repeat(3,minmax(0,1fr));
-      gap:14px;
+    .joias-wrap{
+      display:none;
     }
 
-    .summary{
-      background:#fff;
-      border:1px solid var(--line);
-      border-radius:20px;
-      padding:16px;
-    }
-
-    .summary small{
+    .joias-wrap.show{
       display:block;
-      text-transform:uppercase;
-      letter-spacing:.08em;
-      font-size:12px;
+    }
+
+    .joia-button{
+      width:100%;
+      min-height:54px;
+      border:none;
+      border-radius:16px;
+      background:linear-gradient(135deg,var(--gold2) 0%, var(--gold) 100%);
+      color:#fff;
+      font-size:16px;
       font-weight:900;
-      color:var(--muted);
-      margin-bottom:8px;
+      cursor:pointer;
     }
 
-    .summary strong{
-      display:block;
-      font-size:22px;
-      line-height:1.1;
-      margin-bottom:6px;
-    }
-
-    .summary span{
-      color:var(--muted);
-      font-size:13px;
-      line-height:1.6;
-    }
-
-    .side-box{
-      display:grid;
-      gap:22px;
-      align-self:start;
-      position:sticky;
-      top:18px;
-    }
-
-    .meter{
-      display:grid;
-      gap:12px;
-    }
-
-    .meter-item{
-      background:#fff;
-      border:1px solid var(--line);
-      border-radius:18px;
-      padding:16px;
-    }
-
-    .meter-item small{
-      display:block;
-      text-transform:uppercase;
-      letter-spacing:.08em;
-      font-size:12px;
-      font-weight:900;
-      color:var(--muted);
-      margin-bottom:8px;
-    }
-
-    .meter-item strong{
-      display:block;
-      font-size:19px;
-      line-height:1.15;
-    }
-
-    .line-list{
+    .joia-panel{
+      display:none;
       margin-top:14px;
-      padding-top:14px;
-      border-top:1px solid var(--line);
-      display:grid;
       gap:12px;
     }
 
-    .line{
-      display:flex;
-      justify-content:space-between;
-      gap:10px;
-      font-size:14px;
+    .joia-panel.show{
+      display:grid;
     }
-
-    .line span{color:var(--muted)}
-    .line strong{text-align:right}
 
     .secret{
       background:#fff;
@@ -363,39 +282,6 @@
       margin-left:8px;
     }
 
-    .joia-button{
-      width:100%;
-      min-height:54px;
-      border:none;
-      border-radius:16px;
-      background:linear-gradient(135deg,#7a5b2e 0%, #a98547 100%);
-      color:#fff;
-      font-size:16px;
-      font-weight:900;
-      cursor:pointer;
-    }
-
-    .joia-panel{
-      display:none;
-      margin-top:14px;
-      gap:12px;
-    }
-
-    .joia-panel.show{
-      display:grid;
-    }
-
-    .notice{
-      background:#fff4df;
-      border:1px solid #efd4a4;
-      color:#7a5621;
-      border-radius:16px;
-      padding:14px;
-      font-size:13px;
-      line-height:1.7;
-      margin-top:14px;
-    }
-
     .hidden{display:none !important}
 
     .footer{
@@ -406,10 +292,8 @@
       font-weight:800;
     }
 
-    @media (max-width:1200px){
-      .wrap{grid-template-columns:1fr}
-      .side-box{position:relative;top:auto}
-      .door-grid,.summary-grid{grid-template-columns:1fr}
+    @media (max-width:980px){
+      .door-grid{grid-template-columns:1fr}
     }
   </style>
 </head>
@@ -425,160 +309,64 @@
   </header>
 
   <main class="wrap">
-    <section class="stack">
-      <section class="card">
-        <div class="card-head">
-          <small>Portas principais</small>
-          <h2>Escolha a área que deseja abrir</h2>
-          <p>Essa sala vem depois do login. É aqui que ficam os três botões principais, conforme o perfil.</p>
-        </div>
-        <div class="card-body">
-          <div class="door-grid">
-            <article class="door" id="doorAdmin">
-              <div class="band admin"></div>
-              <span class="pill admin">Área 1</span>
-              <h3>Administrativo</h3>
-              <p>Gestão institucional, usuários, permissões, relatórios internos e organização central do sistema.</p>
-              <div class="mini-list">
-                <div>Usuários e permissões</div>
-                <div>Estrutura administrativa</div>
-                <div>Controle institucional</div>
-              </div>
-              <a class="btn-admin" href="admin_painel.html">Entrar no Administrativo</a>
-            </article>
+    <section class="card">
+      <div class="card-head">
+        <small>Portas principais</small>
+        <h2>Escolha a área que deseja abrir</h2>
+        <p>É aqui que ficam os botões principais, conforme o perfil.</p>
+      </div>
+      <div class="card-body">
+        <div class="door-grid">
+          <article class="door" id="doorAdmin">
+            <div class="band admin"></div>
+            <span class="pill admin">Área 1</span>
+            <h3>Administrativo</h3>
+            <p>Gestão institucional, usuários, permissões e organização central do sistema.</p>
+            <a class="btn-admin" href="admin_painel.html">Entrar no Administrativo</a>
+          </article>
 
-            <article class="door" id="doorProd">
-              <div class="band prod"></div>
-              <span class="pill prod">Área 2</span>
-              <h3>Produção</h3>
-              <p>Entrada integrada da história, setores produtivos, mesário por setor, soma final e saída da obra.</p>
-              <div class="mini-list">
-                <div>Setores 1, 3, 5, 7, 11 e 13</div>
-                <div>Mesário por setor</div>
-                <div>Encaminhamento ao Mesário-mor</div>
-              </div>
-              <a class="btn-prod" href="producao_integrada.html">Entrar na Produção</a>
-            </article>
+          <article class="door" id="doorProd">
+            <div class="band prod"></div>
+            <span class="pill prod">Área 2</span>
+            <h3>Produção</h3>
+            <p>Entrada integrada da história, setores produtivos, mesário por setor, soma final e saída da obra.</p>
+            <a class="btn-prod" href="producao_integrada.html">Entrar na Produção</a>
+          </article>
 
-            <article class="door" id="doorCort">
-              <div class="band cort"></div>
-              <span class="pill cort">Área 3</span>
-              <h3>Cortesias</h3>
-              <p>Gestão das cortesias do sistema, com regras especiais de liberação e acompanhamento dos acessos.</p>
-              <div class="mini-list">
-                <div>Cortesias Top Global</div>
-                <div>Prazos e acessos</div>
-                <div>Ambiente institucional protegido</div>
-              </div>
-              <a class="btn-cort" href="cortesias_painel.html">Entrar em Cortesias</a>
-            </article>
-          </div>
+          <article class="door" id="doorCort">
+            <div class="band cort"></div>
+            <span class="pill cort">Área 3</span>
+            <h3>Cortesias</h3>
+            <p>Gestão das cortesias do sistema, com regras especiais de liberação e acompanhamento dos acessos.</p>
+            <a class="btn-cort" href="cortesias_painel.html">Entrar em Cortesias</a>
+          </article>
         </div>
-      </section>
-
-      <section class="card">
-        <div class="card-head">
-          <small>Resumo visual</small>
-          <h2>Leitura do perfil ativo</h2>
-          <p>Este bloco mostra o que está aberto para o perfil atual.</p>
-        </div>
-        <div class="card-body">
-          <div class="summary-grid">
-            <div class="summary">
-              <small>Perfil carregado</small>
-              <strong id="perfilAtual">—</strong>
-              <span id="perfilDesc">Aguardando perfil.</span>
-            </div>
-            <div class="summary">
-              <small>Portas disponíveis</small>
-              <strong id="portasQtd">—</strong>
-              <span id="portasDesc">Aguardando perfil.</span>
-            </div>
-            <div class="summary">
-              <small>Mesário</small>
-              <strong id="mesarioTipo">—</strong>
-              <span id="mesarioDesc">Aguardando perfil.</span>
-            </div>
-          </div>
-        </div>
-      </section>
+      </div>
     </section>
 
-    <aside class="side-box">
-      <section class="card">
-        <div class="card-head">
-          <small>Resumo da sala</small>
-          <h2>Perfil e alcance atual</h2>
-          <p>Resumo rápido do tipo de acesso que entrou.</p>
-        </div>
-        <div class="card-body">
-          <div class="meter">
-            <div class="meter-item">
-              <small>Usuário atual</small>
-              <strong id="usuarioAtual">—</strong>
-            </div>
-            <div class="meter-item">
-              <small>Perfil atual</small>
-              <strong id="perfilSide">—</strong>
-            </div>
-            <div class="meter-item">
-              <small>Portas liberadas</small>
-              <strong id="portasSide">—</strong>
-            </div>
-          </div>
+    <section class="joias-wrap" id="joiasWrap">
+      <button class="joia-button" onclick="toggleJoias()">Joias da Corte</button>
 
-          <div class="line-list">
-            <div class="line"><span>Administrativo</span><strong id="statusAdmin">—</strong></div>
-            <div class="line"><span>Produção</span><strong id="statusProd">—</strong></div>
-            <div class="line"><span>Cortesias</span><strong id="statusCort">—</strong></div>
-            <div class="line"><span>Mesário</span><strong id="statusMes">—</strong></div>
+      <div class="joia-panel" id="joiaPanel">
+        <div class="secret">
+          <strong>Administrador</strong>
+          <div class="secret-line">Login: <code>admin@sitedasletras.com</code></div>
+          <div class="secret-line">
+            Senha: <span class="pw">••••••••</span>
+            <button class="toggle" onclick="toggleSenha(this,'admin123')">mostrar</button>
           </div>
         </div>
-      </section>
 
-      <section class="card hidden" id="joiasDaCorte">
-        <div class="card-head">
-          <small>Área escondida</small>
-          <h2>Joias da Corte</h2>
-          <p>Esta área fica protegida. Só Admin e Heterônimo podem abrir.</p>
-        </div>
-        <div class="card-body">
-          <button class="joia-button" onclick="toggleJoias()">Entrar em Joias da Corte</button>
-
-          <div class="joia-panel" id="joiaPanel">
-            <div class="secret">
-              <strong>Administrador</strong>
-              <div class="secret-line">Login: <code>admin@sitedasletras.com</code></div>
-              <div class="secret-line">
-                Senha: <span class="pw">••••••••</span>
-                <button class="toggle" onclick="toggleSenha(this,'admin123')">mostrar</button>
-              </div>
-            </div>
-
-            <div class="secret">
-              <strong>Heterônimo</strong>
-              <div class="secret-line"><code>heteronimos@sitedasletrasedicoesliterarias.com</code></div>
-              <div class="secret-line">
-                Senha: <span class="pw">••••••••</span>
-                <button class="toggle" onclick="toggleSenha(this,'heteronimo123')">mostrar</button>
-              </div>
-            </div>
+        <div class="secret">
+          <strong>Heterônimo</strong>
+          <div class="secret-line"><code>heteronimos@sitedasletrasedicoesliterarias.com</code></div>
+          <div class="secret-line">
+            Senha: <span class="pw">••••••••</span>
+            <button class="toggle" onclick="toggleSenha(this,'heteronimo123')">mostrar</button>
           </div>
         </div>
-      </section>
-
-      <section class="card">
-        <div class="card-head">
-          <small>Regra oficial</small>
-          <h2>Quem vê o quê</h2>
-        </div>
-        <div class="card-body">
-          <div class="notice">
-            Admin vê Administrativo + Produção + Cortesias. Heterônimo vê Produção + Cortesias. Cortesia vê só Produção. Joias da Corte fica escondida e só abre para Admin e Heterônimo.
-          </div>
-        </div>
-      </section>
-    </aside>
+      </div>
+    </section>
   </main>
 
   <div class="footer">Lapidar • Celeiro Literário • Site das Letras Edições Literárias</div>
@@ -588,6 +376,7 @@
       localStorage.removeItem("lapidar_usuario");
       localStorage.removeItem("lapidar_perfil");
       localStorage.removeItem("lapidar_nome");
+      localStorage.removeItem("lapidar_entrada_setor");
       window.location.href = "index.html";
     }
 
@@ -608,82 +397,37 @@
 
     const perfil = localStorage.getItem("lapidar_perfil");
     const usuario = localStorage.getItem("lapidar_usuario");
-    const nome = localStorage.getItem("lapidar_nome") || usuario || "—";
 
     if(!perfil || !usuario){
       window.location.href = "index.html";
     }
 
     function aplicar(){
-      document.getElementById("usuarioAtual").innerText = nome;
-
       if(perfil === "admin"){
-        document.getElementById("perfilAtual").innerText = "Admin";
-        document.getElementById("perfilDesc").innerText = "Acesso institucional completo à sala de reuniões.";
-        document.getElementById("portasQtd").innerText = "3 portas";
-        document.getElementById("portasDesc").innerText = "Administrativo, Produção e Cortesias liberados.";
-        document.getElementById("mesarioTipo").innerText = "Completo";
-        document.getElementById("mesarioDesc").innerText = "Leitura completa do mesário e do Mesário-mor.";
-
-        document.getElementById("perfilSide").innerText = "Admin";
-        document.getElementById("portasSide").innerText = "3";
-        document.getElementById("statusAdmin").innerText = "Visível";
-        document.getElementById("statusProd").innerText = "Visível";
-        document.getElementById("statusCort").innerText = "Visível";
-        document.getElementById("statusMes").innerText = "Completo";
-
         document.getElementById("doorAdmin").classList.remove("hidden");
         document.getElementById("doorProd").classList.remove("hidden");
         document.getElementById("doorCort").classList.remove("hidden");
-        document.getElementById("joiasDaCorte").classList.remove("hidden");
-
-        document.getElementById("heroText").innerText = "Depois do login, o Admin entra na sala central com acesso ao Administrativo, à Produção e às Cortesias.";
+        document.getElementById("joiasWrap").classList.add("show");
+        document.getElementById("heroText").innerText =
+          "Depois do login, o Admin entra na sala central com acesso ao Administrativo, à Produção e às Cortesias.";
       }
 
       else if(perfil === "heteronimo"){
-        document.getElementById("perfilAtual").innerText = "Heterônimo";
-        document.getElementById("perfilDesc").innerText = "Acesso operacional com leitura completa do fluxo produtivo.";
-        document.getElementById("portasQtd").innerText = "2 portas";
-        document.getElementById("portasDesc").innerText = "Produção e Cortesias liberados.";
-        document.getElementById("mesarioTipo").innerText = "Completo";
-        document.getElementById("mesarioDesc").innerText = "Leitura do mesário por setor e do Mesário-mor.";
-
-        document.getElementById("perfilSide").innerText = "Heterônimo";
-        document.getElementById("portasSide").innerText = "2";
-        document.getElementById("statusAdmin").innerText = "Oculto";
-        document.getElementById("statusProd").innerText = "Visível";
-        document.getElementById("statusCort").innerText = "Visível";
-        document.getElementById("statusMes").innerText = "Completo";
-
         document.getElementById("doorAdmin").classList.add("hidden");
         document.getElementById("doorProd").classList.remove("hidden");
         document.getElementById("doorCort").classList.remove("hidden");
-        document.getElementById("joiasDaCorte").classList.remove("hidden");
-
-        document.getElementById("heroText").innerText = "Depois do login, o Heterônimo entra na sala central com acesso à Produção e às Cortesias.";
+        document.getElementById("joiasWrap").classList.add("show");
+        document.getElementById("heroText").innerText =
+          "Depois do login, o Heterônimo entra na sala central com acesso à Produção e às Cortesias.";
       }
 
       else if(perfil === "cortesia"){
-        document.getElementById("perfilAtual").innerText = "Cortesia";
-        document.getElementById("perfilDesc").innerText = "Acesso liberado apenas para produção.";
-        document.getElementById("portasQtd").innerText = "1 porta";
-        document.getElementById("portasDesc").innerText = "Somente Produção liberada.";
-        document.getElementById("mesarioTipo").innerText = "Ornamental";
-        document.getElementById("mesarioDesc").innerText = "Ambiente institucional sem leitura financeira.";
-
-        document.getElementById("perfilSide").innerText = "Cortesia";
-        document.getElementById("portasSide").innerText = "1";
-        document.getElementById("statusAdmin").innerText = "Oculto";
-        document.getElementById("statusProd").innerText = "Visível";
-        document.getElementById("statusCort").innerText = "Oculto";
-        document.getElementById("statusMes").innerText = "Ornamental";
-
         document.getElementById("doorAdmin").classList.add("hidden");
         document.getElementById("doorProd").classList.remove("hidden");
         document.getElementById("doorCort").classList.add("hidden");
-        document.getElementById("joiasDaCorte").classList.add("hidden");
-
-        document.getElementById("heroText").innerText = "Ambiente institucional liberado por cortesia do Celeiro Literário.";
+        document.getElementById("joiasWrap").classList.remove("show");
+        document.getElementById("heroText").innerText =
+          "Ambiente institucional liberado por cortesia do Celeiro Literário.";
       }
 
       else{
