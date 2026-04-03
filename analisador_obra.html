@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Analisador de Obra • Lapidar</title>
+
+<style>
+body{
+margin:0;
+font-family:Arial, sans-serif;
+background:#0e0604;
+color:white;
+}
+
+header{
+background:#2f436d;
+padding:18px 20px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:12px;
+flex-wrap:wrap;
+}
+
+.container{
+max-width:1100px;
+margin:auto;
+padding:24px 16px 40px;
+}
+
+.card{
+background:#1c0e08;
+border-radius:14px;
+padding:20px;
+margin-bottom:18px;
+box-shadow:0 6px 18px rgba(0,0,0,.25);
+}
+
+label{
+display:block;
+margin-top:14px;
+margin-bottom:6px;
+font-weight:bold;
+}
+
+input[type="text"],
+textarea,
+select{
+width:100%;
+padding:12px;
+border-radius:10px;
+border:none;
+background:#2a140c;
+color:white;
+box-sizing:border-box;
+font-family:Arial, sans-serif;
+}
+
+textarea{
+min-height:140px;
+resize:vertical;
+}
+
+button{
+margin-top:12px;
+padding:12px 16px;
+border:none;
+border-radius:8px;
+background:#2f436d;
+color:white;
+font-weight:bold;
+cursor:pointer;
+}
+
+.alt{
+background:#8a6f3f;
+}
+
+.sec{
+background:#6c757d;
+}
+
+.ok{
+background:#1f6b36;
+}
+
+.preview{
+margin-top:12px;
+background:#2a140c;
+padding:12px;
+border-radius:10px;
+font-size:14px;
+line-height:1.7;
+}
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:16px;
+}
+
+.grid-3{
+display:grid;
+grid-template-columns:1fr 1fr 1fr;
+gap:16px;
+}
+
+.item{
+background:#2a140c;
+padding:14px;
+border-radius:10px;
+line-height:1.6;
+}
+
+@media(max-width:900px){
+.grid-3{
+grid-template-columns:1fr;
+}
+}
+
+@media(max-width:700px){
+.grid{
+grid-template-columns:1fr;
+}
+}
+</style>
+</head>
+<body>
+
+<header>
+<h2>Analisador de Obra</h2>
+<div>
+<button onclick="voltar()">Voltar</button>
+</div>
+</header>
+
+<div class="container">
+
+<div class="card">
+<h3>Projeto ativo</h3>
+<div id="nomeProjeto">Nenhum projeto ativo selecionado.</div>
+</div>
+
+<div class="card">
+<h3>Texto-base da obra</h3>
+
+<label>Texto da obra</label>
+<textarea id="textoBase" placeholder="Cole aqui o texto da obra para análise."></textarea>
+
+<button class="alt" onclick="puxarTextoDaObra()">Puxar texto do upload da obra</button>
+<button onclick="analisarObra()">Analisar obra</button>
+
+<div class="preview" id="statusAnalise">
+Nenhuma análise realizada ainda.
+</div>
+</div>
+
+<div class="card">
+<h3>Leitura estruturada da obra</h3>
+
+<div class="grid">
+<div>
+<label>Título sugerido</label>
+<input type="text" id="tituloObra">
+</div>
+
+<div>
+<label>Subtítulo sugerido</label>
+<input type="text" id="subtituloObra">
+</div>
+</div>
+
+<label>Autor sugerido</label>
+<input type="text" id="autorObra">
+
+<div class="grid">
+<div>
+<label>Gênero provável</label>
+<input type="text" id="generoObra">
+</div>
+
+<div>
+<label>Público provável</label>
+<input type="text" id="publicoObra">
+</div>
+</div>
+
+<div class="grid">
+<div>
+<label>Tom predominante</label>
+<input type="text" id="tomObra">
+</div>
+
+<div>
+<label>Ambiente predominante</label>
+<input type="text" id="ambienteObra">
+</div>
+</div>
+
+<label>Tema central sugerido</label>
+<input type="text" id="temaObra">
+
+<label>Personagens percebidos</label>
+<textarea id="personagensObra" placeholder="Lista ou observações sobre personagens."></textarea>
+
+<label>Resumo técnico da leitura</label>
+<textarea id="resumoObra" placeholder="Resumo interpretativo da obra."></textarea>
+
+<button class="ok" onclick="salvarAnalise()">Salvar análise da obra</button>
+
+<div class="preview" id="statusSalvar">
+Nada salvo ainda.
+</div>
+</div>
+
+<div class="card">
+<h3>Distribuição para os setores</h3>
+
+<div class="grid-3">
+<div class="item">
+<strong>Diagramador</strong><br>
+Recebe título, subtítulo, autor, estrutura e texto-base.
+</div>
+
+<div class="item">
+<strong>Capista</strong><br>
+Recebe atmosfera, tema, gênero, tom e identidade da obra.
+</div>
+
+<div class="item">
+<strong>Avaliação Literária</strong><br>
+Recebe texto-base, resumo e leitura técnica inicial.
+</div>
+
+<div class="item">
+<strong>Segunda Língua(s)</strong><br>
+Recebe texto-base, tema, público e tom.
+</div>
+
+<div class="item">
+<strong>Lapidação Literária</strong><br>
+Recebe texto-base, resumo e foco narrativo.
+</div>
+
+<div class="item">
+<strong>Expedição</strong><br>
+Recebe os metadados principais para fechamento do projeto.
+</div>
+</div>
+</div>
+
+<div class="card">
+<h3>Ações rápidas</h3>
+<button onclick="abrirUploadObra()">Upload da obra</button>
+<button class="alt" onclick="abrirDepartamentos()">Painel de departamentos</button>
+<button class="sec" onclick="abrirProjetos()">Projetos</button>
+</div>
+
+</div>
+
+<script>
+const perfil = localStorage.getItem("lapidar_perfil");
+if(!perfil){
+window.location.href = "index.html";
+}
+
+const projeto = localStorage.getItem("lapidar_projeto_ativo");
+if(projeto){
+document.getElementById("nomeProjeto").innerText = projeto;
+}
+
+function puxarTextoDaObra(){
+const texto = localStorage.getItem("lapidar_obra_texto") || "";
+document.getElementById("textoBase").value = texto;
+
+document.getElementById("statusAnalise").innerText =
+texto ? "Texto da obra carregado com sucesso." : "Nenhum texto da obra encontrado.";
+}
+
+function analisarObra(){
+const texto = document.getElementById("textoBase").value.trim();
+
+if(!texto){
+document.getElementById("statusAnalise").innerText =
+"Cole ou carregue o texto da obra antes de analisar.";
+return;
+}
+
+const linhas = texto
+.split(/\r?\n/)
+.map(l => l.trim())
+.filter(l => l.length > 0);
+
+const conteudo = texto.toLowerCase();
+
+let titulo = localStorage.getItem("lapidar_obra_titulo") || "";
+let subtitulo = localStorage.getItem("lapidar_obra_subtitulo") || "";
+let autor = localStorage.getItem("lapidar_obra_autor") || "";
+
+if(!titulo && linhas[0]) titulo = linhas[0];
+if(!subtitulo && linhas[1]) subtitulo = linhas[1];
+if(!autor && linhas[2]) autor = linhas[2];
+
+let genero = "Narrativa geral";
+if(conteudo.includes("poema") || conteudo.includes("poesia") || conteudo.includes("verso")) genero = "Poesia";
+if(conteudo.includes("conto")) genero = "Conto";
+if(conteudo.includes("romance")) genero = "Romance";
+if(conteudo.includes("terror") || conteudo.includes("horror")) genero = "Terror";
+if(conteudo.includes("fantasia")) genero = "Fantasia";
+if(conteudo.includes("ficção científica") || conteudo.includes("sci-fi") || conteudo.includes("científica")) genero = "Ficção científica";
+if(conteudo.includes("infantil") || conteudo.includes("criança")) genero = "Infantil";
+
+let publico = "Leitor geral";
+if(genero === "Infantil") publico = "Infantil";
+if(genero === "Poesia") publico = "Leitor de poesia";
+if(genero === "Terror") publico = "Leitor adulto / jovem-adulto";
+if(genero === "Fantasia") publico = "Jovem / adulto";
+if(genero === "Ficção científica") publico = "Jovem / adulto";
+
+let tom = "Narrativo";
+if(conteudo.includes("amor") || conteudo.includes("saudade")) tom = "Emocional";
+if(conteudo.includes("medo") || conteudo.includes("sangue") || conteudo.includes("escuro")) tom = "Sombrio";
+if(conteudo.includes("riso") || conteudo.includes("engraçado") || conteudo.includes("humor")) tom = "Leve / humorístico";
+if(conteudo.includes("oração") || conteudo.includes("alma") || conteudo.includes("espírito")) tom = "Espiritual";
+if(conteudo.includes("revolta") || conteudo.includes("pobreza") || conteudo.includes("opressão")) tom = "Crítica social";
+
+let ambiente = "Não identificado";
+if(conteudo.includes("cidade") || conteudo.includes("rua") || conteudo.includes("bairro")) ambiente = "Urbano";
+if(conteudo.includes("fazenda") || conteudo.includes("campo") || conteudo.includes("sertão")) ambiente = "Rural";
+if(conteudo.includes("castelo") || conteudo.includes("reino")) ambiente = "Fantástico / medieval";
+if(conteudo.includes("espaço") || conteudo.includes("nave") || conteudo.includes("planeta")) ambiente = "Sci-fi";
+if(conteudo.includes("escola") || conteudo.includes("casa")) ambiente = "Cotidiano";
+
+let tema = "Relações humanas";
+if(conteudo.includes("amor")) tema = "Amor / vínculo";
+if(conteudo.includes("traição")) tema = "Traição / ruptura";
+if(conteudo.includes("morte")) tema = "Morte / perda";
+if(conteudo.includes("família")) tema = "Família";
+if(conteudo.includes("guerra")) tema = "Conflito";
+if(conteudo.includes("justiça") || conteudo.includes("injustiça")) tema = "Justiça / moral";
+if(conteudo.includes("medo") || conteudo.includes("monstro")) tema = "Medo / horror";
+
+const palavras = texto.match(/\b[A-ZÁÀÂÃÉÈÊÍÌÎÓÒÔÕÚÙÛÇ][a-záàâãéèêíìîóòôõúùûç]+\b/g) || [];
+const freq = {};
+palavras.forEach(p=>{
+if(p.length > 2){
+freq[p] = (freq[p] || 0) + 1;
+}
+});
+const personagens = Object.entries(freq)
+.sort((a,b)=>b[1]-a[1])
+.slice(0,8)
+.map(item=>item[0])
+.join(", ");
+
+const resumo = 
+"Gênero provável: " + genero + ". " +
+"Tom predominante: " + tom + ". " +
+"Tema central sugerido: " + tema + ". " +
+"Ambiente percebido: " + ambiente + ". " +
+"Público provável: " + publico + ".";
+
+document.getElementById("tituloObra").value = titulo;
+document.getElementById("subtituloObra").value = subtitulo;
+document.getElementById("autorObra").value = autor;
+document.getElementById("generoObra").value = genero;
+document.getElementById("publicoObra").value = publico;
+document.getElementById("tomObra").value = tom;
+document.getElementById("ambienteObra").value = ambiente;
+document.getElementById("temaObra").value = tema;
+document.getElementById("personagensObra").value = personagens;
+document.getElementById("resumoObra").value = resumo;
+
+document.getElementById("statusAnalise").innerHTML =
+"Análise concluída com sucesso.<br>" +
+"O sistema preencheu sugestões para conferência manual.";
+}
+
+function salvarAnalise(){
+localStorage.setItem("lapidar_obra_titulo", document.getElementById("tituloObra").value.trim());
+localStorage.setItem("lapidar_obra_subtitulo", document.getElementById("subtituloObra").value.trim());
+localStorage.setItem("lapidar_obra_autor", document.getElementById("autorObra").value.trim());
+localStorage.setItem("lapidar_obra_genero", document.getElementById("generoObra").value.trim());
+localStorage.setItem("lapidar_obra_publico", document.getElementById("publicoObra").value.trim());
+localStorage.setItem("lapidar_obra_tom", document.getElementById("tomObra").value.trim());
+localStorage.setItem("lapidar_obra_ambiente", document.getElementById("ambienteObra").value.trim());
+localStorage.setItem("lapidar_obra_tema", document.getElementById("temaObra").value.trim());
+localStorage.setItem("lapidar_obra_personagens", document.getElementById("personagensObra").value.trim());
+localStorage.setItem("lapidar_obra_resumo", document.getElementById("resumoObra").value.trim());
+localStorage.setItem("lapidar_obra_texto", document.getElementById("textoBase").value);
+
+document.getElementById("statusSalvar").innerHTML =
+"Análise salva com sucesso.<br>" +
+"Os setores do Lapidar já podem usar esses dados.";
+}
+
+function abrirUploadObra(){
+window.location.href = "upload_obra.html";
+}
+
+function abrirDepartamentos(){
+window.location.href = "painel_departamentos.html";
+}
+
+function abrirProjetos(){
+window.location.href = "projetos.html";
+}
+
+function voltar(){
+window.location.href = "painel_departamentos.html";
+}
+</script>
+
+</body>
+</html>
