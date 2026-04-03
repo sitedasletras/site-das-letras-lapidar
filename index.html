@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Lapidar • Login</title>
 
 <style>
@@ -132,8 +131,8 @@ Site das Letras Edições Literárias
 </div>
 
 <input
-id="usuario"
-placeholder="Digite seu e-mail ou telefone"
+id="acesso"
+placeholder="Digite seu e-mail ou telefone internacional"
 >
 
 <input
@@ -178,75 +177,69 @@ function mostrarMensagem(tipo, texto){
   box.innerText = texto;
 }
 
-function carregarCadastros(){
-  try{
-    return JSON.parse(localStorage.getItem("lapidar_cadastros") || "[]");
-  }catch(e){
-    return [];
-  }
-}
-
 function normalizarTelefone(valor){
-  let limpo = valor.replace(/[^\d+]/g, "");
-  if(!limpo.startsWith("+") && limpo.length > 0 && !valor.includes("@")){
-    limpo = "+" + limpo;
-  }
-  return limpo;
+  return valor.replace(/\s+/g, "").replace(/-/g, "").replace(/\(/g, "").replace(/\)/g, "");
 }
 
 function entrar(){
-  const usuarioBruto = document.getElementById("usuario").value.trim().toLowerCase();
+  const acesso = document.getElementById("acesso").value.trim().toLowerCase();
   const senha = document.getElementById("senha").value;
 
-  if(usuarioBruto.includes("admin")){
+  // Perfis internos
+  if(acesso.includes("admin")){
     localStorage.setItem("lapidar_perfil","admin");
     localStorage.setItem("lapidar_usuario","admin");
     localStorage.setItem("lapidar_nome","Administrador do Sistema");
-    window.location.href="sala_reunioes.html";
+    window.location.href = "sala_reunioes.html";
     return;
   }
 
-  if(usuarioBruto.includes("heteronimo")){
+  if(acesso.includes("heteronimo")){
     localStorage.setItem("lapidar_perfil","heteronimo");
     localStorage.setItem("lapidar_usuario","heteronimo");
     localStorage.setItem("lapidar_nome","Heterônimo do Sistema");
-    window.location.href="sala_reunioes.html";
+    window.location.href = "sala_reunioes.html";
     return;
   }
 
-  const usuario = usuarioBruto.includes("@") ? usuarioBruto : normalizarTelefone(usuarioBruto);
-  const cadastros = carregarCadastros();
+  // Utilizador comum cadastrado
+  const nome = localStorage.getItem("lapidar_nome") || "";
+  const email = (localStorage.getItem("lapidar_email") || "").toLowerCase();
+  const telefone = normalizarTelefone(localStorage.getItem("lapidar_telefone") || "");
+  const senhaSalva = localStorage.getItem("lapidar_senha") || "";
 
-  const encontrado = cadastros.find(item =>
-    item.email === usuario || item.telefone === usuario
-  );
+  const acessoNormalizado = normalizarTelefone(acesso);
 
-  if(!encontrado){
+  const bateEmail = acesso === email;
+  const bateTelefone = acessoNormalizado === telefone;
+
+  if(!bateEmail && !bateTelefone){
     mostrarMensagem("erro","E-mail ou telefone não encontrado.");
     return;
   }
 
-  if(encontrado.senha !== senha){
+  if(senha !== senhaSalva){
     mostrarMensagem("erro","Senha incorreta.");
     return;
   }
 
-  localStorage.setItem("lapidar_perfil", encontrado.perfil || "utilizador");
-  localStorage.setItem("lapidar_usuario", encontrado.email || encontrado.telefone);
-  localStorage.setItem("lapidar_nome", encontrado.nomeCompleto || "Utilizador");
-  localStorage.setItem("lapidar_idioma", encontrado.idioma || "pt");
-  localStorage.setItem("lapidar_utilizador_email", encontrado.email || "");
-  localStorage.setItem("lapidar_utilizador_telefone", encontrado.telefone || "");
+  localStorage.setItem("lapidar_perfil","utilizador");
+  localStorage.setItem("lapidar_usuario", acesso);
+  localStorage.setItem("lapidar_nome", nome || "Utilizador comum");
 
-  if((encontrado.perfil || "utilizador") === "utilizador"){
-    window.location.href="producao_integrada.html";
-  }else{
-    window.location.href="sala_reunioes.html";
+  if(!localStorage.getItem("lapidar_status_fluxo")){
+    localStorage.setItem("lapidar_status_fluxo","cadastro_criado");
   }
+
+  mostrarMensagem("ok","Entrada confirmada. Abrindo o Lapidar...");
+
+  setTimeout(() => {
+    window.location.href = "producao_integrada.html";
+  }, 500);
 }
 
 function irCadastro(){
-  window.location.href = "criar_perfil.html";
+  window.location.href = "cadastro.html";
 }
 
 function recuperarSenha(){
