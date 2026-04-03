@@ -1,775 +1,667 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sala de Reuniões • Lapidar</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sala de Reuniões • Lapidar</title>
+  <style>
+    :root{
+      --bg:#e8d6b4;
+      --panel:#fffaf2;
+      --line:#dcc9a5;
+      --text:#2f2418;
+      --muted:#6d5a43;
+      --deep:#1e3158;
+      --deep2:#29457a;
+      --green:#279552;
+      --green2:#1f7c45;
+      --violet:#77549a;
+      --violet2:#9c79bc;
+      --shadow:0 14px 30px rgba(52,34,10,.14);
+    }
 
-<style>
+    *{box-sizing:border-box}
 
-body{
-margin:0;
-font-family:Arial, Helvetica, sans-serif;
-background:#e8d6b4;
-color:#2f2418;
-}
+    html,body{
+      margin:0;
+      padding:0;
+      background:var(--bg);
+      font-family:Arial, Helvetica, sans-serif;
+      color:var(--text);
+    }
 
-.topo{
-background:linear-gradient(135deg,#1b2c48,#2f4a75);
-color:white;
-padding:28px 20px;
-border-bottom-left-radius:28px;
-border-bottom-right-radius:28px;
-box-shadow:0 10px 24px rgba(0,0,0,.18);
-}
+    .hero{
+      background:linear-gradient(135deg,var(--deep) 0%, var(--deep2) 100%);
+      color:#fff;
+      padding:28px 18px 30px;
+      border-bottom-left-radius:34px;
+      border-bottom-right-radius:34px;
+      box-shadow:var(--shadow);
+    }
 
-.topo small{
-display:block;
-font-size:12px;
-letter-spacing:2px;
-text-transform:uppercase;
-opacity:.9;
-margin-bottom:8px;
-}
+    .hero small{
+      display:block;
+      text-transform:uppercase;
+      letter-spacing:.16em;
+      font-size:12px;
+      margin-bottom:10px;
+      opacity:.9;
+      font-weight:900;
+    }
 
-.topo h1{
-margin:0 0 10px;
-font-size:34px;
-line-height:1.05;
-}
+    .hero h1{
+      margin:0 0 10px;
+      font-size:32px;
+      line-height:1.05;
+    }
 
-.topo p{
-margin:0;
-font-size:15px;
-line-height:1.7;
-max-width:980px;
-}
+    .hero p{
+      margin:0;
+      font-size:15px;
+      line-height:1.75;
+      max-width:980px;
+    }
 
-.topo-acoes{
-margin-top:18px;
-display:flex;
-gap:10px;
-flex-wrap:wrap;
-}
+    .hero-actions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:18px;
+    }
 
-.topo-acoes button{
-border:none;
-border-radius:14px;
-padding:12px 16px;
-font-size:14px;
-font-weight:800;
-cursor:pointer;
-}
+    .hero-actions button{
+      border:none;
+      border-radius:15px;
+      padding:13px 16px;
+      font-size:15px;
+      font-weight:900;
+      cursor:pointer;
+    }
 
-.btn-claro{
-background:white;
-color:#1b2c48;
-}
+    .ghost{
+      background:rgba(255,255,255,.14);
+      color:#fff;
+      border:1px solid rgba(255,255,255,.18);
+    }
 
-.btn-transparente{
-background:rgba(255,255,255,.12);
-color:white;
-border:1px solid rgba(255,255,255,.18);
-}
+    .light{
+      background:#fff;
+      color:var(--deep);
+    }
 
-.container{
-max-width:1450px;
-margin:auto;
-padding:24px 16px 34px;
-display:grid;
-grid-template-columns:minmax(0,1fr) 360px;
-gap:22px;
-}
+    .wrap{
+      max-width:1450px;
+      margin:0 auto;
+      padding:22px 16px 32px;
+      display:grid;
+      grid-template-columns:minmax(0,1fr) 360px;
+      gap:22px;
+    }
 
-.coluna-principal{
-display:grid;
-gap:22px;
-}
+    .stack{
+      display:grid;
+      gap:22px;
+    }
 
-.coluna-lateral{
-display:grid;
-gap:22px;
-align-self:start;
-}
+    .card{
+      background:var(--panel);
+      border:1px solid rgba(140,110,58,.14);
+      border-radius:28px;
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
 
-.card{
-background:#fffaf2;
-border:1px solid rgba(140,110,58,.14);
-border-radius:24px;
-box-shadow:0 10px 24px rgba(40,26,10,.10);
-overflow:hidden;
-}
+    .card-head{
+      padding:22px 22px 0;
+    }
 
-.card-header{
-padding:22px 22px 0;
-}
+    .card-head small{
+      display:block;
+      text-transform:uppercase;
+      letter-spacing:.16em;
+      font-size:12px;
+      font-weight:900;
+      color:#8d6f3e;
+      margin-bottom:10px;
+    }
 
-.card-header small{
-display:block;
-font-size:12px;
-letter-spacing:2px;
-text-transform:uppercase;
-color:#8c6e3c;
-margin-bottom:8px;
-font-weight:800;
-}
+    .card-head h2{
+      margin:0 0 10px;
+      font-size:30px;
+      line-height:1.05;
+    }
 
-.card-header h2{
-margin:0 0 10px;
-font-size:28px;
-line-height:1.08;
-}
+    .card-head p{
+      margin:0;
+      color:var(--muted);
+      line-height:1.7;
+      font-size:14px;
+    }
 
-.card-header p{
-margin:0;
-font-size:14px;
-line-height:1.7;
-color:#6d5a43;
-}
+    .card-body{
+      padding:22px;
+    }
 
-.card-body{
-padding:22px;
-}
+    .door-grid{
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:16px;
+    }
 
-.grid-portas{
-display:grid;
-grid-template-columns:repeat(3,minmax(0,1fr));
-gap:16px;
-}
+    .door{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:24px;
+      padding:18px;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      min-height:310px;
+    }
 
-.porta{
-background:white;
-border:1px solid #dcc9a5;
-border-radius:20px;
-padding:18px;
-display:flex;
-flex-direction:column;
-gap:12px;
-min-height:280px;
-}
+    .band{
+      height:8px;
+      border-radius:999px;
+      margin-bottom:2px;
+    }
 
-.faixa{
-height:8px;
-border-radius:999px;
-margin-bottom:4px;
-}
+    .band.admin{background:linear-gradient(90deg,var(--deep),#4d6695)}
+    .band.prod{background:linear-gradient(90deg,var(--green2),var(--green))}
+    .band.cort{background:linear-gradient(90deg,var(--violet),var(--violet2))}
 
-.faixa.admin{
-background:linear-gradient(90deg,#1b2c48,#45628d);
-}
+    .pill{
+      display:inline-flex;
+      width:max-content;
+      padding:7px 11px;
+      border-radius:999px;
+      font-size:11px;
+      font-weight:900;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+    }
 
-.faixa.producao{
-background:linear-gradient(90deg,#1f6b36,#2f8a4a);
-}
+    .pill.admin{background:#e8eef8;color:var(--deep)}
+    .pill.prod{background:#e7f6ed;color:var(--green2)}
+    .pill.cort{background:#f0eaf8;color:var(--violet)}
 
-.faixa.cortesia{
-background:linear-gradient(90deg,#6e4a8f,#9b76b9);
-}
+    .door h3{
+      margin:0;
+      font-size:28px;
+      line-height:1.05;
+    }
 
-.tag{
-display:inline-block;
-padding:6px 10px;
-border-radius:999px;
-font-size:11px;
-font-weight:800;
-letter-spacing:1px;
-text-transform:uppercase;
-width:max-content;
-}
+    .door p{
+      margin:0;
+      font-size:14px;
+      line-height:1.7;
+      color:var(--muted);
+    }
 
-.tag.admin{
-background:#e8eef8;
-color:#1b2c48;
-}
+    .mini-list{
+      display:grid;
+      gap:8px;
+    }
 
-.tag.producao{
-background:#e8f6ec;
-color:#1f6b36;
-}
+    .mini-list div{
+      border:1px solid #e5d6b4;
+      border-radius:14px;
+      background:#fffdf9;
+      padding:11px 12px;
+      font-size:13px;
+      line-height:1.55;
+      font-weight:700;
+      color:#4a3522;
+    }
 
-.tag.cortesia{
-background:#f1eafb;
-color:#6e4a8f;
-}
+    .door a{
+      margin-top:auto;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      min-height:52px;
+      border-radius:15px;
+      font-size:15px;
+      font-weight:900;
+      text-decoration:none;
+      color:#fff;
+    }
 
-.porta h3{
-margin:0;
-font-size:28px;
-line-height:1.06;
-}
+    .btn-admin{background:linear-gradient(135deg,var(--deep),var(--deep2))}
+    .btn-prod{background:linear-gradient(135deg,var(--green2),var(--green))}
+    .btn-cort{background:linear-gradient(135deg,var(--violet),var(--violet2))}
 
-.porta p{
-margin:0;
-font-size:14px;
-line-height:1.7;
-color:#6d5a43;
-}
+    .summary-grid{
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:14px;
+    }
 
-.lista-mini{
-display:grid;
-gap:8px;
-margin-top:2px;
-}
+    .summary{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:20px;
+      padding:16px;
+    }
 
-.lista-mini div{
-background:#fffdf9;
-border:1px solid #e3d3b1;
-border-radius:14px;
-padding:10px 12px;
-font-size:13px;
-line-height:1.55;
-font-weight:700;
-color:#4a3522;
-}
+    .summary small{
+      display:block;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      font-size:12px;
+      font-weight:900;
+      color:var(--muted);
+      margin-bottom:8px;
+    }
 
-.porta button,
-.porta a{
-margin-top:auto;
-border:none;
-border-radius:14px;
-padding:14px 16px;
-font-size:14px;
-font-weight:900;
-cursor:pointer;
-text-decoration:none;
-display:flex;
-align-items:center;
-justify-content:center;
-}
+    .summary strong{
+      display:block;
+      font-size:22px;
+      line-height:1.1;
+      margin-bottom:6px;
+    }
 
-.porta .btn-admin{
-background:linear-gradient(135deg,#1b2c48,#2f4a75);
-color:white;
-}
+    .summary span{
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.6;
+    }
 
-.porta .btn-producao{
-background:linear-gradient(135deg,#1f6b36,#2f8a4a);
-color:white;
-}
+    .side-box{
+      display:grid;
+      gap:22px;
+      align-self:start;
+      position:sticky;
+      top:18px;
+    }
 
-.porta .btn-cortesia{
-background:linear-gradient(135deg,#6e4a8f,#9b76b9);
-color:white;
-}
+    .meter{
+      display:grid;
+      gap:12px;
+    }
 
-.resumo-grid{
-display:grid;
-grid-template-columns:repeat(3,minmax(0,1fr));
-gap:14px;
-}
+    .meter-item{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:16px;
+    }
 
-.resumo-item{
-background:white;
-border:1px solid #dcc9a5;
-border-radius:18px;
-padding:16px;
-}
+    .meter-item small{
+      display:block;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      font-size:12px;
+      font-weight:900;
+      color:var(--muted);
+      margin-bottom:8px;
+    }
 
-.resumo-item small{
-display:block;
-font-size:12px;
-letter-spacing:1px;
-text-transform:uppercase;
-color:#6d5a43;
-font-weight:800;
-margin-bottom:8px;
-}
+    .meter-item strong{
+      display:block;
+      font-size:19px;
+      line-height:1.15;
+    }
 
-.resumo-item strong{
-display:block;
-font-size:22px;
-line-height:1.1;
-margin-bottom:6px;
-}
+    .line-list{
+      margin-top:14px;
+      padding-top:14px;
+      border-top:1px solid var(--line);
+      display:grid;
+      gap:12px;
+    }
 
-.resumo-item span{
-display:block;
-font-size:13px;
-line-height:1.6;
-color:#6d5a43;
-}
+    .line{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      font-size:14px;
+    }
 
-.meter{
-display:grid;
-gap:14px;
-}
+    .line span{color:var(--muted)}
+    .line strong{text-align:right}
 
-.meter-item{
-background:white;
-border:1px solid #dcc9a5;
-border-radius:18px;
-padding:16px;
-}
+    .secret{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:14px;
+      display:grid;
+      gap:12px;
+    }
 
-.meter-item small{
-display:block;
-font-size:12px;
-letter-spacing:1px;
-text-transform:uppercase;
-color:#6d5a43;
-font-weight:800;
-margin-bottom:8px;
-}
+    .secret strong{
+      font-size:14px;
+      line-height:1.4;
+    }
 
-.meter-item strong{
-display:block;
-font-size:19px;
-line-height:1.15;
-}
+    .secret-line{
+      font-size:13px;
+      line-height:1.6;
+      color:var(--muted);
+      word-break:break-word;
+    }
 
-.lista-resumo{
-display:grid;
-gap:12px;
-margin-top:16px;
-padding-top:14px;
-border-top:1px solid #dcc9a5;
-}
+    .secret-line code{
+      background:#f5e8d0;
+      border:1px solid #e2d1af;
+      padding:2px 6px;
+      border-radius:8px;
+      font-size:12px;
+      font-weight:800;
+      color:#4b3523;
+    }
 
-.linha{
-display:flex;
-justify-content:space-between;
-gap:10px;
-font-size:14px;
-}
+    .toggle{
+      border:none;
+      border-radius:10px;
+      padding:8px 10px;
+      font-size:12px;
+      font-weight:900;
+      cursor:pointer;
+      background:#efe3cb;
+      color:#5c482d;
+      margin-left:8px;
+    }
 
-.linha span{
-color:#6d5a43;
-}
+    .notice{
+      background:#fff4df;
+      border:1px solid #efd4a4;
+      color:#7a5621;
+      border-radius:16px;
+      padding:14px;
+      font-size:13px;
+      line-height:1.7;
+      margin-top:14px;
+    }
 
-.linha strong{
-text-align:right;
-line-height:1.45;
-}
+    .hidden{display:none !important}
 
-.aviso{
-background:#fff4df;
-border:1px solid #efd4a4;
-color:#7a5621;
-border-radius:16px;
-padding:14px;
-font-size:13px;
-line-height:1.7;
-margin-top:14px;
-}
+    .footer{
+      text-align:center;
+      padding:0 16px 24px;
+      color:#6d5a43;
+      font-size:12px;
+      font-weight:800;
+    }
 
-.joia{
-background:white;
-border:1px solid #dcc9a5;
-border-radius:18px;
-padding:14px;
-display:grid;
-gap:10px;
-}
-
-.joia strong{
-font-size:14px;
-line-height:1.4;
-}
-
-.joia-line{
-font-size:13px;
-line-height:1.6;
-color:#6d5a43;
-word-break:break-word;
-}
-
-.joia-line code{
-background:#f4e7cf;
-border:1px solid #e3d3b1;
-border-radius:8px;
-padding:2px 6px;
-font-size:12px;
-font-weight:800;
-color:#4a3522;
-}
-
-.toggle-btn{
-border:none;
-border-radius:10px;
-padding:8px 10px;
-font-size:12px;
-font-weight:900;
-cursor:pointer;
-background:#efe3cb;
-color:#5d482d;
-margin-left:8px;
-}
-
-.oculto{
-display:none !important;
-}
-
-.rodape{
-text-align:center;
-padding:0 16px 24px;
-font-size:12px;
-font-weight:700;
-color:#6d5a43;
-}
-
-@media (max-width: 1200px){
-.container{
-grid-template-columns:1fr;
-}
-.grid-portas,
-.resumo-grid{
-grid-template-columns:1fr;
-}
-}
-
-</style>
+    @media (max-width:1200px){
+      .wrap{grid-template-columns:1fr}
+      .side-box{position:relative;top:auto}
+      .door-grid,.summary-grid{grid-template-columns:1fr}
+    }
+  </style>
 </head>
 <body>
+  <header class="hero">
+    <small>Lapidar • Sala de Reuniões</small>
+    <h1>Centro de decisão por perfil</h1>
+    <p id="heroText">Depois do login, cada perfil entra na sala correta e vê apenas as portas que lhe pertencem.</p>
+    <div class="hero-actions">
+      <button class="ghost" onclick="window.location.href='index.html'">Trocar usuário</button>
+      <button class="light" onclick="sair()">Sair geral</button>
+    </div>
+  </header>
 
-<header class="topo">
-  <small>Lapidar • Sala de Reuniões</small>
-  <h1>Centro de decisão por perfil</h1>
-  <p id="textoTopo">
-    Depois do login, cada perfil entra nesta sala central e vê apenas as portas que lhe pertencem.
-  </p>
+  <main class="wrap">
+    <section class="stack">
+      <section class="card">
+        <div class="card-head">
+          <small>Portas principais</small>
+          <h2>Escolha a área que deseja abrir</h2>
+          <p>Essa sala vem depois do login. É aqui que ficam os três botões principais, conforme o perfil.</p>
+        </div>
+        <div class="card-body">
+          <div class="door-grid">
+            <article class="door" id="doorAdmin">
+              <div class="band admin"></div>
+              <span class="pill admin">Área 1</span>
+              <h3>Administrativo</h3>
+              <p>Gestão institucional, usuários, permissões, relatórios internos e organização central do sistema.</p>
+              <div class="mini-list">
+                <div>Usuários e permissões</div>
+                <div>Estrutura administrativa</div>
+                <div>Controle institucional</div>
+              </div>
+              <a class="btn-admin" href="admin_painel.html">Entrar no Administrativo</a>
+            </article>
 
-  <div class="topo-acoes">
-    <button class="btn-transparente" onclick="trocarUsuario()">Trocar usuário</button>
-    <button class="btn-claro" onclick="sairGeral()">Sair geral</button>
-  </div>
-</header>
+            <article class="door" id="doorProd">
+              <div class="band prod"></div>
+              <span class="pill prod">Área 2</span>
+              <h3>Produção</h3>
+              <p>Entrada integrada da história, setores produtivos, mesário por setor, soma final e saída da obra.</p>
+              <div class="mini-list">
+                <div>Setores 1, 3, 5, 7, 11 e 13</div>
+                <div>Mesário por setor</div>
+                <div>Encaminhamento ao Mesário-mor</div>
+              </div>
+              <a class="btn-prod" href="producao_integrada.html">Entrar na Produção</a>
+            </article>
 
-<main class="container">
+            <article class="door" id="doorCort">
+              <div class="band cort"></div>
+              <span class="pill cort">Área 3</span>
+              <h3>Cortesias</h3>
+              <p>Gestão das cortesias do sistema, com regras especiais de liberação e acompanhamento dos acessos.</p>
+              <div class="mini-list">
+                <div>Cortesias Top Global</div>
+                <div>Prazos e acessos</div>
+                <div>Ambiente institucional protegido</div>
+              </div>
+              <a class="btn-cort" href="cortesias_painel.html">Entrar em Cortesias</a>
+            </article>
+          </div>
+        </div>
+      </section>
 
-  <section class="coluna-principal">
-
-    <section class="card">
-      <div class="card-header">
-        <small>Portas principais</small>
-        <h2>Escolha a área que deseja abrir</h2>
-        <p>
-          Esta sala organiza o sistema em frentes centrais, respeitando rigorosamente o perfil que entrou.
-        </p>
-      </div>
-
-      <div class="card-body">
-        <div class="grid-portas">
-
-          <article class="porta" id="portaAdmin">
-            <div class="faixa admin"></div>
-            <span class="tag admin">Área 1</span>
-            <h3>Administrativo</h3>
-            <p>
-              Gestão institucional, acessos, organização central, relatórios e estrutura do sistema.
-            </p>
-            <div class="lista-mini">
-              <div>Usuários, permissões e acessos</div>
-              <div>Relatórios internos e segurança</div>
-              <div>Controle estrutural do sistema</div>
+      <section class="card">
+        <div class="card-head">
+          <small>Resumo visual</small>
+          <h2>Leitura do perfil ativo</h2>
+          <p>Este bloco mostra o que está aberto para o perfil atual.</p>
+        </div>
+        <div class="card-body">
+          <div class="summary-grid">
+            <div class="summary">
+              <small>Perfil carregado</small>
+              <strong id="perfilAtual">—</strong>
+              <span id="perfilDesc">Aguardando perfil.</span>
             </div>
-            <a class="btn-admin" href="admin_painel.html">Entrar no Administrativo</a>
-          </article>
-
-          <article class="porta" id="portaProducao">
-            <div class="faixa producao"></div>
-            <span class="tag producao">Área 2</span>
-            <h3>Produção</h3>
-            <p>
-              Entrada e saída integradas da história, setores produtivos, somas por setor e encaminhamento ao Mesário-mor.
-            </p>
-            <div class="lista-mini">
-              <div>Setores 1, 3, 5, 7, 11 e 13</div>
-              <div>Mesário por setor e soma final</div>
-              <div>Fluxo completo da obra</div>
+            <div class="summary">
+              <small>Portas disponíveis</small>
+              <strong id="portasQtd">—</strong>
+              <span id="portasDesc">Aguardando perfil.</span>
             </div>
-            <a class="btn-producao" href="producao_integrada.html">Entrar na Produção</a>
-          </article>
-
-          <article class="porta" id="portaCortesias">
-            <div class="faixa cortesia"></div>
-            <span class="tag cortesia">Área 3</span>
-            <h3>Cortesias</h3>
-            <p>
-              Núcleo reservado para licenças especiais, ativações específicas e acompanhamento das cortesias do sistema.
-            </p>
-            <div class="lista-mini">
-              <div>Cortesias Top Global</div>
-              <div>Prazos e acessos especiais</div>
-              <div>Ambiência institucional protegida</div>
+            <div class="summary">
+              <small>Mesário</small>
+              <strong id="mesarioTipo">—</strong>
+              <span id="mesarioDesc">Aguardando perfil.</span>
             </div>
-            <a class="btn-cortesia" href="cortesias_painel.html">Entrar em Cortesias</a>
-          </article>
-
+          </div>
         </div>
-      </div>
+      </section>
     </section>
 
-    <section class="card">
-      <div class="card-header">
-        <small>Leitura da sala</small>
-        <h2>Resumo visual do perfil ativo</h2>
-        <p>
-          Este bloco mostra o que está disponível para o perfil atual e qual o alcance da visualização.
-        </p>
-      </div>
-
-      <div class="card-body">
-        <div class="resumo-grid">
-          <div class="resumo-item">
-            <small>Perfil carregado</small>
-            <strong id="perfilAtual">—</strong>
-            <span id="perfilDescricao">Aguardando leitura do perfil salvo.</span>
+    <aside class="side-box">
+      <section class="card">
+        <div class="card-head">
+          <small>Resumo da sala</small>
+          <h2>Perfil e alcance atual</h2>
+          <p>Resumo rápido do tipo de acesso que entrou.</p>
+        </div>
+        <div class="card-body">
+          <div class="meter">
+            <div class="meter-item">
+              <small>Usuário atual</small>
+              <strong id="usuarioAtual">—</strong>
+            </div>
+            <div class="meter-item">
+              <small>Perfil atual</small>
+              <strong id="perfilSide">—</strong>
+            </div>
+            <div class="meter-item">
+              <small>Portas liberadas</small>
+              <strong id="portasSide">—</strong>
+            </div>
           </div>
 
-          <div class="resumo-item">
-            <small>Portas disponíveis</small>
-            <strong id="portasAtivas">—</strong>
-            <span id="portasDescricao">Aguardando leitura do perfil salvo.</span>
-          </div>
-
-          <div class="resumo-item">
-            <small>Mesário</small>
-            <strong id="mesarioAtual">—</strong>
-            <span id="mesarioDescricao">Aguardando leitura do perfil salvo.</span>
+          <div class="line-list">
+            <div class="line"><span>Administrativo</span><strong id="statusAdmin">—</strong></div>
+            <div class="line"><span>Produção</span><strong id="statusProd">—</strong></div>
+            <div class="line"><span>Cortesias</span><strong id="statusCort">—</strong></div>
+            <div class="line"><span>Mesário</span><strong id="statusMes">—</strong></div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-  </section>
-
-  <aside class="coluna-lateral">
-
-    <section class="card">
-      <div class="card-header">
-        <small>Resumo da sala</small>
-        <h2>Perfil e alcance atual</h2>
-        <p>
-          Este painel lateral resume o tipo de entrada e o alcance funcional do perfil carregado.
-        </p>
-      </div>
-
-      <div class="card-body">
-        <div class="meter">
-          <div class="meter-item">
-            <small>Usuário atual</small>
-            <strong id="usuarioAtual">—</strong>
+      <section class="card hidden" id="joiasDaCorte">
+        <div class="card-head">
+          <small>Área escondida</small>
+          <h2>Joias da Corte</h2>
+          <p>Logins internos reservados ao Admin e ao Heterônimo.</p>
+        </div>
+        <div class="card-body">
+          <div class="secret">
+            <strong>Administrador</strong>
+            <div class="secret-line">Login: <code>admin@sitedasletras.com</code></div>
+            <div class="secret-line">
+              Senha: <span class="pw">••••••••</span>
+              <button class="toggle" onclick="toggleSenha(this,'admin123')">mostrar</button>
+            </div>
           </div>
 
-          <div class="meter-item">
-            <small>Perfil atual</small>
-            <strong id="perfilLateral">—</strong>
-          </div>
-
-          <div class="meter-item">
-            <small>Portas liberadas</small>
-            <strong id="portasLateral">—</strong>
+          <div class="secret" style="margin-top:12px;">
+            <strong>Heterônimo</strong>
+            <div class="secret-line"><code>heteronimos@sitedasletrasedicoesliterarias.com</code></div>
+            <div class="secret-line">
+              Senha: <span class="pw">••••••••</span>
+              <button class="toggle" onclick="toggleSenha(this,'heteronimo123')">mostrar</button>
+            </div>
           </div>
         </div>
+      </section>
 
-        <div class="lista-resumo">
-          <div class="linha">
-            <span>Administrativo</span>
-            <strong id="statusAdmin">—</strong>
-          </div>
-          <div class="linha">
-            <span>Produção</span>
-            <strong id="statusProducao">—</strong>
-          </div>
-          <div class="linha">
-            <span>Cortesias</span>
-            <strong id="statusCortesias">—</strong>
-          </div>
-          <div class="linha">
-            <span>Mesário</span>
-            <strong id="statusMesario">—</strong>
+      <section class="card">
+        <div class="card-head">
+          <small>Regra oficial</small>
+          <h2>Quem vê o quê</h2>
+        </div>
+        <div class="card-body">
+          <div class="notice">
+            Admin vê Administrativo + Produção + Cortesias. Heterônimo vê Produção + Cortesias. Cortesia vê só Produção. Joias da Corte fica escondida e só abre para Admin e Heterônimo.
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </aside>
+  </main>
 
-    <section class="card oculto" id="joiasDaCorte">
-      <div class="card-header">
-        <small>Área reservada</small>
-        <h2>Jóias da Corte</h2>
-        <p>
-          Acessos institucionais reservados para a administração e acompanhamento do Celeiro Literário.
-        </p>
-      </div>
+  <div class="footer">Lapidar • Celeiro Literário • Site das Letras Edições Literárias</div>
 
-      <div class="card-body">
-        <div class="joia">
-          <strong>Administrador</strong>
-          <div class="joia-line">Login: <code>admin@sitedasletras.com</code></div>
-          <div class="joia-line">
-            Senha: <span class="senha">••••••••</span>
-            <button class="toggle-btn" onclick="toggleSenha(this,'admin123')">mostrar</button>
-          </div>
-        </div>
+  <script>
+    function sair(){
+      localStorage.removeItem("lapidar_usuario");
+      localStorage.removeItem("lapidar_perfil");
+      localStorage.removeItem("lapidar_nome");
+      window.location.href = "index.html";
+    }
 
-        <div class="joia" style="margin-top:12px;">
-          <strong>Heterônimo</strong>
-          <div class="joia-line"><code>heteronimos@sitedasletrasedicoesliterarias.com</code></div>
-          <div class="joia-line">
-            Senha: <span class="senha">••••••••</span>
-            <button class="toggle-btn" onclick="toggleSenha(this,'heteronimo123')">mostrar</button>
-          </div>
-        </div>
-      </div>
-    </section>
+    function toggleSenha(btn, senha){
+      const span = btn.parentElement.querySelector(".pw");
+      if(span.innerText === "••••••••"){
+        span.innerText = senha;
+        btn.innerText = "ocultar";
+      }else{
+        span.innerText = "••••••••";
+        btn.innerText = "mostrar";
+      }
+    }
 
-    <section class="card">
-      <div class="card-header">
-        <small>Regras da hierarquia</small>
-        <h2>Leituras oficiais por perfil</h2>
-      </div>
+    const perfil = localStorage.getItem("lapidar_perfil");
+    const usuario = localStorage.getItem("lapidar_usuario");
+    const nome = localStorage.getItem("lapidar_nome") || usuario || "—";
 
-      <div class="card-body">
-        <div class="joia">
-          <strong>Admin</strong>
-          <div class="joia-line">
-            Vê administrativo, produção, cortesias, somas por setor, soma final e encaminhamento ao Mesário-mor.
-          </div>
-        </div>
+    if(!perfil || !usuario){
+      window.location.href = "index.html";
+    }
 
-        <div class="joia" style="margin-top:12px;">
-          <strong>Heterônimo</strong>
-          <div class="joia-line">
-            Vê produção, cortesias, somas por setor, soma final e encaminhamento ao Mesário-mor.
-          </div>
-        </div>
+    function aplicar(){
+      document.getElementById("usuarioAtual").innerText = nome;
 
-        <div class="joia" style="margin-top:12px;">
-          <strong>Cortesia</strong>
-          <div class="joia-line">
-            Vê apenas a produção liberada e a mensagem:
-            <em>Ambiente institucional liberado por cortesia do Celeiro Literário.</em>
-          </div>
-        </div>
+      if(perfil === "admin"){
+        document.getElementById("perfilAtual").innerText = "Admin";
+        document.getElementById("perfilDesc").innerText = "Acesso institucional completo à sala de reuniões.";
+        document.getElementById("portasQtd").innerText = "3 portas";
+        document.getElementById("portasDesc").innerText = "Administrativo, Produção e Cortesias liberados.";
+        document.getElementById("mesarioTipo").innerText = "Completo";
+        document.getElementById("mesarioDesc").innerText = "Leitura completa do mesário e do Mesário-mor.";
 
-        <div class="aviso">
-          Esta sala adapta automaticamente a visualização de cada perfil, preservando a identidade institucional do Lapidar.
-        </div>
-      </div>
-    </section>
+        document.getElementById("perfilSide").innerText = "Admin";
+        document.getElementById("portasSide").innerText = "3";
+        document.getElementById("statusAdmin").innerText = "Visível";
+        document.getElementById("statusProd").innerText = "Visível";
+        document.getElementById("statusCort").innerText = "Visível";
+        document.getElementById("statusMes").innerText = "Completo";
 
-  </aside>
+        document.getElementById("doorAdmin").classList.remove("hidden");
+        document.getElementById("doorProd").classList.remove("hidden");
+        document.getElementById("doorCort").classList.remove("hidden");
+        document.getElementById("joiasDaCorte").classList.remove("hidden");
 
-</main>
+        document.getElementById("heroText").innerText = "Depois do login, o Admin entra na sala central com acesso ao Administrativo, à Produção e às Cortesias.";
+      }
 
-<div class="rodape">
-  Lapidar • Celeiro Literário • Site das Letras Edições Literárias
-</div>
+      else if(perfil === "heteronimo"){
+        document.getElementById("perfilAtual").innerText = "Heterônimo";
+        document.getElementById("perfilDesc").innerText = "Acesso operacional com leitura completa do fluxo produtivo.";
+        document.getElementById("portasQtd").innerText = "2 portas";
+        document.getElementById("portasDesc").innerText = "Produção e Cortesias liberados.";
+        document.getElementById("mesarioTipo").innerText = "Completo";
+        document.getElementById("mesarioDesc").innerText = "Leitura do mesário por setor e do Mesário-mor.";
 
-<script>
+        document.getElementById("perfilSide").innerText = "Heterônimo";
+        document.getElementById("portasSide").innerText = "2";
+        document.getElementById("statusAdmin").innerText = "Oculto";
+        document.getElementById("statusProd").innerText = "Visível";
+        document.getElementById("statusCort").innerText = "Visível";
+        document.getElementById("statusMes").innerText = "Completo";
 
-function sairGeral(){
-  localStorage.removeItem("lapidar_perfil");
-  localStorage.removeItem("lapidar_usuario");
-  window.location.href="index.html";
-}
+        document.getElementById("doorAdmin").classList.add("hidden");
+        document.getElementById("doorProd").classList.remove("hidden");
+        document.getElementById("doorCort").classList.remove("hidden");
+        document.getElementById("joiasDaCorte").classList.remove("hidden");
 
-function trocarUsuario(){
-  window.location.href="index.html";
-}
+        document.getElementById("heroText").innerText = "Depois do login, o Heterônimo entra na sala central com acesso à Produção e às Cortesias.";
+      }
 
-function toggleSenha(botao, senha){
-  const span = botao.parentElement.querySelector(".senha");
-  if(span.innerText === "••••••••"){
-    span.innerText = senha;
-    botao.innerText = "ocultar";
-  }else{
-    span.innerText = "••••••••";
-    botao.innerText = "mostrar";
-  }
-}
+      else if(perfil === "cortesia"){
+        document.getElementById("perfilAtual").innerText = "Cortesia";
+        document.getElementById("perfilDesc").innerText = "Acesso liberado apenas para produção.";
+        document.getElementById("portasQtd").innerText = "1 porta";
+        document.getElementById("portasDesc").innerText = "Somente Produção liberada.";
+        document.getElementById("mesarioTipo").innerText = "Ornamental";
+        document.getElementById("mesarioDesc").innerText = "Ambiente institucional sem leitura financeira.";
 
-const perfil = localStorage.getItem("lapidar_perfil");
-const usuario = localStorage.getItem("lapidar_usuario");
+        document.getElementById("perfilSide").innerText = "Cortesia";
+        document.getElementById("portasSide").innerText = "1";
+        document.getElementById("statusAdmin").innerText = "Oculto";
+        document.getElementById("statusProd").innerText = "Visível";
+        document.getElementById("statusCort").innerText = "Oculto";
+        document.getElementById("statusMes").innerText = "Ornamental";
 
-if(!perfil || !usuario){
-  window.location.href = "index.html";
-}
+        document.getElementById("doorAdmin").classList.add("hidden");
+        document.getElementById("doorProd").classList.remove("hidden");
+        document.getElementById("doorCort").classList.add("hidden");
+        document.getElementById("joiasDaCorte").classList.add("hidden");
 
-function aplicarPerfil(){
+        document.getElementById("heroText").innerText = "Ambiente institucional liberado por cortesia do Celeiro Literário.";
+      }
 
-  document.getElementById("usuarioAtual").innerText = usuario || "—";
+      else{
+        window.location.href = "index.html";
+      }
+    }
 
-  if(perfil === "admin"){
-
-    document.getElementById("perfilAtual").innerText = "Admin";
-    document.getElementById("perfilDescricao").innerText = "Acesso institucional completo à sala de reuniões.";
-    document.getElementById("portasAtivas").innerText = "3 portas";
-    document.getElementById("portasDescricao").innerText = "Administrativo, Produção e Cortesias liberados.";
-    document.getElementById("mesarioAtual").innerText = "Completo";
-    document.getElementById("mesarioDescricao").innerText = "Leitura integral do mesário e do Mesário-mor.";
-
-    document.getElementById("perfilLateral").innerText = "Admin";
-    document.getElementById("portasLateral").innerText = "3";
-    document.getElementById("statusAdmin").innerText = "Visível";
-    document.getElementById("statusProducao").innerText = "Visível";
-    document.getElementById("statusCortesias").innerText = "Visível";
-    document.getElementById("statusMesario").innerText = "Completo";
-
-    document.getElementById("portaAdmin").classList.remove("oculto");
-    document.getElementById("portaProducao").classList.remove("oculto");
-    document.getElementById("portaCortesias").classList.remove("oculto");
-    document.getElementById("joiasDaCorte").classList.remove("oculto");
-
-    document.getElementById("textoTopo").innerText =
-      "Depois do login, o Admin entra nesta sala central com leitura completa do sistema, da produção e das cortesias.";
-
-  }else if(perfil === "heteronimo"){
-
-    document.getElementById("perfilAtual").innerText = "Heterônimo";
-    document.getElementById("perfilDescricao").innerText = "Acesso operacional com leitura completa do fluxo produtivo.";
-    document.getElementById("portasAtivas").innerText = "2 portas";
-    document.getElementById("portasDescricao").innerText = "Produção e Cortesias liberados.";
-    document.getElementById("mesarioAtual").innerText = "Completo";
-    document.getElementById("mesarioDescricao").innerText = "Leitura do mesário por setor e do Mesário-mor.";
-
-    document.getElementById("perfilLateral").innerText = "Heterônimo";
-    document.getElementById("portasLateral").innerText = "2";
-    document.getElementById("statusAdmin").innerText = "Oculto";
-    document.getElementById("statusProducao").innerText = "Visível";
-    document.getElementById("statusCortesias").innerText = "Visível";
-    document.getElementById("statusMesario").innerText = "Completo";
-
-    document.getElementById("portaAdmin").classList.add("oculto");
-    document.getElementById("portaProducao").classList.remove("oculto");
-    document.getElementById("portaCortesias").classList.remove("oculto");
-    document.getElementById("joiasDaCorte").classList.remove("oculto");
-
-    document.getElementById("textoTopo").innerText =
-      "Depois do login, o Heterônimo entra nesta sala central com leitura completa da produção, das cortesias e do Mesário-mor.";
-
-  }else if(perfil === "cortesia"){
-
-    document.getElementById("perfilAtual").innerText = "Cortesia";
-    document.getElementById("perfilDescricao").innerText = "Experiência focada apenas na produção, sem exposição de CVMI.";
-    document.getElementById("portasAtivas").innerText = "1 porta";
-    document.getElementById("portasDescricao").innerText = "Somente Produção liberada.";
-    document.getElementById("mesarioAtual").innerText = "Ornamental";
-    document.getElementById("mesarioDescricao").innerText = "Ambiência institucional sem leitura financeira.";
-
-    document.getElementById("perfilLateral").innerText = "Cortesia";
-    document.getElementById("portasLateral").innerText = "1";
-    document.getElementById("statusAdmin").innerText = "Oculto";
-    document.getElementById("statusProducao").innerText = "Visível";
-    document.getElementById("statusCortesias").innerText = "Oculto";
-    document.getElementById("statusMesario").innerText = "Ornamental";
-
-    document.getElementById("portaAdmin").classList.add("oculto");
-    document.getElementById("portaProducao").classList.remove("oculto");
-    document.getElementById("portaCortesias").classList.add("oculto");
-    document.getElementById("joiasDaCorte").classList.add("oculto");
-
-    document.getElementById("textoTopo").innerText =
-      "Ambiente institucional liberado por cortesia do Celeiro Literário.";
-
-  }else{
-    window.location.href = "index.html";
-  }
-}
-
-aplicarPerfil();
-
-</script>
-
+    aplicar();
+  </script>
 </body>
 </html>
