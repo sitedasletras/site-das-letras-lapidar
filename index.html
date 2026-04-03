@@ -3,11 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Lapidar • Login</title>
 
 <style>
-
 body{
 margin:0;
 font-family:Arial, Helvetica, sans-serif;
@@ -28,6 +26,7 @@ display:block;
 margin:auto;
 width:140px;
 margin-bottom:12px;
+object-fit:contain;
 }
 
 .logo{
@@ -43,15 +42,17 @@ text-align:center;
 font-size:13px;
 color:#777;
 margin-bottom:24px;
+line-height:1.5;
 }
 
-input{
+input, select{
 width:100%;
 padding:14px;
 margin-bottom:14px;
 border-radius:10px;
 border:1px solid #ccc;
 font-size:15px;
+box-sizing:border-box;
 }
 
 button{
@@ -85,14 +86,34 @@ text-align:center;
 margin-top:20px;
 font-size:12px;
 color:#777;
+line-height:1.5;
 }
 
+.msg{
+margin-top:10px;
+padding:12px;
+border-radius:10px;
+font-size:14px;
+display:none;
+}
+
+.msg.ok{
+background:#eef8f0;
+color:#1f6b36;
+border:1px solid #b8dfc0;
+display:block;
+}
+
+.msg.erro{
+background:#fff1f1;
+color:#a12626;
+border:1px solid #efc0c0;
+display:block;
+}
 </style>
 </head>
 
-
 <body>
-
 
 <div class="container">
 
@@ -102,19 +123,17 @@ src="file_00000000d8bc71f5b57491905e34ae99.jpg"
 alt="Brasão do Site das Letras"
 >
 
-<div class="logo">LAPIDAR</div>
+<div class="logo" id="txtLogo">LAPIDAR</div>
 
-<div class="sub">
+<div class="sub" id="txtSub">
 Produto institucional do Celeiro Literário<br>
 Site das Letras Edições Literárias
 </div>
-
 
 <input
 id="usuario"
 placeholder="Digite seu login ou e-mail"
 >
-
 
 <input
 id="senha"
@@ -122,99 +141,172 @@ type="password"
 placeholder="Digite sua senha"
 >
 
-
 <button
 class="login"
 onclick="entrar()"
+id="btnEntrar"
 >
 Entrar no Lapidar
 </button>
 
-
 <button
 class="criar"
-onclick="criarCadastro()"
+onclick="irCadastro()"
+id="btnCriar"
 >
 Criar cadastro
 </button>
 
-
 <button
 class="recuperar"
 onclick="recuperarSenha()"
+id="btnRecuperar"
 >
 Recuperar senha
 </button>
 
+<div id="mensagem" class="msg"></div>
 
-<div class="footer">
-
+<div class="footer" id="txtFooter">
 Lapidar • Celeiro Literário • Site das Letras Edições Literárias
-
 </div>
 
-
 </div>
-
 
 <script>
+const textos = {
+  pt: {
+    sub: "Produto institucional do Celeiro Literário<br>Site das Letras Edições Literárias",
+    usuario: "Digite seu login ou e-mail",
+    senha: "Digite sua senha",
+    entrar: "Entrar no Lapidar",
+    criar: "Criar cadastro",
+    recuperar: "Recuperar senha",
+    footer: "Lapidar • Celeiro Literário • Site das Letras Edições Literárias",
+    msgCadastro: "Cadastro encontrado e pronto para uso.",
+    loginNaoEncontrado: "Login ou e-mail não encontrado.",
+    senhaIncorreta: "Senha incorreta.",
+    recSenha: "Recuperação liberada."
+  },
+  en: {
+    sub: "Institutional product of Celeiro Literário<br>Site das Letras Literary Editions",
+    usuario: "Enter your login or e-mail",
+    senha: "Enter your password",
+    entrar: "Enter Lapidar",
+    criar: "Create account",
+    recuperar: "Recover password",
+    footer: "Lapidar • Celeiro Literário • Site das Letras Literary Editions",
+    msgCadastro: "Account found and ready to use.",
+    loginNaoEncontrado: "Login or e-mail not found.",
+    senhaIncorreta: "Incorrect password.",
+    recSenha: "Recovery available."
+  },
+  es: {
+    sub: "Producto institucional del Celeiro Literário<br>Site das Letras Ediciones Literarias",
+    usuario: "Escriba su usuario o correo",
+    senha: "Escriba su contraseña",
+    entrar: "Entrar en Lapidar",
+    criar: "Crear registro",
+    recuperar: "Recuperar contraseña",
+    footer: "Lapidar • Celeiro Literário • Site das Letras Ediciones Literarias",
+    msgCadastro: "Registro encontrado y listo para usar.",
+    loginNaoEncontrado: "Usuario o correo no encontrado.",
+    senhaIncorreta: "Contraseña incorrecta.",
+    recSenha: "Recuperación disponible."
+  }
+};
 
+function detectarIdioma(){
+  const nav = (navigator.language || "pt").toLowerCase();
+  if(nav.startsWith("en")) return "en";
+  if(nav.startsWith("es")) return "es";
+  return "pt";
+}
+
+const idiomaAtual = detectarIdioma();
+const t = textos[idiomaAtual];
+
+function aplicarIdioma(){
+  document.getElementById("txtSub").innerHTML = t.sub;
+  document.getElementById("usuario").placeholder = t.usuario;
+  document.getElementById("senha").placeholder = t.senha;
+  document.getElementById("btnEntrar").innerText = t.entrar;
+  document.getElementById("btnCriar").innerText = t.criar;
+  document.getElementById("btnRecuperar").innerText = t.recuperar;
+  document.getElementById("txtFooter").innerText = t.footer;
+}
+
+function mostrarMensagem(tipo, texto){
+  const box = document.getElementById("mensagem");
+  box.className = "msg " + tipo;
+  box.innerText = texto;
+}
+
+function carregarCadastros(){
+  try{
+    return JSON.parse(localStorage.getItem("lapidar_cadastros") || "[]");
+  }catch(e){
+    return [];
+  }
+}
 
 function entrar(){
+  const usuario = document.getElementById("usuario").value.trim().toLowerCase();
+  const senha = document.getElementById("senha").value;
 
-let usuario=document.getElementById("usuario").value.toLowerCase()
+  if(usuario.includes("admin")){
+    localStorage.setItem("lapidar_perfil","admin");
+    localStorage.setItem("lapidar_usuario","admin");
+    localStorage.setItem("lapidar_nome","Administrador do Sistema");
+    window.location.href="sala_reunioes.html";
+    return;
+  }
 
+  if(usuario.includes("heteronimo")){
+    localStorage.setItem("lapidar_perfil","heteronimo");
+    localStorage.setItem("lapidar_usuario","heteronimo");
+    localStorage.setItem("lapidar_nome","Heterônimo do Sistema");
+    window.location.href="sala_reunioes.html";
+    return;
+  }
 
-if(usuario.includes("admin")){
+  const cadastros = carregarCadastros();
+  const encontrado = cadastros.find(item =>
+    item.login === usuario || item.email === usuario
+  );
 
-localStorage.setItem("lapidar_perfil","admin")
-localStorage.setItem("lapidar_usuario","admin")
+  if(!encontrado){
+    mostrarMensagem("erro", t.loginNaoEncontrado);
+    return;
+  }
 
-window.location.href="sala_reunioes.html"
+  if(encontrado.senha !== senha){
+    mostrarMensagem("erro", t.senhaIncorreta);
+    return;
+  }
 
-return
+  localStorage.setItem("lapidar_perfil", encontrado.perfil || "cortesia");
+  localStorage.setItem("lapidar_usuario", encontrado.login);
+  localStorage.setItem("lapidar_nome", encontrado.nomeCompleto || encontrado.login);
+  localStorage.setItem("lapidar_idioma", encontrado.idioma || idiomaAtual);
 
+  mostrarMensagem("ok", t.msgCadastro);
+
+  setTimeout(() => {
+    window.location.href = "sala_reunioes.html";
+  }, 500);
 }
 
-
-if(usuario.includes("heteronimo")){
-
-localStorage.setItem("lapidar_perfil","heteronimo")
-localStorage.setItem("lapidar_usuario","heteronimo")
-
-window.location.href="sala_reunioes.html"
-
-return
-
+function irCadastro(){
+  window.location.href = "criar_perfil.html";
 }
-
-
-localStorage.setItem("lapidar_perfil","cortesia")
-localStorage.setItem("lapidar_usuario","cortesia")
-
-window.location.href="sala_reunioes.html"
-
-}
-
-
-
-function criarCadastro(){
-
-alert("Cadastro automático liberado.")
-
-}
-
-
 
 function recuperarSenha(){
-
-alert("Recuperação liberada.")
-
+  mostrarMensagem("ok", t.recSenha);
 }
 
-
+aplicarIdioma();
 </script>
-
 
 </body>
 </html>
