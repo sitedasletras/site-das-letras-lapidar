@@ -169,14 +169,6 @@ function mostrarMensagem(tipo,texto){
   box.innerText = texto;
 }
 
-function carregarCadastros(){
-  try{
-    return JSON.parse(localStorage.getItem("lapidar_cadastros") || "[]");
-  }catch(e){
-    return [];
-  }
-}
-
 function normalizarTelefone(valor){
   valor = (valor || "").trim();
   valor = valor.replace(/[^\d+]/g, "");
@@ -187,6 +179,36 @@ function normalizarTelefone(valor){
     valor = "+" + valor.replace(/\+/g,"");
   }
   return valor.toLowerCase();
+}
+
+function carregarCadastros(){
+  try{
+    let dados = localStorage.getItem("lapidar_cadastros");
+
+    if(!dados){
+      const nome = localStorage.getItem("lapidar_nome");
+      const email = localStorage.getItem("lapidar_email");
+      const telefone = localStorage.getItem("lapidar_telefone");
+      const senha = localStorage.getItem("lapidar_senha");
+      const id = localStorage.getItem("lapidar_cadastro_id");
+
+      if(email && senha){
+        return [{
+          id: id || "cad_local",
+          nomeCompleto: nome || "Utilizador comum",
+          email: email,
+          telefone: telefone || "",
+          senha: senha
+        }];
+      }
+
+      return [];
+    }
+
+    return JSON.parse(dados);
+  }catch(e){
+    return [];
+  }
 }
 
 function limparSessaoComum(){
@@ -226,7 +248,7 @@ function entrarNoLapidar(){
   const cadastros = carregarCadastros();
   const acessoTelefone = normalizarTelefone(acesso);
 
-  const usuario = cadastros.find(item => {
+  const usuario = cadastros.find(function(item){
     const emailOk = (item.email || "").toLowerCase() === acesso;
     const telefoneOk = normalizarTelefone(item.telefone || "") === acessoTelefone;
     const senhaOk = (item.senha || "") === senha;
