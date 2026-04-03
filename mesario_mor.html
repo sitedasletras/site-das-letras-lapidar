@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mesário Mor — Lapidar</title>
+
+<style>
+body{
+margin:0;
+font-family:Arial, sans-serif;
+background:#0e0604;
+color:white;
+}
+
+header{
+background:#2f436d;
+padding:18px 20px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.container{
+max-width:1000px;
+margin:auto;
+padding:24px 16px 40px;
+}
+
+.card{
+background:#1c0e08;
+border-radius:14px;
+padding:20px;
+margin-bottom:18px;
+box-shadow:0 6px 18px rgba(0,0,0,.25);
+}
+
+.status{
+background:#2a140c;
+padding:12px;
+border-radius:10px;
+margin-top:10px;
+line-height:1.6;
+}
+
+button{
+padding:12px 16px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+font-weight:bold;
+background:#2f436d;
+color:white;
+margin-top:12px;
+margin-right:10px;
+}
+
+button.alt{
+background:#8a6f3f;
+}
+
+button.sec{
+background:#6c757d;
+}
+
+button.ok{
+background:#1f6b36;
+}
+
+button.no{
+background:#7a1f1f;
+}
+
+textarea{
+width:100%;
+box-sizing:border-box;
+min-height:120px;
+padding:12px;
+border:none;
+border-radius:10px;
+background:#2a140c;
+color:white;
+margin-top:10px;
+resize:vertical;
+}
+
+.badge{
+display:inline-block;
+padding:8px 12px;
+border-radius:999px;
+font-size:13px;
+font-weight:bold;
+margin-top:10px;
+}
+
+.badge.pendente{
+background:#5a2d00;
+}
+
+.badge.confirmado{
+background:#1f6b36;
+}
+
+.badge.bloqueado{
+background:#7a1f1f;
+}
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:16px;
+}
+
+@media (max-width:700px){
+.grid{
+grid-template-columns:1fr;
+}
+}
+</style>
+</head>
+<body>
+
+<header>
+<h2>Mesário Mor</h2>
+<button onclick="voltar()">Voltar</button>
+</header>
+
+<div class="container">
+
+<div class="card">
+<h3>Projeto ativo</h3>
+<div id="nomeProjeto">Nenhum projeto ativo selecionado.</div>
+</div>
+
+<div class="card">
+<h3>Status do pagamento / Hotmart</h3>
+
+<div class="grid">
+<div class="status">
+<strong>Sinal da Hotmart</strong><br>
+<span id="hotmartStatus">Aguardando confirmação.</span><br>
+<span id="hotmartBadge" class="badge pendente">Pendente</span>
+</div>
+
+<div class="status">
+<strong>Status da expedição</strong><br>
+<span id="expedicaoStatus">Expedição bloqueada.</span><br>
+<span id="expedicaoBadge" class="badge bloqueado">Bloqueada</span>
+</div>
+</div>
+
+<button class="ok" onclick="confirmarPagamento()">Confirmar pagamento</button>
+<button class="no" onclick="bloquearExpedicao()">Bloquear expedição</button>
+</div>
+
+<div class="card">
+<h3>Observações do Mesário Mor</h3>
+<textarea id="observacoesMesario" placeholder="Registrar observações, validação da contribuição, confirmação manual da Hotmart, pendências ou liberação final..."></textarea>
+<button onclick="salvarObservacoes()">Salvar observações</button>
+</div>
+
+<div class="card">
+<h3>Ações rápidas</h3>
+<button onclick="abrirExpedicao()">Abrir expedição da obra</button>
+<button class="alt" onclick="abrirProjetos()">Projetos</button>
+<button class="sec" onclick="abrirRelatorios()">Relatórios</button>
+</div>
+
+</div>
+
+<script>
+const perfil = localStorage.getItem("lapidar_perfil");
+
+if(!perfil){
+window.location.href = "index.html";
+}
+
+const projeto = localStorage.getItem("lapidar_projeto_ativo");
+if(projeto){
+document.getElementById("nomeProjeto").innerText = projeto;
+}
+
+const chavePagamento = "lapidar_pagamento_confirmado";
+const chaveExpedicao = "lapidar_expedicao_liberada";
+const chaveObs = "lapidar_mesario_mor_obs";
+
+function carregarStatus(){
+const pagamento = localStorage.getItem(chavePagamento) === "true";
+const expedicao = localStorage.getItem(chaveExpedicao) === "true";
+
+document.getElementById("hotmartStatus").innerText =
+pagamento ? "Pagamento confirmado / sinal recebido." : "Aguardando confirmação.";
+
+document.getElementById("hotmartBadge").innerText =
+pagamento ? "Confirmado" : "Pendente";
+
+document.getElementById("hotmartBadge").className =
+pagamento ? "badge confirmado" : "badge pendente";
+
+document.getElementById("expedicaoStatus").innerText =
+expedicao ? "Expedição liberada para download." : "Expedição bloqueada.";
+
+document.getElementById("expedicaoBadge").innerText =
+expedicao ? "Liberada" : "Bloqueada";
+
+document.getElementById("expedicaoBadge").className =
+expedicao ? "badge confirmado" : "badge bloqueado";
+
+const obs = localStorage.getItem(chaveObs) || "";
+document.getElementById("observacoesMesario").value = obs;
+}
+
+function registrarAuditoria(evento){
+let logs = JSON.parse(localStorage.getItem("lapidar_auditoria_logs") || "[]");
+logs.push(evento + " em " + new Date().toLocaleString("pt-BR"));
+localStorage.setItem("lapidar_auditoria_logs", JSON.stringify(logs));
+}
+
+function confirmarPagamento(){
+localStorage.setItem(chavePagamento, "true");
+localStorage.setItem(chaveExpedicao, "true");
+registrarAuditoria("Mesário Mor confirmou pagamento e liberou expedição");
+carregarStatus();
+alert("Pagamento confirmado e expedição liberada.");
+}
+
+function bloquearExpedicao(){
+localStorage.setItem(chaveExpedicao, "false");
+registrarAuditoria("Mesário Mor bloqueou a expedição");
+carregarStatus();
+alert("Expedição bloqueada.");
+}
+
+function salvarObservacoes(){
+const texto = document.getElementById("observacoesMesario").value;
+localStorage.setItem(chaveObs, texto);
+registrarAuditoria("Mesário Mor salvou observações");
+alert("Observações salvas com sucesso.");
+}
+
+function abrirExpedicao(){
+window.location.href = "expedicao_material.html";
+}
+
+function abrirProjetos(){
+window.location.href = "projetos.html";
+}
+
+function abrirRelatorios(){
+window.location.href = "hub_relatorios.html";
+}
+
+function voltar(){
+window.location.href = "admin_painel.html";
+}
+
+carregarStatus();
+</script>
+
+</body>
+</html>
