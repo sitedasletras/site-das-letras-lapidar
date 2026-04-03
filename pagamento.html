@@ -1,295 +1,187 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mesário-mor • Lapidar</title>
 
 <style>
-:root{
-  --bg:#f3eee3;
-  --panel:#ffffff;
-  --line:#ddd3bf;
-  --text:#2f2418;
-  --muted:#6d5a43;
-  --deep:#17335d;
-  --deep2:#29508d;
-  --gold:#b8903f;
-  --gold2:#8f6b28;
-  --green:#1f6b36;
-  --greenbg:#eef8f0;
-  --orange:#7a5621;
-  --orangebg:#fff4df;
-  --shadow:0 12px 28px rgba(45,30,10,.12);
+
+body{
+font-family:Arial;
+background:#f4efe4;
+margin:0;
+padding:0;
 }
 
-*{box-sizing:border-box}
-
-html,body{
-  margin:0;
-  padding:0;
-  font-family:Arial, Helvetica, sans-serif;
-  background:var(--bg);
-  color:var(--text);
+.container{
+max-width:900px;
+margin:auto;
+padding:30px;
 }
 
-.hero{
-  background:linear-gradient(135deg,var(--deep) 0%, var(--deep2) 100%);
-  color:#fff;
-  padding:28px 18px 30px;
-  border-bottom-left-radius:34px;
-  border-bottom-right-radius:34px;
-  box-shadow:var(--shadow);
+.box{
+background:white;
+border-radius:16px;
+padding:30px;
+box-shadow:0 10px 25px rgba(0,0,0,0.08);
 }
 
-.hero small{
-  display:block;
-  text-transform:uppercase;
-  letter-spacing:.16em;
-  font-size:12px;
-  margin-bottom:10px;
-  font-weight:900;
-  opacity:.9;
+h1{
+margin-top:0;
 }
 
-.hero h1{
-  margin:0 0 10px;
-  font-size:32px;
-  line-height:1.05;
+.status{
+padding:15px;
+border-radius:12px;
+margin-top:20px;
+font-weight:bold;
 }
 
-.hero p{
-  margin:0;
-  font-size:15px;
-  line-height:1.7;
-  max-width:980px;
+.aguardando{
+background:#fff3cd;
 }
 
-.hero-actions{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-  margin-top:18px;
+.confirmado{
+background:#d4edda;
 }
 
-.hero-actions button{
-  border:none;
-  border-radius:15px;
-  padding:13px 16px;
-  font-size:15px;
-  font-weight:900;
-  cursor:pointer;
+button{
+padding:16px;
+border:none;
+border-radius:10px;
+font-size:16px;
+font-weight:bold;
+cursor:pointer;
+background:#17335d;
+color:white;
+margin-top:20px;
 }
 
-.ghost{
-  background:rgba(255,255,255,.14);
-  color:#fff;
-  border:1px solid rgba(255,255,255,.18);
+button:disabled{
+background:#ccc;
 }
 
-.light{
-  background:#fff;
-  color:var(--deep);
+.download{
+display:none;
+margin-top:20px;
 }
 
-.wrap{
-  max-width:1180px;
-  margin:0 auto;
-  padding:22px 16px 30px;
-  display:grid;
-  grid-template-columns:minmax(0,1fr) 360px;
-  gap:22px;
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="box">
+
+<h1>Mesário-mor</h1>
+
+<p>
+Resumo final da contribuição institucional da obra.
+Após confirmação, o sistema encaminhará automaticamente para validação.
+</p>
+
+<h2>Contribuição final</h2>
+
+<h1 id="valorFinal">CVMI 78,99</h1>
+
+<div id="statusBox" class="status aguardando">
+
+Status atual: aguardando confirmação
+
+</div>
+
+<button id="confirmarBtn" onclick="confirmarContribuicao()">
+
+Confirmar contribuição
+
+</button>
+
+<div id="downloads" class="download">
+
+<h2>Downloads liberados</h2>
+
+<button onclick="baixarMiolo()">Baixar miolo</button>
+
+<button onclick="baixarCapa()">Baixar capa</button>
+
+<button onclick="baixarCompleto()">Baixar pacote completo</button>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+const STATUS_KEY = "lapidar_status_fluxo"
+
+function confirmarContribuicao(){
+
+localStorage.setItem(STATUS_KEY,"aguardando_contribuicao")
+
+// redirecionamento automático Hotmart
+
+const hotmartLink =
+localStorage.getItem("lapidar_hotmart_link")
+
+if(hotmartLink){
+
+window.location.href = hotmartLink
+
+}else{
+
+// modo teste
+
+setTimeout(()=>{
+contribuicaoConfirmada()
+},1200)
+
 }
 
-.stack{
-  display:grid;
-  gap:22px;
 }
 
-.card{
-  background:var(--panel);
-  border:1px solid var(--line);
-  border-radius:28px;
-  box-shadow:var(--shadow);
-  overflow:hidden;
+function contribuicaoConfirmada(){
+
+localStorage.setItem(STATUS_KEY,"contribuicao_confirmada")
+
+document.getElementById("statusBox").className =
+"status confirmado"
+
+document.getElementById("statusBox").innerText =
+"Status atual: contribuição confirmada"
+
+document.getElementById("confirmarBtn").disabled = true
+
+document.getElementById("downloads").style.display =
+"block"
+
 }
 
-.card-head{
-  padding:22px 22px 0;
+function baixarMiolo(){
+alert("Download miolo liberado")
 }
 
-.card-head small{
-  display:block;
-  text-transform:uppercase;
-  letter-spacing:.16em;
-  font-size:12px;
-  font-weight:900;
-  color:#8c6e3c;
-  margin-bottom:10px;
+function baixarCapa(){
+alert("Download capa liberado")
 }
 
-.card-head h2{
-  margin:0 0 10px;
-  font-size:30px;
-  line-height:1.05;
+function baixarCompleto(){
+alert("Download completo liberado")
 }
 
-.card-head p{
-  margin:0;
-  color:var(--muted);
-  font-size:14px;
-  line-height:1.7;
+// caso já tenha confirmado antes
+
+if(localStorage.getItem(STATUS_KEY) ==
+"contribuicao_confirmada"){
+
+contribuicaoConfirmada()
+
 }
 
-.card-body{
-  padding:22px;
-}
+</script>
 
-.status-line{
-  display:grid;
-  gap:12px;
-}
-
-.status-item{
-  border:1px solid var(--line);
-  border-radius:18px;
-  background:#fffdf8;
-  padding:14px 16px;
-  display:flex;
-  align-items:center;
-  gap:12px;
-}
-
-.status-dot{
-  width:14px;
-  height:14px;
-  border-radius:50%;
-  flex:0 0 14px;
-}
-
-.done{background:#2aa35b;}
-.current{background:#d3a746;}
-.pending{background:#d8d1c5;}
-
-.status-text strong{
-  display:block;
-  font-size:15px;
-  line-height:1.4;
-  margin-bottom:4px;
-}
-
-.status-text span{
-  display:block;
-  color:var(--muted);
-  font-size:13px;
-  line-height:1.6;
-}
-
-.resumo-grid{
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:14px;
-}
-
-.resumo-item{
-  background:#fffdf8;
-  border:1px solid var(--line);
-  border-radius:18px;
-  padding:16px;
-}
-
-.resumo-item small{
-  display:block;
-  text-transform:uppercase;
-  letter-spacing:.08em;
-  font-size:12px;
-  font-weight:900;
-  color:var(--muted);
-  margin-bottom:8px;
-}
-
-.resumo-item strong{
-  display:block;
-  font-size:24px;
-  line-height:1.1;
-  margin-bottom:6px;
-}
-
-.resumo-item span{
-  color:var(--muted);
-  font-size:13px;
-  line-height:1.6;
-}
-
-.setor-list{
-  display:grid;
-  gap:12px;
-}
-
-.setor-item{
-  background:#fff;
-  border:1px solid var(--line);
-  border-radius:18px;
-  padding:14px 16px;
-  display:flex;
-  justify-content:space-between;
-  gap:12px;
-  align-items:flex-start;
-}
-
-.setor-item strong{
-  display:block;
-  font-size:15px;
-  line-height:1.4;
-  margin-bottom:4px;
-}
-
-.setor-item span{
-  display:block;
-  color:var(--muted);
-  font-size:13px;
-  line-height:1.6;
-}
-
-.valor{
-  text-align:right;
-  font-size:15px;
-  font-weight:900;
-  color:#4d3822;
-  white-space:nowrap;
-}
-
-.cta-box{
-  border-radius:20px;
-  padding:18px;
-  background:#f8f2e5;
-  border:1px solid #e5d1a8;
-  display:grid;
-  gap:14px;
-}
-
-.cta-box p{
-  margin:0;
-  color:#6d5a43;
-  font-size:14px;
-  line-height:1.7;
-}
-
-.cta-box button{
-  width:100%;
-  min-height:54px;
-  border:none;
-  border-radius:16px;
-  font-size:16px;
-  font-weight:900;
-  cursor:pointer;
-}
-
-.btn-confirm{
-  background:linear-gradient(135deg,var(--gold2) 0%, var(--gold) 100%);
-  color:#fff;
-}
-
-.btn-download{
-  background:linear-gradient(135deg,#1f6b36 0%, #2b9348 100%);
-  color:#fff
+</body>
+</html>
