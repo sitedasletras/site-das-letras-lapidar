@@ -1,163 +1,93 @@
 <!DOCTYPE html>
-<html lang="pt-br">
-
+<html lang="pt-BR">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Painel Lapidar — Departamentos</title>
+<title>Painel de Departamentos — Lapidar</title>
 
 <style>
 
 body{
 margin:0;
 font-family:Arial;
-background:#0d0603;
+background:#0e0604;
 color:white;
+}
+
+header{
+background:#2f436d;
+padding:20px;
 display:flex;
-justify-content:center;
+justify-content:space-between;
+align-items:center;
 }
 
 .container{
-max-width:900px;
-width:94%;
-padding:40px 0 60px 0;
-}
-
-.titulo{
-font-size:42px;
-text-align:center;
-font-weight:bold;
-}
-
-.subtitulo{
-text-align:center;
-color:#ff7b2c;
-margin-top:12px;
-margin-bottom:40px;
-line-height:1.6;
-}
-
-.grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:24px;
+max-width:1100px;
+margin:auto;
+padding:30px 20px;
 }
 
 .card{
-border-radius:20px;
-padding:28px;
-font-size:18px;
-line-height:1.6;
-cursor:pointer;
-transition:.25s;
-}
-
-.card:hover{
-transform:scale(1.02);
-}
-
-/* DIAGRAMADOR */
-
-.diagramador{
-background:#0e5eff;
-border:2px solid white;
-}
-
-/* CAPISTA */
-
-.capista{
-background:#ffe66a;
-color:#2d2d00;
-border:2px solid #16a34a;
-}
-
-/* TRADUTOR */
-
-.tradutor{
-background:white;
-color:#0e5eff;
-border:2px solid #0e5eff;
-}
-
-/* VALIDAÇÃO */
-
-.validacao{
-background:#16a34a;
-border:2px solid white;
-}
-
-.descricao{
-margin-top:12px;
-font-size:15px;
-opacity:.9;
-}
-
-.status{
-margin-top:32px;
-padding:16px;
+background:#1c0e08;
 border-radius:14px;
-background:#1c120d;
-color:#ffd2b3;
-text-align:center;
+padding:20px;
+margin-bottom:20px;
+box-shadow:0 6px 18px rgba(0,0,0,.25);
 }
 
-/* BOTÃO SAIR */
+.departamento{
+background:#24130c;
+padding:14px;
+border-radius:10px;
+margin-top:12px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
 
-.logout{
-margin-top:26px;
-width:100%;
-padding:18px;
-border-radius:40px;
+button{
+padding:10px 14px;
 border:none;
-background:#ff5a00;
-color:white;
-font-size:18px;
-font-weight:bold;
+border-radius:8px;
 cursor:pointer;
+font-weight:bold;
+background:#2f436d;
+color:white;
 }
 
-.logout:hover{
-background:#ff7b2c;
+button.alt{
+background:#8a6f3f;
 }
 
-@media(max-width:720px){
-
-.grid{
-grid-template-columns:1fr;
-}
-
+button.sec{
+background:#6c757d;
 }
 
 </style>
-
 </head>
 
 <body>
 
+<header>
+
+<h2>Painel de Departamentos</h2>
+
+<button onclick="voltar()">Voltar</button>
+
+</header>
+
+
 <div class="container">
 
-<div class="titulo">
-Lapidar
-</div>
 
-<div class="subtitulo">
-Plataforma editorial assistida — escolha o departamento desejado
-</div>
+<div class="card">
 
+<h3>Projeto ativo</h3>
 
-<div class="grid">
+<div id="nomeProjeto">
 
-
-<div class="card diagramador"
-onclick="abrirDiagramador()">
-
-Assistente Diagramador do Autor
-
-<div class="descricao">
-
-Leitura inicial da obra, avaliação colaborativa e preparação do miolo editorial
+Nenhum projeto ativo selecionado.
 
 </div>
 
@@ -165,156 +95,185 @@ Leitura inicial da obra, avaliação colaborativa e preparação do miolo editor
 
 
 
-<div class="card capista"
-onclick="abrirCapista()">
+<div class="card">
 
-Ajudante Capista
-
-<div class="descricao">
-
-Preparação estrutural da capa editorial com sinopse, orelhas e selo institucional
-
-</div>
-
-</div>
+<h3>Departamentos disponíveis</h3>
 
 
+<div class="departamento">
 
-<div class="card tradutor"
-onclick="abrirTradutor()">
+<span>Assistente de Diagramação do Autor</span>
 
-Colaborador Tradutor
-
-<div class="descricao">
-
-Preparação multilíngue da obra com adaptação editorial internacional
-
-</div>
+<button onclick="abrirDiagramacao()">Abrir</button>
 
 </div>
 
 
+<div class="departamento">
 
-<div class="card validacao"
-onclick="abrirValidacao()">
+<span>OKapista</span>
 
-Validação Geral dos Textos
-
-<div class="descricao">
-
-Leitura editorial profunda com parecer técnico estruturado
-
-</div>
+<button onclick="abrirCapista()">Abrir</button>
 
 </div>
 
 
+<div class="departamento">
+
+<span>Segunda Língua(s)</span>
+
+<button onclick="abrirTraducao()">Abrir</button>
+
+</div>
+
+
+<div class="departamento">
+
+<span>Avaliação Literária</span>
+
+<button onclick="abrirLeitura()">Abrir</button>
+
 </div>
 
 
-<div id="statusSistema" class="status">
+<div class="departamento">
 
-Inicializando ambiente editorial Lapidar...
+<span>Analisador de Obra</span>
+
+<button onclick="abrirAnalise()">Abrir</button>
+
+</div>
+
+
+<div class="departamento">
+
+<span>Lapidação Literária</span>
+
+<button onclick="abrirLapidacao()">Abrir</button>
 
 </div>
 
 
-<button class="logout" onclick="sairLapidar()">
-Sair do Lapidar
-</button>
+</div>
+
+
+
+<div class="card">
+
+<h3>Navegação rápida</h3>
+
+<button onclick="abrirSetores()">Painel de setores</button>
+
+<button onclick="abrirFluxo()">Fluxo editorial</button>
+
+<button onclick="abrirPreview()" class="alt">Preview do projeto</button>
+
+<button onclick="abrirProgresso()" class="sec">Progresso da obra</button>
+
+</div>
 
 
 </div>
+
 
 
 <script>
 
+/* SESSION GUARD PADRÃO LAPIDAR */
 
-function abrirDiagramador(){
+const perfil = localStorage.getItem("lapidar_perfil")
 
-window.location.href="diagramador_inicio.html";
+if(!perfil){
+
+window.location.href="index.html"
 
 }
 
+
+/* PROJETO ATIVO */
+
+const projeto = localStorage.getItem("lapidar_projeto_ativo")
+
+if(projeto){
+
+document.getElementById("nomeProjeto").innerText = projeto
+
+}
+
+
+/* ABERTURA DE DEPARTAMENTOS */
+
+function abrirDiagramacao(){
+
+window.location.href="preferencias_diagramacao.html"
+
+}
 
 function abrirCapista(){
 
-window.location.href="capista_inicio.html";
+window.location.href="relatorio_capista.html"
+
+}
+
+function abrirTraducao(){
+
+window.location.href="idioma_obra.html"
+
+}
+
+function abrirLeitura(){
+
+window.location.href="relatorio_leitura_tecnica.html"
+
+}
+
+function abrirAnalise(){
+
+window.location.href="relatorio_projeto.html"
+
+}
+
+function abrirLapidacao(){
+
+window.location.href="relatorio_lapidacao.html"
 
 }
 
 
-function abrirTradutor(){
+/* NAVEGAÇÃO GERAL */
 
-window.location.href="tradutor_inicio.html";
+function abrirSetores(){
 
-}
-
-
-function abrirValidacao(){
-
-window.location.href="avaliacao_inicio.html";
+window.location.href="painel_setores.html"
 
 }
 
+function abrirFluxo(){
 
-/* STATUS DO SISTEMA */
-
-function adminAtivo(){
-
-return localStorage.getItem("SDL_ADMIN") === "true";
+window.location.href="status_fluxo_editorial.html"
 
 }
 
+function abrirPreview(){
 
-function sessaoAtiva(){
-
-return localStorage.getItem("SDL_sessao_ativa") === "sim";
-
-}
-
-
-function atualizarStatus(){
-
-const el=document.getElementById("statusSistema");
-
-if(adminAtivo()){
-
-el.innerText="Modo administrador ativo — todos os módulos liberados.";
-
-return;
+window.location.href="preview_projeto.html"
 
 }
 
-if(sessaoAtiva()){
+function abrirProgresso(){
 
-el.innerText="Sessão editorial ativa.";
-
-return;
+window.location.href="progresso_projeto.html"
 
 }
 
-el.innerText="Sessão não identificada corretamente.";
+function voltar(){
+
+window.location.href="projetos.html"
 
 }
-
-
-function sairLapidar(){
-
-localStorage.removeItem("SDL_sessao_ativa");
-
-localStorage.removeItem("SDL_ADMIN");
-
-window.location.href="login.html";
-
-}
-
-
-atualizarStatus();
-
 
 </script>
 
-</body>
 
+</body>
 </html>
