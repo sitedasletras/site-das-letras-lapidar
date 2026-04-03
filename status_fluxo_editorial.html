@@ -3,79 +3,97 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Status do Fluxo Editorial</title>
+<title>Status do Fluxo Editorial — Lapidar</title>
 
 <style>
 
 body{
+margin:0;
 font-family:Arial;
 background:#120604;
 color:white;
-margin:0;
-padding:30px;
+}
+
+header{
+background:#2f436d;
+padding:20px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.container{
+max-width:1000px;
+margin:auto;
+padding:30px 20px;
 }
 
 .card{
 background:#1d0a07;
+border-radius:14px;
 padding:20px;
-border-radius:12px;
 margin-bottom:20px;
-box-shadow:0 0 12px rgba(255,120,40,.15);
-}
-
-button{
-padding:12px 18px;
-border:none;
-border-radius:8px;
-background:#2f436d;
-color:white;
-margin-right:10px;
-cursor:pointer;
+box-shadow:0 6px 20px rgba(0,0,0,.25);
 }
 
 .badge{
-background:#3a1a11;
-padding:6px 10px;
-border-radius:6px;
 display:inline-block;
+padding:8px 12px;
+border-radius:8px;
+background:#3a1a11;
 margin-top:10px;
-font-size:12px;
+font-size:13px;
+}
+
+button{
+padding:12px 16px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+font-weight:bold;
+background:#2f436d;
+color:white;
+margin-right:10px;
+margin-top:10px;
+}
+
+button.alt{
+background:#8a6f3f;
 }
 
 </style>
 </head>
 
-
 <body>
 
-<h1>Status do Fluxo Editorial</h1>
+<header>
+
+<h2>Status do Fluxo Editorial</h2>
+
+<button onclick="voltar()">Voltar</button>
+
+</header>
+
+
+<div class="container">
+
 
 <div class="card">
+
+<h3>Projeto ativo</h3>
+
+<div id="nomeProjeto">
 
 Nenhum projeto ativo selecionado.
 
 </div>
 
-
-<div class="card">
-
-Resumo da Obra<br>
-Sem obra ativa no momento.
-
 </div>
 
 
 <div class="card">
 
-Indicador Geral<br>
-0%
-
-</div>
-
-
-<div class="card">
-
-Planejamento Editorial<br>
+<h3>Planejamento editorial</h3>
 <span class="badge">Verificando...</span>
 
 </div>
@@ -83,7 +101,7 @@ Planejamento Editorial<br>
 
 <div class="card">
 
-Setor de Capa<br>
+<h3>Setor de capa</h3>
 <span class="badge">Verificando...</span>
 
 </div>
@@ -91,7 +109,7 @@ Setor de Capa<br>
 
 <div class="card">
 
-Setor de Miolo<br>
+<h3>Setor de miolo</h3>
 <span class="badge">Verificando...</span>
 
 </div>
@@ -99,7 +117,7 @@ Setor de Miolo<br>
 
 <div class="card">
 
-Setor de Tradução<br>
+<h3>Setor de tradução</h3>
 <span class="badge">Verificando...</span>
 
 </div>
@@ -107,7 +125,7 @@ Setor de Tradução<br>
 
 <div class="card">
 
-Leitura Técnica<br>
+<h3>Leitura técnica</h3>
 <span class="badge">Verificando...</span>
 
 </div>
@@ -115,28 +133,27 @@ Leitura Técnica<br>
 
 <div class="card">
 
-Prontidão Final<br>
+<h3>Prontidão final</h3>
 <span class="badge">Verificando...</span>
 
 </div>
 
 
-<br>
+<div class="card">
+
+<button onclick="abrirSetores()">Abrir painel de setores</button>
+
+<button onclick="abrirPreview()" class="alt">Abrir preview do projeto</button>
+
+</div>
 
 
-<button onclick="abrirCentro()">Abrir centro da obra</button>
-
-<button onclick="abrirRelatorio()">Abrir relatório mestre</button>
-
-<button onclick="voltar()">Voltar ao índice</button>
+</div>
 
 
 <script>
 
-
-/* ===============================
-SESSION GUARD INSTITUCIONAL
-=============================== */
+/* SESSION GUARD PADRÃO LAPIDAR */
 
 const perfil = localStorage.getItem("lapidar_perfil")
 
@@ -147,30 +164,38 @@ window.location.href="index.html"
 }
 
 
-/* ===============================
-NAVEGAÇÃO
-=============================== */
+/* CARREGAR PROJETO ATIVO */
 
-function abrirCentro(){
+const projeto = localStorage.getItem("lapidar_projeto_ativo")
+
+if(projeto){
+
+document.getElementById("nomeProjeto").innerText = projeto
+
+}
+
+
+/* NAVEGAÇÃO */
+
+function abrirSetores(){
 
 window.location.href="painel_setores.html"
 
 }
 
 
-function abrirRelatorio(){
+function abrirPreview(){
 
-window.location.href="hub_relatorios.html"
+window.location.href="preview_projeto.html"
 
 }
 
 
 function voltar(){
 
-window.location.href="admin.html"
+window.location.href="projetos.html"
 
 }
-
 
 </script>
 
