@@ -1,110 +1,64 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hub de Relatórios — Lapidar</title>
+<title>Hub de Relatórios</title>
 
 <style>
 
-:root{
---bg:#0d0603;
---card:#140c08;
---cardHover:#1b100a;
---border:rgba(255,123,44,0.18);
---orange:#f7b22c;
---muted:#ffd2b3;
---ok:#9cfdb2;
+body{
+font-family:Arial;
+background:#efe2c2;
+margin:0;
+padding:0;
 }
 
-body{
-margin:0;
-font-family:Arial, sans-serif;
-background:var(--bg);
+header{
+background:#6b4ca5;
 color:white;
+padding:20px;
+display:flex;
+justify-content:space-between;
+align-items:center;
 }
 
 .container{
-width:min(1200px,95%);
-margin:auto;
-padding:40px 0 60px;
-}
-
-.titulo{
-font-size:38px;
-font-weight:bold;
-}
-
-.subtitulo{
-margin-top:6px;
-color:var(--orange);
-}
-
-.status{
-margin-top:18px;
-padding:16px;
-border-radius:12px;
-background:rgba(247,178,44,0.12);
-border:1px solid rgba(247,178,44,0.25);
-}
-
-.grid{
-margin-top:30px;
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-gap:18px;
+padding:20px;
 }
 
 .card{
-background:var(--card);
-padding:22px;
-border-radius:16px;
-border:1px solid var(--border);
-cursor:pointer;
-transition:.2s;
-}
-
-.card:hover{
-background:var(--cardHover);
-}
-
-.cardTitulo{
-font-size:20px;
-font-weight:bold;
-margin-bottom:6px;
-}
-
-.cardDesc{
-color:var(--muted);
-font-size:14px;
-line-height:1.7;
-}
-
-.badge{
-margin-top:12px;
-display:inline-block;
-padding:6px 12px;
-border-radius:999px;
-background:#2a160d;
-font-size:13px;
-}
-
-.badge.ok{
-background:rgba(23,77,39,0.35);
-color:var(--ok);
-}
-
-.actions{
-margin-top:40px;
+background:white;
+border-radius:12px;
+padding:20px;
+margin-bottom:20px;
+box-shadow:0 4px 10px rgba(0,0,0,.1);
 }
 
 button{
+padding:12px 18px;
 border:none;
-padding:14px 18px;
-border-radius:999px;
-background:#24150f;
+border-radius:8px;
+background:#6b4ca5;
 color:white;
 cursor:pointer;
+margin-right:10px;
+margin-top:10px;
+}
+
+button.sec{
+background:#2f436d;
+}
+
+button.alt{
+background:#8a6f3f;
+}
+
+.lista{
+margin-top:10px;
+padding:10px;
+background:#f7f2e4;
+border-radius:8px;
 }
 
 </style>
@@ -112,150 +66,144 @@ cursor:pointer;
 
 <body>
 
+<header>
+
+<h2>Hub de Relatórios</h2>
+
+<button onclick="voltar()">Voltar ao Admin</button>
+
+</header>
+
+
 <div class="container">
 
-<div class="titulo">Hub de Relatórios</div>
-<div class="subtitulo">Central executiva dos relatórios editoriais da obra</div>
 
-<div id="statusHubRelatorios" class="status">
-Verificando projeto ativo...
-</div>
+<div class="card">
 
-<div class="grid">
+<h3>Relatório mestre da obra</h3>
 
-<div class="card" onclick="abrirRelatorioObra()">
-<div class="cardTitulo">Relatório da Obra</div>
-<div class="cardDesc">
-Resumo editorial simplificado para acompanhamento do autor.
-</div>
-<div id="badgeRelatorioObra" class="badge">Verificando...</div>
-</div>
+<button onclick="abrirFluxo()">Abrir Status do Fluxo Editorial</button>
 
-<div class="card" onclick="abrirRelatorioCapista()">
-<div class="cardTitulo">Relatório do Capista</div>
-<div class="cardDesc">
-Documento técnico da identidade visual da capa.
-</div>
-<div id="badgeRelatorioCapista" class="badge">Verificando...</div>
-</div>
-
-<div class="card" onclick="abrirLeituraTecnica()">
-<div class="cardTitulo">Leitura Técnica</div>
-<div class="cardDesc">
-Ficha analítica editorial da obra com parecer técnico.
-</div>
-<div id="badgeLeituraTecnica" class="badge">Verificando...</div>
-</div>
-
-<div class="card" onclick="abrirRelatorioTradutor()">
-<div class="cardTitulo">Relatório do Tradutor</div>
-<div class="cardDesc">
-Documento técnico da tradução editorial da obra.
-</div>
-<div id="badgeRelatorioTradutor" class="badge">Verificando...</div>
-</div>
-
-<div class="card" onclick="abrirRelatorioMestre()">
-<div class="cardTitulo">Relatório Mestre</div>
-<div class="cardDesc">
-Prontuário editorial consolidado da obra.
-</div>
-<div id="badgeRelatorioMestre" class="badge">Verificando...</div>
-</div>
-
-<div class="card" onclick="abrirExportador()">
-<div class="cardTitulo">Exportador Técnico</div>
-<div class="cardDesc">
-Central de exportação editorial da obra.
-</div>
-<div class="badge">Disponível</div>
-</div>
+<button class="sec" onclick="abrirProjetos()">Abrir Projetos</button>
 
 </div>
 
-<div class="actions">
-<button onclick="voltarIndice()">Voltar ao índice</button>
-</div>
+
+<div class="card">
+
+<h3>Painel estatístico do sistema</h3>
+
+<button onclick="abrirEstatisticas()">Abrir Estatísticas do Lapidar</button>
 
 </div>
 
-<script src="auditoria.js"></script>
+
+<div class="card">
+
+<h3>Histórico de relatórios gerados</h3>
+
+<div class="lista" id="historicoRelatorios">
+
+Nenhum relatório registrado ainda.
+
+</div>
+
+<button class="alt" onclick="gerarRelatorio()">Gerar novo relatório</button>
+
+</div>
+
+
+</div>
+
 
 <script>
 
-function obterProjetoAtivo(){
-try{
-const lista=JSON.parse(localStorage.getItem("SDL_projetos_lista")||"[]")
-const ativo=localStorage.getItem("SDL_projeto_ativo")
-return lista.find(p=>p.id===ativo)||null
-}catch{
-return null
-}
-}
+/* =========================
+SESSION GUARD INSTITUCIONAL
+========================= */
 
-function lerJSON(chave){
-try{
-return JSON.parse(localStorage.getItem(chave)||"null")
-}catch{
-return null
-}
-}
+const perfil = localStorage.getItem("lapidar_perfil")
 
-function atualizarStatus(){
+if(!perfil){
 
-const projeto=obterProjetoAtivo()
-
-if(!projeto){
-statusHubRelatorios.innerHTML="Nenhum projeto ativo selecionado."
-return
-}
-
-statusHubRelatorios.innerHTML=
-"Relatórios vinculados à obra: <strong>"+projeto.titulo+"</strong>"
-
-statusHubRelatorios.style.background="rgba(23,77,39,0.28)"
-
-const leitura=lerJSON("SDL_leitura_tecnica_ativa")
-const capa=lerJSON("SDL_configuracao_capa_ativa")
-const tradutor=lerJSON("SDL_planejamento_traducao_ativo")
-
-aplicarBadge("badgeRelatorioObra",true)
-aplicarBadge("badgeRelatorioCapista",capa && capa.projetoID===projeto.id)
-aplicarBadge("badgeLeituraTecnica",leitura && leitura.projetoID===projeto.id)
-aplicarBadge("badgeRelatorioTradutor",tradutor && tradutor.projetoID===projeto.id)
-aplicarBadge("badgeRelatorioMestre",leitura && leitura.projetoID===projeto.id)
+window.location.href="index.html"
 
 }
 
-function aplicarBadge(id,status){
 
-const el=document.getElementById(id)
+/* =========================
+CARREGAR HISTÓRICO
+========================= */
 
-if(status){
-el.classList.add("ok")
-el.innerHTML="Disponível"
-}else{
-el.innerHTML="Pendente"
+const historico = JSON.parse(
+localStorage.getItem("lapidar_historico_relatorios") || "[]"
+)
+
+if(historico.length){
+
+document.getElementById("historicoRelatorios").innerHTML =
+historico.join("<br>")
+
 }
 
+
+/* =========================
+GERAR RELATÓRIO
+========================= */
+
+function gerarRelatorio(){
+
+const data = new Date().toLocaleString("pt-BR")
+
+let hist = JSON.parse(
+localStorage.getItem("lapidar_historico_relatorios") || "[]"
+)
+
+hist.push("Relatório gerado em " + data)
+
+localStorage.setItem(
+"lapidar_historico_relatorios",
+JSON.stringify(hist)
+)
+
+location.reload()
+
 }
 
-function abrirRelatorioObra(){ window.location.href="relatorio_projeto.html" }
-function abrirRelatorioCapista(){ window.location.href="relatorio_capista.html" }
-function abrirLeituraTecnica(){ window.location.href="relatorio_leitura_tecnica.html" }
-function abrirRelatorioTradutor(){ window.location.href="relatorio_tradutor.html" }
-function abrirRelatorioMestre(){ window.location.href="relatorio_lapidar.html" }
-function abrirExportador(){ window.location.href="exportador_obra.html" }
 
-function voltarIndice(){ window.location.href="_Indice.html" }
+/* =========================
+NAVEGAÇÃO
+========================= */
 
-try{
-SDL_registrarAuditoria("Acesso ao hub de relatórios","hub_relatorios")
-}catch(e){}
+function abrirFluxo(){
 
-atualizarStatus()
+window.location.href="status_fluxo_editorial.html"
+
+}
+
+
+function abrirProjetos(){
+
+window.location.href="projetos.html"
+
+}
+
+
+function abrirEstatisticas(){
+
+window.location.href="estatisticas_lapidar.html"
+
+}
+
+
+function voltar(){
+
+window.location.href="admin.html"
+
+}
 
 </script>
+
 
 </body>
 </html>
