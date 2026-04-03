@@ -1,96 +1,74 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lapidar • Login</title>
+
+<title>Lapidar</title>
 
 <style>
+
 body{
 margin:0;
 font-family:Arial, Helvetica, sans-serif;
-background:#e6d3a3;
+background:#f4efe4;
 }
 
 .container{
 max-width:420px;
-margin:60px auto;
+margin:auto;
+padding:40px 20px;
+}
+
+.box{
 background:white;
 padding:30px;
 border-radius:18px;
-box-shadow:0 10px 25px rgba(0,0,0,.12);
+box-shadow:0 10px 25px rgba(0,0,0,0.08);
 }
 
-.brasao{
+h1{
+text-align:center;
+margin-top:0;
+}
+
+label{
 display:block;
-margin:auto;
-width:140px;
-margin-bottom:12px;
-object-fit:contain;
-}
-
-.logo{
-text-align:center;
-font-size:36px;
+margin-top:14px;
 font-weight:bold;
-letter-spacing:3px;
-margin-bottom:6px;
-}
-
-.sub{
-text-align:center;
-font-size:13px;
-color:#777;
-margin-bottom:24px;
-line-height:1.5;
+font-size:14px;
 }
 
 input{
 width:100%;
 padding:14px;
-margin-bottom:14px;
+margin-top:6px;
 border-radius:10px;
 border:1px solid #ccc;
-font-size:15px;
+font-size:16px;
 box-sizing:border-box;
 }
 
 button{
 width:100%;
-padding:14px;
+padding:16px;
+margin-top:20px;
 border:none;
-border-radius:12px;
+background:#17335d;
+color:white;
 font-size:16px;
+border-radius:12px;
 cursor:pointer;
 font-weight:bold;
 }
 
-.login{
-background:#1f3f75;
-color:white;
-margin-bottom:10px;
-}
-
-.criar{
-background:#d4a73c;
-color:white;
-margin-bottom:10px;
-}
-
-.recuperar{
-background:#eee;
-}
-
-.footer{
-text-align:center;
-margin-top:20px;
-font-size:12px;
-color:#777;
-line-height:1.5;
+.cadastro{
+background:#c9b48b;
+color:#333;
 }
 
 .msg{
-margin-top:10px;
+margin-top:14px;
 padding:12px;
 border-radius:10px;
 font-size:14px;
@@ -98,153 +76,139 @@ display:none;
 }
 
 .msg.ok{
+display:block;
 background:#eef8f0;
 color:#1f6b36;
-border:1px solid #b8dfc0;
-display:block;
 }
 
 .msg.erro{
+display:block;
 background:#fff1f1;
 color:#a12626;
-border:1px solid #efc0c0;
-display:block;
 }
+
 </style>
 </head>
+
 
 <body>
 
 <div class="container">
+<div class="box">
 
-<img
-class="brasao"
-src="file_00000000d8bc71f5b57491905e34ae99.jpg"
-alt="Brasão do Site das Letras"
->
+<h1>Entrar no Lapidar</h1>
 
-<div class="logo">LAPIDAR</div>
+<label>Email</label>
+<input id="email">
 
-<div class="sub">
-Produto institucional do Celeiro Literário<br>
-Site das Letras Edições Literárias
-</div>
+<label>Senha</label>
+<input id="senha" type="password">
 
-<input
-id="acesso"
-placeholder="Digite seu e-mail ou telefone internacional"
->
-
-<input
-id="senha"
-type="password"
-placeholder="Digite sua senha"
->
-
-<button
-class="login"
-onclick="entrar()"
->
-Entrar no Lapidar
+<button onclick="entrarSistema()">
+Entrar
 </button>
 
-<button
-class="criar"
-onclick="irCadastro()"
->
+<button class="cadastro" onclick="irCadastro()">
 Criar cadastro
-</button>
-
-<button
-class="recuperar"
-onclick="recuperarSenha()"
->
-Recuperar senha
 </button>
 
 <div id="mensagem" class="msg"></div>
 
-<div class="footer">
-Lapidar • Celeiro Literário • Site das Letras Edições Literárias
+</div>
 </div>
 
-</div>
 
 <script>
-function mostrarMensagem(tipo, texto){
-  const box = document.getElementById("mensagem");
-  box.className = "msg " + tipo;
-  box.innerText = texto;
+
+
+function mostrarMensagem(tipo,texto){
+
+const box=document.getElementById("mensagem")
+
+box.className="msg "+tipo
+box.innerText=texto
+
 }
 
-function normalizarTelefone(valor){
-  return valor.replace(/\s+/g, "").replace(/-/g, "").replace(/\(/g, "").replace(/\)/g, "");
+
+function carregarCadastros(){
+
+try{
+
+return JSON.parse(localStorage.getItem("lapidar_cadastros") || "[]")
+
 }
 
-function entrar(){
-  const acesso = document.getElementById("acesso").value.trim().toLowerCase();
-  const senha = document.getElementById("senha").value;
+catch(e){
 
-  // Perfis internos
-  if(acesso.includes("admin")){
-    localStorage.setItem("lapidar_perfil","admin");
-    localStorage.setItem("lapidar_usuario","admin");
-    localStorage.setItem("lapidar_nome","Administrador do Sistema");
-    window.location.href = "sala_reunioes.html";
-    return;
-  }
+return []
 
-  if(acesso.includes("heteronimo")){
-    localStorage.setItem("lapidar_perfil","heteronimo");
-    localStorage.setItem("lapidar_usuario","heteronimo");
-    localStorage.setItem("lapidar_nome","Heterônimo do Sistema");
-    window.location.href = "sala_reunioes.html";
-    return;
-  }
-
-  // Utilizador comum cadastrado
-  const nome = localStorage.getItem("lapidar_nome") || "";
-  const email = (localStorage.getItem("lapidar_email") || "").toLowerCase();
-  const telefone = normalizarTelefone(localStorage.getItem("lapidar_telefone") || "");
-  const senhaSalva = localStorage.getItem("lapidar_senha") || "";
-
-  const acessoNormalizado = normalizarTelefone(acesso);
-
-  const bateEmail = acesso === email;
-  const bateTelefone = acessoNormalizado === telefone;
-
-  if(!bateEmail && !bateTelefone){
-    mostrarMensagem("erro","E-mail ou telefone não encontrado.");
-    return;
-  }
-
-  if(senha !== senhaSalva){
-    mostrarMensagem("erro","Senha incorreta.");
-    return;
-  }
-
-  localStorage.setItem("lapidar_perfil","utilizador");
-  localStorage.setItem("lapidar_usuario", acesso);
-  localStorage.setItem("lapidar_nome", nome || "Utilizador comum");
-
-  if(!localStorage.getItem("lapidar_status_fluxo")){
-    localStorage.setItem("lapidar_status_fluxo","cadastro_criado");
-  }
-
-  mostrarMensagem("ok","Entrada confirmada. Abrindo o Lapidar...");
-
-  setTimeout(() => {
-    window.location.href = "producao_integrada.html";
-  }, 500);
 }
+
+}
+
+
+
+function entrarSistema(){
+
+const email=document.getElementById("email").value.trim().toLowerCase()
+const senha=document.getElementById("senha").value.trim()
+
+if(!email || !senha){
+
+mostrarMensagem("erro","Digite email e senha.")
+
+return
+
+}
+
+
+const cadastros=carregarCadastros()
+
+const usuario=cadastros.find(item=>
+
+item.email===email &&
+item.senha===senha
+
+)
+
+
+if(!usuario){
+
+mostrarMensagem("erro","Cadastro não encontrado.")
+
+return
+
+}
+
+
+/* login válido */
+
+localStorage.setItem("lapidar_usuario_logado",usuario.id)
+localStorage.setItem("lapidar_nome",usuario.nomeCompleto)
+localStorage.setItem("lapidar_email",usuario.email)
+
+
+mostrarMensagem("ok","Entrada autorizada.")
+
+
+setTimeout(()=>{
+
+window.location.href="painel_setores.html"
+
+},600)
+
+}
+
+
 
 function irCadastro(){
-  window.location.href = "cadastro.html";
+
+window.location.href="cadastro.html"
+
 }
 
-function recuperarSenha(){
-  window.location.href = "recuperar_senha.html";
-}
+
 </script>
 
 </body>
