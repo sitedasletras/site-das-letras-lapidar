@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Segunda Língua(s) • Lapidar</title>
+
+<style>
+body{
+margin:0;
+font-family:Arial;
+background:#0e0604;
+color:white;
+}
+
+header{
+background:#2f436d;
+padding:18px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.container{
+max-width:1000px;
+margin:auto;
+padding:24px 16px;
+}
+
+.card{
+background:#1c0e08;
+border-radius:14px;
+padding:20px;
+margin-bottom:18px;
+box-shadow:0 6px 18px rgba(0,0,0,.25);
+}
+
+label{
+display:block;
+margin-top:14px;
+margin-bottom:6px;
+font-weight:bold;
+}
+
+input, textarea, select{
+width:100%;
+padding:12px;
+border-radius:10px;
+border:none;
+background:#2a140c;
+color:white;
+box-sizing:border-box;
+}
+
+textarea{
+min-height:120px;
+resize:vertical;
+}
+
+button{
+margin-top:12px;
+padding:12px 16px;
+border:none;
+border-radius:8px;
+background:#2f436d;
+color:white;
+font-weight:bold;
+cursor:pointer;
+}
+
+.alt{
+background:#8a6f3f;
+}
+
+.sec{
+background:#6c757d;
+}
+
+.preview{
+margin-top:12px;
+background:#2a140c;
+padding:12px;
+border-radius:10px;
+font-size:14px;
+line-height:1.6;
+}
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:16px;
+}
+
+@media(max-width:700px){
+.grid{
+grid-template-columns:1fr;
+}
+}
+</style>
+</head>
+<body>
+
+<header>
+<h2>Segunda Língua(s)</h2>
+<div>
+<button onclick="voltar()">Voltar</button>
+</div>
+</header>
+
+<div class="container">
+
+<div class="card">
+<h3>Projeto ativo</h3>
+<div id="projetoNome">Nenhum projeto selecionado.</div>
+</div>
+
+<div class="card">
+<h3>Configuração da tradução</h3>
+
+<div class="grid">
+<div>
+<label>Idioma de origem</label>
+<select id="idiomaOrigem">
+<option>Português</option>
+<option>Inglês</option>
+<option>Espanhol</option>
+<option>Francês</option>
+<option>Italiano</option>
+</select>
+</div>
+
+<div>
+<label>Idioma de destino</label>
+<select id="idiomaDestino">
+<option>Inglês</option>
+<option>Espanhol</option>
+<option>Francês</option>
+<option>Italiano</option>
+<option>Alemão</option>
+<option>Português</option>
+</select>
+</div>
+</div>
+
+<label>Observações da tradução</label>
+<textarea id="obsTraducao" placeholder="Registrar nuances do texto, público-alvo, tom desejado, termos técnicos e observações importantes..."></textarea>
+
+<button onclick="salvarTraducao()">Salvar configuração da tradução</button>
+
+<div class="preview" id="statusTraducao">
+Configuração ainda não registrada.
+</div>
+</div>
+
+<div class="card">
+<h3>Texto base da obra</h3>
+<textarea id="textoBase" placeholder="Cole aqui o texto-base da obra, se quiser trabalhar a tradução manualmente."></textarea>
+<button class="alt" onclick="carregarTextoObra()">Puxar texto da obra</button>
+<button onclick="salvarTextoBase()">Salvar texto base</button>
+
+<div class="preview" id="statusTexto">
+Nenhum texto-base carregado ainda.
+</div>
+</div>
+
+<div class="card">
+<h3>Ações rápidas</h3>
+<button onclick="abrirDepartamentos()">Painel departamentos</button>
+<button class="alt" onclick="abrirExpedicao()">Ir para expedição</button>
+<button class="sec" onclick="abrirProjetos()">Projetos</button>
+</div>
+
+</div>
+
+<script>
+const perfil = localStorage.getItem("lapidar_perfil");
+
+if(!perfil){
+window.location.href = "index.html";
+}
+
+const projeto = localStorage.getItem("lapidar_projeto_ativo");
+if(projeto){
+document.getElementById("projetoNome").innerText = projeto;
+}
+
+document.getElementById("textoBase").value =
+localStorage.getItem("lapidar_texto_base_traducao") || "";
+
+function salvarTraducao(){
+localStorage.setItem("lapidar_traducao_origem", idiomaOrigem.value);
+localStorage.setItem("lapidar_traducao_destino", idiomaDestino.value);
+localStorage.setItem("lapidar_traducao_obs", obsTraducao.value);
+
+document.getElementById("statusTraducao").innerText =
+"Configuração da tradução registrada com sucesso.";
+}
+
+function carregarTextoObra(){
+const texto = localStorage.getItem("lapidar_obra_texto") || "";
+document.getElementById("textoBase").value = texto;
+
+document.getElementById("statusTexto").innerText =
+texto ? "Texto da obra carregado com sucesso." : "Nenhum texto da obra encontrado.";
+}
+
+function salvarTextoBase(){
+localStorage.setItem("lapidar_texto_base_traducao", textoBase.value);
+
+document.getElementById("statusTexto").innerText =
+"Texto-base da tradução salvo com sucesso.";
+}
+
+function abrirDepartamentos(){
+window.location.href = "painel_departamentos.html";
+}
+
+function abrirExpedicao(){
+window.location.href = "expedicao_material.html";
+}
+
+function abrirProjetos(){
+window.location.href = "projetos.html";
+}
+
+function voltar(){
+window.location.href = "painel_departamentos.html";
+}
+</script>
+
+</body>
+</html>
