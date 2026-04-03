@@ -1,244 +1,229 @@
 <!DOCTYPE html>
-<html lang="pt-br">
-
+<html lang="pt-BR">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Relatório Editorial — Lapidar</title>
+<title>Relatório de Lapidação Literária — Lapidar</title>
 
 <style>
 
 body{
-
 margin:0;
-background:#0c0603;
 font-family:Arial;
+background:#0e0604;
 color:white;
+}
 
+header{
+background:#2f436d;
+padding:20px;
 display:flex;
-justify-content:center;
-
+justify-content:space-between;
+align-items:center;
 }
 
 .container{
-
-max-width:740px;
-width:92%;
-
-padding:40px 0 60px 0;
-
-}
-
-.titulo{
-
-font-size:34px;
-font-weight:bold;
-text-align:center;
-
-}
-
-.subtitulo{
-
-text-align:center;
-margin-top:12px;
-color:#ff7b2c;
-
+max-width:1000px;
+margin:auto;
+padding:30px 20px;
 }
 
 .card{
-
-background:#140c08;
+background:#1c0e08;
 border-radius:14px;
-
-padding:26px;
-
-margin-top:26px;
-
-line-height:1.7;
-
+padding:20px;
+margin-bottom:20px;
+box-shadow:0 6px 18px rgba(0,0,0,.25);
 }
 
-.nota{
-
-font-size:44px;
-text-align:center;
-
-color:#9cffb2;
-
-margin-top:10px;
-
-}
-
-.botao{
-
+textarea{
 width:100%;
-
-padding:18px;
-
-margin-top:20px;
-
+height:180px;
+border-radius:10px;
 border:none;
-
-border-radius:40px;
-
-background:#ff5a00;
-
+padding:10px;
+margin-top:10px;
+background:#140a06;
 color:white;
+}
 
-font-size:18px;
-
-font-weight:bold;
-
+button{
+padding:12px 16px;
+border:none;
+border-radius:8px;
 cursor:pointer;
+font-weight:bold;
+background:#2f436d;
+color:white;
+margin-top:10px;
+margin-right:10px;
+}
 
+button.alt{
+background:#8a6f3f;
+}
+
+button.sec{
+background:#6c757d;
 }
 
 </style>
-
 </head>
 
 <body>
 
+<header>
+
+<h2>Relatório de Lapidação Literária</h2>
+
+<button onclick="voltar()">Voltar</button>
+
+</header>
+
+
 <div class="container">
 
-<div class="titulo">
 
-Relatório técnico editorial Lapidar
+<div class="card">
 
-</div>
+<h3>Projeto ativo</h3>
 
-<div class="subtitulo">
+<div id="nomeProjeto">
 
-Uma leitura acolhedora para ajudar sua obra crescer ainda mais
-
-</div>
-
-<div class="card" id="conteudoRelatorio">
-
-Gerando análise editorial...
+Nenhum projeto ativo selecionado.
 
 </div>
 
-<button class="botao"
+</div>
 
-onclick="window.location.href='_Indice.html'">
 
-Voltar para casa do original
+
+<div class="card">
+
+<h3>Ajustes de lapidação literária</h3>
+
+<textarea id="campoLapidacao"
+placeholder="Registrar melhorias estruturais, ajustes narrativos, humanização textual, coerência estilística, refinamento editorial..."></textarea>
+
+<button onclick="salvarRelatorio()">
+
+Salvar relatório de lapidação
 
 </button>
 
 </div>
 
+
+
+<div class="card">
+
+<h3>Navegação rápida</h3>
+
+<button onclick="abrirDepartamentos()">Departamentos</button>
+
+<button onclick="abrirSetores()">Setores</button>
+
+<button onclick="abrirFluxo()">Fluxo editorial</button>
+
+<button onclick="abrirPreview()" class="alt">Preview</button>
+
+<button onclick="abrirProgresso()" class="sec">Progresso</button>
+
+</div>
+
+
+</div>
+
+
+
 <script>
 
-function gerarNota(){
+/* SESSION GUARD PADRÃO LAPIDAR */
 
-return (Math.random()*3 + 7).toFixed(1);
+const perfil = localStorage.getItem("lapidar_perfil")
 
-}
+if(!perfil){
 
-function detectarEstilo(){
-
-const estilos = [
-
-"possui atmosfera próxima de autores como Stephen King",
-
-"lembra o ritmo narrativo de Agatha Christie",
-
-"apresenta sensibilidade semelhante à tradição de Fernando Pessoa",
-
-"tem força narrativa próxima da fantasia clássica europeia",
-
-"dialoga com o romance contemporâneo latino"
-
-];
-
-return estilos[Math.floor(Math.random()*estilos.length)];
+window.location.href="index.html"
 
 }
 
-function detectarSaga(){
 
-const chances = Math.random();
+/* PROJETO ATIVO */
 
-if(chances > 0.65){
+const projeto = localStorage.getItem("lapidar_projeto_ativo")
 
-return "Durante a leitura técnica percebemos potencial natural para continuação futura da obra, podendo evoluir para série literária.";
+if(projeto){
 
-}
-
-return "A obra apresenta estrutura sólida como volume único independente.";
+document.getElementById("nomeProjeto").innerText = projeto
 
 }
 
-function idiomaAtual(){
 
-return localStorage.getItem("SDL_idioma_obra_global") ||
+/* CARREGAR RELATÓRIO EXISTENTE */
 
-localStorage.getItem("SDL_idioma_obra") ||
+const relatorioLapidacao = localStorage.getItem("lapidar_relatorio_lapidacao")
 
-"pt";
+if(relatorioLapidacao){
 
-}
-
-function montarRelatorio(){
-
-const titulo =
-
-localStorage.getItem("SDL_titulo_livro") ||
-
-"Sua obra";
-
-const nota = gerarNota();
-
-const estilo = detectarEstilo();
-
-const saga = detectarSaga();
-
-document.getElementById("conteudoRelatorio").innerHTML =
-
-"<div><strong>Título analisado:</strong> " + titulo + "</div>" +
-
-"<div class='nota'>" + nota + "</div>" +
-
-"<div style='margin-top:18px'>" +
-
-"A leitura técnica editorial Lapidar identificou que sua obra possui estrutura narrativa consistente e apresenta identidade literária própria." +
-
-"</div>" +
-
-"<div style='margin-top:12px'>" +
-
-"Observamos também que o texto " + estilo + "." +
-
-"</div>" +
-
-"<div style='margin-top:12px'>" +
-
-saga +
-
-"</div>" +
-
-"<div style='margin-top:16px'>" +
-
-"Sugerimos continuar desenvolvendo sua escrita mantendo sua identidade autoral, pois sua obra demonstra base promissora para evolução literária." +
-
-"</div>" +
-
-"<div style='margin-top:18px'>" +
-
-"Se desejar aprofundar ainda mais sua jornada criativa, a ferramenta Caminho das Pedras poderá ajudar no planejamento de novos capítulos e futuras obras." +
-
-"</div>";
+document.getElementById("campoLapidacao").value = relatorioLapidacao
 
 }
 
-montarRelatorio();
+
+/* SALVAR RELATÓRIO */
+
+function salvarRelatorio(){
+
+const texto = document.getElementById("campoLapidacao").value
+
+localStorage.setItem("lapidar_relatorio_lapidacao", texto)
+
+alert("Relatório de lapidação salvo com sucesso.")
+
+}
+
+
+/* NAVEGAÇÃO */
+
+function abrirDepartamentos(){
+
+window.location.href="painel_departamentos.html"
+
+}
+
+function abrirSetores(){
+
+window.location.href="painel_setores.html"
+
+}
+
+function abrirFluxo(){
+
+window.location.href="status_fluxo_editorial.html"
+
+}
+
+function abrirPreview(){
+
+window.location.href="preview_projeto.html"
+
+}
+
+function abrirProgresso(){
+
+window.location.href="progresso_projeto.html"
+
+}
+
+function voltar(){
+
+window.location.href="painel_departamentos.html"
+
+}
 
 </script>
 
-</body>
 
+</body>
 </html>
