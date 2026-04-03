@@ -1,55 +1,113 @@
-        card.classList.toggle('active', active);
-      });
-    }
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Assistente de Diagramação</title>
+<style>
+body{
+margin:0;
+font-family:Arial, sans-serif;
+background:#0e0604;
+color:white;
+}
+header{
+background:#2f436d;
+padding:18px 20px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+.container{
+max-width:1000px;
+margin:auto;
+padding:24px 16px 40px;
+}
+.card{
+background:#1c0e08;
+border-radius:14px;
+padding:20px;
+margin-bottom:18px;
+box-shadow:0 6px 18px rgba(0,0,0,.25);
+}
+.modulo{
+background:#2a140c;
+padding:14px;
+border-radius:10px;
+margin-top:10px;
+}
+button{
+padding:12px 16px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+font-weight:bold;
+background:#2f436d;
+color:white;
+}
+.linhaBotoes{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+margin-top:14px;
+}
+</style>
+</head>
+<body>
 
-    function updatePreviewFonts(){
-      const bodyPage = document.getElementById('previewBodyPage');
-      const chapterHeading = document.getElementById('chapterHeading');
-      const chapterSub = document.getElementById('chapterSub');
+<header>
+<h2>Assistente de Diagramação</h2>
+<button onclick="voltar()">Voltar</button>
+</header>
 
-      bodyPage.style.fontFamily = fontMap[state.corpo.label] || "serif";
-      chapterHeading.style.fontFamily = fontMap[state.titulo.label] || "Arial, sans-serif";
-      chapterSub.style.fontFamily = fontMap[state.titulo.label] || "Arial, sans-serif";
-    }
+<div class="container">
 
-    function updatePaginationPreview(){
-      const pageNumber = document.getElementById('pageNumber');
-      pageNumber.className = 'page-number';
+<div class="card">
+<h3>Projeto ativo</h3>
+<div id="nomeProjeto">Nenhum projeto selecionado.</div>
+</div>
 
-      if(state.numeracao.label === "Numeração simples inferior"){
-        pageNumber.classList.add('page-bottom-center');
-      } else if(state.numeracao.label === "Numeração externa editorial"){
-        pageNumber.classList.add('page-outer-right');
-      } else {
-        pageNumber.classList.add('page-top-center');
-      }
-    }
+<div class="card">
+<h3>Módulos do Diagramador</h3>
+<div class="modulo">📄 Upload do original</div>
+<div class="modulo">📐 Estrutura editorial</div>
+<div class="modulo">🔤 Tipografia</div>
+<div class="modulo">🔢 Numeração</div>
+<div class="modulo">📘 Exportação PDF</div>
 
-    function updateSummary(){
-      const total = state.corpo.price + state.titulo.price + state.numeracao.price;
+<div class="linhaBotoes">
+<button onclick="abrirProjetos()">Projetos</button>
+<button onclick="abrirSetores()">Setores</button>
+<button onclick="abrirFluxo()">Fluxo editorial</button>
+</div>
+</div>
 
-      document.getElementById('summaryMode').textContent = modeLabels[state.mode];
-      document.getElementById('summaryContribution').textContent = formatBRL(total);
+</div>
 
-      document.getElementById('summaryBody').textContent = state.corpo.label;
-      document.getElementById('summaryTitle').textContent = state.titulo.label;
-      document.getElementById('summaryPagination').textContent = state.numeracao.label;
-    }
+<script>
+const perfil = localStorage.getItem("lapidar_perfil");
+if(!perfil){
+window.location.href = "index.html";
+}
 
-    function syncStateFromInputs(){
-      state.corpo = getSelectedOption('corpo');
-      state.titulo = getSelectedOption('titulo');
-      state.numeracao = getSelectedOption('numeracao');
+const projeto = localStorage.getItem("lapidar_projeto_ativo");
+if(projeto){
+document.getElementById("nomeProjeto").innerText = projeto;
+}
 
-      updatePreviewFonts();
-      updatePaginationPreview();
-      updateSummary();
-    }
+function voltar(){
+window.location.href = "painel_setores.html";
+}
+function abrirProjetos(){
+window.location.href = "projetos.html";
+}
+function abrirSetores(){
+window.location.href = "painel_setores.html";
+}
+function abrirFluxo(){
+window.location.href = "status_fluxo_editorial.html";
+}
+</script>
 
-    function applyPreset(mode){
-      state.mode = mode;
-      const preset = presets[mode];
-
-      setGroupValue('corpo', preset.corpo);
-      setGroupValue('titulo', preset.titulo);
-      setGroupValue('numeracao', preset
+</body>
+</html>
