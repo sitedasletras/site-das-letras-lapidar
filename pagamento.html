@@ -1,298 +1,295 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pagamento — Lapidar</title>
+<title>Mesário-mor • Lapidar</title>
 
 <style>
-
 :root{
---bg:#0d0603;
---card:#140c08;
---card2:#1b100a;
---text:#ffffff;
---muted:#ffd2b3;
---orange:#f7b22c;
---orangeStrong:#ff5a00;
---green:#9cfdb2;
---danger:#ff7070;
---border:rgba(255,123,44,0.18);
---shadow:0 10px 26px rgba(0,0,0,0.28);
+  --bg:#f3eee3;
+  --panel:#ffffff;
+  --line:#ddd3bf;
+  --text:#2f2418;
+  --muted:#6d5a43;
+  --deep:#17335d;
+  --deep2:#29508d;
+  --gold:#b8903f;
+  --gold2:#8f6b28;
+  --green:#1f6b36;
+  --greenbg:#eef8f0;
+  --orange:#7a5621;
+  --orangebg:#fff4df;
+  --shadow:0 12px 28px rgba(45,30,10,.12);
 }
 
-body{
-margin:0;
-font-family:Arial;
-background:var(--bg);
-color:white;
+*{box-sizing:border-box}
+
+html,body{
+  margin:0;
+  padding:0;
+  font-family:Arial, Helvetica, sans-serif;
+  background:var(--bg);
+  color:var(--text);
 }
 
-.container{
-width:min(900px,95%);
-margin:auto;
-padding:40px 0;
+.hero{
+  background:linear-gradient(135deg,var(--deep) 0%, var(--deep2) 100%);
+  color:#fff;
+  padding:28px 18px 30px;
+  border-bottom-left-radius:34px;
+  border-bottom-right-radius:34px;
+  box-shadow:var(--shadow);
 }
 
-.titulo{
-font-size:38px;
-font-weight:bold;
+.hero small{
+  display:block;
+  text-transform:uppercase;
+  letter-spacing:.16em;
+  font-size:12px;
+  margin-bottom:10px;
+  font-weight:900;
+  opacity:.9;
 }
 
-.subtitulo{
-margin-top:6px;
-color:var(--orange);
+.hero h1{
+  margin:0 0 10px;
+  font-size:32px;
+  line-height:1.05;
+}
+
+.hero p{
+  margin:0;
+  font-size:15px;
+  line-height:1.7;
+  max-width:980px;
+}
+
+.hero-actions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:18px;
+}
+
+.hero-actions button{
+  border:none;
+  border-radius:15px;
+  padding:13px 16px;
+  font-size:15px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.ghost{
+  background:rgba(255,255,255,.14);
+  color:#fff;
+  border:1px solid rgba(255,255,255,.18);
+}
+
+.light{
+  background:#fff;
+  color:var(--deep);
+}
+
+.wrap{
+  max-width:1180px;
+  margin:0 auto;
+  padding:22px 16px 30px;
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 360px;
+  gap:22px;
+}
+
+.stack{
+  display:grid;
+  gap:22px;
 }
 
 .card{
-margin-top:30px;
-background:var(--card);
-padding:24px;
-border-radius:18px;
-border:1px solid var(--border);
-box-shadow:var(--shadow);
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:28px;
+  box-shadow:var(--shadow);
+  overflow:hidden;
 }
 
-.linha{
-margin-top:12px;
-color:var(--muted);
+.card-head{
+  padding:22px 22px 0;
 }
 
-.rotulo{
-color:var(--orange);
-font-weight:bold;
+.card-head small{
+  display:block;
+  text-transform:uppercase;
+  letter-spacing:.16em;
+  font-size:12px;
+  font-weight:900;
+  color:#8c6e3c;
+  margin-bottom:10px;
 }
 
-select{
-margin-top:12px;
-width:100%;
-padding:14px;
-border-radius:12px;
-border:none;
-background:#1b0e07;
-color:white;
+.card-head h2{
+  margin:0 0 10px;
+  font-size:30px;
+  line-height:1.05;
 }
 
-.statusBox{
-margin-top:22px;
-padding:18px;
-border-radius:14px;
-background:rgba(247,178,44,0.12);
-border:1px solid rgba(247,178,44,0.2);
-color:#ffe7b0;
+.card-head p{
+  margin:0;
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.7;
 }
 
-.actions{
-margin-top:26px;
-display:flex;
-flex-wrap:wrap;
-gap:12px;
+.card-body{
+  padding:22px;
 }
 
-.botao{
-border:none;
-padding:14px 18px;
-border-radius:999px;
-font-weight:bold;
-cursor:pointer;
+.status-line{
+  display:grid;
+  gap:12px;
 }
 
-.botaoConfirmar{
-background:#174d27;
-color:#dfffe8;
+.status-item{
+  border:1px solid var(--line);
+  border-radius:18px;
+  background:#fffdf8;
+  padding:14px 16px;
+  display:flex;
+  align-items:center;
+  gap:12px;
 }
 
-.botaoIndice{
-background:#24150f;
-color:white;
+.status-dot{
+  width:14px;
+  height:14px;
+  border-radius:50%;
+  flex:0 0 14px;
 }
 
-.botaoPlano{
-background:var(--orangeStrong);
-color:white;
+.done{background:#2aa35b;}
+.current{background:#d3a746;}
+.pending{background:#d8d1c5;}
+
+.status-text strong{
+  display:block;
+  font-size:15px;
+  line-height:1.4;
+  margin-bottom:4px;
 }
 
-</style>
-</head>
-
-<body>
-
-<div class="container">
-
-<div class="titulo">
-REGISTRO DE PAGAMENTO
-</div>
-
-<div class="subtitulo">
-Confirmação do pagamento do plano editorial Lapidar
-</div>
-
-
-
-<div class="card">
-
-<div class="linha">
-<span class="rotulo">Plano selecionado:</span>
-<span id="planoSelecionado">Verificando...</span>
-</div>
-
-
-<select id="formaPagamento">
-
-<option value="">Selecione a forma de pagamento</option>
-
-<option>PIX</option>
-
-<option>Transferência</option>
-
-<option>Depósito</option>
-
-<option>Cartão</option>
-
-<option>Outro</option>
-
-</select>
-
-
-<div class="statusBox" id="statusPagamento">
-Nenhum pagamento registrado ainda.
-</div>
-
-</div>
-
-
-
-<div class="actions">
-
-<button class="botao botaoConfirmar" onclick="registrarPagamento()">
-Confirmar pagamento
-</button>
-
-<button class="botao botaoPlano" onclick="abrirPlanos()">
-Escolher plano
-</button>
-
-<button class="botao botaoIndice" onclick="voltarIndice()">
-Voltar ao índice
-</button>
-
-</div>
-
-
-
-</div>
-
-
-
-<script>
-
-function verificarSessao(){
-
-const sessao=localStorage.getItem("SDL_sessao_ativa")
-
-if(sessao!=="sim"){
-
-window.location.href="login.html"
-
+.status-text span{
+  display:block;
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.6;
 }
 
+.resumo-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px;
 }
 
-
-
-function carregarPlano(){
-
-try{
-
-const plano=localStorage.getItem("SDL_plano")
-
-if(plano){
-
-document.getElementById("planoSelecionado").innerHTML=plano
-
-}else{
-
-document.getElementById("planoSelecionado").innerHTML=
-"Nenhum plano selecionado"
-
+.resumo-item{
+  background:#fffdf8;
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:16px;
 }
 
-}catch(e){
-
-document.getElementById("planoSelecionado").innerHTML=
-"Erro ao carregar plano"
-
+.resumo-item small{
+  display:block;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  font-size:12px;
+  font-weight:900;
+  color:var(--muted);
+  margin-bottom:8px;
 }
 
+.resumo-item strong{
+  display:block;
+  font-size:24px;
+  line-height:1.1;
+  margin-bottom:6px;
 }
 
-
-
-function registrarPagamento(){
-
-const forma=document.getElementById("formaPagamento").value
-
-const plano=localStorage.getItem("SDL_plano")
-
-if(!plano){
-
-document.getElementById("statusPagamento").innerHTML=
-"Selecione primeiro um plano antes de registrar pagamento."
-
-return
-
+.resumo-item span{
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.6;
 }
 
-if(!forma){
-
-document.getElementById("statusPagamento").innerHTML=
-"Selecione uma forma de pagamento."
-
-return
-
+.setor-list{
+  display:grid;
+  gap:12px;
 }
 
-try{
-
-localStorage.setItem("SDL_pagamento",forma)
-
-document.getElementById("statusPagamento").innerHTML=
-"Pagamento registrado com sucesso via "+forma
-
-document.getElementById("statusPagamento").style.background=
-"rgba(23,77,39,0.28)"
-
-}catch(e){
-
-document.getElementById("statusPagamento").innerHTML=
-"Erro ao registrar pagamento."
-
+.setor-item{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:14px 16px;
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  align-items:flex-start;
 }
 
+.setor-item strong{
+  display:block;
+  font-size:15px;
+  line-height:1.4;
+  margin-bottom:4px;
 }
 
-
-
-function abrirPlanos(){
-
-window.location.href="planos_doacoes.html"
-
+.setor-item span{
+  display:block;
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.6;
 }
 
-
-
-function voltarIndice(){
-
-window.location.href="_Indice.html"
-
+.valor{
+  text-align:right;
+  font-size:15px;
+  font-weight:900;
+  color:#4d3822;
+  white-space:nowrap;
 }
 
+.cta-box{
+  border-radius:20px;
+  padding:18px;
+  background:#f8f2e5;
+  border:1px solid #e5d1a8;
+  display:grid;
+  gap:14px;
+}
 
+.cta-box p{
+  margin:0;
+  color:#6d5a43;
+  font-size:14px;
+  line-height:1.7;
+}
 
-verificarSessao()
-carregarPlano()
+.cta-box button{
+  width:100%;
+  min-height:54px;
+  border:none;
+  border-radius:16px;
+  font-size:16px;
+  font-weight:900;
+  cursor:pointer;
+}
 
-</script>
+.btn-confirm{
+  background:linear-gradient(135deg,var(--gold2) 0%, var(--gold) 100%);
+  color:#fff;
+}
 
-</body>
-</html>
+.btn-download{
+  background:linear-gradient(135deg,#1f6b36 0%, #2b9348 100%);
+  color:#fff
