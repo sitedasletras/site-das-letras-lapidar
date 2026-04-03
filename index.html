@@ -189,11 +189,11 @@ function normalizarTelefone(valor){
   return valor.toLowerCase();
 }
 
-function limparSessaoAntiga(){
-  localStorage.removeItem("lapidar_perfil");
-  localStorage.removeItem("lapidar_usuario");
+function limparSessaoComum(){
   localStorage.removeItem("lapidar_usuario_logado");
   localStorage.removeItem("lapidar_nome");
+  localStorage.removeItem("lapidar_email");
+  localStorage.removeItem("lapidar_telefone");
 }
 
 function entrarNoLapidar(){
@@ -207,7 +207,6 @@ function entrarNoLapidar(){
 
   // Perfis internos
   if(acesso.includes("admin")){
-    limparSessaoAntiga();
     localStorage.setItem("lapidar_perfil","admin");
     localStorage.setItem("lapidar_usuario","admin");
     localStorage.setItem("lapidar_nome","Administrador do Sistema");
@@ -216,7 +215,6 @@ function entrarNoLapidar(){
   }
 
   if(acesso.includes("heteronimo")){
-    limparSessaoAntiga();
     localStorage.setItem("lapidar_perfil","heteronimo");
     localStorage.setItem("lapidar_usuario","heteronimo");
     localStorage.setItem("lapidar_nome","Heterônimo do Sistema");
@@ -226,11 +224,11 @@ function entrarNoLapidar(){
 
   // Utilizador comum
   const cadastros = carregarCadastros();
-  const acessoTel = normalizarTelefone(acesso);
+  const acessoTelefone = normalizarTelefone(acesso);
 
   const usuario = cadastros.find(item => {
     const emailOk = (item.email || "").toLowerCase() === acesso;
-    const telefoneOk = normalizarTelefone(item.telefone || "") === acessoTel;
+    const telefoneOk = normalizarTelefone(item.telefone || "") === acessoTelefone;
     const senhaOk = (item.senha || "") === senha;
     return senhaOk && (emailOk || telefoneOk);
   });
@@ -240,18 +238,18 @@ function entrarNoLapidar(){
     return;
   }
 
-  limparSessaoAntiga();
+  limparSessaoComum();
 
   localStorage.setItem("lapidar_perfil","utilizador");
   localStorage.setItem("lapidar_usuario_logado", usuario.id || "");
   localStorage.setItem("lapidar_nome", usuario.nomeCompleto || "Utilizador comum");
   localStorage.setItem("lapidar_email", usuario.email || "");
   localStorage.setItem("lapidar_telefone", usuario.telefone || "");
-  localStorage.setItem("lapidar_status_fluxo", localStorage.getItem("lapidar_status_fluxo") || "perfil_criado");
+  localStorage.setItem("lapidar_status_fluxo", "perfil_criado");
 
   mostrarMensagem("ok","Entrada autorizada. Abrindo o Lapidar...");
 
-  setTimeout(() => {
+  setTimeout(function(){
     window.location.href = "producao_integrada.html";
   }, 500);
 }
