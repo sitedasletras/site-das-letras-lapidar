@@ -231,6 +231,7 @@
       padding:12px 14px;
       border:none;
       cursor:pointer;
+      width:100%;
     }
 
     .btn-blue{background:linear-gradient(135deg,var(--deep) 0%, var(--deep2) 100%); color:#fff;}
@@ -353,8 +354,8 @@
         <p>Use esta área para auditoria, rastreio e supervisão dos fluxos internos.</p>
         <div class="links">
           <a class="btn-gold" href="auditoria.html">Auditoria</a>
-          <a class="btn-light" href="auditoria.js">Auditoria JS</a>
           <a class="btn-light" href="status_fluxo_editorial.html">Status do fluxo editorial</a>
+          <button class="single-action btn-light" onclick="confirmarReset()">Abrir Reset Admin</button>
         </div>
       </article>
 
@@ -391,14 +392,14 @@
 
           <div class="panel-box">
             <div class="band gold"></div>
-            <h3>Reset administrativo</h3>
-            <p>Acesso ao painel de redefinição e ajustes internos do sistema.</p>
-            <a class="single-action btn-light" href="reset_admin.html">Abrir Reset Admin</a>
+            <h3>Segurança de sistema</h3>
+            <p>Entrada protegida para redefinição e ajustes internos do ambiente administrativo.</p>
+            <button class="single-action btn-light" onclick="confirmarReset()">Abrir Reset Admin</button>
           </div>
         </div>
 
         <div class="notice" style="margin-top:18px;">
-          Se alguma rota ainda estiver em construção, o painel administrativo continua servindo como porta central para organizar o restante do sistema sem quebrar a entrada do Admin.
+          O Reset Admin agora exige dupla confirmação e motivo obrigatório antes de abrir a área de redefinição.
         </div>
       </div>
     </section>
@@ -421,6 +422,33 @@
       localStorage.removeItem("lapidar_nome");
       localStorage.removeItem("lapidar_entrada_setor");
       window.location.href = "index.html";
+    }
+
+    function confirmarReset(){
+      const confirmar = confirm("⚠️ Atenção: você realmente deseja acessar o painel de RESET administrativo?");
+
+      if(!confirmar){
+        return;
+      }
+
+      const motivo = prompt("Por segurança institucional, informe o motivo do reset:");
+
+      if(!motivo || motivo.trim() === ""){
+        alert("Reset cancelado. Motivo não informado.");
+        return;
+      }
+
+      const confirmarFinal = confirm(
+        "Última confirmação:\n\nMotivo informado:\n" +
+        motivo +
+        "\n\nConfirmar acesso ao Reset Admin?"
+      );
+
+      if(!confirmarFinal){
+        return;
+      }
+
+      window.location.href = "reset_admin.html";
     }
   </script>
 </body>
