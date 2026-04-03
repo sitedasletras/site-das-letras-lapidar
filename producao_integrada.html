@@ -25,7 +25,7 @@ align-items:center;
 
 .grid{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
 gap:20px;
 padding:20px;
 }
@@ -65,6 +65,12 @@ background:#aaa;
 cursor:not-allowed;
 }
 
+small{
+display:block;
+opacity:.7;
+margin-top:6px;
+}
+
 </style>
 </head>
 
@@ -82,37 +88,43 @@ cursor:not-allowed;
 
 <div class="card" id="card1">
 <div class="lock">🔒</div>
-<h3>Setor 1</h3>
+<h3>Assistente de Diagramação do Autor</h3>
+<small>(Setor 1)</small>
 <button onclick="abrir(1)">Entrar</button>
 </div>
 
 <div class="card" id="card3">
 <div class="lock">🔒</div>
-<h3>Setor 3</h3>
+<h3>OKapista</h3>
+<small>(Setor 3)</small>
 <button onclick="abrir(3)">Entrar</button>
 </div>
 
 <div class="card" id="card5">
 <div class="lock">🔒</div>
-<h3>Setor 5</h3>
+<h3>Segunda Língua(s)</h3>
+<small>(Setor 5)</small>
 <button onclick="abrir(5)">Entrar</button>
 </div>
 
 <div class="card" id="card7">
 <div class="lock">🔒</div>
-<h3>Setor 7</h3>
+<h3>Avaliação Literária</h3>
+<small>(Setor 7)</small>
 <button onclick="abrir(7)">Entrar</button>
 </div>
 
 <div class="card" id="card11">
 <div class="lock">🔒</div>
-<h3>Setor 11</h3>
+<h3>Analisador de Obra</h3>
+<small>(Setor 11)</small>
 <button onclick="abrir(11)">Entrar</button>
 </div>
 
 <div class="card" id="card13">
 <div class="lock">🔒</div>
-<h3>Setor 13</h3>
+<h3>Lapidação Literária</h3>
+<small>(Setor 13)</small>
 <button onclick="abrir(13)">Entrar</button>
 </div>
 
@@ -121,6 +133,9 @@ cursor:not-allowed;
 
 <script>
 
+/* =========================
+LOGOUT
+========================= */
 
 function logout(){
 
@@ -131,27 +146,88 @@ window.location.href="index.html"
 }
 
 
+/* =========================
+REGISTRO AUTOMÁTICO DE ACESSO
+========================= */
+
+function registrarAcesso(setor=null){
+
+const hoje = new Date()
+const dia = hoje.toISOString().slice(0,10)
+const mes = dia.slice(0,7)
+const ano = dia.slice(0,4)
+
+let stats = JSON.parse(localStorage.getItem("lapidar_stats") || "{}")
+
+if(!stats[dia]) stats[dia]=0
+stats[dia]++
+
+if(!stats[mes]) stats[mes]=0
+stats[mes]++
+
+if(!stats[ano]) stats[ano]=0
+stats[ano]++
+
+/* registro por setor */
+
+if(setor){
+
+if(!stats["setor_"+setor]) stats["setor_"+setor]=0
+
+stats["setor_"+setor]++
+
+}
+
+localStorage.setItem("lapidar_stats", JSON.stringify(stats))
+
+}
+
+
+/* =========================
+ABRIR SETOR
+========================= */
+
 function abrir(setor){
+
+registrarAcesso(setor)
 
 alert("Abrindo setor "+setor)
 
 }
 
 
+/* =========================
+PERMISSÕES
+========================= */
+
 function aplicarPermissoes(){
 
 const perfil=localStorage.getItem("lapidar_perfil")
 
-if(!perfil)return
+if(!perfil) return
 
 
-if(perfil==="admin" || perfil==="heteronimo") return
+/* admin e heterônimo têm acesso total */
+
+if(perfil==="admin" || perfil==="heteronimo"){
+
+registrarAcesso()
+
+return
+
+}
 
 
-const cortesias=JSON.parse(localStorage.getItem("lapidar_cortesias") || "{}")
+const cortesias=JSON.parse(localStorage.getItem("lapidar_courtesy_profiles") || "{}")
 
 
-if(!cortesias[perfil]) return
+if(!cortesias[perfil]){
+
+registrarAcesso()
+
+return
+
+}
 
 
 const dados=cortesias[perfil]
@@ -161,13 +237,25 @@ if(dados.status!=="ativa"){
 
 bloquearTudo()
 
+registrarAcesso()
+
 return
 
 }
 
 
-if(dados.accessLevel==="global") return
+/* acesso global */
 
+if(dados.accessLevel==="TOP_GLOBAL"){
+
+registrarAcesso()
+
+return
+
+}
+
+
+/* acesso personalizado */
 
 const permitidos=dados.sectors || []
 
@@ -182,8 +270,14 @@ bloquear(setor)
 
 })
 
+registrarAcesso()
+
 }
 
+
+/* =========================
+BLOQUEIO
+========================= */
 
 function bloquear(setor){
 
@@ -203,8 +297,11 @@ function bloquearTudo(){
 }
 
 
-aplicarPermissoes()
+/* =========================
+INICIALIZAÇÃO
+========================= */
 
+aplicarPermissoes()
 
 </script>
 
