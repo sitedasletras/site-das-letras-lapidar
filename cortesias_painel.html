@@ -140,6 +140,21 @@ background:#ffe7d1;
 color:#8b5a17;
 }
 
+.badge.pendente{
+background:#fff0cc;
+color:#7a5616;
+}
+
+.badge.confirmado{
+background:#d4f3df;
+color:#1f6b36;
+}
+
+.badge.bloqueado{
+background:#ffd7d7;
+color:#7a1f1f;
+}
+
 label{
 display:block;
 margin-top:10px;
@@ -147,7 +162,7 @@ font-weight:bold;
 font-size:14px;
 }
 
-input[type="text"], select{
+input[type="text"], select, textarea{
 width:100%;
 padding:10px;
 margin-top:4px;
@@ -155,6 +170,12 @@ border:1px solid #ccc;
 border-radius:8px;
 box-sizing:border-box;
 font-size:14px;
+font-family:Arial, Helvetica, sans-serif;
+}
+
+textarea{
+min-height:120px;
+resize:vertical;
 }
 
 .two{
@@ -264,11 +285,61 @@ line-height:1.6;
 color:#6d5a43;
 }
 
+.mesario-box{
+background:white;
+border-radius:16px;
+padding:18px;
+box-shadow:0 6px 14px rgba(0,0,0,0.1);
+margin-top:24px;
+}
+
+.mesario-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:16px;
+margin-top:14px;
+}
+
+.status-box{
+background:#faf7f0;
+border:1px solid #ead9b8;
+border-radius:12px;
+padding:14px;
+}
+
+.mesario-actions{
+margin-top:14px;
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+}
+
+.ok{
+background:#1f6b36;
+color:white;
+padding:10px 14px;
+}
+
+.no{
+background:#7a1f1f;
+color:white;
+padding:10px 14px;
+}
+
+.audit{
+background:#2f436d;
+color:white;
+padding:10px 14px;
+}
+
 @media (max-width:700px){
 .two{
 grid-template-columns:1fr;
 }
 .setores-grid{
+grid-template-columns:1fr;
+}
+.mesario-grid{
 grid-template-columns:1fr;
 }
 }
@@ -320,10 +391,46 @@ grid-template-columns:1fr;
 <p class="section-sub">Controle completo dos perfis institucionais vinculados ao sistema.</p>
 <div class="grid" id="grid-institucionais"></div>
 
+<div class="mesario-box">
+<h3 style="margin-top:0;">Mesário Mor</h3>
+<p class="section-sub" style="margin-bottom:0;">
+O Admin define. O painel marca. O Mesário Mor executa.
+Tudo que estiver marcado como livre no quadro de cortesias será aplicado como free nos setores autorizados.
+</p>
+
+<div class="mesario-grid">
+<div class="status-box">
+<strong>Status Hotmart / pagamento</strong><br>
+<span id="hotmartTexto">Aguardando confirmação.</span><br>
+<span id="hotmartBadge" class="badge pendente">Pendente</span>
+</div>
+
+<div class="status-box">
+<strong>Status da expedição</strong><br>
+<span id="expedicaoTexto">Expedição bloqueada.</span><br>
+<span id="expedicaoBadge" class="badge bloqueado">Bloqueada</span>
+</div>
+</div>
+
+<div class="mesario-actions">
+<button class="ok" onclick="confirmarPagamentoMesario()">Confirmar pagamento</button>
+<button class="audit" onclick="acionarMesarioMor()">Acionar Mesário Mor</button>
+<button class="no" onclick="bloquearExpedicaoMesario()">Bloquear expedição</button>
+</div>
+
+<label>Observações do Mesário Mor</label>
+<textarea id="observacoesMesario" placeholder="Registrar validação, observações, pendências ou liberação final..."></textarea>
+
+<div class="footer-btns">
+<button class="save" onclick="salvarObservacoesMesario()">Salvar observações</button>
+<button class="reset" onclick="abrirExpedicao()">Abrir expedição da obra</button>
+</div>
+</div>
+
 <div class="notice">
 Tudo que for marcado fica liberado. O que não for marcado não fica disponível.  
 Quando o modo estiver em <strong>Top Global</strong>, todos os setores ficam marcados automaticamente.  
-Você tem autonomia total sobre todos os perfis deste painel.
+Admin, Heterônimo e os perfis que você liberar totalmente saem grátis. Os demais seguem a lógica do Mesário Mor e da confirmação de pagamento.
 </div>
 
 </div>
@@ -348,7 +455,7 @@ const codigo = String(i).padStart(4,"0");
 base["courtesy"+codigo] = {
 tipo:"cortesia",
 codigo:codigo,
-nome:i===1 ? "Cortesia André Capista" : "Cortesia "+codigo,
+nome:i===1 ? "André Capista" : "Cortesia "+codigo,
 status:"ativa",
 prazo:i===1 ? "uso_livre" : "30_dias",
 accessLevel:"TOP_GLOBAL",
@@ -442,17 +549,6 @@ function salvarPerfis(perfis){
 localStorage.setItem(STORAGE_KEY, JSON.stringify(perfis));
 }
 
-function rotuloPrazo(valor){
-const mapa = {
-"30_dias":"30 dias",
-"90_dias":"90 dias",
-"180_dias":"180 dias",
-"365_dias":"365 dias",
-"uso_livre":"Uso livre"
-};
-return mapa[valor] || valor;
-}
-
 function nomeSetor(n){
 const mapa = {
 1:"Setor 1",
@@ -486,6 +582,7 @@ gridInstitucionais.appendChild(card);
 });
 
 atualizarResumo();
+carregarMesarioMor();
 }
 
 function montarCard(chave, p){
@@ -637,7 +734,7 @@ alert("Padrão restaurado com sucesso.");
 
 function salvarTudo(){
 const perfis = carregarPerfis();
-const cards = document.querySelectorAll(".card");
+const cards = document.querySelectorAll(".card[data-key]");
 
 cards.forEach(card=>{
 const chave = card.dataset.key;
@@ -673,6 +770,75 @@ document.getElementById("sum-total").innerText = lista.length;
 document.getElementById("sum-ativos").innerText = lista.filter(p=>p.status==="ativa").length;
 document.getElementById("sum-global").innerText = lista.filter(p=>p.accessLevel==="TOP_GLOBAL").length;
 document.getElementById("sum-custom").innerText = lista.filter(p=>p.accessLevel==="PERSONALIZADO").length;
+}
+
+/* MESÁRIO MOR */
+
+function carregarMesarioMor(){
+const pagamento = localStorage.getItem("lapidar_pagamento_confirmado") === "true";
+const expedicao = localStorage.getItem("lapidar_expedicao_liberada") === "true";
+const obs = localStorage.getItem("lapidar_mesario_mor_obs") || "";
+
+document.getElementById("hotmartTexto").innerText =
+pagamento ? "Pagamento confirmado / sinal recebido." : "Aguardando confirmação.";
+
+document.getElementById("hotmartBadge").innerText =
+pagamento ? "Confirmado" : "Pendente";
+
+document.getElementById("hotmartBadge").className =
+pagamento ? "badge confirmado" : "badge pendente";
+
+document.getElementById("expedicaoTexto").innerText =
+expedicao ? "Expedição liberada para download." : "Expedição bloqueada.";
+
+document.getElementById("expedicaoBadge").innerText =
+expedicao ? "Liberada" : "Bloqueada";
+
+document.getElementById("expedicaoBadge").className =
+expedicao ? "badge confirmado" : "badge bloqueado";
+
+document.getElementById("observacoesMesario").value = obs;
+}
+
+function registrarAuditoria(evento){
+let logs = JSON.parse(localStorage.getItem("lapidar_auditoria_logs") || "[]");
+logs.push(evento + " em " + new Date().toLocaleString("pt-BR"));
+localStorage.setItem("lapidar_auditoria_logs", JSON.stringify(logs));
+}
+
+function confirmarPagamentoMesario(){
+localStorage.setItem("lapidar_pagamento_confirmado", "true");
+registrarAuditoria("Mesário Mor confirmou pagamento");
+carregarMesarioMor();
+alert("Pagamento confirmado.");
+}
+
+function acionarMesarioMor(){
+const perfis = carregarPerfis();
+localStorage.setItem("lapidar_expedicao_liberada", "true");
+localStorage.setItem("lapidar_pagamento_confirmado", "true");
+localStorage.setItem("lapidar_courtesy_profiles", JSON.stringify(perfis));
+registrarAuditoria("Mesário Mor acionado para executar liberações marcadas");
+carregarMesarioMor();
+alert("Mesário Mor acionado. As liberações marcadas foram aplicadas.");
+}
+
+function bloquearExpedicaoMesario(){
+localStorage.setItem("lapidar_expedicao_liberada", "false");
+registrarAuditoria("Mesário Mor bloqueou a expedição");
+carregarMesarioMor();
+alert("Expedição bloqueada.");
+}
+
+function salvarObservacoesMesario(){
+const texto = document.getElementById("observacoesMesario").value;
+localStorage.setItem("lapidar_mesario_mor_obs", texto);
+registrarAuditoria("Mesário Mor salvou observações");
+alert("Observações salvas com sucesso.");
+}
+
+function abrirExpedicao(){
+window.location.href = "expedicao_material.html";
 }
 
 function esc(txt){
