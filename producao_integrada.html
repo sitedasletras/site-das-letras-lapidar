@@ -25,7 +25,7 @@ align-items:center;
 
 .grid{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
 gap:20px;
 padding:20px;
 }
@@ -68,9 +68,7 @@ cursor:not-allowed;
 </style>
 </head>
 
-
 <body>
-
 
 <header>
 
@@ -79,7 +77,6 @@ cursor:not-allowed;
 <button onclick="logout()">Sair</button>
 
 </header>
-
 
 <div class="grid">
 
@@ -124,90 +121,92 @@ cursor:not-allowed;
 
 <script>
 
+
 function logout(){
 
-localStorage.clear();
+localStorage.removeItem("lapidar_perfil")
 
-location.href="index.html";
+window.location.href="index.html"
 
 }
 
 
 function abrir(setor){
 
-alert("Abrindo setor "+setor);
+alert("Abrindo setor "+setor)
 
 }
 
 
 function aplicarPermissoes(){
 
-const perfil=localStorage.getItem("perfil");
+const perfil=localStorage.getItem("lapidar_perfil")
 
-if(perfil=="admin") return;
-
-
-const cortesias=
-JSON.parse(localStorage.getItem("lapidar_courtesy_profiles")||"{}");
+if(!perfil)return
 
 
-if(!cortesias[perfil]) return;
+if(perfil==="admin" || perfil==="heteronimo") return
 
 
-const dados=cortesias[perfil];
+const cortesias=JSON.parse(localStorage.getItem("lapidar_cortesias") || "{}")
 
 
-if(dados.status!="ativa"){
+if(!cortesias[perfil]) return
 
-bloquearTudo();
 
-return;
+const dados=cortesias[perfil]
+
+
+if(dados.status!=="ativa"){
+
+bloquearTudo()
+
+return
 
 }
 
 
-if(dados.accessLevel=="global") return;
+if(dados.accessLevel==="global") return
 
 
-const permitidos=dados.sectors;
+const permitidos=dados.sectors || []
 
 
 [1,3,5,7,11,13].forEach(setor=>{
 
 if(!permitidos.includes(setor)){
 
-bloquear(setor);
+bloquear(setor)
 
 }
 
-});
-
+})
 
 }
 
 
 function bloquear(setor){
 
-const card=document.querySelector("#card"+setor);
+const card=document.querySelector("#card"+setor)
 
-card.querySelector("button").disabled=true;
+card.querySelector("button").disabled=true
 
-card.querySelector(".lock").style.display="block";
+card.querySelector(".lock").style.display="block"
 
 }
 
 
 function bloquearTudo(){
 
-[1,3,5,7,11,13].forEach(bloquear);
+[1,3,5,7,11,13].forEach(bloquear)
 
 }
 
 
-aplicarPermissoes();
+aplicarPermissoes()
+
 
 </script>
-
 
 </body>
 </html>
