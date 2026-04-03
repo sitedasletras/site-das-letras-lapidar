@@ -1,250 +1,229 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Relatório do Tradutor — Lapidar</title>
 
 <style>
-:root{
---bg:#0d0603;
---card:#140c08;
---card2:#1b100a;
---text:#ffffff;
---orange:#f7b22c;
---ok:#9cfdb2;
---border:rgba(255,123,44,0.18);
---shadow:0 10px 26px rgba(0,0,0,0.28);
-}
 
 body{
 margin:0;
-font-family:Arial,sans-serif;
-background:var(--bg);
-color:var(--text);
+font-family:Arial;
+background:#0e0604;
+color:white;
+}
+
+header{
+background:#2f436d;
+padding:20px;
+display:flex;
+justify-content:space-between;
+align-items:center;
 }
 
 .container{
-width:min(1100px,95%);
+max-width:1000px;
 margin:auto;
-padding:40px 0 60px;
-}
-
-.titulo{
-font-size:36px;
-font-weight:bold;
-}
-
-.subtitulo{
-margin-top:6px;
-color:var(--orange);
-}
-
-.status{
-margin-top:20px;
-padding:16px;
-border-radius:12px;
-background:rgba(247,178,44,0.12);
-border:1px solid rgba(247,178,44,0.25);
+padding:30px 20px;
 }
 
 .card{
-margin-top:24px;
-background:var(--card);
-border-radius:18px;
-padding:22px;
-border:1px solid var(--border);
-box-shadow:var(--shadow);
-}
-
-.linha{
-margin-bottom:10px;
-}
-
-.preview{
-margin-top:18px;
-padding:18px;
+background:#1c0e08;
 border-radius:14px;
-background:var(--card2);
-line-height:1.8;
-white-space:pre-line;
+padding:20px;
+margin-bottom:20px;
+box-shadow:0 6px 18px rgba(0,0,0,.25);
 }
 
-.actions{
-margin-top:24px;
-display:flex;
-gap:12px;
-flex-wrap:wrap;
+textarea{
+width:100%;
+height:160px;
+border-radius:10px;
+border:none;
+padding:10px;
+margin-top:10px;
+background:#140a06;
+color:white;
 }
 
 button{
+padding:12px 16px;
 border:none;
-padding:14px 18px;
-border-radius:999px;
+border-radius:8px;
 cursor:pointer;
 font-weight:bold;
+background:#2f436d;
+color:white;
+margin-top:10px;
+margin-right:10px;
 }
 
-.btnAtualizar{
-background:#174d27;
-color:#fff;
+button.alt{
+background:#8a6f3f;
 }
 
-.btnIndice{
-background:#24150f;
-color:#fff;
+button.sec{
+background:#6c757d;
 }
 
-.badge{
-display:inline-block;
-padding:6px 12px;
-border-radius:999px;
-background:rgba(23,77,39,0.35);
-color:var(--ok);
-font-weight:bold;
-}
 </style>
 </head>
 
 <body>
 
+<header>
+
+<h2>Relatório do Tradutor</h2>
+
+<button onclick="voltar()">Voltar</button>
+
+</header>
+
+
 <div class="container">
 
-<div class="titulo">Relatório do Tradutor</div>
-<div class="subtitulo">Resumo executivo da tradução editorial da obra</div>
-
-<div id="statusRelatorioTradutor" class="status">
-Verificando projeto ativo...
-</div>
 
 <div class="card">
 
-<div id="conteudoRelatorioTradutor" class="preview">
-Carregando relatório...
-</div>
+<h3>Projeto ativo</h3>
 
-<div class="actions">
-<button class="btnAtualizar" onclick="gerarRelatorioTradutor()">Atualizar relatório</button>
-<button class="btnIndice" onclick="voltarTradutor()">Voltar ao tradutor</button>
-</div>
+<div id="nomeProjeto">
+
+Nenhum projeto ativo selecionado.
 
 </div>
 
 </div>
 
-<script src="auditoria.js"></script>
+
+
+<div class="card">
+
+<h3>Análise da tradução</h3>
+
+<textarea id="campoTraducao"
+placeholder="Registrar observações sobre qualidade da tradução, coerência linguística, adaptação cultural, terminologia técnica..."></textarea>
+
+<button onclick="salvarRelatorio()">
+
+Salvar relatório do tradutor
+
+</button>
+
+</div>
+
+
+
+<div class="card">
+
+<h3>Navegação rápida</h3>
+
+<button onclick="abrirDepartamentos()">Departamentos</button>
+
+<button onclick="abrirSetores()">Setores</button>
+
+<button onclick="abrirFluxo()">Fluxo editorial</button>
+
+<button onclick="abrirPreview()" class="alt">Preview</button>
+
+<button onclick="abrirProgresso()" class="sec">Progresso</button>
+
+</div>
+
+
+</div>
+
+
 
 <script>
 
-function obterProjetoAtivo(){
-try{
-const lista=JSON.parse(localStorage.getItem("SDL_projetos_lista")||"[]")
-const ativo=localStorage.getItem("SDL_projeto_ativo")
-return lista.find(p=>p.id===ativo)||null
-}catch{
-return null
-}
-}
+/* SESSION GUARD PADRÃO LAPIDAR */
 
-function lerJSON(chave){
-try{
-return JSON.parse(localStorage.getItem(chave)||"null")
-}catch{
-return null
-}
-}
+const perfil = localStorage.getItem("lapidar_perfil")
 
-function carregarStatus(){
-const projeto=obterProjetoAtivo()
+if(!perfil){
 
-if(!projeto){
-statusRelatorioTradutor.innerHTML="Nenhum projeto ativo selecionado."
-return false
-}
-
-statusRelatorioTradutor.innerHTML=
-"Relatório aplicado ao projeto: <strong>"+projeto.titulo+"</strong>"
-statusRelatorioTradutor.style.background="rgba(23,77,39,0.28)"
-return true
-}
-
-function gerarRelatorioTradutor(){
-
-const projeto=obterProjetoAtivo()
-if(!projeto)return
-
-const planejamento=lerJSON("SDL_planejamento_traducao_ativo")
-const glossario=lerJSON("SDL_glossario_traducao_ativo")
-
-let texto=""
-
-texto+="Projeto: "+(projeto.titulo||"—")+"\n\n"
-
-if(planejamento && planejamento.projetoID===projeto.id){
-
-texto+="Idioma origem: "+planejamento.idiomaOrigem+"\n"
-texto+="Idioma destino: "+planejamento.idiomaDestino+"\n"
-texto+="Tipo tradução: "+planejamento.tipoTraducao+"\n"
-texto+="Adaptação cultural: "+planejamento.nivelAdaptacao+"\n"
-texto+="Público alvo: "+planejamento.publicoDestino+"\n"
-texto+="Manter nomes próprios: "+planejamento.manterNomes+"\n"
-texto+="Glossário necessário: "+planejamento.usarGlossario+"\n"
-texto+="Revisão nativa: "+planejamento.revisaoNativa+"\n\n"
-
-}else{
-
-texto+="Planejamento de tradução ainda não disponível.\n\n"
+window.location.href="index.html"
 
 }
 
-if(glossario && glossario.projetoID===projeto.id){
 
-texto+="Glossário técnico registrado.\n"
+/* PROJETO ATIVO */
 
-if(glossario.nomesProprios) texto+="• nomes próprios definidos\n"
-if(glossario.termosFixos) texto+="• termos técnicos definidos\n"
-if(glossario.expressoesSensíveis) texto+="• expressões sensíveis definidas\n"
-if(glossario.naoTraduzir) texto+="• termos preservados definidos\n"
+const projeto = localStorage.getItem("lapidar_projeto_ativo")
 
-texto+="\n"
+if(projeto){
 
-}else{
-
-texto+="Glossário técnico ainda não registrado.\n\n"
+document.getElementById("nomeProjeto").innerText = projeto
 
 }
 
-const pronto=(planejamento && glossario)
 
-texto+="Status técnico da tradução:\n"
+/* CARREGAR RELATÓRIO EXISTENTE */
 
-if(pronto){
+const relatorioTradutor = localStorage.getItem("lapidar_relatorio_tradutor")
 
-texto+="✔ tradução apta para consolidação editorial\n"
+if(relatorioTradutor){
 
-}else{
-
-texto+="⚠ ainda faltam dados técnicos essenciais\n"
+document.getElementById("campoTraducao").value = relatorioTradutor
 
 }
 
-conteudoRelatorioTradutor.textContent=texto
 
-try{
-SDL_registrarAuditoria("Relatório do tradutor atualizado","relatorio_tradutor")
-}catch(e){}
+/* SALVAR RELATÓRIO */
+
+function salvarRelatorio(){
+
+const texto = document.getElementById("campoTraducao").value
+
+localStorage.setItem("lapidar_relatorio_tradutor", texto)
+
+alert("Relatório do tradutor salvo com sucesso.")
 
 }
 
-function voltarTradutor(){
-window.location.href="tradutor_inicio.html"
+
+/* NAVEGAÇÃO */
+
+function abrirDepartamentos(){
+
+window.location.href="painel_departamentos.html"
+
 }
 
-if(carregarStatus()){
-gerarRelatorioTradutor()
+function abrirSetores(){
+
+window.location.href="painel_setores.html"
+
+}
+
+function abrirFluxo(){
+
+window.location.href="status_fluxo_editorial.html"
+
+}
+
+function abrirPreview(){
+
+window.location.href="preview_projeto.html"
+
+}
+
+function abrirProgresso(){
+
+window.location.href="progresso_projeto.html"
+
+}
+
+function voltar(){
+
+window.location.href="painel_departamentos.html"
+
 }
 
 </script>
+
 
 </body>
 </html>
