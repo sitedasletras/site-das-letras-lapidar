@@ -14,13 +14,13 @@
       --blue:#7cb4f0;
       --yellow:#e4c11a;
       --green:#2ba95b;
-      --gold:#d7b300;
+      --orange:#e08b2c;
       --deep:#2451b2;
+      --softblue:#a9d0ee;
       --shadow:0 12px 28px rgba(45,30,10,.12);
     }
 
     *{box-sizing:border-box}
-
     html,body{
       margin:0;
       padding:0;
@@ -151,7 +151,7 @@
       border-radius:26px;
       padding:24px;
       box-shadow:var(--shadow);
-      min-height:260px;
+      min-height:230px;
       display:flex;
       flex-direction:column;
       gap:14px;
@@ -197,8 +197,8 @@
     }
 
     .s7{
-      background:linear-gradient(135deg,#eed721 0%, #d9be00 100%);
-      color:#275930;
+      background:linear-gradient(135deg,#ef9a3d 0%, #d87c1e 100%);
+      color:#fff;
     }
 
     .s11{
@@ -357,7 +357,7 @@
   <header class="hero">
     <small>Lapidar • Produção Integrada</small>
     <h1>Setores da linha de produção</h1>
-    <p id="heroText">Aqui ficam apenas os setores produtivos da obra. É nesta página que entram as áreas como OKapista, Segunda Língua(s) e as demais frentes do sistema.</p>
+    <p id="heroText">Aqui ficam os setores produtivos da obra. É nesta página que entram OKapista, Segunda Língua(s), Avaliação Literária e os demais módulos.</p>
     <div class="hero-actions">
       <button class="ghost" onclick="window.location.href='sala_reunioes.html'">Voltar à sala de reuniões</button>
       <button class="light" onclick="window.location.href='index.html'">Trocar usuário</button>
@@ -377,37 +377,37 @@
             <article class="sector s1">
               <h3>Assistente de Diagramação do Autor</h3>
               <p>Setor azul claro para construção do miolo da própria história, com planejamento e organização da diagramação.</p>
-              <button>Acessar</button>
+              <button onclick="entrarSetor('1')">Acessar</button>
             </article>
 
             <article class="sector s3">
               <h3>OKapista</h3>
               <p>Setor amarelo ouro e canário, com escrita em verde escuro, conforme sua orientação.</p>
-              <button>Acessar</button>
+              <button onclick="entrarSetor('3')">Acessar</button>
             </article>
 
             <article class="sector s5">
               <h3>Segunda Língua(s)</h3>
               <p>Setor inspirado no verde nacional, para tradução e desdobramentos linguísticos.</p>
-              <button>Acessar</button>
+              <button onclick="entrarSetor('5')">Acessar</button>
             </article>
 
             <article class="sector s7">
               <h3>Avaliação Literária</h3>
-              <p>Setor em amarelo forte com leitura limpa e contraste editorial.</p>
-              <button>Acessar</button>
+              <p>Setor em laranja forte com leitura limpa e contraste editorial.</p>
+              <button onclick="entrarSetor('7')">Acessar</button>
             </article>
 
             <article class="sector s11">
               <h3>Analisador de Obra</h3>
               <p>Setor azul profundo para leitura estrutural, consistência narrativa e observação técnica da obra.</p>
-              <button>Acessar</button>
+              <button onclick="entrarSetor('11')">Acessar</button>
             </article>
 
             <article class="sector s13">
               <h3>Lapidação Literária</h3>
               <p>Setor em azul suave para o tratamento fino do texto, remoção de excessos e lapidação final.</p>
-              <button>Acessar</button>
+              <button onclick="entrarSetor('13')">Acessar</button>
             </article>
           </div>
         </div>
@@ -429,33 +429,33 @@
             </div>
             <div class="mesario-item">
               <small>Setor 3</small>
-              <strong>CVMI 3,99</strong>
+              <strong>Pendura e cálculo</strong>
               <span>OKapista</span>
             </div>
             <div class="mesario-item">
               <small>Setor 5</small>
-              <strong>CVMI 3,99</strong>
+              <strong>CVMI 25,00</strong>
               <span>Segunda Língua(s)</span>
             </div>
             <div class="mesario-item">
               <small>Setor 7</small>
-              <strong>CVMI 3,99</strong>
+              <strong>CVMI 25,00</strong>
               <span>Avaliação Literária</span>
             </div>
             <div class="mesario-item">
               <small>Setor 11</small>
-              <strong>CVMI 3,99</strong>
+              <strong>Pendura e cálculo</strong>
               <span>Analisador de Obra</span>
             </div>
             <div class="mesario-item">
               <small>Setor 13</small>
-              <strong>CVMI 3,99</strong>
+              <strong>CVMI 25,00</strong>
               <span>Lapidação Literária</span>
             </div>
           </div>
 
           <div class="cta-box" id="ctaMesario">
-            <p><strong>Soma final da obra:</strong> CVMI 23,94</p>
+            <p><strong>Soma base atual da obra:</strong> CVMI 78,99</p>
             <button onclick="encaminharMesario()">Encaminhar ao Mesário-mor</button>
             <div class="success" id="msgFinal">
               Contribuição voluntária sugerida encaminhada ao Mesário-mor.<br><br>
@@ -512,6 +512,11 @@
       window.location.href = "index.html";
     }
 
+    function entrarSetor(setor){
+      localStorage.setItem("lapidar_entrada_setor", setor);
+      alert("Setor " + setor + " preparado para integração do fluxo.");
+    }
+
     function encaminharMesario(){
       document.getElementById("msgFinal").classList.add("show");
     }
@@ -523,14 +528,14 @@
         document.getElementById("perfilAtual").innerText = "Admin";
         document.getElementById("mesarioAtual").innerText = "Completo";
         document.getElementById("noticeText").innerText =
-          "Admin vê as somas por setor, a soma final da obra e o encaminhamento ao Mesário-mor.";
+          "Admin vê as somas por setor, a soma base atual da obra e o encaminhamento ao Mesário-mor.";
       }
 
       else if(perfil === "heteronimo"){
         document.getElementById("perfilAtual").innerText = "Heterônimo";
         document.getElementById("mesarioAtual").innerText = "Completo";
         document.getElementById("noticeText").innerText =
-          "Heterônimo vê as somas por setor, a soma final da obra e o encaminhamento ao Mesário-mor.";
+          "Heterônimo vê as somas por setor, a soma base atual da obra e o encaminhamento ao Mesário-mor.";
       }
 
       else if(perfil === "cortesia"){
