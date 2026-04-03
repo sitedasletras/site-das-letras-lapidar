@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,97 +7,60 @@
 
 <style>
 
-:root{
---bg:#0d0603;
---card:#140c08;
---card2:#1b100a;
---text:#ffffff;
---muted:#ffd2b3;
---orange:#f7b22c;
---orangeStrong:#ff5a00;
---green:#9cfdb2;
---border:rgba(255,123,44,0.18);
---shadow:0 10px 26px rgba(0,0,0,0.28);
-}
-
 body{
 margin:0;
 font-family:Arial;
-background:var(--bg);
+background:#0d0603;
 color:white;
+}
+
+header{
+background:#2f436d;
+padding:20px;
+display:flex;
+justify-content:space-between;
+align-items:center;
 }
 
 .container{
-width:min(1100px,95%);
+max-width:1000px;
 margin:auto;
-padding:40px 0;
-}
-
-.titulo{
-font-size:36px;
-font-weight:bold;
-}
-
-.subtitulo{
-margin-top:6px;
-color:var(--orange);
+padding:30px 20px;
 }
 
 .card{
-margin-top:30px;
-background:var(--card);
-padding:24px;
-border-radius:18px;
-border:1px solid var(--border);
-box-shadow:var(--shadow);
+background:#14100c;
+border-radius:14px;
+padding:20px;
+margin-bottom:20px;
+box-shadow:0 6px 20px rgba(0,0,0,.25);
 }
 
-.status{
-margin-top:20px;
-padding:16px;
-border-radius:12px;
-background:rgba(247,178,44,0.12);
-border:1px solid rgba(247,178,44,0.25);
-}
-
-.linha{
-margin-top:12px;
-color:var(--muted);
-}
-
-.rotulo{
-color:var(--orange);
-font-weight:bold;
-}
-
-.actions{
-margin-top:24px;
-display:flex;
-flex-wrap:wrap;
-gap:12px;
+.info{
+background:#1b100a;
+padding:15px;
+border-radius:10px;
+margin-top:10px;
 }
 
 button{
+padding:12px 16px;
 border:none;
-padding:14px 18px;
-border-radius:999px;
+border-radius:8px;
 cursor:pointer;
 font-weight:bold;
+background:#2f436d;
+color:white;
+margin-right:10px;
+margin-top:10px;
 }
 
-.btnEditar{
-background:#174d27;
-color:white;
+button.alt{
+background:#8a6f3f;
 }
 
-.btnHistorico{
-background:var(--orangeStrong);
-color:white;
-}
-
-.btnIndice{
-background:#24150f;
-color:white;
+button.sec{
+background:#6c757d;
 }
 
 </style>
@@ -105,202 +68,151 @@ color:white;
 
 <body>
 
+<header>
+
+<h2>Preview do Projeto</h2>
+
+<button onclick="voltar()">Voltar</button>
+
+</header>
+
+
 <div class="container">
 
-<div class="titulo">
-Preview do Projeto
+
+<div class="card">
+
+<h3>Projeto ativo</h3>
+
+<div class="info" id="nomeProjeto">
+
+Nenhum projeto ativo selecionado.
+
 </div>
 
-<div class="subtitulo">
-Visualização do projeto ativo selecionado no Lapidar
 </div>
 
 
+<div class="card">
 
-<div id="statusPreview" class="status">
-Carregando projeto ativo...
+<h3>Status do fluxo editorial</h3>
+
+<div class="info">
+
+Clique abaixo para acompanhar o andamento editorial completo da obra.
+
 </div>
 
-
-
-<div id="dadosProjeto"></div>
-
-
-
-<div class="actions">
-
-<button class="btnEditar" onclick="abrirUpload()">
-Editar projeto
-</button>
-
-<button class="btnHistorico" onclick="abrirHistorico()">
-Abrir histórico
-</button>
-
-<button class="btnIndice" onclick="voltarIndice()">
-Voltar ao índice
+<button onclick="abrirFluxo()">
+Abrir fluxo editorial
 </button>
 
 </div>
 
+
+<div class="card">
+
+<h3>Setores disponíveis</h3>
+
+<div class="info">
+
+Acesse os setores editoriais para continuar a produção da obra.
+
 </div>
 
+<button onclick="abrirSetores()">
+Abrir painel de setores
+</button>
+
+</div>
+
+
+<div class="card">
+
+<h3>Relatórios e auditoria</h3>
+
+<div class="info">
+
+Consulte relatórios técnicos e registros institucionais do projeto.
+
+</div>
+
+<button onclick="abrirRelatorios()">
+Abrir relatórios
+</button>
+
+<button onclick="abrirAuditoria()" class="sec">
+Abrir auditoria
+</button>
+
+</div>
+
+
+</div>
 
 
 <script>
 
-function verificarSessao(){
+/* SESSION GUARD PADRÃO LAPIDAR */
 
-const sessao = localStorage.getItem("SDL_sessao_ativa")
+const perfil = localStorage.getItem("lapidar_perfil")
 
-if(sessao !== "sim"){
-window.location.href="login.html"
-}
+if(!perfil){
 
-}
-
-
-
-function carregarPreview(){
-
-let lista = []
-let ativo = null
-let projeto = null
-
-try{
-
-lista = JSON.parse(
-localStorage.getItem("SDL_projetos_lista") || "[]"
-)
-
-ativo = localStorage.getItem("SDL_projeto_ativo")
-
-}catch(e){}
-
-
-
-if(!ativo){
-
-document.getElementById("statusPreview").innerHTML =
-"Nenhum projeto ativo selecionado."
-
-return
+window.location.href="index.html"
 
 }
 
 
+/* CARREGAR PROJETO ATIVO */
 
-projeto = lista.find(p => p.id === ativo)
+const projeto = localStorage.getItem("lapidar_projeto_ativo")
 
+if(projeto){
 
-
-if(!projeto){
-
-document.getElementById("statusPreview").innerHTML =
-"Projeto ativo não encontrado na lista."
-
-return
+document.getElementById("nomeProjeto").innerText = projeto
 
 }
 
 
+/* NAVEGAÇÃO */
 
-document.getElementById("statusPreview").innerHTML =
-"Projeto carregado com sucesso."
+function abrirFluxo(){
 
-document.getElementById("statusPreview").style.background =
-"rgba(23,77,39,0.28)"
-
-
-
-document.getElementById("dadosProjeto").innerHTML = `
-
-<div class="card">
-
-<div class="linha">
-<span class="rotulo">Título:</span>
-${projeto.titulo || "—"}
-</div>
-
-<div class="linha">
-<span class="rotulo">Subtítulo:</span>
-${projeto.subtitulo || "—"}
-</div>
-
-<div class="linha">
-<span class="rotulo">Autor:</span>
-${projeto.autor || "—"}
-</div>
-
-<div class="linha">
-<span class="rotulo">Coleção:</span>
-${projeto.colecao || "—"}
-</div>
-
-<div class="linha">
-<span class="rotulo">Formato:</span>
-${projeto.formato || "—"}
-</div>
-
-<div class="linha">
-<span class="rotulo">Status editorial:</span>
-${projeto.status || "—"}
-</div>
-
-<div class="linha">
-<span class="rotulo">Observações:</span>
-${projeto.observacoes || "—"}
-</div>
-
-<div class="linha">
-<span class="rotulo">Registrado em:</span>
-${formatarData(projeto.dataRegistro)}
-</div>
-
-</div>
-
-`
+window.location.href="status_fluxo_editorial.html"
 
 }
 
 
+function abrirSetores(){
 
-function formatarData(d){
-
-if(!d) return "—"
-
-try{
-return new Date(d).toLocaleString("pt-BR")
-}catch{
-return d
-}
+window.location.href="painel_setores.html"
 
 }
 
 
+function abrirRelatorios(){
 
-function abrirUpload(){
-window.location.href="upload_livro.html"
+window.location.href="hub_relatorios.html"
+
 }
 
 
+function abrirAuditoria(){
 
-function abrirHistorico(){
-window.location.href="historico_projetos.html"
+window.location.href="auditoria.html"
+
 }
 
 
+function voltar(){
 
-function voltarIndice(){
-window.location.href="_Indice.html"
+window.location.href="projetos.html"
+
 }
-
-
-
-verificarSessao()
-carregarPreview()
 
 </script>
+
 
 </body>
 </html>
