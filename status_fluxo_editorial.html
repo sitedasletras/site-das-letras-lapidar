@@ -4,38 +4,40 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Status do Fluxo Editorial</title>
-
 <style>
-
 body{
 margin:0;
-font-family:Arial;
+font-family:Arial, sans-serif;
 background:#0e0604;
-color:white;
+color:#fff;
+-webkit-user-select:none;
+user-select:none;
 }
-
 header{
 background:#2f436d;
-padding:20px;
+padding:18px 20px;
 display:flex;
 justify-content:space-between;
 align-items:center;
 }
-
 .container{
 max-width:1000px;
 margin:auto;
-padding:30px 20px;
+padding:24px 16px 40px;
 }
-
 .card{
 background:#1c0e08;
 border-radius:14px;
-padding:20px;
-margin-bottom:20px;
+padding:18px;
+margin-bottom:18px;
 box-shadow:0 6px 18px rgba(0,0,0,.25);
 }
-
+.etapa{
+background:#2a140c;
+padding:14px;
+border-radius:10px;
+margin-top:10px;
+}
 button{
 padding:12px 16px;
 border:none;
@@ -44,88 +46,72 @@ cursor:pointer;
 font-weight:bold;
 background:#2f436d;
 color:white;
-margin-top:10px;
 }
-
-.status{
-padding:12px;
-margin-top:10px;
-border-radius:8px;
-background:#2a140c;
+.linhaBotoes{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+margin-top:14px;
 }
-
 </style>
 </head>
-
 <body>
 
 <header>
-
 <h2>Status do Fluxo Editorial</h2>
-
 <button onclick="voltar()">Voltar</button>
-
 </header>
-
 
 <div class="container">
 
 <div class="card">
-
 <h3>Projeto ativo</h3>
-
-<div id="projetoAtual">
-
-Nenhum projeto ativo selecionado.
-
+<div id="projetoAtual">Nenhum projeto ativo selecionado.</div>
 </div>
-
-</div>
-
 
 <div class="card">
-
 <h3>Etapas do fluxo editorial</h3>
+<div class="etapa">✔ Preparação inicial</div>
+<div class="etapa">✔ Organização estrutural</div>
+<div class="etapa">⏳ Diagramação</div>
+<div class="etapa">⏳ Revisão técnica</div>
+<div class="etapa">⏳ Capa editorial</div>
+<div class="etapa">⏳ Traduções (se houver)</div>
+<div class="etapa">⏳ Publicação final</div>
 
-<div class="status">✔ Preparação inicial</div>
-<div class="status">✔ Organização estrutural</div>
-<div class="status">⏳ Diagramação</div>
-<div class="status">⏳ Revisão técnica</div>
-<div class="status">⏳ Capa editorial</div>
-<div class="status">⏳ Traduções (se houver)</div>
-<div class="status">⏳ Publicação final</div>
-
+<div class="linhaBotoes">
+<button onclick="abrirProjetos()">Projetos</button>
+<button onclick="abrirSetores()">Setores</button>
+<button onclick="abrirDepartamentos()">Departamentos</button>
+</div>
 </div>
 
 </div>
-
 
 <script>
-
-const perfil = localStorage.getItem("lapidar_perfil")
-
+const perfil = localStorage.getItem("lapidar_perfil");
 if(!perfil){
-
-window.location.href="index.html"
-
+window.location.href = "index.html";
 }
 
-let projeto = localStorage.getItem("lapidar_projeto_ativo")
-
+const projeto = localStorage.getItem("lapidar_projeto_ativo");
 if(projeto){
-
-document.getElementById("projetoAtual").innerText = projeto
-
+document.getElementById("projetoAtual").innerText = projeto;
 }
 
 function voltar(){
-
-window.location.href="projetos.html"
-
+window.location.href = "projetos.html";
 }
-
+function abrirProjetos(){
+window.location.href = "projetos.html";
+}
+function abrirSetores(){
+window.location.href = "painel_setores.html";
+}
+function abrirDepartamentos(){
+window.location.href = "painel_departamentos.html";
+}
 </script>
-
 
 </body>
 </html>
