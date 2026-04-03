@@ -1,173 +1,211 @@
 <!DOCTYPE html>
-<html lang="pt-br">
-
+<html lang="pt-BR">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Envio das partes da capa externa</title>
+<title>Upload das Imagens da Capa</title>
 
 <style>
 
 body{
 margin:0;
-background:#0c0603;
 font-family:Arial;
+background:#0e0604;
 color:white;
+}
+
+header{
+background:#2f436d;
+padding:18px 20px;
 display:flex;
-justify-content:center;
+justify-content:space-between;
+align-items:center;
 }
 
 .container{
-max-width:720px;
-width:92%;
-padding:40px 0 60px 0;
-}
-
-.titulo{
-font-size:32px;
-text-align:center;
-font-weight:bold;
-}
-
-.subtitulo{
-text-align:center;
-color:#ff7b2c;
-margin-top:12px;
-margin-bottom:28px;
+max-width:1000px;
+margin:auto;
+padding:24px 16px 40px;
 }
 
 .card{
-background:#140c08;
+background:#1c0e08;
 border-radius:14px;
-padding:26px;
-margin-top:20px;
+padding:20px;
+margin-bottom:18px;
+box-shadow:0 6px 18px rgba(0,0,0,.25);
 }
 
 label{
 display:block;
-margin-top:18px;
+margin-top:12px;
 margin-bottom:6px;
-color:#ffd2b3;
+font-weight:bold;
 }
 
-input{
+input[type="file"]{
 width:100%;
 padding:12px;
-border-radius:8px;
 border:none;
-}
-
-.botao{
-width:100%;
-padding:18px;
-margin-top:24px;
-border:none;
-border-radius:40px;
-background:#ff5a00;
+border-radius:10px;
+background:#2a140c;
 color:white;
-font-size:18px;
-font-weight:bold;
-cursor:pointer;
 }
 
-.info{
-margin-top:14px;
+.preview{
+margin-top:12px;
+background:#2a140c;
+padding:10px;
+border-radius:10px;
 font-size:14px;
-color:#ffcfaa;
-line-height:1.6;
+}
+
+button{
+padding:12px 16px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+font-weight:bold;
+background:#2f436d;
+color:white;
+margin-top:12px;
+margin-right:10px;
+}
+
+button.alt{
+background:#8a6f3f;
 }
 
 </style>
-
 </head>
-
 <body>
+
+<header>
+
+<h2>Upload das Imagens da Capa</h2>
+
+<button onclick="voltar()">Voltar</button>
+
+</header>
+
 
 <div class="container">
 
-<div class="titulo">
-
-Envio das partes da capa externa
-
-</div>
-
-<div class="subtitulo">
-
-Envie cada parte da capa separadamente para montagem editorial completa
-
-</div>
 
 <div class="card">
 
+<h3>Projeto ativo</h3>
+
+<div id="nomeProjeto">
+
+Nenhum projeto ativo selecionado.
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h3>Enviar imagens</h3>
+
 <label>Capa frontal</label>
-<input type="file">
+<input type="file" id="capaFrontal" accept="image/*">
 
-<label>Contracapa</label>
-<input type="file">
-
-<label>Orelha dianteira</label>
-<input type="file">
-
-<label>Orelha traseira</label>
-<input type="file">
+<label>Contra-capa</label>
+<input type="file" id="contraCapa" accept="image/*">
 
 <label>Lombada</label>
-<input type="file">
+<input type="file" id="lombada" accept="image/*">
 
-<div class="info">
+<label>Orelha dianteira</label>
+<input type="file" id="orelhaFrente" accept="image/*">
 
-Você pode enviar imagens com texto já incluído.
+<label>Orelha traseira</label>
+<input type="file" id="orelhaTras" accept="image/*">
 
-Também é possível enviar versões multilíngues.
+<div class="preview" id="statusUpload">
 
-Compatível com impressão física e EPUB.
-
-</div>
-
-<button class="botao"
-onclick="salvarUploadCapa()">
-
-Salvar partes da capa
-
-</button>
-
-<button class="botao"
-onclick="window.location.href='_Indice.html'">
-
-Voltar para casa do original
-
-</button>
+Nenhuma imagem enviada ainda.
 
 </div>
 
+<button onclick="salvarImagens()">Salvar imagens</button>
+
+<button class="alt" onclick="limparCampos()">Limpar</button>
+
 </div>
+
+
+</div>
+
 
 <script>
 
-function salvarUploadCapa(){
+const perfil = localStorage.getItem("lapidar_perfil");
 
-localStorage.setItem(
+if(!perfil){
 
-"SDL_upload_capa_partes",
+window.location.href="index.html";
 
-"ok"
+}
 
-);
+const projeto = localStorage.getItem("lapidar_projeto_ativo");
 
-alert(
+if(projeto){
 
-"Partes da capa registradas com sucesso."
+document.getElementById("nomeProjeto").innerText = projeto;
 
-);
+}
 
-window.location.href="relatorio_lapidacao.html";
+
+function salvarImagens(){
+
+let frontal = document.getElementById("capaFrontal").files[0];
+let contra = document.getElementById("contraCapa").files[0];
+let lombada = document.getElementById("lombada").files[0];
+let orelhaF = document.getElementById("orelhaFrente").files[0];
+let orelhaT = document.getElementById("orelhaTras").files[0];
+
+localStorage.setItem("lapidar_img_frontal", frontal ? frontal.name : "");
+localStorage.setItem("lapidar_img_contra", contra ? contra.name : "");
+localStorage.setItem("lapidar_img_lombada", lombada ? lombada.name : "");
+localStorage.setItem("lapidar_img_orelha_frente", orelhaF ? orelhaF.name : "");
+localStorage.setItem("lapidar_img_orelha_tras", orelhaT ? orelhaT.name : "");
+
+document.getElementById("statusUpload").innerHTML=
+
+"Imagens registradas com sucesso.<br>"+
+"Capa frontal: "+(frontal?frontal.name:"-")+"<br>"+
+"Contra-capa: "+(contra?contra.name:"-")+"<br>"+
+"Lombada: "+(lombada?lombada.name:"-")+"<br>"+
+"Orelha dianteira: "+(orelhaF?orelhaF.name:"-")+"<br>"+
+"Orelha traseira: "+(orelhaT?orelhaT.name:"-");
+
+}
+
+
+function limparCampos(){
+
+document.getElementById("capaFrontal").value="";
+document.getElementById("contraCapa").value="";
+document.getElementById("lombada").value="";
+document.getElementById("orelhaFrente").value="";
+document.getElementById("orelhaTras").value="";
+
+document.getElementById("statusUpload").innerText="Campos limpos.";
+
+}
+
+
+function voltar(){
+
+window.location.href="painel_departamentos.html";
 
 }
 
 </script>
 
-</body>
 
+</body>
 </html>
