@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,73 +7,44 @@
 
 <style>
 body{
-font-family:Arial, Helvetica, sans-serif;
-background:#f4efe4;
 margin:0;
+font-family:Arial;
+background:#e6d3a3;
 }
 
-.container{
-max-width:520px;
-margin:auto;
-padding:40px 20px;
-}
-
-.box{
-background:white;
+.card{
+max-width:460px;
+margin:40px auto;
+background:#fff;
 padding:30px;
-border-radius:18px;
-box-shadow:0 10px 25px rgba(0,0,0,0.08);
+border-radius:20px;
+box-shadow:0 12px 28px rgba(0,0,0,.12);
 }
 
-h1{
-margin-top:0;
+h2{
 text-align:center;
-font-size:34px;
-margin-bottom:8px;
-}
-
-.sub{
-text-align:center;
-color:#777;
-font-size:14px;
-line-height:1.6;
-margin-bottom:24px;
-}
-
-label{
-display:block;
-margin-top:18px;
-font-weight:bold;
-font-size:14px;
-color:#333;
+margin-bottom:20px;
 }
 
 input{
 width:100%;
 padding:14px;
-margin-top:6px;
+margin-bottom:14px;
 border-radius:10px;
 border:1px solid #ccc;
-font-size:16px;
-box-sizing:border-box;
+font-size:15px;
 }
 
 button{
 width:100%;
-padding:16px;
-margin-top:22px;
+padding:14px;
 border:none;
-background:#17335d;
-color:white;
-font-size:16px;
 border-radius:12px;
-cursor:pointer;
+background:#1f3f75;
+color:#fff;
 font-weight:bold;
-}
-
-.sair{
-background:#b8b8b8;
-margin-top:12px;
+font-size:16px;
+cursor:pointer;
 }
 
 .msg{
@@ -84,253 +55,102 @@ font-size:14px;
 display:none;
 }
 
-.msg.ok{
+.ok{
 display:block;
 background:#eef8f0;
-color:#1f6b36;
 border:1px solid #b8dfc0;
+color:#1f6b36;
 }
 
-.msg.erro{
+.erro{
 display:block;
 background:#fff1f1;
-color:#a12626;
 border:1px solid #efc0c0;
-}
-
-.info{
-margin-top:10px;
-font-size:12px;
-color:#777;
-line-height:1.5;
-}
-
-.frase{
-margin-top:24px;
-font-size:14px;
-text-align:center;
-color:#555;
-line-height:1.7;
+color:#a12626;
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
-  <div class="box">
+<div class="card">
 
-    <h1>Criar cadastro</h1>
+<h2>Criar cadastro</h2>
 
-    <div class="sub">
-      Preencha seus dados para criar seu acesso dentro do Lapidar.
-    </div>
+<input id="nome" placeholder="Nome completo">
+<input id="email" placeholder="Email">
+<input id="telefone" placeholder="Telefone internacional (+55...)">
+<input id="senha" type="password" placeholder="Senha">
 
-    <form onsubmit="salvarCadastro(event)">
+<button onclick="salvarCadastro()">Salvar cadastro</button>
 
-      <label>Nome completo</label>
-      <input id="nome" required>
+<div id="msg" class="msg"></div>
 
-      <label>E-mail</label>
-      <input id="email" type="email" required>
-
-      <label>Telefone / WhatsApp internacional</label>
-      <input
-        type="tel"
-        id="telefone"
-        placeholder="+55"
-        required
-        oninput="corrigirTelefone(this)"
-      >
-
-      <div class="info" id="infoTelefone">
-        O código do país foi sugerido automaticamente pelo seu navegador. Você pode alterar, se quiser.
-      </div>
-
-      <label>Senha</label>
-      <input id="senha" type="password" required>
-
-      <button type="submit">Continuar cadastro</button>
-
-      <button type="button" class="sair" onclick="sairSistema()">Cancelar cadastro</button>
-
-      <div id="mensagem" class="msg"></div>
-
-    </form>
-
-    <div class="frase">
-      Este Celeiro Literário era um sonho — e aqui está a prova de que sonhos também podem tornar-se reais.<br>
-      Bem-vindo ao Lapidar.
-    </div>
-
-  </div>
 </div>
 
 <script>
-function mostrarMensagem(tipo,texto){
-  const box = document.getElementById("mensagem");
-  box.className = "msg " + tipo;
-  box.innerText = texto;
+
+function mostrar(tipo,texto){
+const box = document.getElementById("msg");
+box.className = "msg " + tipo;
+box.innerText = texto;
 }
 
-function detectarPaisNavegador(){
-  const lang = (navigator.language || "pt-BR").toUpperCase();
+function salvarCadastro(){
 
-  if(lang.includes("BR")) return { codigo: "+55", nome: "Brasil" };
-  if(lang.includes("PT")) return { codigo: "+351", nome: "Portugal" };
-  if(lang.includes("ES")) return { codigo: "+34", nome: "Espanha" };
-  if(lang.includes("US")) return { codigo: "+1", nome: "Estados Unidos" };
-  if(lang.includes("GB")) return { codigo: "+44", nome: "Reino Unido" };
-  if(lang.includes("FR")) return { codigo: "+33", nome: "França" };
-  if(lang.includes("DE")) return { codigo: "+49", nome: "Alemanha" };
-  if(lang.includes("IT")) return { codigo: "+39", nome: "Itália" };
-  if(lang.includes("AR")) return { codigo: "+54", nome: "Argentina" };
-  if(lang.includes("MX")) return { codigo: "+52", nome: "México" };
-  if(lang.includes("CL")) return { codigo: "+56", nome: "Chile" };
-  if(lang.includes("UY")) return { codigo: "+598", nome: "Uruguai" };
-  if(lang.includes("PY")) return { codigo: "+595", nome: "Paraguai" };
-  if(lang.includes("CO")) return { codigo: "+57", nome: "Colômbia" };
-  if(lang.includes("PE")) return { codigo: "+51", nome: "Peru" };
+const nome = document.getElementById("nome").value.trim();
+const email = document.getElementById("email").value.trim().toLowerCase();
+const telefone = document.getElementById("telefone").value.trim();
+const senha = document.getElementById("senha").value;
 
-  return { codigo: "+55", nome: "Brasil" };
+if(!nome || !email || !senha){
+mostrar("erro","Preencha os campos obrigatórios.");
+return;
 }
 
-function aplicarCodigoAutomatico(){
-  const telefone = document.getElementById("telefone");
-  const info = document.getElementById("infoTelefone");
-  const pais = detectarPaisNavegador();
+let lista = localStorage.getItem("lapidar_cadastros");
 
-  if(!telefone.value.trim()){
-    telefone.value = pais.codigo;
-  }
-
-  info.innerText = "O código do país foi sugerido automaticamente pelo seu navegador: " + pais.nome + " (" + pais.codigo + "). Você pode alterar, se quiser.";
+if(lista){
+lista = JSON.parse(lista);
+}else{
+lista = [];
 }
 
-function corrigirTelefone(input){
-  let valor = input.value || "";
+const existe = lista.find(u => u.email === email);
 
-  valor = valor.replace(/[^\d+]/g, "");
-
-  if(valor && !valor.startsWith("+")){
-    valor = "+" + valor.replace(/\+/g, "");
-  }
-
-  if(valor.indexOf("+") > 0){
-    valor = "+" + valor.replace(/\+/g, "");
-  }
-
-  input.value = valor;
+if(existe){
+mostrar("erro","Este e-mail já está cadastrado.");
+return;
 }
 
-function normalizarTelefone(valor){
-  valor = valor.trim();
-  valor = valor.replace(/[^\d+]/g, "");
+const novoUsuario = {
 
-  if(valor && !valor.startsWith("+")){
-    valor = "+" + valor.replace(/\+/g, "");
-  }
+id: "cad_" + Date.now(),
 
-  if(valor.indexOf("+") > 0){
-    valor = "+" + valor.replace(/\+/g, "");
-  }
+nomeCompleto: nome,
 
-  return valor;
+email: email,
+
+telefone: telefone,
+
+senha: senha
+
+};
+
+lista.push(novoUsuario);
+
+localStorage.setItem("lapidar_cadastros", JSON.stringify(lista));
+
+mostrar("ok","Cadastro criado com sucesso.");
+
+setTimeout(() => {
+
+window.location.href = "index.html";
+
+}, 800);
+
 }
 
-function telefoneValido(valor){
-  return /^\+[1-9][0-9]{3,14}$/.test(valor);
-}
-
-function carregarCadastros(){
-  try{
-    return JSON.parse(localStorage.getItem("lapidar_cadastros") || "[]");
-  }catch(e){
-    return [];
-  }
-}
-
-function salvarCadastros(lista){
-  localStorage.setItem("lapidar_cadastros", JSON.stringify(lista));
-}
-
-function salvarCadastro(event){
-  event.preventDefault();
-
-  const nome = document.getElementById("nome").value.trim();
-  const email = document.getElementById("email").value.trim().toLowerCase();
-  const telefone = normalizarTelefone(document.getElementById("telefone").value);
-  const senha = document.getElementById("senha").value;
-
-  if(!nome || !email || !telefone || !senha){
-    mostrarMensagem("erro","Preencha todos os campos.");
-    return;
-  }
-
-  if(!telefoneValido(telefone)){
-    mostrarMensagem("erro","Digite o telefone no formato internacional. Ex.: +5511999999999");
-    return;
-  }
-
-  const cadastros = carregarCadastros();
-
-  const existe = cadastros.find(item =>
-    item.email === email || item.telefone === telefone
-  );
-
-  if(existe){
-    localStorage.setItem("lapidar_cadastro_id", existe.id);
-    localStorage.setItem("lapidar_nome", existe.nomeCompleto);
-    localStorage.setItem("lapidar_email", existe.email);
-    localStorage.setItem("lapidar_telefone", existe.telefone);
-    localStorage.setItem("lapidar_senha", existe.senha);
-    localStorage.setItem("lapidar_status_fluxo", "cadastro_criado");
-
-    mostrarMensagem("ok","Cadastro já existente encontrado. Continuando o perfil...");
-    setTimeout(() => {
-      window.location.href = "criar_perfil.html";
-    }, 700);
-    return;
-  }
-
-  const novoCadastro = {
-    id: "cad_" + Date.now(),
-    nomeCompleto: nome,
-    email: email,
-    telefone: telefone,
-    senha: senha,
-    idioma: (navigator.language || "pt-BR"),
-    perfilTipo: "utilizador",
-    interessePrincipal: "",
-    perfilLiterario: "",
-    pergunta1: "",
-    resposta1: "",
-    pergunta2: "",
-    resposta2: ""
-  };
-
-  cadastros.push(novoCadastro);
-  salvarCadastros(cadastros);
-
-  localStorage.setItem("lapidar_cadastro_id", novoCadastro.id);
-  localStorage.setItem("lapidar_nome", nome);
-  localStorage.setItem("lapidar_email", email);
-  localStorage.setItem("lapidar_telefone", telefone);
-  localStorage.setItem("lapidar_senha", senha);
-  localStorage.setItem("lapidar_status_fluxo", "cadastro_criado");
-
-  mostrarMensagem("ok","Cadastro salvo com sucesso.");
-
-  setTimeout(() => {
-    window.location.href = "criar_perfil.html";
-  }, 700);
-}
-
-function sairSistema(){
-  window.location.href = "index.html";
-}
-
-aplicarCodigoAutomatico();
 </script>
 
 </body>
