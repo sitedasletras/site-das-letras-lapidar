@@ -1,778 +1,276 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lapidar — Site das Letras</title>
 
-  <style>
-    *{box-sizing:border-box;}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    body{
-      margin:0;
-      font-family:Arial, Helvetica, sans-serif;
-      background:linear-gradient(180deg, #0b1120 0%, #111827 100%);
-      color:#ffffff;
-      min-height:100vh;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      padding:24px;
-    }
+<title>Lapidar • Celeiro Literário</title>
 
-    .container{
-      width:100%;
-      max-width:1080px;
-      background:#0f172a;
-      border:1px solid rgba(255,255,255,0.08);
-      border-radius:24px;
-      padding:32px 24px;
-      box-shadow:0 20px 50px rgba(0,0,0,.45);
-      text-align:center;
-    }
+<style>
 
-    .logo{
-      width:150px;
-      max-width:50vw;
-      height:auto;
-      display:block;
-      margin:0 auto 18px auto;
-      border-radius:18px;
-      box-shadow:0 10px 28px rgba(0,0,0,.35);
-    }
+body{
+margin:0;
+font-family:Arial, Helvetica, sans-serif;
+background:#e8d6b4;
+}
 
-    h1{
-      margin:0 0 8px 0;
-      font-size:30px;
-      letter-spacing:1px;
-    }
+/* FUNDO CENTRAL INSTITUCIONAL */
 
-    h2{
-      margin:0 0 12px 0;
-      font-size:22px;
-    }
+.fundo-central{
 
-    h3{
-      margin:0 0 10px 0;
-      font-size:18px;
-    }
+position:absolute;
+top:0;
+bottom:0;
+left:50%;
+transform:translateX(-50%);
+width:220px;
+background:#d9c29a;
 
-    .subtitulo{
-      font-size:14px;
-      line-height:1.5;
-      opacity:.82;
-      margin-bottom:22px;
-    }
+}
 
-    .painel{
-      background:#111827;
-      border:1px solid rgba(255,255,255,0.08);
-      border-radius:18px;
-      padding:18px;
-      margin-top:18px;
-      text-align:left;
-    }
+/* FAIXA HORIZONTAL TEMPLÁRIA */
 
-    .hidden{display:none;}
+.faixa-horizontal{
 
-    .linha{
-      margin-bottom:10px;
-      font-size:15px;
-      line-height:1.45;
-    }
+position:absolute;
+top:40%;
+left:0;
+right:0;
+height:120px;
+background:#d9c29a;
 
-    .label{
-      opacity:.7;
-      display:block;
-      margin-bottom:4px;
-      font-size:13px;
-      text-transform:uppercase;
-      letter-spacing:.5px;
-    }
+}
 
-    .valor{
-      font-weight:bold;
-      word-break:break-word;
-    }
+/* BRASÃO */
 
-    .badge{
-      display:inline-block;
-      padding:8px 12px;
-      border-radius:999px;
-      font-size:12px;
-      font-weight:bold;
-      letter-spacing:.4px;
-      margin-top:2px;
-      background:#312e81;
-      color:#e0e7ff;
-    }
+.brasao{
 
-    .mensagem{
-      margin-top:16px;
-      font-size:14px;
-      line-height:1.5;
-      opacity:.92;
-      background:rgba(255,255,255,0.04);
-      border:1px solid rgba(255,255,255,0.08);
-      border-radius:14px;
-      padding:14px;
-    }
+width:180px;
+margin:auto;
+margin-top:60px;
+display:block;
 
-    .acoes{
-      margin-top:22px;
-      display:grid;
-      gap:12px;
-    }
+}
 
-    .botao{
-      width:100%;
-      border:none;
-      border-radius:14px;
-      padding:15px 16px;
-      cursor:pointer;
-      font-size:15px;
-      font-weight:bold;
-      transition:0.2s ease;
-      color:#fff;
-      background:#7c3aed;
-    }
+/* TITULO */
 
-    .botao:hover{
-      transform:translateY(-1px);
-      background:#6d28d9;
-    }
+.titulo{
 
-    .botao.secundario{
-      background:#334155;
-    }
+text-align:center;
+font-size:42px;
+letter-spacing:6px;
+color:white;
+margin-top:20px;
 
-    .botao.secundario:hover{
-      background:#475569;
-    }
+}
 
-    .botao.escuro{
-      background:#1f2937;
-    }
+/* SUBTITULO */
 
-    .botao.escuro:hover{
-      background:#374151;
-    }
+.subtitulo{
 
-    .botao.perigo{
-      background:#7f1d1d;
-    }
+text-align:center;
+font-size:18px;
+color:white;
 
-    .botao.perigo:hover{
-      background:#991b1b;
-    }
+}
 
-    .grade-servicos{
-      display:grid;
-      grid-template-columns:repeat(2, 1fr);
-      gap:12px;
-      margin-top:18px;
-    }
+/* LOGIN CARD */
 
-    .card-servico{
-      background:#0f172a;
-      border:1px solid rgba(255,255,255,0.07);
-      border-radius:16px;
-      padding:16px;
-      text-align:center;
-      font-weight:bold;
-      cursor:pointer;
-      transition:.2s ease;
-    }
+.card{
 
-    .card-servico:hover{
-      transform:translateY(-1px);
-      background:#162033;
-    }
+background:white;
+width:90%;
+max-width:420px;
+margin:auto;
+margin-top:30px;
+padding:30px;
+border-radius:30px;
+box-shadow:0px 10px 25px rgba(0,0,0,0.2);
 
-    .bloco-licencas{
-      margin-top:20px;
-      background:#0f172a;
-      border:1px solid rgba(255,255,255,0.07);
-      border-radius:18px;
-      padding:18px;
-    }
+}
 
-    .grid-licencas{
-      display:grid;
-      grid-template-columns:repeat(2, 1fr);
-      gap:12px;
-      margin-top:14px;
-    }
+input{
 
-    .licenca-card{
-      background:#111827;
-      border:1px solid rgba(255,255,255,0.08);
-      border-radius:16px;
-      padding:14px;
-    }
+width:100%;
+padding:15px;
+margin-top:10px;
+border-radius:12px;
+border:1px solid #d3c1a2;
+font-size:16px;
 
-    .licenca-topo{
-      display:flex;
-      justify-content:space-between;
-      align-items:flex-start;
-      gap:10px;
-      margin-bottom:10px;
-      flex-wrap:wrap;
-    }
+}
 
-    .licenca-nome{
-      font-size:15px;
-      font-weight:bold;
-    }
+button{
 
-    .licenca-status{
-      font-size:12px;
-      padding:6px 10px;
-      border-radius:999px;
-      font-weight:bold;
-      background:#1f2937;
-    }
+margin-top:20px;
+width:100%;
+padding:18px;
+border:none;
+border-radius:15px;
+background:#1b2c48;
+color:white;
+font-size:18px;
+cursor:pointer;
 
-    .licenca-status.ativa{
-      background:#14532d;
-    }
+}
 
-    .licenca-status.inativa{
-      background:#7f1d1d;
-    }
+button:hover{
 
-    .licenca-dados{
-      font-size:13px;
-      line-height:1.55;
-      opacity:.92;
-    }
+background:#2a446c;
 
-    .licenca-botoes{
-      display:grid;
-      gap:8px;
-      margin-top:12px;
-    }
+}
 
-    .mini-botao{
-      border:none;
-      border-radius:10px;
-      padding:10px 12px;
-      cursor:pointer;
-      font-size:13px;
-      font-weight:bold;
-      color:#fff;
-      background:#334155;
-    }
+.footer{
 
-    .mini-botao:hover{
-      background:#475569;
-    }
+text-align:center;
+margin-top:20px;
+font-size:14px;
+color:#6c5c45;
 
-    .mini-botao.perigo{
-      background:#7f1d1d;
-    }
+}
 
-    .mini-botao.perigo:hover{
-      background:#991b1b;
-    }
+</style>
 
-    .rodape-licenca{
-      margin-top:12px;
-      font-size:12px;
-      opacity:.7;
-      line-height:1.45;
-    }
-
-    .footer{
-      margin-top:22px;
-      font-size:12px;
-      opacity:.55;
-      line-height:1.5;
-      text-align:center;
-    }
-
-    @media (max-width:760px){
-      .grade-servicos,
-      .grid-licencas{
-        grid-template-columns:1fr;
-      }
-    }
-  </style>
 </head>
+
 <body>
-  <div class="container">
-    <img src="file_00000000760c720ebb734bb5e71340bb.png" alt="Site das Letras Edições Literárias" class="logo">
-
-    <h1>LAPIDAR</h1>
-
-    <div class="subtitulo">
-      Ambiente Editorial Institucional<br>
-      Site das Letras Edições Literárias
-    </div>
-
-    <div id="semLogin" class="painel hidden">
-      <div class="linha">
-        <span class="label">Status</span>
-        <span class="valor">Nenhuma sessão ativa</span>
-      </div>
-
-      <div class="mensagem">
-        Você ainda não entrou no sistema.
-      </div>
-
-      <div class="acoes">
-        <button class="botao" onclick="irParaLogin()">Entrar no sistema</button>
-      </div>
-    </div>
-
-    <div id="painelPadrao" class="painel hidden">
-      <div class="linha">
-        <span class="label">Usuário</span>
-        <span id="nomeUsuarioPadrao" class="valor">—</span>
-      </div>
-
-      <div class="linha">
-        <span class="label">Perfil</span>
-        <span id="perfilUsuarioPadrao" class="badge">—</span>
-      </div>
-
-      <div class="linha">
-        <span class="label">Acesso</span>
-        <span id="descricaoPerfilPadrao" class="valor">—</span>
-      </div>
-
-      <div id="mensagemPerfilPadrao" class="mensagem">—</div>
-
-      <div class="acoes">
-        <button id="botaoPrincipalPadrao" class="botao">Acessar painel</button>
-        <button class="botao secundario" onclick="trocarUsuario()">Trocar usuário</button>
-        <button class="botao escuro" onclick="sairSistema()">Sair geral</button>
-      </div>
-    </div>
-
-    <div id="painelOperacionalPrimos" class="painel hidden">
-      <div class="linha">
-        <span class="label">Usuário</span>
-        <span id="nomeOperacional" class="valor">—</span>
-      </div>
-
-      <div class="linha">
-        <span class="label">Perfil</span>
-        <span id="perfilOperacional" class="badge">—</span>
-      </div>
-
-      <div class="mensagem">
-        Acesso operacional liberado. Este ambiente exibe somente os setores técnicos autorizados.
-      </div>
-
-      <div class="grade-servicos">
-        <div class="card-servico" onclick="abrirPagina('hub_diagramador.html')">1 — Diagramador</div>
-        <div class="card-servico" onclick="abrirPagina('hub_capista.html')">3 — Capista</div>
-        <div class="card-servico" onclick="abrirPagina('hub_tradutor.html')">5 — Tradutor</div>
-        <div class="card-servico" onclick="abrirPagina('hub_relatorios.html')">7 — Parecer / Laudo</div>
-        <div class="card-servico" onclick="abrirPagina('leitura_tecnica_editorial.html')">11 — Analisador de obra</div>
-        <div class="card-servico" onclick="abrirPagina('ficha_editorial_integrada.html')">13 — Ferramentas técnicas editoriais</div>
-      </div>
-
-      <div class="acoes">
-        <button class="botao secundario" onclick="trocarUsuario()">Trocar usuário</button>
-        <button class="botao escuro" onclick="sairSistema()">Sair geral</button>
-      </div>
-    </div>
-
-    <div id="painelHeteronimo" class="painel hidden">
-      <div class="linha">
-        <span class="label">Usuário</span>
-        <span id="nomeHeteronimo" class="valor">—</span>
-      </div>
-
-      <div class="linha">
-        <span class="label">Perfil</span>
-        <span class="badge">Heterônimo</span>
-      </div>
-
-      <div class="mensagem">
-        Acesso ampliado liberado. O heterônimo pode circular pelos setores primos, áreas autorais e acionar licenças em modo campo, sem acessar financeiro, auditoria, controles internos de admin e área administrativa.
-      </div>
-
-      <div class="grade-servicos">
-        <div class="card-servico" onclick="abrirPagina('painel_setores.html')">Painel de Setores</div>
-        <div class="card-servico" onclick="abrirPagina('painel_departamentos.html')">Painel de Departamentos</div>
-        <div class="card-servico" onclick="abrirPagina('hub_diagramador.html')">1 — Diagramador</div>
-        <div class="card-servico" onclick="abrirPagina('hub_capista.html')">3 — Capista</div>
-        <div class="card-servico" onclick="abrirPagina('hub_tradutor.html')">5 — Tradutor</div>
-        <div class="card-servico" onclick="abrirPagina('hub_relatorios.html')">7 — Parecer / Laudo</div>
-        <div class="card-servico" onclick="abrirPagina('leitura_tecnica_editorial.html')">11 — Analisador de obra</div>
-        <div class="card-servico" onclick="abrirPagina('ficha_editorial_integrada.html')">13 — Ferramentas técnicas editoriais</div>
-        <div class="card-servico" onclick="abrirPagina('criar_perfil.html')">Criar perfil autoral</div>
-        <div class="card-servico" onclick="abrirPagina('projetos.html')">Projetos autorais</div>
-        <div class="card-servico" onclick="abrirPagina('historico_projetos.html')">Histórico de projetos</div>
-        <div class="card-servico" onclick="abrirPagina('idioma_obra.html')">Idioma da obra</div>
-      </div>
-
-      <div class="bloco-licencas">
-        <h3>Licenças — modo Zorro</h3>
-        <div class="mensagem" style="margin-top:0;">
-          Aqui o heterônimo pode <strong>acionar uso</strong> de licenças já configuradas, sem bloquear, sem revogar e sem mexer no bastidor sensível.
-        </div>
-        <div id="gridLicencasHeteronimo" class="grid-licencas"></div>
-      </div>
-
-      <div class="acoes">
-        <button class="botao secundario" onclick="trocarUsuario()">Trocar usuário</button>
-        <button class="botao escuro" onclick="sairSistema()">Sair geral</button>
-      </div>
-    </div>
-
-    <div id="painelAdmin" class="painel hidden">
-      <div class="linha">
-        <span class="label">Usuário</span>
-        <span id="nomeAdmin" class="valor">—</span>
-      </div>
-
-      <div class="linha">
-        <span class="label">Perfil</span>
-        <span class="badge">Admin</span>
-      </div>
-
-      <div class="mensagem">
-        Acesso total liberado. O admin pode circular por toda a plataforma e gerenciar licenças integralmente.
-      </div>
-
-      <div class="grade-servicos">
-        <div class="card-servico" onclick="abrirPagina('painel_setores.html')">Painel de Setores</div>
-        <div class="card-servico" onclick="abrirPagina('painel_departamentos.html')">Painel de Departamentos</div>
-        <div class="card-servico" onclick="abrirPagina('hub_diagramador.html')">1 — Diagramador</div>
-        <div class="card-servico" onclick="abrirPagina('hub_capista.html')">3 — Capista</div>
-        <div class="card-servico" onclick="abrirPagina('hub_tradutor.html')">5 — Tradutor</div>
-        <div class="card-servico" onclick="abrirPagina('hub_relatorios.html')">7 — Parecer / Laudo</div>
-        <div class="card-servico" onclick="abrirPagina('leitura_tecnica_editorial.html')">11 — Analisador de obra</div>
-        <div class="card-servico" onclick="abrirPagina('ficha_editorial_integrada.html')">13 — Ferramentas técnicas editoriais</div>
-        <div class="card-servico" onclick="abrirPagina('pagamento.html')">Pagamento</div>
-        <div class="card-servico" onclick="abrirPagina('planos_doacoes.html')">Planos / Doações</div>
-        <div class="card-servico" onclick="abrirPagina('idioma_obra.html')">Idioma da obra</div>
-        <div class="card-servico" onclick="abrirPagina('login.html')">Permissões / Login</div>
-      </div>
-
-      <div class="bloco-licencas">
-        <h3>Gestão completa de licenças</h3>
-        <div class="mensagem" style="margin-top:0;">
-          Aqui o admin pode ativar, desativar, bloquear e acompanhar o uso das licenças.
-        </div>
-        <div id="gridLicencasAdmin" class="grid-licencas"></div>
-      </div>
-
-      <div class="acoes">
-        <button class="botao secundario" onclick="trocarUsuario()">Trocar usuário</button>
-        <button class="botao escuro" onclick="sairSistema()">Sair geral</button>
-      </div>
-    </div>
-
-    <div class="footer" id="rodapeTexto">
-      Plataforma editorial proprietária
-    </div>
-  </div>
-
-  <script>
-    function pegarSessao() {
-      const sessao = localStorage.getItem("lapidarSessao");
-      return sessao ? JSON.parse(sessao) : null;
-    }
-
-    function irParaLogin() {
-      window.location.href = "login.html";
-    }
-
-    function trocarUsuario() {
-      window.location.href = "login.html";
-    }
-
-    function sairSistema() {
-      localStorage.removeItem("lapidarSessao");
-      alert("Sessão encerrada.");
-      window.location.href = "login.html";
-    }
-
-    function abrirPagina(pagina) {
-      window.location.href = pagina;
-    }
-
-    function capitalizarPerfil(perfil) {
-      const mapa = {
-        admin: "Admin",
-        heteronimo: "Heterônimo",
-        autor: "Autor",
-        usuario: "Usuário",
-        visitante: "Visitante",
-        cortesia_quimera: "Cortesia da Quimera",
-        cortesia_valletibooks: "Cortesia da ValletiBooks",
-        cortesia_acl: "Cortesia ACL",
-        cortesia_andre_instituicao: "Cortesia André Instituição",
-        cortesia_estilo_poesia: "Cortesia Estilo e Poesia",
-        licenca_solidaria: "Licença Solidária"
-      };
-      return mapa[perfil] || perfil;
-    }
-
-    function dadosDoPerfil(perfil) {
-      const perfis = {
-        autor: {
-          descricao: "Acesso de autor com envio e acompanhamento de obra.",
-          mensagem: "Perfil voltado ao fluxo editorial do autor.",
-          acao: "Abrir painel de setores"
-        },
-        usuario: {
-          descricao: "Acesso funcional padrão.",
-          mensagem: "Perfil de uso comum da plataforma.",
-          acao: "Abrir painel de setores"
-        },
-        visitante: {
-          descricao: "Acesso mínimo de visualização.",
-          mensagem: "Perfil inicial para conhecimento da plataforma.",
-          acao: "Conhecer a plataforma"
-        }
-      };
-
-      return perfis[perfil] || {
-        descricao: "Acesso não identificado.",
-        mensagem: "Perfil não reconhecido.",
-        acao: "Entrar"
-      };
-    }
-
-    function listarLicencas() {
-      const lista = [];
-
-      lista.push({
-        id: "cortesia_quimera",
-        titulo: "Cortesia da Quimera",
-        tipo: "permanente",
-        ativa: localStorage.getItem("cfg_quimera_ativa") === "true",
-        beneficiado: "Uso institucional permanente",
-        duracao: "Permanente"
-      });
-
-      lista.push({
-        id: "cortesia_valleti",
-        titulo: "Cortesia da ValletiBooks",
-        tipo: "permanente",
-        ativa: localStorage.getItem("cfg_valleti_ativa") === "true",
-        beneficiado: "Uso institucional permanente",
-        duracao: "Permanente"
-      });
-
-      lista.push({
-        id: "cortesia_acl",
-        titulo: "Cortesia ACL",
-        tipo: "semestral",
-        ativa: localStorage.getItem("cfg_acl_ativa") === "true",
-        beneficiado: "Divulgação",
-        duracao: "Semestral"
-      });
-
-      lista.push({
-        id: "cortesia_andre",
-        titulo: "Cortesia André Instituição",
-        tipo: "semestral",
-        ativa: localStorage.getItem("cfg_andre_ativa") === "true",
-        beneficiado: "Divulgação",
-        duracao: "Semestral"
-      });
-
-      lista.push({
-        id: "cortesia_estilo",
-        titulo: "Cortesia Estilo e Poesia",
-        tipo: "semestral",
-        ativa: localStorage.getItem("cfg_estilo_ativa") === "true",
-        beneficiado: "Divulgação",
-        duracao: "Semestral"
-      });
-
-      for (let i = 1; i <= 10; i++) {
-        const slot = String(i).padStart(4, "0");
-        lista.push({
-          id: "solidaria_" + slot,
-          titulo: "Licença Solidária " + slot,
-          tipo: "solidaria",
-          ativa: localStorage.getItem(`solidaria_${slot}_ativa`) === "true",
-          beneficiado: localStorage.getItem(`solidaria_${slot}_beneficiado`) || "Não definido",
-          duracao: formatarDuracao(localStorage.getItem(`solidaria_${slot}_duracao`) || "180")
-        });
-      }
-
-      return lista;
-    }
-
-    function formatarDuracao(valor) {
-      const mapa = {
-        "30": "30 dias",
-        "90": "90 dias",
-        "180": "180 dias",
-        "365": "12 meses",
-        "99999": "Ilimitado"
-      };
-      return mapa[valor] || valor + " dias";
-    }
-
-    function acionarLicenca(id) {
-      alert("Uso acionado para: " + id);
-    }
-
-    function ativarLicencaAdmin(id) {
-      if (id === "cortesia_quimera") localStorage.setItem("cfg_quimera_ativa", "true");
-      if (id === "cortesia_valleti") localStorage.setItem("cfg_valleti_ativa", "true");
-      if (id === "cortesia_acl") localStorage.setItem("cfg_acl_ativa", "true");
-      if (id === "cortesia_andre") localStorage.setItem("cfg_andre_ativa", "true");
-      if (id === "cortesia_estilo") localStorage.setItem("cfg_estilo_ativa", "true");
-
-      if (id.startsWith("solidaria_")) {
-        const slot = id.replace("solidaria_", "");
-        localStorage.setItem(`solidaria_${slot}_ativa`, "true");
-      }
-
-      alert("Licença ativada.");
-      renderizar();
-    }
-
-    function bloquearLicencaAdmin(id) {
-      if (id === "cortesia_quimera") localStorage.setItem("cfg_quimera_ativa", "false");
-      if (id === "cortesia_valleti") localStorage.setItem("cfg_valleti_ativa", "false");
-      if (id === "cortesia_acl") localStorage.setItem("cfg_acl_ativa", "false");
-      if (id === "cortesia_andre") localStorage.setItem("cfg_andre_ativa", "false");
-      if (id === "cortesia_estilo") localStorage.setItem("cfg_estilo_ativa", "false");
-
-      if (id.startsWith("solidaria_")) {
-        const slot = id.replace("solidaria_", "");
-        localStorage.setItem(`solidaria_${slot}_ativa`, "false");
-      }
-
-      alert("Licença bloqueada.");
-      renderizar();
-    }
-
-    function montarCardLicenca(item, modo) {
-      const statusClasse = item.ativa ? "ativa" : "inativa";
-      const statusTexto = item.ativa ? "Ativa" : "Inativa";
-
-      let botoes = "";
-
-      if (modo === "admin") {
-        botoes = `
-          <button class="mini-botao" onclick="acionarLicenca('${item.id}')">Acionar uso</button>
-          <button class="mini-botao" onclick="ativarLicencaAdmin('${item.id}')">Ativar</button>
-          <button class="mini-botao perigo" onclick="bloquearLicencaAdmin('${item.id}')">Bloquear</button>
-        `;
-      }
-
-      if (modo === "heteronimo") {
-        botoes = `
-          <button class="mini-botao" onclick="acionarLicenca('${item.id}')">Acionar uso</button>
-        `;
-      }
-
-      return `
-        <div class="licenca-card">
-          <div class="licenca-topo">
-            <div class="licenca-nome">${item.titulo}</div>
-            <div class="licenca-status ${statusClasse}">${statusTexto}</div>
-          </div>
-
-          <div class="licenca-dados">
-            <div><strong>Tipo:</strong> ${item.tipo}</div>
-            <div><strong>Beneficiado:</strong> ${item.beneficiado}</div>
-            <div><strong>Duração:</strong> ${item.duracao}</div>
-          </div>
-
-          <div class="licenca-botoes">
-            ${botoes}
-          </div>
-
-          <div class="rodape-licenca">
-            ${modo === "heteronimo"
-              ? "Modo Zorro: pode acionar, mas não bloquear."
-              : "Modo Admin: gestão completa da licença."}
-          </div>
-        </div>
-      `;
-    }
-
-    function renderizarLicencasAdmin() {
-      const alvo = document.getElementById("gridLicencasAdmin");
-      if (!alvo) return;
-      alvo.innerHTML = listarLicencas().map(item => montarCardLicenca(item, "admin")).join("");
-    }
-
-    function renderizarLicencasHeteronimo() {
-      const alvo = document.getElementById("gridLicencasHeteronimo");
-      if (!alvo) return;
-      alvo.innerHTML = listarLicencas().map(item => montarCardLicenca(item, "heteronimo")).join("");
-    }
-
-    function renderizar() {
-      const sessao = pegarSessao();
-
-      const semLogin = document.getElementById("semLogin");
-      const painelPadrao = document.getElementById("painelPadrao");
-      const painelOperacionalPrimos = document.getElementById("painelOperacionalPrimos");
-      const painelHeteronimo = document.getElementById("painelHeteronimo");
-      const painelAdmin = document.getElementById("painelAdmin");
-      const rodapeTexto = document.getElementById("rodapeTexto");
-
-      semLogin.classList.add("hidden");
-      painelPadrao.classList.add("hidden");
-      painelOperacionalPrimos.classList.add("hidden");
-      painelHeteronimo.classList.add("hidden");
-      painelAdmin.classList.add("hidden");
-
-      if (!sessao) {
-        semLogin.classList.remove("hidden");
-        rodapeTexto.textContent = "Plataforma editorial proprietária";
-        return;
-      }
-
-      if (sessao.perfil === "admin" || sessao.tipoAcesso === "institucional_total") {
-        painelAdmin.classList.remove("hidden");
-        document.getElementById("nomeAdmin").textContent = sessao.nome || "Admin";
-        renderizarLicencasAdmin();
-        rodapeTexto.textContent = "Acesso administrativo total";
-        return;
-      }
-
-      if (sessao.perfil === "heteronimo" || sessao.tipoAcesso === "heteronimo_privado") {
-        painelHeteronimo.classList.remove("hidden");
-        document.getElementById("nomeHeteronimo").textContent = sessao.nome || "Heterônimo";
-        renderizarLicencasHeteronimo();
-        rodapeTexto.textContent = "Modo Zorro editorial";
-        return;
-      }
-
-      if (sessao.tipoAcesso === "operacional_primos" || sessao.tipoAcesso === "solidario_operacional") {
-        painelOperacionalPrimos.classList.remove("hidden");
-        document.getElementById("nomeOperacional").textContent = sessao.nome || "Usuário";
-        document.getElementById("perfilOperacional").textContent = capitalizarPerfil(sessao.perfil);
-        rodapeTexto.textContent = "Acesso operacional liberado";
-        return;
-      }
-
-      painelPadrao.classList.remove("hidden");
-
-      const dadosPerfil = dadosDoPerfil(sessao.perfil);
-
-      document.getElementById("nomeUsuarioPadrao").textContent = sessao.nome || "Usuário";
-      document.getElementById("perfilUsuarioPadrao").textContent = capitalizarPerfil(sessao.perfil);
-      document.getElementById("descricaoPerfilPadrao").textContent = dadosPerfil.descricao;
-      document.getElementById("mensagemPerfilPadrao").textContent = dadosPerfil.mensagem;
-
-      const botaoPrincipal = document.getElementById("botaoPrincipalPadrao");
-      botaoPrincipal.textContent = dadosPerfil.acao;
-      botaoPrincipal.onclick = function() {
-        abrirPagina("painel_setores.html");
-      };
-
-      rodapeTexto.textContent = "Plataforma editorial proprietária";
-    }
-
-    renderizar();
-  </script>
+
+<div class="fundo-central"></div>
+<div class="faixa-horizontal"></div>
+
+<img src="brasao.png" class="brasao">
+
+<div class="titulo">
+
+LAPIDAR
+
+</div>
+
+<div class="subtitulo">
+
+PRODUTO INSTITUCIONAL DO CELEIRO LITERÁRIO  
+Site das Letras Edições Literárias
+
+</div>
+
+<div class="card">
+
+<h2>Acesso ao sistema</h2>
+
+<input
+id="login"
+placeholder="Login ou e-mail"
+/>
+
+<input
+id="senha"
+type="password"
+placeholder="Senha"
+/>
+
+<button onclick="entrar()">
+
+Entrar no Lapidar
+
+</button>
+
+<div class="footer">
+
+O perfil é reconhecido automaticamente pelo seu acesso.
+
+</div>
+
+</div>
+
+
+<script>
+
+/* PERFIS OFICIAIS LAPIDAR */
+
+const usuarios = {
+
+"admin@sitedasletras.com":{
+
+senha:"admin123",
+perfil:"admin"
+
+},
+
+"heteronimos@sitedasletrasedicoesliterarias.com":{
+
+senha:"heteronimo123",
+perfil:"heteronimo"
+
+},
+
+"andre.capista":{
+
+senha:"andre123",
+perfil:"cortesia",
+nivel:"top-global",
+nome:"Cortesia André Capista"
+
+}
+
+}
+
+
+/* LOGIN */
+
+function entrar(){
+
+let login=document
+.getElementById("login")
+.value
+.trim()
+.toLowerCase()
+
+let senha=document
+.getElementById("senha")
+.value
+
+if(!usuarios[login]){
+
+alert("Login ou e-mail não encontrado.")
+
+return
+
+}
+
+if(usuarios[login].senha!==senha){
+
+alert("Senha incorreta.")
+
+return
+
+}
+
+/* SALVA PERFIL */
+
+localStorage.setItem(
+
+"lapidar_perfil",
+
+usuarios[login].perfil
+
+)
+
+localStorage.setItem(
+
+"lapidar_usuario",
+
+login
+
+)
+
+/* REDIRECIONA */
+
+window.location.href="sala_reunioes.html"
+
+}
+
+</script>
+
 </body>
 </html>
