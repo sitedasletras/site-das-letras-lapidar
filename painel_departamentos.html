@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Painel de Departamentos</title>
+<title>Painel de Departamentos • Lapidar</title>
 
 <style>
 
 body{
 margin:0;
-font-family:Arial;
+font-family:Arial, sans-serif;
 background:#0e0604;
 color:white;
 }
@@ -23,9 +23,9 @@ align-items:center;
 }
 
 .container{
-max-width:1000px;
+max-width:1100px;
 margin:auto;
-padding:24px 16px 40px;
+padding:24px;
 }
 
 .card{
@@ -33,33 +33,57 @@ background:#1c0e08;
 border-radius:14px;
 padding:20px;
 margin-bottom:18px;
-box-shadow:0 6px 18px rgba(0,0,0,.25);
 }
 
-.departamento{
-background:#2a140c;
-padding:16px;
-border-radius:10px;
-margin-top:10px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-flex-wrap:wrap;
-gap:10px;
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:16px;
 }
 
 button{
-padding:12px 16px;
+
+width:100%;
+padding:16px;
 border:none;
-border-radius:8px;
-cursor:pointer;
-font-weight:bold;
+border-radius:10px;
 background:#2f436d;
 color:white;
+font-size:16px;
+cursor:pointer;
+
 }
 
-.upload{
+button:hover{
+
+background:#415f99;
+
+}
+
+.topo{
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+
+}
+
+.badge{
+
 background:#8a6f3f;
+padding:6px 12px;
+border-radius:20px;
+font-size:12px;
+
+}
+
+.status{
+
+margin-top:12px;
+background:#2a140c;
+padding:12px;
+border-radius:10px;
+
 }
 
 </style>
@@ -67,18 +91,41 @@ background:#8a6f3f;
 <body>
 
 <header>
+
 <h2>Painel de Departamentos</h2>
-<button onclick="voltar()">Voltar</button>
+
+<div class="badge" id="perfilBadge"></div>
+
 </header>
 
 <div class="container">
 
 <div class="card">
 
-<h3>Projeto ativo</h3>
+<h3>Fluxo do projeto</h3>
 
-<div id="nomeProjeto">
-Nenhum projeto ativo selecionado.
+<div class="grid">
+
+<button onclick="abrirUpload()">
+Upload da obra
+</button>
+
+<button onclick="abrirAnalisador()">
+Analisador de obra
+</button>
+
+<button onclick="abrirProjetos()">
+Projetos e obras
+</button>
+
+</div>
+
+<div class="status">
+
+Fluxo correto recomendado:<br><br>
+
+Upload → Análise → Departamentos → Expedição
+
 </div>
 
 </div>
@@ -86,96 +133,149 @@ Nenhum projeto ativo selecionado.
 
 <div class="card">
 
-<h3>Departamentos disponíveis</h3>
+<h3>Setores Lapidar</h3>
 
+<div class="grid">
 
-<div class="departamento">
-📄 Upload da obra
-<button class="upload" onclick="abrirUploadObra()">Abrir</button>
-</div>
+<button onclick="abrirDiagramador()">
+Diagramador
+</button>
 
+<button onclick="abrirCapista()">
+Capista
+</button>
 
-<div class="departamento">
-🖼 Upload imagens da capa
-<button class="upload" onclick="abrirUploadCapa()">Abrir</button>
-</div>
+<button onclick="abrirSegundaLingua()">
+Segunda Língua(s)
+</button>
 
+<button onclick="abrirAvaliacao()">
+Avaliação Literária
+</button>
 
-<div class="departamento">
-📐 Diagramador
-<button onclick="abrirDiagramador()">Abrir</button>
-</div>
+<button onclick="abrirLapidacao()">
+Lapidação Literária
+</button>
 
-
-<div class="departamento">
-🧠 Avaliação literária
-<button onclick="abrirParecer()">Abrir</button>
-</div>
-
-
-<div class="departamento">
-🌎 Segunda língua(s)
-<button onclick="abrirTraducao()">Abrir</button>
-</div>
-
-
-<div class="departamento">
-✨ Lapidação literária
-<button onclick="abrirLapidacao()">Abrir</button>
-</div>
-
+<button onclick="abrirExpedicao()">
+Expedição
+</button>
 
 </div>
 
 </div>
+
+
+<div class="card">
+
+<h3>Painéis auxiliares</h3>
+
+<div class="grid">
+
+<button onclick="abrirSetores()">
+Painel setores
+</button>
+
+<button onclick="abrirMesario()">
+Mesário-mor
+</button>
+
+<button onclick="abrirRelatorios()">
+Relatórios
+</button>
+
+</div>
+
+</div>
+
+</div>
+
 
 <script>
 
-const perfil = localStorage.getItem("lapidar_perfil");
+const perfil = localStorage.getItem("lapidar_perfil")
 
 if(!perfil){
-window.location.href="index.html";
+
+window.location.href="index.html"
+
 }
 
-const projeto = localStorage.getItem("lapidar_projeto_ativo");
+document.getElementById("perfilBadge").innerText="Perfil: "+perfil
 
-if(projeto){
-document.getElementById("nomeProjeto").innerText = projeto;
+
+function abrirUpload(){
+
+window.location.href="upload_obra.html"
+
 }
 
+function abrirAnalisador(){
 
-function voltar(){
-window.location.href="painel_setores.html";
+window.location.href="analisador_obra.html"
+
 }
 
+function abrirProjetos(){
 
-function abrirUploadObra(){
-window.location.href="upload_obra.html";
-}
+window.location.href="projetos.html"
 
-
-function abrirUploadCapa(){
-window.location.href="upload_imagens_capa.html";
 }
 
 
 function abrirDiagramador(){
-window.location.href="diagramador_inicio.html";
+
+window.location.href="diagramador_editor.html"
+
 }
 
+function abrirCapista(){
 
-function abrirParecer(){
-window.location.href="avaliacao_literaria.html";
+window.location.href="capista.html"
+
 }
 
+function abrirSegundaLingua(){
 
-function abrirTraducao(){
-window.location.href="segunda_lingua.html";
+window.location.href="segunda_lingua.html"
+
 }
 
+function abrirAvaliacao(){
+
+window.location.href="avaliacao_literaria.html"
+
+}
 
 function abrirLapidacao(){
-window.location.href="lapidacao_literaria.html";
+
+window.location.href="lapidacao_literaria.html"
+
+}
+
+function abrirExpedicao(){
+
+window.location.href="expedicao_material.html"
+
+}
+
+
+function abrirSetores(){
+
+window.location.href="painel_setores.html"
+
+}
+
+function abrirMesario(){
+
+window.location.href="mesario_mor.html"
+
+}
+
+function abrirRelatorios(){
+
+window.location.href="relatorios.html"
+
 }
 
 </script>
