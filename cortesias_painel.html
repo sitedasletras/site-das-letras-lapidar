@@ -134,3 +134,301 @@ color:#8b5a17;
 <div id="painelCortesias" class="grid"></div>
 
 </div>
+<div class="card">
+<h2>Motor das cortesias</h2>
+<p>Agora cada perfil pode ser Top Global ou Personalizado por setor.</p>
+</div>
+
+<script>
+const STORAGE_KEY = "lapidar_courtesy_profiles";
+const ALL_SECTORS = ["1","3","5","7","11","13"];
+
+function baseProfiles(){
+  return [
+    { id:"courtesy001", code:"0001", name:"Cortesia André Capista", active:true, durationType:"permanent", accessLevel:"TOP_GLOBAL", sectors:[...ALL_SECTORS] },
+    { id:"courtesy002", code:"0002", name:"Cortesia 0002", active:false, durationType:"30", accessLevel:"TOP_GLOBAL", sectors:[...ALL_SECTORS] },
+    { id:"courtesy003", code:"0003", name:"Cortesia 0003", active:false, durationType:"30", accessLevel:"TOP_GLOBAL", sectors:[...ALL_SECTORS] },
+    { id:"courtesy004", code:"0004", name:"Cortesia 0004", active:false, durationType:"30", accessLevel:"TOP_GLOBAL", sectors:[...ALL_SECTORS] },
+    { id:"courtesy005", code:"0005", name:"Cortesia 0005", active:false, durationType:"30", accessLevel:"TOP_GLOBAL", sectors:[...ALL_SECTORS] },
+    { id:"courtesy006", code:"0006", name:"Cortesia 0006", active:false, durationType:"30", accessLevel:"TOP_GLOBAL", sectors:[...ALL_SECTORS] },
+    { id:"courtesy007", code:"0007", name:"Cortesia 0007", active:false, durationType:"30", accessLevel:"TOP_GLOBAL", sectors:[...ALL_SECTORS] },
+    { id:"courtesy008", code:"0008", name:"Cortesia 0008", active:false, durationType:"30", accessLevel:"TOP_GLOBAL", sectors:[...ALL_SECTORS] },
+    { id:"courtesy009", code:"0009", name:"Cortesia 0009", active:false, durationType:"30", accessLevel:"TOP_GLOBAL", sectors:[...ALL_SECTORS] },
+    { id:"courtesy010", code:"0010", name:"Cortesia 0010", active:false, durationType:"30", accessLevel:"TOP_GLOBAL", sectors:[...ALL_SECTORS] },
+
+    { id:"inst_quimera", code:"INST-01", name:"Quimera Antologias", active:true, durationType:"permanent", accessLevel:"TOP_GLOBAL", sectors:[...ALL_SECTORS] },
+    { id:"inst_valleti", code:"INST-02", name:"Valleti Books", active:true, durationType:"permanent", accessLevel:"TOP_GLOBAL", sectors:[...ALL_SECTORS] },
+    { id:"inst_acl", code:"INST-03", name:"ACL", active:true, durationType:"permanent", accessLevel:"TOP_GLOBAL", sectors:[...ALL_SECTORS] },
+    { id:"inst_andre_social", code:"INST-04", name:"André Projeto Social", active:true, durationType:"permanent", accessLevel:"TOP_GLOBAL", sectors:[...ALL_SECTORS] },
+    { id:"inst_estilo_poesia", code:"INST-05", name:"Estilo e Poesia", active:true, durationType:"permanent", accessLevel:"TOP_GLOBAL", sectors:[...ALL_SECTORS] }
+  ];
+}
+
+function loadProfiles(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    const defaults = baseProfiles();
+
+    if(!raw){
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(defaults));
+      return defaults;
+    }
+
+    const parsed = JSON.parse(raw);
+    if(!Array.isArray(parsed) || parsed.length === 0){
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(defaults));
+      return defaults;
+    }
+
+    const existingIds = parsed.map(item => item.id);
+    defaults.forEach(item => {
+      if(!existingIds.includes(item.id)){
+        parsed.push(item);
+      }
+    });
+
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(parsed));
+    return parsed;
+  }catch(e){
+    const defaults = baseProfiles();
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(defaults));
+    return defaults;
+  }
+}
+
+function saveProfiles(profiles){
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(profiles));
+}
+
+function sectorName(code){
+  const names = {
+    "1":"Setor 1 • Assistente de Diagramação",
+    "3":"Setor 3 • OKapista",
+    "5":"Setor 5 • Segunda Língua(s)",
+    "7":"Setor 7 • Avaliação Literária",
+    "11":"Setor 11 • Analisador de Obra",
+    "13":"Setor 13 • Lapidação Literária"
+  };
+  return names[code] || ("Setor " + code);
+}
+
+function updateSummary(){
+  const profiles = loadProfiles();
+  document.getElementById("total").innerText = profiles.length;
+  document.getElementById("ativos").innerText = profiles.filter(p => p.active).length;
+  document.getElementById("personalizados").innerText = profiles.filter(p => p.accessLevel === "PERSONALIZADO").length;
+}
+
+function renderGrid(){
+  const grid = document.getElementById("painelCortesias");
+  const profiles = loadProfiles();
+  grid.innerHTML = "";
+
+  profiles.forEach(profile => {
+    const isTop = profile.accessLevel === "TOP_GLOBAL";
+    const card = document.createElement("div");
+    card.className = "card";
+
+    card.innerHTML = `
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap;">
+        <div>
+          <h3 style="margin:0 0 8px 0;">${profile.code} • ${profile.name}</h3>
+          <p style="margin:0;color:#6d5a43;">Controle individual de status, prazo e setores.</p>
+        </div>
+        <span class="tag ${profile.active ? "active" : "inactive"}">${profile.active ? "Ativa" : "Inativa"}</span>
+      </div>
+
+      <div style="margin-top:14px;">
+        <label>Nome do perfil</label>
+        <input type="text" data-role="name" value="${escapeHtml(profile.name)}">
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;">
+        <div>
+          <label>Status</label>
+          <select data-role="active">
+            <option value="true" ${profile.active ? "selected" : ""}>Ativa</option>
+            <option value="false" ${!profile.active ? "selected" : ""}>Inativa</option>
+          </select>
+        </div>
+
+        <div>
+          <label>Prazo</label>
+          <select data-role="duration">
+            <option value="30" ${profile.durationType === "30" ? "selected" : ""}>30 dias</option>
+            <option value="90" ${profile.durationType === "90" ? "selected" : ""}>90 dias</option>
+            <option value="180" ${profile.durationType === "180" ? "selected" : ""}>180 dias</option>
+            <option value="365" ${profile.durationType === "365" ? "selected" : ""}>365 dias</option>
+            <option value="permanent" ${profile.durationType === "permanent" ? "selected" : ""}>Uso livre</option>
+          </select>
+        </div>
+      </div>
+
+      <div style="margin-top:14px;">
+        <label style="font-weight:bold;">Modo de acesso</label>
+
+        <div class="choice" style="margin-top:8px;">
+          <input type="radio" name="access-${profile.id}" value="TOP_GLOBAL" ${isTop ? "checked" : ""}>
+          <div class="choice-text">
+            <span>Top Global</span>
+            <small>Libera todos os setores automaticamente.</small>
+          </div>
+        </div>
+
+        <div class="choice" style="margin-top:8px;">
+          <input type="radio" name="access-${profile.id}" value="PERSONALIZADO" ${!isTop ? "checked" : ""}>
+          <div class="choice-text">
+            <span>Personalizado</span>
+            <small>Libera apenas os setores marcados.</small>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:14px;">
+        <label style="font-weight:bold;">Setores liberados</label>
+        <p style="margin:6px 0 10px 0;color:#6d5a43;font-size:12px;">Top Global deixa os setores visíveis, mas travados.</p>
+
+        <div class="checkbox-group">
+          ${ALL_SECTORS.map(sector => `
+            <label class="choice">
+              <input type="checkbox"
+                     data-role="sector"
+                     value="${sector}"
+                     ${profile.sectors.includes(sector) ? "checked" : ""}
+                     ${isTop ? "disabled" : ""}>
+              <div class="choice-text">
+                <span>${sectorName(sector)}</span>
+                <small>${isTop ? "Travado pelo modo Top Global." : "Marque para liberar."}</small>
+              </div>
+            </label>
+          `).join("")}
+        </div>
+      </div>
+
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;">
+        <button class="save" data-action="save">Salvar</button>
+        <button data-action="restore">Restaurar padrão</button>
+      </div>
+    `;
+
+    const radios = card.querySelectorAll(`input[name="access-${profile.id}"]`);
+    const checks = card.querySelectorAll('input[data-role="sector"]');
+
+    radios.forEach(radio => {
+      radio.addEventListener("change", () => {
+        const topNow = card.querySelector(`input[name="access-${profile.id}"]:checked`).value === "TOP_GLOBAL";
+        checks.forEach(check => {
+          const small = check.closest(".choice").querySelector(".choice-text small");
+          if(topNow){
+            check.checked = true;
+            check.disabled = true;
+            if(small) small.innerText = "Travado pelo modo Top Global.";
+          }else{
+            check.disabled = false;
+            if(small) small.innerText = "Marque para liberar.";
+          }
+        });
+      });
+    });
+
+    card.querySelector('[data-action="save"]').addEventListener("click", () => {
+      saveOne(profile.id, card);
+    });
+
+    card.querySelector('[data-action="restore"]').addEventListener("click", () => {
+      restoreOne(profile.id);
+    });
+
+    grid.appendChild(card);
+  });
+}
+
+function saveOne(id, card){
+  const profiles = loadProfiles();
+  const index = profiles.findIndex(p => p.id === id);
+  if(index === -1) return;
+
+  const updatedName = card.querySelector('input[data-role="name"]').value.trim() || profiles[index].name;
+  const activeValue = card.querySelector('select[data-role="active"]').value === "true";
+  const durationValue = card.querySelector('select[data-role="duration"]').value;
+  const accessLevel = card.querySelector(`input[name="access-${id}"]:checked`).value;
+  const sectors = Array.from(card.querySelectorAll('input[data-role="sector"]:checked')).map(el => el.value);
+
+  profiles[index].name = updatedName;
+  profiles[index].active = activeValue;
+  profiles[index].durationType = durationValue;
+  profiles[index].accessLevel = accessLevel;
+  profiles[index].sectors = accessLevel === "TOP_GLOBAL" ? [...ALL_SECTORS] : sectors;
+
+  saveProfiles(profiles);
+  renderGrid();
+  updateSummary();
+  alert("Perfil salvo com sucesso.");
+}
+
+function restoreOne(id){
+  const defaults = baseProfiles();
+  const fresh = defaults.find(p => p.id === id);
+  if(!fresh) return;
+
+  const profiles = loadProfiles();
+  const index = profiles.findIndex(p => p.id === id);
+  if(index === -1) return;
+
+  profiles[index] = fresh;
+  saveProfiles(profiles);
+  renderGrid();
+  updateSummary();
+  alert("Padrão restaurado com sucesso.");
+}
+
+function saveAll(){
+  const profiles = loadProfiles();
+  const cards = Array.from(document.querySelectorAll(".courtesy-card, .card")).filter(card =>
+    card.querySelector('input[data-role="name"]')
+  );
+
+  cards.forEach((card, i) => {
+    const current = profiles[i];
+    if(!current) return;
+    current.name = card.querySelector('input[data-role="name"]').value.trim() || current.name;
+    current.active = card.querySelector('select[data-role="active"]').value === "true";
+    current.durationType = card.querySelector('select[data-role="duration"]').value;
+    current.accessLevel = card.querySelector(`input[name="access-${current.id}"]:checked`).value;
+    const sectors = Array.from(card.querySelectorAll('input[data-role="sector"]:checked')).map(el => el.value);
+    current.sectors = current.accessLevel === "TOP_GLOBAL" ? [...ALL_SECTORS] : sectors;
+  });
+
+  saveProfiles(profiles);
+  renderGrid();
+  updateSummary();
+  alert("Todas as permissões foram salvas com sucesso.");
+}
+
+function escapeHtml(value){
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+document.getElementById("logoutBtn").addEventListener("click", sairDoSistema);
+document.getElementById("saveAllBtn").addEventListener("click", saveAll);
+
+const perfil = localStorage.getItem("lapidar_perfil");
+const usuario = localStorage.getItem("lapidar_usuario");
+
+if(!perfil || !usuario || (perfil !== "admin" && perfil !== "heteronimo")){
+  window.location.href = "index.html";
+}
+
+renderGrid();
+updateSummary();
+</script>
+
+</body>
+</html>
+
+ 
