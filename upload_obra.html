@@ -80,7 +80,7 @@ background:#2a140c;
 padding:12px;
 border-radius:10px;
 margin-top:12px;
-line-height:1.6;
+line-height:1.7;
 }
 
 .grid{
@@ -166,24 +166,61 @@ const arquivo = document.getElementById("arquivoObra").files[0];
 const textoManual = document.getElementById("textoObra").value.trim();
 
 if(arquivo){
+const nome = arquivo.name || "";
+const ext = nome.toLowerCase().split(".").pop();
+
+localStorage.setItem("lapidar_obra_arquivo_nome", nome);
+
+if(ext === "txt"){
 const reader = new FileReader();
 reader.onload = function(e){
 const conteudo = String(e.target.result || "");
-analisarConteudo(conteudo, arquivo.name);
+analisarConteudoTexto(conteudo, nome);
 };
 reader.readAsText(arquivo);
 return;
 }
 
-if(textoManual){
-analisarConteudo(textoManual, "texto colado");
+if(ext === "pdf" || ext === "doc" || ext === "docx"){
+preencherPorNomeDoArquivo(nome);
+document.getElementById("statusLeitura").innerHTML =
+"Arquivo registrado com sucesso.<br>" +
+"Leitura automática completa ainda não está ativa para " + ext.toUpperCase() + ".<br>" +
+"O sistema usou o nome do arquivo como base inicial.<br>" +
+"Se quiser uma leitura mais fiel agora, cole o texto da obra no campo abaixo.";
 return;
 }
 
-document.getElementById("statusLeitura").innerText = "Envie um arquivo ou cole o texto da obra antes de ler.";
+preencherPorNomeDoArquivo(nome);
+document.getElementById("statusLeitura").innerHTML =
+"Tipo de arquivo não reconhecido para leitura automática.<br>" +
+"O sistema usou o nome do arquivo como base inicial.";
+return;
 }
 
-function analisarConteudo(conteudo, origem){
+if(textoManual){
+analisarConteudoTexto(textoManual, "texto colado");
+return;
+}
+
+document.getElementById("statusLeitura").innerText =
+"Envie um arquivo ou cole o texto da obra antes de ler.";
+}
+
+function preencherPorNomeDoArquivo(nome){
+let base = nome.replace(/\.[^.]+$/, "");
+base = base.replace(/[_-]+/g, " ").trim();
+
+document.getElementById("tituloObra").value = base || "";
+document.getElementById("subtituloObra").value = "";
+document.getElementById("autorObra").value = "";
+
+localStorage.setItem("lapidar_obra_titulo", base || "");
+localStorage.setItem("lapidar_obra_subtitulo", "");
+localStorage.setItem("lapidar_obra_autor", "");
+}
+
+function analisarConteudoTexto(conteudo, origem){
 const linhas = conteudo
 .split(/\r?\n/)
 .map(l => l.trim())
@@ -206,9 +243,12 @@ document.getElementById("subtituloObra").value = subtitulo || "";
 document.getElementById("autorObra").value = autor || "";
 
 localStorage.setItem("lapidar_obra_texto", conteudo);
+localStorage.setItem("lapidar_obra_titulo", titulo || "");
+localStorage.setItem("lapidar_obra_subtitulo", subtitulo || "");
+localStorage.setItem("lapidar_obra_autor", autor || "");
 
 document.getElementById("statusLeitura").innerHTML =
-"Leitura concluída.<br>" +
+"Leitura concluída com sucesso.<br>" +
 "Sugestões preenchidas para confirmação manual.";
 }
 
@@ -235,6 +275,12 @@ document.getElementById("tituloObra").value = "";
 document.getElementById("subtituloObra").value = "";
 document.getElementById("autorObra").value = "";
 document.getElementById("statusLeitura").innerText = "Campos limpos.";
+
+localStorage.removeItem("lapidar_obra_arquivo_nome");
+localStorage.removeItem("lapidar_obra_texto");
+localStorage.removeItem("lapidar_obra_titulo");
+localStorage.removeItem("lapidar_obra_subtitulo");
+localStorage.removeItem("lapidar_obra_autor");
 }
 
 function voltar(){
