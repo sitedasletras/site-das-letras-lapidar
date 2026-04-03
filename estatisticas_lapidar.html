@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Estatísticas do Sistema</title>
+<title>Painel Estatístico do Lapidar</title>
 
 <style>
 
@@ -21,14 +21,16 @@ margin-bottom:20px;
 box-shadow:0 4px 10px rgba(0,0,0,.1);
 }
 
-h2{
-margin-top:0;
-}
-
 .numero{
 font-size:28px;
 font-weight:bold;
 color:#2f436d;
+}
+
+canvas{
+background:white;
+border-radius:12px;
+padding:10px;
 }
 
 </style>
@@ -39,22 +41,46 @@ color:#2f436d;
 <h2>Painel Estatístico do Lapidar</h2>
 
 <div class="card">
-Hoje: <span class="numero" id="hoje"></span>
+Hoje:
+<span class="numero" id="hoje"></span>
 </div>
 
 <div class="card">
-Este mês: <span class="numero" id="mes"></span>
+Este mês:
+<span class="numero" id="mes"></span>
 </div>
 
 <div class="card">
-Este ano: <span class="numero" id="ano"></span>
+Este ano:
+<span class="numero" id="ano"></span>
 </div>
 
 <div class="card">
-Setor mais usado: <span class="numero" id="setor"></span>
+Usuários ativos agora:
+<span class="numero" id="ativos"></span>
 </div>
+
+<div class="card">
+Setor mais usado:
+<span class="numero" id="setor"></span>
+</div>
+
+<div class="card">
+<h3>Uso mensal</h3>
+<canvas id="graficoMes" width="300" height="150"></canvas>
+</div>
+
+<div class="card">
+<h3>Uso por setor</h3>
+<canvas id="graficoSetor" width="300" height="150"></canvas>
+</div>
+
 
 <script>
+
+/* =========================
+DADOS BASE
+========================= */
 
 const hoje = new Date()
 
@@ -69,10 +95,32 @@ document.getElementById("mes").innerText = stats[mes] || 0
 document.getElementById("ano").innerText = stats[ano] || 0
 
 
+/* =========================
+USUÁRIOS ATIVOS AGORA
+========================= */
+
+let ativos = localStorage.getItem("lapidar_online")
+
+if(!ativos){
+
+ativos = 1
+localStorage.setItem("lapidar_online",1)
+
+}
+
+document.getElementById("ativos").innerText = ativos
+
+
+/* =========================
+SETOR MAIS USADO
+========================= */
+
 let maior = 0
 let setorMaisUsado = "-"
 
-[1,3,5,7,11,13].forEach(setor=>{
+const setores=[1,3,5,7,11,13]
+
+setores.forEach(setor=>{
 
 const valor = stats["setor_"+setor] || 0
 
@@ -86,6 +134,61 @@ setorMaisUsado = setor
 })
 
 document.getElementById("setor").innerText = setorMaisUsado
+
+
+/* =========================
+GRÁFICO MENSAL
+========================= */
+
+const canvasMes = document.getElementById("graficoMes")
+const ctxMes = canvasMes.getContext("2d")
+
+let dias = []
+
+for(let i=1;i<=31;i++){
+
+let d = ano+"-"+mes.slice(5)+"-"+String(i).padStart(2,"0")
+
+dias.push(stats[d] || 0)
+
+}
+
+ctxMes.beginPath()
+
+dias.forEach((valor,index)=>{
+
+let x=index*10
+let y=150-(valor*10)
+
+if(index===0){
+
+ctxMes.moveTo(x,y)
+
+}else{
+
+ctxMes.lineTo(x,y)
+
+}
+
+})
+
+ctxMes.stroke()
+
+
+/* =========================
+GRÁFICO SETORES
+========================= */
+
+const canvasSetor = document.getElementById("graficoSetor")
+const ctxSetor = canvasSetor.getContext("2d")
+
+setores.forEach((setor,index)=>{
+
+let valor = stats["setor_"+setor] || 0
+
+ctxSetor.fillRect(index*40,150-(valor*10),20,valor*10)
+
+})
 
 </script>
 
