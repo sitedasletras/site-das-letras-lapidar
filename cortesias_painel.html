@@ -3,16 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Painel de Cortesias • Lapidar</title>
 
 <style>
-
 body{
-font-family:Arial;
+font-family:Arial, Helvetica, sans-serif;
 background:#efe2c2;
 margin:0;
 padding:0;
+color:#2f2f2f;
 }
 
 header{
@@ -22,22 +21,76 @@ padding:18px;
 display:flex;
 justify-content:space-between;
 align-items:center;
+gap:12px;
+flex-wrap:wrap;
+}
+
+header h2{
+margin:0;
+font-size:24px;
+}
+
+.header-actions{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
 }
 
 button{
 cursor:pointer;
+border:none;
+border-radius:8px;
+font-weight:bold;
 }
 
 .logout{
 background:#8b0000;
 color:white;
-border:none;
 padding:10px 16px;
-border-radius:8px;
+}
+
+.save-all{
+background:#d1a24c;
+color:white;
+padding:10px 16px;
 }
 
 .container{
 padding:20px;
+}
+
+.summary{
+background:white;
+border-radius:16px;
+padding:18px;
+box-shadow:0 6px 14px rgba(0,0,0,0.1);
+margin-bottom:20px;
+}
+
+.summary h3{
+margin-top:0;
+}
+
+.summary-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+gap:12px;
+}
+
+.summary-box{
+background:#faf7f0;
+border:1px solid #ead9b8;
+border-radius:12px;
+padding:12px;
+}
+
+.summary-box strong{
+display:block;
+font-size:22px;
+margin-bottom:4px;
+}
+
+.grid{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
 gap:20px;
@@ -51,302 +104,588 @@ box-shadow:0 6px 14px rgba(0,0,0,0.1);
 }
 
 .card h3{
-margin-top:0;
+margin:0 0 6px 0;
+font-size:22px;
 }
 
-.status{
-background:#e8ffe8;
+.sub{
+margin:0 0 10px 0;
+font-size:13px;
+color:#6d5a43;
+}
+
+.topline{
+display:flex;
+justify-content:space-between;
+align-items:flex-start;
+gap:10px;
+margin-bottom:10px;
+}
+
+.badge{
 padding:6px 12px;
-border-radius:20px;
+border-radius:999px;
 font-size:12px;
 font-weight:bold;
-float:right;
+white-space:nowrap;
+}
+
+.badge.active{
+background:#d4f3df;
+color:#1f6b36;
+}
+
+.badge.inactive{
+background:#ffe7d1;
+color:#8b5a17;
 }
 
 label{
 display:block;
 margin-top:10px;
+font-weight:bold;
+font-size:14px;
 }
 
-select{
+input[type="text"], select{
 width:100%;
-padding:8px;
+padding:10px;
 margin-top:4px;
+border:1px solid #ccc;
+border-radius:8px;
+box-sizing:border-box;
+font-size:14px;
+}
+
+.two{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+}
+
+.mode-box{
+margin-top:14px;
+padding:12px;
+border:1px solid #ead9b8;
+border-radius:12px;
+background:#faf7f0;
+}
+
+.mode-item{
+margin-top:8px;
+display:flex;
+align-items:flex-start;
+gap:8px;
+}
+
+.mode-item label{
+margin:0;
+font-weight:normal;
+}
+
+.mode-item small{
+display:block;
+color:#6d5a43;
+font-size:12px;
+margin-top:2px;
 }
 
 .setores{
-margin-top:10px;
+margin-top:14px;
+padding:12px;
+border:1px solid #ead9b8;
+border-radius:12px;
+background:#faf7f0;
+}
+
+.setores p{
+margin:0 0 10px 0;
+font-size:12px;
+color:#6d5a43;
+}
+
+.setores-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:8px 14px;
+}
+
+.setor-item{
+display:flex;
+align-items:flex-start;
+gap:8px;
+font-size:14px;
+}
+
+.setor-item small{
+display:block;
+font-size:12px;
+color:#6d5a43;
+margin-top:2px;
 }
 
 .footer-btns{
-margin-top:14px;
+margin-top:16px;
 display:flex;
 gap:10px;
+flex-wrap:wrap;
 }
 
 .save{
 background:#2f436d;
 color:white;
-border:none;
-padding:8px 14px;
-border-radius:6px;
+padding:10px 14px;
 }
 
 .reset{
 background:#ddd;
-border:none;
-padding:8px 14px;
-border-radius:6px;
+color:#333;
+padding:10px 14px;
 }
 
+.section-title{
+margin:24px 0 12px 0;
+font-size:24px;
+}
+
+.section-sub{
+margin:0 0 16px 0;
+color:#6d5a43;
+}
+
+.notice{
+margin-top:20px;
+background:#fff7e7;
+border:1px solid #ead9b8;
+border-radius:12px;
+padding:14px;
+font-size:13px;
+line-height:1.6;
+color:#6d5a43;
+}
+
+@media (max-width:700px){
+.two{
+grid-template-columns:1fr;
+}
+.setores-grid{
+grid-template-columns:1fr;
+}
+}
 </style>
 </head>
-
 <body>
 
 <header>
-
 <h2>Painel de Cortesias • Lapidar</h2>
-
-<button class="logout"
-onclick="localStorage.clear();window.location.href='index.html';">
-Sair geral
-</button>
-
+<div class="header-actions">
+<button class="save-all" onclick="salvarTudo()">Salvar tudo</button>
+<button class="logout" onclick="sairGeral()">Sair geral</button>
+</div>
 </header>
 
+<div class="container">
 
-<div class="container" id="cards"></div>
+<div class="summary">
+<h3>Resumo geral</h3>
+<div class="summary-grid">
+<div class="summary-box">
+<small>Total de perfis</small>
+<strong id="sum-total">0</strong>
+<span>Cortesias numeradas + perfis institucionais</span>
+</div>
+<div class="summary-box">
+<small>Perfis ativos</small>
+<strong id="sum-ativos">0</strong>
+<span>Perfis atualmente liberados</span>
+</div>
+<div class="summary-box">
+<small>Top Global</small>
+<strong id="sum-global">0</strong>
+<span>Com acesso completo</span>
+</div>
+<div class="summary-box">
+<small>Personalizados</small>
+<strong id="sum-custom">0</strong>
+<span>Com setores definidos manualmente</span>
+</div>
+</div>
+</div>
 
+<h3 class="section-title">Cortesias numeradas</h3>
+<p class="section-sub">Controle completo das cortesias 0001 até 0010.</p>
+<div class="grid" id="grid-cortesias"></div>
+
+<h3 class="section-title">Perfis institucionais</h3>
+<p class="section-sub">Controle completo dos perfis institucionais vinculados ao sistema.</p>
+<div class="grid" id="grid-institucionais"></div>
+
+<div class="notice">
+Tudo que for marcado fica liberado. O que não for marcado não fica disponível.  
+Quando o modo estiver em <strong>Top Global</strong>, todos os setores ficam marcados automaticamente.  
+Você tem autonomia total sobre todos os perfis deste painel.
+</div>
+
+</div>
 
 <script>
+const STORAGE_KEY = "lapidar_courtesy_profiles";
+const SETORES = [1,3,5,7,11,13];
 
-const STORAGE_KEY="lapidar_courtesy_profiles";
-
-const perfis=[
-"quimera",
-"valetbooks",
-"acl",
-"andre"
-];
-
-
-function carregar(){
-
-const data=JSON.parse(localStorage.getItem(STORAGE_KEY)||"{}");
-
-const container=document.getElementById("cards");
-
-container.innerHTML="";
-
-
-perfis.forEach(nome=>{
-
-if(!data[nome]){
-
-data[nome]={
-
-status:"ativa",
-
-accessLevel:"global",
-
-sectors:[1,3,5,7,11,13]
-
-};
-
+function sairGeral(){
+localStorage.removeItem("lapidar_usuario");
+localStorage.removeItem("lapidar_perfil");
+localStorage.removeItem("lapidar_nome");
+window.location.href = "index.html";
 }
 
+function criarBasePadrao(){
+const base = {};
 
-container.innerHTML+=`
+// cortesias numeradas
+for(let i=1;i<=10;i++){
+const codigo = String(i).padStart(4,"0");
+base["courtesy"+codigo] = {
+tipo:"cortesia",
+codigo:codigo,
+nome:i===1 ? "Cortesia André Capista" : "Cortesia "+codigo,
+status:"ativa",
+prazo:i===1 ? "uso_livre" : "30_dias",
+accessLevel:"TOP_GLOBAL",
+sectors:[1,3,5,7,11,13]
+};
+}
 
-<div class="card">
+// institucionais
+base["quimera"] = {
+tipo:"institucional",
+codigo:"INST-01",
+nome:"Quimera Antologias",
+status:"ativa",
+prazo:"uso_livre",
+accessLevel:"TOP_GLOBAL",
+sectors:[1,3,5,7,11,13]
+};
 
-<h3>${nome.toUpperCase()}
+base["valetbooks"] = {
+tipo:"institucional",
+codigo:"INST-02",
+nome:"Valleti Books",
+status:"ativa",
+prazo:"uso_livre",
+accessLevel:"TOP_GLOBAL",
+sectors:[1,3,5,7,11,13]
+};
 
-<span class="status">${data[nome].status}</span>
+base["acl"] = {
+tipo:"institucional",
+codigo:"INST-03",
+nome:"ACL",
+status:"ativa",
+prazo:"uso_livre",
+accessLevel:"TOP_GLOBAL",
+sectors:[1,3,5,7,11,13]
+};
 
-</h3>
+base["andre"] = {
+tipo:"institucional",
+codigo:"INST-04",
+nome:"André Projeto Social",
+status:"ativa",
+prazo:"uso_livre",
+accessLevel:"TOP_GLOBAL",
+sectors:[1,3,5,7,11,13]
+};
 
+base["estilopoesia"] = {
+tipo:"institucional",
+codigo:"INST-05",
+nome:"Estilo e Poesia",
+status:"ativa",
+prazo:"uso_livre",
+accessLevel:"TOP_GLOBAL",
+sectors:[1,3,5,7,11,13]
+};
 
-<label>Status
+return base;
+}
 
-<select onchange="alterarStatus('${nome}',this.value)">
+function carregarPerfis(){
+let perfis;
+try{
+perfis = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+}catch(e){
+perfis = {};
+}
 
-<option value="ativa"
+const base = criarBasePadrao();
 
-${data[nome].status=="ativa"?"selected":""}>
-
-Ativa
-
-</option>
-
-<option value="inativa"
-
-${data[nome].status=="inativa"?"selected":""}>
-
-Inativa
-
-</option>
-
-</select>
-
-</label>
-
-
-<label>Modo de acesso
-
-<select onchange="alterarAccess('${nome}',this.value)">
-
-<option value="global"
-
-${data[nome].accessLevel=="global"?"selected":""}>
-
-Top Global
-
-</option>
-
-<option value="custom"
-
-${data[nome].accessLevel=="custom"?"selected":""}>
-
-Personalizado
-
-</option>
-
-</select>
-
-</label>
-
-
-<div class="setores">
-
-${[1,3,5,7,11,13].map(s=>
-
-`<label>
-
-<input type="checkbox"
-
-${data[nome].sectors.includes(s)?"checked":""}
-
-onchange="alterarSetor('${nome}',${s},this.checked)"
-
->
-
-Setor ${s}
-
-</label>`
-
-).join("")}
-
-</div>
-
-
-<div class="footer-btns">
-
-<button class="save"
-
-onclick="salvar('${nome}')">
-
-Salvar
-
-</button>
-
-<button class="reset"
-
-onclick="resetar('${nome}')">
-
-Restaurar padrão
-
-</button>
-
-</div>
-
-
-</div>
-
-`;
-
+Object.keys(base).forEach(chave=>{
+if(!perfis[chave]){
+perfis[chave] = base[chave];
+}else{
+perfis[chave].tipo = base[chave].tipo;
+perfis[chave].codigo = perfis[chave].codigo || base[chave].codigo;
+perfis[chave].nome = perfis[chave].nome || base[chave].nome;
+perfis[chave].status = perfis[chave].status || base[chave].status;
+perfis[chave].prazo = perfis[chave].prazo || base[chave].prazo;
+perfis[chave].accessLevel = perfis[chave].accessLevel || base[chave].accessLevel;
+perfis[chave].sectors = Array.isArray(perfis[chave].sectors) ? perfis[chave].sectors : base[chave].sectors;
+}
 });
 
-
-localStorage.setItem(STORAGE_KEY,JSON.stringify(data));
-
+localStorage.setItem(STORAGE_KEY, JSON.stringify(perfis));
+return perfis;
 }
 
-
-function alterarStatus(nome,status){
-
-const data=JSON.parse(localStorage.getItem(STORAGE_KEY));
-
-data[nome].status=status;
-
-localStorage.setItem(STORAGE_KEY,JSON.stringify(data));
-
+function salvarPerfis(perfis){
+localStorage.setItem(STORAGE_KEY, JSON.stringify(perfis));
 }
 
-
-function alterarAccess(nome,mode){
-
-const data=JSON.parse(localStorage.getItem(STORAGE_KEY));
-
-data[nome].accessLevel=mode;
-
-localStorage.setItem(STORAGE_KEY,JSON.stringify(data));
-
-}
-
-
-function alterarSetor(nome,setor,val){
-
-const data=JSON.parse(localStorage.getItem(STORAGE_KEY));
-
-if(val){
-
-data[nome].sectors.push(setor);
-
-}else{
-
-data[nome].sectors=data[nome].sectors.filter(x=>x!==setor);
-
-}
-
-localStorage.setItem(STORAGE_KEY,JSON.stringify(data));
-
-}
-
-
-function salvar(nome){
-
-alert("Perfil "+nome+" salvo com sucesso.");
-
-}
-
-
-function resetar(nome){
-
-const data=JSON.parse(localStorage.getItem(STORAGE_KEY));
-
-data[nome]={
-
-status:"ativa",
-
-accessLevel:"global",
-
-sectors:[1,3,5,7,11,13]
-
+function rotuloPrazo(valor){
+const mapa = {
+"30_dias":"30 dias",
+"90_dias":"90 dias",
+"180_dias":"180 dias",
+"365_dias":"365 dias",
+"uso_livre":"Uso livre"
 };
-
-localStorage.setItem(STORAGE_KEY,JSON.stringify(data));
-
-carregar();
-
+return mapa[valor] || valor;
 }
 
+function nomeSetor(n){
+const mapa = {
+1:"Setor 1",
+3:"Setor 3",
+5:"Setor 5",
+7:"Setor 7",
+11:"Setor 11",
+13:"Setor 13"
+};
+return mapa[n] || ("Setor "+n);
+}
 
-carregar();
+function renderizar(){
+const perfis = carregarPerfis();
 
+const gridCortesias = document.getElementById("grid-cortesias");
+const gridInstitucionais = document.getElementById("grid-institucionais");
+
+gridCortesias.innerHTML = "";
+gridInstitucionais.innerHTML = "";
+
+Object.keys(perfis).forEach(chave=>{
+const p = perfis[chave];
+const card = montarCard(chave, p);
+
+if(p.tipo === "cortesia"){
+gridCortesias.appendChild(card);
+}else{
+gridInstitucionais.appendChild(card);
+}
+});
+
+atualizarResumo();
+}
+
+function montarCard(chave, p){
+const card = document.createElement("div");
+card.className = "card";
+card.dataset.key = chave;
+
+const badgeClass = p.status === "ativa" ? "active" : "inactive";
+const checkedGlobal = p.accessLevel === "TOP_GLOBAL" ? "checked" : "";
+const checkedCustom = p.accessLevel === "PERSONALIZADO" ? "checked" : "";
+
+card.innerHTML = `
+<div class="topline">
+<div>
+<h3>${p.codigo} • ${p.nome}</h3>
+<p class="sub">Controle individual de status, prazo e setores.</p>
+</div>
+<span class="badge ${badgeClass}">${p.status}</span>
+</div>
+
+<label>Nome do perfil</label>
+<input type="text" class="field-nome" value="${esc(p.nome)}">
+
+<div class="two">
+<div>
+<label>Status</label>
+<select class="field-status">
+<option value="ativa" ${p.status==="ativa"?"selected":""}>Ativa</option>
+<option value="inativa" ${p.status==="inativa"?"selected":""}>Inativa</option>
+</select>
+</div>
+<div>
+<label>Prazo</label>
+<select class="field-prazo">
+<option value="30_dias" ${p.prazo==="30_dias"?"selected":""}>30 dias</option>
+<option value="90_dias" ${p.prazo==="90_dias"?"selected":""}>90 dias</option>
+<option value="180_dias" ${p.prazo==="180_dias"?"selected":""}>180 dias</option>
+<option value="365_dias" ${p.prazo==="365_dias"?"selected":""}>365 dias</option>
+<option value="uso_livre" ${p.prazo==="uso_livre"?"selected":""}>Uso livre</option>
+</select>
+</div>
+</div>
+
+<div class="mode-box">
+<strong>Modo de acesso</strong>
+
+<div class="mode-item">
+<input type="radio" name="modo_${chave}" value="TOP_GLOBAL" ${checkedGlobal}>
+<label>
+Top Global
+<small>Libera todos os setores automaticamente.</small>
+</label>
+</div>
+
+<div class="mode-item">
+<input type="radio" name="modo_${chave}" value="PERSONALIZADO" ${checkedCustom}>
+<label>
+Personalizado
+<small>Libera apenas os setores marcados.</small>
+</label>
+</div>
+</div>
+
+<div class="setores">
+<p>Setores liberados</p>
+<div class="setores-grid">
+${SETORES.map(s=>`
+<label class="setor-item">
+<input type="checkbox" class="setor-check" value="${s}" ${p.sectors.includes(s) ? "checked" : ""}>
+<span>
+${nomeSetor(s)}
+<small>${p.accessLevel==="TOP_GLOBAL" ? "Travado pelo modo Top Global." : "Marque para liberar."}</small>
+</span>
+</label>
+`).join("")}
+</div>
+</div>
+
+<div class="footer-btns">
+<button class="save" onclick="salvarUm('${chave}')">Salvar</button>
+<button class="reset" onclick="restaurarUm('${chave}')">Restaurar padrão</button>
+</div>
+`;
+
+const radios = card.querySelectorAll(`input[name="modo_${chave}"]`);
+radios.forEach(r=>{
+r.addEventListener("change", ()=>atualizarVisualSetores(card, chave));
+});
+
+atualizarVisualSetores(card, chave);
+
+return card;
+}
+
+function atualizarVisualSetores(card, chave){
+const modo = card.querySelector(`input[name="modo_${chave}"]:checked`).value;
+const checks = card.querySelectorAll(".setor-check");
+const textos = card.querySelectorAll(".setor-item small");
+
+checks.forEach((check, i)=>{
+if(modo === "TOP_GLOBAL"){
+check.checked = true;
+check.disabled = true;
+textos[i].innerText = "Travado pelo modo Top Global.";
+}else{
+check.disabled = false;
+textos[i].innerText = "Marque para liberar.";
+}
+});
+}
+
+function salvarUm(chave){
+const perfis = carregarPerfis();
+const card = document.querySelector(`[data-key="${chave}"]`);
+if(!card) return;
+
+const nome = card.querySelector(".field-nome").value.trim() || perfis[chave].nome;
+const status = card.querySelector(".field-status").value;
+const prazo = card.querySelector(".field-prazo").value;
+const accessLevel = card.querySelector(`input[name="modo_${chave}"]:checked`).value;
+let sectors = Array.from(card.querySelectorAll(".setor-check:checked")).map(c=>Number(c.value));
+
+if(accessLevel === "TOP_GLOBAL"){
+sectors = [1,3,5,7,11,13];
+}
+
+perfis[chave].nome = nome;
+perfis[chave].status = status;
+perfis[chave].prazo = prazo;
+perfis[chave].accessLevel = accessLevel;
+perfis[chave].sectors = sectors;
+
+salvarPerfis(perfis);
+renderizar();
+alert("Perfil salvo com sucesso.");
+}
+
+function restaurarUm(chave){
+const base = criarBasePadrao();
+const perfis = carregarPerfis();
+
+if(base[chave]){
+perfis[chave] = base[chave];
+salvarPerfis(perfis);
+renderizar();
+alert("Padrão restaurado com sucesso.");
+}
+}
+
+function salvarTudo(){
+const perfis = carregarPerfis();
+const cards = document.querySelectorAll(".card");
+
+cards.forEach(card=>{
+const chave = card.dataset.key;
+if(!perfis[chave]) return;
+
+const nome = card.querySelector(".field-nome").value.trim() || perfis[chave].nome;
+const status = card.querySelector(".field-status").value;
+const prazo = card.querySelector(".field-prazo").value;
+const accessLevel = card.querySelector(`input[name="modo_${chave}"]:checked`).value;
+let sectors = Array.from(card.querySelectorAll(".setor-check:checked")).map(c=>Number(c.value));
+
+if(accessLevel === "TOP_GLOBAL"){
+sectors = [1,3,5,7,11,13];
+}
+
+perfis[chave].nome = nome;
+perfis[chave].status = status;
+perfis[chave].prazo = prazo;
+perfis[chave].accessLevel = accessLevel;
+perfis[chave].sectors = sectors;
+});
+
+salvarPerfis(perfis);
+renderizar();
+alert("Todos os perfis foram salvos com sucesso.");
+}
+
+function atualizarResumo(){
+const perfis = carregarPerfis();
+const lista = Object.values(perfis);
+
+document.getElementById("sum-total").innerText = lista.length;
+document.getElementById("sum-ativos").innerText = lista.filter(p=>p.status==="ativa").length;
+document.getElementById("sum-global").innerText = lista.filter(p=>p.accessLevel==="TOP_GLOBAL").length;
+document.getElementById("sum-custom").innerText = lista.filter(p=>p.accessLevel==="PERSONALIZADO").length;
+}
+
+function esc(txt){
+return String(txt)
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+}
+
+renderizar();
 </script>
-
 
 </body>
 </html>
