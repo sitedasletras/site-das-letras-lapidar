@@ -1,97 +1,63 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Projetos — Lapidar</title>
+<title>Projetos e Obras</title>
 
 <style>
-:root{
---bg:#0d0603;
---card:#140c08;
---cardHover:#1b100a;
---orange:#f7b22c;
---border:rgba(255,123,44,0.18);
-}
 
 body{
+font-family:Arial;
+background:#efe2c2;
 margin:0;
-font-family:Arial, sans-serif;
-background:var(--bg);
+padding:0;
+}
+
+header{
+background:#2f436d;
 color:white;
+padding:20px;
+display:flex;
+justify-content:space-between;
+align-items:center;
 }
 
 .container{
-width:min(1100px,95%);
-margin:auto;
-padding:40px 0 60px;
-}
-
-.titulo{
-font-size:36px;
-font-weight:bold;
-}
-
-.subtitulo{
-margin-top:5px;
-color:var(--orange);
-}
-
-.status{
-margin-top:20px;
-padding:16px;
-border-radius:12px;
-background:rgba(247,178,44,0.12);
-border:1px solid rgba(247,178,44,0.25);
-color:#ffe7b0;
-}
-
-.grid{
-margin-top:28px;
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:18px;
+padding:20px;
 }
 
 .card{
-background:var(--card);
-padding:22px;
-border-radius:16px;
-border:1px solid var(--border);
-cursor:pointer;
-transition:.2s;
-}
-
-.card:hover{
-background:var(--cardHover);
-}
-
-.cardTitulo{
-font-size:20px;
-font-weight:bold;
-margin-bottom:6px;
-}
-
-.cardDesc{
-color:#ffd2b3;
-font-size:14px;
-line-height:1.6;
-}
-
-.actions{
-margin-top:28px;
-display:flex;
-gap:12px;
-flex-wrap:wrap;
+background:white;
+border-radius:12px;
+padding:20px;
+margin-bottom:20px;
+box-shadow:0 4px 10px rgba(0,0,0,.1);
 }
 
 button{
+padding:12px 18px;
 border:none;
-padding:14px 18px;
-border-radius:999px;
-cursor:pointer;
-background:#24150f;
+border-radius:8px;
+background:#2f436d;
 color:white;
+cursor:pointer;
+margin-right:10px;
+}
+
+button.sec{
+background:#8a6f3f;
+}
+
+button.alt{
+background:#6c757d;
+}
+
+.lista{
+margin-top:10px;
+padding:10px;
+background:#f7f2e4;
+border-radius:8px;
 }
 
 </style>
@@ -99,155 +65,160 @@ color:white;
 
 <body>
 
+<header>
+
+<h2>Projetos e Obras</h2>
+
+<button onclick="voltar()">Voltar ao Admin</button>
+
+</header>
+
+
 <div class="container">
 
-<div class="titulo">
-Projetos
+
+<div class="card">
+
+<h3>Projeto ativo</h3>
+
+<div id="projetoAtual">
+
+Nenhum projeto ativo selecionado.
+
 </div>
 
-<div class="subtitulo">
-Central das obras em produção dentro do Lapidar
+<br>
+
+<button onclick="abrirFluxo()">Abrir fluxo editorial</button>
+
+<button class="sec" onclick="abrirCentro()">Abrir centro da obra</button>
+
 </div>
 
-<div id="statusProjetos" class="status">
-Verificando projeto ativo...
-</div>
 
-<div class="grid">
 
-<div class="card" onclick="abrirCadastroProjeto()">
-<div class="cardTitulo">Cadastro do Projeto</div>
-<div class="cardDesc">
-Criar ou atualizar os dados centrais da obra.
-</div>
-</div>
+<div class="card">
 
-<div class="card" onclick="abrirPreviewProjeto()">
-<div class="cardTitulo">Preview do Projeto</div>
-<div class="cardDesc">
-Visualizar rapidamente as informações da obra ativa.
-</div>
-</div>
+<h3>Histórico de projetos</h3>
 
-<div class="card" onclick="abrirHistoricoProjetos()">
-<div class="cardTitulo">Histórico de Projetos</div>
-<div class="cardDesc">
-Selecionar, alternar e revisar obras cadastradas.
-</div>
-</div>
+<div class="lista" id="historicoProjetos">
 
-<div class="card" onclick="abrirTimelineProjeto()">
-<div class="cardTitulo">Timeline da Obra</div>
-<div class="cardDesc">
-Acompanhar o histórico cronológico editorial da obra.
-</div>
-</div>
+Sem projetos registrados ainda.
 
-<div class="card" onclick="abrirProgressoProjeto()">
-<div class="cardTitulo">Progresso da Obra</div>
-<div class="cardDesc">
-Checklist automático do andamento editorial.
-</div>
-</div>
-
-<div class="card" onclick="abrirRelatorioProjeto()">
-<div class="cardTitulo">Relatório da Obra</div>
-<div class="cardDesc">
-Resumo editorial simplificado para acompanhamento.
-</div>
 </div>
 
 </div>
 
-<div class="actions">
-<button onclick="voltarIndice()">Voltar ao índice</button>
-</div>
+
+
+<div class="card">
+
+<h3>Ações rápidas</h3>
+
+<button onclick="novoProjeto()">Criar novo projeto</button>
+
+<button class="alt" onclick="abrirRelatorios()">Abrir relatórios</button>
 
 </div>
 
-<script src="auditoria.js"></script>
+
+</div>
+
 
 <script>
-function verificarSessao(){
-  if(localStorage.getItem("SDL_sessao_ativa") !== "sim"){
-    window.location.href = "login.html";
-  }
+
+/* =========================
+SESSION GUARD INSTITUCIONAL
+========================= */
+
+const perfil = localStorage.getItem("lapidar_perfil")
+
+if(!perfil){
+
+window.location.href="index.html"
+
 }
 
-function obterProjetoAtivo(){
-  try{
-    const lista = JSON.parse(localStorage.getItem("SDL_projetos_lista") || "[]");
-    const ativo = localStorage.getItem("SDL_projeto_ativo");
-    return lista.find(p => p.id === ativo) || null;
-  }catch{
-    return null;
-  }
+
+/* =========================
+CARREGAR PROJETO ATIVO
+========================= */
+
+const projeto = localStorage.getItem("lapidar_projeto_ativo")
+
+if(projeto){
+
+document.getElementById("projetoAtual").innerText = projeto
+
 }
 
-function carregarStatusProjetos(){
-  const projeto = obterProjetoAtivo();
 
-  if(!projeto){
-    document.getElementById("statusProjetos").innerHTML =
-      "Nenhum projeto ativo selecionado.";
-    return;
-  }
+/* =========================
+CARREGAR HISTÓRICO
+========================= */
 
-  document.getElementById("statusProjetos").innerHTML =
-    "Projeto ativo no sistema: <strong>" + (projeto.titulo || "Sem título") + "</strong>";
-  document.getElementById("statusProjetos").style.background =
-    "rgba(23,77,39,0.28)";
+const historico = JSON.parse(localStorage.getItem("lapidar_historico_projetos") || "[]")
+
+if(historico.length){
+
+document.getElementById("historicoProjetos").innerHTML = historico.join("<br>")
+
 }
 
-function abrirCadastroProjeto(){
-  try{
-    SDL_registrarAuditoria("Acesso ao cadastro do projeto", "projetos");
-  }catch(e){}
-  window.location.href = "upload_livro.html";
+
+/* =========================
+AÇÕES
+========================= */
+
+function novoProjeto(){
+
+let nome = prompt("Nome do novo projeto:")
+
+if(!nome) return
+
+
+localStorage.setItem("lapidar_projeto_ativo",nome)
+
+let hist = JSON.parse(localStorage.getItem("lapidar_historico_projetos") || "[]")
+
+hist.push(nome)
+
+localStorage.setItem("lapidar_historico_projetos",JSON.stringify(hist))
+
+location.reload()
+
 }
 
-function abrirPreviewProjeto(){
-  try{
-    SDL_registrarAuditoria("Acesso ao preview do projeto", "projetos");
-  }catch(e){}
-  window.location.href = "preview_projeto.html";
+
+function abrirFluxo(){
+
+window.location.href="status_fluxo_editorial.html"
+
 }
 
-function abrirHistoricoProjetos(){
-  try{
-    SDL_registrarAuditoria("Acesso ao histórico de projetos", "projetos");
-  }catch(e){}
-  window.location.href = "historico_projetos.html";
+
+function abrirCentro(){
+
+window.location.href="painel_setores.html"
+
 }
 
-function abrirTimelineProjeto(){
-  try{
-    SDL_registrarAuditoria("Acesso à timeline da obra", "projetos");
-  }catch(e){}
-  window.location.href = "timeline_projeto.html";
+
+function abrirRelatorios(){
+
+window.location.href="hub_relatorios.html"
+
 }
 
-function abrirProgressoProjeto(){
-  try{
-    SDL_registrarAuditoria("Acesso ao progresso da obra", "projetos");
-  }catch(e){}
-  window.location.href = "progresso_projeto.html";
+
+function voltar(){
+
+window.location.href="admin.html"
+
 }
 
-function abrirRelatorioProjeto(){
-  try{
-    SDL_registrarAuditoria("Acesso ao relatório da obra", "projetos");
-  }catch(e){}
-  window.location.href = "relatorio_projeto.html";
-}
-
-function voltarIndice(){
-  window.location.href = "_Indice.html";
-}
-
-verificarSessao();
-carregarStatusProjetos();
 </script>
+
 
 </body>
 </html>
