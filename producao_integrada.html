@@ -11,16 +11,20 @@
       --line:#ddd3bf;
       --text:#2f2418;
       --muted:#6d5a43;
-      --blue:#7cb4f0;
+      --red:#c7433f;
+      --red2:#a92d2a;
       --yellow:#e4c11a;
       --green:#2ba95b;
       --orange:#e08b2c;
       --deep:#2451b2;
       --softblue:#a9d0ee;
+      --wine:#7b1e3a;
+      --wine2:#5f132b;
       --shadow:0 12px 28px rgba(45,30,10,.12);
     }
 
     *{box-sizing:border-box}
+
     html,body{
       margin:0;
       padding:0;
@@ -89,15 +93,9 @@
     }
 
     .wrap{
-      max-width:1480px;
+      max-width:1180px;
       margin:0 auto;
       padding:22px 16px 30px;
-      display:grid;
-      grid-template-columns:minmax(0,1fr) 370px;
-      gap:22px;
-    }
-
-    .stack{
       display:grid;
       gap:22px;
     }
@@ -179,11 +177,12 @@
       font-weight:900;
       cursor:pointer;
       background:#f9f7ef;
+      color:#222;
     }
 
     .s1{
-      background:linear-gradient(135deg,#9fd1ff 0%, #80b9f2 100%);
-      color:#174a83;
+      background:linear-gradient(135deg,var(--red) 0%, var(--red2) 100%);
+      color:#fff;
     }
 
     .s3{
@@ -207,8 +206,36 @@
     }
 
     .s13{
-      background:linear-gradient(135deg,#c1e1f7 0%, #a7d1ef 100%);
-      color:#1b4669;
+      background:linear-gradient(135deg,var(--wine) 0%, var(--wine2) 100%);
+      color:#fff;
+    }
+
+    .mesario-toggle-wrap{
+      margin-top:18px;
+      display:flex;
+      justify-content:center;
+    }
+
+    .mesario-toggle-btn{
+      width:100%;
+      max-width:520px;
+      min-height:54px;
+      border:none;
+      border-radius:16px;
+      background:linear-gradient(135deg,#17335d 0%, #29508d 100%);
+      color:#fff;
+      font-size:17px;
+      font-weight:900;
+      cursor:pointer;
+    }
+
+    .mesario-panel{
+      display:none;
+      margin-top:18px;
+    }
+
+    .mesario-panel.show{
+      display:block;
     }
 
     .mesario-grid{
@@ -290,27 +317,28 @@
       display:block;
     }
 
-    .side{
-      display:grid;
-      gap:22px;
-      align-self:start;
-      position:sticky;
-      top:18px;
+    .summary-card{
+      background:var(--panel);
+      border:1px solid var(--line);
+      border-radius:28px;
+      box-shadow:var(--shadow);
+      overflow:hidden;
     }
 
-    .meter{
+    .summary-wrap{
+      padding:22px;
       display:grid;
       gap:12px;
     }
 
-    .meter-item{
+    .summary-item{
       background:#fff;
       border:1px solid var(--line);
       border-radius:18px;
       padding:16px;
     }
 
-    .meter-item small{
+    .summary-item small{
       display:block;
       text-transform:uppercase;
       letter-spacing:.08em;
@@ -320,7 +348,7 @@
       margin-bottom:8px;
     }
 
-    .meter-item strong{
+    .summary-item strong{
       display:block;
       font-size:19px;
       line-height:1.15;
@@ -336,7 +364,9 @@
       line-height:1.7;
     }
 
-    .hidden{display:none !important}
+    .hidden{
+      display:none !important;
+    }
 
     .footer{
       text-align:center;
@@ -346,9 +376,101 @@
       font-weight:800;
     }
 
-    @media (max-width:1200px){
-      .wrap{grid-template-columns:1fr}
-      .side{position:relative;top:auto}
+    .modal{
+      position:fixed;
+      inset:0;
+      background:rgba(20,16,10,.45);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:16px;
+      z-index:9999;
+    }
+
+    .modal.show{
+      display:flex;
+    }
+
+    .modal-card{
+      width:100%;
+      max-width:720px;
+      background:#fffdf9;
+      border-radius:26px;
+      box-shadow:0 22px 48px rgba(0,0,0,.24);
+      overflow:hidden;
+      border:1px solid rgba(140,110,58,.18);
+    }
+
+    .modal-head{
+      padding:22px 22px 10px;
+    }
+
+    .modal-head h3{
+      margin:0 0 8px;
+      font-size:30px;
+      line-height:1.05;
+    }
+
+    .modal-head p{
+      margin:0;
+      color:var(--muted);
+      line-height:1.7;
+      font-size:14px;
+    }
+
+    .modal-body{
+      padding:22px;
+      display:grid;
+      gap:14px;
+    }
+
+    .modal-box{
+      border:1px solid var(--line);
+      border-radius:18px;
+      background:#fff;
+      padding:16px;
+    }
+
+    .modal-box strong{
+      display:block;
+      margin-bottom:8px;
+      font-size:16px;
+    }
+
+    .modal-box span{
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.7;
+    }
+
+    .modal-actions{
+      padding:0 22px 22px;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    .modal-actions button{
+      flex:1;
+      min-height:52px;
+      border:none;
+      border-radius:14px;
+      font-size:15px;
+      font-weight:900;
+      cursor:pointer;
+    }
+
+    .btn-close{
+      background:#eee6d7;
+      color:#5a472d;
+    }
+
+    .btn-enter{
+      background:linear-gradient(135deg,#17335d 0%, #29508d 100%);
+      color:#fff;
+    }
+
+    @media (max-width:980px){
       .sector-grid,.mesario-grid{grid-template-columns:1fr}
     }
   </style>
@@ -365,156 +487,212 @@
   </header>
 
   <main class="wrap">
-    <section class="stack">
-      <section class="card">
-        <div class="card-head">
-          <small>Setores produtivos</small>
-          <h2>Escolha o setor que deseja abrir</h2>
-          <p>Esses blocos ficam dentro da Produção. Não pertencem à página de login e nem à sala de reuniões.</p>
-        </div>
-        <div class="card-body">
-          <div class="sector-grid">
-            <article class="sector s1">
-              <h3>Assistente de Diagramação do Autor</h3>
-              <p>Setor azul claro para construção do miolo da própria história, com planejamento e organização da diagramação.</p>
-              <button onclick="entrarSetor('1')">Acessar</button>
-            </article>
+    <section class="card">
+      <div class="card-head">
+        <small>Setores produtivos</small>
+        <h2>Escolha o setor que deseja abrir</h2>
+        <p>Esses blocos ficam dentro da Produção. Não pertencem à página de login e nem à sala de reuniões.</p>
+      </div>
+      <div class="card-body">
+        <div class="sector-grid">
+          <article class="sector s1">
+            <h3>Assistente de Diagramação do Autor</h3>
+            <p>Setor vermelho para construção do miolo da própria história, com planejamento e organização da diagramação.</p>
+            <button onclick="abrirSetor('1','Assistente de Diagramação do Autor','Setor de construção do miolo, organização da diagramação e preparação técnica da história.')">Acessar</button>
+          </article>
 
-            <article class="sector s3">
-              <h3>OKapista</h3>
-              <p>Setor amarelo ouro e canário, com escrita em verde escuro, conforme sua orientação.</p>
-              <button onclick="entrarSetor('3')">Acessar</button>
-            </article>
+          <article class="sector s3">
+            <h3>OKapista</h3>
+            <p>Setor amarelo ouro e canário, com escrita em verde escuro, conforme sua orientação.</p>
+            <button onclick="abrirSetor('3','OKapista','Setor de capa, composição visual e estrutura externa da apresentação da obra.')">Acessar</button>
+          </article>
 
-            <article class="sector s5">
-              <h3>Segunda Língua(s)</h3>
-              <p>Setor inspirado no verde nacional, para tradução e desdobramentos linguísticos.</p>
-              <button onclick="entrarSetor('5')">Acessar</button>
-            </article>
+          <article class="sector s5">
+            <h3>Segunda Língua(s)</h3>
+            <p>Setor inspirado no verde nacional, para tradução e desdobramentos linguísticos.</p>
+            <button onclick="abrirSetor('5','Segunda Língua(s)','Setor de tradução, adaptação linguística e expansão da obra em outros idiomas.')">Acessar</button>
+          </article>
 
-            <article class="sector s7">
-              <h3>Avaliação Literária</h3>
-              <p>Setor em laranja forte com leitura limpa e contraste editorial.</p>
-              <button onclick="entrarSetor('7')">Acessar</button>
-            </article>
+          <article class="sector s7">
+            <h3>Avaliação Literária</h3>
+            <p>Setor em laranja forte com leitura limpa e contraste editorial.</p>
+            <button onclick="abrirSetor('7','Avaliação Literária','Setor de leitura crítica, parecer técnico e avaliação da qualidade literária da obra.')">Acessar</button>
+          </article>
 
-            <article class="sector s11">
-              <h3>Analisador de Obra</h3>
-              <p>Setor azul profundo para leitura estrutural, consistência narrativa e observação técnica da obra.</p>
-              <button onclick="entrarSetor('11')">Acessar</button>
-            </article>
+          <article class="sector s11">
+            <h3>Analisador de Obra</h3>
+            <p>Setor azul profundo para leitura estrutural, consistência narrativa e observação técnica da obra.</p>
+            <button onclick="abrirSetor('11','Analisador de Obra','Setor de observação estrutural, coerência interna e leitura técnica ampliada da obra.')">Acessar</button>
+          </article>
 
-            <article class="sector s13">
-              <h3>Lapidação Literária</h3>
-              <p>Setor em azul suave para o tratamento fino do texto, remoção de excessos e lapidação final.</p>
-              <button onclick="entrarSetor('13')">Acessar</button>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section class="card" id="mesarioCard">
-        <div class="card-head">
-          <small>Mesário da produção</small>
-          <h2>Leitura por setor e soma final</h2>
-          <p id="mesarioText">Admin e Heterônimo veem a soma por setor, a soma final da obra e o encaminhamento ao Mesário-mor.</p>
+          <article class="sector s13">
+            <h3>Lapidação Literária</h3>
+            <p>Setor em vinho para o tratamento fino do texto, remoção de excessos e lapidação final.</p>
+            <button onclick="abrirSetor('13','Lapidação Literária','Setor de refinamento final, humanização textual e polimento completo da obra.')">Acessar</button>
+          </article>
         </div>
 
-        <div class="card-body">
-          <div class="mesario-grid" id="mesarioGrid">
-            <div class="mesario-item">
-              <small>Setor 1</small>
-              <strong>CVMI 3,99</strong>
-              <span>Assistente de Diagramação do Autor</span>
-            </div>
-            <div class="mesario-item">
-              <small>Setor 3</small>
-              <strong>Pendura e cálculo</strong>
-              <span>OKapista</span>
-            </div>
-            <div class="mesario-item">
-              <small>Setor 5</small>
-              <strong>CVMI 25,00</strong>
-              <span>Segunda Língua(s)</span>
-            </div>
-            <div class="mesario-item">
-              <small>Setor 7</small>
-              <strong>CVMI 25,00</strong>
-              <span>Avaliação Literária</span>
-            </div>
-            <div class="mesario-item">
-              <small>Setor 11</small>
-              <strong>Pendura e cálculo</strong>
-              <span>Analisador de Obra</span>
-            </div>
-            <div class="mesario-item">
-              <small>Setor 13</small>
-              <strong>CVMI 25,00</strong>
-              <span>Lapidação Literária</span>
-            </div>
-          </div>
-
-          <div class="cta-box" id="ctaMesario">
-            <p><strong>Soma base atual da obra:</strong> CVMI 78,99</p>
-            <button onclick="encaminharMesario()">Encaminhar ao Mesário-mor</button>
-            <div class="success" id="msgFinal">
-              Contribuição voluntária sugerida encaminhada ao Mesário-mor.<br><br>
-              <strong>Mais uma etapa da sua obra foi lapidada.</strong>
-            </div>
-          </div>
-
-          <div class="cta-box hidden" id="ctaCortesia">
-            <p><strong>Ambiente institucional liberado por cortesia do Celeiro Literário.</strong></p>
-          </div>
+        <div class="mesario-toggle-wrap" id="mesarioToggleWrap">
+          <button class="mesario-toggle-btn" onclick="toggleMesario()">Abrir Mesário da Produção</button>
         </div>
-      </section>
+
+        <div class="mesario-panel" id="mesarioPanel">
+          <section style="margin-top:18px;">
+            <div class="card-head" style="padding:0 0 12px;">
+              <small>Mesário da produção</small>
+              <h2 style="font-size:24px; margin-bottom:8px;">Leitura por setor e soma final</h2>
+              <p id="mesarioText">Admin e Heterônimo veem a soma por setor, a soma final da obra e o encaminhamento ao Mesário-mor.</p>
+            </div>
+
+            <div class="mesario-grid" id="mesarioGrid">
+              <div class="mesario-item">
+                <small>Setor 1</small>
+                <strong>CVMI 3,99</strong>
+                <span>Assistente de Diagramação do Autor</span>
+              </div>
+              <div class="mesario-item">
+                <small>Setor 3</small>
+                <strong>Pendura e cálculo</strong>
+                <span>OKapista</span>
+              </div>
+              <div class="mesario-item">
+                <small>Setor 5</small>
+                <strong>CVMI 25,00</strong>
+                <span>Segunda Língua(s)</span>
+              </div>
+              <div class="mesario-item">
+                <small>Setor 7</small>
+                <strong>CVMI 25,00</strong>
+                <span>Avaliação Literária</span>
+              </div>
+              <div class="mesario-item">
+                <small>Setor 11</small>
+                <strong>Pendura e cálculo</strong>
+                <span>Analisador de Obra</span>
+              </div>
+              <div class="mesario-item">
+                <small>Setor 13</small>
+                <strong>CVMI 25,00</strong>
+                <span>Lapidação Literária</span>
+              </div>
+            </div>
+
+            <div class="cta-box" id="ctaMesario">
+              <p><strong>Soma base atual da obra:</strong> CVMI 78,99</p>
+              <button onclick="encaminharMesario()">Encaminhar ao Mesário-mor</button>
+              <div class="success" id="msgFinal">
+                Contribuição voluntária sugerida encaminhada ao Mesário-mor.<br><br>
+                <strong>Mais uma etapa da sua obra foi lapidada.</strong>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
     </section>
 
-    <aside class="side">
-      <section class="card">
-        <div class="card-head">
-          <small>Resumo da produção</small>
-          <h2>Perfil e alcance atual</h2>
-          <p>Resumo rápido do perfil logado dentro da Produção.</p>
+    <section class="summary-card" id="resumoCard">
+      <div class="card-head">
+        <small>Resumo da produção</small>
+        <h2>Perfil e alcance atual</h2>
+        <p>Resumo rápido do perfil logado dentro da Produção.</p>
+      </div>
+      <div class="summary-wrap">
+        <div class="summary-item">
+          <small>Usuário atual</small>
+          <strong id="usuarioAtual">—</strong>
         </div>
-        <div class="card-body">
-          <div class="meter">
-            <div class="meter-item">
-              <small>Usuário atual</small>
-              <strong id="usuarioAtual">—</strong>
-            </div>
-            <div class="meter-item">
-              <small>Perfil atual</small>
-              <strong id="perfilAtual">—</strong>
-            </div>
-            <div class="meter-item">
-              <small>Mesário</small>
-              <strong id="mesarioAtual">—</strong>
-            </div>
-          </div>
-
-          <div class="notice" id="noticeText">
-            A leitura desta área se adapta automaticamente ao perfil que entrou.
-          </div>
+        <div class="summary-item">
+          <small>Perfil atual</small>
+          <strong id="perfilAtual">—</strong>
         </div>
-      </section>
-    </aside>
+        <div class="summary-item">
+          <small>Mesário</small>
+          <strong id="mesarioAtual">—</strong>
+        </div>
+        <div class="notice" id="noticeText">
+          A leitura desta área se adapta automaticamente ao perfil que entrou.
+        </div>
+      </div>
+    </section>
   </main>
 
   <div class="footer">Lapidar • Celeiro Literário • Produção Integrada</div>
+
+  <div class="modal" id="setorModal">
+    <div class="modal-card">
+      <div class="modal-head">
+        <h3 id="modalTitulo">Setor</h3>
+        <p id="modalTexto">Descrição do setor.</p>
+      </div>
+
+      <div class="modal-body">
+        <div class="modal-box">
+          <strong>Entrada do setor</strong>
+          <span id="modalInfo">Abertura preparada para o fluxo interno do módulo.</span>
+        </div>
+
+        <div class="modal-box">
+          <strong>Status</strong>
+          <span>O setor foi reconhecido e está acessível a partir desta área da Produção.</span>
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn-close" onclick="fecharSetor()">Fechar</button>
+        <button class="btn-enter" onclick="confirmarEntradaSetor()">Entrar no setor</button>
+      </div>
+    </div>
+  </div>
 
   <script>
     const perfil = localStorage.getItem("lapidar_perfil");
     const usuario = localStorage.getItem("lapidar_usuario");
     const nome = localStorage.getItem("lapidar_nome") || usuario || "—";
+    let setorAtual = null;
 
     if(!perfil || !usuario){
       window.location.href = "index.html";
     }
 
-    function entrarSetor(setor){
+    function abrirSetor(setor, titulo, descricao){
+      setorAtual = setor;
       localStorage.setItem("lapidar_entrada_setor", setor);
-      alert("Setor " + setor + " preparado para integração do fluxo.");
+      document.getElementById("modalTitulo").innerText = titulo;
+      document.getElementById("modalTexto").innerText = descricao;
+      document.getElementById("modalInfo").innerText = "Entrada preparada para o setor " + setor + ".";
+      document.getElementById("setorModal").classList.add("show");
+    }
+
+    function fecharSetor(){
+      document.getElementById("setorModal").classList.remove("show");
+    }
+
+    function confirmarEntradaSetor(){
+      if(!setorAtual){
+        fecharSetor();
+        return;
+      }
+
+      const rotas = {
+        "1": "diagramador_planejamento.html",
+        "3": "hub_capista.html",
+        "5": "segunda_linguas.html",
+        "7": "avaliacao_literaria.html",
+        "11": "analisador_obra.html",
+        "13": "lapidacao_literaria.html"
+      };
+
+      const destino = rotas[setorAtual];
+
+      if(destino){
+        window.location.href = destino;
+      }else{
+        alert("Setor " + setorAtual + " preparado para integração do fluxo.");
+      }
+    }
+
+    function toggleMesario(){
+      document.getElementById("mesarioPanel").classList.toggle("show");
     }
 
     function encaminharMesario(){
@@ -522,9 +700,8 @@
     }
 
     function aplicar(){
-      document.getElementById("usuarioAtual").innerText = nome;
-
       if(perfil === "admin"){
+        document.getElementById("usuarioAtual").innerText = nome;
         document.getElementById("perfilAtual").innerText = "Admin";
         document.getElementById("mesarioAtual").innerText = "Completo";
         document.getElementById("noticeText").innerText =
@@ -532,6 +709,7 @@
       }
 
       else if(perfil === "heteronimo"){
+        document.getElementById("usuarioAtual").innerText = nome;
         document.getElementById("perfilAtual").innerText = "Heterônimo";
         document.getElementById("mesarioAtual").innerText = "Completo";
         document.getElementById("noticeText").innerText =
@@ -539,17 +717,11 @@
       }
 
       else if(perfil === "cortesia"){
-        document.getElementById("perfilAtual").innerText = "Cortesia";
-        document.getElementById("mesarioAtual").innerText = "Ornamental";
         document.getElementById("heroText").innerText =
           "Aqui ficam os setores produtivos liberados ao perfil cortesia.";
-        document.getElementById("mesarioText").innerText =
-          "Para o perfil cortesia, o bloco financeiro é substituído por mensagem institucional.";
-        document.getElementById("mesarioGrid").classList.add("hidden");
-        document.getElementById("ctaMesario").classList.add("hidden");
-        document.getElementById("ctaCortesia").classList.remove("hidden");
-        document.getElementById("noticeText").innerText =
-          "Ambiente institucional liberado por cortesia do Celeiro Literário.";
+        document.getElementById("mesarioToggleWrap").classList.add("hidden");
+        document.getElementById("mesarioPanel").classList.add("hidden");
+        document.getElementById("resumoCard").classList.add("hidden");
       }
 
       else{
@@ -560,4 +732,5 @@
     aplicar();
   </script>
 </body>
-</html>
+</html>    
+           
