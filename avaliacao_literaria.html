@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Avaliação Literária • Lapidar</title>
+
+<style>
+body{
+margin:0;
+font-family:Arial;
+background:#0e0604;
+color:white;
+}
+
+header{
+background:#2f436d;
+padding:18px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.container{
+max-width:1000px;
+margin:auto;
+padding:24px 16px;
+}
+
+.card{
+background:#1c0e08;
+border-radius:14px;
+padding:20px;
+margin-bottom:18px;
+box-shadow:0 6px 18px rgba(0,0,0,.25);
+}
+
+label{
+display:block;
+margin-top:14px;
+margin-bottom:6px;
+font-weight:bold;
+}
+
+input, textarea, select{
+width:100%;
+padding:12px;
+border-radius:10px;
+border:none;
+background:#2a140c;
+color:white;
+box-sizing:border-box;
+}
+
+textarea{
+min-height:140px;
+resize:vertical;
+}
+
+button{
+margin-top:12px;
+padding:12px 16px;
+border:none;
+border-radius:8px;
+background:#2f436d;
+color:white;
+font-weight:bold;
+cursor:pointer;
+}
+
+.alt{
+background:#8a6f3f;
+}
+
+.sec{
+background:#6c757d;
+}
+
+.preview{
+margin-top:12px;
+background:#2a140c;
+padding:12px;
+border-radius:10px;
+font-size:14px;
+line-height:1.6;
+}
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:16px;
+}
+
+@media(max-width:700px){
+.grid{
+grid-template-columns:1fr;
+}
+}
+</style>
+</head>
+<body>
+
+<header>
+<h2>Avaliação Literária</h2>
+<div>
+<button onclick="voltar()">Voltar</button>
+</div>
+</header>
+
+<div class="container">
+
+<div class="card">
+<h3>Projeto ativo</h3>
+<div id="projetoNome">Nenhum projeto selecionado.</div>
+</div>
+
+<div class="card">
+<h3>Configuração da avaliação</h3>
+
+<div class="grid">
+<div>
+<label>Tipo de avaliação</label>
+<select id="tipoAvaliacao">
+<option>Leitura crítica</option>
+<option>Parecer técnico</option>
+<option>Avaliação completa</option>
+<option>Análise estrutural</option>
+</select>
+</div>
+
+<div>
+<label>Nível de profundidade</label>
+<select id="nivelAvaliacao">
+<option>Leve</option>
+<option>Médio</option>
+<option>Completo</option>
+<option>Internacional</option>
+</select>
+</div>
+</div>
+
+<label>Observações da avaliação</label>
+<textarea id="obsAvaliacao" placeholder="Registrar o foco da avaliação, pontos de atenção, gênero, público-alvo, estilo desejado e observações gerais..."></textarea>
+
+<button onclick="salvarAvaliacao()">Salvar configuração da avaliação</button>
+
+<div class="preview" id="statusAvaliacao">
+Configuração da avaliação ainda não registrada.
+</div>
+</div>
+
+<div class="card">
+<h3>Parecer literário</h3>
+<textarea id="parecerLiterario" placeholder="Escreva aqui o parecer literário da obra..."></textarea>
+
+<button class="alt" onclick="carregarParecer()">Carregar parecer salvo</button>
+<button onclick="salvarParecer()">Salvar parecer</button>
+
+<div class="preview" id="statusParecer">
+Nenhum parecer salvo ainda.
+</div>
+</div>
+
+<div class="card">
+<h3>Ações rápidas</h3>
+<button onclick="abrirDepartamentos()">Painel departamentos</button>
+<button class="alt" onclick="abrirExpedicao()">Ir para expedição</button>
+<button class="sec" onclick="abrirProjetos()">Projetos</button>
+</div>
+
+</div>
+
+<script>
+const perfil = localStorage.getItem("lapidar_perfil");
+
+if(!perfil){
+window.location.href = "index.html";
+}
+
+const projeto = localStorage.getItem("lapidar_projeto_ativo");
+if(projeto){
+document.getElementById("projetoNome").innerText = projeto;
+}
+
+function salvarAvaliacao(){
+localStorage.setItem("lapidar_avaliacao_tipo", tipoAvaliacao.value);
+localStorage.setItem("lapidar_avaliacao_nivel", nivelAvaliacao.value);
+localStorage.setItem("lapidar_avaliacao_obs", obsAvaliacao.value);
+
+document.getElementById("statusAvaliacao").innerText =
+"Configuração da avaliação registrada com sucesso.";
+}
+
+function salvarParecer(){
+localStorage.setItem("lapidar_parecer_literario", parecerLiterario.value);
+
+document.getElementById("statusParecer").innerText =
+"Parecer salvo com sucesso.";
+}
+
+function carregarParecer(){
+const texto = localStorage.getItem("lapidar_parecer_literario") || "";
+document.getElementById("parecerLiterario").value = texto;
+
+document.getElementById("statusParecer").innerText =
+texto ? "Parecer carregado com sucesso." : "Nenhum parecer salvo encontrado.";
+}
+
+function abrirDepartamentos(){
+window.location.href = "painel_departamentos.html";
+}
+
+function abrirExpedicao(){
+window.location.href = "expedicao_material.html";
+}
+
+function abrirProjetos(){
+window.location.href = "projetos.html";
+}
+
+function voltar(){
+window.location.href = "painel_departamentos.html";
+}
+</script>
+
+</body>
+</html>
