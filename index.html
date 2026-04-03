@@ -1,396 +1,220 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lapidar • Acesso</title>
-  <style>
-    :root{
-      --bg:#ead9b8;
-      --cross:#d7be92;
-      --panel:#fffdf9;
-      --line:#d8c49f;
-      --text:#2e2418;
-      --muted:#6c5a43;
-      --deep:#1e3158;
-      --deep-2:#29457a;
-      --gold:#caa24f;
-      --shadow:0 18px 40px rgba(54,34,8,.16);
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    *{box-sizing:border-box}
+<title>Lapidar • Login</title>
 
-    html,body{
-      margin:0;
-      padding:0;
-      min-height:100%;
-      background:var(--bg);
-      color:var(--text);
-      font-family:Arial, Helvetica, sans-serif;
-    }
+<style>
 
-    body{
-      position:relative;
-      overflow-x:hidden;
-    }
+body{
+margin:0;
+font-family:Arial, Helvetica, sans-serif;
+background:#e6d3a3;
+}
 
-    .cross-v{
-      position:fixed;
-      top:0;
-      bottom:0;
-      left:50%;
-      transform:translateX(-50%);
-      width:220px;
-      background:var(--cross);
-      z-index:0;
-    }
+.container{
+max-width:420px;
+margin:60px auto;
+background:white;
+padding:30px;
+border-radius:18px;
+box-shadow:0 10px 25px rgba(0,0,0,.12);
+}
 
-    .cross-h{
-      position:fixed;
-      left:0;
-      right:0;
-      top:42%;
-      transform:translateY(-50%);
-      height:120px;
-      background:var(--cross);
-      z-index:0;
-    }
+.brasao{
+display:block;
+margin:auto;
+width:140px;
+margin-bottom:12px;
+}
 
-    .page{
-      position:relative;
-      z-index:2;
-      min-height:100vh;
-      padding:18px 16px 34px;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-    }
+.logo{
+text-align:center;
+font-size:36px;
+font-weight:bold;
+letter-spacing:3px;
+margin-bottom:6px;
+}
 
-    .hero{
-      width:100%;
-      max-width:520px;
-      text-align:center;
-      padding-top:10px;
-      margin-bottom:12px;
-    }
+.sub{
+text-align:center;
+font-size:13px;
+color:#777;
+margin-bottom:24px;
+}
 
-    .brasao{
-      width:235px;
-      max-width:78vw;
-      display:block;
-      margin:0 auto -4px;
-      object-fit:contain;
-      filter:drop-shadow(0 12px 20px rgba(58,33,7,.16));
-    }
+input{
+width:100%;
+padding:14px;
+margin-bottom:14px;
+border-radius:10px;
+border:1px solid #ccc;
+font-size:15px;
+}
 
-    .title{
-      margin:0;
-      font-size:44px;
-      letter-spacing:5px;
-      color:#fff;
-      font-family:Georgia, "Times New Roman", serif;
-      text-transform:uppercase;
-      text-shadow:0 3px 10px rgba(54,34,8,.20);
-    }
+button{
+width:100%;
+padding:14px;
+border:none;
+border-radius:12px;
+font-size:16px;
+cursor:pointer;
+font-weight:bold;
+}
 
-    .subtitle{
-      margin:8px 0 0;
-      color:#fff;
-      font-weight:800;
-      font-size:14px;
-      line-height:1.45;
-      text-transform:uppercase;
-      letter-spacing:.06em;
-      text-shadow:0 2px 8px rgba(54,34,8,.16);
-    }
+.login{
+background:#1f3f75;
+color:white;
+margin-bottom:10px;
+}
 
-    .subline{
-      margin:8px 0 0;
-      color:#fff9ef;
-      font-size:13px;
-      line-height:1.45;
-      font-weight:700;
-      text-shadow:0 2px 8px rgba(54,34,8,.16);
-    }
+.criar{
+background:#d4a73c;
+color:white;
+margin-bottom:10px;
+}
 
-    .login-card{
-      width:100%;
-      max-width:520px;
-      background:rgba(255,253,249,.98);
-      border:1px solid rgba(140,109,54,.18);
-      border-radius:30px;
-      box-shadow:var(--shadow);
-      padding:24px 20px 22px;
-    }
+.recuperar{
+background:#eee;
+}
 
-    .login-card h1{
-      margin:0 0 10px;
-      font-size:30px;
-      line-height:1.05;
-      text-align:center;
-      color:#1f2b4a;
-    }
+.footer{
+text-align:center;
+margin-top:20px;
+font-size:12px;
+color:#777;
+}
 
-    .login-card p{
-      margin:0 0 18px;
-      font-size:14px;
-      line-height:1.7;
-      color:var(--muted);
-      text-align:center;
-    }
-
-    .field{
-      display:grid;
-      gap:8px;
-      margin-bottom:14px;
-    }
-
-    .field label{
-      font-size:12px;
-      font-weight:900;
-      text-transform:uppercase;
-      letter-spacing:.08em;
-      color:#705a37;
-    }
-
-    .field input{
-      width:100%;
-      padding:15px 16px;
-      border-radius:16px;
-      border:1px solid var(--line);
-      background:#fffdf9;
-      color:var(--text);
-      font-size:16px;
-      outline:none;
-    }
-
-    .helper{
-      margin:4px 0 16px;
-      text-align:center;
-      color:var(--muted);
-      font-size:14px;
-      line-height:1.6;
-    }
-
-    .btn{
-      width:100%;
-      border:none;
-      border-radius:16px;
-      padding:16px 18px;
-      font-size:18px;
-      font-weight:900;
-      cursor:pointer;
-      background:linear-gradient(135deg,var(--deep) 0%, var(--deep-2) 100%);
-      color:#fff;
-    }
-
-    .bottom-stack{
-      display:grid;
-      gap:14px;
-      margin-top:18px;
-    }
-
-    .mini-card{
-      border:1px solid #e5d6b4;
-      border-radius:22px;
-      background:#fffefb;
-      padding:18px;
-    }
-
-    .mini-card h3{
-      margin:0 0 8px;
-      font-size:18px;
-      line-height:1.2;
-    }
-
-    .mini-card p{
-      margin:0 0 12px;
-      text-align:left;
-      color:var(--muted);
-    }
-
-    .mini-link{
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      min-height:52px;
-      border-radius:14px;
-      font-size:16px;
-      font-weight:900;
-      text-decoration:none;
-      cursor:pointer;
-    }
-
-    .mini-link.gold{
-      background:linear-gradient(135deg,#d2ab5c 0%, #b48d40 100%);
-      color:#fff;
-    }
-
-    .mini-link.outline{
-      background:#fff;
-      color:#5f4b2f;
-      border:1px solid var(--line);
-    }
-
-    .last-box{
-      border:1px solid #e5d6b4;
-      border-radius:22px;
-      background:#fffefb;
-      padding:18px;
-    }
-
-    .last-box h3{
-      margin:0 0 12px;
-      font-size:18px;
-      line-height:1.2;
-    }
-
-    .last-line{
-      display:flex;
-      justify-content:space-between;
-      gap:12px;
-      margin-top:10px;
-      font-size:14px;
-      line-height:1.5;
-    }
-
-    .last-line span{
-      color:var(--muted);
-    }
-
-    .last-line strong{
-      text-align:right;
-      color:#3e2d1e;
-    }
-
-    .footer{
-      margin-top:14px;
-      text-align:center;
-      color:#6d5a43;
-      font-size:12px;
-      font-weight:800;
-      line-height:1.5;
-    }
-
-    @media (max-width:560px){
-      .title{font-size:34px}
-      .cross-v{width:170px}
-      .cross-h{height:110px}
-      .brasao{width:210px}
-    }
-  </style>
+</style>
 </head>
+
+
 <body>
-  <div class="cross-v"></div>
-  <div class="cross-h"></div>
 
-  <div class="page">
-    <section class="hero">
-      <img class="brasao" src="brasao.png" alt="Brasão do Site das Letras">
-      <h2 class="title">Lapidar</h2>
-      <div class="subtitle">Produto institucional do Celeiro Literário</div>
-      <div class="subline">Site das Letras Edições Literárias</div>
-    </section>
 
-    <section class="login-card">
-      <h1>Acesso ao sistema</h1>
-      <p>Entre com seu login e senha para acessar sua área dentro do Lapidar.</p>
+<div class="container">
 
-      <div class="field">
-        <label>Login ou e-mail</label>
-        <input id="login" type="text" placeholder="Digite seu login ou e-mail">
-      </div>
+<img
+class="brasao"
+src="file_00000000d8bc71f5b57491905e34ae99.jpg"
+alt="Brasão do Site das Letras"
+>
 
-      <div class="field">
-        <label>Senha</label>
-        <input id="senha" type="password" placeholder="Digite sua senha">
-      </div>
+<div class="logo">LAPIDAR</div>
 
-      <div class="helper">O perfil é reconhecido automaticamente pelo seu acesso.</div>
+<div class="sub">
+Produto institucional do Celeiro Literário<br>
+Site das Letras Edições Literárias
+</div>
 
-      <button class="btn" onclick="entrar()">Entrar no Lapidar</button>
 
-      <div class="bottom-stack">
-        <div class="mini-card">
-          <h3>Ainda não tem acesso?</h3>
-          <p>Crie primeiro o seu cadastro. O login será liberado imediatamente dentro do sistema.</p>
-          <a class="mini-link gold" href="criar_perfil.html">Criar cadastro</a>
-        </div>
+<input
+id="usuario"
+placeholder="Digite seu login ou e-mail"
+>
 
-        <div class="mini-card">
-          <h3>Esqueceu sua senha?</h3>
-          <p>Use as perguntas de segurança que você cadastrou para redefinir sua senha dentro do próprio sistema.</p>
-          <a class="mini-link outline" href="recuperar_senha.html">Recuperar senha</a>
-        </div>
 
-        <div class="last-box">
-          <h3>Último acesso criado</h3>
-          <div class="last-line">
-            <span>Último login cadastrado</span>
-            <strong id="ultimoLogin">—</strong>
-          </div>
-          <div class="last-line">
-            <span>Perfil salvo na sessão</span>
-            <strong id="ultimoPerfil">—</strong>
-          </div>
-        </div>
-      </div>
-    </section>
+<input
+id="senha"
+type="password"
+placeholder="Digite sua senha"
+>
 
-    <div class="footer">
-      Lapidar • Celeiro Literário • Site das Letras Edições Literárias
-    </div>
-  </div>
 
-  <script>
-    const usuarios = {
-      "admin@sitedasletras.com": {
-        senha: "admin123",
-        perfil: "admin",
-        nome: "Administrador do Sistema"
-      },
-      "heteronimos@sitedasletrasedicoesliterarias.com": {
-        senha: "heteronimo123",
-        perfil: "heteronimo",
-        nome: "Heterônimo do Sistema"
-      },
-      "andre.capista": {
-        senha: "andre123",
-        perfil: "cortesia",
-        nome: "Cortesia André Capista"
-      }
-    };
+<button
+class="login"
+onclick="entrar()"
+>
+Entrar no Lapidar
+</button>
 
-    function atualizarResumo() {
-      const ultimoLogin = localStorage.getItem("lapidar_usuario") || "—";
-      const ultimoPerfil = localStorage.getItem("lapidar_perfil") || "—";
-      document.getElementById("ultimoLogin").innerText = ultimoLogin;
-      document.getElementById("ultimoPerfil").innerText = ultimoPerfil;
-    }
 
-    function entrar() {
-      const login = document.getElementById("login").value.trim().toLowerCase();
-      const senha = document.getElementById("senha").value;
+<button
+class="criar"
+onclick="criarCadastro()"
+>
+Criar cadastro
+</button>
 
-      if (!usuarios[login]) {
-        alert("Login ou e-mail não encontrado.");
-        return;
-      }
 
-      if (usuarios[login].senha !== senha) {
-        alert("Senha incorreta.");
-        return;
-      }
+<button
+class="recuperar"
+onclick="recuperarSenha()"
+>
+Recuperar senha
+</button>
 
-      localStorage.setItem("lapidar_usuario", login);
-      localStorage.setItem("lapidar_perfil", usuarios[login].perfil);
-      localStorage.setItem("lapidar_nome", usuarios[login].nome);
 
-      window.location.href = "sala_reunioes.html";
-    }
+<div class="footer">
 
-    atualizarResumo();
-  </script>
+Lapidar • Celeiro Literário • Site das Letras Edições Literárias
+
+</div>
+
+
+</div>
+
+
+<script>
+
+
+function entrar(){
+
+let usuario=document.getElementById("usuario").value.toLowerCase()
+
+
+if(usuario.includes("admin")){
+
+localStorage.setItem("lapidar_perfil","admin")
+localStorage.setItem("lapidar_usuario","admin")
+
+window.location.href="sala_reunioes.html"
+
+return
+
+}
+
+
+if(usuario.includes("heteronimo")){
+
+localStorage.setItem("lapidar_perfil","heteronimo")
+localStorage.setItem("lapidar_usuario","heteronimo")
+
+window.location.href="sala_reunioes.html"
+
+return
+
+}
+
+
+localStorage.setItem("lapidar_perfil","cortesia")
+localStorage.setItem("lapidar_usuario","cortesia")
+
+window.location.href="sala_reunioes.html"
+
+}
+
+
+
+function criarCadastro(){
+
+alert("Cadastro automático liberado.")
+
+}
+
+
+
+function recuperarSenha(){
+
+alert("Recuperação liberada.")
+
+}
+
+
+</script>
+
+
 </body>
 </html>
