@@ -1,151 +1,367 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Criar Perfil — Lapidar</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Criar Perfil • Lapidar</title>
 
 <style>
-
 body{
-font-family: Arial, sans-serif;
-background:#f5f5f5;
 margin:0;
-padding:0;
+font-family:Arial, Helvetica, sans-serif;
+background:#e6d3a3;
 }
 
 .container{
-width:420px;
-margin:50px auto;
+max-width:520px;
+margin:40px auto;
 background:white;
 padding:30px;
-border-radius:10px;
-box-shadow:0px 0px 15px rgba(0,0,0,0.15);
+border-radius:18px;
+box-shadow:0 10px 25px rgba(0,0,0,.12);
 }
 
-h1{
+.brasao{
+display:block;
+margin:auto;
+width:120px;
+margin-bottom:12px;
+object-fit:contain;
+}
+
+.logo{
 text-align:center;
-margin-bottom:25px;
+font-size:32px;
+font-weight:bold;
+letter-spacing:2px;
+margin-bottom:6px;
+}
+
+.sub{
+text-align:center;
+font-size:13px;
+color:#777;
+margin-bottom:24px;
+line-height:1.5;
+}
+
+.form-group{
+margin-bottom:14px;
 }
 
 label{
 display:block;
-margin-top:12px;
+font-size:13px;
 font-weight:bold;
+margin-bottom:6px;
+color:#444;
 }
 
 input, select{
 width:100%;
-padding:8px;
-margin-top:5px;
-border-radius:5px;
+padding:14px;
+border-radius:10px;
 border:1px solid #ccc;
+font-size:15px;
+box-sizing:border-box;
 }
 
 button{
-margin-top:20px;
 width:100%;
-padding:12px;
-background:#2b7cff;
-color:white;
+padding:14px;
 border:none;
-border-radius:6px;
+border-radius:12px;
 font-size:16px;
 cursor:pointer;
-}
-
-button:hover{
-background:#1d5ed8;
-}
-
-.info{
-margin-top:15px;
-font-size:13px;
-color:#666;
-text-align:center;
-}
-
-.voltar{
-margin-top:20px;
-text-align:center;
-}
-
-.voltar a{
-text-decoration:none;
-color:#2b7cff;
 font-weight:bold;
 }
 
+.salvar{
+background:#1f3f75;
+color:white;
+margin-bottom:10px;
+}
+
+.voltar{
+background:#ddd;
+color:#333;
+}
+
+.msg{
+margin-top:12px;
+padding:12px;
+border-radius:10px;
+font-size:14px;
+display:none;
+}
+
+.msg.ok{
+background:#eef8f0;
+color:#1f6b36;
+border:1px solid #b8dfc0;
+display:block;
+}
+
+.msg.erro{
+background:#fff1f1;
+color:#a12626;
+border:1px solid #efc0c0;
+display:block;
+}
 </style>
 </head>
-
 <body>
 
 <div class="container">
 
-<h1>Criar Perfil Editorial</h1>
+<img
+class="brasao"
+src="file_00000000d8bc71f5b57491905e34ae99.jpg"
+alt="Brasão do Site das Letras"
+>
 
-<form>
+<div class="logo" id="txtTitulo">Criar cadastro</div>
 
-<label>Nome completo</label>
-<input type="text" required>
+<div class="sub" id="txtSub">
+Preencha seus dados para criar seu acesso dentro do Lapidar.
+</div>
 
-<label>E-mail</label>
-<input type="email" required>
+<div class="form-group">
+  <label id="lblNome">Nome completo</label>
+  <input id="nomeCompleto" type="text">
+</div>
 
-<label>Telefone (WhatsApp preferencial)</label>
-<input type="tel" required>
+<div class="form-group">
+  <label id="lblLogin">Login</label>
+  <input id="login" type="text">
+</div>
 
-<label>Cidade</label>
-<input type="text" required>
+<div class="form-group">
+  <label id="lblEmail">E-mail</label>
+  <input id="email" type="email">
+</div>
 
-<label>Estado</label>
-<input type="text" required>
+<div class="form-group">
+  <label id="lblSenha">Senha</label>
+  <input id="senha" type="password">
+</div>
 
-<label>País</label>
-<input type="text" value="Brasil" required>
+<div class="form-group">
+  <label id="lblPerfil">Perfil</label>
+  <select id="perfil">
+    <option value="cortesia">Cortesia</option>
+    <option value="heteronimo">Heterônimo</option>
+  </select>
+</div>
 
-<label>Perfil principal</label>
-<select required>
+<div class="form-group">
+  <label id="lblIdioma">Idioma</label>
+  <select id="idioma">
+    <option value="pt">Português</option>
+    <option value="en">English</option>
+    <option value="es">Español</option>
+  </select>
+</div>
 
-<option value="">Selecione</option>
+<div class="form-group">
+  <label id="lblPergunta1">Pergunta de segurança 1</label>
+  <input id="pergunta1" type="text" placeholder="">
+</div>
 
-<option>Escritor</option>
-<option>Capista</option>
-<option>Tradutor</option>
-<option>Diagramador</option>
-<option>Leitor técnico</option>
-<option>Pesquisador</option>
-<option>Outro</option>
+<div class="form-group">
+  <label id="lblResposta1">Resposta 1</label>
+  <input id="resposta1" type="text">
+</div>
 
-</select>
+<div class="form-group">
+  <label id="lblPergunta2">Pergunta de segurança 2</label>
+  <input id="pergunta2" type="text" placeholder="">
+</div>
 
-<label>Senha</label>
-<input type="password" required>
+<div class="form-group">
+  <label id="lblResposta2">Resposta 2</label>
+  <input id="resposta2" type="text">
+</div>
 
-<label>Confirmar senha</label>
-<input type="password" required>
+<button class="salvar" onclick="salvarCadastro()" id="btnSalvar">Salvar cadastro</button>
+<button class="voltar" onclick="voltarLogin()" id="btnVoltar">Voltar ao login</button>
 
-<button type="submit">
-Criar Perfil
-</button>
-
-</form>
-
-<div class="info">
-
-Essas informações ajudam o Lapidar a organizar o ambiente editorial e gerar estatísticas institucionais do uso da plataforma.
+<div id="mensagem" class="msg"></div>
 
 </div>
 
-<div class="voltar">
+<script>
+const textos = {
+  pt: {
+    titulo: "Criar cadastro",
+    sub: "Preencha seus dados para criar seu acesso dentro do Lapidar.",
+    nome: "Nome completo",
+    login: "Login",
+    email: "E-mail",
+    senha: "Senha",
+    perfil: "Perfil",
+    idioma: "Idioma",
+    pergunta1: "Pergunta de segurança 1",
+    resposta1: "Resposta 1",
+    pergunta2: "Pergunta de segurança 2",
+    resposta2: "Resposta 2",
+    salvar: "Salvar cadastro",
+    voltar: "Voltar ao login",
+    p1: "Qual é o seu nome do meio?",
+    p2: "Qual é o número da sua casa?",
+    obrigatorio: "Preencha todos os campos.",
+    existente: "Esse login ou e-mail já está cadastrado.",
+    sucesso: "Cadastro salvo com sucesso. Voltando ao login..."
+  },
+  en: {
+    titulo: "Create account",
+    sub: "Fill in your details to create your access inside Lapidar.",
+    nome: "Full name",
+    login: "Login",
+    email: "E-mail",
+    senha: "Password",
+    perfil: "Profile",
+    idioma: "Language",
+    pergunta1: "Security question 1",
+    resposta1: "Answer 1",
+    pergunta2: "Security question 2",
+    resposta2: "Answer 2",
+    salvar: "Save account",
+    voltar: "Back to login",
+    p1: "What is your middle name?",
+    p2: "What is your house number?",
+    obrigatorio: "Fill in all fields.",
+    existente: "This login or e-mail is already registered.",
+    sucesso: "Account saved successfully. Returning to login..."
+  },
+  es: {
+    titulo: "Crear registro",
+    sub: "Complete sus datos para crear su acceso dentro de Lapidar.",
+    nome: "Nombre completo",
+    login: "Usuario",
+    email: "Correo",
+    senha: "Contraseña",
+    perfil: "Perfil",
+    idioma: "Idioma",
+    pergunta1: "Pregunta de seguridad 1",
+    resposta1: "Respuesta 1",
+    pergunta2: "Pregunta de seguridad 2",
+    resposta2: "Respuesta 2",
+    salvar: "Guardar registro",
+    voltar: "Volver al login",
+    p1: "¿Cuál es su segundo nombre?",
+    p2: "¿Cuál es el número de su casa?",
+    obrigatorio: "Complete todos los campos.",
+    existente: "Ese usuario o correo ya está registrado.",
+    sucesso: "Registro guardado con éxito. Volviendo al login..."
+  }
+};
 
-<a href="index.html">
-Voltar ao login
-</a>
+function detectarIdioma(){
+  const nav = (navigator.language || "pt").toLowerCase();
+  if(nav.startsWith("en")) return "en";
+  if(nav.startsWith("es")) return "es";
+  return "pt";
+}
 
-</div>
+const idiomaAtual = detectarIdioma();
+const t = textos[idiomaAtual];
 
-</div>
+function aplicarIdioma(){
+  document.getElementById("txtTitulo").innerText = t.titulo;
+  document.getElementById("txtSub").innerText = t.sub;
+  document.getElementById("lblNome").innerText = t.nome;
+  document.getElementById("lblLogin").innerText = t.login;
+  document.getElementById("lblEmail").innerText = t.email;
+  document.getElementById("lblSenha").innerText = t.senha;
+  document.getElementById("lblPerfil").innerText = t.perfil;
+  document.getElementById("lblIdioma").innerText = t.idioma;
+  document.getElementById("lblPergunta1").innerText = t.pergunta1;
+  document.getElementById("lblResposta1").innerText = t.resposta1;
+  document.getElementById("lblPergunta2").innerText = t.pergunta2;
+  document.getElementById("lblResposta2").innerText = t.resposta2;
+  document.getElementById("btnSalvar").innerText = t.salvar;
+  document.getElementById("btnVoltar").innerText = t.voltar;
+  document.getElementById("pergunta1").placeholder = t.p1;
+  document.getElementById("pergunta2").placeholder = t.p2;
+  document.getElementById("idioma").value = idiomaAtual;
+}
+
+function mostrarMensagem(tipo, texto){
+  const box = document.getElementById("mensagem");
+  box.className = "msg " + tipo;
+  box.innerText = texto;
+}
+
+function carregarCadastros(){
+  try{
+    return JSON.parse(localStorage.getItem("lapidar_cadastros") || "[]");
+  }catch(e){
+    return [];
+  }
+}
+
+function salvarCadastros(lista){
+  localStorage.setItem("lapidar_cadastros", JSON.stringify(lista));
+}
+
+function salvarCadastro(){
+  const nomeCompleto = document.getElementById("nomeCompleto").value.trim();
+  const login = document.getElementById("login").value.trim().toLowerCase();
+  const email = document.getElementById("email").value.trim().toLowerCase();
+  const senha = document.getElementById("senha").value;
+  const perfil = document.getElementById("perfil").value;
+  const idioma = document.getElementById("idioma").value;
+  const pergunta1 = document.getElementById("pergunta1").value.trim();
+  const resposta1 = document.getElementById("resposta1").value.trim();
+  const pergunta2 = document.getElementById("pergunta2").value.trim();
+  const resposta2 = document.getElementById("resposta2").value.trim();
+
+  if(!nomeCompleto || !login || !email || !senha || !perfil || !idioma || !pergunta1 || !resposta1 || !pergunta2 || !resposta2){
+    mostrarMensagem("erro", t.obrigatorio);
+    return;
+  }
+
+  const cadastros = carregarCadastros();
+
+  const existe = cadastros.find(item => item.login === login || item.email === email);
+
+  if(existe){
+    mostrarMensagem("erro", t.existente);
+    return;
+  }
+
+  cadastros.push({
+    nomeCompleto,
+    login,
+    email,
+    senha,
+    perfil,
+    idioma,
+    pergunta1,
+    resposta1,
+    pergunta2,
+    resposta2
+  });
+
+  salvarCadastros(cadastros);
+
+  localStorage.setItem("lapidar_ultimo_cadastro_login", login);
+  localStorage.setItem("lapidar_ultimo_cadastro_perfil", perfil);
+
+  mostrarMensagem("ok", t.sucesso);
+
+  setTimeout(() => {
+    window.location.href = "index.html";
+  }, 900);
+}
+
+function voltarLogin(){
+  window.location.href = "index.html";
+}
+
+aplicarIdioma();
+</script>
 
 </body>
 </html>
