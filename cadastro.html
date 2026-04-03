@@ -48,7 +48,7 @@ font-size:14px;
 color:#333;
 }
 
-input, select{
+input{
 width:100%;
 padding:14px;
 margin-top:6px;
@@ -131,14 +131,14 @@ line-height:1.7;
       <label>Nome completo</label>
       <input id="nome" required>
 
-      <label>Email</label>
+      <label>E-mail</label>
       <input id="email" type="email" required>
 
-      <label>Telefone internacional</label>
+      <label>Telefone / WhatsApp internacional</label>
       <input
         type="tel"
         id="telefone"
-        placeholder="+55 11999999999"
+        placeholder="+55"
         required
         oninput="corrigirTelefone(this)"
       >
@@ -150,7 +150,7 @@ line-height:1.7;
       <label>Senha</label>
       <input id="senha" type="password" required>
 
-      <button type="submit">Criar cadastro</button>
+      <button type="submit">Continuar cadastro</button>
 
       <button type="button" class="sair" onclick="sairSistema()">Cancelar cadastro</button>
 
@@ -242,6 +242,18 @@ function telefoneValido(valor){
   return /^\+[1-9][0-9]{3,14}$/.test(valor);
 }
 
+function carregarCadastros(){
+  try{
+    return JSON.parse(localStorage.getItem("lapidar_cadastros") || "[]");
+  }catch(e){
+    return [];
+  }
+}
+
+function salvarCadastros(lista){
+  localStorage.setItem("lapidar_cadastros", JSON.stringify(lista));
+}
+
 function salvarCadastro(event){
   event.preventDefault();
 
@@ -260,6 +272,47 @@ function salvarCadastro(event){
     return;
   }
 
+  const cadastros = carregarCadastros();
+
+  const existe = cadastros.find(item =>
+    item.email === email || item.telefone === telefone
+  );
+
+  if(existe){
+    localStorage.setItem("lapidar_cadastro_id", existe.id);
+    localStorage.setItem("lapidar_nome", existe.nomeCompleto);
+    localStorage.setItem("lapidar_email", existe.email);
+    localStorage.setItem("lapidar_telefone", existe.telefone);
+    localStorage.setItem("lapidar_senha", existe.senha);
+    localStorage.setItem("lapidar_status_fluxo", "cadastro_criado");
+
+    mostrarMensagem("ok","Cadastro já existente encontrado. Continuando o perfil...");
+    setTimeout(() => {
+      window.location.href = "criar_perfil.html";
+    }, 700);
+    return;
+  }
+
+  const novoCadastro = {
+    id: "cad_" + Date.now(),
+    nomeCompleto: nome,
+    email: email,
+    telefone: telefone,
+    senha: senha,
+    idioma: (navigator.language || "pt-BR"),
+    perfilTipo: "utilizador",
+    interessePrincipal: "",
+    perfilLiterario: "",
+    pergunta1: "",
+    resposta1: "",
+    pergunta2: "",
+    resposta2: ""
+  };
+
+  cadastros.push(novoCadastro);
+  salvarCadastros(cadastros);
+
+  localStorage.setItem("lapidar_cadastro_id", novoCadastro.id);
   localStorage.setItem("lapidar_nome", nome);
   localStorage.setItem("lapidar_email", email);
   localStorage.setItem("lapidar_telefone", telefone);
