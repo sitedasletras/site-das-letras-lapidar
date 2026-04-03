@@ -8,23 +8,25 @@
 <style>
 body{
 margin:0;
-font-family:Arial;
+font-family:Arial, sans-serif;
 background:#0e0604;
 color:white;
 }
 
 header{
 background:#2f436d;
-padding:18px;
+padding:18px 20px;
 display:flex;
 justify-content:space-between;
 align-items:center;
+gap:12px;
+flex-wrap:wrap;
 }
 
 .container{
-max-width:1000px;
+max-width:1100px;
 margin:auto;
-padding:24px 16px;
+padding:24px 16px 40px;
 }
 
 .card{
@@ -35,6 +37,10 @@ margin-bottom:18px;
 box-shadow:0 6px 18px rgba(0,0,0,.25);
 }
 
+h3{
+margin-top:0;
+}
+
 label{
 display:block;
 margin-top:14px;
@@ -42,7 +48,10 @@ margin-bottom:6px;
 font-weight:bold;
 }
 
-input, textarea, select{
+input[type="text"],
+input[type="number"],
+textarea,
+select{
 width:100%;
 padding:12px;
 border-radius:10px;
@@ -50,6 +59,11 @@ border:none;
 background:#2a140c;
 color:white;
 box-sizing:border-box;
+font-family:Arial, sans-serif;
+}
+
+input[type="range"]{
+width:100%;
 }
 
 textarea{
@@ -76,19 +90,88 @@ background:#8a6f3f;
 background:#6c757d;
 }
 
+.ok{
+background:#1f6b36;
+}
+
 .preview{
 margin-top:12px;
 background:#2a140c;
 padding:12px;
 border-radius:10px;
 font-size:14px;
-line-height:1.6;
+line-height:1.7;
 }
 
 .grid{
 display:grid;
 grid-template-columns:1fr 1fr;
 gap:16px;
+}
+
+.grid-3{
+display:grid;
+grid-template-columns:1fr 1fr 1fr;
+gap:16px;
+}
+
+.blocoEscala{
+background:#24130c;
+padding:16px;
+border-radius:12px;
+margin-top:14px;
+}
+
+.linhaFaixa{
+margin-top:12px;
+padding:12px;
+background:#2a140c;
+border-radius:10px;
+}
+
+.topoFaixa{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:12px;
+flex-wrap:wrap;
+margin-bottom:8px;
+}
+
+.nomeFaixa{
+font-weight:bold;
+}
+
+.valorFaixa{
+font-size:13px;
+opacity:.9;
+}
+
+.notaBox{
+background:#24130c;
+border-radius:12px;
+padding:16px;
+margin-top:16px;
+}
+
+.notaGrande{
+font-size:26px;
+font-weight:bold;
+margin-top:8px;
+}
+
+.notaPublica{
+color:#ffd27a;
+}
+
+.notaInterna{
+color:#9fd9ff;
+}
+
+@media(max-width:900px){
+.grid-3{
+grid-template-columns:1fr;
+}
 }
 
 @media(max-width:700px){
@@ -129,7 +212,7 @@ grid-template-columns:1fr;
 </div>
 
 <div>
-<label>Nível de profundidade</label>
+<label>Profundidade da avaliação</label>
 <select id="nivelAvaliacao">
 <option>Leve</option>
 <option>Médio</option>
@@ -139,13 +222,349 @@ grid-template-columns:1fr;
 </div>
 </div>
 
-<label>Observações da avaliação</label>
-<textarea id="obsAvaliacao" placeholder="Registrar o foco da avaliação, pontos de atenção, gênero, público-alvo, estilo desejado e observações gerais..."></textarea>
+<label>Observações gerais</label>
+<textarea id="obsAvaliacao" placeholder="Registrar foco da avaliação, gênero, público, pontos de atenção, intenção editorial e demais observações."></textarea>
 
-<button onclick="salvarAvaliacao()">Salvar configuração da avaliação</button>
+<button onclick="salvarConfiguracao()">Salvar configuração da avaliação</button>
 
-<div class="preview" id="statusAvaliacao">
+<div class="preview" id="statusConfig">
 Configuração da avaliação ainda não registrada.
+</div>
+</div>
+
+<div class="card">
+<h3>Avaliação Técnica Literária</h3>
+<p>Escala interna: <strong>0 a 100.000</strong> • Escala pública: <strong>0 a 10</strong></p>
+
+<div class="blocoEscala">
+<div class="linhaFaixa">
+<div class="topoFaixa">
+<div class="nomeFaixa">Estrutura e organização</div>
+<div class="valorFaixa"><span id="t1v">0</span> / 10000</div>
+</div>
+<input type="range" min="0" max="10000" value="0" id="t1" oninput="syncRange('t1','t1n','t1v')">
+<input type="number" min="0" max="10000" value="0" id="t1n" oninput="syncNumber('t1','t1n','t1v')">
+</div>
+
+<div class="linhaFaixa">
+<div class="topoFaixa">
+<div class="nomeFaixa">Coerência narrativa</div>
+<div class="valorFaixa"><span id="t2v">0</span> / 10000</div>
+</div>
+<input type="range" min="0" max="10000" value="0" id="t2" oninput="syncRange('t2','t2n','t2v')">
+<input type="number" min="0" max="10000" value="0" id="t2n" oninput="syncNumber('t2','t2n','t2v')">
+</div>
+
+<div class="linhaFaixa">
+<div class="topoFaixa">
+<div class="nomeFaixa">Ritmo textual</div>
+<div class="valorFaixa"><span id="t3v">0</span> / 10000</div>
+</div>
+<input type="range" min="0" max="10000" value="0" id="t3" oninput="syncRange('t3','t3n','t3v')">
+<input type="number" min="0" max="10000" value="0" id="t3n" oninput="syncNumber('t3','t3n','t3v')">
+</div>
+
+<div class="linhaFaixa">
+<div class="topoFaixa">
+<div class="nomeFaixa">Personagens</div>
+<div class="valorFaixa"><span id="t4v">0</span> / 10000</div>
+</div>
+<input type="range" min="0" max="10000" value="0" id="t4" oninput="syncRange('t4','t4n','t4v')">
+<input type="number" min="0" max="10000" value="0" id="t4n" oninput="syncNumber('t4','t4n','t4v')">
+</div>
+
+<div class="linhaFaixa">
+<div class="topoFaixa">
+<div class="nomeFaixa">Ambientação</div>
+<div class="valorFaixa"><span id="t5v">0</span> / 10000</div>
+</div>
+<input type="range" min="0" max="10000" value="0" id="t5" oninput="syncRange('t5','t5n','t5v')">
+<input type="number" min="0" max="10000" value="0" id="t5n" oninput="syncNumber('t5','t5n','t5v')">
+</div>
+
+<div class="linhaFaixa">
+<div class="topoFaixa">
+<div class="nomeFaixa">Vocabulário e precisão verbal</div>
+<div class="valorFaixa"><span id="t6v">0</span> / 10000</div>
+</div>
+<input type="range" min="0" max="10000" value="0" id="t6" oninput="syncRange('t6','t6n','t6v')">
+<input type="number" min="0" max="10000" value="0" id="t6n" oninput="syncNumber('t6','t6n','t6v')">
+</div>
+
+<div class="linhaFaixa">
+<div class="topoFaixa">
+<div class="nomeFaixa">Diálogos</div>
+<div class="valorFaixa"><span id="t7v">0</span> / 10000</div>
+</div>
+<input type="range" min="0" max="10000" value="0" id="t7" oninput="syncRange('t7','t7n','t7v')">
+<input type="number" min="0" max="10000" value="0" id="t7n" oninput="syncNumber('t7','t7n','t7v')">
+</div>
+
+<div class="linhaFaixa">
+<div class="topoFaixa">
+<div class="nomeFaixa">Originalidade</div>
+<div class="valorFaixa"><span id="t8v">0</span> / 10000</div>
+</div>
+<input type="range" min="0" max="10000" value="0" id="t8" oninput="syncRange('t8','t8n','t8v')">
+<input type="number" min="0" max="10000" value="0" id="t8n" oninput="syncNumber('t8','t8n','t8v')">
+</div>
+
+<div class="linhaFaixa">
+<div class="topoFaixa">
+<div class="nomeFaixa">Estilo autoral</div>
+<div class="valorFaixa"><span id="t9v">0</span> / 10000</div>
+</div>
+<input type="range" min="0" max="10000" value="0" id="t9" oninput="syncRange('t9','t9n','t9v')">
+<input type="number" min="0" max="10000" value="0" id="t9n" oninput="syncNumber('t9','t9n','t9v')">
+</div>
+
+<div class="linhaFaixa">
+<div class="topoFaixa">
+<div class="nomeFaixa">Impacto técnico final</div>
+<div class="valorFaixa"><span id="t10v">0</span> / 10000</div>
+</div>
+<input type="range" min="0" max="10000" value="0" id="t10" oninput="syncRange('t10','t10n','t10v')">
+<input type="number" min="0" max="10000" value="0" id="t10n" oninput="syncNumber('t10','t10n','t10v')">
+</div>
+
+<button class="ok" onclick="calcularTecnica()">Calcular Avaliação Técnica Literária</button>
+
+<div class="notaBox" id="resultadoTecnica">
+Nenhuma avaliação técnica calculada ainda.
+</div>
+</div>
+</div>
+
+<div class="card">
+<h3>Avaliação Editorial</h3>
+<p>Escala interna: <strong>0 a 100.000</strong> • Escala pública: <strong>0 a 10</strong></p>
+
+<div class="blocoEscala">
+<div class="linhaFaixa">
+<div class="topoFaixa">
+<div class="nomeFaixa">Potencial de publicação</div>
+<div class="valorFaixa"><span id="e1v">0</span> / 10000</div>
+</div>
+<input type="range" min="0" max="10000" value="0" id="e1" oninput="syncRange('e1','e1n','e1v')">
+<input type="number" min="0" max="10000" value="0" id="e1n" oninput="syncNumber('e1','e1n','e1v')">
+</div>
+
+<div class="linhaFaixa">
+<div class="topoFaixa">
+<div class="nomeFaixa">Clareza temática</div>
+<div class="valorFaixa"><span id="e2v">0</span> / 10000</div>
+</div>
+<input type="range" min="0" max="10000" value="0" id="e2" oninput="syncRange('e2','e2n','e2v')">
+<input type="number" min="0" max="10000" value="0" id="e2n" oninput="syncNumber('e2','e2n','e2v')">
+</div>
+
+<div class="linhaFaixa">
+<div class="topoFaixa">
+<div class="nomeFaixa">Adequação ao gênero</div>
+<div class="valorFaixa"><span id="e3v">0</span> / 10000</div>
+</div>
+<input type="range" min="0" max="10000" value="0" id="e3" oninput="syncRange('e3','e3n','e3v')">
+<input type="number" min="0" max="10000" value="0" id="e3n" oninput="syncNumber('e3','e3n','e3v')">
+</div>
+
+<div class="linhaFaixa">
+<div class="topoFaixa">
+<div class="nomeFaixa">Adequação ao público</div>
+<div class="valorFaixa"><span id="e4v">0</span> / 10000</div>
+</div>
+<input type="range" min="0" max="10000" value="0" id="e4" oninput="syncRange('e4','e4n','e4v')">
+<input type="number" min="0" max="10000" value="0" id="e4n" oninput="syncNumber('e4','e4n','e4v')">
+</div>
+
+<div class="linhaFaixa">
+<div class="topoFaixa">
+<div class="nomeFaixa">Força de abertura</div>
+<div class="valorFaixa"><span id="e5v">0</span> / 10000</div>
+</div>
+<input type="range" min="0" max="10000" value="0" id="e5" oninput="syncRange('e5','e5n','e5v')">
+<input type="number" min="0" max="10000" value="0" id="e5n" oninput="syncNumber('e5','e5n','e5v')">
+</div>
+
+<div class="linhaFaixa">
+<div class="topoFaixa">
+<div class="nomeFaixa">Força de fechamento</div>
+<div class="valorFaixa"><span id="e6v">0</span> / 10000</div>
+</div>
+<input type="range" min="0" max="10000" value="0" id="e6" oninput="syncRange('e6','e6n','e6v')">
+<input type="number" min="0" max="10000" value="0" id="e6n" oninput="syncNumber('e6','e6n','e6v')">
+</div>
+
+<div class="linhaFaixa">
+<div class="topoFaixa">
+<div class="nomeFaixa">Posicionamento de catálogo</div>
+<div class="valorFaixa"><span id="e7v">0</span> / 10000</div>
+</div>
+<input type="range" min="0" max="10000" value="0" id="e7" oninput="syncRange('e7','e7n','e7v')">
+<input type="number" min="0" max="10000" value="0" id="e7n" oninput="syncNumber('e7','e7n','e7v')">
+</div>
+
+<div class="linhaFaixa">
+<div class="topoFaixa">
+<div class="nomeFaixa">Potencial comercial</div>
+<div class="valorFaixa"><span id="e8v">0</span> / 10000</div>
+</div>
+<input type="range" min="0" max="10000" value="0" id="e8" oninput="syncRange('e8','e8n','e8v')">
+<input type="number" min="0" max="10000" value="0" id="e8n" oninput="syncNumber('e8','e8n','e8v')">
+</div>
+
+<div class="linhaFaixa">
+<div class="topoFaixa">
+<div class="nomeFaixa">Memorabilidade editorial</div>
+<div class="valorFaixa"><span id="e9v">0</span> / 10000</div>
+</div>
+<input type="range" min="0" max="10000" value="0" id="e9" oninput="syncRange('e9','e9n','e9v')">
+<input type="number" min="0" max="10000" value="0" id="e9n" oninput="syncNumber('e9','e9n','e9v')">
+</div>
+
+<div class="linhaFaixa">
+<div class="topoFaixa">
+<div class="nomeFaixa">Identidade editorial da obra</div>
+<div class="valorFaixa"><span id="e10v">0</span> / 10000</div>
+</div>
+<input type="range" min="0" max="10000" value="0" id="e10" oninput="syncRange('e10','e10n','e10v')">
+<input type="number" min="0" max="10000" value="0" id="e10n" oninput="syncNumber('e10','e10n','e10v')">
+</div>
+
+<button class="ok" onclick="calcularEditorial()">Calcular Avaliação Editorial</button>
+
+<div class="notaBox" id="resultadoEditorial">
+Nenhuma avaliação editorial calculada ainda.
+</div>
+</div>
+</div>
+
+<div class="card">
+<h3>Índice Emocional da Obra</h3>
+<p>Escala interna: <strong>0 a 100.000</strong> • Escala pública: <strong>0 a 10</strong></p>
+
+<div class="blocoEscala">
+<div class="linhaFaixa">
+<div class="topoFaixa">
+<div class="nomeFaixa">Amor e vínculo</div>
+<div class="valorFaixa"><span id="i1v">0</span> / 10000</div>
+</div>
+<input type="range" min="0" max="10000" value="0" id="i1" oninput="syncRange('i1','i1n','i1v')">
+<input type="number" min="0" max="10000" value="0" id="i1n" oninput="syncNumber('i1','i1n','i1v')">
+</div>
+
+<div class="linhaFaixa">
+<div class="topoFaixa">
+<div class="nomeFaixa">Desejo / libido / pulsão</div>
+<div class="valorFaixa"><span id="i2v">0</span> / 10000</div>
+</div>
+<input type="range" min="0" max="10000" value="0" id="i2" oninput="syncRange('i2','i2n','i2v')">
+<input type="number" min="0" max="10000" value="0" id="i2n" oninput="syncNumber('i2','i2n','i2v')">
+</div>
+
+<div class="linhaFaixa">
+<div class="topoFaixa">
+<div class="nomeFaixa">Traição / ruptura / conflito humano</div>
+<div class="valorFaixa"><span id="i3v">0</span> / 10000</div>
+</div>
+<input type="range" min="0" max="10000" value="0" id="i3" oninput="syncRange('i3','i3n','i3v')">
+<input type="number" min="0" max="10000" value="0" id="i3n" oninput="syncNumber('i3','i3n','i3v')">
+</div>
+
+<div class="linhaFaixa">
+<div class="topoFaixa">
+<div class="nomeFaixa">Moral / ética / bons costumes</div>
+<div class="valorFaixa"><span id="i4v">0</span> / 10000</div>
+</div>
+<input type="range" min="0" max="10000" value="0" id="i4" oninput="syncRange('i4','i4n','i4v')">
+<input type="number" min="0" max="10000" value="0" id="i4n" oninput="syncNumber('i4','i4n','i4v')">
+</div>
+
+<div class="linhaFaixa">
+<div class="topoFaixa">
+<div class="nomeFaixa">Humor / leveza / ironia</div>
+<div class="valorFaixa"><span id="i5v">0</span> / 10000</div>
+</div>
+<input type="range" min="0" max="10000" value="0" id="i5" oninput="syncRange('i5','i5n','i5v')">
+<input type="number" min="0" max="10000" value="0" id="i5n" oninput="syncNumber('i5','i5n','i5v')">
+</div>
+
+<div class="linhaFaixa">
+<div class="topoFaixa">
+<div class="nomeFaixa">Horror / medo / tensão</div>
+<div class="valorFaixa"><span id="i6v">0</span> / 10000</div>
+</div>
+<input type="range" min="0" max="10000" value="0" id="i6" oninput="syncRange('i6','i6n','i6v')">
+<input type="number" min="0" max="10000" value="0" id="i6n" oninput="syncNumber('i6','i6n','i6v')">
+</div>
+
+<div class="linhaFaixa">
+<div class="topoFaixa">
+<div class="nomeFaixa">Fantasia / imaginação / encantamento</div>
+<div class="valorFaixa"><span id="i7v">0</span> / 10000</div>
+</div>
+<input type="range" min="0" max="10000" value="0" id="i7" oninput="syncRange('i7','i7n','i7v')">
+<input type="number" min="0" max="10000" value="0" id="i7n" oninput="syncNumber('i7','i7n','i7v')">
+</div>
+
+<div class="linhaFaixa">
+<div class="topoFaixa">
+<div class="nomeFaixa">Loucura / obsessão / abismo psicológico</div>
+<div class="valorFaixa"><span id="i8v">0</span> / 10000</div>
+</div>
+<input type="range" min="0" max="10000" value="0" id="i8" oninput="syncRange('i8','i8n','i8v')">
+<input type="number" min="0" max="10000" value="0" id="i8n" oninput="syncNumber('i8','i8n','i8v')">
+</div>
+
+<div class="linhaFaixa">
+<div class="topoFaixa">
+<div class="nomeFaixa">Crítica social / realidade humana</div>
+<div class="valorFaixa"><span id="i9v">0</span> / 10000</div>
+</div>
+<input type="range" min="0" max="10000" value="0" id="i9" oninput="syncRange('i9','i9n','i9v')">
+<input type="number" min="0" max="10000" value="0" id="i9n" oninput="syncNumber('i9','i9n','i9v')">
+</div>
+
+<div class="linhaFaixa">
+<div class="topoFaixa">
+<div class="nomeFaixa">Impacto sentimental final</div>
+<div class="valorFaixa"><span id="i10v">0</span> / 10000</div>
+</div>
+<input type="range" min="0" max="10000" value="0" id="i10" oninput="syncRange('i10','i10n','i10v')">
+<input type="number" min="0" max="10000" value="0" id="i10n" oninput="syncNumber('i10','i10n','i10v')">
+</div>
+
+<button class="ok" onclick="calcularIEL()">Calcular Índice Emocional da Obra</button>
+
+<div class="notaBox" id="resultadoIEL">
+Nenhum índice emocional calculado ainda.
+</div>
+</div>
+</div>
+
+<div class="card">
+<h3>Resultado final apresentado ao leitor</h3>
+
+<div class="grid-3">
+<div class="notaBox" id="caixaTecnicaFinal">
+Avaliação Técnica Literária<br>
+<div class="notaGrande notaPublica">0,00</div>
+</div>
+
+<div class="notaBox" id="caixaEditorialFinal">
+Avaliação Editorial<br>
+<div class="notaGrande notaPublica">0,00</div>
+</div>
+
+<div class="notaBox" id="caixaIELFinal">
+Índice Emocional da Obra<br>
+<div class="notaGrande notaPublica">0,00</div>
+</div>
+</div>
+
+<button onclick="salvarPainelCompleto()">Salvar painel completo</button>
+
+<div class="preview" id="statusPainelFinal">
+Nenhum resultado final consolidado ainda.
 </div>
 </div>
 
@@ -172,7 +591,6 @@ Nenhum parecer salvo ainda.
 
 <script>
 const perfil = localStorage.getItem("lapidar_perfil");
-
 if(!perfil){
 window.location.href = "index.html";
 }
@@ -182,26 +600,110 @@ if(projeto){
 document.getElementById("projetoNome").innerText = projeto;
 }
 
-function salvarAvaliacao(){
+function clamp(v){
+let n = Number(v) || 0;
+if(n < 0) n = 0;
+if(n > 10000) n = 10000;
+return n;
+}
+
+function syncRange(rangeId, numberId, valueId){
+const v = clamp(document.getElementById(rangeId).value);
+document.getElementById(rangeId).value = v;
+document.getElementById(numberId).value = v;
+document.getElementById(valueId).innerText = v;
+}
+
+function syncNumber(rangeId, numberId, valueId){
+const v = clamp(document.getElementById(numberId).value);
+document.getElementById(rangeId).value = v;
+document.getElementById(numberId).value = v;
+document.getElementById(valueId).innerText = v;
+}
+
+function somar(ids){
+return ids.reduce((acc,id)=>acc + clamp(document.getElementById(id).value),0);
+}
+
+function notaPublica(total){
+return (total / 10000).toFixed(2).replace(".", ",");
+}
+
+function calcularTecnica(){
+const total = somar(["t1","t2","t3","t4","t5","t6","t7","t8","t9","t10"]);
+const nota = notaPublica(total);
+
+localStorage.setItem("lapidar_sall_t_total", total);
+localStorage.setItem("lapidar_sall_t_nota", nota);
+
+document.getElementById("resultadoTecnica").innerHTML =
+"<strong class='notaInterna'>Pontuação interna:</strong> " + total.toLocaleString("pt-BR") + " / 100.000<br>" +
+"<strong class='notaPublica'>Nota pública:</strong> " + nota;
+
+document.querySelector("#caixaTecnicaFinal .notaGrande").innerText = nota;
+}
+
+function calcularEditorial(){
+const total = somar(["e1","e2","e3","e4","e5","e6","e7","e8","e9","e10"]);
+const nota = notaPublica(total);
+
+localStorage.setItem("lapidar_sall_e_total", total);
+localStorage.setItem("lapidar_sall_e_nota", nota);
+
+document.getElementById("resultadoEditorial").innerHTML =
+"<strong class='notaInterna'>Pontuação interna:</strong> " + total.toLocaleString("pt-BR") + " / 100.000<br>" +
+"<strong class='notaPublica'>Nota pública:</strong> " + nota;
+
+document.querySelector("#caixaEditorialFinal .notaGrande").innerText = nota;
+}
+
+function calcularIEL(){
+const total = somar(["i1","i2","i3","i4","i5","i6","i7","i8","i9","i10"]);
+const nota = notaPublica(total);
+
+localStorage.setItem("lapidar_sall_iel_total", total);
+localStorage.setItem("lapidar_sall_iel_nota", nota);
+
+document.getElementById("resultadoIEL").innerHTML =
+"<strong class='notaInterna'>Pontuação interna:</strong> " + total.toLocaleString("pt-BR") + " / 100.000<br>" +
+"<strong class='notaPublica'>Nota pública:</strong> " + nota;
+
+document.querySelector("#caixaIELFinal .notaGrande").innerText = nota;
+}
+
+function salvarConfiguracao(){
 localStorage.setItem("lapidar_avaliacao_tipo", tipoAvaliacao.value);
 localStorage.setItem("lapidar_avaliacao_nivel", nivelAvaliacao.value);
 localStorage.setItem("lapidar_avaliacao_obs", obsAvaliacao.value);
 
-document.getElementById("statusAvaliacao").innerText =
+document.getElementById("statusConfig").innerText =
 "Configuração da avaliação registrada com sucesso.";
+}
+
+function salvarPainelCompleto(){
+const t = localStorage.getItem("lapidar_sall_t_nota") || "0,00";
+const e = localStorage.getItem("lapidar_sall_e_nota") || "0,00";
+const iel = localStorage.getItem("lapidar_sall_iel_nota") || "0,00";
+
+localStorage.setItem("lapidar_resultado_publico_tecnico", t);
+localStorage.setItem("lapidar_resultado_publico_editorial", e);
+localStorage.setItem("lapidar_resultado_publico_iel", iel);
+
+document.getElementById("statusPainelFinal").innerHTML =
+"Painel completo salvo com sucesso.<br>" +
+"Avaliação Técnica Literária: " + t + "<br>" +
+"Avaliação Editorial: " + e + "<br>" +
+"Índice Emocional da Obra: " + iel;
 }
 
 function salvarParecer(){
 localStorage.setItem("lapidar_parecer_literario", parecerLiterario.value);
-
-document.getElementById("statusParecer").innerText =
-"Parecer salvo com sucesso.";
+document.getElementById("statusParecer").innerText = "Parecer salvo com sucesso.";
 }
 
 function carregarParecer(){
 const texto = localStorage.getItem("lapidar_parecer_literario") || "";
 document.getElementById("parecerLiterario").value = texto;
-
 document.getElementById("statusParecer").innerText =
 texto ? "Parecer carregado com sucesso." : "Nenhum parecer salvo encontrado.";
 }
@@ -220,6 +722,22 @@ window.location.href = "projetos.html";
 
 function voltar(){
 window.location.href = "painel_departamentos.html";
+}
+
+// inicia os displays
+["t1","t2","t3","t4","t5","t6","t7","t8","t9","t10",
+ "e1","e2","e3","e4","e5","e6","e7","e8","e9","e10",
+ "i1","i2","i3","i4","i5","i6","i7","i8","i9","i10"].forEach(id=>{
+const numberId = id + "n";
+const valueId = id + "v";
+if(document.getElementById(id) && document.getElementById(numberId) && document.getElementById(valueId)){
+syncRange(id, numberId, valueId);
+}
+});
+
+const parecerSalvo = localStorage.getItem("lapidar_parecer_literario");
+if(parecerSalvo){
+document.getElementById("parecerLiterario").value = parecerSalvo;
 }
 </script>
 
