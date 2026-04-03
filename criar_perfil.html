@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Criar cadastro • Lapidar</title>
+<title>Completar perfil • Lapidar</title>
 
 <style>
 body{
@@ -84,14 +84,6 @@ background:#ddd;
 color:#333;
 }
 
-.frase{
-margin-top:25px;
-font-size:14px;
-text-align:center;
-color:#555;
-line-height:1.6;
-}
-
 .msg{
 margin-top:12px;
 padding:12px;
@@ -104,46 +96,40 @@ display:none;
 background:#eef8f0;
 color:#1f6b36;
 display:block;
-border:1px solid #b8dfc0;
 }
 
 .msg.erro{
 background:#fff1f1;
 color:#a12626;
 display:block;
-border:1px solid #efc0c0;
 }
 </style>
 </head>
-
 <body>
 
 <div class="container">
 
-<div class="logo">Criar cadastro</div>
+<div class="logo">
+Completar perfil
+</div>
 
 <div class="sub">
-Preencha seus dados para criar seu acesso dentro do Lapidar.
+Complete seu perfil literário para seguir no Lapidar.
 </div>
 
 <div class="form-group">
 <label>Nome completo</label>
-<input id="nomeCompleto" type="text">
-</div>
-
-<div class="form-group">
-<label>Telefone / WhatsApp (com código do país)</label>
-<input id="telefone" type="text" placeholder="+55 11 99999-9999">
+<input id="nomeCompleto" type="text" readonly>
 </div>
 
 <div class="form-group">
 <label>E-mail</label>
-<input id="email" type="email">
+<input id="email" type="email" readonly>
 </div>
 
 <div class="form-group">
-<label>Senha</label>
-<input id="senha" type="password">
+<label>Telefone / WhatsApp</label>
+<input id="telefone" type="text" readonly>
 </div>
 
 <div class="form-group">
@@ -166,7 +152,7 @@ Preencha seus dados para criar seu acesso dentro do Lapidar.
 
 <div class="form-group">
 <label>Fale um pouco do que você curte ou produz</label>
-<textarea id="perfilLiterario" placeholder="Ex.: poesia, contos, romance, literatura espiritual, fantasia, revisão, capa, diagramação..."></textarea>
+<textarea id="perfilLiterario" placeholder="Ex.: poesia, contos, romances, fantasia, literatura espiritual, revisão, capa, diagramação..."></textarea>
 </div>
 
 <div class="form-group">
@@ -189,8 +175,8 @@ Preencha seus dados para criar seu acesso dentro do Lapidar.
 <input id="resposta2" type="text">
 </div>
 
-<button class="salvar" onclick="salvarCadastro()">
-Salvar cadastro
+<button class="salvar" onclick="salvarPerfil()">
+Salvar perfil
 </button>
 
 <button class="voltar" onclick="voltarLogin()">
@@ -199,19 +185,13 @@ Voltar ao login
 
 <div id="mensagem" class="msg"></div>
 
-<div class="frase">
-Este Celeiro Literário era um sonho — e aqui está a prova de que sonhos também podem tornar-se reais.<br>
-Bem-vindo ao Lapidar.
-</div>
-
 </div>
 
 <script>
-function detectarIdioma(){
-  const nav = (navigator.language || "pt").toLowerCase();
-  if(nav.startsWith("en")) return "en";
-  if(nav.startsWith("es")) return "es";
-  return "pt";
+function mostrarMensagem(tipo, texto){
+  const box = document.getElementById("mensagem");
+  box.className = "msg " + tipo;
+  box.innerText = texto;
 }
 
 function carregarCadastros(){
@@ -226,26 +206,25 @@ function salvarCadastros(lista){
   localStorage.setItem("lapidar_cadastros", JSON.stringify(lista));
 }
 
-function mostrarMensagem(tipo, texto){
-  const box = document.getElementById("mensagem");
-  box.className = "msg " + tipo;
-  box.innerText = texto;
+const cadastroId = localStorage.getItem("lapidar_cadastro_id");
+const cadastros = carregarCadastros();
+const atual = cadastros.find(item => item.id === cadastroId);
+
+if(!atual){
+  window.location.href = "cadastro.html";
 }
 
-function normalizarTelefone(valor){
-  let limpo = valor.replace(/[^\d+]/g, "");
-  if(!limpo.startsWith("+") && limpo.length > 0){
-    limpo = "+" + limpo;
-  }
-  return limpo;
-}
+document.getElementById("nomeCompleto").value = atual.nomeCompleto || "";
+document.getElementById("email").value = atual.email || "";
+document.getElementById("telefone").value = atual.telefone || "";
+document.getElementById("interessePrincipal").value = atual.interessePrincipal || "";
+document.getElementById("perfilLiterario").value = atual.perfilLiterario || "";
+document.getElementById("pergunta1").value = atual.pergunta1 || "";
+document.getElementById("resposta1").value = atual.resposta1 || "";
+document.getElementById("pergunta2").value = atual.pergunta2 || "";
+document.getElementById("resposta2").value = atual.resposta2 || "";
 
-function salvarCadastro(){
-  const nomeCompleto = document.getElementById("nomeCompleto").value.trim();
-  const telefoneBruto = document.getElementById("telefone").value.trim();
-  const telefone = normalizarTelefone(telefoneBruto);
-  const email = document.getElementById("email").value.trim().toLowerCase();
-  const senha = document.getElementById("senha").value;
+function salvarPerfil(){
   const interessePrincipal = document.getElementById("interessePrincipal").value;
   const perfilLiterario = document.getElementById("perfilLiterario").value.trim();
   const pergunta1 = document.getElementById("pergunta1").value.trim();
@@ -253,52 +232,35 @@ function salvarCadastro(){
   const pergunta2 = document.getElementById("pergunta2").value.trim();
   const resposta2 = document.getElementById("resposta2").value.trim();
 
-  if(!nomeCompleto || !telefone || !email || !senha || !interessePrincipal || !perfilLiterario || !pergunta1 || !resposta1 || !pergunta2 || !resposta2){
-    mostrarMensagem("erro","Preencha todos os campos.");
+  if(!interessePrincipal || !perfilLiterario || !pergunta1 || !resposta1 || !pergunta2 || !resposta2){
+    mostrarMensagem("erro","Preencha todos os campos do perfil.");
     return;
   }
 
-  const cadastros = carregarCadastros();
+  const lista = carregarCadastros();
+  const indice = lista.findIndex(item => item.id === cadastroId);
 
-  const existe = cadastros.find(item =>
-    item.email === email || item.telefone === telefone
-  );
-
-  if(existe){
-    mostrarMensagem("erro","E-mail ou telefone já cadastrado.");
+  if(indice === -1){
+    mostrarMensagem("erro","Cadastro não encontrado.");
     return;
   }
 
-  cadastros.push({
-    tipoCadastro: "utilizador",
-    nomeCompleto,
-    telefone,
-    email,
-    senha,
-    perfil: "utilizador",
-    idioma: detectarIdioma(),
-    interessePrincipal,
-    perfilLiterario,
-    pergunta1,
-    resposta1,
-    pergunta2,
-    resposta2,
-    statusFluxo: "cadastro_criado",
-    contribuicaoStatus: "aguardando_contribuicao",
-    downloadLiberado: false
-  });
+  lista[indice].interessePrincipal = interessePrincipal;
+  lista[indice].perfilLiterario = perfilLiterario;
+  lista[indice].pergunta1 = pergunta1;
+  lista[indice].resposta1 = resposta1;
+  lista[indice].pergunta2 = pergunta2;
+  lista[indice].resposta2 = resposta2;
 
-  salvarCadastros(cadastros);
+  salvarCadastros(lista);
 
-  localStorage.setItem("lapidar_ultimo_cadastro_login", email);
-  localStorage.setItem("lapidar_ultimo_cadastro_telefone", telefone);
-  localStorage.setItem("lapidar_ultimo_cadastro_perfil", "utilizador");
+  localStorage.setItem("lapidar_status_fluxo", "perfil_criado");
 
-  mostrarMensagem("ok","Cadastro salvo com sucesso.");
+  mostrarMensagem("ok","Perfil salvo com sucesso.");
 
   setTimeout(() => {
     window.location.href = "index.html";
-  }, 800);
+  }, 700);
 }
 
 function voltarLogin(){
