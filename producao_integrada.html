@@ -1,153 +1,213 @@
-<!-- SUBSTITUA APENAS O BLOCO <script> FINAL DO producao_integrada.html POR ESTE -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Produção Integrada</title>
+
+<style>
+
+body{
+font-family:Arial;
+background:#efe2c2;
+margin:0;
+padding:0;
+}
+
+header{
+background:#2f436d;
+color:white;
+padding:20px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:20px;
+padding:20px;
+}
+
+.card{
+background:white;
+border-radius:16px;
+padding:20px;
+position:relative;
+box-shadow:0 6px 14px rgba(0,0,0,0.1);
+}
+
+.lock{
+position:absolute;
+top:12px;
+right:12px;
+background:#a00;
+color:white;
+padding:4px 8px;
+border-radius:6px;
+font-size:12px;
+display:none;
+}
+
+button{
+margin-top:10px;
+padding:10px;
+border:none;
+background:#2f436d;
+color:white;
+border-radius:8px;
+cursor:pointer;
+}
+
+button:disabled{
+background:#aaa;
+cursor:not-allowed;
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<header>
+
+<h2>Produção Integrada</h2>
+
+<button onclick="logout()">Sair</button>
+
+</header>
+
+
+<div class="grid">
+
+<div class="card" id="card1">
+<div class="lock">🔒</div>
+<h3>Setor 1</h3>
+<button onclick="abrir(1)">Entrar</button>
+</div>
+
+<div class="card" id="card3">
+<div class="lock">🔒</div>
+<h3>Setor 3</h3>
+<button onclick="abrir(3)">Entrar</button>
+</div>
+
+<div class="card" id="card5">
+<div class="lock">🔒</div>
+<h3>Setor 5</h3>
+<button onclick="abrir(5)">Entrar</button>
+</div>
+
+<div class="card" id="card7">
+<div class="lock">🔒</div>
+<h3>Setor 7</h3>
+<button onclick="abrir(7)">Entrar</button>
+</div>
+
+<div class="card" id="card11">
+<div class="lock">🔒</div>
+<h3>Setor 11</h3>
+<button onclick="abrir(11)">Entrar</button>
+</div>
+
+<div class="card" id="card13">
+<div class="lock">🔒</div>
+<h3>Setor 13</h3>
+<button onclick="abrir(13)">Entrar</button>
+</div>
+
+</div>
+
 
 <script>
-const perfil = localStorage.getItem("lapidar_perfil");
-const usuarioInterno = localStorage.getItem("lapidar_usuario");
-const usuarioLogado = localStorage.getItem("lapidar_usuario_logado");
-const nome = localStorage.getItem("lapidar_nome") || usuarioInterno || usuarioLogado || "";
 
-// perfis institucionais tratados como cortesia dinâmica
-const perfisInstitucionais = [
-"cortesia",
-"quimera",
-"andre",
-"cl",
-"valetbooks",
-"estilopoesia"
-];
+function logout(){
 
-if(!perfil){
-window.location.href = "index.html";
+localStorage.clear();
+
+location.href="index.html";
+
 }
 
-// admin / heteronimo continuam completos
-if(perfil === "admin" || perfil === "heteronimo"){
-if(!usuarioInterno){
-window.location.href = "index.html";
-}
+
+function abrir(setor){
+
+alert("Abrindo setor "+setor);
+
 }
 
-// utilizador continua normal
-if(perfil === "utilizador"){
-if(!usuarioLogado){
-window.location.href = "index.html";
-}
-}
 
-// agora todos institucionais usam mesma regra da cortesia
-if(perfisInstitucionais.includes(perfil)){
-if(!usuarioInterno && !usuarioLogado){
-window.location.href = "index.html";
-}
-}
+function aplicarPermissoes(){
 
-let setorAtual = null;
+const perfil=localStorage.getItem("perfil");
 
-function sairPrograma(){
-localStorage.removeItem("lapidar_perfil");
-localStorage.removeItem("lapidar_usuario");
-localStorage.removeItem("lapidar_usuario_logado");
-localStorage.removeItem("lapidar_nome");
-localStorage.removeItem("lapidar_email");
-localStorage.removeItem("lapidar_telefone");
-window.location.href = "index.html";
-}
+if(perfil=="admin") return;
 
-function voltarInterno(){
-if(perfil === "admin" || perfil === "heteronimo"){
-window.location.href = "sala_reunioes.html";
+
+const cortesias=
+JSON.parse(localStorage.getItem("lapidar_courtesy_profiles")||"{}");
+
+
+if(!cortesias[perfil]) return;
+
+
+const dados=cortesias[perfil];
+
+
+if(dados.status!="ativa"){
+
+bloquearTudo();
+
 return;
-}
-window.location.href = "index.html";
-}
-
-function chaveSetor(id){
-return "lapidar_setor_" + perfil + "_" + id;
-}
-
-function carregarSetor(id){
-try{
-return JSON.parse(localStorage.getItem(chaveSetor(id)) || "{}");
-}catch(e){
-return {};
-}
-}
-
-function salvarSetorAtual(){
-if(!setorAtual){
-return;
-}
-
-const dados = {
-notes: document.getElementById("workspaceNotes").value,
-status: document.getElementById("workspaceStatus").value,
-updatedAt: new Date().toISOString()
-};
-
-localStorage.setItem(chaveSetor(setorAtual), JSON.stringify(dados));
-document.getElementById("workspaceSuccess").classList.add("show");
-}
-
-function aplicarPerfil(){
-
-const heroSmall = document.getElementById("heroSmall");
-const heroTitle = document.getElementById("heroTitle");
-const heroText = document.getElementById("heroText");
-const btnInterno = document.getElementById("btnInterno");
-const cardMesario = document.getElementById("cardMesario");
-const valores = document.querySelectorAll(".valor-comum");
-
-if(perfil === "admin"){
-
-heroSmall.innerText = "Lapidar · Produção Integrada";
-heroTitle.innerText = "Produção Integrada";
-heroText.innerText = "Área interna com acesso completo aos setores e ao Mesário.";
-btnInterno.classList.remove("hidden");
-cardMesario.classList.remove("hidden");
-valores.forEach(el => el.classList.remove("hidden"));
 
 }
 
-else if(perfil === "heteronimo"){
 
-heroSmall.innerText = "Lapidar · Produção Integrada";
-heroTitle.innerText = "Produção Integrada";
-heroText.innerText = "Área interna com acesso aos setores e ao Mesário.";
-btnInterno.classList.remove("hidden");
-cardMesario.classList.remove("hidden");
-valores.forEach(el => el.classList.remove("hidden"));
+if(dados.accessLevel=="global") return;
 
-}
 
-else if(perfil === "utilizador"){
+const permitidos=dados.sectors;
 
-heroSmall.innerText = "Lapidar · Programas";
-heroTitle.innerText = "Programas do Lapidar";
-heroText.innerText = "Escolha o programa desejado.";
-btnInterno.classList.add("hidden");
-cardMesario.classList.remove("hidden");
-valores.forEach(el => el.classList.add("hidden"));
+
+[1,3,5,7,11,13].forEach(setor=>{
+
+if(!permitidos.includes(setor)){
+
+bloquear(setor);
 
 }
 
-else if(perfisInstitucionais.includes(perfil)){
+});
 
-heroSmall.innerText = "Lapidar · Programas";
-heroTitle.innerText = "Programas do Lapidar";
-heroText.innerText = "Acesso institucional configurado pelo painel de permissões.";
-btnInterno.classList.add("hidden");
-cardMesario.classList.add("hidden");
-valores.forEach(el => el.classList.add("hidden"));
 
 }
 
-else{
 
-window.location.href = "index.html";
+function bloquear(setor){
+
+const card=document.querySelector("#card"+setor);
+
+card.querySelector("button").disabled=true;
+
+card.querySelector(".lock").style.display="block";
 
 }
 
+
+function bloquearTudo(){
+
+[1,3,5,7,11,13].forEach(bloquear);
+
 }
 
-aplicarPerfil();
+
+aplicarPermissoes();
+
 </script>
+
+
+</body>
+</html>
