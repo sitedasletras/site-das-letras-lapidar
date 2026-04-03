@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,84 +7,60 @@
 
 <style>
 
-:root{
---bg:#0d0603;
---card:#140c08;
---card2:#1b100a;
---text:#ffffff;
---muted:#ffd2b3;
---orange:#f7b22c;
---green:#9cfdb2;
---border:rgba(255,123,44,0.18);
---shadow:0 10px 26px rgba(0,0,0,0.28);
-}
-
 body{
 margin:0;
 font-family:Arial;
-background:var(--bg);
+background:#0d0603;
 color:white;
+}
+
+header{
+background:#2f436d;
+padding:20px;
+display:flex;
+justify-content:space-between;
+align-items:center;
 }
 
 .container{
-width:min(1100px,95%);
+max-width:1000px;
 margin:auto;
-padding:40px 0;
-}
-
-.titulo{
-font-size:38px;
-font-weight:bold;
+padding:30px 20px;
 }
 
 .card{
-margin-top:25px;
-background:var(--card);
-padding:24px;
-border-radius:18px;
-border:1px solid var(--border);
-box-shadow:var(--shadow);
-}
-
-.projeto{
-padding:18px;
-margin-top:14px;
+background:#14100c;
 border-radius:14px;
-background:var(--card2);
-cursor:pointer;
+padding:20px;
+margin-bottom:20px;
+box-shadow:0 6px 20px rgba(0,0,0,.25);
 }
 
-.projeto:hover{
-background:#23140c;
-}
-
-.actions{
-margin-top:20px;
-display:flex;
-gap:10px;
-flex-wrap:wrap;
+.lista{
+background:#1b100a;
+border-radius:10px;
+padding:15px;
+margin-top:10px;
 }
 
 button{
+padding:12px 16px;
 border:none;
-padding:12px 18px;
-border-radius:999px;
+border-radius:8px;
 cursor:pointer;
+font-weight:bold;
+background:#2f436d;
+color:white;
+margin-right:10px;
+margin-top:10px;
 }
 
-.btnAtivar{
-background:#174d27;
-color:white;
+button.alt{
+background:#8a6f3f;
 }
 
-.btnExcluir{
-background:#5a1c1c;
-color:white;
-}
-
-.btnIndice{
-background:#24150f;
-color:white;
+button.sec{
+background:#6c757d;
 }
 
 </style>
@@ -92,177 +68,145 @@ color:white;
 
 <body>
 
+<header>
+
+<h2>Histórico de Projetos</h2>
+
+<button onclick="voltar()">Voltar</button>
+
+</header>
+
+
 <div class="container">
 
-<div class="titulo">
-HISTÓRICO DE PROJETOS
+
+<div class="card">
+
+<h3>Projeto ativo</h3>
+
+<div id="projetoAtual">
+
+Nenhum projeto ativo selecionado.
+
 </div>
 
-<div id="listaProjetos"></div>
+</div>
 
-<div class="actions">
 
-<button class="btnIndice" onclick="voltarIndice()">
-Voltar ao índice
+<div class="card">
+
+<h3>Projetos registrados</h3>
+
+<div class="lista" id="listaProjetos">
+
+Nenhum projeto registrado ainda.
+
+</div>
+
+<button onclick="limparHistorico()" class="alt">
+Limpar histórico
 </button>
 
 </div>
 
+
+<div class="card">
+
+<h3>Ações rápidas</h3>
+
+<button onclick="abrirProjetos()">
+Ir para Projetos
+</button>
+
+<button onclick="abrirFluxo()" class="sec">
+Abrir Fluxo Editorial
+</button>
+
 </div>
 
+
+</div>
 
 
 <script>
 
-function verificarSessao(){
+/* =========================
+SESSION GUARD PADRÃO LAPIDAR
+========================= */
 
-const sessao=localStorage.getItem("SDL_sessao_ativa")
+const perfil = localStorage.getItem("lapidar_perfil")
 
-if(sessao!=="sim"){
+if(!perfil){
 
-window.location.href="login.html"
-
-}
-
-}
-
-
-
-function carregarProjetos(){
-
-let lista=[]
-
-try{
-
-const bruto=localStorage.getItem("SDL_projetos_lista")
-
-if(bruto){
-
-lista=JSON.parse(bruto)
-
-}
-
-}catch(e){}
-
-
-
-const ativo=localStorage.getItem("SDL_projeto_ativo")
-
-const area=document.getElementById("listaProjetos")
-
-if(lista.length===0){
-
-area.innerHTML="Nenhum projeto registrado ainda."
-
-return
+window.location.href="index.html"
 
 }
 
 
+/* =========================
+CARREGAR PROJETO ATIVO
+========================= */
 
-area.innerHTML=""
+const ativo = localStorage.getItem("lapidar_projeto_ativo")
 
+if(ativo){
 
-
-lista.forEach(p=>{
-
-area.innerHTML+=`
-
-<div class="card">
-
-<strong>${p.titulo}</strong><br>
-
-Autor: ${p.autor || "—"}<br>
-
-Formato: ${p.formato || "—"}<br>
-
-Status: ${p.status || "—"}<br>
-
-Registrado em:
-${formatarData(p.dataRegistro)}
-
-<br><br>
-
-<button class="btnAtivar"
-onclick="ativarProjeto('${p.id}')">
-
-${ativo===p.id ? "Projeto ativo" : "Ativar projeto"}
-
-</button>
-
-<button class="btnExcluir"
-onclick="excluirProjeto('${p.id}')">
-
-Excluir
-
-</button>
-
-</div>
-
-`
-
-})
+document.getElementById("projetoAtual").innerText = ativo
 
 }
 
 
+/* =========================
+CARREGAR HISTÓRICO
+========================= */
 
-function ativarProjeto(id){
+const historico = JSON.parse(
+localStorage.getItem("lapidar_historico_projetos") || "[]"
+)
 
-localStorage.setItem("SDL_projeto_ativo",id)
+if(historico.length){
 
-alert("Projeto ativado.")
-
-carregarProjetos()
-
-}
-
-
-
-function excluirProjeto(id){
-
-let lista=JSON.parse(localStorage.getItem("SDL_projetos_lista")||"[]")
-
-lista=lista.filter(p=>p.id!==id)
-
-localStorage.setItem("SDL_projetos_lista",JSON.stringify(lista))
-
-carregarProjetos()
+document.getElementById("listaProjetos").innerHTML =
+historico.join("<br>")
 
 }
 
 
+/* =========================
+FUNÇÕES
+========================= */
 
-function formatarData(d){
+function limparHistorico(){
 
-if(!d) return "—"
+localStorage.removeItem("lapidar_historico_projetos")
 
-try{
-
-return new Date(d).toLocaleString("pt-BR")
-
-}catch{
-
-return d
-
-}
+location.reload()
 
 }
 
 
+function abrirProjetos(){
 
-function voltarIndice(){
-
-window.location.href="_Indice.html"
+window.location.href="projetos.html"
 
 }
 
 
+function abrirFluxo(){
 
-verificarSessao()
-carregarProjetos()
+window.location.href="status_fluxo_editorial.html"
+
+}
+
+
+function voltar(){
+
+window.location.href="admin.html"
+
+}
 
 </script>
+
 
 </body>
 </html>
