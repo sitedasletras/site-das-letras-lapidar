@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roteiro de Narração • Silo Sonoro</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial;
+background:#0e0604;
+color:white;
+font-size:22px;
+}
+
+header{
+background:#2f436d;
+padding:20px;
+display:flex;
+justify-content:space-between;
+}
+
+.container{
+max-width:1000px;
+margin:auto;
+padding:30px;
+}
+
+.card{
+background:#1c0e08;
+padding:25px;
+border-radius:16px;
+margin-bottom:20px;
+}
+
+textarea{
+
+width:100%;
+height:300px;
+padding:15px;
+border-radius:12px;
+background:#2a140c;
+color:white;
+font-size:20px;
+
+}
+
+button{
+
+padding:15px;
+margin-top:15px;
+border-radius:12px;
+border:none;
+background:#2f436d;
+color:white;
+font-size:20px;
+cursor:pointer;
+
+}
+
+.ok{
+
+background:#1f6b36;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<h2>Roteiro de Narração</h2>
+
+<button onclick="voltar()">Voltar</button>
+
+</header>
+
+<div class="container">
+
+<div class="card">
+
+<h3>Texto-base carregado</h3>
+
+<textarea id="roteiro"></textarea>
+
+<button onclick="gerarRoteiro()">Gerar roteiro narrativo</button>
+
+<button class="ok" onclick="salvar()">Salvar roteiro</button>
+
+</div>
+
+</div>
+
+<script>
+
+function gerarRoteiro(){
+
+let texto = localStorage.getItem("lapidar_texto_base_narracao");
+
+if(!texto){
+
+alert("Nenhum texto encontrado.");
+
+return;
+
+}
+
+let roteiro = texto
+
+.replace(/\n/g,"\n\n[PAUSA]\n\n")
+
+.replace(/—/g,"[DIÁLOGO] —")
+
+document.getElementById("roteiro").value = roteiro;
+
+}
+
+function salvar(){
+
+let roteiro = document.getElementById("roteiro").value;
+
+localStorage.setItem("lapidar_roteiro_narracao", roteiro);
+
+alert("Roteiro salvo com sucesso.");
+
+}
+
+function voltar(){
+
+window.location.href="narracao_editorial.html";
+
+}
+
+window.onload = function(){
+
+let salvo = localStorage.getItem("lapidar_roteiro_narracao");
+
+if(salvo){
+
+document.getElementById("roteiro").value = salvo;
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
