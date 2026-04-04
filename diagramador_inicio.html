@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Assistente de Diagramação</title>
+<title>Diagramação • Lapidar</title>
+
 <style>
 body{
 margin:0;
@@ -11,18 +12,23 @@ font-family:Arial, sans-serif;
 background:#0e0604;
 color:white;
 }
+
 header{
 background:#2f436d;
 padding:18px 20px;
 display:flex;
 justify-content:space-between;
 align-items:center;
+gap:12px;
+flex-wrap:wrap;
 }
+
 .container{
-max-width:1000px;
+max-width:1100px;
 margin:auto;
 padding:24px 16px 40px;
 }
+
 .card{
 background:#1c0e08;
 border-radius:14px;
@@ -30,26 +36,101 @@ padding:20px;
 margin-bottom:18px;
 box-shadow:0 6px 18px rgba(0,0,0,.25);
 }
-.modulo{
-background:#2a140c;
-padding:14px;
-border-radius:10px;
-margin-top:10px;
+
+h2,h3{
+margin-top:0;
 }
+
+label{
+display:block;
+margin-top:14px;
+margin-bottom:6px;
+font-weight:bold;
+}
+
+input[type="text"],
+input[type="number"],
+select,
+textarea{
+width:100%;
+padding:12px;
+border-radius:10px;
+border:none;
+background:#2a140c;
+color:white;
+box-sizing:border-box;
+font-family:Arial, sans-serif;
+}
+
+textarea{
+min-height:110px;
+resize:vertical;
+}
+
 button{
+margin-top:12px;
 padding:12px 16px;
 border:none;
 border-radius:8px;
-cursor:pointer;
-font-weight:bold;
 background:#2f436d;
 color:white;
+font-weight:bold;
+cursor:pointer;
 }
-.linhaBotoes{
-display:flex;
-gap:10px;
-flex-wrap:wrap;
-margin-top:14px;
+
+.alt{
+background:#8a6f3f;
+}
+
+.sec{
+background:#6c757d;
+}
+
+.ok{
+background:#1f6b36;
+}
+
+.preview{
+margin-top:12px;
+background:#2a140c;
+padding:12px;
+border-radius:10px;
+font-size:14px;
+line-height:1.7;
+}
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:16px;
+}
+
+.mode-box{
+background:#24130c;
+padding:16px;
+border-radius:12px;
+margin-top:12px;
+border:2px solid transparent;
+}
+
+.mode-box.selected{
+border-color:#d1a24c;
+}
+
+.badge{
+display:inline-block;
+padding:8px 12px;
+border-radius:999px;
+font-size:12px;
+font-weight:bold;
+margin-top:10px;
+background:#1d4a9b;
+}
+
+@media (max-width:700px){
+.grid{
+grid-template-columns:1fr;
+}
 }
 </style>
 </head>
@@ -57,29 +138,124 @@ margin-top:14px;
 
 <header>
 <h2>Assistente de Diagramação</h2>
-<button onclick="voltar()">Voltar</button>
+<div>
+<button class="sec" onclick="voltar()">Voltar</button>
+</div>
 </header>
 
 <div class="container">
 
 <div class="card">
 <h3>Projeto ativo</h3>
-<div id="nomeProjeto">Nenhum projeto selecionado.</div>
+<div id="nomeProjeto">Nenhum projeto ativo selecionado.</div>
+<div class="badge" id="modoProducaoBadge">Modo: Personalizada</div>
 </div>
 
 <div class="card">
-<h3>Módulos do Diagramador</h3>
-<div class="modulo">📄 Upload do original</div>
-<div class="modulo">📐 Estrutura editorial</div>
-<div class="modulo">🔤 Tipografia</div>
-<div class="modulo">🔢 Numeração</div>
-<div class="modulo">📘 Exportação PDF</div>
+<h3>Configuração-base da diagramação</h3>
 
-<div class="linhaBotoes">
-<button onclick="abrirProjetos()">Projetos</button>
-<button onclick="abrirSetores()">Setores</button>
-<button onclick="abrirFluxo()">Fluxo editorial</button>
+<div class="mode-box" id="descricaoModo">
+Carregando configuração do modo escolhido...
 </div>
+
+<div class="preview" id="statusModo">
+Aguardando leitura do modo de produção.
+</div>
+</div>
+
+<div class="card">
+<h3>Parâmetros da diagramação</h3>
+
+<div class="grid">
+<div>
+<label for="formatoLivro">Formato do livro</label>
+<select id="formatoLivro">
+<option>A5</option>
+<option>16x23</option>
+<option>6x9</option>
+<option>A4</option>
+<option>Formato personalizado</option>
+</select>
+</div>
+
+<div>
+<label for="fonteTexto">Fonte do texto</label>
+<select id="fonteTexto">
+<option>Times New Roman</option>
+<option>Garamond</option>
+<option>Arial</option>
+</select>
+</div>
+</div>
+
+<div class="grid">
+<div>
+<label for="tamanhoFonte">Tamanho da fonte</label>
+<input type="number" id="tamanhoFonte" value="12">
+</div>
+
+<div>
+<label for="espacamentoLinha">Espaçamento entre linhas</label>
+<select id="espacamentoLinha">
+<option>1,0</option>
+<option>1,15</option>
+<option selected>1,5</option>
+<option>2,0</option>
+</select>
+</div>
+</div>
+
+<div class="grid">
+<div>
+<label for="margemSuperior">Margem superior</label>
+<input type="text" id="margemSuperior" value="2 cm">
+</div>
+
+<div>
+<label for="margemInferior">Margem inferior</label>
+<input type="text" id="margemInferior" value="2 cm">
+</div>
+</div>
+
+<div class="grid">
+<div>
+<label for="margemInterna">Margem interna</label>
+<input type="text" id="margemInterna" value="2,5 cm">
+</div>
+
+<div>
+<label for="margemExterna">Margem externa</label>
+<input type="text" id="margemExterna" value="2 cm">
+</div>
+</div>
+
+<label for="numeracaoPaginas">Numeração de páginas</label>
+<select id="numeracaoPaginas">
+<option selected>Iniciar no corpo da obra</option>
+<option>Iniciar desde o começo</option>
+<option>Sem numeração</option>
+</select>
+
+<label for="observacoesDiagramacao">Observações da diagramação</label>
+<textarea id="observacoesDiagramacao" placeholder="Ex.: primeira linha recuada, travessão nos diálogos, sumário automático, sem espaços extras entre parágrafos, etc."></textarea>
+
+<button onclick="aplicarPadraoModo()">Aplicar padrão do modo</button>
+<button class="alt" onclick="salvarDiagramacao()">Salvar diagramação</button>
+
+<div class="preview" id="statusDiagramacao">
+Nenhuma configuração salva ainda.
+</div>
+</div>
+
+<div class="card">
+<h3>Confirmação</h3>
+
+<div class="preview" id="resumoConfirmacao">
+Revise os dados acima. Se estiver tudo certo, confirme e siga para o próximo setor marcado.
+</div>
+
+<button class="ok" onclick="confirmarESeguir()">Concordo com esta diagramação e quero seguir</button>
+<button class="sec" onclick="abrirExpedicao()">Pular para expedição</button>
 </div>
 
 </div>
@@ -95,18 +271,124 @@ if(projeto){
 document.getElementById("nomeProjeto").innerText = projeto;
 }
 
+const modo = localStorage.getItem("lapidar_modo_producao") || "personalizada";
+
+function carregarModo(){
+const badge = document.getElementById("modoProducaoBadge");
+const descricao = document.getElementById("descricaoModo");
+const status = document.getElementById("statusModo");
+
+if(modo === "nacional"){
+badge.innerText = "Modo: Nacional";
+descricao.classList.add("selected");
+descricao.innerHTML =
+"<strong>Produção Nacional</strong><br>" +
+"Diagramação em padrão brasileiro, estrutura limpa, tipografia equilibrada, foco em legibilidade e compatibilidade com impressão nacional.";
+status.innerText = "Padrão nacional carregado.";
+}
+
+if(modo === "internacional"){
+badge.innerText = "Modo: Internacional";
+descricao.classList.add("selected");
+descricao.innerHTML =
+"<strong>Produção Internacional</strong><br>" +
+"Diagramação avançada, apresentação mais sofisticada, maior impacto visual e preparação ampliada para publicação internacional.";
+status.innerText = "Padrão internacional carregado.";
+}
+
+if(modo === "personalizada"){
+badge.innerText = "Modo: Personalizada";
+descricao.classList.add("selected");
+descricao.innerHTML =
+"<strong>Produção Personalizada</strong><br>" +
+"Você ajusta livremente fonte, margens, paginação e observações conforme o projeto.";
+status.innerText = "Modo personalizado carregado.";
+}
+}
+
+function aplicarPadraoModo(){
+if(modo === "nacional"){
+document.getElementById("formatoLivro").value = "A5";
+document.getElementById("fonteTexto").value = "Times New Roman";
+document.getElementById("tamanhoFonte").value = "12";
+document.getElementById("espacamentoLinha").value = "1,5";
+document.getElementById("margemSuperior").value = "2 cm";
+document.getElementById("margemInferior").value = "2 cm";
+document.getElementById("margemInterna").value = "2,5 cm";
+document.getElementById("margemExterna").value = "2 cm";
+}
+
+if(modo === "internacional"){
+document.getElementById("formatoLivro").value = "6x9";
+document.getElementById("fonteTexto").value = "Garamond";
+document.getElementById("tamanhoFonte").value = "12";
+document.getElementById("espacamentoLinha").value = "1,15";
+document.getElementById("margemSuperior").value = "2 cm";
+document.getElementById("margemInferior").value = "2 cm";
+document.getElementById("margemInterna").value = "2,2 cm";
+document.getElementById("margemExterna").value = "1,8 cm";
+}
+
+document.getElementById("statusDiagramacao").innerText =
+"Padrão do modo aplicado com sucesso.";
+}
+
+function salvarDiagramacao(){
+const dados = {
+formato: document.getElementById("formatoLivro").value,
+fonte: document.getElementById("fonteTexto").value,
+tamanho: document.getElementById("tamanhoFonte").value,
+espacamento: document.getElementById("espacamentoLinha").value,
+margemSuperior: document.getElementById("margemSuperior").value,
+margemInferior: document.getElementById("margemInferior").value,
+margemInterna: document.getElementById("margemInterna").value,
+margemExterna: document.getElementById("margemExterna").value,
+numeracao: document.getElementById("numeracaoPaginas").value,
+observacoes: document.getElementById("observacoesDiagramacao").value
+};
+
+localStorage.setItem("lapidar_diagramacao_config", JSON.stringify(dados));
+
+document.getElementById("statusDiagramacao").innerHTML =
+"Diagramação salva com sucesso.<br>" +
+"Formato: " + dados.formato + "<br>" +
+"Fonte: " + dados.fonte + "<br>" +
+"Tamanho: " + dados.tamanho;
+
+document.getElementById("resumoConfirmacao").innerHTML =
+"Diagramação configurada.<br>" +
+"Formato: " + dados.formato + "<br>" +
+"Fonte: " + dados.fonte + "<br>" +
+"Tamanho: " + dados.tamanho + "<br>" +
+"Espaçamento: " + dados.espacamento;
+}
+
+function proximoServicoAposDiagramacao(){
+const s = JSON.parse(localStorage.getItem("lapidar_servicos_marcados") || "{}");
+
+if(s.capa) return "capista.html";
+if(s.traducao) return "segunda_lingua.html";
+if(s.avaliacao) return "avaliacao_literaria.html";
+if(s.lapidacao) return "lapidacao_literaria.html";
+if(s.analisador) return "analisador_obra.html";
+
+return "expedicao_material.html";
+}
+
+function confirmarESeguir(){
+salvarDiagramacao();
+window.location.href = proximoServicoAposDiagramacao();
+}
+
+function abrirExpedicao(){
+window.location.href = "expedicao_material.html";
+}
+
 function voltar(){
-window.location.href = "painel_setores.html";
+window.location.href = "producao_integrada.html";
 }
-function abrirProjetos(){
-window.location.href = "projetos.html";
-}
-function abrirSetores(){
-window.location.href = "painel_setores.html";
-}
-function abrirFluxo(){
-window.location.href = "status_fluxo_editorial.html";
-}
+
+carregarModo();
 </script>
 
 </body>
