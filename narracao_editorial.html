@@ -1,184 +1,425 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Módulo 17 — Narração Editorial</title>
+<title>Silo Sonoro • Narração Editorial</title>
 
 <style>
-
 body{
-font-family: Arial;
-background:#f4efe6;
 margin:0;
-padding:0;
+font-family:Arial, sans-serif;
+background:#0e0604;
+color:white;
+font-size:20px;
+}
+
+header{
+background:#2f436d;
+padding:24px 20px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:12px;
+flex-wrap:wrap;
 }
 
 .container{
-max-width:900px;
+max-width:1100px;
 margin:auto;
-padding:20px;
+padding:28px 18px 44px;
 }
 
-.header{
-font-size:32px;
-font-weight:bold;
-margin-bottom:10px;
+.card{
+background:#1c0e08;
+border-radius:18px;
+padding:24px;
+margin-bottom:22px;
+box-shadow:0 6px 18px rgba(0,0,0,.25);
 }
 
-.sub{
-font-size:18px;
-margin-bottom:20px;
+h2{
+margin:0;
+font-size:34px;
 }
 
-.box{
-background:white;
-padding:20px;
-border-radius:12px;
-margin-bottom:20px;
-box-shadow:0px 0px 8px rgba(0,0,0,0.1);
+h3{
+margin-top:0;
+font-size:28px;
 }
 
 label{
 display:block;
-margin:10px 0;
-font-size:18px;
+margin-top:18px;
+margin-bottom:8px;
+font-weight:bold;
+font-size:22px;
+}
+
+input[type="text"],
+input[type="number"],
+select,
+textarea{
+width:100%;
+padding:16px;
+border-radius:12px;
+border:none;
+background:#2a140c;
+color:white;
+box-sizing:border-box;
+font-family:Arial, sans-serif;
+font-size:22px;
+}
+
+textarea{
+min-height:140px;
+resize:vertical;
 }
 
 button{
-padding:15px;
-font-size:18px;
-background:#8b0000;
-color:white;
+margin-top:16px;
+padding:16px 20px;
 border:none;
-border-radius:8px;
-cursor:pointer;
-width:100%;
-}
-
-button:hover{
-background:#a30000;
-}
-
-.result{
-margin-top:20px;
-font-size:20px;
+border-radius:12px;
+background:#2f436d;
+color:white;
 font-weight:bold;
-color:green;
+cursor:pointer;
+font-size:22px;
 }
 
-.footer{
-margin-top:40px;
-font-size:14px;
-text-align:center;
-opacity:0.6;
+.alt{
+background:#8a6f3f;
 }
 
+.sec{
+background:#6c757d;
+}
+
+.ok{
+background:#1f6b36;
+}
+
+.preview{
+margin-top:16px;
+background:#2a140c;
+padding:16px;
+border-radius:12px;
+font-size:20px;
+line-height:1.8;
+}
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:18px;
+}
+
+.badge{
+display:inline-block;
+padding:10px 14px;
+border-radius:999px;
+font-size:16px;
+font-weight:bold;
+margin-top:12px;
+background:#c06d98;
+color:#111;
+}
+
+.checkline{
+margin-top:18px;
+padding:16px;
+background:#24130c;
+border-radius:12px;
+font-size:20px;
+line-height:1.7;
+}
+
+.checkline input{
+width:auto;
+margin-right:10px;
+transform:scale(1.4);
+}
+
+.mode-box{
+background:#24130c;
+padding:20px;
+border-radius:14px;
+margin-top:14px;
+border:2px solid #d1a24c;
+font-size:21px;
+line-height:1.7;
+}
+
+@media (max-width:800px){
+.grid{
+grid-template-columns:1fr;
+}
+}
 </style>
 </head>
-
 <body>
+
+<header>
+<h2>Silo Sonoro</h2>
+<div>
+<button class="sec" onclick="voltar()">Voltar</button>
+</div>
+</header>
 
 <div class="container">
 
-<div class="header">
-🎧 Módulo 17 — Narração Editorial
+<div class="card">
+<h3>Projeto ativo</h3>
+<div id="nomeProjeto">Nenhum projeto ativo selecionado.</div>
+<div class="badge">Módulo 17 — Narração Editorial</div>
 </div>
 
-<div class="sub">
-Conversão sonora da obra e relatórios editoriais
+<div class="card">
+<h3>Configuração-base da narração</h3>
+
+<div class="mode-box">
+<strong>Silo Sonoro</strong><br>
+Módulo editorial de conversão sonora da obra, avaliações, relatórios e materiais narrativos do ecossistema Lapidar.
 </div>
 
-<div class="box">
-
-<label>
-<input type="checkbox" id="obra">
- Narrar obra completa
-</label>
-
-<label>
-<input type="checkbox" id="avaliacaoTecnica">
- Narrar Avaliação Técnica Literária
-</label>
-
-<label>
-<input type="checkbox" id="avaliacaoEditorial">
- Narrar Avaliação Editorial
-</label>
-
-<label>
-<input type="checkbox" id="iel">
- Narrar Índice Emocional Literário (IEL)
-</label>
-
-<label>
-<input type="checkbox" id="relatorio">
- Narrar Relatório Estrutural da Obra
-</label>
-
-<label>
-<input type="checkbox" id="prefacio">
- Narrar Prefácio / Prólogo / Epílogo
-</label>
-
-<label>
-<input type="checkbox" id="capitulos">
- Narrar capítulos selecionados
-</label>
-
-<label>
-<input type="checkbox" id="ocr">
- Narrar obra transcrita (OCR)
-</label>
-
+<div class="preview" id="statusModo">
+Selecione abaixo o que deseja narrar e como deseja receber o material sonoro.
+</div>
 </div>
 
-<div class="box">
+<div class="card">
+<h3>O que você deseja narrar?</h3>
 
-<label>Formato de saída:</label>
-
-<label>
-<input type="radio" name="formato" checked>
- MP3
-</label>
-
-<label>
-<input type="radio" name="formato">
- WAV
-</label>
-
-<label>
-<input type="radio" name="formato">
- MP3 + WAV
-</label>
-
+<div class="checkline">
+<label><input type="checkbox" id="narraObra"> Narrar obra completa</label>
 </div>
 
-<div class="box">
-
-<button onclick="gerarNarracao()">
-Gerar narração editorial
-</button>
-
-<div id="resultado" class="result"></div>
-
+<div class="checkline">
+<label><input type="checkbox" id="narraCapitulos"> Narrar capítulos selecionados</label>
 </div>
 
-<div class="footer">
-Lapidar — Sistema Editorial Multimodal
+<div class="checkline">
+<label><input type="checkbox" id="narraAvaliacaoTecnica"> Narrar avaliação técnica literária</label>
+</div>
+
+<div class="checkline">
+<label><input type="checkbox" id="narraAvaliacaoEditorial"> Narrar avaliação editorial</label>
+</div>
+
+<div class="checkline">
+<label><input type="checkbox" id="narraIEL"> Narrar índice emocional da obra</label>
+</div>
+
+<div class="checkline">
+<label><input type="checkbox" id="narraRelatorio"> Narrar relatório estrutural da obra</label>
+</div>
+
+<div class="checkline">
+<label><input type="checkbox" id="narraPrefacio"> Narrar prefácio / prólogo / epílogo</label>
+</div>
+
+<div class="checkline">
+<label><input type="checkbox" id="narraOCR"> Narrar obra transcrita / OCR</label>
+</div>
+</div>
+
+<div class="card">
+<h3>Configuração da voz</h3>
+
+<div class="grid">
+<div>
+<label for="idiomaNarracao">Idioma da narração</label>
+<select id="idiomaNarracao">
+<option>Português</option>
+<option>Inglês</option>
+<option>Espanhol</option>
+<option>Francês</option>
+<option>Italiano</option>
+</select>
+</div>
+
+<div>
+<label for="tipoVoz">Tipo de voz</label>
+<select id="tipoVoz">
+<option>Masculina</option>
+<option>Feminina</option>
+<option>Neutra</option>
+</select>
+</div>
+</div>
+
+<div class="grid">
+<div>
+<label for="estiloLeitura">Estilo de leitura</label>
+<select id="estiloLeitura">
+<option>Neutra</option>
+<option>Dramática</option>
+<option>Infantil</option>
+<option>Solene</option>
+<option>Comercial</option>
+<option>Poética</option>
+</select>
+</div>
+
+<div>
+<label for="ritmoNarracao">Ritmo da leitura</label>
+<select id="ritmoNarracao">
+<option>Lento</option>
+<option>Moderado</option>
+<option>Ágil</option>
+</select>
+</div>
+</div>
+
+<div class="grid">
+<div>
+<label for="trilhaSonora">Trilha sonora</label>
+<select id="trilhaSonora">
+<option>Sem trilha</option>
+<option>Leve</option>
+<option>Institucional</option>
+<option>Emocional</option>
+<option>Infantil</option>
+</select>
+</div>
+
+<div>
+<label for="formatoSaida">Formato de saída</label>
+<select id="formatoSaida">
+<option>MP3</option>
+<option>WAV</option>
+<option>MP3 + WAV</option>
+</select>
+</div>
+</div>
+
+<div class="checkline">
+<label><input type="checkbox" id="capitulosSeparados"> Exportar capítulos separados</label>
+</div>
+
+<div class="checkline">
+<label><input type="checkbox" id="arquivoUnico"> Exportar arquivo único contínuo</label>
+</div>
+
+<label for="observacoesNarracao">Observações da narração</label>
+<textarea id="observacoesNarracao" placeholder="Ex.: destacar diálogos, pausar entre blocos, suavizar leitura técnica, tom mais institucional, leitura mais calorosa etc."></textarea>
+
+<button class="alt" onclick="salvarNarracao()">Salvar configuração da narração</button>
+
+<div class="preview" id="statusNarracao">
+Nenhuma configuração de narração salva ainda.
+</div>
+</div>
+
+<div class="card">
+<h3>Texto-base da narração</h3>
+
+<label for="textoNarracao">Texto a ser narrado</label>
+<textarea id="textoNarracao" placeholder="Cole ou revise aqui o texto-base que seguirá para narração."></textarea>
+
+<button onclick="puxarTextoObra()">Puxar texto da obra já lida</button>
+<button class="alt" onclick="salvarTextoNarracao()">Salvar texto-base</button>
+
+<div class="preview" id="statusTextoNarracao">
+Nenhum texto-base salvo ainda.
+</div>
+</div>
+
+<div class="card">
+<h3>Confirmação</h3>
+
+<div class="preview" id="resumoConfirmacao">
+Revise os dados acima. Se estiver tudo certo, confirme e siga para a expedição.
+</div>
+
+<button class="ok" onclick="confirmarESeguir()">Concordo com esta narração e quero seguir</button>
+<button class="sec" onclick="abrirExpedicao()">Pular para expedição</button>
 </div>
 
 </div>
 
 <script>
-
-function gerarNarracao(){
-
-document.getElementById("resultado").innerHTML =
-"Narração editorial adicionada ao fluxo da obra com sucesso.";
-
+const perfil = localStorage.getItem("lapidar_perfil");
+if(!perfil){
+window.location.href = "index.html";
 }
 
+const projeto = localStorage.getItem("lapidar_projeto_ativo");
+if(projeto){
+document.getElementById("nomeProjeto").innerText = projeto;
+}
+
+function puxarTextoObra(){
+const texto = localStorage.getItem("lapidar_obra_texto") || "";
+document.getElementById("textoNarracao").value = texto;
+
+document.getElementById("statusTextoNarracao").innerText =
+texto ? "Texto-base carregado com sucesso." : "Nenhum texto da obra encontrado.";
+}
+
+function salvarTextoNarracao(){
+const texto = document.getElementById("textoNarracao").value;
+localStorage.setItem("lapidar_texto_base_narracao", texto);
+
+document.getElementById("statusTextoNarracao").innerText =
+"Texto-base da narração salvo com sucesso.";
+}
+
+function salvarNarracao(){
+const dados = {
+narraObra: document.getElementById("narraObra").checked,
+narraCapitulos: document.getElementById("narraCapitulos").checked,
+narraAvaliacaoTecnica: document.getElementById("narraAvaliacaoTecnica").checked,
+narraAvaliacaoEditorial: document.getElementById("narraAvaliacaoEditorial").checked,
+narraIEL: document.getElementById("narraIEL").checked,
+narraRelatorio: document.getElementById("narraRelatorio").checked,
+narraPrefacio: document.getElementById("narraPrefacio").checked,
+narraOCR: document.getElementById("narraOCR").checked,
+idioma: document.getElementById("idiomaNarracao").value,
+voz: document.getElementById("tipoVoz").value,
+estilo: document.getElementById("estiloLeitura").value,
+ritmo: document.getElementById("ritmoNarracao").value,
+trilha: document.getElementById("trilhaSonora").value,
+formato: document.getElementById("formatoSaida").value,
+capitulosSeparados: document.getElementById("capitulosSeparados").checked,
+arquivoUnico: document.getElementById("arquivoUnico").checked,
+observacoes: document.getElementById("observacoesNarracao").value.trim()
+};
+
+localStorage.setItem("lapidar_narracao_config", JSON.stringify(dados));
+
+document.getElementById("statusNarracao").innerHTML =
+"Configuração da narração salva com sucesso.<br>" +
+"Idioma: " + dados.idioma + "<br>" +
+"Voz: " + dados.voz + "<br>" +
+"Formato: " + dados.formato;
+
+document.getElementById("resumoConfirmacao").innerHTML =
+"Narração configurada.<br>" +
+"Idioma: " + dados.idioma + "<br>" +
+"Voz: " + dados.voz + "<br>" +
+"Estilo: " + dados.estilo + "<br>" +
+"Formato: " + dados.formato;
+}
+
+function confirmarESeguir(){
+salvarNarracao();
+window.location.href = "expedicao_material.html";
+}
+
+function abrirExpedicao(){
+window.location.href = "expedicao_material.html";
+}
+
+function voltar(){
+window.location.href = "lapidacao_literaria.html";
+}
+
+const textoSalvo = localStorage.getItem("lapidar_texto_base_narracao");
+if(textoSalvo){
+document.getElementById("textoNarracao").value = textoSalvo;
+}
 </script>
 
 </body>
