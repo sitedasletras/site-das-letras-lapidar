@@ -3,224 +3,288 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Lapidar — Acesso</title>
 
 <style>
+*{
+box-sizing:border-box;
+}
 
-body {
+html, body{
 margin:0;
 padding:0;
-font-family: Arial, sans-serif;
-height:100vh;
-background:#f4efe6;
+width:100%;
+height:100%;
+font-family:Arial, sans-serif;
+background:#efe2b8;
+overflow:hidden;
+}
+
+body{
+position:relative;
 display:flex;
 align-items:center;
 justify-content:center;
-position:relative;
 }
 
-/* FAIXA VERTICAL PERGAMINHO */
+/* FUNDO EXTERNO PERGAMINHO CLARO */
+.fundo-externo{
+position:fixed;
+inset:0;
+background:#e6d6a6;
+z-index:0;
+}
 
-.vertical-pergaminho {
-
-position:absolute;
-width:140px;
-height:100vh;
-background:#e9dcc6;
-
+/* CRUZ CENTRAL EM TOM MAIS ESCURO */
+.cruz-vertical{
+position:fixed;
+top:0;
+bottom:0;
 left:50%;
 transform:translateX(-50%);
-
-z-index:0;
-
+width:24vw;
+min-width:120px;
+max-width:190px;
+background:#d6c08a;
+z-index:1;
 }
 
-/* FAIXA HORIZONTAL PERGAMINHO */
-
-.horizontal-pergaminho {
-
-position:absolute;
-height:140px;
-width:100vw;
-background:#e9dcc6;
-
+.cruz-horizontal{
+position:fixed;
+left:0;
+right:0;
 top:50%;
 transform:translateY(-50%);
-
-z-index:0;
-
-}
-
-/* SELO SUPERIOR */
-
-.selo-topo {
-
-position:absolute;
-top:20px;
-left:50%;
-
-transform:translateX(-50%);
-
-z-index:2;
-
-}
-
-.selo-topo img {
-
-height:110px;
-
-}
-
-/* CAIXA LOGIN RESPONSIVA */
-
-.login-box {
-
-background:white;
-
-height:75vh;   /* 75% da altura da tela */
-
-width:min(90vw, 380px);
-
-padding:40px;
-
-border-radius:16px;
-
-box-shadow:0px 10px 40px rgba(0,0,0,0.18);
-
-display:flex;
-flex-direction:column;
-justify-content:center;
-
+height:24vw;
+min-height:120px;
+max-height:190px;
+background:#d6c08a;
 z-index:1;
-
-text-align:center;
-
 }
 
-/* INPUTS */
-
-.login-box input {
-
-width:100%;
-
-padding:14px;
-
-margin:12px 0;
-
-border-radius:8px;
-border:1px solid #ccc;
-
-font-size:16px;
-
-}
-
-/* BOTÃO */
-
-.login-box button {
-
-width:100%;
-
-padding:14px;
-
-border:none;
-
-border-radius:8px;
-
-background:#6d5c3d;
-
-color:white;
-
-font-size:17px;
-
-cursor:pointer;
-
-transition:.2s;
-
-}
-
-.login-box button:hover {
-
-background:#5a4a2e;
-
-}
-
-/* ESQUECI SENHA */
-
-.esqueci {
-
-margin-top:14px;
-
-font-size:15px;
-
-}
-
-.esqueci a {
-
-text-decoration:none;
-
-color:#6d5c3d;
-
-}
-
-.esqueci a:hover {
-
-text-decoration:underline;
-
-}
-
-/* AJUSTE MOBILE EXTRA */
-
-@media(max-width:480px){
-
-.login-box{
-
-height:75vh;
-
-width:88vw;
-
-padding:30px;
-
+/* SELO FORA DA CAIXA BRANCA */
+.selo-topo{
+position:fixed;
+left:50%;
+top:4.5vh;
+transform:translateX(-50%);
+z-index:4;
+width:min(34vw, 180px);
+display:flex;
+justify-content:center;
+pointer-events:none;
 }
 
 .selo-topo img{
-
-height:95px;
-
+width:100%;
+height:auto;
+display:block;
+object-fit:contain;
 }
 
+/* CAIXA BRANCA */
+.login-box{
+position:relative;
+z-index:3;
+background:#ffffff;
+width:min(78vw, 500px);
+height:75vh;
+max-height:760px;
+min-height:520px;
+border-radius:22px;
+box-shadow:0 14px 40px rgba(0,0,0,0.16);
+padding:clamp(22px, 4vw, 34px);
+padding-top:clamp(110px, 16vh, 145px);
+display:flex;
+flex-direction:column;
+justify-content:flex-start;
+align-items:center;
+text-align:center;
 }
 
+/* TÍTULO E SUBTÍTULO */
+.logo-titulo{
+margin:0;
+font-size:clamp(24px, 5vw, 42px);
+font-weight:800;
+letter-spacing:1px;
+color:#111827;
+}
+
+.logo-sub{
+margin:10px 0 26px 0;
+font-size:clamp(13px, 2vw, 16px);
+line-height:1.6;
+color:#6b7280;
+max-width:92%;
+}
+
+/* FORMULÁRIO */
+.form-area{
+width:100%;
+max-width:380px;
+margin:0 auto;
+}
+
+label{
+display:block;
+text-align:left;
+margin:12px 0 6px;
+font-size:14px;
+font-weight:700;
+color:#374151;
+}
+
+input{
+width:100%;
+padding:14px 16px;
+border:1px solid #d1d5db;
+border-radius:12px;
+font-size:16px;
+outline:none;
+background:#fff;
+transition:0.2s;
+}
+
+input:focus{
+border-color:#b58f2e;
+box-shadow:0 0 0 3px rgba(181,143,46,0.12);
+}
+
+/* BOTÕES */
+button,
+.btn-secundario,
+.btn-neutro{
+width:100%;
+padding:14px 16px;
+border:none;
+border-radius:12px;
+font-size:16px;
+font-weight:700;
+cursor:pointer;
+text-decoration:none;
+display:flex;
+align-items:center;
+justify-content:center;
+margin-top:14px;
+transition:0.2s;
+}
+
+button{
+background:#284b87;
+color:#ffffff;
+}
+
+button:hover{
+background:#1f3c6d;
+}
+
+.btn-secundario{
+background:#d3ab3a;
+color:#ffffff;
+}
+
+.btn-secundario:hover{
+background:#bb952d;
+}
+
+.btn-neutro{
+background:#efefef;
+color:#4b5563;
+}
+
+.btn-neutro:hover{
+background:#e4e4e4;
+}
+
+/* RODAPÉ */
+.rodape-login{
+margin-top:auto;
+padding-top:22px;
+font-size:12px;
+line-height:1.7;
+color:#6b7280;
+}
+
+/* MOBILE FINO */
+@media (max-width:520px){
+.cruz-vertical{
+width:28vw;
+min-width:110px;
+}
+
+.cruz-horizontal{
+height:28vw;
+min-height:110px;
+}
+
+.selo-topo{
+top:5vh;
+width:min(40vw, 165px);
+}
+
+.login-box{
+width:86vw;
+height:75vh;
+min-height:500px;
+padding:24px;
+padding-top:120px;
+border-radius:20px;
+}
+
+.form-area{
+max-width:100%;
+}
+}
+
+/* TELAS MAIS BAIXAS */
+@media (max-height:720px){
+.selo-topo{
+top:3vh;
+width:min(30vw, 145px);
+}
+
+.login-box{
+height:78vh;
+padding-top:100px;
+min-height:470px;
+}
+}
 </style>
 </head>
-
 <body>
 
-<div class="vertical-pergaminho"></div>
-<div class="horizontal-pergaminho"></div>
+<div class="fundo-externo"></div>
+<div class="cruz-vertical"></div>
+<div class="cruz-horizontal"></div>
 
 <div class="selo-topo">
-
-<img src="selo-lapidar.png">
-
+  <img src="selo-lapidar.png" alt="Selo Lapidar">
 </div>
 
 <div class="login-box">
+  <h1 class="logo-titulo">LAPIDAR</h1>
+  <div class="logo-sub">
+    Produto institucional do Celeiro Literário<br>
+    Site das Letras Edições Literárias
+  </div>
 
-<form>
+  <form class="form-area">
+    <label for="login">Login ou e-mail</label>
+    <input id="login" type="text" placeholder="Digite seu e-mail ou telefone internacional">
 
-<input type="text" placeholder="Login">
+    <label for="senha">Senha</label>
+    <input id="senha" type="password" placeholder="Digite sua senha">
 
-<input type="password" placeholder="Senha">
+    <button type="submit">Entrar no Lapidar</button>
 
-<button type="submit">Entrar</button>
+    <a class="btn-secundario" href="cadastro.html">Criar cadastro</a>
+    <a class="btn-neutro" href="recuperar_senha.html">Recuperar senha</a>
+  </form>
 
-<div class="esqueci">
-<a href="#">Esqueci minha senha</a>
-</div>
-
-</form>
-
+  <div class="rodape-login">
+    Lapidar &nbsp;•&nbsp; Celeiro Literário &nbsp;•&nbsp; Site das Letras Edições Literárias
+  </div>
 </div>
 
 </body>
