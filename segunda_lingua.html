@@ -8,64 +8,85 @@
 <style>
 body{
 margin:0;
-font-family:Arial;
+font-family:Arial, sans-serif;
 background:#0e0604;
 color:white;
+font-size:20px;
 }
 
 header{
 background:#2f436d;
-padding:18px;
+padding:24px 20px;
 display:flex;
 justify-content:space-between;
 align-items:center;
+gap:12px;
+flex-wrap:wrap;
 }
 
 .container{
-max-width:1000px;
+max-width:1100px;
 margin:auto;
-padding:24px 16px;
+padding:28px 18px 44px;
 }
 
 .card{
 background:#1c0e08;
-border-radius:14px;
-padding:20px;
-margin-bottom:18px;
+border-radius:18px;
+padding:24px;
+margin-bottom:22px;
 box-shadow:0 6px 18px rgba(0,0,0,.25);
+}
+
+h2{
+margin:0;
+font-size:34px;
+}
+
+h3{
+margin-top:0;
+font-size:28px;
 }
 
 label{
 display:block;
-margin-top:14px;
-margin-bottom:6px;
+margin-top:18px;
+margin-bottom:8px;
 font-weight:bold;
+font-size:22px;
 }
 
-input, textarea, select{
+input[type="text"],
+input[type="number"],
+input[type="file"],
+select,
+textarea{
 width:100%;
-padding:12px;
-border-radius:10px;
+padding:16px;
+border-radius:12px;
 border:none;
 background:#2a140c;
 color:white;
 box-sizing:border-box;
+font-family:Arial, sans-serif;
+font-size:22px;
 }
 
 textarea{
-min-height:120px;
+min-height:140px;
 resize:vertical;
 }
 
 button{
-margin-top:12px;
-padding:12px 16px;
+margin-top:16px;
+padding:16px 20px;
 border:none;
-border-radius:8px;
+border-radius:12px;
 background:#2f436d;
 color:white;
 font-weight:bold;
 cursor:pointer;
+font-size:22px;
 }
 
 .alt{
@@ -76,22 +97,65 @@ background:#8a6f3f;
 background:#6c757d;
 }
 
+.ok{
+background:#1f6b36;
+}
+
 .preview{
-margin-top:12px;
+margin-top:16px;
 background:#2a140c;
-padding:12px;
-border-radius:10px;
-font-size:14px;
-line-height:1.6;
+padding:16px;
+border-radius:12px;
+font-size:20px;
+line-height:1.8;
 }
 
 .grid{
 display:grid;
 grid-template-columns:1fr 1fr;
-gap:16px;
+gap:18px;
 }
 
-@media(max-width:700px){
+.mode-box{
+background:#24130c;
+padding:20px;
+border-radius:14px;
+margin-top:14px;
+border:2px solid transparent;
+font-size:21px;
+line-height:1.7;
+}
+
+.mode-box.selected{
+border-color:#d1a24c;
+}
+
+.badge{
+display:inline-block;
+padding:10px 14px;
+border-radius:999px;
+font-size:16px;
+font-weight:bold;
+margin-top:12px;
+background:#1f6b36;
+}
+
+.checkline{
+margin-top:18px;
+padding:16px;
+background:#24130c;
+border-radius:12px;
+font-size:20px;
+line-height:1.7;
+}
+
+.checkline input{
+width:auto;
+margin-right:10px;
+transform:scale(1.4);
+}
+
+@media (max-width:800px){
 .grid{
 grid-template-columns:1fr;
 }
@@ -103,7 +167,7 @@ grid-template-columns:1fr;
 <header>
 <h2>Segunda Língua(s)</h2>
 <div>
-<button onclick="voltar()">Voltar</button>
+<button class="sec" onclick="voltar()">Voltar</button>
 </div>
 </header>
 
@@ -111,120 +175,238 @@ grid-template-columns:1fr;
 
 <div class="card">
 <h3>Projeto ativo</h3>
-<div id="projetoNome">Nenhum projeto selecionado.</div>
+<div id="nomeProjeto">Nenhum projeto ativo selecionado.</div>
+<div class="badge" id="modoProducaoBadge">Modo: Personalizada</div>
 </div>
 
 <div class="card">
-<h3>Configuração da tradução</h3>
+<h3>Configuração-base da tradução</h3>
+
+<div class="mode-box selected" id="descricaoModo">
+Carregando configuração do modo escolhido...
+</div>
+
+<div class="preview" id="statusModo">
+Aguardando leitura do modo de produção.
+</div>
+</div>
+
+<div class="card">
+<h3>Planejamento da tradução</h3>
 
 <div class="grid">
 <div>
-<label>Idioma de origem</label>
+<label for="idiomaOrigem">Idioma de origem</label>
 <select id="idiomaOrigem">
 <option>Português</option>
 <option>Inglês</option>
 <option>Espanhol</option>
 <option>Francês</option>
 <option>Italiano</option>
+<option>Alemão</option>
 </select>
 </div>
 
 <div>
-<label>Idioma de destino</label>
-<select id="idiomaDestino">
-<option>Inglês</option>
-<option>Espanhol</option>
-<option>Francês</option>
-<option>Italiano</option>
-<option>Alemão</option>
-<option>Português</option>
-</select>
+<label for="quantidadeIdiomas">Quantas línguas deseja?</label>
+<input type="number" id="quantidadeIdiomas" min="1" max="10" value="1">
 </div>
 </div>
 
-<label>Observações da tradução</label>
-<textarea id="obsTraducao" placeholder="Registrar nuances do texto, público-alvo, tom desejado, termos técnicos e observações importantes..."></textarea>
+<label for="idiomasDestino">Quais idiomas deseja?</label>
+<textarea id="idiomasDestino" placeholder="Ex.: Inglês, Espanhol, Francês"></textarea>
 
-<button onclick="salvarTraducao()">Salvar configuração da tradução</button>
+<label for="obsTraducao">Observações da tradução</label>
+<textarea id="obsTraducao" placeholder="Tom desejado, público, termos técnicos, regionalismos, adaptações e observações gerais."></textarea>
+
+<div class="checkline">
+<label>
+<input type="checkbox" id="umaCapaSo">
+Desejo usar uma única capa para todas as línguas.
+</label>
+</div>
+
+<div class="checkline">
+<label>
+<input type="checkbox" id="capaPorIdioma">
+Desejo capas separadas por idioma.
+</label>
+</div>
+
+<button onclick="aplicarPadraoModo()">Aplicar padrão do modo</button>
+<button class="alt" onclick="salvarTraducao()">Salvar configuração da tradução</button>
 
 <div class="preview" id="statusTraducao">
-Configuração ainda não registrada.
+Nenhuma configuração de tradução salva ainda.
 </div>
 </div>
 
 <div class="card">
-<h3>Texto base da obra</h3>
-<textarea id="textoBase" placeholder="Cole aqui o texto-base da obra, se quiser trabalhar a tradução manualmente."></textarea>
-<button class="alt" onclick="carregarTextoObra()">Puxar texto da obra</button>
-<button onclick="salvarTextoBase()">Salvar texto base</button>
+<h3>Texto-base da tradução</h3>
 
-<div class="preview" id="statusTexto">
-Nenhum texto-base carregado ainda.
+<label for="textoBaseTraducao">Texto-base</label>
+<textarea id="textoBaseTraducao" placeholder="Cole ou revise aqui o texto-base que seguirá para tradução."></textarea>
+
+<button onclick="puxarTextoObra()">Puxar texto da obra já lida</button>
+<button class="alt" onclick="salvarTextoBase()">Salvar texto-base</button>
+
+<div class="preview" id="statusTextoBase">
+Nenhum texto-base salvo ainda.
 </div>
 </div>
 
 <div class="card">
-<h3>Ações rápidas</h3>
-<button onclick="abrirDepartamentos()">Painel departamentos</button>
-<button class="alt" onclick="abrirExpedicao()">Ir para expedição</button>
-<button class="sec" onclick="abrirProjetos()">Projetos</button>
+<h3>Confirmação</h3>
+
+<div class="preview" id="resumoConfirmacao">
+Revise os dados acima. Se estiver tudo certo, confirme e siga para o próximo setor marcado.
+</div>
+
+<button class="ok" onclick="confirmarESeguir()">Concordo com esta tradução e quero seguir</button>
+<button class="sec" onclick="abrirExpedicao()">Pular para expedição</button>
 </div>
 
 </div>
 
 <script>
 const perfil = localStorage.getItem("lapidar_perfil");
-
 if(!perfil){
 window.location.href = "index.html";
 }
 
 const projeto = localStorage.getItem("lapidar_projeto_ativo");
 if(projeto){
-document.getElementById("projetoNome").innerText = projeto;
+document.getElementById("nomeProjeto").innerText = projeto;
 }
 
-document.getElementById("textoBase").value =
-localStorage.getItem("lapidar_texto_base_traducao") || "";
+const modo = localStorage.getItem("lapidar_modo_producao") || "personalizada";
 
-function salvarTraducao(){
-localStorage.setItem("lapidar_traducao_origem", idiomaOrigem.value);
-localStorage.setItem("lapidar_traducao_destino", idiomaDestino.value);
-localStorage.setItem("lapidar_traducao_obs", obsTraducao.value);
+function carregarModo(){
+const badge = document.getElementById("modoProducaoBadge");
+const descricao = document.getElementById("descricaoModo");
+const status = document.getElementById("statusModo");
+
+if(modo === "nacional"){
+badge.innerText = "Modo: Nacional";
+descricao.innerHTML =
+"<strong>Produção Nacional</strong><br>" +
+"Fluxo de tradução objetivo, com foco em clareza, adaptação funcional e organização segura para publicação.";
+status.innerText = "Padrão nacional carregado.";
+}
+
+if(modo === "internacional"){
+badge.innerText = "Modo: Internacional";
+descricao.innerHTML =
+"<strong>Produção Internacional</strong><br>" +
+"Fluxo de tradução ampliado, com maior sofisticação de apresentação, múltiplos idiomas e suporte para variações editoriais.";
+status.innerText = "Padrão internacional carregado.";
+}
+
+if(modo === "personalizada"){
+badge.innerText = "Modo: Personalizada";
+descricao.innerHTML =
+"<strong>Produção Personalizada</strong><br>" +
+"Você define quantas línguas quer, quais idiomas serão usados e se a capa será única ou separada por idioma.";
+status.innerText = "Modo personalizado carregado.";
+}
+}
+
+function aplicarPadraoModo(){
+if(modo === "nacional"){
+document.getElementById("idiomaOrigem").value = "Português";
+document.getElementById("quantidadeIdiomas").value = 1;
+document.getElementById("idiomasDestino").value = "Inglês";
+document.getElementById("umaCapaSo").checked = true;
+document.getElementById("capaPorIdioma").checked = false;
+}
+
+if(modo === "internacional"){
+document.getElementById("idiomaOrigem").value = "Português";
+document.getElementById("quantidadeIdiomas").value = 3;
+document.getElementById("idiomasDestino").value = "Inglês, Espanhol, Francês";
+document.getElementById("umaCapaSo").checked = false;
+document.getElementById("capaPorIdioma").checked = true;
+}
 
 document.getElementById("statusTraducao").innerText =
-"Configuração da tradução registrada com sucesso.";
+"Padrão do modo aplicado com sucesso.";
 }
 
-function carregarTextoObra(){
+function puxarTextoObra(){
 const texto = localStorage.getItem("lapidar_obra_texto") || "";
-document.getElementById("textoBase").value = texto;
+document.getElementById("textoBaseTraducao").value = texto;
 
-document.getElementById("statusTexto").innerText =
-texto ? "Texto da obra carregado com sucesso." : "Nenhum texto da obra encontrado.";
+document.getElementById("statusTextoBase").innerText =
+texto ? "Texto-base carregado com sucesso." : "Nenhum texto da obra encontrado.";
 }
 
 function salvarTextoBase(){
-localStorage.setItem("lapidar_texto_base_traducao", textoBase.value);
+const texto = document.getElementById("textoBaseTraducao").value;
+localStorage.setItem("lapidar_texto_base_traducao", texto);
 
-document.getElementById("statusTexto").innerText =
-"Texto-base da tradução salvo com sucesso.";
+document.getElementById("statusTextoBase").innerText =
+"Texto-base salvo com sucesso.";
 }
 
-function abrirDepartamentos(){
-window.location.href = "painel_departamentos.html";
+function salvarTraducao(){
+const dados = {
+origem: document.getElementById("idiomaOrigem").value,
+quantidade: document.getElementById("quantidadeIdiomas").value,
+idiomas: document.getElementById("idiomasDestino").value.trim(),
+observacoes: document.getElementById("obsTraducao").value.trim(),
+umaCapaSo: document.getElementById("umaCapaSo").checked,
+capaPorIdioma: document.getElementById("capaPorIdioma").checked
+};
+
+localStorage.setItem("lapidar_traducao_config", JSON.stringify(dados));
+localStorage.setItem("lapidar_traducao_origem", dados.origem);
+localStorage.setItem("lapidar_traducao_quantidade", dados.quantidade);
+localStorage.setItem("lapidar_traducao_idiomas", dados.idiomas);
+localStorage.setItem("lapidar_traducao_obs", dados.observacoes);
+localStorage.setItem("lapidar_traducao_uma_capa", dados.umaCapaSo ? "true" : "false");
+localStorage.setItem("lapidar_traducao_capa_por_idioma", dados.capaPorIdioma ? "true" : "false");
+
+document.getElementById("statusTraducao").innerHTML =
+"Configuração da tradução salva com sucesso.<br>" +
+"Origem: " + dados.origem + "<br>" +
+"Quantidade de línguas: " + dados.quantidade + "<br>" +
+"Idiomas: " + (dados.idiomas || "-");
+
+document.getElementById("resumoConfirmacao").innerHTML =
+"Tradução configurada.<br>" +
+"Idiomas: " + (dados.idiomas || "-") + "<br>" +
+"Uma capa só: " + (dados.umaCapaSo ? "Sim" : "Não") + "<br>" +
+"Capas por idioma: " + (dados.capaPorIdioma ? "Sim" : "Não");
+}
+
+function proximoServicoAposTraducao(){
+const s = JSON.parse(localStorage.getItem("lapidar_servicos_marcados") || "{}");
+
+if(s.avaliacao) return "avaliacao_literaria.html";
+if(s.lapidacao) return "lapidacao_literaria.html";
+if(s.analisador) return "analisador_obra.html";
+
+return "expedicao_material.html";
+}
+
+function confirmarESeguir(){
+salvarTraducao();
+window.location.href = proximoServicoAposTraducao();
 }
 
 function abrirExpedicao(){
 window.location.href = "expedicao_material.html";
 }
 
-function abrirProjetos(){
-window.location.href = "projetos.html";
+function voltar(){
+window.location.href = "capista.html";
 }
 
-function voltar(){
-window.location.href = "painel_departamentos.html";
+carregarModo();
+
+const textoSalvo = localStorage.getItem("lapidar_texto_base_traducao");
+if(textoSalvo){
+document.getElementById("textoBaseTraducao").value = textoSalvo;
 }
 </script>
 
