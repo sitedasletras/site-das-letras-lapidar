@@ -3,772 +3,207 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Produção Integrada • Lapidar</title>
+<title>Lapidar — Produção da Obra</title>
 
 <style>
-body{
-margin:0;
-font-family:Arial, sans-serif;
-background:#0e0604;
-color:white;
-font-size:20px;
-}
 
-header{
-background:#2f436d;
-padding:24px 20px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-gap:12px;
-flex-wrap:wrap;
+body{
+font-family: Arial, sans-serif;
+background:#f7f6f2;
+margin:0;
+padding:0;
+font-size:20px;
 }
 
 .container{
-max-width:1100px;
+max-width:700px;
 margin:auto;
-padding:28px 18px 44px;
+padding:25px;
+}
+
+h1{
+text-align:center;
+font-size:34px;
+margin-bottom:10px;
+}
+
+.subtitle{
+text-align:center;
+margin-bottom:25px;
+font-size:22px;
+color:#555;
 }
 
 .card{
-background:#1c0e08;
-border-radius:18px;
-padding:24px;
-margin-bottom:22px;
-box-shadow:0 6px 18px rgba(0,0,0,.25);
+background:white;
+padding:25px;
+margin-bottom:18px;
+border-radius:14px;
+box-shadow:0 2px 10px rgba(0,0,0,0.08);
+cursor:pointer;
+transition:.2s;
 }
 
-h2,h3,h4{
-margin-top:0;
+.card:hover{
+transform:scale(1.02);
 }
 
-p{
-line-height:1.8;
-font-size:20px;
+.card h2{
+margin:0;
+font-size:26px;
 }
 
-label{
-display:block;
-margin-top:18px;
-margin-bottom:8px;
-font-weight:bold;
-font-size:22px;
+.card p{
+margin-top:8px;
+color:#555;
 }
 
-input[type="text"],
-input[type="file"],
-input[type="number"],
-textarea,
-select{
-width:100%;
-padding:16px;
-border-radius:12px;
-border:none;
-background:#2a140c;
-color:white;
-box-sizing:border-box;
-font-family:Arial, sans-serif;
-font-size:22px;
+.nacional{
+border-left:10px solid #2e7d32;
 }
 
-textarea{
-min-height:120px;
-resize:vertical;
+.internacional{
+border-left:10px solid #1565c0;
+}
+
+.personalizado{
+border-left:10px solid #6a1b9a;
 }
 
 button{
-margin-top:16px;
-padding:16px 20px;
+width:100%;
+padding:18px;
+font-size:22px;
 border:none;
 border-radius:12px;
-background:#2f436d;
+background:#333;
 color:white;
-font-weight:bold;
 cursor:pointer;
-font-size:22px;
+margin-top:20px;
 }
 
-.alt{
-background:#8a6f3f;
+button:hover{
+background:#000;
 }
 
-.sec{
-background:#6c757d;
+.footer{
+text-align:center;
+margin-top:30px;
+font-size:18px;
+color:#666;
 }
 
-.ok{
-background:#1f6b36;
-}
-
-.warn{
-background:#7a1f1f;
-}
-
-.preview{
-margin-top:16px;
-background:#2a140c;
-padding:16px;
-border-radius:12px;
-font-size:20px;
-line-height:1.8;
-}
-
-.grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:18px;
-}
-
-.grid-3{
-display:grid;
-grid-template-columns:1fr 1fr 1fr;
-gap:18px;
-}
-
-.mode-box{
-background:#24130c;
-padding:20px;
-border-radius:14px;
-margin-top:14px;
-border:2px solid transparent;
-font-size:21px;
-line-height:1.7;
-}
-
-.mode-box.selected{
-border-color:#d1a24c;
-}
-
-.servicos{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:12px;
-margin-top:10px;
-}
-
-.servico-item{
-background:#24130c;
-padding:14px;
-border-radius:12px;
-font-size:21px;
-line-height:1.7;
-}
-
-.setores-aplicacao{
-display:none;
-margin-top:12px;
-padding:12px;
-background:#24130c;
-border-radius:10px;
-}
-
-.setores-aplicacao.show{
-display:block;
-}
-
-.setores-grid{
-display:grid;
-grid-template-columns:1fr 1fr 1fr;
-gap:10px;
-}
-
-.hidden{
-display:none !important;
-}
-
-.checkline{
-margin-top:18px;
-padding:16px;
-background:#24130c;
-border-radius:12px;
-font-size:20px;
-line-height:1.7;
-}
-
-.checkline input{
-width:auto;
-margin-right:10px;
-transform:scale(1.4);
-}
-
-@media (max-width:900px){
-.grid-3,
-.setores-grid{
-grid-template-columns:1fr;
-}
-}
-
-@media (max-width:800px){
-.grid,
-.servicos{
-grid-template-columns:1fr;
-}
-}
 </style>
 </head>
-<body>
 
-<header>
-<h2 id="saudacaoSistema">Produção Integrada</h2>
-<div>
-<button class="sec" onclick="voltar()">Voltar</button>
-</div>
-</header>
+
+<body>
 
 <div class="container">
 
-<div class="card">
-<h3>Projeto ativo</h3>
-<div id="nomeProjeto">Nenhum projeto ativo selecionado.</div>
-<div class="preview" id="statusProjeto">
-Selecione o modo de produção e os serviços desejados.
-</div>
+<h1>Lapidar</h1>
+
+<div class="subtitle">
+Como deseja produzir sua obra hoje?
 </div>
 
-<div class="card">
-<h3>Como você deseja produzir esta obra hoje?</h3>
 
-<div class="grid-3">
+<div class="card nacional" onclick="modoSelecionado('nacional')">
 
-<div id="boxNacional" class="mode-box" onclick="selecionarModo('nacional')">
-<div class="mode-title"><strong>Produção Nacional</strong></div>
-<p>Diagramação e preparação editorial em padrão brasileiro, com acabamento profissional, limpo e funcional.</p>
+<h2>🇧🇷 Produção Nacional</h2>
 
-<label><input type="radio" name="aplicar_nacional" value="toda" onchange="toggleSetores('nacional', false)"> Aplicar em toda a obra</label>
-<label><input type="radio" name="aplicar_nacional" value="setores" onchange="toggleSetores('nacional', true)"> Escolher setores</label>
+<p>
+Diagramação profissional padrão brasileiro + capa + exportação completa.
+Recomendado para autores no Brasil.
+</p>
 
-<div id="setores_nacional" class="setores-aplicacao">
-<strong>Aplicar nacional nestes setores:</strong>
-<div class="setores-grid">
-<label><input type="checkbox" class="nacionalSetor" value="diagramacao"> Diagramação</label>
-<label><input type="checkbox" class="nacionalSetor" value="capa"> Capa</label>
-<label><input type="checkbox" class="nacionalSetor" value="traducao"> Tradução</label>
-<label><input type="checkbox" class="nacionalSetor" value="avaliacao"> Avaliação</label>
-<label><input type="checkbox" class="nacionalSetor" value="lapidacao"> Lapidação</label>
-<label><input type="checkbox" class="nacionalSetor" value="analisador"> Analisador</label>
-<label><input type="checkbox" class="nacionalSetor" value="narracao"> Narração</label>
-</div>
-</div>
 </div>
 
-<div id="boxInternacional" class="mode-box" onclick="selecionarModo('internacional')">
-<div class="mode-title"><strong>Produção Internacional</strong></div>
-<p>Fluxo editorial ampliado, com apresentação mais sofisticada, visual mais forte e preparação para padrão avançado.</p>
 
-<label><input type="radio" name="aplicar_internacional" value="toda" onchange="toggleSetores('internacional', false)"> Aplicar em toda a obra</label>
-<label><input type="radio" name="aplicar_internacional" value="setores" onchange="toggleSetores('internacional', true)"> Escolher setores</label>
+<div class="card internacional" onclick="modoSelecionado('internacional')">
 
-<div id="setores_internacional" class="setores-aplicacao">
-<strong>Aplicar internacional nestes setores:</strong>
-<div class="setores-grid">
-<label><input type="checkbox" class="internacionalSetor" value="diagramacao"> Diagramação</label>
-<label><input type="checkbox" class="internacionalSetor" value="capa"> Capa</label>
-<label><input type="checkbox" class="internacionalSetor" value="traducao"> Tradução</label>
-<label><input type="checkbox" class="internacionalSetor" value="avaliacao"> Avaliação</label>
-<label><input type="checkbox" class="internacionalSetor" value="lapidacao"> Lapidação</label>
-<label><input type="checkbox" class="internacionalSetor" value="analisador"> Analisador</label>
-<label><input type="checkbox" class="internacionalSetor" value="narracao"> Narração</label>
-</div>
-</div>
+<h2>🌍 Produção Internacional</h2>
+
+<p>
+Formato compatível Amazon e impressão global + capa internacional.
+Ideal para distribuição mundial.
+</p>
+
 </div>
 
-<div id="boxPersonalizada" class="mode-box selected" onclick="selecionarModo('personalizada')">
-<div class="mode-title"><strong>Produção Personalizada</strong></div>
-<p>Você escolhe livremente os serviços e o sistema conduz o fluxo conforme as opções marcadas.</p>
-<div class="preview">Ideal para quem quer controlar setor por setor.</div>
+
+<div class="card personalizado" onclick="modoSelecionado('personalizado')">
+
+<h2>⚙️ Produção Personalizada</h2>
+
+<p>
+Escolha módulos individuais como tradução, humanização, avaliação e audiobook.
+</p>
+
+</div>
+
+
+<button onclick="seguirFluxo()">Seguir fluxo da obra</button>
+
+
+<div class="footer">
+
+Site das Letras — Edições Literárias & Sonoras<br>
+Uma iniciativa editorial brasileira
+
 </div>
 
 </div>
 
-<div class="preview" id="statusModo">
-Modo atual: Produção Personalizada.
-</div>
-</div>
-
-<div class="card">
-<h3>Quais serviços você deseja incluir?</h3>
-
-<div class="servicos">
-<label class="servico-item"><input type="checkbox" id="srvDiagramacao"> 1 — Diagramação</label>
-<label class="servico-item"><input type="checkbox" id="srvCapa"> 3 — Capa</label>
-<label class="servico-item"><input type="checkbox" id="srvTraducao"> 5 — Tradução</label>
-<label class="servico-item"><input type="checkbox" id="srvAvaliacao"> 7 — Avaliação Literária</label>
-<label class="servico-item"><input type="checkbox" id="srvAnalisador"> 11 — Analisador de Obra</label>
-<label class="servico-item"><input type="checkbox" id="srvLapidacao"> 13 — Lapidação Literária</label>
-<label class="servico-item"><input type="checkbox" id="srvNarracao"> 17 — Narração Editorial</label>
-</div>
-
-<button class="ok" onclick="confirmarServicos()">Confirmar serviços</button>
-
-<div class="preview" id="statusServicos">
-Nenhum serviço confirmado ainda.
-</div>
-</div>
-
-<div id="blocoUploadObra" class="card">
-<h3>Upload da obra</h3>
-
-<label for="arquivoObra">Arquivo da obra</label>
-<input type="file" id="arquivoObra" accept=".txt,.doc,.docx,.pdf">
-
-<label for="textoObra">Ou cole o texto da obra</label>
-<textarea id="textoObra" placeholder="Cole aqui o texto da obra, se preferir."></textarea>
-
-<button onclick="processarObra()">Ler obra</button>
-
-<div class="preview" id="statusLeitura">
-Nenhuma leitura realizada ainda.
-</div>
-</div>
-
-<div id="blocoDadosObra" class="card">
-<h3>Confirme os dados da obra</h3>
-
-<div class="grid">
-<div>
-<label for="tituloObra">Título da obra</label>
-<input type="text" id="tituloObra" placeholder="Título sugerido">
-</div>
-
-<div>
-<label for="subtituloObra">Subtítulo da obra</label>
-<input type="text" id="subtituloObra" placeholder="Subtítulo sugerido">
-</div>
-</div>
-
-<label for="autorObra">Nome do autor</label>
-<input type="text" id="autorObra" placeholder="Autor sugerido">
-
-<button class="ok" onclick="confirmarDadosObra()">Confirmar dados</button>
-<button class="alt" onclick="limparDadosObra()">Limpar dados</button>
-
-<div class="preview" id="statusDadosObra">
-Aguardando confirmação dos dados.
-</div>
-</div>
-
-<div id="blocoCapa" class="card hidden">
-<h3>Dados da capa</h3>
-
-<label for="tituloCapa">Título da obra</label>
-<input type="text" id="tituloCapa" placeholder="Título da capa">
-
-<label for="autorCapa">Nome do autor</label>
-<input type="text" id="autorCapa" placeholder="Nome do autor">
-
-<label for="sinopseCapa">Sinopse</label>
-<textarea id="sinopseCapa" placeholder="Escreva a sinopse da obra."></textarea>
-
-<label for="bioCapa">Biografia (opcional)</label>
-<textarea id="bioCapa" placeholder="Escreva a biografia para orelha / contra-capa."></textarea>
-
-<label>Upload das imagens da capa (opcional)</label>
-<input type="file" id="imagensCapa" accept="image/*" multiple>
-
-<div class="checkline">
-<label>
-<input type="checkbox" id="aceiteImagens">
-Declaro possuir autorização legal para uso das imagens enviadas e assumo total responsabilidade por direitos autorais.
-</label>
-</div>
-
-<button onclick="salvarDadosCapa()">Salvar dados da capa</button>
-
-<div class="preview" id="statusCapa">
-Nenhum dado de capa salvo ainda.
-</div>
-</div>
-
-<div id="blocoTraducao" class="card hidden">
-<h3>Configuração da tradução</h3>
-
-<div class="grid">
-<div>
-<label for="idiomaOrigem">Idioma de origem</label>
-<select id="idiomaOrigem">
-<option>Português</option>
-<option>Inglês</option>
-<option>Espanhol</option>
-<option>Francês</option>
-<option>Italiano</option>
-</select>
-</div>
-
-<div>
-<label for="idiomaDestino">Idioma de destino</label>
-<select id="idiomaDestino">
-<option>Inglês</option>
-<option>Espanhol</option>
-<option>Francês</option>
-<option>Italiano</option>
-<option>Alemão</option>
-<option>Português</option>
-</select>
-</div>
-</div>
-
-<label for="obsTraducao">Observações da tradução</label>
-<textarea id="obsTraducao" placeholder="Público, tom, termos técnicos e observações."></textarea>
-
-<button onclick="salvarTraducao()">Salvar tradução</button>
-
-<div class="preview" id="statusTraducao">
-Nenhuma configuração de tradução salva ainda.
-</div>
-</div>
-
-<div id="blocoNarracao" class="card hidden">
-<h3>Narração editorial</h3>
-
-<div class="checkline">
-<label><input type="checkbox" id="narraObra"> Narrar obra completa</label>
-</div>
-<div class="checkline">
-<label><input type="checkbox" id="narraAvaliacaoTecnica"> Narrar avaliação técnica</label>
-</div>
-<div class="checkline">
-<label><input type="checkbox" id="narraAvaliacaoEditorial"> Narrar avaliação editorial</label>
-</div>
-<div class="checkline">
-<label><input type="checkbox" id="narraIEL"> Narrar índice emocional da obra</label>
-</div>
-<div class="checkline">
-<label><input type="checkbox" id="narraRelatorio"> Narrar relatório estrutural da obra</label>
-</div>
-
-<label for="formatoNarracao">Formato de saída</label>
-<select id="formatoNarracao">
-<option>MP3</option>
-<option>WAV</option>
-<option>MP3 + WAV</option>
-</select>
-
-<button onclick="salvarNarracao()">Salvar narração editorial</button>
-
-<div class="preview" id="statusNarracao">
-Nenhuma configuração de narração salva ainda.
-</div>
-</div>
-
-<div id="blocoFluxoFinal" class="card">
-<h3>Seguir fluxo da obra</h3>
-
-<div class="preview" id="statusFluxo">
-Depois de confirmar os serviços e os dados, o Lapidar abre diretamente o primeiro setor escolhido.
-</div>
-
-<button class="ok" onclick="seguirFluxo()">Seguir fluxo da obra</button>
-</div>
-
-</div>
 
 <script>
-const perfil = localStorage.getItem("lapidar_perfil");
-if(!perfil){
-window.location.href="index.html";
+
+let modo = "";
+
+function modoSelecionado(tipo){
+
+modo = tipo;
+
+alert("Modo selecionado: " + tipo.toUpperCase());
+
 }
 
-const projeto = localStorage.getItem("lapidar_projeto_ativo");
-if(projeto){
-document.getElementById("nomeProjeto").innerText = projeto;
-}
-
-function saudacaoLapidar(){
-const hora = new Date().getHours();
-let saudacao = "Olá";
-
-if(hora < 12){
-saudacao = "Bom dia";
-}else if(hora < 18){
-saudacao = "Boa tarde";
-}else{
-saudacao = "Boa noite";
-}
-
-document.getElementById("saudacaoSistema").innerText =
-saudacao + ", " + perfil + ". Como você deseja produzir esta obra hoje?";
-}
-saudacaoLapidar();
-
-let modoAtual = "personalizada";
-
-function selecionarModo(modo){
-modoAtual = modo;
-
-document.getElementById("boxNacional").classList.remove("selected");
-document.getElementById("boxInternacional").classList.remove("selected");
-document.getElementById("boxPersonalizada").classList.remove("selected");
-
-if(modo === "nacional"){
-document.getElementById("boxNacional").classList.add("selected");
-document.getElementById("statusModo").innerText = "Modo atual: Produção Nacional.";
-}
-if(modo === "internacional"){
-document.getElementById("boxInternacional").classList.add("selected");
-document.getElementById("statusModo").innerText = "Modo atual: Produção Internacional.";
-}
-if(modo === "personalizada"){
-document.getElementById("boxPersonalizada").classList.add("selected");
-document.getElementById("statusModo").innerText = "Modo atual: Produção Personalizada.";
-}
-
-localStorage.setItem("lapidar_modo_producao", modoAtual);
-}
-
-function toggleSetores(tipo, mostrar){
-const id = tipo === "nacional" ? "setores_nacional" : "setores_internacional";
-const el = document.getElementById(id);
-if(mostrar){
-el.classList.add("show");
-}else{
-el.classList.remove("show");
-}
-}
-
-function getServicosMarcados(){
-return {
-diagramacao: document.getElementById("srvDiagramacao").checked,
-capa: document.getElementById("srvCapa").checked,
-traducao: document.getElementById("srvTraducao").checked,
-avaliacao: document.getElementById("srvAvaliacao").checked,
-analisador: document.getElementById("srvAnalisador").checked,
-lapidacao: document.getElementById("srvLapidacao").checked,
-narracao: document.getElementById("srvNarracao").checked
-};
-}
-
-function confirmarServicos(){
-const s = getServicosMarcados();
-localStorage.setItem("lapidar_servicos_marcados", JSON.stringify(s));
-
-let lista = [];
-Object.keys(s).forEach(k=>{
-if(s[k]) lista.push(k);
-});
-
-document.getElementById("statusServicos").innerText =
-lista.length ? "Serviços confirmados: " + lista.join(", ") : "Nenhum serviço selecionado.";
-
-document.getElementById("blocoCapa").classList.toggle("hidden", !s.capa);
-document.getElementById("blocoTraducao").classList.toggle("hidden", !s.traducao);
-document.getElementById("blocoNarracao").classList.toggle("hidden", !s.narracao);
-}
-
-function processarObra(){
-const arquivo = document.getElementById("arquivoObra").files[0];
-const textoManual = document.getElementById("textoObra").value.trim();
-
-if(arquivo){
-const nome = arquivo.name || "";
-const ext = nome.toLowerCase().split(".").pop();
-
-localStorage.setItem("lapidar_obra_arquivo_nome", nome);
-
-if(ext === "txt"){
-const reader = new FileReader();
-reader.onload = function(e){
-const conteudo = String(e.target.result || "");
-analisarConteudoTexto(conteudo, nome);
-};
-reader.readAsText(arquivo);
-return;
-}
-
-if(ext === "pdf" || ext === "doc" || ext === "docx"){
-preencherPorNomeDoArquivo(nome);
-document.getElementById("statusLeitura").innerHTML =
-"Arquivo registrado com sucesso.<br>" +
-"Leitura automática completa ainda não está ativa para " + ext.toUpperCase() + ".<br>" +
-"O sistema usou o nome do arquivo como base inicial.<br>" +
-"Se quiser leitura mais fiel agora, cole o texto da obra no campo manual.";
-return;
-}
-
-preencherPorNomeDoArquivo(nome);
-document.getElementById("statusLeitura").innerHTML =
-"Tipo de arquivo não reconhecido para leitura automática.<br>" +
-"O sistema usou o nome do arquivo como base inicial.";
-return;
-}
-
-if(textoManual){
-analisarConteudoTexto(textoManual, "texto colado");
-return;
-}
-
-document.getElementById("statusLeitura").innerText =
-"Envie um arquivo ou cole o texto da obra antes de ler.";
-}
-
-function preencherPorNomeDoArquivo(nome){
-let base = nome.replace(/\.[^.]+$/, "");
-base = base.replace(/[_-]+/g, " ").trim();
-
-document.getElementById("tituloObra").value = base || "";
-document.getElementById("subtituloObra").value = "";
-document.getElementById("autorObra").value = "";
-document.getElementById("statusDadosObra").innerText =
-"Dados sugeridos a partir do nome do arquivo.";
-}
-
-function analisarConteudoTexto(conteudo, origem){
-const linhas = conteudo
-.split(/\r?\n/)
-.map(l => l.trim())
-.filter(l => l.length > 0);
-
-let titulo = "";
-let subtitulo = "";
-let autor = "";
-
-if(linhas.length > 0) titulo = linhas[0];
-if(linhas.length > 1) subtitulo = linhas[1];
-if(linhas.length > 2) autor = linhas[2];
-
-if(!titulo && origem){
-titulo = origem.replace(/\.[^.]+$/, "");
-}
-
-document.getElementById("tituloObra").value = titulo || "";
-document.getElementById("subtituloObra").value = subtitulo || "";
-document.getElementById("autorObra").value = autor || "";
-
-localStorage.setItem("lapidar_obra_texto", conteudo);
-
-document.getElementById("statusLeitura").innerHTML =
-"Leitura concluída com sucesso.<br>" +
-"Sugestões preenchidas para confirmação manual.";
-}
-
-function confirmarDadosObra(){
-const titulo = document.getElementById("tituloObra").value.trim();
-const subtitulo = document.getElementById("subtituloObra").value.trim();
-const autor = document.getElementById("autorObra").value.trim();
-
-localStorage.setItem("lapidar_obra_titulo", titulo);
-localStorage.setItem("lapidar_obra_subtitulo", subtitulo);
-localStorage.setItem("lapidar_obra_autor", autor);
-
-const tituloCapa = document.getElementById("tituloCapa");
-const autorCapa = document.getElementById("autorCapa");
-if(tituloCapa) tituloCapa.value = titulo;
-if(autorCapa) autorCapa.value = autor;
-
-document.getElementById("statusDadosObra").innerHTML =
-"Dados confirmados com sucesso.<br>" +
-"Título: " + (titulo || "-") + "<br>" +
-"Subtítulo: " + (subtitulo || "-") + "<br>" +
-"Autor: " + (autor || "-");
-}
-
-function limparDadosObra(){
-document.getElementById("tituloObra").value = "";
-document.getElementById("subtituloObra").value = "";
-document.getElementById("autorObra").value = "";
-document.getElementById("statusDadosObra").innerText = "Campos limpos.";
-}
-
-function salvarDadosCapa(){
-const titulo = document.getElementById("tituloCapa").value.trim();
-const autor = document.getElementById("autorCapa").value.trim();
-const sinopse = document.getElementById("sinopseCapa").value.trim();
-const bio = document.getElementById("bioCapa").value.trim();
-const imagens = document.getElementById("imagensCapa").files;
-const aceite = document.getElementById("aceiteImagens").checked;
-
-if(imagens.length > 0 && !aceite){
-document.getElementById("statusCapa").innerText =
-"Para usar imagens enviadas, confirme a autorização e responsabilidade.";
-return;
-}
-
-let nomes = [];
-for(let i=0;i<imagens.length;i++){
-nomes.push(imagens[i].name);
-}
-
-localStorage.setItem("lapidar_capa_titulo", titulo);
-localStorage.setItem("lapidar_capa_autor", autor);
-localStorage.setItem("lapidar_capa_sinopse", sinopse);
-localStorage.setItem("lapidar_capa_biografia", bio);
-localStorage.setItem("lapidar_capa_imagens", JSON.stringify(nomes));
-localStorage.setItem("lapidar_capa_aceite_imagens", aceite ? "true" : "false");
-
-document.getElementById("statusCapa").innerHTML =
-"Dados da capa salvos com sucesso.<br>" +
-"Título: " + (titulo || "-") + "<br>" +
-"Autor: " + (autor || "-") + "<br>" +
-"Imagens: " + (nomes.length ? nomes.join(', ') : 'nenhuma');
-}
-
-function salvarTraducao(){
-localStorage.setItem("lapidar_traducao_origem", document.getElementById("idiomaOrigem").value);
-localStorage.setItem("lapidar_traducao_destino", document.getElementById("idiomaDestino").value);
-localStorage.setItem("lapidar_traducao_obs", document.getElementById("obsTraducao").value);
-
-document.getElementById("statusTraducao").innerText =
-"Configuração da tradução salva com sucesso.";
-}
-
-function salvarNarracao(){
-const dados = {
-obra: document.getElementById("narraObra").checked,
-avaliacaoTecnica: document.getElementById("narraAvaliacaoTecnica").checked,
-avaliacaoEditorial: document.getElementById("narraAvaliacaoEditorial").checked,
-iel: document.getElementById("narraIEL").checked,
-relatorio: document.getElementById("narraRelatorio").checked,
-formato: document.getElementById("formatoNarracao").value
-};
-
-localStorage.setItem("lapidar_narracao_config", JSON.stringify(dados));
-
-document.getElementById("statusNarracao").innerHTML =
-"Narração editorial salva com sucesso.<br>" +
-"Formato: " + dados.formato;
-}
 
 function seguirFluxo(){
-const s = JSON.parse(localStorage.getItem("lapidar_servicos_marcados") || "{}");
 
-if(s.diagramacao){
-window.location.href = "diagramador_inicio.html";
+if(modo===""){
+
+alert("Escolha um modo antes de continuar.");
+
 return;
-}
-if(s.capa){
-window.location.href = "capista.html";
-return;
-}
-if(s.traducao){
-window.location.href = "segunda_lingua.html";
-return;
-}
-if(s.avaliacao){
-window.location.href = "avaliacao_literaria.html";
-return;
-}
-if(s.analisador){
-window.location.href = "analisador_obra.html";
-return;
-}
-if(s.lapidacao){
-window.location.href = "lapidacao_literaria.html";
-return;
-}
-if(s.narracao){
-window.location.href = "narracao_editorial.html";
-return;
+
 }
 
-document.getElementById("statusFluxo").innerText =
-"Marque pelo menos um serviço para seguir o fluxo.";
+
+if(modo==="nacional"){
+
+window.location.href="diagramacao.html";
+
 }
 
-function voltar(){
-window.location.href = "painel_departamentos.html";
+
+if(modo==="internacional"){
+
+window.location.href="diagramacao.html";
+
 }
 
-selecionarModo(localStorage.getItem("lapidar_modo_producao") || "personalizada");
+
+if(modo==="personalizado"){
+
+window.location.href="modulos.html";
+
+}
+
+}
+
 </script>
+
 
 </body>
 </html>
