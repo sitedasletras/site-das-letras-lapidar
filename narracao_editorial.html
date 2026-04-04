@@ -327,14 +327,15 @@ Nenhum texto-base salvo ainda.
 </div>
 
 <div class="card">
-<h3>Confirmação</h3>
+<h3>Fluxo sonoro</h3>
 
 <div class="preview" id="resumoConfirmacao">
-Revise os dados acima. Se estiver tudo certo, confirme e siga para a expedição.
+Revise os dados acima. Se estiver tudo certo, confirme para seguir ao roteiro narrativo.
 </div>
 
-<button class="ok" onclick="confirmarESeguir()">Concordo com esta narração e quero seguir</button>
-<button class="sec" onclick="abrirExpedicao()">Pular para expedição</button>
+<button class="ok" onclick="confirmarESeguir()">Concordo com esta narração e quero seguir ao roteiro</button>
+<button class="sec" onclick="abrirFilaDireto()">Ir direto para fila de produção</button>
+<button class="alt" onclick="abrirExpedicao()">Pular para expedição</button>
 </div>
 
 </div>
@@ -404,8 +405,13 @@ document.getElementById("resumoConfirmacao").innerHTML =
 }
 
 function confirmarESeguir(){
+salvarTextoNarracao();
 salvarNarracao();
-window.location.href = "expedicao_material.html";
+window.location.href = "roteiro_narracao.html";
+}
+
+function abrirFilaDireto(){
+window.location.href = "fila_producao_audio.html";
 }
 
 function abrirExpedicao(){
