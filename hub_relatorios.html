@@ -3,207 +3,379 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hub de Relatórios</title>
+<title>Hub de Relatórios • Lapidar</title>
 
 <style>
-
 body{
-font-family:Arial;
-background:#efe2c2;
 margin:0;
-padding:0;
+font-family:Arial, sans-serif;
+background:#0e0604;
+color:white;
+font-size:20px;
 }
 
 header{
-background:#6b4ca5;
-color:white;
-padding:20px;
+background:#2f436d;
+padding:24px 20px;
 display:flex;
 justify-content:space-between;
 align-items:center;
+gap:12px;
+flex-wrap:wrap;
 }
 
 .container{
-padding:20px;
+max-width:1100px;
+margin:auto;
+padding:28px 18px 44px;
 }
 
 .card{
-background:white;
-border-radius:12px;
-padding:20px;
-margin-bottom:20px;
-box-shadow:0 4px 10px rgba(0,0,0,.1);
+background:#1c0e08;
+border-radius:18px;
+padding:24px;
+margin-bottom:22px;
+box-shadow:0 6px 18px rgba(0,0,0,.25);
+}
+
+h2{
+margin:0;
+font-size:34px;
+}
+
+h3{
+margin-top:0;
+font-size:28px;
+}
+
+p{
+line-height:1.8;
+font-size:20px;
 }
 
 button{
-padding:12px 18px;
+margin-top:16px;
+padding:16px 20px;
 border:none;
-border-radius:8px;
-background:#6b4ca5;
-color:white;
-cursor:pointer;
-margin-right:10px;
-margin-top:10px;
-}
-
-button.sec{
+border-radius:12px;
 background:#2f436d;
+color:white;
+font-weight:bold;
+cursor:pointer;
+font-size:22px;
+width:100%;
 }
 
-button.alt{
+.alt{
 background:#8a6f3f;
 }
 
-.lista{
-margin-top:10px;
-padding:10px;
-background:#f7f2e4;
-border-radius:8px;
+.sec{
+background:#6c757d;
 }
 
+.ok{
+background:#1f6b36;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:18px;
+}
+
+.item{
+background:#24130c;
+padding:20px;
+border-radius:16px;
+font-size:20px;
+line-height:1.8;
+display:flex;
+flex-direction:column;
+justify-content:space-between;
+min-height:220px;
+}
+
+.item h4{
+margin:0 0 12px 0;
+font-size:26px;
+}
+
+.preview{
+margin-top:16px;
+background:#2a140c;
+padding:16px;
+border-radius:12px;
+font-size:20px;
+line-height:1.8;
+white-space:pre-line;
+}
+
+.badge{
+display:inline-block;
+padding:10px 14px;
+border-radius:999px;
+font-size:16px;
+font-weight:bold;
+margin-top:12px;
+background:#2a140c;
+}
+
+.lista{
+background:#24130c;
+padding:18px;
+border-radius:14px;
+margin-top:16px;
+font-size:19px;
+line-height:1.8;
+white-space:pre-line;
+}
+
+@media (max-width:700px){
+body{
+font-size:22px;
+}
+h2{
+font-size:34px;
+}
+h3{
+font-size:30px;
+}
+.item h4{
+font-size:28px;
+}
+.item,
+.preview,
+.lista,
+p{
+font-size:21px;
+}
+button{
+font-size:22px;
+}
+}
 </style>
 </head>
-
 <body>
 
 <header>
-
 <h2>Hub de Relatórios</h2>
-
-<button onclick="voltar()">Voltar ao Admin</button>
-
+<div>
+<button class="sec" onclick="voltar()">Voltar</button>
+</div>
 </header>
-
 
 <div class="container">
 
-
 <div class="card">
-
-<h3>Relatório mestre da obra</h3>
-
-<button onclick="abrirFluxo()">Abrir Status do Fluxo Editorial</button>
-
-<button class="sec" onclick="abrirProjetos()">Abrir Projetos</button>
-
+<h3>Projeto ativo</h3>
+<div id="nomeProjeto">Nenhum projeto ativo selecionado.</div>
+<div class="badge" id="perfilBadge">Perfil: -</div>
+<div class="preview">
+Aqui ficam organizados os relatórios do mestre da obra, estatísticas do sistema, histórico de geração e consolidação do projeto.
+</div>
 </div>
 
-
 <div class="card">
+<h3>Painéis de relatório</h3>
 
-<h3>Painel estatístico do sistema</h3>
+<div class="grid">
 
-<button onclick="abrirEstatisticas()">Abrir Estatísticas do Lapidar</button>
-
+<div class="item">
+<div>
+<h4>Relatório do Mestre da Obra</h4>
+<p>Consolida o que foi feito nos módulos: análise, diagramação, capa, tradução, avaliação, lapidação, narração e expedição.</p>
+</div>
+<button onclick="gerarRelatorioMestre()">Gerar</button>
 </div>
 
+<div class="item">
+<div>
+<h4>Painel Estatístico do Sistema</h4>
+<p>Mostra quais setores foram marcados no projeto atual e o que já foi salvo dentro do fluxo editorial.</p>
+</div>
+<button class="alt" onclick="gerarPainelEstatistico()">Gerar</button>
+</div>
+
+<div class="item">
+<div>
+<h4>Histórico de Relatórios Gerados</h4>
+<p>Lista tudo o que foi gerado e salvo dentro deste projeto para auditoria e acompanhamento.</p>
+</div>
+<button class="ok" onclick="carregarHistorico()">Abrir</button>
+</div>
+
+</div>
+</div>
 
 <div class="card">
+<h3>Resultado do relatório</h3>
+<div class="preview" id="resultadoRelatorio">
+Nenhum relatório gerado ainda.
+</div>
+</div>
 
-<h3>Histórico de relatórios gerados</h3>
-
+<div class="card">
+<h3>Histórico</h3>
 <div class="lista" id="historicoRelatorios">
-
 Nenhum relatório registrado ainda.
-
+</div>
 </div>
 
-<button class="alt" onclick="gerarRelatorio()">Gerar novo relatório</button>
+<div class="card">
+<h3>Ações rápidas</h3>
 
+<div class="grid">
+
+<div class="item">
+<div>
+<h4>Fluxo editorial</h4>
+<p>Abre o status do fluxo editorial do projeto atual.</p>
+</div>
+<button onclick="abrirFluxo()">Abrir</button>
 </div>
 
-
+<div class="item">
+<div>
+<h4>Painel de departamentos</h4>
+<p>Volta para o hub principal dos setores do Lapidar.</p>
+</div>
+<button class="alt" onclick="abrirDepartamentos()">Abrir</button>
 </div>
 
+<div class="item">
+<div>
+<h4>Expedição final</h4>
+<p>Vai direto para a saída do material e conferência final.</p>
+</div>
+<button class="ok" onclick="abrirExpedicao()">Abrir</button>
+</div>
+
+</div>
+</div>
+
+</div>
 
 <script>
-
-/* =========================
-SESSION GUARD INSTITUCIONAL
-========================= */
-
-const perfil = localStorage.getItem("lapidar_perfil")
-
+const perfil = localStorage.getItem("lapidar_perfil");
 if(!perfil){
-
-window.location.href="index.html"
-
+window.location.href = "index.html";
 }
 
+document.getElementById("perfilBadge").innerText = "Perfil: " + perfil;
 
-/* =========================
-CARREGAR HISTÓRICO
-========================= */
-
-const historico = JSON.parse(
-localStorage.getItem("lapidar_historico_relatorios") || "[]"
-)
-
-if(historico.length){
-
-document.getElementById("historicoRelatorios").innerHTML =
-historico.join("<br>")
-
+const projeto = localStorage.getItem("lapidar_projeto_ativo");
+if(projeto){
+document.getElementById("nomeProjeto").innerText = projeto;
 }
 
-
-/* =========================
-GERAR RELATÓRIO
-========================= */
-
-function gerarRelatorio(){
-
-const data = new Date().toLocaleString("pt-BR")
-
-let hist = JSON.parse(
-localStorage.getItem("lapidar_historico_relatorios") || "[]"
-)
-
-hist.push("Relatório gerado em " + data)
-
-localStorage.setItem(
-"lapidar_historico_relatorios",
-JSON.stringify(hist)
-)
-
-location.reload()
-
+function registrarHistorico(titulo, conteudo){
+let historico = JSON.parse(localStorage.getItem("lapidar_historico_relatorios") || "[]");
+historico.push({
+titulo: titulo,
+conteudo: conteudo,
+data: new Date().toLocaleString("pt-BR")
+});
+localStorage.setItem("lapidar_historico_relatorios", JSON.stringify(historico));
 }
 
+function gerarRelatorioMestre(){
+const titulo = localStorage.getItem("lapidar_obra_titulo") || "-";
+const subtitulo = localStorage.getItem("lapidar_obra_subtitulo") || "-";
+const autor = localStorage.getItem("lapidar_obra_autor") || "-";
+const genero = localStorage.getItem("lapidar_obra_genero") || "-";
+const tema = localStorage.getItem("lapidar_obra_tema") || "-";
 
-/* =========================
-NAVEGAÇÃO
-========================= */
+const sallT = localStorage.getItem("lapidar_resultado_publico_tecnico") || "0,00";
+const sallE = localStorage.getItem("lapidar_resultado_publico_editorial") || "0,00";
+const iel = localStorage.getItem("lapidar_resultado_publico_iel") || "0,00";
+
+const texto = 
+"Relatório do Mestre da Obra\n\n" +
+"Título: " + titulo + "\n" +
+"Subtítulo: " + subtitulo + "\n" +
+"Autor: " + autor + "\n" +
+"Gênero: " + genero + "\n" +
+"Tema: " + tema + "\n\n" +
+"Avaliação Técnica Literária: " + sallT + "\n" +
+"Avaliação Editorial: " + sallE + "\n" +
+"Índice Emocional da Obra: " + iel + "\n\n" +
+"Situação geral: projeto consolidado para acompanhamento interno do Lapidar.";
+
+document.getElementById("resultadoRelatorio").innerText = texto;
+registrarHistorico("Relatório do Mestre da Obra", texto);
+carregarHistorico();
+}
+
+function gerarPainelEstatistico(){
+const servicos = JSON.parse(localStorage.getItem("lapidar_servicos_marcados") || "{}");
+
+const linhas = [];
+linhas.push("Painel Estatístico do Sistema\n");
+
+linhas.push("Diagramação: " + (servicos.diagramacao ? "Marcada" : "Não marcada"));
+linhas.push("Capa: " + (servicos.capa ? "Marcada" : "Não marcada"));
+linhas.push("Tradução: " + (servicos.traducao ? "Marcada" : "Não marcada"));
+linhas.push("Avaliação: " + (servicos.avaliacao ? "Marcada" : "Não marcada"));
+linhas.push("Analisador: " + (servicos.analisador ? "Marcada" : "Não marcada"));
+linhas.push("Lapidação: " + (servicos.lapidacao ? "Marcada" : "Não marcada"));
+linhas.push("Narração: " + (servicos.narracao ? "Marcada" : "Não marcada"));
+linhas.push("");
+linesPushIfExists(linhas, "Configuração de diagramação salva", localStorage.getItem("lapidar_diagramacao_config"));
+linesPushIfExists(linhas, "Configuração de capa salva", localStorage.getItem("lapidar_capa_config"));
+linesPushIfExists(linhas, "Configuração de tradução salva", localStorage.getItem("lapidar_traducao_config"));
+linesPushIfExists(linhas, "Configuração de avaliação salva", localStorage.getItem("lapidar_resultado_publico_tecnico") || localStorage.getItem("lapidar_resultado_publico_editorial") || localStorage.getItem("lapidar_resultado_publico_iel"));
+linesPushIfExists(linhas, "Configuração de lapidação salva", localStorage.getItem("lapidar_lapidacao_config"));
+linesPushIfExists(linhas, "Configuração de narração salva", localStorage.getItem("lapidar_narracao_config"));
+linesPushIfExists(linhas, "Expedição gerada", localStorage.getItem("lapidar_expedicao_gerada"));
+
+const texto = linhas.join("\n");
+document.getElementById("resultadoRelatorio").innerText = texto;
+registrarHistorico("Painel Estatístico do Sistema", texto);
+carregarHistorico();
+}
+
+function linesPushIfExists(arr, titulo, valor){
+arr.push(titulo + ": " + (valor ? "Sim" : "Não"));
+}
+
+function carregarHistorico(){
+let historico = JSON.parse(localStorage.getItem("lapidar_historico_relatorios") || "[]");
+
+if(!historico.length){
+document.getElementById("historicoRelatorios").innerText = "Nenhum relatório registrado ainda.";
+return;
+}
+
+let texto = "";
+historico.slice().reverse().forEach((item, i) => {
+texto += (i + 1) + ". " + item.titulo + "\n";
+texto += "Data: " + item.data + "\n";
+texto += item.conteudo + "\n";
+texto += "\n----------------------------------------\n\n";
+});
+
+document.getElementById("historicoRelatorios").innerText = texto.trim();
+}
 
 function abrirFluxo(){
-
-window.location.href="status_fluxo_editorial.html"
-
+window.location.href = "status_fluxo_editorial.html";
 }
 
-
-function abrirProjetos(){
-
-window.location.href="projetos.html"
-
+function abrirDepartamentos(){
+window.location.href = "painel_departamentos.html";
 }
 
-
-function abrirEstatisticas(){
-
-window.location.href="estatisticas_lapidar.html"
-
+function abrirExpedicao(){
+window.location.href = "expedicao_material.html";
 }
-
 
 function voltar(){
-
-window.location.href="admin.html"
-
+window.location.href = "painel_departamentos.html";
 }
 
+carregarHistorico();
 </script>
-
 
 </body>
 </html>
