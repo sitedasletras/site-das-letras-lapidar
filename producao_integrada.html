@@ -61,6 +61,11 @@ background:#f4f7fb;
 color:#374151;
 }
 
+.editavel{
+background:#ffffff;
+color:#111827;
+}
+
 button{
 width:100%;
 padding:15px;
@@ -197,6 +202,11 @@ O Lapidar lê primeiro a obra inteira, cria o texto-base do projeto e só depois
 <label for="autorObra">Autor</label>
 <input type="text" id="autorObra" class="readonly" readonly>
 
+<div id="blocoAutorManual" class="hidden">
+  <label for="autorManual">Não encontramos o autor. Quem é o autor desta obra?</label>
+  <input type="text" id="autorManual" class="editavel" placeholder="Digite aqui o nome do autor">
+</div>
+
 <label for="textoBase">Texto-base da obra lida</label>
 <textarea id="textoBase" class="readonly" readonly></textarea>
 
@@ -245,10 +255,7 @@ O Lapidar lê primeiro a obra inteira, cria o texto-base do projeto e só depois
 
 </div>
 
-<!-- DOCX -->
 <script src="https://unpkg.com/mammoth/mammoth.browser.min.js"></script>
-
-<!-- PDF -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script>
 pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
@@ -273,6 +280,22 @@ function limparProjetoAnteriorCompleto(){
   chaves.forEach(chave => localStorage.removeItem(chave));
 }
 
+function pareceAutorValido(texto){
+  if(!texto) return false;
+  const t = texto.trim();
+
+  if(t.length < 3) return false;
+  if(t.length > 80) return false;
+  if(/[.:;!?]/.test(t)) return false;
+  if(/\d/.test(t)) return false;
+
+  const palavras = t.split(/\s+/).filter(Boolean);
+  if(palavras.length < 2) return false;
+  if(palavras.length > 6) return false;
+
+  return true;
+}
+
 function extrairMetadados(texto, nomeArquivo){
   const linhas = texto
     .split(/\r?\n/)
@@ -285,9 +308,11 @@ function extrairMetadados(texto, nomeArquivo){
 
   if(linhas.length > 0) titulo = linhas[0];
   if(linhas.length > 1) subtitulo = linhas[1];
-  if(linhas.length > 2) autor = linhas[2];
 
-  // fallback: nome do arquivo
+  if(linhas.length > 2 && pareceAutorValido(linhas[2])){
+    autor = linhas[2];
+  }
+
   if(!titulo && nomeArquivo){
     titulo = nomeArquivo.replace(/\.[^/.]+$/, "").replace(/[_-]/g, " ").trim();
   }
@@ -305,6 +330,18 @@ function preencherCamposLidos(metadados, texto){
   localStorage.setItem("lapidar_obra_subtitulo", metadados.subtitulo || "");
   localStorage.setItem("lapidar_obra_autor", metadados.autor || "");
   localStorage.setItem("lapidar_obra_texto", texto || "");
+
+  const blocoAutorManual = document.getElementById("blocoAutorManual");
+  const autorManual = document.getElementById("autorManual");
+
+  if(!metadados.autor){
+    blocoAutorManual.classList.remove("hidden");
+    autorManual.value = "";
+    document.getElementById("autorObra").value = "Autor a confirmar";
+  } else {
+    blocoAutorManual.classList.add("hidden");
+    autorManual.value = "";
+  }
 }
 
 function mostrarStatusLeitura(mensagem){
@@ -334,6 +371,13 @@ async function lerArquivoCompleto(){
   limparProjetoAnteriorCompleto();
   mostrarAlertaLeitura("");
   mostrarStatusLeitura("Lendo a obra inteira...");
+
+  document.getElementById("tituloObra").value = "";
+  document.getElementById("subtituloObra").value = "";
+  document.getElementById("autorObra").value = "";
+  document.getElementById("textoBase").value = "";
+  document.getElementById("blocoAutorManual").classList.add("hidden");
+  document.getElementById("autorManual").value = "";
 
   const nomeArquivo = arquivo.name;
   localStorage.setItem("lapidar_obra_arquivo_nome", nomeArquivo);
@@ -411,10 +455,35 @@ async function lerArquivoCompleto(){
   }
 }
 
+function obterPrimeiroModuloMarcado(modulos){
+  if(modulos.diagramacao) return "diagramador_inicio.html";
+  if(modulos.capista) return "capista.html";
+  if(modulos.traducao) return "segunda_lingua.html";
+  if(modulos.avaliacao) return "avaliacao_literaria.html";
+  if(modulos.analisador) return "analisador_obra.html";
+  if(modulos.lapidacao) return "lapidacao_literaria.html";
+  if(modulos.siloSonoro) return "narracao_editorial.html";
+  return "";
+}
+
 function registrarProjetoSoberano(){
   const titulo = document.getElementById("tituloObra").value.trim();
   const subtitulo = document.getElementById("subtituloObra").value.trim();
-  const autor = document.getElementById("autorObra").value.trim();
+
+  let autor = document.getElementById("autorObra").value.trim();
+  const autorManual = document.getElementById("autorManual").value.trim();
+
+  if(autor === "Autor a confirmar"){
+    if(!autorManual){
+      document.getElementById("statusProjeto").innerText =
+        "Não encontramos o autor. Informe o nome do autor antes de registrar o projeto.";
+      return;
+    }
+    autor = autorManual;
+    document.getElementById("autorObra").value = autor;
+    localStorage.setItem("lapidar_obra_autor", autor);
+  }
+
   const textoBase = document.getElementById("textoBase").value.trim();
   const arquivoNome = localStorage.getItem("lapidar_obra_arquivo_nome") || "";
 
@@ -442,6 +511,12 @@ function registrarProjetoSoberano(){
   if(modulos.analisador) nomesModulos.push("Analisador de Obra");
   if(modulos.lapidacao) nomesModulos.push("Lapidação Literária");
   if(modulos.siloSonoro) nomesModulos.push("Silo Sonoro");
+
+  if(nomesModulos.length === 0){
+    document.getElementById("statusProjeto").innerText =
+      "Selecione pelo menos um módulo antes de registrar o projeto.";
+    return;
+  }
 
   const projeto = {
     titulo,
@@ -473,8 +548,17 @@ function registrarProjetoSoberano(){
     "Título: " + (titulo || "não identificado") + "\n" +
     "Autor: " + (autor || "não identificado") + "\n" +
     "Arquivo: " + arquivoNome + "\n" +
-    "Módulos selecionados: " + (nomesModulos.length ? nomesModulos.join(", ") : "nenhum") + "\n" +
-    "Os setores já foram pré-selecionados para trabalhar nesta obra.";
+    "Módulos selecionados: " + nomesModulos.join(", ") + "\n" +
+    "Os setores já foram pré-selecionados para trabalhar nesta obra.\n" +
+    "Abrindo o primeiro módulo agora...";
+
+  const primeiroModulo = obterPrimeiroModuloMarcado(modulos);
+
+  if(primeiroModulo){
+    setTimeout(() => {
+      window.location.href = primeiroModulo;
+    }, 700);
+  }
 }
 
 window.addEventListener("load", () => {
