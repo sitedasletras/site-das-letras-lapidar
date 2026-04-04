@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Expedição do Material — Lapidar</title>
+<title>Expedição do Material • Lapidar</title>
 
 <style>
 body{
@@ -11,83 +11,135 @@ margin:0;
 font-family:Arial, sans-serif;
 background:#0e0604;
 color:white;
+font-size:20px;
 }
 
 header{
 background:#2f436d;
-padding:18px 20px;
+padding:24px 20px;
 display:flex;
 justify-content:space-between;
 align-items:center;
+gap:12px;
+flex-wrap:wrap;
 }
 
 .container{
-max-width:1000px;
+max-width:1100px;
 margin:auto;
-padding:24px 16px 40px;
+padding:28px 18px 44px;
 }
 
 .card{
 background:#1c0e08;
-border-radius:14px;
-padding:20px;
-margin-bottom:18px;
+border-radius:18px;
+padding:24px;
+margin-bottom:22px;
 box-shadow:0 6px 18px rgba(0,0,0,.25);
 }
 
-.status{
+h2{
+margin:0;
+font-size:34px;
+}
+
+h3{
+margin-top:0;
+font-size:28px;
+}
+
+label{
+display:block;
+margin-top:18px;
+margin-bottom:8px;
+font-weight:bold;
+font-size:22px;
+}
+
+input[type="text"],
+input[type="number"],
+select,
+textarea{
+width:100%;
+padding:16px;
+border-radius:12px;
+border:none;
 background:#2a140c;
-padding:12px;
-border-radius:10px;
-margin-top:12px;
-line-height:1.7;
+color:white;
+box-sizing:border-box;
+font-family:Arial, sans-serif;
+font-size:22px;
+}
+
+textarea{
+min-height:140px;
+resize:vertical;
+}
+
+button{
+margin-top:16px;
+padding:16px 20px;
+border:none;
+border-radius:12px;
+background:#2f436d;
+color:white;
+font-weight:bold;
+cursor:pointer;
+font-size:22px;
+}
+
+.alt{
+background:#8a6f3f;
+}
+
+.sec{
+background:#6c757d;
+}
+
+.ok{
+background:#1f6b36;
+}
+
+.warn{
+background:#8a1f1f;
+}
+
+.preview{
+margin-top:16px;
+background:#2a140c;
+padding:16px;
+border-radius:12px;
+font-size:20px;
+line-height:1.8;
 }
 
 .grid{
 display:grid;
 grid-template-columns:1fr 1fr;
-gap:16px;
+gap:18px;
+}
+
+.grid-3{
+display:grid;
+grid-template-columns:1fr 1fr 1fr;
+gap:18px;
 }
 
 .item{
-background:#2a140c;
-padding:14px;
-border-radius:10px;
-line-height:1.6;
-}
-
-button{
-padding:12px 16px;
-border:none;
-border-radius:8px;
-cursor:pointer;
-font-weight:bold;
-background:#2f436d;
-color:white;
-margin-top:12px;
-margin-right:10px;
-}
-
-button.alt{
-background:#8a6f3f;
-}
-
-button.sec{
-background:#6c757d;
-}
-
-button.blocked{
-background:#555;
-cursor:not-allowed;
+background:#24130c;
+padding:18px;
+border-radius:14px;
+font-size:20px;
+line-height:1.8;
 }
 
 .badge{
 display:inline-block;
-padding:8px 12px;
+padding:10px 14px;
 border-radius:999px;
-font-size:13px;
+font-size:16px;
 font-weight:bold;
-margin-top:10px;
+margin-top:12px;
 }
 
 .badge.livre{
@@ -95,10 +147,35 @@ background:#1f6b36;
 }
 
 .badge.bloqueado{
-background:#7a1f1f;
+background:#8a1f1f;
 }
 
-@media (max-width:700px){
+.checkline{
+margin-top:18px;
+padding:16px;
+background:#24130c;
+border-radius:12px;
+font-size:20px;
+line-height:1.7;
+}
+
+.checkline input{
+width:auto;
+margin-right:10px;
+transform:scale(1.4);
+}
+
+.hidden{
+display:none !important;
+}
+
+@media (max-width:900px){
+.grid-3{
+grid-template-columns:1fr;
+}
+}
+
+@media (max-width:800px){
 .grid{
 grid-template-columns:1fr;
 }
@@ -109,7 +186,9 @@ grid-template-columns:1fr;
 
 <header>
 <h2>Expedição do Material</h2>
-<button onclick="voltar()">Voltar</button>
+<div>
+<button class="sec" onclick="voltar()">Voltar</button>
+</div>
 </header>
 
 <div class="container">
@@ -117,57 +196,144 @@ grid-template-columns:1fr;
 <div class="card">
 <h3>Projeto ativo</h3>
 <div id="nomeProjeto">Nenhum projeto ativo selecionado.</div>
+<div class="preview" id="statusProjeto">
+Preparando opções de expedição do Lapidar.
+</div>
 </div>
 
 <div class="card">
 <h3>Status da expedição</h3>
-<div class="status" id="statusExpedicao">Verificando liberação...</div>
+<div class="preview" id="statusExpedicao">Verificando liberação...</div>
 <div id="badgeExpedicao"></div>
 </div>
 
 <div class="card">
-<h3>Materiais disponíveis</h3>
+<h3>Como deseja receber o material?</h3>
 
-<div class="grid">
-<div class="item">
-<strong>Miolo diagramado</strong><br>
-Arquivo final da obra diagramada.
-<button id="btnMiolo" onclick="baixarArquivo('Miolo diagramado')" class="blocked">Baixar</button>
+<div class="checkline">
+<label><input type="radio" name="saidaFormato" id="saidaWord" value="word"> Word</label>
 </div>
 
-<div class="item">
-<strong>Capa completa</strong><br>
-Frente, contra, lombada e orelhas.
-<button id="btnCapa" onclick="baixarArquivo('Capa completa')" class="blocked">Baixar</button>
+<div class="checkline">
+<label><input type="radio" name="saidaFormato" id="saidaPDF" value="pdf"> PDF</label>
 </div>
 
-<div class="item">
-<strong>Relatórios técnicos</strong><br>
-Pareceres, leitura, lapidação e registros.
-<button id="btnRelatorios" onclick="baixarArquivo('Relatórios técnicos')" class="blocked">Baixar</button>
+<div class="checkline">
+<label><input type="radio" name="saidaFormato" id="saidaAmbos" value="ambos" checked> Word + PDF</label>
 </div>
 
-<div class="item">
-<strong>Pacote completo da obra</strong><br>
-Conjunto geral para saída editorial.
-<button id="btnPacote" onclick="baixarArquivo('Pacote completo da obra')" class="blocked">Baixar</button>
+<div class="preview" id="statusSaida">
+Se Word for selecionado, o sistema mantém PDF interno salvo para proteção e auditoria.
 </div>
-</div>
-
 </div>
 
 <div class="card">
-<h3>Navegação rápida</h3>
+<h3>Materiais disponíveis para saída</h3>
+
+<div class="grid-3">
+
+<div class="item">
+<strong>Miolo diagramado</strong><br>
+Recebimento do miolo final da obra.<br>
+<button id="btnMiolo" onclick="baixarArquivo('Miolo diagramado')">Baixar</button>
+</div>
+
+<div class="item">
+<strong>Capa final</strong><br>
+Recebimento de capa física, e-book ou ambas, conforme configurado.<br>
+<button id="btnCapa" onclick="baixarArquivo('Capa final')">Baixar</button>
+</div>
+
+<div class="item">
+<strong>Relatórios editoriais</strong><br>
+Parecer, avaliação técnica, editorial, IEL e relatório estrutural.<br>
+<button id="btnRelatorios" onclick="baixarArquivo('Relatórios editoriais')">Baixar</button>
+</div>
+
+<div class="item">
+<strong>Texto lapidado</strong><br>
+Versão tratada e refinada do texto, se houver lapidação no fluxo.<br>
+<button id="btnLapidado" onclick="baixarArquivo('Texto lapidado')">Baixar</button>
+</div>
+
+<div class="item">
+<strong>Traduções</strong><br>
+Saída dos idiomas configurados no módulo Segunda Língua(s).<br>
+<button id="btnTraducao" onclick="baixarArquivo('Traduções')">Baixar</button>
+</div>
+
+<div class="item">
+<strong>Narração editorial</strong><br>
+Audiobook e áudios narrados dos relatórios, se o módulo 17 foi incluído.<br>
+<button id="btnNarracao" onclick="baixarArquivo('Narração editorial')">Baixar</button>
+</div>
+
+</div>
+
+<button class="ok" onclick="gerarExpedicao()">Gerar expedição final</button>
+
+<div class="preview" id="statusGeracao">
+Nenhuma expedição final gerada ainda.
+</div>
+</div>
+
+<div class="card">
+<h3>Conferência de nomes e créditos</h3>
+
+<div class="checkline">
+<label><input type="checkbox" id="modoColetivo"> Este projeto é antologia, miscelânea, reunião em capa ou projeto escolar/coletivo.</label>
+</div>
+
+<label for="listaNomes">Lista de nomes / créditos para conferência</label>
+<textarea id="listaNomes" placeholder="Cole aqui os nomes, sobrenomes, créditos, turma, escola, organizadores ou demais participantes para conferência."></textarea>
+
+<button class="alt" onclick="salvarConferenciaNomes()">Salvar conferência de nomes</button>
+
+<div class="preview" id="statusConferencia">
+Nenhuma conferência nominal registrada ainda.
+</div>
+</div>
+
+<div class="card">
+<h3>Proteção interna do sistema</h3>
+
+<div class="preview">
+Regra do Lapidar:<br><br>
+• Se o usuário solicitar Word, o sistema mantém um PDF interno salvo para proteção.<br>
+• Se o usuário editar o Word depois, a versão interna do Lapidar continua preservada para auditoria.<br>
+• A identificação estrutural do sistema permanece como prova de origem e versão do arquivo.
+</div>
+
+<button onclick="salvarBackupInterno()">Registrar backup interno do PDF</button>
+
+<div class="preview" id="statusBackup">
+Backup interno ainda não registrado.
+</div>
+</div>
+
+<div class="card">
+<h3>Ações rápidas</h3>
+
+<div class="grid">
+<div>
 <button onclick="abrirMesario()">Mesário Mor</button>
+</div>
+<div>
 <button class="alt" onclick="abrirProjetos()">Projetos</button>
-<button class="sec" onclick="abrirRelatorios()">Relatórios</button>
+</div>
+<div>
+<button class="sec" onclick="abrirDepartamentos()">Painel de departamentos</button>
+</div>
+<div>
+<button onclick="abrirNarracao()">Módulo 17 — Narração</button>
+</div>
+</div>
 </div>
 
 </div>
 
 <script>
 const perfil = localStorage.getItem("lapidar_perfil");
-
 if(!perfil){
 window.location.href = "index.html";
 }
@@ -206,7 +372,9 @@ const botoes = [
 document.getElementById("btnMiolo"),
 document.getElementById("btnCapa"),
 document.getElementById("btnRelatorios"),
-document.getElementById("btnPacote")
+document.getElementById("btnLapidado"),
+document.getElementById("btnTraducao"),
+document.getElementById("btnNarracao")
 ];
 
 if(liberada){
@@ -215,7 +383,7 @@ badge.innerHTML = '<span class="badge livre">Liberada</span>';
 
 botoes.forEach(btn=>{
 btn.disabled = false;
-btn.className = "";
+btn.classList.remove("warn");
 });
 }else{
 status.innerHTML = "Expedição bloqueada. Aguarde validação do Mesário Mor ou confirmação de liberação gratuita.";
@@ -223,13 +391,67 @@ badge.innerHTML = '<span class="badge bloqueado">Bloqueada</span>';
 
 botoes.forEach(btn=>{
 btn.disabled = true;
-btn.className = "blocked";
+btn.classList.add("warn");
 });
 }
 }
 
+function formatoSelecionado(){
+if(document.getElementById("saidaWord").checked) return "Word";
+if(document.getElementById("saidaPDF").checked) return "PDF";
+return "Word + PDF";
+}
+
 function baixarArquivo(nome){
-alert("Download preparado: " + nome);
+alert("Download preparado: " + nome + " | Formato: " + formatoSelecionado());
+}
+
+function gerarExpedicao(){
+const formato = formatoSelecionado();
+const modoColetivo = document.getElementById("modoColetivo").checked;
+const narracao = localStorage.getItem("lapidar_narracao_config");
+
+let mensagem =
+"Expedição final preparada com sucesso.<br>" +
+"Formato escolhido: " + formato + ".<br>";
+
+if(formato === "Word" || formato === "Word + PDF"){
+mensagem += "PDF interno preservado automaticamente para proteção do sistema.<br>";
+}
+
+if(modoColetivo){
+mensagem += "Conferência nominal reforçada recomendada antes do fechamento definitivo.<br>";
+}
+
+if(narracao){
+mensagem += "Narração editorial incluída no pacote final, se aplicável.<br>";
+}
+
+document.getElementById("statusGeracao").innerHTML = mensagem;
+
+localStorage.setItem("lapidar_expedicao_formato", formato);
+localStorage.setItem("lapidar_expedicao_gerada", "true");
+}
+
+function salvarConferenciaNomes(){
+const modoColetivo = document.getElementById("modoColetivo").checked;
+const lista = document.getElementById("listaNomes").value.trim();
+
+localStorage.setItem("lapidar_modo_coletivo", modoColetivo ? "true" : "false");
+localStorage.setItem("lapidar_conferencia_nomes", lista);
+
+document.getElementById("statusConferencia").innerHTML =
+"Conferência de nomes salva com sucesso.<br>" +
+"Projeto coletivo: " + (modoColetivo ? "Sim" : "Não") + "<br>" +
+"Quantidade de caracteres registrada: " + lista.length;
+}
+
+function salvarBackupInterno(){
+localStorage.setItem("lapidar_backup_pdf_interno", "true");
+
+document.getElementById("statusBackup").innerHTML =
+"Backup interno em PDF registrado com sucesso.<br>" +
+"Proteção editorial e de auditoria ativada.";
 }
 
 function abrirMesario(){
@@ -240,15 +462,25 @@ function abrirProjetos(){
 window.location.href = "projetos.html";
 }
 
-function abrirRelatorios(){
-window.location.href = "hub_relatorios.html";
+function abrirDepartamentos(){
+window.location.href = "painel_departamentos.html";
+}
+
+function abrirNarracao(){
+window.location.href = "narracao_editorial.html";
 }
 
 function voltar(){
-window.location.href = "mesario_mor.html";
+window.location.href = "lapidacao_literaria.html";
 }
 
 aplicarExpedicao();
+
+const modoColetivoSalvo = localStorage.getItem("lapidar_modo_coletivo") === "true";
+document.getElementById("modoColetivo").checked = modoColetivoSalvo;
+
+const listaSalva = localStorage.getItem("lapidar_conferencia_nomes") || "";
+document.getElementById("listaNomes").value = listaSalva;
 </script>
 
 </body>
