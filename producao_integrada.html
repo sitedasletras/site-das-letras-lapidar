@@ -1,94 +1,893 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Lapidar — Produção</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lapidar • Produção Integrada</title>
 
 <style>
-
 body{
-font-family: Arial;
-background:#f5f5f5;
-text-align:center;
 margin:0;
+font-family:Arial, sans-serif;
+background:#faf7f0;
+color:#1f2937;
+font-size:20px;
+}
+
+header{
+background:#ffffff;
+border-bottom:1px solid #e5e7eb;
+padding:22px 18px;
+text-align:center;
+box-shadow:0 2px 8px rgba(0,0,0,.04);
+}
+
+header h1{
+margin:0;
+font-size:32px;
+}
+
+header p{
+margin:8px 0 0 0;
+font-size:18px;
+color:#4b5563;
 }
 
 .container{
-max-width:500px;
+max-width:1000px;
 margin:auto;
-padding:20px;
+padding:20px 16px 40px;
 }
 
 .card{
-background:white;
+background:#ffffff;
+border-radius:18px;
 padding:20px;
-margin:15px 0;
-border-radius:12px;
-box-shadow:0 3px 8px rgba(0,0,0,.1);
+margin-bottom:18px;
+box-shadow:0 4px 14px rgba(0,0,0,.06);
+}
+
+.card h2,
+.card h3{
+margin-top:0;
+}
+
+.grid-3{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+gap:14px;
+}
+
+.grid-2{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:14px;
+}
+
+.modo{
+border-radius:18px;
+padding:20px;
 cursor:pointer;
 transition:.2s;
+border:3px solid transparent;
+min-height:150px;
 }
 
-.card:hover{
-transform:scale(1.02);
+.modo:hover{
+transform:scale(1.01);
 }
 
-.verde{border-left:6px solid green;}
-.azul{border-left:6px solid blue;}
-.roxo{border-left:6px solid purple;}
+.modo.active{
+outline:3px solid #11182722;
+}
 
-footer{
-margin-top:40px;
+.nacional{
+background:#e8f1ff;
+border-left:10px solid #3b82f6;
+}
+
+.internacional{
+background:#e7f9ef;
+border-left:10px solid #22c55e;
+}
+
+.personalizado{
+background:#f3e8ff;
+border-left:10px solid #7c3aed;
+}
+
+.off{
+background:#f4f6f1;
+border-left:10px solid #9ca3af;
+}
+
+.amarelo{
+background:#fff8d6;
+border-left:10px solid #facc15;
+}
+
+.laranja{
+background:#fff3e6;
+border-left:10px solid #ea580c;
+}
+
+.rosa{
+background:#ffe4ef;
+border-left:10px solid #db2777;
+}
+
+.vinho{
+background:#f5ebe8;
+border-left:10px solid #7c2d12;
+}
+
+label{
+display:block;
+font-weight:bold;
+margin:14px 0 6px;
+}
+
+input[type="text"],
+input[type="file"],
+textarea,
+select{
+width:100%;
+box-sizing:border-box;
+padding:14px;
+border-radius:12px;
+border:1px solid #d1d5db;
+font-size:18px;
+font-family:Arial, sans-serif;
+background:#fff;
+}
+
+textarea{
+min-height:120px;
+resize:vertical;
+}
+
+button{
+border:none;
+border-radius:12px;
+padding:14px 18px;
+font-size:19px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.btn-dark{
+background:#111827;
+color:#fff;
+}
+
+.btn-blue{
+background:#2563eb;
+color:#fff;
+}
+
+.btn-green{
+background:#15803d;
+color:#fff;
+}
+
+.btn-purple{
+background:#7c3aed;
+color:#fff;
+}
+
+.btn-pink{
+background:#db2777;
+color:#fff;
+}
+
+.btn-orange{
+background:#ea580c;
+color:#fff;
+}
+
+.btn-gray{
+background:#e5e7eb;
+color:#111827;
+}
+
+.status{
+margin-top:14px;
+padding:14px;
+border-radius:12px;
+background:#f9fafb;
+border-left:6px solid #22c55e;
+line-height:1.7;
+white-space:pre-line;
+}
+
+.hidden{
+display:none !important;
+}
+
+.check-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+gap:12px;
+margin-top:12px;
+}
+
+.check-item{
+background:#f9fafb;
+border:1px solid #e5e7eb;
+border-radius:14px;
+padding:14px;
+}
+
+.check-item input{
+transform:scale(1.2);
+margin-right:8px;
+}
+
+.thumb-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(120px,1fr));
+gap:12px;
+margin-top:14px;
+}
+
+.thumb{
+background:#fff;
+border:1px solid #e5e7eb;
+border-radius:14px;
+padding:10px;
+text-align:center;
+font-size:15px;
+}
+
+.thumb img{
+width:100%;
+height:110px;
+object-fit:cover;
+border-radius:10px;
+display:block;
+margin-bottom:8px;
+background:#f3f4f6;
+}
+
+.small{
+font-size:15px;
+color:#4b5563;
+line-height:1.6;
+}
+
+.inline-badge{
+display:inline-block;
+padding:8px 12px;
+border-radius:999px;
+background:#f3f4f6;
 font-size:14px;
-color:#666;
+font-weight:bold;
+margin-top:8px;
 }
 
+.flow-box{
+background:#ffffff;
+border:2px dashed #d1d5db;
+border-radius:16px;
+padding:16px;
+line-height:1.8;
+}
+
+.footer-note{
+text-align:center;
+font-size:15px;
+color:#6b7280;
+padding-top:6px;
+}
+
+@media (max-width:700px){
+header h1{
+font-size:28px;
+}
+body{
+font-size:21px;
+}
+button{
+width:100%;
+}
+}
 </style>
 </head>
-
 <body>
+
+<header>
+<h1>Lapidar</h1>
+<p>Suas histórias merecem estes 10 minutos de atenção.</p>
+</header>
 
 <div class="container">
 
-<h2>Lapidar</h2>
-<p>Como deseja produzir sua obra hoje?</p>
+<div class="card">
+<h2>1 • Como deseja produzir sua obra hoje?</h2>
 
-
-<div class="card verde"
-onclick="window.location.href='diagramador_inicio.html'">
-
-🇧🇷 <b>Produção Nacional</b><br><br>
-Diagramação padrão brasileira + capa + exportação completa
-
+<div class="grid-3">
+<div class="modo nacional" id="modoNacional" onclick="selecionarModo('nacional')">
+<h3>🇧🇷 Produção Nacional</h3>
+<div class="small">
+Fluxo rápido para edição brasileira.
+Miolo, capa e saída final no padrão nacional.
+</div>
+<div class="inline-badge">Rápido</div>
 </div>
 
-
-<div class="card azul"
-onclick="window.location.href='segunda_lingua.html'">
-
-🌍 <b>Produção Internacional</b><br><br>
-Compatível Amazon + impressão global
-
+<div class="modo internacional" id="modoInternacional" onclick="selecionarModo('internacional')">
+<h3>🌍 Produção Internacional</h3>
+<div class="small">
+Fluxo preparado para obra internacional, tradução e distribuição global.
+</div>
+<div class="inline-badge">Global</div>
 </div>
 
-
-<div class="card roxo"
-onclick="window.location.href='painel_setores.html'">
-
-⚙️ <b>Produção Personalizada</b><br><br>
-Escolha módulos manualmente
-
+<div class="modo personalizado" id="modoPersonalizado" onclick="selecionarModo('personalizado')">
+<h3>⚙️ Produção Personalizada</h3>
+<div class="small">
+Escolha exatamente os módulos que deseja usar no seu projeto.
+</div>
+<div class="inline-badge">Modular</div>
+</div>
 </div>
 
+<div class="status" id="statusModo">Nenhum modo selecionado ainda.</div>
+</div>
 
-<footer>
+<div class="card">
+<h2>2 • Upload da obra</h2>
 
+<div class="grid-2">
+<div>
+<label for="arquivoObra">Arquivo da obra</label>
+<input type="file" id="arquivoObra" accept=".txt,.doc,.docx,.pdf">
+<div class="small">Pode enviar TXT, DOC, DOCX ou PDF.</div>
+</div>
+
+<div>
+<label for="textoColado">Ou cole o texto aqui</label>
+<textarea id="textoColado" placeholder="Se preferir, cole aqui o texto-base da obra."></textarea>
+</div>
+</div>
+
+<div style="margin-top:14px;">
+<button class="btn-blue" onclick="registrarObra()">Registrar obra</button>
+</div>
+
+<div class="status" id="statusObra">
+Nenhuma obra registrada ainda.
+</div>
+</div>
+
+<div class="card">
+<h2>3 • Imagens do projeto</h2>
+
+<label for="arquivoImagens">Subir fotos e imagens juntas</label>
+<input type="file" id="arquivoImagens" accept="image/*" multiple>
+
+<div class="small">
+Você pode subir várias imagens de uma vez. O Lapidar numera automaticamente e você distribui depois entre capa, contracapa, orelhas, autor e imagens internas.
+</div>
+
+<div style="margin-top:14px;">
+<button class="btn-pink" onclick="registrarImagens()">Registrar imagens</button>
+</div>
+
+<div class="thumb-grid" id="gradeImagens"></div>
+
+<div class="status" id="statusImagens">
+Nenhuma imagem registrada ainda.
+</div>
+</div>
+
+<div class="card">
+<h2>4 • Distribuição das imagens</h2>
+
+<div class="grid-2">
+<div>
+<label for="imgCapa">Capa</label>
+<input type="text" id="imgCapa" placeholder="Ex.: 1">
+</div>
+<div>
+<label for="imgContra">Contracapa</label>
+<input type="text" id="imgContra" placeholder="Ex.: 2, selo">
+</div>
+<div>
+<label for="imgOrelha1">Orelha dianteira</label>
+<input type="text" id="imgOrelha1" placeholder="Ex.: 3">
+</div>
+<div>
+<label for="imgOrelha2">Orelha traseira</label>
+<input type="text" id="imgOrelha2" placeholder="Ex.: 4">
+</div>
+<div>
+<label for="imgAutor">Foto do autor</label>
+<input type="text" id="imgAutor" placeholder="Ex.: 5">
+</div>
+<div>
+<label for="imgInternas">Imagens internas</label>
+<input type="text" id="imgInternas" placeholder="Ex.: 6,7,8">
+</div>
+</div>
+
+<div style="margin-top:14px;">
+<button class="btn-orange" onclick="salvarDistribuicaoImagens()">Salvar distribuição</button>
+</div>
+
+<div class="status" id="statusDistribuicao">
+Nenhuma distribuição registrada ainda.
+</div>
+</div>
+
+<div class="card">
+<h2>5 • Dados identificados da obra</h2>
+
+<div class="grid-2">
+<div>
+<label for="tituloObra">Título</label>
+<input type="text" id="tituloObra" placeholder="Título do livro">
+</div>
+<div>
+<label for="subtituloObra">Subtítulo</label>
+<input type="text" id="subtituloObra" placeholder="Subtítulo do livro">
+</div>
+</div>
+
+<label for="autorObra">Autor</label>
+<input type="text" id="autorObra" placeholder="Nome do autor">
+
+<div style="margin-top:14px;">
+<button class="btn-green" onclick="confirmarDadosObra()">Confirmar dados da obra</button>
+</div>
+
+<div class="status" id="statusDados">
+Aguardando confirmação dos dados da obra.
+</div>
+</div>
+
+<div class="card">
+<h2>6 • Sinopse e biografia</h2>
+
+<div class="grid-2">
+<div class="off" style="padding:16px;border-radius:16px;">
+<h3>Sinopse</h3>
+<div class="small">
+Se o livro não trouxer sinopse, o Lapidar cria automaticamente uma sugestão inicial.
+</div>
+<label for="sinopseObra">Sinopse</label>
+<textarea id="sinopseObra" placeholder="A sinopse aparecerá aqui ou poderá ser criada pelo Lapidar."></textarea>
+<button class="btn-blue" onclick="gerarSinopse()">Criar sinopse automática</button>
+</div>
+
+<div class="amarelo" style="padding:16px;border-radius:16px;">
+<h3>Biografia do autor</h3>
+<div class="small">
+Se não houver biografia, o Lapidar monta uma com base nas respostas abaixo. Padrão: 90 palavras.
+</div>
+
+<label for="bioPais">Nasceu no Brasil?</label>
+<select id="bioPais">
+<option value="">Selecione</option>
+<option value="sim">Sim</option>
+<option value="nao">Não</option>
+</select>
+
+<label for="bioEstado">Estado / região</label>
+<input type="text" id="bioEstado" placeholder="Ex.: São Paulo, Minas Gerais, Lisboa...">
+
+<label for="bioArea">Área principal de escrita</label>
+<input type="text" id="bioArea" placeholder="Ex.: poesia, romance, conto, infantil">
+
+<label for="bioPublicou">Já publicou alguma obra?</label>
+<select id="bioPublicou">
+<option value="">Selecione</option>
+<option value="primeiro">Este é o primeiro livro</option>
+<option value="sim">Já publicou anteriormente</option>
+<option value="nao_informar">Prefere não informar</option>
+</select>
+
+<button class="btn-orange" onclick="gerarBiografia()">Criar biografia de 90 palavras</button>
+</div>
+</div>
+
+<label for="biografiaObra">Biografia final</label>
+<textarea id="biografiaObra" placeholder="A biografia aparecerá aqui."></textarea>
+
+<div class="status" id="statusEditorial">
+Sinopse e biografia ainda não foram consolidadas.
+</div>
+</div>
+
+<div class="card">
+<h2>7 • Módulos desejados</h2>
+
+<div class="check-grid">
+<label class="check-item"><input type="checkbox" id="modDiagramacao"> Diagramação</label>
+<label class="check-item"><input type="checkbox" id="modLapidacao"> Lapidação Literária</label>
+<label class="check-item"><input type="checkbox" id="modTraducao"> Segunda Língua(s)</label>
+<label class="check-item"><input type="checkbox" id="modAvaliacao"> Avaliação Literária</label>
+<label class="check-item"><input type="checkbox" id="modCapa"> OKapista</label>
+<label class="check-item"><input type="checkbox" id="modAudio"> Silo Sonoro</label>
+</div>
+
+<div style="margin-top:14px;">
+<button class="btn-purple" onclick="montarFluxo()">Montar esteira editorial</button>
+</div>
+
+<div class="status" id="statusModulos">
+Nenhum módulo selecionado ainda.
+</div>
+</div>
+
+<div class="card">
+<h2>8 • Esteira editorial</h2>
+<div class="flow-box" id="fluxoBox">
+A esteira editorial ainda não foi montada.
+</div>
+
+<div style="margin-top:16px;" class="grid-2">
+<button class="btn-dark" onclick="iniciarFluxo()">Iniciar produção</button>
+<button class="btn-gray" onclick="salvarTudo()">Salvar e sair</button>
+</div>
+
+<div class="status" id="statusFluxo">
+Nada iniciado ainda.
+</div>
+</div>
+
+<div class="footer-note">
 Site das Letras — Edições Literárias & Sonoras<br>
 Uma iniciativa editorial brasileira
-
-</footer>
+</div>
 
 </div>
 
+<script>
+let modoAtual = "";
+let imagensRegistradas = [];
+let fluxoAtivo = [];
+
+function selecionarModo(modo){
+modoAtual = modo;
+localStorage.setItem("lapidar_modo_producao", modo);
+
+document.getElementById("modoNacional").classList.remove("active");
+document.getElementById("modoInternacional").classList.remove("active");
+document.getElementById("modoPersonalizado").classList.remove("active");
+
+if(modo === "nacional"){
+document.getElementById("modoNacional").classList.add("active");
+document.getElementById("statusModo").innerText =
+"Modo selecionado: Produção Nacional ✔";
+document.getElementById("modDiagramacao").checked = true;
+document.getElementById("modCapa").checked = true;
+document.getElementById("modLapidacao").checked = false;
+document.getElementById("modTraducao").checked = false;
+document.getElementById("modAvaliacao").checked = false;
+document.getElementById("modAudio").checked = false;
+}
+
+if(modo === "internacional"){
+document.getElementById("modoInternacional").classList.add("active");
+document.getElementById("statusModo").innerText =
+"Modo selecionado: Produção Internacional ✔";
+document.getElementById("modDiagramacao").checked = true;
+document.getElementById("modCapa").checked = true;
+document.getElementById("modLapidacao").checked = false;
+document.getElementById("modTraducao").checked = true;
+document.getElementById("modAvaliacao").checked = false;
+document.getElementById("modAudio").checked = false;
+}
+
+if(modo === "personalizado"){
+document.getElementById("modoPersonalizado").classList.add("active");
+document.getElementById("statusModo").innerText =
+"Modo selecionado: Produção Personalizada ✔";
+}
+}
+
+function registrarObra(){
+const arquivo = document.getElementById("arquivoObra").files[0];
+const texto = document.getElementById("textoColado").value.trim();
+
+if(!arquivo && !texto){
+document.getElementById("statusObra").innerText =
+"Envie um arquivo ou cole o texto da obra.";
+return;
+}
+
+if(arquivo){
+localStorage.setItem("lapidar_obra_arquivo_nome", arquivo.name);
+
+const nomeLimpo = arquivo.name.replace(/\.[^/.]+$/, "").replace(/[_-]/g," ").trim();
+if(!document.getElementById("tituloObra").value.trim()){
+document.getElementById("tituloObra").value = nomeLimpo;
+}
+}
+
+if(texto){
+localStorage.setItem("lapidar_obra_texto", texto);
+
+const linhas = texto.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+if(linhas[0] && !document.getElementById("tituloObra").value.trim()){
+document.getElementById("tituloObra").value = linhas[0];
+}
+if(linhas[1] && !document.getElementById("subtituloObra").value.trim()){
+document.getElementById("subtituloObra").value = linhas[1];
+}
+if(linhas[2] && !document.getElementById("autorObra").value.trim()){
+document.getElementById("autorObra").value = linhas[2];
+}
+}
+
+let formato = "texto colado";
+if(arquivo){
+const nome = arquivo.name.toLowerCase();
+if(nome.endsWith(".docx")) formato = "DOCX";
+else if(nome.endsWith(".doc")) formato = "DOC";
+else if(nome.endsWith(".pdf")) formato = "PDF";
+else if(nome.endsWith(".txt")) formato = "TXT";
+}
+
+document.getElementById("statusObra").innerText =
+"Arquivo recebido ✔\n" +
+"Formato identificado: " + formato + "\n" +
+"Texto-base registrado no ambiente editorial.\n" +
+"Disponível para os módulos do Lapidar.";
+}
+
+function registrarImagens(){
+const arquivos = Array.from(document.getElementById("arquivoImagens").files || []);
+const grade = document.getElementById("gradeImagens");
+
+if(!arquivos.length){
+document.getElementById("statusImagens").innerText =
+"Nenhuma imagem selecionada ainda.";
+return;
+}
+
+imagensRegistradas = arquivos.map((arq, index) => ({
+numero: index + 1,
+nome: arq.name
+}));
+
+localStorage.setItem("lapidar_imagens_registradas", JSON.stringify(imagensRegistradas));
+
+grade.innerHTML = "";
+
+arquivos.forEach((arq, index) => {
+const div = document.createElement("div");
+div.className = "thumb";
+
+const img = document.createElement("img");
+img.src = URL.createObjectURL(arq);
+
+const nome = document.createElement("div");
+nome.innerHTML = "<strong>Imagem " + (index + 1) + "</strong><br>" + arq.name;
+
+div.appendChild(img);
+div.appendChild(nome);
+grade.appendChild(div);
+});
+
+document.getElementById("statusImagens").innerText =
+arquivos.length + " imagem(ns) recebida(s) ✔\n" +
+"As imagens já estão numeradas para distribuição.";
+}
+
+function salvarDistribuicaoImagens(){
+const dados = {
+capa: document.getElementById("imgCapa").value.trim(),
+contracapa: document.getElementById("imgContra").value.trim(),
+orelha1: document.getElementById("imgOrelha1").value.trim(),
+orelha2: document.getElementById("imgOrelha2").value.trim(),
+autor: document.getElementById("imgAutor").value.trim(),
+internas: document.getElementById("imgInternas").value.trim()
+};
+
+localStorage.setItem("lapidar_distribuicao_imagens", JSON.stringify(dados));
+
+document.getElementById("statusDistribuicao").innerText =
+"Distribuição das imagens salva ✔\n" +
+"Capa: " + (dados.capa || "-") + "\n" +
+"Contracapa: " + (dados.contracapa || "-") + "\n" +
+"Orelha dianteira: " + (dados.orelha1 || "-") + "\n" +
+"Orelha traseira: " + (dados.orelha2 || "-") + "\n" +
+"Autor: " + (dados.autor || "-") + "\n" +
+"Internas: " + (dados.internas || "-");
+}
+
+function confirmarDadosObra(){
+const titulo = document.getElementById("tituloObra").value.trim();
+const subtitulo = document.getElementById("subtituloObra").value.trim();
+const autor = document.getElementById("autorObra").value.trim();
+
+localStorage.setItem("lapidar_obra_titulo", titulo);
+localStorage.setItem("lapidar_obra_subtitulo", subtitulo);
+localStorage.setItem("lapidar_obra_autor", autor);
+
+if(titulo){
+localStorage.setItem("lapidar_projeto_ativo", titulo);
+}
+
+document.getElementById("statusDados").innerText =
+"Dados da obra confirmados ✔\n" +
+"Título: " + (titulo || "-") + "\n" +
+"Subtítulo: " + (subtitulo || "-") + "\n" +
+"Autor: " + (autor || "-") + "\n" +
+"Projeto ativo atualizado com o nome do livro.";
+}
+
+function gerarSinopse(){
+const titulo = document.getElementById("tituloObra").value.trim() || "esta obra";
+let sinopse = "Em " + titulo + ", o leitor encontra uma narrativa conduzida por temas centrais da obra, com desenvolvimento literário pensado para apresentar o universo do livro de forma clara, envolvente e editorialmente adequada. Esta sinopse inicial foi criada automaticamente pelo Lapidar e pode ser ajustada livremente pelo autor antes do fechamento da capa e da contracapa.";
+document.getElementById("sinopseObra").value = sinopse;
+localStorage.setItem("lapidar_sinopse_obra", sinopse);
+atualizarStatusEditorial();
+}
+
+function gerarBiografia(){
+const brasil = document.getElementById("bioPais").value;
+const estado = document.getElementById("bioEstado").value.trim();
+const area = document.getElementById("bioArea").value.trim();
+const publicou = document.getElementById("bioPublicou").value;
+const autor = document.getElementById("autorObra").value.trim() || "O autor";
+
+let bio = autor + " é ";
+bio += brasil === "sim" ? "autor brasileiro" : "autor";
+if(estado) bio += " com vínculo de origem em " + estado;
+bio += ", dedicando-se à escrita";
+if(area) bio += " com ênfase em " + area;
+bio += ". ";
+if(publicou === "primeiro"){
+bio += "Esta publicação marca sua estreia editorial, reunindo sensibilidade, empenho e interesse em transformar ideias em livro. ";
+}else if(publicou === "sim"){
+bio += "Já possui trajetória de publicação anterior, ampliando sua presença no campo literário com novos projetos autorais. ";
+}else{
+bio += "Segue desenvolvendo sua trajetória autoral com interesse na circulação de sua obra e no fortalecimento de sua expressão literária. ";
+}
+bio += "Sua participação neste projeto reforça o valor da palavra escrita como experiência de criação, memória e partilha. Esta biografia foi organizada automaticamente pelo Lapidar em padrão editorial de noventa palavras.";
+
+document.getElementById("biografiaObra").value = bio;
+localStorage.setItem("lapidar_biografia_obra", bio);
+atualizarStatusEditorial();
+}
+
+function atualizarStatusEditorial(){
+const sinopse = document.getElementById("sinopseObra").value.trim();
+const bio = document.getElementById("biografiaObra").value.trim();
+
+document.getElementById("statusEditorial").innerText =
+"Sinopse: " + (sinopse ? "pronta ✔" : "pendente") + "\n" +
+"Biografia: " + (bio ? "pronta ✔" : "pendente");
+}
+
+function montarFluxo(){
+const mods = {
+diagramacao: document.getElementById("modDiagramacao").checked,
+lapidacao: document.getElementById("modLapidacao").checked,
+traducao: document.getElementById("modTraducao").checked,
+avaliacao: document.getElementById("modAvaliacao").checked,
+capa: document.getElementById("modCapa").checked,
+audio: document.getElementById("modAudio").checked
+};
+
+localStorage.setItem("lapidar_modulos_marcados", JSON.stringify(mods));
+
+let lista = [];
+if(mods.diagramacao) lista.push({nome:"Diagramação", arquivo:"diagramador_inicio.html"});
+if(mods.lapidacao) lista.push({nome:"Lapidação Literária", arquivo:"lapidacao_literaria.html"});
+if(mods.traducao) lista.push({nome:"Segunda Língua(s)", arquivo:"segunda_lingua.html"});
+if(mods.avaliacao) lista.push({nome:"Avaliação Literária", arquivo:"avaliacao_literaria.html"});
+if(mods.capa) lista.push({nome:"OKapista", arquivo:"capista.html"});
+if(mods.audio) lista.push({nome:"Silo Sonoro", arquivo:"narracao_editorial.html"});
+
+fluxoAtivo = lista;
+localStorage.setItem("lapidar_fluxo_ativo", JSON.stringify(lista));
+
+document.getElementById("statusModulos").innerText =
+lista.length
+? "Módulos selecionados ✔\n" + lista.map((m,i)=> (i+1) + ". " + m.nome).join("\n")
+: "Nenhum módulo selecionado ainda.";
+
+document.getElementById("fluxoBox").innerText =
+lista.length
+? lista.map((m,i)=> (i+1) + " • " + m.nome).join("\n↓\n") + "\n↓\nExpedição"
+: "A esteira editorial ainda não foi montada.";
+}
+
+function iniciarFluxo(){
+let fluxo = fluxoAtivo;
+if(!fluxo.length){
+try{
+fluxo = JSON.parse(localStorage.getItem("lapidar_fluxo_ativo") || "[]");
+}catch(e){
+fluxo = [];
+}
+}
+
+if(!modoAtual){
+modoAtual = localStorage.getItem("lapidar_modo_producao") || "";
+}
+
+if(!modoAtual){
+document.getElementById("statusFluxo").innerText =
+"Escolha primeiro o modo de produção.";
+return;
+}
+
+if(!fluxo.length){
+document.getElementById("statusFluxo").innerText =
+"Selecione os módulos e monte a esteira editorial primeiro.";
+return;
+}
+
+document.getElementById("statusFluxo").innerText =
+"Produção iniciada ✔\n" +
+"Primeiro módulo: " + fluxo[0].nome;
+
+window.location.href = fluxo[0].arquivo;
+}
+
+function salvarTudo(){
+const titulo = document.getElementById("tituloObra").value.trim();
+const subtitulo = document.getElementById("subtituloObra").value.trim();
+const autor = document.getElementById("autorObra").value.trim();
+
+localStorage.setItem("lapidar_obra_titulo", titulo);
+localStorage.setItem("lapidar_obra_subtitulo", subtitulo);
+localStorage.setItem("lapidar_obra_autor", autor);
+localStorage.setItem("lapidar_sinopse_obra", document.getElementById("sinopseObra").value.trim());
+localStorage.setItem("lapidar_biografia_obra", document.getElementById("biografiaObra").value.trim());
+
+if(titulo){
+localStorage.setItem("lapidar_projeto_ativo", titulo);
+}
+
+document.getElementById("statusFluxo").innerText =
+"Projeto salvo ✔\n" +
+"O portal do livro ficou esperando você continuar depois.";
+}
+
+window.addEventListener("load", () => {
+const titulo = localStorage.getItem("lapidar_obra_titulo") || "";
+const subtitulo = localStorage.getItem("lapidar_obra_subtitulo") || "";
+const autor = localStorage.getItem("lapidar_obra_autor") || "";
+const sinopse = localStorage.getItem("lapidar_sinopse_obra") || "";
+const biografia = localStorage.getItem("lapidar_biografia_obra") || "";
+const modo = localStorage.getItem("lapidar_modo_producao") || "";
+const dist = JSON.parse(localStorage.getItem("lapidar_distribuicao_imagens") || "{}");
+
+document.getElementById("tituloObra").value = titulo;
+document.getElementById("subtituloObra").value = subtitulo;
+document.getElementById("autorObra").value = autor;
+document.getElementById("sinopseObra").value = sinopse;
+document.getElementById("biografiaObra").value = biografia;
+
+document.getElementById("imgCapa").value = dist.capa || "";
+document.getElementById("imgContra").value = dist.contracapa || "";
+document.getElementById("imgOrelha1").value = dist.orelha1 || "";
+document.getElementById("imgOrelha2").value = dist.orelha2 || "";
+document.getElementById("imgAutor").value = dist.autor || "";
+document.getElementById("imgInternas").value = dist.internas || "";
+
+if(modo){
+selecionarModo(modo);
+}
+
+try{
+const mods = JSON.parse(localStorage.getItem("lapidar_modulos_marcados") || "{}");
+document.getElementById("modDiagramacao").checked = !!mods.diagramacao;
+document.getElementById("modLapidacao").checked = !!mods.lapidacao;
+document.getElementById("modTraducao").checked = !!mods.traducao;
+document.getElementById("modAvaliacao").checked = !!mods.avaliacao;
+document.getElementById("modCapa").checked = !!mods.capa;
+document.getElementById("modAudio").checked = !!mods.audio;
+}catch(e){}
+
+atualizarStatusEditorial();
+});
+</script>
 </body>
 </html>
