@@ -1,524 +1,184 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Expedição do Material • Lapidar</title>
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #0e0604;
-      color: #ffffff;
-      font-size: 20px;
-    }
+<title>Expedição do Material • Lapidar</title>
 
-    header {
-      background: #32497d;
-      padding: 22px 16px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+<style>
 
-    header h1 {
-      margin: 0;
-      font-size: 22px;
-    }
+body{
+margin:0;
+font-family:Arial, sans-serif;
+background:#0e0604;
+color:white;
+}
 
-    header a {
-      background: #7b8795;
-      color: #fff;
-      text-decoration: none;
-      padding: 12px 16px;
-      border-radius: 10px;
-      font-weight: bold;
-      font-size: 16px;
-    }
+header{
+background:#32497d;
+padding:20px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
 
-    .container {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 18px 14px 40px;
-    }
+.container{
+max-width:1000px;
+margin:auto;
+padding:30px;
+}
 
-    .card {
-      background: #210805;
-      border-radius: 18px;
-      padding: 18px;
-      margin-bottom: 18px;
-      box-shadow: 0 4px 14px rgba(0,0,0,.22);
-    }
+.card{
+background:#210805;
+border-radius:18px;
+padding:24px;
+margin-bottom:20px;
+}
 
-    .card h2 {
-      margin-top: 0;
-      font-size: 18px;
-    }
+button{
+padding:16px 22px;
+border:none;
+border-radius:12px;
+font-weight:bold;
+cursor:pointer;
+}
 
-    .subcard {
-      background: #3a120c;
-      border-radius: 12px;
-      padding: 14px;
-      margin-top: 10px;
-      line-height: 1.6;
-      color: #f6e9dd;
-    }
+.botao-verde{
+background:#2e7d32;
+color:white;
+}
 
-    .badge {
-      display: inline-block;
-      padding: 8px 12px;
-      border-radius: 999px;
-      font-size: 14px;
-      font-weight: bold;
-      margin-top: 10px;
-    }
+.botao-cinza{
+background:#7b8795;
+color:white;
+}
 
-    .badge-ok {
-      background: #d9f6df;
-      color: #14532d;
-    }
+.status{
+background:#3a120c;
+padding:14px;
+border-radius:10px;
+margin-top:10px;
+}
 
-    .badge-wait {
-      background: #fff1c4;
-      color: #7a5d00;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 14px;
-    }
-
-    .item {
-      background: #2b0c07;
-      border: 1px solid rgba(255,255,255,.08);
-      border-radius: 14px;
-      padding: 16px;
-    }
-
-    .item h3 {
-      margin: 0 0 10px 0;
-      font-size: 18px;
-    }
-
-    .item p {
-      margin: 0 0 10px 0;
-      line-height: 1.6;
-      color: #e7d8cf;
-      font-size: 16px;
-    }
-
-    .status-list {
-      margin: 0;
-      padding-left: 18px;
-      line-height: 1.9;
-      color: #f4ddd2;
-      font-size: 15px;
-    }
-
-    .valor {
-      background: #1f3f76;
-      color: #fff;
-      border-radius: 12px;
-      padding: 16px;
-      font-size: 18px;
-      font-weight: bold;
-      margin-top: 12px;
-      line-height: 1.7;
-    }
-
-    .parceiros-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-      gap: 14px;
-      margin-top: 12px;
-    }
-
-    .parceiro {
-      background: #2a0e08;
-      border: 1px solid rgba(255,255,255,.08);
-      border-radius: 14px;
-      padding: 16px;
-    }
-
-    .parceiro h3 {
-      margin: 0 0 10px 0;
-      font-size: 18px;
-    }
-
-    .parceiro p {
-      margin: 0 0 14px 0;
-      color: #e7d8cf;
-      line-height: 1.6;
-      font-size: 16px;
-    }
-
-    .parceiro a {
-      display: inline-block;
-      background: #d0aa3b;
-      color: #fff;
-      text-decoration: none;
-      padding: 10px 14px;
-      border-radius: 10px;
-      font-weight: bold;
-      font-size: 15px;
-    }
-
-    .texto-menor {
-      color: #cbb9af;
-      font-size: 15px;
-      line-height: 1.7;
-    }
-
-    @media (max-width: 640px) {
-      body {
-        font-size: 18px;
-      }
-
-      header h1 {
-        font-size: 20px;
-      }
-
-      header a {
-        font-size: 15px;
-        padding: 10px 12px;
-      }
-    }
-  </style>
+</style>
 </head>
+
 <body>
 
-  <header>
-    <h1>Expedição do Material</h1>
-    <a href="projetos.html">Voltar</a>
-  </header>
+<header>
 
-  <div class="container">
+<h2>Expedição do Material</h2>
 
-    <div class="card">
-      <h2>Projeto ativo</h2>
-      <div class="subcard" id="projetoAtivoBox">Carregando projeto...</div>
-    </div>
+<a href="inicio.html">Página inicial</a>
 
-    <div class="card">
-      <h2>Status da preparação</h2>
-      <div class="subcard" id="statusGeralBox">Organizando os materiais solicitados para esta obra.</div>
-      <div id="badgeStatus"></div>
-    </div>
+</header>
 
-    <div class="card">
-      <h2>Serviços solicitados</h2>
-      <div class="grid" id="servicosSelecionados"></div>
-    </div>
+<div class="container">
 
-    <div class="card">
-      <h2>Contribuição sugerida de referência</h2>
-      <div class="subcard texto-menor">
-        O Mesário registra apenas os serviços realmente solicitados nesta obra.
-        O valor abaixo considera somente os módulos marcados pelo autor.
-      </div>
-      <div class="valor" id="valorTotalBox">Calculando contribuição sugerida...</div>
-    </div>
+<div class="card">
 
-    <div class="card">
-      <h2>Enquanto preparamos o seu material...</h2>
-      <div class="subcard">
-        Enquanto o Lapidar organiza e prepara os materiais desta obra, separamos alguns caminhos que podem ajudar no próximo passo do seu livro.
-      </div>
-      <div class="parceiros-grid" id="parceirosBox"></div>
-    </div>
+<h2>Status da obra</h2>
 
-  </div>
+<div class="status" id="statusObra">
 
-  <script>
-    var valoresReferencia = {
-      diagramacao: 25,
-      capista: 25,
-      traducao: 25,
-      avaliacao: 25,
-      analisador: 25,
-      lapidacao: 25,
-      siloSonoro: 25
-    };
+Preparando material final da obra...
 
-    var modulosInfo = {
-      diagramacao: {
-        nome: "Assistente de Diagramação",
-        descricao: "Preparação do miolo, paginação, margens, tipografia e organização editorial do texto.",
-        status: [
-          "Configuração recebida",
-          "Preparando o miolo diagramado",
-          "Organizando páginas e estrutura final"
-        ]
-      },
-      capista: {
-        nome: "OKapista",
-        descricao: "Preparação visual da capa, contra-capa, lombada e orelhas, conforme a necessidade da obra.",
-        status: [
-          "Dados da capa recebidos",
-          "Estrutura visual em preparação",
-          "Organizando frente, contra e lombada"
-        ]
-      },
-      traducao: {
-        nome: "Segunda Língua(s)",
-        descricao: "Preparação editorial da obra para novos idiomas conforme a configuração escolhida.",
-        status: [
-          "Idioma de origem identificado",
-          "Planejamento da tradução em andamento",
-          "Preparando base editorial internacional"
-        ]
-      },
-      avaliacao: {
-        nome: "Avaliação Literária",
-        descricao: "Leitura crítica da obra com observações editoriais para orientar decisões de melhoria.",
-        status: [
-          "Leitura inicial registrada",
-          "Análise crítica em andamento",
-          "Preparando parecer editorial"
-        ]
-      },
-      analisador: {
-        nome: "Analisador de Obra",
-        descricao: "Mapeamento estrutural da obra para entender capítulos, partes, organização e comportamento do texto.",
-        status: [
-          "Leitura estrutural iniciada",
-          "Identificando capítulos e seções",
-          "Preparando diagnóstico da obra"
-        ]
-      },
-      lapidacao: {
-        nome: "Lapidação Literária",
-        descricao: "Refinamento textual autorizado para melhorar clareza, fluidez e consistência narrativa da obra.",
-        status: [
-          "Trechos críticos identificados",
-          "Refinamento textual em preparação",
-          "Aplicando ajustes editoriais autorizados"
-        ]
-      },
-      siloSonoro: {
-        nome: "Silo Sonoro",
-        descricao: "Preparação da vertente sonora da obra, incluindo material narrativo e pacote de áudio quando solicitado.",
-        status: [
-          "Estrutura sonora recebida",
-          "Preparando material narrativo",
-          "Organizando pacote sonoro da obra"
-        ]
-      }
-    };
+</div>
 
-    function obterProjeto() {
-      try {
-        return JSON.parse(localStorage.getItem("projetoAtivo") || "{}");
-      } catch (e) {
-        return {};
-      }
-    }
+</div>
 
-    function obterModulosMarcados(projeto) {
-      if (projeto && projeto.modulos) {
-        return projeto.modulos;
-      }
 
-      try {
-        return JSON.parse(localStorage.getItem("lapidar_modulos_marcados") || "{}");
-      } catch (e) {
-        return {};
-      }
-    }
+<div class="card">
 
-    function renderProjetoAtivo(projeto) {
-      var titulo = projeto.titulo || localStorage.getItem("lapidar_projeto_ativo") || "Obra não identificada";
-      var autor = projeto.autor || localStorage.getItem("lapidar_obra_autor") || "Autor não identificado";
-      var arquivo = projeto.arquivo || "";
+<button class="botao-verde" onclick="gerarMaterialFinal()">
 
-      var html = "<strong>" + titulo + "</strong><br>";
-      html += "Autor: " + autor + "<br>";
-      if (arquivo) {
-        html += "Arquivo: " + arquivo + "<br>";
-      }
-      html += "Preparando apenas os serviços que foram selecionados para esta obra.";
+Gerar material final da obra
 
-      document.getElementById("projetoAtivoBox").innerHTML = html;
-    }
+</button>
 
-    function renderStatusGeral(modulosAtivos) {
-      var texto = "";
-      var badgeHtml = "";
+</div>
 
-      if (modulosAtivos.length === 0) {
-        texto = "Nenhum serviço foi selecionado para esta obra.";
-        badgeHtml = '<span class="badge badge-wait">Sem serviços ativos</span>';
-      } else if (modulosAtivos.length === 1) {
-        texto = "Estamos preparando o único serviço solicitado nesta obra. Nada além disso será mostrado nesta expedição.";
-        badgeHtml = '<span class="badge badge-ok">1 serviço em preparação</span>';
-      } else {
-        texto = "Estamos preparando " + modulosAtivos.length + " serviços solicitados nesta obra. O Lapidar organizou internamente a ordem editorial correta de execução.";
-        badgeHtml = '<span class="badge badge-ok">' + modulosAtivos.length + ' serviços em preparação</span>';
-      }
 
-      document.getElementById("statusGeralBox").innerText = texto;
-      document.getElementById("badgeStatus").innerHTML = badgeHtml;
-    }
+<div class="card">
 
-    function criarListaStatus(lista) {
-      var html = '<ul class="status-list">';
-      for (var i = 0; i < lista.length; i++) {
-        html += "<li>" + lista[i] + "</li>";
-      }
-      html += "</ul>";
-      return html;
-    }
+<button class="botao-cinza" onclick="voltarInicio()">
 
-    function renderServicos(modulos) {
-      var box = document.getElementById("servicosSelecionados");
-      box.innerHTML = "";
+Voltar para página inicial
 
-      var ordemPipeline = [
-        "analisador",
-        "avaliacao",
-        "lapidacao",
-        "traducao",
-        "diagramacao",
-        "capista",
-        "siloSonoro"
-      ];
+</button>
 
-      var modulosAtivos = [];
+</div>
 
-      for (var i = 0; i < ordemPipeline.length; i++) {
-        var chave = ordemPipeline[i];
-        if (modulos[chave]) {
-          modulosAtivos.push(chave);
-        }
-      }
 
-      if (modulosAtivos.length === 0) {
-        box.innerHTML =
-          '<div class="item">' +
-          '<h3>Nenhum módulo ativo</h3>' +
-          '<p>Nenhum serviço foi marcado para esta obra até o momento.</p>' +
-          '</div>';
-        return modulosAtivos;
-      }
+</div>
 
-      for (var j = 0; j < modulosAtivos.length; j++) {
-        var chaveAtiva = modulosAtivos[j];
-        var info = modulosInfo[chaveAtiva];
+<script>
 
-        var card = document.createElement("div");
-        card.className = "item";
-        card.innerHTML =
-          "<h3>" + info.nome + "</h3>" +
-          "<p>" + info.descricao + "</p>" +
-          criarListaStatus(info.status);
+function gerarMaterialFinal(){
 
-        box.appendChild(card);
-      }
+// simulação geração material
 
-      return modulosAtivos;
-    }
+document.getElementById("statusObra").innerHTML=
+"Material gerado com sucesso. Preparando ambiente para nova obra...";
 
-    function renderValor(modulosAtivos) {
-      var total = 0;
-      var nomes = [];
+setTimeout(function(){
 
-      for (var i = 0; i < modulosAtivos.length; i++) {
-        var chave = modulosAtivos[i];
-        total += valoresReferencia[chave] || 0;
-        nomes.push(modulosInfo[chave].nome);
-      }
+resetarProjetoLapidar();
 
-      if (modulosAtivos.length === 0) {
-        document.getElementById("valorTotalBox").innerText =
-          "Nenhuma contribuição sugerida registrada, pois nenhum módulo foi selecionado.";
-        return;
-      }
+window.location.href="inicio.html";
 
-      document.getElementById("valorTotalBox").innerHTML =
-        "Serviços considerados: " + nomes.join(", ") + "<br>" +
-        "Contribuição sugerida total de referência: R$ " + total.toFixed(2).replace(".", ",");
-    }
+},1500);
 
-    function renderParceiros(modulosAtivos) {
-      var box = document.getElementById("parceirosBox");
-      box.innerHTML = "";
+}
 
-      var temDiagramacao = modulosAtivos.indexOf("diagramacao") !== -1;
-      var temTraducao = modulosAtivos.indexOf("traducao") !== -1;
 
-      var parceiros = [];
 
-      if (temDiagramacao) {
-        parceiros.push({
-          titulo: "Para livro físico",
-          texto: "Se você pretende publicar a versão impressa da obra, vale consultar plataformas e gráficas sob demanda para entender formatos, custos e possibilidades.",
-          botao: "Visitar UICLAP",
-          link: "https://www.uiclap.com/"
-        });
+function resetarProjetoLapidar(){
 
-        parceiros.push({
-          titulo: "Para venda impressa independente",
-          texto: "Se quiser imprimir e vender por conta própria, vale visitar gráficas e comparar preços antes de decidir o melhor caminho para o seu projeto.",
-          botao: "Visitar Clube de Autores",
-          link: "https://clubedeautores.com.br/"
-        });
-      }
+console.log("Resetando ambiente editorial...");
 
-      if (temTraducao) {
-        parceiros.push({
-          titulo: "Para e-book e mercado internacional",
-          texto: "Se sua obra vai para novas línguas, vale conhecer plataformas de publicação digital e distribuição internacional.",
-          botao: "Visitar Amazon KDP",
-          link: "https://kdp.amazon.com/"
-        });
+// limpa projeto ativo
 
-        parceiros.push({
-          titulo: "Para publicação digital ampliada",
-          texto: "Também vale visitar plataformas de distribuição digital para ampliar a presença do livro em lojas internacionais.",
-          botao: "Visitar Kobo Writing Life",
-          link: "https://www.kobo.com/writinglife"
-        });
-      }
+localStorage.removeItem("projetoAtivo");
 
-      if (!temDiagramacao && !temTraducao) {
-        parceiros.push({
-          titulo: "Próximos passos editoriais",
-          texto: "Enquanto preparamos o serviço solicitado, você pode visitar plataformas de publicação e impressão para conhecer possibilidades futuras da obra.",
-          botao: "Visitar Amazon KDP",
-          link: "https://kdp.amazon.com/"
-        });
-      }
+localStorage.removeItem("lapidar_projeto_ativo");
 
-      for (var i = 0; i < parceiros.length; i++) {
-        var item = parceiros[i];
-        var div = document.createElement("div");
-        div.className = "parceiro";
-        div.innerHTML =
-          "<h3>" + item.titulo + "</h3>" +
-          "<p>" + item.texto + "</p>" +
-          '<a href="' + item.link + '" target="_blank" rel="noopener noreferrer">' + item.botao + "</a>";
-        box.appendChild(div);
-      }
-    }
+localStorage.removeItem("lapidar_obra_autor");
 
-    function iniciarTela() {
-      var projeto = obterProjeto();
-      var modulos = obterModulosMarcados(projeto);
+localStorage.removeItem("lapidar_modulos_marcados");
 
-      renderProjetoAtivo(projeto);
-      var modulosAtivos = renderServicos(modulos);
-      renderStatusGeral(modulosAtivos);
-      renderValor(modulosAtivos);
-      renderParceiros(modulosAtivos);
-    }
+localStorage.removeItem("estrutura_editorial_obra");
 
-    iniciarTela();
-  </script>
+
+// limpa configurações temporárias
+
+sessionStorage.removeItem("diagramacao_config_atual");
+
+sessionStorage.removeItem("capista_config_atual");
+
+sessionStorage.removeItem("traducao_config_atual");
+
+sessionStorage.removeItem("avaliacao_config_atual");
+
+sessionStorage.removeItem("lapidacao_config_atual");
+
+sessionStorage.removeItem("silo_config_atual");
+
+
+console.log("Ambiente limpo com sucesso");
+
+}
+
+
+
+function voltarInicio(){
+
+window.location.href="inicio.html";
+
+}
+
+</script>
 
 </body>
 </html>
