@@ -8,48 +8,67 @@
 <style>
 body{
 margin:0;
-font-family:Arial;
+font-family:Arial, sans-serif;
 background:#0e0604;
 color:white;
+font-size:20px;
 }
 
 header{
 background:#2f436d;
-padding:18px;
+padding:24px 20px;
 display:flex;
 justify-content:space-between;
 align-items:center;
+gap:12px;
+flex-wrap:wrap;
 }
 
 .container{
 max-width:1100px;
 margin:auto;
-padding:24px 16px;
+padding:28px 18px 44px;
 }
 
 .card{
 background:#1c0e08;
-border-radius:14px;
-padding:20px;
-margin-bottom:18px;
+border-radius:18px;
+padding:24px;
+margin-bottom:22px;
 box-shadow:0 6px 18px rgba(0,0,0,.25);
+}
+
+h2{
+margin:0;
+font-size:34px;
+}
+
+h3{
+margin-top:0;
+font-size:28px;
 }
 
 label{
 display:block;
-margin-top:14px;
-margin-bottom:6px;
+margin-top:18px;
+margin-bottom:8px;
 font-weight:bold;
+font-size:22px;
 }
 
-input, textarea, select{
+input[type="text"],
+input[type="number"],
+select,
+textarea{
 width:100%;
-padding:12px;
-border-radius:10px;
+padding:16px;
+border-radius:12px;
 border:none;
 background:#2a140c;
 color:white;
 box-sizing:border-box;
+font-family:Arial, sans-serif;
+font-size:22px;
 }
 
 textarea{
@@ -58,14 +77,15 @@ resize:vertical;
 }
 
 button{
-margin-top:12px;
-padding:12px 16px;
+margin-top:16px;
+padding:16px 20px;
 border:none;
-border-radius:8px;
+border-radius:12px;
 background:#2f436d;
 color:white;
 font-weight:bold;
 cursor:pointer;
+font-size:22px;
 }
 
 .alt{
@@ -76,22 +96,65 @@ background:#8a6f3f;
 background:#6c757d;
 }
 
+.ok{
+background:#1f6b36;
+}
+
 .preview{
-margin-top:12px;
+margin-top:16px;
 background:#2a140c;
-padding:12px;
-border-radius:10px;
-font-size:14px;
-line-height:1.6;
+padding:16px;
+border-radius:12px;
+font-size:20px;
+line-height:1.8;
 }
 
 .grid{
 display:grid;
 grid-template-columns:1fr 1fr;
-gap:16px;
+gap:18px;
 }
 
-@media(max-width:700px){
+.mode-box{
+background:#24130c;
+padding:20px;
+border-radius:14px;
+margin-top:14px;
+border:2px solid transparent;
+font-size:21px;
+line-height:1.7;
+}
+
+.mode-box.selected{
+border-color:#d1a24c;
+}
+
+.badge{
+display:inline-block;
+padding:10px 14px;
+border-radius:999px;
+font-size:16px;
+font-weight:bold;
+margin-top:12px;
+background:#8a1f1f;
+}
+
+.checkline{
+margin-top:18px;
+padding:16px;
+background:#24130c;
+border-radius:12px;
+font-size:20px;
+line-height:1.7;
+}
+
+.checkline input{
+width:auto;
+margin-right:10px;
+transform:scale(1.4);
+}
+
+@media (max-width:800px){
 .grid{
 grid-template-columns:1fr;
 }
@@ -102,287 +165,278 @@ grid-template-columns:1fr;
 
 <header>
 <h2>Lapidação Literária</h2>
-
 <div>
-<button onclick="voltar()">Voltar</button>
+<button class="sec" onclick="voltar()">Voltar</button>
 </div>
-
 </header>
 
 <div class="container">
 
 <div class="card">
-
 <h3>Projeto ativo</h3>
-
-<div id="projetoNome">
-Nenhum projeto selecionado.
+<div id="nomeProjeto">Nenhum projeto ativo selecionado.</div>
+<div class="badge" id="modoProducaoBadge">Modo: Personalizada</div>
 </div>
-
-</div>
-
-
 
 <div class="card">
+<h3>Configuração-base da lapidação</h3>
 
-<h3>Configuração da lapidação</h3>
+<div class="mode-box selected" id="descricaoModo">
+Carregando configuração do modo escolhido...
+</div>
+
+<div class="preview" id="statusModo">
+Aguardando leitura do modo de produção.
+</div>
+</div>
+
+<div class="card">
+<h3>Planejamento da lapidação</h3>
 
 <div class="grid">
-
 <div>
-
-<label>Nível de lapidação</label>
-
+<label for="nivelLapidacao">Nível de lapidação</label>
 <select id="nivelLapidacao">
-
 <option>Leve</option>
 <option>Médio</option>
 <option>Completo</option>
 <option>Premium</option>
-
 </select>
-
 </div>
 
 <div>
-
-<label>Foco da lapidação</label>
-
+<label for="focoLapidacao">Foco principal</label>
 <select id="focoLapidacao">
-
 <option>Clareza textual</option>
 <option>Estilo narrativo</option>
 <option>Correção estrutural</option>
 <option>Humanização completa</option>
-
+<option>Ritmo e impacto</option>
 </select>
-
+</div>
 </div>
 
+<label for="obsLapidacao">Observações da lapidação</label>
+<textarea id="obsLapidacao" placeholder="Registrar melhorias desejadas: ritmo, diálogos, estrutura narrativa, emoção, coerência, estética textual e demais observações."></textarea>
+
+<div class="checkline">
+<label>
+<input type="checkbox" id="preservarEstilo">
+Preservar o estilo autoral ao máximo.
+</label>
 </div>
 
-<label>Observações da lapidação</label>
+<div class="checkline">
+<label>
+<input type="checkbox" id="humanizacaoCompleta">
+Aplicar humanização completa do texto.
+</label>
+</div>
 
-<textarea id="obsLapidacao" placeholder="Registrar melhorias desejadas: ritmo, diálogos, estrutura narrativa, emoção, coerência, estética textual etc..."></textarea>
-
-<button onclick="salvarConfiguracaoLapidacao()">
-
-Salvar configuração da lapidação
-
-</button>
+<button onclick="aplicarPadraoModo()">Aplicar padrão do modo</button>
+<button class="alt" onclick="salvarConfiguracaoLapidacao()">Salvar configuração da lapidação</button>
 
 <div class="preview" id="statusConfiguracao">
-
-Configuração ainda não registrada.
-
+Nenhuma configuração salva ainda.
 </div>
-
 </div>
-
-
 
 <div class="card">
+<h3>Texto-base da lapidação</h3>
 
-<h3>Texto lapidado</h3>
+<label for="textoLapidado">Texto para lapidar</label>
+<textarea id="textoLapidado" placeholder="Cole ou revise aqui o texto-base que seguirá para lapidação."></textarea>
 
-<textarea id="textoLapidado" placeholder="Cole aqui o texto lapidado ou resultado da humanização editorial..."></textarea>
-
-<button class="alt" onclick="carregarTextoObra()">
-
-Carregar texto original da obra
-
-</button>
-
-<button onclick="salvarTextoLapidado()">
-
-Salvar texto lapidado
-
-</button>
+<button onclick="carregarTextoObra()">Puxar texto da obra já lida</button>
+<button class="alt" onclick="salvarTextoLapidado()">Salvar texto lapidado</button>
 
 <div class="preview" id="statusTextoLapidado">
-
-Nenhum texto lapidado salvo ainda.
-
+Nenhum texto salvo ainda.
 </div>
-
 </div>
-
-
 
 <div class="card">
-
 <h3>Checklist editorial</h3>
 
+<div class="checkline">
 <label><input type="checkbox" id="chk_dialogos"> Revisão de diálogos aplicada</label>
+</div>
 
+<div class="checkline">
 <label><input type="checkbox" id="chk_coerencia"> Coerência narrativa verificada</label>
+</div>
 
+<div class="checkline">
 <label><input type="checkbox" id="chk_ritmo"> Ritmo textual ajustado</label>
+</div>
 
+<div class="checkline">
 <label><input type="checkbox" id="chk_estilo"> Estilo autoral preservado</label>
+</div>
 
+<div class="checkline">
 <label><input type="checkbox" id="chk_humanizacao"> Humanização completa aplicada</label>
+</div>
 
-<button onclick="salvarChecklist()">
-
-Salvar checklist editorial
-
-</button>
+<button class="alt" onclick="salvarChecklist()">Salvar checklist editorial</button>
 
 <div class="preview" id="statusChecklist">
-
 Checklist ainda não registrado.
-
 </div>
-
 </div>
-
-
 
 <div class="card">
+<h3>Confirmação</h3>
 
-<h3>Ações rápidas</h3>
-
-<button onclick="abrirDepartamentos()">
-
-Painel departamentos
-
-</button>
-
-<button class="alt" onclick="abrirExpedicao()">
-
-Ir para expedição
-
-</button>
-
-<button class="sec" onclick="abrirProjetos()">
-
-Projetos
-
-</button>
-
+<div class="preview" id="resumoConfirmacao">
+Revise os dados acima. Se estiver tudo certo, confirme e siga para a expedição.
 </div>
 
-
+<button class="ok" onclick="confirmarESeguir()">Concordo com esta lapidação e quero seguir</button>
+<button class="sec" onclick="abrirExpedicao()">Pular para expedição</button>
+</div>
 
 </div>
 
 <script>
-
 const perfil = localStorage.getItem("lapidar_perfil");
-
 if(!perfil){
-window.location.href="index.html";
+window.location.href = "index.html";
 }
-
-
 
 const projeto = localStorage.getItem("lapidar_projeto_ativo");
-
 if(projeto){
-document.getElementById("projetoNome").innerText=projeto;
+document.getElementById("nomeProjeto").innerText = projeto;
 }
 
+const modo = localStorage.getItem("lapidar_modo_producao") || "personalizada";
 
+function carregarModo(){
+const badge = document.getElementById("modoProducaoBadge");
+const descricao = document.getElementById("descricaoModo");
+const status = document.getElementById("statusModo");
 
-function salvarConfiguracaoLapidacao(){
-
-localStorage.setItem("lapidar_nivel_lapidacao",nivelLapidacao.value);
-
-localStorage.setItem("lapidar_foco_lapidacao",focoLapidacao.value);
-
-localStorage.setItem("lapidar_obs_lapidacao",obsLapidacao.value);
-
-document.getElementById("statusConfiguracao").innerText=
-
-"Configuração registrada com sucesso.";
-
+if(modo === "nacional"){
+badge.innerText = "Modo: Nacional";
+descricao.innerHTML =
+"<strong>Produção Nacional</strong><br>" +
+"Lapidação voltada para clareza, correção e equilíbrio textual, com foco em boa leitura e estabilidade editorial.";
+status.innerText = "Padrão nacional carregado.";
 }
 
+if(modo === "internacional"){
+badge.innerText = "Modo: Internacional";
+descricao.innerHTML =
+"<strong>Produção Internacional</strong><br>" +
+"Lapidação mais refinada, com atenção ampliada à força do texto, acabamento narrativo e apresentação de alto impacto.";
+status.innerText = "Padrão internacional carregado.";
+}
 
+if(modo === "personalizada"){
+badge.innerText = "Modo: Personalizada";
+descricao.innerHTML =
+"<strong>Produção Personalizada</strong><br>" +
+"Você define o nível, o foco e o grau de preservação do estilo autoral conforme o projeto.";
+status.innerText = "Modo personalizado carregado.";
+}
+}
+
+function aplicarPadraoModo(){
+if(modo === "nacional"){
+document.getElementById("nivelLapidacao").value = "Médio";
+document.getElementById("focoLapidacao").value = "Clareza textual";
+document.getElementById("preservarEstilo").checked = true;
+document.getElementById("humanizacaoCompleta").checked = false;
+}
+
+if(modo === "internacional"){
+document.getElementById("nivelLapidacao").value = "Premium";
+document.getElementById("focoLapidacao").value = "Humanização completa";
+document.getElementById("preservarEstilo").checked = true;
+document.getElementById("humanizacaoCompleta").checked = true;
+}
+
+document.getElementById("statusConfiguracao").innerText =
+"Padrão do modo aplicado com sucesso.";
+}
 
 function carregarTextoObra(){
+const texto = localStorage.getItem("lapidar_obra_texto") || "";
+document.getElementById("textoLapidado").value = texto;
 
-const texto=localStorage.getItem("lapidar_obra_texto")||"";
-
-textoLapidado.value=texto;
-
-document.getElementById("statusTextoLapidado").innerText=
-
-texto ? "Texto original carregado." : "Nenhum texto original encontrado.";
-
+document.getElementById("statusTextoLapidado").innerText =
+texto ? "Texto original carregado com sucesso." : "Nenhum texto original encontrado.";
 }
 
-
-
-function salvarTextoLapidado(){
-
-localStorage.setItem("lapidar_texto_lapidado",textoLapidado.value);
-
-document.getElementById("statusTextoLapidado").innerText=
-
-"Texto lapidado salvo com sucesso.";
-
-}
-
-
-
-function salvarChecklist(){
-
-const checklist={
-
-dialogos:chk_dialogos.checked,
-coerencia:chk_coerencia.checked,
-ritmo:chk_ritmo.checked,
-estilo:chk_estilo.checked,
-humanizacao:chk_humanizacao.checked
-
+function salvarConfiguracaoLapidacao(){
+const dados = {
+nivel: document.getElementById("nivelLapidacao").value,
+foco: document.getElementById("focoLapidacao").value,
+observacoes: document.getElementById("obsLapidacao").value.trim(),
+preservarEstilo: document.getElementById("preservarEstilo").checked,
+humanizacaoCompleta: document.getElementById("humanizacaoCompleta").checked
 };
 
-localStorage.setItem("lapidar_checklist_editorial",
+localStorage.setItem("lapidar_lapidacao_config", JSON.stringify(dados));
+localStorage.setItem("lapidar_nivel_lapidacao", dados.nivel);
+localStorage.setItem("lapidar_foco_lapidacao", dados.foco);
+localStorage.setItem("lapidar_obs_lapidacao", dados.observacoes);
 
-JSON.stringify(checklist)
+document.getElementById("statusConfiguracao").innerHTML =
+"Configuração da lapidação salva com sucesso.<br>" +
+"Nível: " + dados.nivel + "<br>" +
+"Foco: " + dados.foco;
 
-);
-
-document.getElementById("statusChecklist").innerText=
-
-"Checklist editorial registrado.";
-
+document.getElementById("resumoConfirmacao").innerHTML =
+"Lapidação configurada.<br>" +
+"Nível: " + dados.nivel + "<br>" +
+"Foco: " + dados.foco + "<br>" +
+"Preservar estilo: " + (dados.preservarEstilo ? "Sim" : "Não") + "<br>" +
+"Humanização completa: " + (dados.humanizacaoCompleta ? "Sim" : "Não");
 }
 
+function salvarTextoLapidado(){
+const texto = document.getElementById("textoLapidado").value;
+localStorage.setItem("lapidar_texto_lapidado", texto);
 
-
-function abrirDepartamentos(){
-
-window.location.href="painel_departamentos.html";
-
+document.getElementById("statusTextoLapidado").innerText =
+"Texto lapidado salvo com sucesso.";
 }
 
+function salvarChecklist(){
+const checklist = {
+dialogos: document.getElementById("chk_dialogos").checked,
+coerencia: document.getElementById("chk_coerencia").checked,
+ritmo: document.getElementById("chk_ritmo").checked,
+estilo: document.getElementById("chk_estilo").checked,
+humanizacao: document.getElementById("chk_humanizacao").checked
+};
 
+localStorage.setItem("lapidar_checklist_editorial", JSON.stringify(checklist));
+
+document.getElementById("statusChecklist").innerText =
+"Checklist editorial registrado com sucesso.";
+}
+
+function confirmarESeguir(){
+salvarConfiguracaoLapidacao();
+window.location.href = "expedicao_material.html";
+}
 
 function abrirExpedicao(){
-
-window.location.href="expedicao_material.html";
-
+window.location.href = "expedicao_material.html";
 }
-
-
-
-function abrirProjetos(){
-
-window.location.href="projetos.html";
-
-}
-
-
 
 function voltar(){
-
-window.location.href="painel_departamentos.html";
-
+window.location.href = "avaliacao_literaria.html";
 }
 
+carregarModo();
+
+const textoSalvo = localStorage.getItem("lapidar_texto_lapidado");
+if(textoSalvo){
+document.getElementById("textoLapidado").value = textoSalvo;
+}
 </script>
 
 </body>
