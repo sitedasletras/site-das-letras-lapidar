@@ -3,69 +3,90 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OKapista • Lapidar</title>
+<title>Capista • Lapidar</title>
 
 <style>
-
 body{
 margin:0;
-font-family:Arial;
+font-family:Arial, sans-serif;
 background:#0e0604;
 color:white;
+font-size:20px;
 }
 
 header{
 background:#2f436d;
-padding:18px;
+padding:24px 20px;
 display:flex;
 justify-content:space-between;
 align-items:center;
+gap:12px;
+flex-wrap:wrap;
 }
 
 .container{
-max-width:1000px;
+max-width:1100px;
 margin:auto;
-padding:24px 16px;
+padding:28px 18px 44px;
 }
 
 .card{
 background:#1c0e08;
-border-radius:14px;
-padding:20px;
-margin-bottom:18px;
+border-radius:18px;
+padding:24px;
+margin-bottom:22px;
 box-shadow:0 6px 18px rgba(0,0,0,.25);
+}
+
+h2{
+margin:0;
+font-size:34px;
+}
+
+h3{
+margin-top:0;
+font-size:28px;
 }
 
 label{
 display:block;
-margin-top:14px;
-margin-bottom:6px;
+margin-top:18px;
+margin-bottom:8px;
 font-weight:bold;
+font-size:22px;
 }
 
-input, textarea, select{
+input[type="text"],
+input[type="number"],
+input[type="file"],
+select,
+textarea{
 width:100%;
-padding:12px;
-border-radius:10px;
+padding:16px;
+border-radius:12px;
 border:none;
 background:#2a140c;
 color:white;
+box-sizing:border-box;
+font-family:Arial, sans-serif;
+font-size:22px;
 }
 
 textarea{
-min-height:120px;
+min-height:140px;
 resize:vertical;
 }
 
 button{
-margin-top:12px;
-padding:12px 16px;
+margin-top:16px;
+padding:16px 20px;
 border:none;
-border-radius:8px;
+border-radius:12px;
 background:#2f436d;
 color:white;
 font-weight:bold;
 cursor:pointer;
+font-size:22px;
 }
 
 .alt{
@@ -76,265 +97,375 @@ background:#8a6f3f;
 background:#6c757d;
 }
 
+.ok{
+background:#1f6b36;
+}
+
 .preview{
-margin-top:12px;
+margin-top:16px;
 background:#2a140c;
-padding:12px;
-border-radius:10px;
-font-size:14px;
+padding:16px;
+border-radius:12px;
+font-size:20px;
+line-height:1.8;
 }
 
 .grid{
 display:grid;
 grid-template-columns:1fr 1fr;
-gap:16px;
+gap:18px;
 }
 
-@media(max-width:700px){
+.mode-box{
+background:#24130c;
+padding:20px;
+border-radius:14px;
+margin-top:14px;
+border:2px solid transparent;
+font-size:21px;
+line-height:1.7;
+}
 
+.mode-box.selected{
+border-color:#d1a24c;
+}
+
+.badge{
+display:inline-block;
+padding:10px 14px;
+border-radius:999px;
+font-size:16px;
+font-weight:bold;
+margin-top:12px;
+background:#b78b16;
+color:#111;
+}
+
+.checkline{
+margin-top:18px;
+padding:16px;
+background:#24130c;
+border-radius:12px;
+font-size:20px;
+line-height:1.7;
+}
+
+.checkline input{
+width:auto;
+margin-right:10px;
+transform:scale(1.4);
+}
+
+@media (max-width:800px){
 .grid{
 grid-template-columns:1fr;
 }
-
 }
-
 </style>
 </head>
 <body>
 
 <header>
-
 <h2>OKapista</h2>
-
 <div>
-
-<button onclick="voltar()">Voltar</button>
-
+<button class="sec" onclick="voltar()">Voltar</button>
 </div>
-
 </header>
 
 <div class="container">
 
-
 <div class="card">
-
 <h3>Projeto ativo</h3>
-
-<div id="projetoNome">
-
-Nenhum projeto selecionado.
-
+<div id="nomeProjeto">Nenhum projeto ativo selecionado.</div>
+<div class="badge" id="modoProducaoBadge">Modo: Personalizada</div>
 </div>
-
-</div>
-
-
 
 <div class="card">
+<h3>Configuração-base da capa</h3>
 
-<h3>Dados da capa</h3>
-
-
-<label>Título da obra</label>
-
-<input id="titulo">
-
-
-<label>Subtítulo</label>
-
-<input id="subtitulo">
-
-
-<label>Autor</label>
-
-<input id="autor">
-
-
-<label>Texto da contra-capa</label>
-
-<textarea id="contracapa"></textarea>
-
-
-<label>Texto da orelha traseira (biografia)</label>
-
-<textarea id="orelha_traseira"></textarea>
-
-
-<label>Texto da orelha dianteira</label>
-
-<textarea id="orelha_dianteira"></textarea>
-
-
-<button onclick="salvarDados()">Salvar dados da capa</button>
-
-
-<div class="preview" id="status">
-
-Dados ainda não registrados.
-
+<div class="mode-box selected" id="descricaoModo">
+Carregando configuração do modo escolhido...
 </div>
 
+<div class="preview" id="statusModo">
+Aguardando leitura do modo de produção.
 </div>
-
-
+</div>
 
 <div class="card">
+<h3>Dados principais da capa</h3>
 
+<label for="tituloCapa">Título da obra</label>
+<input type="text" id="tituloCapa" placeholder="Título da obra">
+
+<label for="subtituloCapa">Subtítulo</label>
+<input type="text" id="subtituloCapa" placeholder="Subtítulo da obra">
+
+<label for="autorCapa">Nome do autor</label>
+<input type="text" id="autorCapa" placeholder="Nome do autor">
+
+<label for="sinopseCapa">Sinopse</label>
+<textarea id="sinopseCapa" placeholder="Escreva a sinopse da obra."></textarea>
+
+<label for="bioCapa">Biografia / texto de orelha</label>
+<textarea id="bioCapa" placeholder="Escreva a biografia, apresentação ou texto de orelha."></textarea>
+
+<div class="grid">
+<div>
+<label for="posicaoSinopse">Onde vai a sinopse?</label>
+<select id="posicaoSinopse">
+<option value="contracapa">Contracapa</option>
+<option value="orelha">Orelha</option>
+</select>
+</div>
+
+<div>
+<label for="posicaoBiografia">Onde vai a biografia?</label>
+<select id="posicaoBiografia">
+<option value="orelha">Orelha</option>
+<option value="contracapa">Contracapa</option>
+</select>
+</div>
+</div>
+
+<div class="grid">
+<div>
+<label for="fotoAutor">Foto do autor</label>
+<select id="fotoAutor">
+<option value="nao">Não</option>
+<option value="sim">Sim</option>
+</select>
+</div>
+
+<div>
+<label for="tipoCapa">Tipo de capa</label>
+<select id="tipoCapa">
+<option value="fisica">Física</option>
+<option value="ebook">E-book</option>
+<option value="ambas">Física + E-book</option>
+</select>
+</div>
+</div>
+
+<button onclick="aplicarPadraoModo()">Aplicar padrão do modo</button>
+<button class="alt" onclick="salvarDadosCapa()">Salvar dados da capa</button>
+
+<div class="preview" id="statusCapa">
+Nenhum dado de capa salvo ainda.
+</div>
+</div>
+
+<div class="card">
 <h3>Upload de imagens</h3>
 
+<label for="imagemFrente">Imagem da capa frontal</label>
+<input type="file" id="imagemFrente" accept="image/*">
 
-<label>Imagem da capa frontal</label>
+<label for="imagemContra">Imagem da contracapa</label>
+<input type="file" id="imagemContra" accept="image/*">
 
-<input type="file" id="capa_frente" accept="image/*">
+<label for="imagemOrelhaFrente">Imagem da orelha dianteira</label>
+<input type="file" id="imagemOrelhaFrente" accept="image/*">
 
+<label for="imagemOrelhaTras">Imagem da orelha traseira</label>
+<input type="file" id="imagemOrelhaTras" accept="image/*">
 
-<label>Imagem da contra-capa</label>
+<label for="imagemAutor">Foto do autor (opcional)</label>
+<input type="file" id="imagemAutor" accept="image/*">
 
-<input type="file" id="contra_capa" accept="image/*">
+<div class="checkline">
+<label>
+<input type="checkbox" id="aceiteImagens">
+Declaro possuir autorização legal para uso das imagens enviadas e assumo total responsabilidade pelos direitos autorais.
+</label>
+</div>
 
+<button class="alt" onclick="registrarImagens()">Registrar imagens</button>
 
-<label>Imagem da lombada</label>
-
-<input type="file" id="lombada" accept="image/*">
-
-
-<label>Imagem orelha dianteira</label>
-
-<input type="file" id="orelha_frente" accept="image/*">
-
-
-<label>Imagem orelha traseira</label>
-
-<input type="file" id="orelha_tras" accept="image/*">
-
-
-<button onclick="registrarImagens()">Registrar imagens</button>
-
-
-<div class="preview" id="status_img">
-
+<div class="preview" id="statusImagens">
 Nenhuma imagem registrada ainda.
-
 </div>
-
 </div>
-
-
 
 <div class="card">
+<h3>Confirmação</h3>
 
-<h3>Ações rápidas</h3>
-
-<button onclick="abrirDiagramador()">Ir para diagramador</button>
-
-<button class="alt" onclick="abrirExpedicao()">Ir para expedição</button>
-
-<button class="sec" onclick="abrirDepartamentos()">Painel departamentos</button>
-
+<div class="preview" id="resumoConfirmacao">
+Revise os dados acima. Se estiver tudo certo, confirme e siga para o próximo setor marcado.
 </div>
 
-
+<button class="ok" onclick="confirmarESeguir()">Concordo com esta capa e quero seguir</button>
+<button class="sec" onclick="abrirExpedicao()">Pular para expedição</button>
 </div>
 
-
+</div>
 
 <script>
-
-
+const perfil = localStorage.getItem("lapidar_perfil");
+if(!perfil){
+window.location.href = "index.html";
+}
 
 const projeto = localStorage.getItem("lapidar_projeto_ativo");
-
 if(projeto){
-
-document.getElementById("projetoNome").innerText = projeto;
-
+document.getElementById("nomeProjeto").innerText = projeto;
 }
 
+const modo = localStorage.getItem("lapidar_modo_producao") || "personalizada";
 
+function carregarModo(){
+const badge = document.getElementById("modoProducaoBadge");
+const descricao = document.getElementById("descricaoModo");
+const status = document.getElementById("statusModo");
 
-document.getElementById("titulo").value = localStorage.getItem("lapidar_obra_titulo") || "";
-
-document.getElementById("subtitulo").value = localStorage.getItem("lapidar_obra_subtitulo") || "";
-
-document.getElementById("autor").value = localStorage.getItem("lapidar_obra_autor") || "";
-
-
-
-function salvarDados(){
-
-localStorage.setItem("lapidar_capa_titulo",titulo.value);
-
-localStorage.setItem("lapidar_capa_subtitulo",subtitulo.value);
-
-localStorage.setItem("lapidar_capa_autor",autor.value);
-
-localStorage.setItem("lapidar_contracapa",contracapa.value);
-
-localStorage.setItem("lapidar_orelha_traseira",orelha_traseira.value);
-
-localStorage.setItem("lapidar_orelha_dianteira",orelha_dianteira.value);
-
-
-
-document.getElementById("status").innerText="Dados da capa registrados com sucesso.";
-
+if(modo === "nacional"){
+badge.innerText = "Modo: Nacional";
+descricao.innerHTML =
+"<strong>Produção Nacional</strong><br>" +
+"Capa funcional, clara e profissional, com organização editorial equilibrada para padrão brasileiro.";
+status.innerText = "Padrão nacional carregado.";
 }
 
+if(modo === "internacional"){
+badge.innerText = "Modo: Internacional";
+descricao.innerHTML =
+"<strong>Produção Internacional</strong><br>" +
+"Capa com apresentação mais sofisticada, acabamento visual ampliado e estrutura pensada para maior impacto editorial.";
+status.innerText = "Padrão internacional carregado.";
+}
 
+if(modo === "personalizada"){
+badge.innerText = "Modo: Personalizada";
+descricao.innerHTML =
+"<strong>Produção Personalizada</strong><br>" +
+"Você define livremente a organização de sinopse, biografia, foto, imagens e tipo de capa.";
+status.innerText = "Modo personalizado carregado.";
+}
+}
+
+function aplicarPadraoModo(){
+if(modo === "nacional"){
+document.getElementById("posicaoSinopse").value = "contracapa";
+document.getElementById("posicaoBiografia").value = "orelha";
+document.getElementById("fotoAutor").value = "nao";
+document.getElementById("tipoCapa").value = "fisica";
+}
+
+if(modo === "internacional"){
+document.getElementById("posicaoSinopse").value = "contracapa";
+document.getElementById("posicaoBiografia").value = "orelha";
+document.getElementById("fotoAutor").value = "sim";
+document.getElementById("tipoCapa").value = "ambas";
+}
+
+document.getElementById("statusCapa").innerText =
+"Padrão do modo aplicado com sucesso.";
+}
+
+function preencherCamposBase(){
+document.getElementById("tituloCapa").value = localStorage.getItem("lapidar_obra_titulo") || localStorage.getItem("lapidar_capa_titulo") || "";
+document.getElementById("subtituloCapa").value = localStorage.getItem("lapidar_obra_subtitulo") || localStorage.getItem("lapidar_capa_subtitulo") || "";
+document.getElementById("autorCapa").value = localStorage.getItem("lapidar_obra_autor") || localStorage.getItem("lapidar_capa_autor") || "";
+document.getElementById("sinopseCapa").value = localStorage.getItem("lapidar_capa_sinopse") || "";
+document.getElementById("bioCapa").value = localStorage.getItem("lapidar_capa_biografia") || "";
+}
+
+function salvarDadosCapa(){
+const dados = {
+titulo: document.getElementById("tituloCapa").value.trim(),
+subtitulo: document.getElementById("subtituloCapa").value.trim(),
+autor: document.getElementById("autorCapa").value.trim(),
+sinopse: document.getElementById("sinopseCapa").value.trim(),
+biografia: document.getElementById("bioCapa").value.trim(),
+posicaoSinopse: document.getElementById("posicaoSinopse").value,
+posicaoBiografia: document.getElementById("posicaoBiografia").value,
+fotoAutor: document.getElementById("fotoAutor").value,
+tipoCapa: document.getElementById("tipoCapa").value
+};
+
+localStorage.setItem("lapidar_capa_config", JSON.stringify(dados));
+localStorage.setItem("lapidar_capa_titulo", dados.titulo);
+localStorage.setItem("lapidar_capa_subtitulo", dados.subtitulo);
+localStorage.setItem("lapidar_capa_autor", dados.autor);
+localStorage.setItem("lapidar_capa_sinopse", dados.sinopse);
+localStorage.setItem("lapidar_capa_biografia", dados.biografia);
+
+document.getElementById("statusCapa").innerHTML =
+"Dados da capa salvos com sucesso.<br>" +
+"Título: " + (dados.titulo || "-") + "<br>" +
+"Autor: " + (dados.autor || "-") + "<br>" +
+"Tipo de capa: " + dados.tipoCapa;
+
+document.getElementById("resumoConfirmacao").innerHTML =
+"Capa configurada.<br>" +
+"Sinopse em: " + dados.posicaoSinopse + "<br>" +
+"Biografia em: " + dados.posicaoBiografia + "<br>" +
+"Foto do autor: " + dados.fotoAutor + "<br>" +
+"Tipo: " + dados.tipoCapa;
+}
 
 function registrarImagens(){
+const frente = document.getElementById("imagemFrente").files[0];
+const contra = document.getElementById("imagemContra").files[0];
+const orelhaFrente = document.getElementById("imagemOrelhaFrente").files[0];
+const orelhaTras = document.getElementById("imagemOrelhaTras").files[0];
+const autor = document.getElementById("imagemAutor").files[0];
+const aceite = document.getElementById("aceiteImagens").checked;
 
-localStorage.setItem("lapidar_img_frente",capa_frente.files.length);
+const existeAlguma = frente || contra || orelhaFrente || orelhaTras || autor;
 
-localStorage.setItem("lapidar_img_contra",contra_capa.files.length);
-
-localStorage.setItem("lapidar_img_lombada",lombada.files.length);
-
-localStorage.setItem("lapidar_img_orelha_frente",orelha_frente.files.length);
-
-localStorage.setItem("lapidar_img_orelha_tras",orelha_tras.files.length);
-
-
-
-document.getElementById("status_img").innerText="Imagens registradas no projeto.";
-
+if(existeAlguma && !aceite){
+document.getElementById("statusImagens").innerText =
+"Para usar imagens enviadas, confirme a autorização e responsabilidade.";
+return;
 }
 
+const imagens = {
+frente: frente ? frente.name : "",
+contra: contra ? contra.name : "",
+orelhaFrente: orelhaFrente ? orelhaFrente.name : "",
+orelhaTras: orelhaTras ? orelhaTras.name : "",
+autor: autor ? autor.name : "",
+aceite: aceite
+};
 
+localStorage.setItem("lapidar_capa_imagens", JSON.stringify(imagens));
 
-function abrirDiagramador(){
-
-window.location.href="diagramador.html";
-
+document.getElementById("statusImagens").innerHTML =
+"Imagens registradas com sucesso.<br>" +
+"Frente: " + (imagens.frente || "-") + "<br>" +
+"Contra: " + (imagens.contra || "-") + "<br>" +
+"Orelha dianteira: " + (imagens.orelhaFrente || "-") + "<br>" +
+"Orelha traseira: " + (imagens.orelhaTras || "-") + "<br>" +
+"Foto do autor: " + (imagens.autor || "-");
 }
 
+function proximoServicoAposCapa(){
+const s = JSON.parse(localStorage.getItem("lapidar_servicos_marcados") || "{}");
 
+if(s.traducao) return "segunda_lingua.html";
+if(s.avaliacao) return "avaliacao_literaria.html";
+if(s.lapidacao) return "lapidacao_literaria.html";
+if(s.analisador) return "analisador_obra.html";
+
+return "expedicao_material.html";
+}
+
+function confirmarESeguir(){
+salvarDadosCapa();
+window.location.href = proximoServicoAposCapa();
+}
 
 function abrirExpedicao(){
-
-window.location.href="expedicao_material.html";
-
+window.location.href = "expedicao_material.html";
 }
-
-
-
-function abrirDepartamentos(){
-
-window.location.href="painel_departamentos.html";
-
-}
-
-
 
 function voltar(){
-
-window.location.href="painel_departamentos.html";
-
+window.location.href = "diagramador_inicio.html";
 }
 
-
-
+carregarModo();
+preencherCamposBase();
 </script>
 
 </body>
