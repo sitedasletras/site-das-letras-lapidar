@@ -6,278 +6,368 @@
 <title>Painel de Departamentos • Lapidar</title>
 
 <style>
-
 body{
 margin:0;
 font-family:Arial, sans-serif;
 background:#0e0604;
 color:white;
+font-size:20px;
 }
 
 header{
 background:#2f436d;
-padding:18px 20px;
+padding:22px 20px;
 display:flex;
 justify-content:space-between;
 align-items:center;
+gap:12px;
+flex-wrap:wrap;
 }
 
 .container{
-max-width:1100px;
+max-width:1200px;
 margin:auto;
-padding:24px;
+padding:28px 18px 44px;
 }
 
 .card{
 background:#1c0e08;
-border-radius:14px;
-padding:20px;
-margin-bottom:18px;
+border-radius:18px;
+padding:24px;
+margin-bottom:22px;
+box-shadow:0 6px 18px rgba(0,0,0,.25);
+}
+
+h2{
+margin:0;
+font-size:34px;
+}
+
+h3{
+margin-top:0;
+font-size:28px;
+}
+
+p{
+line-height:1.8;
+font-size:20px;
 }
 
 .grid{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-gap:16px;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:18px;
+}
+
+.item{
+background:#24130c;
+border-radius:16px;
+padding:20px;
+display:flex;
+flex-direction:column;
+justify-content:space-between;
+min-height:180px;
+border:2px solid transparent;
+}
+
+.item h4{
+margin:0 0 10px 0;
+font-size:26px;
+}
+
+.item p{
+margin:0 0 14px 0;
+font-size:19px;
 }
 
 button{
-
-width:100%;
-padding:16px;
+margin-top:12px;
+padding:16px 18px;
 border:none;
-border-radius:10px;
+border-radius:12px;
 background:#2f436d;
 color:white;
-font-size:16px;
+font-weight:bold;
 cursor:pointer;
-
+font-size:21px;
+width:100%;
 }
 
 button:hover{
-
-background:#415f99;
-
+filter:brightness(1.08);
 }
 
-.topo{
-
-display:flex;
-justify-content:space-between;
-align-items:center;
-
-}
+.azul{ border-color:#2d67c8; }
+.amarelo{ border-color:#d4a62a; }
+.verde{ border-color:#2a8b47; }
+.branco{ border-color:#d8d8d8; }
+.vinho{ border-color:#7a2f63; }
+.vermelho{ border-color:#8b2a2a; }
+.rosa{ border-color:#c06d98; }
 
 .badge{
-
-background:#8a6f3f;
-padding:6px 12px;
-border-radius:20px;
-font-size:12px;
-
+display:inline-block;
+padding:10px 14px;
+border-radius:999px;
+font-size:16px;
+font-weight:bold;
+margin-top:12px;
+background:#2a140c;
 }
 
 .status{
-
-margin-top:12px;
+margin-top:16px;
 background:#2a140c;
-padding:12px;
-border-radius:10px;
-
+padding:16px;
+border-radius:12px;
+font-size:19px;
+line-height:1.8;
 }
 
+.topo{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:12px;
+flex-wrap:wrap;
+}
+
+@media (max-width:700px){
+body{
+font-size:22px;
+}
+h2{
+font-size:34px;
+}
+h3{
+font-size:30px;
+}
+.item h4{
+font-size:28px;
+}
+.item p,
+.status,
+p{
+font-size:21px;
+}
+button{
+font-size:22px;
+}
+}
 </style>
 </head>
 <body>
 
 <header>
-
+<div class="topo">
 <h2>Painel de Departamentos</h2>
-
-<div class="badge" id="perfilBadge"></div>
-
+</div>
+<div>
+<button onclick="voltar()">Voltar</button>
+</div>
 </header>
 
 <div class="container">
 
 <div class="card">
-
-<h3>Fluxo do projeto</h3>
-
-<div class="grid">
-
-<button onclick="abrirUpload()">
-Upload da obra
-</button>
-
-<button onclick="abrirAnalisador()">
-Analisador de obra
-</button>
-
-<button onclick="abrirProjetos()">
-Projetos e obras
-</button>
-
-</div>
+<h3>Projeto ativo</h3>
+<div id="nomeProjeto">Nenhum projeto ativo selecionado.</div>
+<div class="badge" id="perfilBadge">Perfil: -</div>
 
 <div class="status">
-
-Fluxo correto recomendado:<br><br>
-
-Upload → Análise → Departamentos → Expedição
-
+Fluxo recomendado do Lapidar:<br><br>
+Upload da obra → Analisador de Obra → Setores escolhidos → Expedição final
 </div>
-
 </div>
-
 
 <div class="card">
-
-<h3>Setores Lapidar</h3>
+<h3>Entrada do projeto</h3>
 
 <div class="grid">
-
-<button onclick="abrirDiagramador()">
-Diagramador
-</button>
-
-<button onclick="abrirCapista()">
-Capista
-</button>
-
-<button onclick="abrirSegundaLingua()">
-Segunda Língua(s)
-</button>
-
-<button onclick="abrirAvaliacao()">
-Avaliação Literária
-</button>
-
-<button onclick="abrirLapidacao()">
-Lapidação Literária
-</button>
-
-<button onclick="abrirExpedicao()">
-Expedição
-</button>
-
+<div class="item vinho">
+<div>
+<h4>Upload da obra</h4>
+<p>Envie o arquivo principal do livro ou cole o texto da obra para iniciar o fluxo editorial.</p>
+</div>
+<button onclick="abrirUpload()">Abrir</button>
 </div>
 
+<div class="item vermelho">
+<div>
+<h4>Analisador de Obra</h4>
+<p>Leitura inicial da obra para identificar título, gênero, tema, tom, personagens e resumo técnico.</p>
+</div>
+<button onclick="abrirAnalisador()">Abrir</button>
 </div>
 
+<div class="item rosa">
+<div>
+<h4>Produção Integrada</h4>
+<p>Escolha o modo de produção, marque os serviços e siga direto para o primeiro setor selecionado.</p>
+</div>
+<button onclick="abrirProducao()">Abrir</button>
+</div>
+</div>
+</div>
 
 <div class="card">
-
-<h3>Painéis auxiliares</h3>
+<h3>Setores editoriais</h3>
 
 <div class="grid">
+<div class="item azul">
+<div>
+<h4>1 — Assistente de Diagramação</h4>
+<p>Configuração de miolo, formato, margens, fonte, paginação e estrutura visual da obra.</p>
+</div>
+<button onclick="abrirDiagramador()">Abrir</button>
+</div>
 
-<button onclick="abrirSetores()">
-Painel setores
-</button>
+<div class="item amarelo">
+<div>
+<h4>3 — OKapista</h4>
+<p>Configuração de capa física e digital, sinopse, biografia, orelhas, contracapa e imagens.</p>
+</div>
+<button onclick="abrirCapista()">Abrir</button>
+</div>
 
-<button onclick="abrirMesario()">
-Mesário-mor
-</button>
+<div class="item verde">
+<div>
+<h4>5 — Segunda Língua(s)</h4>
+<p>Planejamento da tradução, idiomas desejados, capas por idioma e preparação do texto-base.</p>
+</div>
+<button onclick="abrirSegundaLingua()">Abrir</button>
+</div>
 
-<button onclick="abrirRelatorios()">
-Relatórios
-</button>
+<div class="item branco">
+<div>
+<h4>7 — Avaliação Literária</h4>
+<p>Avaliação Técnica, Avaliação Editorial e Índice Emocional da Obra com notas independentes.</p>
+</div>
+<button onclick="abrirAvaliacao()">Abrir</button>
+</div>
 
+<div class="item vinho">
+<div>
+<h4>11 — Analisador de Obra</h4>
+<p>Leitura estrutural e interpretativa da obra para abastecer automaticamente os demais módulos.</p>
+</div>
+<button onclick="abrirAnalisador()">Abrir</button>
+</div>
+
+<div class="item vermelho">
+<div>
+<h4>13 — Lapidação Literária</h4>
+<p>Humanização textual, refinamento narrativo, clareza, ritmo, estilo e checklist editorial.</p>
+</div>
+<button onclick="abrirLapidacao()">Abrir</button>
+</div>
+
+<div class="item rosa">
+<div>
+<h4>17 — Narração Editorial</h4>
+<p>Audiobook da obra, das avaliações, dos relatórios e das versões narradas do material editorial.</p>
+</div>
+<button onclick="abrirNarracao()">Abrir</button>
+</div>
+</div>
+</div>
+
+<div class="card">
+<h3>Saída e controle</h3>
+
+<div class="grid">
+<div class="item branco">
+<div>
+<h4>Expedição do Material</h4>
+<p>Saída em Word, PDF ou ambos, com proteção interna do sistema e apoio para conferência final.</p>
+</div>
+<button onclick="abrirExpedicao()">Abrir</button>
+</div>
+
+<div class="item verde">
+<div>
+<h4>Mesário Mor</h4>
+<p>Controle de liberação, expedição, confirmações internas, cortesias e validações do fluxo.</p>
+</div>
+<button onclick="abrirMesario()">Abrir</button>
+</div>
+
+<div class="item azul">
+<div>
+<h4>Relatórios</h4>
+<p>Histórico, painéis auxiliares e relatórios gerais do sistema editorial.</p>
+</div>
+<button onclick="abrirRelatorios()">Abrir</button>
+</div>
+</div>
 </div>
 
 </div>
-
-</div>
-
 
 <script>
-
-const perfil = localStorage.getItem("lapidar_perfil")
-
+const perfil = localStorage.getItem("lapidar_perfil");
 if(!perfil){
-
-window.location.href="index.html"
-
+window.location.href = "index.html";
 }
 
-document.getElementById("perfilBadge").innerText="Perfil: "+perfil
+document.getElementById("perfilBadge").innerText = "Perfil: " + perfil;
 
+const projeto = localStorage.getItem("lapidar_projeto_ativo");
+if(projeto){
+document.getElementById("nomeProjeto").innerText = projeto;
+}
 
 function abrirUpload(){
-
-window.location.href="upload_obra.html"
-
+window.location.href = "upload_obra.html";
 }
 
 function abrirAnalisador(){
-
-window.location.href="analisador_obra.html"
-
+window.location.href = "analisador_obra.html";
 }
 
-function abrirProjetos(){
-
-window.location.href="projetos.html"
-
+function abrirProducao(){
+window.location.href = "producao_integrada.html";
 }
-
 
 function abrirDiagramador(){
-
-window.location.href="diagramador_editor.html"
-
+window.location.href = "diagramador_inicio.html";
 }
 
 function abrirCapista(){
-
-window.location.href="capista.html"
-
+window.location.href = "capista.html";
 }
 
 function abrirSegundaLingua(){
-
-window.location.href="segunda_lingua.html"
-
+window.location.href = "segunda_lingua.html";
 }
 
 function abrirAvaliacao(){
-
-window.location.href="avaliacao_literaria.html"
-
+window.location.href = "avaliacao_literaria.html";
 }
 
 function abrirLapidacao(){
+window.location.href = "lapidacao_literaria.html";
+}
 
-window.location.href="lapidacao_literaria.html"
-
+function abrirNarracao(){
+window.location.href = "narracao_editorial.html";
 }
 
 function abrirExpedicao(){
-
-window.location.href="expedicao_material.html"
-
-}
-
-
-function abrirSetores(){
-
-window.location.href="painel_setores.html"
-
+window.location.href = "expedicao_material.html";
 }
 
 function abrirMesario(){
-
-window.location.href="mesario_mor.html"
-
+window.location.href = "mesario_mor.html";
 }
 
 function abrirRelatorios(){
-
-window.location.href="relatorios.html"
-
+window.location.href = "hub_relatorios.html";
 }
 
+function voltar(){
+window.location.href = "painel_setores.html";
+}
 </script>
 
 </body>
