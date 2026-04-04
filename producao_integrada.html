@@ -11,11 +11,12 @@ margin:0;
 font-family:Arial, sans-serif;
 background:#0e0604;
 color:white;
+font-size:20px;
 }
 
 header{
 background:#2f436d;
-padding:18px 20px;
+padding:24px 20px;
 display:flex;
 justify-content:space-between;
 align-items:center;
@@ -26,14 +27,14 @@ flex-wrap:wrap;
 .container{
 max-width:1100px;
 margin:auto;
-padding:24px 16px 40px;
+padding:28px 18px 44px;
 }
 
 .card{
 background:#1c0e08;
-border-radius:14px;
-padding:20px;
-margin-bottom:18px;
+border-radius:18px;
+padding:24px;
+margin-bottom:22px;
 box-shadow:0 6px 18px rgba(0,0,0,.25);
 }
 
@@ -42,28 +43,32 @@ margin-top:0;
 }
 
 p{
-line-height:1.7;
+line-height:1.8;
+font-size:20px;
 }
 
 label{
 display:block;
-margin-top:14px;
-margin-bottom:6px;
+margin-top:18px;
+margin-bottom:8px;
 font-weight:bold;
+font-size:22px;
 }
 
 input[type="text"],
 input[type="file"],
+input[type="number"],
 textarea,
 select{
 width:100%;
-padding:12px;
-border-radius:10px;
+padding:16px;
+border-radius:12px;
 border:none;
 background:#2a140c;
 color:white;
 box-sizing:border-box;
 font-family:Arial, sans-serif;
+font-size:22px;
 }
 
 textarea{
@@ -72,14 +77,15 @@ resize:vertical;
 }
 
 button{
-margin-top:12px;
-padding:12px 16px;
+margin-top:16px;
+padding:16px 20px;
 border:none;
-border-radius:8px;
+border-radius:12px;
 background:#2f436d;
 color:white;
 font-weight:bold;
 cursor:pointer;
+font-size:22px;
 }
 
 .alt{
@@ -99,42 +105,38 @@ background:#7a1f1f;
 }
 
 .preview{
-margin-top:12px;
+margin-top:16px;
 background:#2a140c;
-padding:12px;
-border-radius:10px;
-font-size:14px;
-line-height:1.7;
+padding:16px;
+border-radius:12px;
+font-size:20px;
+line-height:1.8;
 }
 
 .grid{
 display:grid;
 grid-template-columns:1fr 1fr;
-gap:16px;
+gap:18px;
 }
 
 .grid-3{
 display:grid;
 grid-template-columns:1fr 1fr 1fr;
-gap:16px;
+gap:18px;
 }
 
 .mode-box{
 background:#24130c;
-padding:16px;
-border-radius:12px;
-margin-top:12px;
+padding:20px;
+border-radius:14px;
+margin-top:14px;
 border:2px solid transparent;
+font-size:21px;
+line-height:1.7;
 }
 
 .mode-box.selected{
 border-color:#d1a24c;
-}
-
-.mode-title{
-font-size:18px;
-font-weight:bold;
-margin-bottom:8px;
 }
 
 .servicos{
@@ -146,8 +148,10 @@ margin-top:10px;
 
 .servico-item{
 background:#24130c;
-padding:12px;
-border-radius:10px;
+padding:14px;
+border-radius:12px;
+font-size:21px;
+line-height:1.7;
 }
 
 .setores-aplicacao{
@@ -172,6 +176,21 @@ gap:10px;
 display:none !important;
 }
 
+.checkline{
+margin-top:18px;
+padding:16px;
+background:#24130c;
+border-radius:12px;
+font-size:20px;
+line-height:1.7;
+}
+
+.checkline input{
+width:auto;
+margin-right:10px;
+transform:scale(1.4);
+}
+
 @media (max-width:900px){
 .grid-3,
 .setores-grid{
@@ -179,7 +198,7 @@ grid-template-columns:1fr;
 }
 }
 
-@media (max-width:700px){
+@media (max-width:800px){
 .grid,
 .servicos{
 grid-template-columns:1fr;
@@ -212,7 +231,7 @@ Selecione o modo de produção e os serviços desejados.
 <div class="grid-3">
 
 <div id="boxNacional" class="mode-box" onclick="selecionarModo('nacional')">
-<div class="mode-title">Produção Nacional</div>
+<div class="mode-title"><strong>Produção Nacional</strong></div>
 <p>Diagramação e preparação editorial em padrão brasileiro, com acabamento profissional, limpo e funcional.</p>
 
 <label><input type="radio" name="aplicar_nacional" value="toda" onchange="toggleSetores('nacional', false)"> Aplicar em toda a obra</label>
@@ -227,12 +246,13 @@ Selecione o modo de produção e os serviços desejados.
 <label><input type="checkbox" class="nacionalSetor" value="avaliacao"> Avaliação</label>
 <label><input type="checkbox" class="nacionalSetor" value="lapidacao"> Lapidação</label>
 <label><input type="checkbox" class="nacionalSetor" value="analisador"> Analisador</label>
+<label><input type="checkbox" class="nacionalSetor" value="narracao"> Narração</label>
 </div>
 </div>
 </div>
 
 <div id="boxInternacional" class="mode-box" onclick="selecionarModo('internacional')">
-<div class="mode-title">Produção Internacional</div>
+<div class="mode-title"><strong>Produção Internacional</strong></div>
 <p>Fluxo editorial ampliado, com apresentação mais sofisticada, visual mais forte e preparação para padrão avançado.</p>
 
 <label><input type="radio" name="aplicar_internacional" value="toda" onchange="toggleSetores('internacional', false)"> Aplicar em toda a obra</label>
@@ -247,12 +267,13 @@ Selecione o modo de produção e os serviços desejados.
 <label><input type="checkbox" class="internacionalSetor" value="avaliacao"> Avaliação</label>
 <label><input type="checkbox" class="internacionalSetor" value="lapidacao"> Lapidação</label>
 <label><input type="checkbox" class="internacionalSetor" value="analisador"> Analisador</label>
+<label><input type="checkbox" class="internacionalSetor" value="narracao"> Narração</label>
 </div>
 </div>
 </div>
 
 <div id="boxPersonalizada" class="mode-box selected" onclick="selecionarModo('personalizada')">
-<div class="mode-title">Produção Personalizada</div>
+<div class="mode-title"><strong>Produção Personalizada</strong></div>
 <p>Você escolhe livremente os serviços e o sistema conduz o fluxo conforme as opções marcadas.</p>
 <div class="preview">Ideal para quem quer controlar setor por setor.</div>
 </div>
@@ -268,12 +289,13 @@ Modo atual: Produção Personalizada.
 <h3>Quais serviços você deseja incluir?</h3>
 
 <div class="servicos">
-<label class="servico-item"><input type="checkbox" id="srvDiagramacao"> Diagramação</label>
-<label class="servico-item"><input type="checkbox" id="srvCapa"> Capa</label>
-<label class="servico-item"><input type="checkbox" id="srvTraducao"> Tradução</label>
-<label class="servico-item"><input type="checkbox" id="srvAvaliacao"> Avaliação Literária</label>
-<label class="servico-item"><input type="checkbox" id="srvLapidacao"> Lapidação Literária</label>
-<label class="servico-item"><input type="checkbox" id="srvAnalisador"> Analisador de Obra</label>
+<label class="servico-item"><input type="checkbox" id="srvDiagramacao"> 1 — Diagramação</label>
+<label class="servico-item"><input type="checkbox" id="srvCapa"> 3 — Capa</label>
+<label class="servico-item"><input type="checkbox" id="srvTraducao"> 5 — Tradução</label>
+<label class="servico-item"><input type="checkbox" id="srvAvaliacao"> 7 — Avaliação Literária</label>
+<label class="servico-item"><input type="checkbox" id="srvAnalisador"> 11 — Analisador de Obra</label>
+<label class="servico-item"><input type="checkbox" id="srvLapidacao"> 13 — Lapidação Literária</label>
+<label class="servico-item"><input type="checkbox" id="srvNarracao"> 17 — Narração Editorial</label>
 </div>
 
 <button class="ok" onclick="confirmarServicos()">Confirmar serviços</button>
@@ -343,7 +365,12 @@ Aguardando confirmação dos dados.
 <label>Upload das imagens da capa (opcional)</label>
 <input type="file" id="imagensCapa" accept="image/*" multiple>
 
-<label><input type="checkbox" id="aceiteImagens"> Declaro possuir autorização legal para uso das imagens enviadas e assumo total responsabilidade por direitos autorais.</label>
+<div class="checkline">
+<label>
+<input type="checkbox" id="aceiteImagens">
+Declaro possuir autorização legal para uso das imagens enviadas e assumo total responsabilidade por direitos autorais.
+</label>
+</div>
 
 <button onclick="salvarDadosCapa()">Salvar dados da capa</button>
 
@@ -387,6 +414,39 @@ Nenhum dado de capa salvo ainda.
 
 <div class="preview" id="statusTraducao">
 Nenhuma configuração de tradução salva ainda.
+</div>
+</div>
+
+<div id="blocoNarracao" class="card hidden">
+<h3>Narração editorial</h3>
+
+<div class="checkline">
+<label><input type="checkbox" id="narraObra"> Narrar obra completa</label>
+</div>
+<div class="checkline">
+<label><input type="checkbox" id="narraAvaliacaoTecnica"> Narrar avaliação técnica</label>
+</div>
+<div class="checkline">
+<label><input type="checkbox" id="narraAvaliacaoEditorial"> Narrar avaliação editorial</label>
+</div>
+<div class="checkline">
+<label><input type="checkbox" id="narraIEL"> Narrar índice emocional da obra</label>
+</div>
+<div class="checkline">
+<label><input type="checkbox" id="narraRelatorio"> Narrar relatório estrutural da obra</label>
+</div>
+
+<label for="formatoNarracao">Formato de saída</label>
+<select id="formatoNarracao">
+<option>MP3</option>
+<option>WAV</option>
+<option>MP3 + WAV</option>
+</select>
+
+<button onclick="salvarNarracao()">Salvar narração editorial</button>
+
+<div class="preview" id="statusNarracao">
+Nenhuma configuração de narração salva ainda.
 </div>
 </div>
 
@@ -471,8 +531,9 @@ diagramacao: document.getElementById("srvDiagramacao").checked,
 capa: document.getElementById("srvCapa").checked,
 traducao: document.getElementById("srvTraducao").checked,
 avaliacao: document.getElementById("srvAvaliacao").checked,
+analisador: document.getElementById("srvAnalisador").checked,
 lapidacao: document.getElementById("srvLapidacao").checked,
-analisador: document.getElementById("srvAnalisador").checked
+narracao: document.getElementById("srvNarracao").checked
 };
 }
 
@@ -490,6 +551,7 @@ lista.length ? "Serviços confirmados: " + lista.join(", ") : "Nenhum serviço s
 
 document.getElementById("blocoCapa").classList.toggle("hidden", !s.capa);
 document.getElementById("blocoTraducao").classList.toggle("hidden", !s.traducao);
+document.getElementById("blocoNarracao").classList.toggle("hidden", !s.narracao);
 }
 
 function processarObra(){
@@ -587,8 +649,10 @@ localStorage.setItem("lapidar_obra_titulo", titulo);
 localStorage.setItem("lapidar_obra_subtitulo", subtitulo);
 localStorage.setItem("lapidar_obra_autor", autor);
 
-document.getElementById("tituloCapa").value = titulo;
-document.getElementById("autorCapa").value = autor;
+const tituloCapa = document.getElementById("tituloCapa");
+const autorCapa = document.getElementById("autorCapa");
+if(tituloCapa) tituloCapa.value = titulo;
+if(autorCapa) autorCapa.value = autor;
 
 document.getElementById("statusDadosObra").innerHTML =
 "Dados confirmados com sucesso.<br>" +
@@ -634,7 +698,7 @@ document.getElementById("statusCapa").innerHTML =
 "Dados da capa salvos com sucesso.<br>" +
 "Título: " + (titulo || "-") + "<br>" +
 "Autor: " + (autor || "-") + "<br>" +
-"Imagens: " + (nomes.length ? nomes.join(", ") : "nenhuma");
+"Imagens: " + (nomes.length ? nomes.join(', ') : 'nenhuma');
 }
 
 function salvarTraducao(){
@@ -644,6 +708,23 @@ localStorage.setItem("lapidar_traducao_obs", document.getElementById("obsTraduca
 
 document.getElementById("statusTraducao").innerText =
 "Configuração da tradução salva com sucesso.";
+}
+
+function salvarNarracao(){
+const dados = {
+obra: document.getElementById("narraObra").checked,
+avaliacaoTecnica: document.getElementById("narraAvaliacaoTecnica").checked,
+avaliacaoEditorial: document.getElementById("narraAvaliacaoEditorial").checked,
+iel: document.getElementById("narraIEL").checked,
+relatorio: document.getElementById("narraRelatorio").checked,
+formato: document.getElementById("formatoNarracao").value
+};
+
+localStorage.setItem("lapidar_narracao_config", JSON.stringify(dados));
+
+document.getElementById("statusNarracao").innerHTML =
+"Narração editorial salva com sucesso.<br>" +
+"Formato: " + dados.formato;
 }
 
 function seguirFluxo(){
@@ -665,12 +746,16 @@ if(s.avaliacao){
 window.location.href = "avaliacao_literaria.html";
 return;
 }
+if(s.analisador){
+window.location.href = "analisador_obra.html";
+return;
+}
 if(s.lapidacao){
 window.location.href = "lapidacao_literaria.html";
 return;
 }
-if(s.analisador){
-window.location.href = "analisador_obra.html";
+if(s.narracao){
+window.location.href = "narracao_editorial.html";
 return;
 }
 
