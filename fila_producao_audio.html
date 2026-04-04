@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fila de Produção Sonora • Silo Sonoro</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial;
+background:#0e0604;
+color:white;
+font-size:22px;
+}
+
+header{
+background:#2f436d;
+padding:20px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.container{
+max-width:1000px;
+margin:auto;
+padding:30px;
+}
+
+.card{
+background:#1c0e08;
+padding:25px;
+border-radius:16px;
+margin-bottom:20px;
+}
+
+.preview{
+background:#2a140c;
+padding:18px;
+border-radius:12px;
+margin-top:15px;
+white-space:pre-line;
+}
+
+button{
+padding:15px;
+margin-top:15px;
+border-radius:12px;
+border:none;
+background:#2f436d;
+color:white;
+font-size:20px;
+cursor:pointer;
+width:100%;
+}
+
+.ok{
+background:#1f6b36;
+}
+
+.sec{
+background:#6c757d;
+}
+
+.status{
+margin-top:15px;
+padding:15px;
+background:#24130c;
+border-radius:12px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<h2>Fila de Produção Sonora</h2>
+
+<button class="sec" onclick="voltar()">Voltar</button>
+
+</header>
+
+<div class="container">
+
+<div class="card">
+
+<h3>Projeto ativo</h3>
+
+<div id="nomeProjeto">Nenhum projeto ativo carregado.</div>
+
+</div>
+
+
+<div class="card">
+
+<h3>Status do roteiro</h3>
+
+<div id="statusRoteiro" class="status">
+Verificando roteiro...
+</div>
+
+<button onclick="carregarRoteiro()">Carregar roteiro narrativo</button>
+
+</div>
+
+
+<div class="card">
+
+<h3>Status da configuração de voz</h3>
+
+<div id="statusConfig" class="status">
+Verificando configuração...
+</div>
+
+<button onclick="carregarConfig()">Carregar configuração sonora</button>
+
+</div>
+
+
+<div class="card">
+
+<h3>Registrar entrada na fila</h3>
+
+<button onclick="registrarFila()">Registrar produção sonora</button>
+
+<div id="statusFila" class="preview">
+Nenhum registro na fila ainda.
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h3>Produção</h3>
+
+<button class="ok" onclick="liberarProducao()">Liberar para produção</button>
+
+<div id="statusProducao" class="preview">
+Produção ainda não iniciada.
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h3>Expedição sonora</h3>
+
+<button class="ok" onclick="seguirExpedicao()">Seguir para expedição</button>
+
+</div>
+
+
+</div>
+
+<script>
+
+const projeto = localStorage.getItem("lapidar_projeto_ativo");
+
+if(projeto){
+
+document.getElementById("nomeProjeto").innerText = projeto;
+
+}
+
+
+function carregarRoteiro(){
+
+let roteiro = localStorage.getItem("lapidar_roteiro_narracao");
+
+if(!roteiro){
+
+document.getElementById("statusRoteiro").innerText =
+"Nenhum roteiro encontrado.";
+
+return;
+
+}
+
+document.getElementById("statusRoteiro").innerText =
+"Roteiro narrativo carregado com sucesso.";
+
+}
+
+
+function carregarConfig(){
+
+let config = localStorage.getItem("lapidar_narracao_config");
+
+if(!config){
+
+document.getElementById("statusConfig").innerText =
+"Nenhuma configuração encontrada.";
+
+return;
+
+}
+
+document.getElementById("statusConfig").innerText =
+"Configuração sonora carregada com sucesso.";
+
+}
+
+
+function registrarFila(){
+
+let roteiro = localStorage.getItem("lapidar_roteiro_narracao");
+
+if(!roteiro){
+
+alert("Roteiro não encontrado.");
+
+return;
+
+}
+
+localStorage.setItem("lapidar_audio_fila","registrado");
+
+document.getElementById("statusFila").innerText =
+"Projeto registrado na fila de produção sonora.";
+
+}
+
+
+function liberarProducao(){
+
+let fila = localStorage.getItem("lapidar_audio_fila");
+
+if(!fila){
+
+alert("Projeto ainda não registrado na fila.");
+
+return;
+
+}
+
+localStorage.setItem("lapidar_audio_producao","ativa");
+
+document.getElementById("statusProducao").innerText =
+"Produção sonora autorizada.";
+
+}
+
+
+function seguirExpedicao(){
+
+window.location.href="expedicao_material.html";
+
+}
+
+
+function voltar(){
+
+window.location.href="roteiro_narracao.html";
+
+}
+
+</script>
+
+</body>
+</html>
