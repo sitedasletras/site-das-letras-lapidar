@@ -1,596 +1,610 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Produção Integrada — Lapidar</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Produção Integrada — Lapidar</title>
 
-<style>
-*{
-box-sizing:border-box;
-}
+  <style>
+    *{
+      box-sizing:border-box;
+    }
 
-body{
-margin:0;
-font-family:Arial, sans-serif;
-background:#f2e6bf;
-color:#1f2937;
-padding:24px;
-}
+    body{
+      margin:0;
+      font-family:Arial, sans-serif;
+      background:#f2e6bf;
+      color:#1f2937;
+      padding:24px;
+    }
 
-.container{
-max-width:900px;
-margin:0 auto;
-background:#ffffff;
-border-radius:18px;
-padding:28px;
-box-shadow:0 10px 28px rgba(0,0,0,0.10);
-}
+    .container{
+      max-width:900px;
+      margin:0 auto;
+      background:#ffffff;
+      border-radius:18px;
+      padding:28px;
+      box-shadow:0 10px 28px rgba(0,0,0,0.10);
+    }
 
-h1{
-text-align:center;
-margin-top:0;
-margin-bottom:24px;
-font-size:40px;
-}
+    h1{
+      text-align:center;
+      margin-top:0;
+      margin-bottom:24px;
+      font-size:40px;
+    }
 
-label{
-display:block;
-font-weight:700;
-margin:16px 0 8px;
-}
+    label{
+      display:block;
+      font-weight:700;
+      margin:16px 0 8px;
+    }
 
-input[type="text"],
-input[type="file"],
-textarea{
-width:100%;
-padding:14px;
-border:1px solid #d1d5db;
-border-radius:10px;
-font-size:16px;
-font-family:Arial, sans-serif;
-}
+    input[type="text"],
+    input[type="file"],
+    textarea{
+      width:100%;
+      padding:14px;
+      border:1px solid #d1d5db;
+      border-radius:10px;
+      font-size:16px;
+      font-family:Arial, sans-serif;
+    }
 
-textarea{
-min-height:160px;
-resize:vertical;
-}
+    textarea{
+      min-height:170px;
+      resize:vertical;
+    }
 
-.readonly{
-background:#f4f7fb;
-color:#374151;
-}
+    .readonly{
+      background:#f4f7fb;
+      color:#374151;
+    }
 
-.editavel{
-background:#ffffff;
-color:#111827;
-}
+    .editavel{
+      background:#ffffff;
+      color:#111827;
+    }
 
-button{
-width:100%;
-padding:15px;
-margin-top:18px;
-border:none;
-border-radius:10px;
-font-size:18px;
-font-weight:700;
-cursor:pointer;
-transition:0.2s;
-}
+    button{
+      width:100%;
+      padding:15px;
+      margin-top:18px;
+      border:none;
+      border-radius:10px;
+      font-size:18px;
+      font-weight:700;
+      cursor:pointer;
+      transition:0.2s;
+    }
 
-.btn-principal{
-background:#2f5f92;
-color:#fff;
-}
+    .btn-principal{
+      background:#2f5f92;
+      color:#fff;
+    }
 
-.btn-principal:hover{
-background:#23486e;
-}
+    .btn-principal:hover{
+      background:#23486e;
+    }
 
-.btn-secundario{
-background:#d6ae35;
-color:#fff;
-}
+    .btn-secundario{
+      background:#d6ae35;
+      color:#fff;
+    }
 
-.btn-secundario:hover{
-background:#be982a;
-}
+    .btn-secundario:hover{
+      background:#be982a;
+    }
 
-.grid-2{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:18px;
-}
+    .btn-cinza{
+      background:#7b8795;
+      color:#fff;
+    }
 
-.modulos{
-margin-top:22px;
-padding:18px;
-background:#f8fafc;
-border-radius:14px;
-border:1px solid #e5e7eb;
-}
+    .btn-cinza:hover{
+      background:#68727d;
+    }
 
-.modulo-item{
-display:flex;
-align-items:center;
-justify-content:space-between;
-padding:10px 0;
-border-bottom:1px solid #e5e7eb;
-font-size:17px;
-}
+    .grid-2{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:18px;
+    }
 
-.modulo-item:last-child{
-border-bottom:none;
-}
+    .modulos{
+      margin-top:22px;
+      padding:18px;
+      background:#f8fafc;
+      border-radius:14px;
+      border:1px solid #e5e7eb;
+    }
 
-.status{
-margin-top:18px;
-padding:15px;
-background:#eff6ff;
-border-left:6px solid #22c55e;
-border-radius:10px;
-white-space:pre-line;
-line-height:1.6;
-}
+    .modulo-item{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:10px 0;
+      border-bottom:1px solid #e5e7eb;
+      font-size:17px;
+    }
 
-.alerta{
-margin-top:18px;
-padding:15px;
-background:#fff7ed;
-border-left:6px solid #f97316;
-border-radius:10px;
-white-space:pre-line;
-line-height:1.6;
-}
+    .modulo-item:last-child{
+      border-bottom:none;
+    }
 
-.small{
-font-size:14px;
-color:#6b7280;
-line-height:1.6;
-}
+    .status{
+      margin-top:18px;
+      padding:15px;
+      background:#eff6ff;
+      border-left:6px solid #22c55e;
+      border-radius:10px;
+      white-space:pre-line;
+      line-height:1.6;
+    }
 
-.hidden{
-display:none;
-}
+    .alerta{
+      margin-top:18px;
+      padding:15px;
+      background:#fff7ed;
+      border-left:6px solid #f97316;
+      border-radius:10px;
+      white-space:pre-line;
+      line-height:1.6;
+    }
 
-@media(max-width:760px){
-body{
-padding:14px;
-}
-.container{
-padding:20px;
-}
-h1{
-font-size:30px;
-}
-.grid-2{
-grid-template-columns:1fr;
-}
-}
-</style>
+    .small{
+      font-size:14px;
+      color:#6b7280;
+      line-height:1.6;
+    }
+
+    .hidden{
+      display:none;
+    }
+
+    @media(max-width:760px){
+      body{
+        padding:14px;
+      }
+
+      .container{
+        padding:20px;
+      }
+
+      h1{
+        font-size:30px;
+      }
+
+      .grid-2{
+        grid-template-columns:1fr;
+      }
+    }
+  </style>
 </head>
 <body>
 
-<div class="container">
+  <div class="container">
 
-<h1>Produção Integrada Lapidar</h1>
+    <h1>Produção Integrada Lapidar</h1>
 
-<label for="arquivoObra">Escolher arquivo da obra</label>
-<input type="file" id="arquivoObra" accept=".txt,.doc,.docx,.pdf">
-<div class="small">
-O Lapidar lê primeiro a obra inteira, cria o texto-base do projeto e só depois libera os módulos.
-</div>
+    <label for="arquivoObra">Escolher arquivo da obra</label>
+    <input type="file" id="arquivoObra" accept=".txt,.doc,.docx,.pdf">
+    <div class="small">
+      O Lapidar lê primeiro a obra inteira, cria o texto-base do projeto e só depois libera os módulos.
+    </div>
 
-<button class="btn-principal" onclick="lerArquivoCompleto()">Ler obra e preparar projeto</button>
+    <button class="btn-principal" type="button" onclick="lerArquivoCompleto()">Ler obra e preparar projeto</button>
 
-<div id="statusLeitura" class="status">Nenhuma obra lida ainda.</div>
+    <div id="statusLeitura" class="status">Nenhuma obra lida ainda.</div>
+    <div id="alertaLeitura" class="alerta hidden"></div>
 
-<div id="alertaLeitura" class="alerta hidden"></div>
+    <div class="grid-2">
+      <div>
+        <label for="tituloObra">Título da obra</label>
+        <input type="text" id="tituloObra" class="readonly" readonly>
+      </div>
 
-<div class="grid-2">
-  <div>
-    <label for="tituloObra">Título da obra</label>
-    <input type="text" id="tituloObra" class="readonly" readonly>
+      <div>
+        <label for="subtituloObra">Subtítulo</label>
+        <input type="text" id="subtituloObra" class="readonly" readonly>
+      </div>
+    </div>
+
+    <label for="autorObra">Autor</label>
+    <input type="text" id="autorObra" class="readonly" readonly>
+
+    <div id="blocoAutorManual" class="hidden">
+      <label for="autorManual">Não encontramos o autor. Quem é o autor desta obra?</label>
+      <input type="text" id="autorManual" class="editavel" placeholder="Digite aqui o nome do autor">
+    </div>
+
+    <label for="textoBase">Texto-base da obra lida</label>
+    <textarea id="textoBase" class="readonly" readonly></textarea>
+
+    <div class="modulos">
+      <h2 style="margin-top:0;">Módulos desejados</h2>
+
+      <div class="modulo-item">
+        <span>Assistente de Diagramação</span>
+        <input type="checkbox" id="modDiagramacao">
+      </div>
+
+      <div class="modulo-item">
+        <span>OKapista</span>
+        <input type="checkbox" id="modCapista">
+      </div>
+
+      <div class="modulo-item">
+        <span>Segunda Língua(s)</span>
+        <input type="checkbox" id="modTraducao">
+      </div>
+
+      <div class="modulo-item">
+        <span>Avaliação Literária</span>
+        <input type="checkbox" id="modAvaliacao">
+      </div>
+
+      <div class="modulo-item">
+        <span>Analisador de Obra</span>
+        <input type="checkbox" id="modAnalisador">
+      </div>
+
+      <div class="modulo-item">
+        <span>Lapidação Literária</span>
+        <input type="checkbox" id="modLapidacao">
+      </div>
+
+      <div class="modulo-item">
+        <span>Silo Sonoro</span>
+        <input type="checkbox" id="modSiloSonoro">
+      </div>
+    </div>
+
+    <button class="btn-secundario" type="button" onclick="registrarProjetoSoberano()">Registrar projeto</button>
+    <button class="btn-cinza" type="button" onclick="window.location.href='index.html'">Voltar para a página inicial</button>
+
+    <div id="statusProjeto" class="status">Nenhum projeto ativo.</div>
+
   </div>
 
-  <div>
-    <label for="subtituloObra">Subtítulo</label>
-    <input type="text" id="subtituloObra" class="readonly" readonly>
-  </div>
-</div>
-
-<label for="autorObra">Autor</label>
-<input type="text" id="autorObra" class="readonly" readonly>
-
-<div id="blocoAutorManual" class="hidden">
-  <label for="autorManual">Não encontramos o autor. Quem é o autor desta obra?</label>
-  <input type="text" id="autorManual" class="editavel" placeholder="Digite aqui o nome do autor">
-</div>
-
-<label for="textoBase">Texto-base da obra lida</label>
-<textarea id="textoBase" class="readonly" readonly></textarea>
-
-<div class="modulos">
-  <h2 style="margin-top:0;">Módulos desejados</h2>
-
-  <div class="modulo-item">
-    <span>Assistente de Diagramação</span>
-    <input type="checkbox" id="modDiagramacao">
-  </div>
-
-  <div class="modulo-item">
-    <span>OKapista</span>
-    <input type="checkbox" id="modCapista">
-  </div>
-
-  <div class="modulo-item">
-    <span>Segunda Língua(s)</span>
-    <input type="checkbox" id="modTraducao">
-  </div>
-
-  <div class="modulo-item">
-    <span>Avaliação Literária</span>
-    <input type="checkbox" id="modAvaliacao">
-  </div>
-
-  <div class="modulo-item">
-    <span>Analisador de Obra</span>
-    <input type="checkbox" id="modAnalisador">
-  </div>
-
-  <div class="modulo-item">
-    <span>Lapidação Literária</span>
-    <input type="checkbox" id="modLapidacao">
-  </div>
-
-  <div class="modulo-item">
-    <span>Silo Sonoro</span>
-    <input type="checkbox" id="modSiloSonoro">
-  </div>
-</div>
-
-<button class="btn-secundario" onclick="registrarProjetoSoberano()">Registrar projeto</button>
-
-<div id="statusProjeto" class="status">Nenhum projeto ativo.</div>
-
-</div>
-
-<script src="https://unpkg.com/mammoth/mammoth.browser.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-<script>
-pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
-
-function limparProjetoAnteriorCompleto(){
-  const chaves = [
-    "projetoAtivo",
-    "lapidar_projeto_ativo",
-    "lapidar_obra_titulo",
-    "lapidar_obra_subtitulo",
-    "lapidar_obra_autor",
-    "lapidar_obra_texto",
-    "lapidar_obra_arquivo_nome",
-    "lapidar_fluxo_ativo",
-    "lapidar_modulos_marcados",
-    "lapidar_imagens_registradas",
-    "lapidar_distribuicao_imagens",
-    "lapidar_sinopse_obra",
-    "lapidar_biografia_obra"
-  ];
-
-  chaves.forEach(chave => localStorage.removeItem(chave));
-}
-
-function pareceAutorValido(texto){
-  if(!texto) return false;
-  const t = texto.trim();
-
-  if(t.length < 3) return false;
-  if(t.length > 80) return false;
-  if(/[.:;!?]/.test(t)) return false;
-  if(/\d/.test(t)) return false;
-
-  const palavras = t.split(/\s+/).filter(Boolean);
-  if(palavras.length < 2) return false;
-  if(palavras.length > 6) return false;
-
-  return true;
-}
-
-function extrairMetadados(texto, nomeArquivo){
-  const linhas = texto
-    .split(/\r?\n/)
-    .map(l => l.trim())
-    .filter(l => l.length > 0);
-
-  let titulo = "";
-  let subtitulo = "";
-  let autor = "";
-
-  if(linhas.length > 0) titulo = linhas[0];
-  if(linhas.length > 1) subtitulo = linhas[1];
-
-  if(linhas.length > 2 && pareceAutorValido(linhas[2])){
-    autor = linhas[2];
-  }
-
-  if(!titulo && nomeArquivo){
-    titulo = nomeArquivo.replace(/\.[^/.]+$/, "").replace(/[_-]/g, " ").trim();
-  }
-
-  return { titulo, subtitulo, autor };
-}
-
-function preencherCamposLidos(metadados, texto){
-  document.getElementById("tituloObra").value = metadados.titulo || "";
-  document.getElementById("subtituloObra").value = metadados.subtitulo || "";
-  document.getElementById("autorObra").value = metadados.autor || "";
-  document.getElementById("textoBase").value = texto || "";
-
-  localStorage.setItem("lapidar_obra_titulo", metadados.titulo || "");
-  localStorage.setItem("lapidar_obra_subtitulo", metadados.subtitulo || "");
-  localStorage.setItem("lapidar_obra_autor", metadados.autor || "");
-  localStorage.setItem("lapidar_obra_texto", texto || "");
-
-  const blocoAutorManual = document.getElementById("blocoAutorManual");
-  const autorManual = document.getElementById("autorManual");
-
-  if(!metadados.autor){
-    blocoAutorManual.classList.remove("hidden");
-    autorManual.value = "";
-    document.getElementById("autorObra").value = "Autor a confirmar";
-  } else {
-    blocoAutorManual.classList.add("hidden");
-    autorManual.value = "";
-  }
-}
-
-function mostrarStatusLeitura(mensagem){
-  document.getElementById("statusLeitura").innerText = mensagem;
-}
-
-function mostrarAlertaLeitura(mensagem){
-  const alerta = document.getElementById("alertaLeitura");
-  if(!mensagem){
-    alerta.classList.add("hidden");
-    alerta.innerText = "";
-    return;
-  }
-  alerta.classList.remove("hidden");
-  alerta.innerText = mensagem;
-}
-
-async function lerArquivoCompleto(){
-  const input = document.getElementById("arquivoObra");
-  const arquivo = input.files[0];
-
-  if(!arquivo){
-    mostrarStatusLeitura("Selecione primeiro um arquivo da obra.");
-    return;
-  }
-
-  limparProjetoAnteriorCompleto();
-  mostrarAlertaLeitura("");
-  mostrarStatusLeitura("Lendo a obra inteira...");
-
-  document.getElementById("tituloObra").value = "";
-  document.getElementById("subtituloObra").value = "";
-  document.getElementById("autorObra").value = "";
-  document.getElementById("textoBase").value = "";
-  document.getElementById("blocoAutorManual").classList.add("hidden");
-  document.getElementById("autorManual").value = "";
-
-  const nomeArquivo = arquivo.name;
-  localStorage.setItem("lapidar_obra_arquivo_nome", nomeArquivo);
-
-  const nomeLower = nomeArquivo.toLowerCase();
-
-  try{
-    let textoExtraido = "";
-
-    if(nomeLower.endsWith(".txt")){
-      textoExtraido = await arquivo.text();
+  <script src="https://unpkg.com/mammoth/mammoth.browser.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script>
+    if (window.pdfjsLib) {
+      pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
     }
 
-    else if(nomeLower.endsWith(".docx")){
-      const arrayBuffer = await arquivo.arrayBuffer();
-      const resultado = await mammoth.extractRawText({ arrayBuffer });
-      textoExtraido = resultado.value || "";
-    }
+    function limparTudoDoProjetoAnterior(){
+      var chavesLocal = [
+        "projetoAtivo",
+        "lapidar_projeto_ativo",
+        "lapidar_obra_titulo",
+        "lapidar_obra_subtitulo",
+        "lapidar_obra_autor",
+        "lapidar_obra_texto",
+        "lapidar_obra_arquivo_nome",
+        "lapidar_fluxo_ativo",
+        "lapidar_modulos_marcados",
+        "lapidar_imagens_registradas",
+        "lapidar_distribuicao_imagens",
+        "lapidar_sinopse_obra",
+        "lapidar_biografia_obra",
+        "estrutura_editorial_obra"
+      ];
 
-    else if(nomeLower.endsWith(".pdf")){
-      const arrayBuffer = await arquivo.arrayBuffer();
-      const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-      let paginas = [];
-
-      for(let i = 1; i <= pdf.numPages; i++){
-        const page = await pdf.getPage(i);
-        const content = await page.getTextContent();
-        const strings = content.items.map(item => item.str);
-        paginas.push(strings.join(" "));
+      for (var i = 0; i < chavesLocal.length; i++) {
+        localStorage.removeItem(chavesLocal[i]);
       }
 
-      textoExtraido = paginas.join("\n\n");
+      var chavesSession = [
+        "diagramacao_config_atual",
+        "capista_config_atual",
+        "traducao_config_atual",
+        "avaliacao_config_atual",
+        "lapidacao_config_atual",
+        "silo_config_atual"
+      ];
+
+      for (var j = 0; j < chavesSession.length; j++) {
+        sessionStorage.removeItem(chavesSession[j]);
+      }
     }
 
-    else if(nomeLower.endsWith(".doc")){
-      mostrarAlertaLeitura(
-        "Arquivo .DOC detectado.\n" +
-        "A leitura automática de .DOC antigo pode falhar no navegador.\n" +
-        "Se possível, salve em .DOCX para leitura mais segura."
-      );
-      textoExtraido = nomeArquivo.replace(/\.[^/.]+$/, "");
+    function limparCamposVisuais(){
+      document.getElementById("tituloObra").value = "";
+      document.getElementById("subtituloObra").value = "";
+      document.getElementById("autorObra").value = "";
+      document.getElementById("autorManual").value = "";
+      document.getElementById("textoBase").value = "";
+
+      document.getElementById("modDiagramacao").checked = false;
+      document.getElementById("modCapista").checked = false;
+      document.getElementById("modTraducao").checked = false;
+      document.getElementById("modAvaliacao").checked = false;
+      document.getElementById("modAnalisador").checked = false;
+      document.getElementById("modLapidacao").checked = false;
+      document.getElementById("modSiloSonoro").checked = false;
+
+      document.getElementById("blocoAutorManual").classList.add("hidden");
+      document.getElementById("statusLeitura").innerText = "Nenhuma obra lida ainda.";
+      document.getElementById("statusProjeto").innerText = "Nenhum projeto ativo.";
+      esconderAlertaLeitura();
     }
 
-    else{
-      mostrarStatusLeitura("Formato não suportado para leitura completa automática.");
-      return;
+    function resetTotalDaPagina(){
+      limparTudoDoProjetoAnterior();
+      limparCamposVisuais();
     }
 
-    if(!textoExtraido || textoExtraido.trim().length < 10){
-      mostrarAlertaLeitura(
-        "A leitura retornou pouco conteúdo.\n" +
-        "O arquivo foi registrado, mas talvez precise ser reenviado em formato mais legível."
-      );
+    function mostrarAlertaLeitura(msg){
+      var box = document.getElementById("alertaLeitura");
+      box.classList.remove("hidden");
+      box.innerText = msg;
     }
 
-    const metadados = extrairMetadados(textoExtraido, nomeArquivo);
-    preencherCamposLidos(metadados, textoExtraido);
+    function esconderAlertaLeitura(){
+      var box = document.getElementById("alertaLeitura");
+      box.classList.add("hidden");
+      box.innerText = "";
+    }
 
-    mostrarStatusLeitura(
-      "Obra lida com sucesso ✔\n" +
-      "Arquivo: " + nomeArquivo + "\n" +
-      "Título identificado: " + (metadados.titulo || "não identificado") + "\n" +
-      "Subtítulo identificado: " + (metadados.subtitulo || "não identificado") + "\n" +
-      "Autor identificado: " + (metadados.autor || "não identificado") + "\n" +
-      "Texto-base preparado para os módulos do Lapidar."
-    );
+    function mostrarStatusLeitura(msg){
+      document.getElementById("statusLeitura").innerText = msg;
+    }
 
-  }catch(erro){
-    console.error(erro);
-    mostrarStatusLeitura("Falha ao ler a obra inteira.");
-    mostrarAlertaLeitura(
-      "Não foi possível interpretar o arquivo automaticamente.\n" +
-      "Tente novamente em TXT, DOCX ou PDF com texto selecionável."
-    );
-  }
-}
+    function pareceAutorValido(texto){
+      if (!texto) return false;
 
-function obterPrimeiroModuloMarcado(modulos){
-  if(modulos.diagramacao) return "diagramador_inicio.html";
-  if(modulos.capista) return "capista.html";
-  if(modulos.traducao) return "segunda_lingua.html";
-  if(modulos.avaliacao) return "avaliacao_literaria.html";
-  if(modulos.analisador) return "analisador_obra.html";
-  if(modulos.lapidacao) return "lapidacao_literaria.html";
-  if(modulos.siloSonoro) return "narracao_editorial.html";
-  return "";
-}
+      var t = texto.trim();
+      if (t.length < 3) return false;
+      if (t.length > 80) return false;
+      if (/[.:;!?]/.test(t)) return false;
+      if (/\d/.test(t)) return false;
 
-function registrarProjetoSoberano(){
-  const titulo = document.getElementById("tituloObra").value.trim();
-  const subtitulo = document.getElementById("subtituloObra").value.trim();
+      var palavras = t.split(/\s+/).filter(Boolean);
+      if (palavras.length < 2) return false;
+      if (palavras.length > 6) return false;
 
-  let autor = document.getElementById("autorObra").value.trim();
-  const autorManual = document.getElementById("autorManual").value.trim();
+      return true;
+    }
 
-  if(autor === "Autor a confirmar"){
-    if(!autorManual){
+    function extrairMetadados(texto, nomeArquivo){
+      var linhas = texto
+        .split(/\r?\n/)
+        .map(function(l){ return l.trim(); })
+        .filter(function(l){ return l.length > 0; });
+
+      var titulo = "";
+      var subtitulo = "";
+      var autor = "";
+
+      if (linhas.length > 0) titulo = linhas[0];
+      if (linhas.length > 1) subtitulo = linhas[1];
+      if (linhas.length > 2 && pareceAutorValido(linhas[2])) autor = linhas[2];
+
+      if (!titulo && nomeArquivo) {
+        titulo = nomeArquivo.replace(/\.[^/.]+$/, "").replace(/[_-]/g, " ").trim();
+      }
+
+      return {
+        titulo: titulo,
+        subtitulo: subtitulo,
+        autor: autor
+      };
+    }
+
+    function preencherCamposLidos(metadados, texto){
+      document.getElementById("tituloObra").value = metadados.titulo || "";
+      document.getElementById("subtituloObra").value = metadados.subtitulo || "";
+      document.getElementById("textoBase").value = texto || "";
+
+      if (metadados.autor) {
+        document.getElementById("autorObra").value = metadados.autor;
+        document.getElementById("blocoAutorManual").classList.add("hidden");
+      } else {
+        document.getElementById("autorObra").value = "Autor a confirmar";
+        document.getElementById("blocoAutorManual").classList.remove("hidden");
+      }
+
+      localStorage.setItem("lapidar_obra_titulo", metadados.titulo || "");
+      localStorage.setItem("lapidar_obra_subtitulo", metadados.subtitulo || "");
+      localStorage.setItem("lapidar_obra_autor", metadados.autor || "");
+      localStorage.setItem("lapidar_obra_texto", texto || "");
+    }
+
+    async function lerArquivoCompleto(){
+      var input = document.getElementById("arquivoObra");
+      var arquivo = input.files[0];
+
+      if (!arquivo) {
+        mostrarStatusLeitura("Selecione primeiro um arquivo da obra.");
+        return;
+      }
+
+      resetTotalDaPagina();
+      mostrarStatusLeitura("Lendo a obra inteira...");
+
+      var nomeArquivo = arquivo.name;
+      localStorage.setItem("lapidar_obra_arquivo_nome", nomeArquivo);
+
+      var nomeLower = nomeArquivo.toLowerCase();
+      var textoExtraido = "";
+
+      try {
+        if (nomeLower.endsWith(".txt")) {
+          textoExtraido = await arquivo.text();
+        } else if (nomeLower.endsWith(".docx")) {
+          var arrayBufferDocx = await arquivo.arrayBuffer();
+          var resultado = await mammoth.extractRawText({ arrayBuffer: arrayBufferDocx });
+          textoExtraido = resultado.value || "";
+        } else if (nomeLower.endsWith(".pdf")) {
+          if (!window.pdfjsLib) {
+            throw new Error("PDF.js não carregou");
+          }
+
+          var arrayBufferPdf = await arquivo.arrayBuffer();
+          var pdf = await pdfjsLib.getDocument({ data: arrayBufferPdf }).promise;
+          var paginas = [];
+
+          for (var i = 1; i <= pdf.numPages; i++) {
+            var page = await pdf.getPage(i);
+            var content = await page.getTextContent();
+            var strings = content.items.map(function(item){ return item.str; });
+            paginas.push(strings.join(" "));
+          }
+
+          textoExtraido = paginas.join("\n\n");
+        } else if (nomeLower.endsWith(".doc")) {
+          mostrarAlertaLeitura(
+            "Arquivo .DOC detectado.\nA leitura automática de .DOC antigo pode falhar no navegador.\nSe possível, salve em .DOCX para leitura mais segura."
+          );
+          textoExtraido = nomeArquivo.replace(/\.[^/.]+$/, "");
+        } else {
+          mostrarStatusLeitura("Formato não suportado para leitura completa automática.");
+          return;
+        }
+
+        if (!textoExtraido || textoExtraido.trim().length < 10) {
+          mostrarAlertaLeitura(
+            "A leitura retornou pouco conteúdo.\nO arquivo foi registrado, mas talvez precise ser reenviado em formato mais legível."
+          );
+        }
+
+        var metadados = extrairMetadados(textoExtraido, nomeArquivo);
+        preencherCamposLidos(metadados, textoExtraido);
+
+        mostrarStatusLeitura(
+          "Obra lida com sucesso ✔\n" +
+          "Arquivo: " + nomeArquivo + "\n" +
+          "Título identificado: " + (metadados.titulo || "não identificado") + "\n" +
+          "Subtítulo identificado: " + (metadados.subtitulo || "não identificado") + "\n" +
+          "Autor identificado: " + (metadados.autor || "não identificado") + "\n" +
+          "Texto-base preparado para os módulos do Lapidar."
+        );
+
+      } catch (erro) {
+        console.error(erro);
+        mostrarStatusLeitura("Falha ao ler a obra inteira.");
+        mostrarAlertaLeitura(
+          "Não foi possível interpretar o arquivo automaticamente.\nTente novamente em TXT, DOCX ou PDF com texto selecionável."
+        );
+      }
+    }
+
+    function obterPrimeiroModuloMarcado(modulos){
+      if (modulos.diagramacao) return "diagramador_inicio.html";
+      if (modulos.capista) return "capista.html";
+      if (modulos.traducao) return "segunda_lingua.html";
+      if (modulos.avaliacao) return "avaliacao_literaria.html";
+      if (modulos.analisador) return "analisador_obra.html";
+      if (modulos.lapidacao) return "lapidacao_literaria.html";
+      if (modulos.siloSonoro) return "narracao_editorial.html";
+      return "";
+    }
+
+    function registrarProjetoSoberano(){
+      var titulo = document.getElementById("tituloObra").value.trim();
+      var subtitulo = document.getElementById("subtituloObra").value.trim();
+      var autor = document.getElementById("autorObra").value.trim();
+      var autorManual = document.getElementById("autorManual").value.trim();
+      var textoBase = document.getElementById("textoBase").value.trim();
+      var arquivoNome = localStorage.getItem("lapidar_obra_arquivo_nome") || "";
+
+      if (!arquivoNome) {
+        document.getElementById("statusProjeto").innerText =
+          "Leia a obra primeiro antes de registrar o projeto.";
+        return;
+      }
+
+      if (autor === "Autor a confirmar") {
+        if (!autorManual) {
+          document.getElementById("statusProjeto").innerText =
+            "Não encontramos o autor. Informe o nome do autor antes de registrar o projeto.";
+          return;
+        }
+        autor = autorManual;
+        document.getElementById("autorObra").value = autor;
+        localStorage.setItem("lapidar_obra_autor", autor);
+      }
+
+      var modulos = {
+        diagramacao: document.getElementById("modDiagramacao").checked,
+        capista: document.getElementById("modCapista").checked,
+        traducao: document.getElementById("modTraducao").checked,
+        avaliacao: document.getElementById("modAvaliacao").checked,
+        analisador: document.getElementById("modAnalisador").checked,
+        lapidacao: document.getElementById("modLapidacao").checked,
+        siloSonoro: document.getElementById("modSiloSonoro").checked
+      };
+
+      var nomesModulos = [];
+      if (modulos.diagramacao) nomesModulos.push("Assistente de Diagramação");
+      if (modulos.capista) nomesModulos.push("OKapista");
+      if (modulos.traducao) nomesModulos.push("Segunda Língua(s)");
+      if (modulos.avaliacao) nomesModulos.push("Avaliação Literária");
+      if (modulos.analisador) nomesModulos.push("Analisador de Obra");
+      if (modulos.lapidacao) nomesModulos.push("Lapidação Literária");
+      if (modulos.siloSonoro) nomesModulos.push("Silo Sonoro");
+
+      if (nomesModulos.length === 0) {
+        document.getElementById("statusProjeto").innerText =
+          "Selecione pelo menos um módulo antes de registrar o projeto.";
+        return;
+      }
+
+      var projeto = {
+        titulo: titulo,
+        subtitulo: subtitulo,
+        autor: autor,
+        arquivo: arquivoNome,
+        textoBase: textoBase,
+        modulos: modulos,
+        criadoEm: new Date().toLocaleString()
+      };
+
+      localStorage.setItem("projetoAtivo", JSON.stringify(projeto));
+      localStorage.setItem("lapidar_projeto_ativo", titulo || arquivoNome.replace(/\.[^/.]+$/, ""));
+      localStorage.setItem("lapidar_modulos_marcados", JSON.stringify(modulos));
+
+      var fluxoAtivo = [];
+      if (modulos.diagramacao) fluxoAtivo.push({ nome: "Assistente de Diagramação", arquivo: "diagramador_inicio.html" });
+      if (modulos.capista) fluxoAtivo.push({ nome: "OKapista", arquivo: "capista.html" });
+      if (modulos.traducao) fluxoAtivo.push({ nome: "Segunda Língua(s)", arquivo: "segunda_lingua.html" });
+      if (modulos.avaliacao) fluxoAtivo.push({ nome: "Avaliação Literária", arquivo: "avaliacao_literaria.html" });
+      if (modulos.analisador) fluxoAtivo.push({ nome: "Analisador de Obra", arquivo: "analisador_obra.html" });
+      if (modulos.lapidacao) fluxoAtivo.push({ nome: "Lapidação Literária", arquivo: "lapidacao_literaria.html" });
+      if (modulos.siloSonoro) fluxoAtivo.push({ nome: "Silo Sonoro", arquivo: "narracao_editorial.html" });
+
+      localStorage.setItem("lapidar_fluxo_ativo", JSON.stringify(fluxoAtivo));
+
       document.getElementById("statusProjeto").innerText =
-        "Não encontramos o autor. Informe o nome do autor antes de registrar o projeto.";
-      return;
+        "Projeto soberano registrado ✔\n" +
+        "Título: " + (titulo || "não identificado") + "\n" +
+        "Autor: " + (autor || "não identificado") + "\n" +
+        "Arquivo: " + arquivoNome + "\n" +
+        "Módulos selecionados: " + nomesModulos.join(", ") + "\n" +
+        "Os setores já foram pré-selecionados para trabalhar nesta obra.\n" +
+        "Abrindo o primeiro módulo agora...";
+
+      var primeiroModulo = obterPrimeiroModuloMarcado(modulos);
+
+      if (primeiroModulo) {
+        setTimeout(function(){
+          window.location.href = primeiroModulo;
+        }, 700);
+      }
     }
-    autor = autorManual;
-    document.getElementById("autorObra").value = autor;
-    localStorage.setItem("lapidar_obra_autor", autor);
-  }
 
-  const textoBase = document.getElementById("textoBase").value.trim();
-  const arquivoNome = localStorage.getItem("lapidar_obra_arquivo_nome") || "";
+    document.getElementById("arquivoObra").addEventListener("change", function(){
+      resetTotalDaPagina();
+      this.value = this.files && this.files.length ? this.value : "";
+    });
 
-  if(!arquivoNome){
-    document.getElementById("statusProjeto").innerText =
-      "Leia a obra primeiro antes de registrar o projeto.";
-    return;
-  }
-
-  const modulos = {
-    diagramacao: document.getElementById("modDiagramacao").checked,
-    capista: document.getElementById("modCapista").checked,
-    traducao: document.getElementById("modTraducao").checked,
-    avaliacao: document.getElementById("modAvaliacao").checked,
-    analisador: document.getElementById("modAnalisador").checked,
-    lapidacao: document.getElementById("modLapidacao").checked,
-    siloSonoro: document.getElementById("modSiloSonoro").checked
-  };
-
-  const nomesModulos = [];
-  if(modulos.diagramacao) nomesModulos.push("Assistente de Diagramação");
-  if(modulos.capista) nomesModulos.push("OKapista");
-  if(modulos.traducao) nomesModulos.push("Segunda Língua(s)");
-  if(modulos.avaliacao) nomesModulos.push("Avaliação Literária");
-  if(modulos.analisador) nomesModulos.push("Analisador de Obra");
-  if(modulos.lapidacao) nomesModulos.push("Lapidação Literária");
-  if(modulos.siloSonoro) nomesModulos.push("Silo Sonoro");
-
-  if(nomesModulos.length === 0){
-    document.getElementById("statusProjeto").innerText =
-      "Selecione pelo menos um módulo antes de registrar o projeto.";
-    return;
-  }
-
-  const projeto = {
-    titulo,
-    subtitulo,
-    autor,
-    arquivo: arquivoNome,
-    textoBase,
-    modulos,
-    criadoEm: new Date().toLocaleString()
-  };
-
-  localStorage.setItem("projetoAtivo", JSON.stringify(projeto));
-  localStorage.setItem("lapidar_projeto_ativo", titulo || arquivoNome.replace(/\.[^/.]+$/, ""));
-
-  const fluxoAtivo = [];
-  if(modulos.diagramacao) fluxoAtivo.push({ nome: "Assistente de Diagramação", arquivo: "diagramador_inicio.html" });
-  if(modulos.capista) fluxoAtivo.push({ nome: "OKapista", arquivo: "capista.html" });
-  if(modulos.traducao) fluxoAtivo.push({ nome: "Segunda Língua(s)", arquivo: "segunda_lingua.html" });
-  if(modulos.avaliacao) fluxoAtivo.push({ nome: "Avaliação Literária", arquivo: "avaliacao_literaria.html" });
-  if(modulos.analisador) fluxoAtivo.push({ nome: "Analisador de Obra", arquivo: "analisador_obra.html" });
-  if(modulos.lapidacao) fluxoAtivo.push({ nome: "Lapidação Literária", arquivo: "lapidacao_literaria.html" });
-  if(modulos.siloSonoro) fluxoAtivo.push({ nome: "Silo Sonoro", arquivo: "narracao_editorial.html" });
-
-  localStorage.setItem("lapidar_modulos_marcados", JSON.stringify(modulos));
-  localStorage.setItem("lapidar_fluxo_ativo", JSON.stringify(fluxoAtivo));
-
-  document.getElementById("statusProjeto").innerText =
-    "Projeto soberano registrado ✔\n" +
-    "Título: " + (titulo || "não identificado") + "\n" +
-    "Autor: " + (autor || "não identificado") + "\n" +
-    "Arquivo: " + arquivoNome + "\n" +
-    "Módulos selecionados: " + nomesModulos.join(", ") + "\n" +
-    "Os setores já foram pré-selecionados para trabalhar nesta obra.\n" +
-    "Abrindo o primeiro módulo agora...";
-
-  const primeiroModulo = obterPrimeiroModuloMarcado(modulos);
-
-  if(primeiroModulo){
-    setTimeout(() => {
-      window.location.href = primeiroModulo;
-    }, 700);
-  }
-}
-
-window.addEventListener("load", () => {
-  const projetoSalvo = localStorage.getItem("projetoAtivo");
-
-  if(projetoSalvo){
-    try{
-      const projeto = JSON.parse(projetoSalvo);
-
-      document.getElementById("tituloObra").value = projeto.titulo || "";
-      document.getElementById("subtituloObra").value = projeto.subtitulo || "";
-      document.getElementById("autorObra").value = projeto.autor || "";
-      document.getElementById("textoBase").value = projeto.textoBase || "";
-
-      document.getElementById("modDiagramacao").checked = !!projeto.modulos?.diagramacao;
-      document.getElementById("modCapista").checked = !!projeto.modulos?.capista;
-      document.getElementById("modTraducao").checked = !!projeto.modulos?.traducao;
-      document.getElementById("modAvaliacao").checked = !!projeto.modulos?.avaliacao;
-      document.getElementById("modAnalisador").checked = !!projeto.modulos?.analisador;
-      document.getElementById("modLapidacao").checked = !!projeto.modulos?.lapidacao;
-      document.getElementById("modSiloSonoro").checked = !!projeto.modulos?.siloSonoro;
-
-      document.getElementById("statusProjeto").innerText =
-        "Projeto ativo carregado ✔\n" +
-        "Título: " + (projeto.titulo || "não identificado") + "\n" +
-        "Autor: " + (projeto.autor || "não identificado");
-    }catch(e){
-      console.error(e);
-    }
-  }
-});
-</script>
-
+    // MUITO IMPORTANTE:
+    // esta página agora SEMPRE abre limpa.
+    window.addEventListener("load", function(){
+      limparCamposVisuais();
+    });
+  </script>
 </body>
 </html>
