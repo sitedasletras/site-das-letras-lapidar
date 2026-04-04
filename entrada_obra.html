@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Entrada da Obra • Lapidar</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial, sans-serif;
+background:#0e0604;
+color:white;
+}
+
+header{
+background:#32497d;
+padding:20px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.container{
+max-width:900px;
+margin:auto;
+padding:30px;
+}
+
+.card{
+background:#210805;
+border-radius:18px;
+padding:24px;
+margin-bottom:20px;
+}
+
+h2{
+margin-top:0;
+}
+
+select,input{
+width:100%;
+padding:14px;
+border-radius:10px;
+border:none;
+margin-top:10px;
+margin-bottom:20px;
+background:#3a120c;
+color:white;
+font-size:16px;
+}
+
+button{
+padding:16px 20px;
+border:none;
+border-radius:12px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.botao-verde{
+background:#2e7d32;
+color:white;
+}
+
+.oculto{
+display:none;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+<h2>Entrada Editorial da Obra</h2>
+
+</header>
+
+<div class="container">
+
+<div class="card">
+
+<h2>Tipo de autoria da obra</h2>
+
+<select id="tipoAutoria" onchange="verificarTipoAutoria()">
+
+<option value="">Selecione</option>
+<option value="unico">Autor único</option>
+<option value="diversos">Diversos autores</option>
+
+</select>
+
+</div>
+
+<div class="card oculto" id="tipoColetaneaBox">
+
+<h2>Tipo de coletânea</h2>
+
+<select id="tipoColetanea">
+
+<option value="">Selecione</option>
+<option value="antologia">Antologia</option>
+<option value="miscelanea">Miscelânea</option>
+
+</select>
+
+<h2>Nome do organizador</h2>
+
+<input id="organizador" placeholder="Digite o nome do organizador">
+
+<label>
+
+<input type="checkbox" id="organizadorParticipa">
+
+Organizador também participa como autor
+
+</label>
+
+</div>
+
+<div class="card">
+
+<button class="botao-verde" onclick="salvarEntradaObra()">
+
+Confirmar estrutura editorial da obra
+
+</button>
+
+</div>
+
+</div>
+
+<script>
+
+function verificarTipoAutoria(){
+
+let tipo=document.getElementById("tipoAutoria").value
+
+let box=document.getElementById("tipoColetaneaBox")
+
+if(tipo==="diversos"){
+
+box.classList.remove("oculto")
+
+}else{
+
+box.classList.add("oculto")
+
+}
+
+}
+
+function salvarEntradaObra(){
+
+let autoria=document.getElementById("tipoAutoria").value
+
+if(!autoria){
+
+alert("Selecione o tipo de autoria da obra.")
+
+return
+
+}
+
+let estrutura={
+
+autoria:autoria
+
+}
+
+if(autoria==="diversos"){
+
+let tipoColetanea=document.getElementById("tipoColetanea").value
+
+let organizador=document.getElementById("organizador").value
+
+let participa=document.getElementById("organizadorParticipa").checked
+
+if(!tipoColetanea){
+
+alert("Selecione antologia ou miscelânea.")
+
+return
+
+}
+
+estrutura.tipoColetanea=tipoColetanea
+
+estrutura.organizador=organizador
+
+estrutura.organizadorParticipa=participa
+
+}
+
+localStorage.setItem("estrutura_editorial_obra",JSON.stringify(estrutura))
+
+window.location.href="analisador_inicio.html"
+
+}
+
+</script>
+
+</body>
+</html>
