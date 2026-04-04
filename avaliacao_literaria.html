@@ -1,781 +1,747 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Avaliação Literária • Lapidar</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Avaliação Literária • Lapidar</title>
 
-<style>
-body{
-margin:0;
-font-family:Arial, sans-serif;
-background:#0e0604;
-color:white;
-font-size:20px;
-}
+  <style>
+    *{
+      box-sizing:border-box;
+    }
 
-header{
-background:#2f436d;
-padding:24px 20px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-gap:12px;
-flex-wrap:wrap;
-}
+    body{
+      margin:0;
+      font-family:Arial, sans-serif;
+      background:#120604;
+      color:#ffffff;
+    }
 
-.container{
-max-width:1100px;
-margin:auto;
-padding:28px 18px 44px;
-}
+    header{
+      background:#32497d;
+      padding:18px 14px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+    }
 
-.card{
-background:#1c0e08;
-border-radius:18px;
-padding:24px;
-margin-bottom:22px;
-box-shadow:0 6px 18px rgba(0,0,0,.25);
-}
+    header h1{
+      margin:0;
+      font-size:22px;
+      line-height:1.2;
+    }
 
-h2{
-margin:0;
-font-size:34px;
-}
+    .btn-topo{
+      border:none;
+      border-radius:10px;
+      padding:10px 14px;
+      font-size:14px;
+      font-weight:bold;
+      cursor:pointer;
+      background:#8a97a8;
+      color:#fff;
+    }
 
-h3{
-margin-top:0;
-font-size:28px;
-}
+    .container{
+      max-width:1000px;
+      margin:0 auto;
+      padding:18px 12px 40px;
+    }
 
-label{
-display:block;
-margin-top:18px;
-margin-bottom:8px;
-font-weight:bold;
-font-size:22px;
-}
+    .card{
+      background:#210805;
+      border-radius:18px;
+      padding:18px;
+      margin-bottom:18px;
+      box-shadow:0 4px 14px rgba(0,0,0,0.22);
+    }
 
-input[type="text"],
-input[type="number"],
-select,
-textarea{
-width:100%;
-padding:16px;
-border-radius:12px;
-border:none;
-background:#2a140c;
-color:white;
-box-sizing:border-box;
-font-family:Arial, sans-serif;
-font-size:22px;
-}
+    .card h2{
+      margin-top:0;
+      margin-bottom:12px;
+      font-size:19px;
+    }
 
-input[type="range"]{
-width:100%;
-}
+    .subcard{
+      background:#3a120c;
+      border-radius:12px;
+      padding:14px;
+      line-height:1.7;
+      white-space:pre-line;
+      color:#f4dfd8;
+    }
 
-textarea{
-min-height:140px;
-resize:vertical;
-}
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));
+      gap:14px;
+    }
 
-button{
-margin-top:16px;
-padding:16px 20px;
-border:none;
-border-radius:12px;
-background:#2f436d;
-color:white;
-font-weight:bold;
-cursor:pointer;
-font-size:22px;
-}
+    label{
+      display:block;
+      margin:14px 0 8px;
+      font-weight:bold;
+      font-size:16px;
+      color:#fff4ef;
+    }
 
-.alt{
-background:#8a6f3f;
-}
+    input[type="text"],
+    input[type="number"],
+    select,
+    textarea{
+      width:100%;
+      padding:12px;
+      border-radius:10px;
+      border:1px solid rgba(255,255,255,0.10);
+      background:#3a120c;
+      color:#ffffff;
+      font-size:16px;
+      font-family:Arial, sans-serif;
+      margin-bottom:10px;
+    }
 
-.sec{
-background:#6c757d;
-}
+    textarea{
+      min-height:120px;
+      resize:vertical;
+    }
 
-.ok{
-background:#1f6b36;
-}
+    .acoes{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      margin-top:16px;
+    }
 
-.preview{
-margin-top:16px;
-background:#2a140c;
-padding:16px;
-border-radius:12px;
-font-size:20px;
-line-height:1.8;
-}
+    button{
+      border:none;
+      border-radius:12px;
+      padding:14px 18px;
+      font-size:15px;
+      font-weight:bold;
+      cursor:pointer;
+    }
 
-.grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:18px;
-}
+    .btn-verde{
+      background:#2e7d32;
+      color:#fff;
+    }
 
-.grid-3{
-display:grid;
-grid-template-columns:1fr 1fr 1fr;
-gap:18px;
-}
+    .btn-azul{
+      background:#365a9c;
+      color:#fff;
+    }
 
-.blocoEscala{
-background:#24130c;
-padding:20px;
-border-radius:14px;
-margin-top:14px;
-}
+    .btn-dourado{
+      background:#b8943c;
+      color:#fff;
+    }
 
-.linhaFaixa{
-margin-top:14px;
-padding:14px;
-background:#2a140c;
-border-radius:12px;
-}
+    .btn-cinza{
+      background:#8a97a8;
+      color:#fff;
+    }
 
-.topoFaixa{
-display:flex;
-justify-content:space-between;
-align-items:center;
-gap:12px;
-flex-wrap:wrap;
-margin-bottom:8px;
-}
+    .status{
+      margin-top:16px;
+      background:#3a120c;
+      border-radius:12px;
+      padding:14px;
+      line-height:1.7;
+      white-space:pre-line;
+      color:#f4dfd8;
+      font-size:16px;
+    }
 
-.nomeFaixa{
-font-weight:bold;
-font-size:21px;
-}
+    .escala{
+      margin:16px 0 8px;
+      color:#f4dfd8;
+      font-size:15px;
+      line-height:1.6;
+    }
 
-.valorFaixa{
-font-size:18px;
-opacity:.95;
-}
+    .criterio{
+      background:#3a120c;
+      border-radius:14px;
+      padding:14px;
+      margin-bottom:14px;
+    }
 
-.notaBox{
-background:#24130c;
-border-radius:14px;
-padding:18px;
-margin-top:16px;
-}
+    .criterio-topo{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      align-items:center;
+      margin-bottom:8px;
+      font-weight:bold;
+      font-size:17px;
+    }
 
-.notaGrande{
-font-size:30px;
-font-weight:bold;
-margin-top:8px;
-}
+    .criterio input[type="range"]{
+      width:100%;
+      margin:8px 0;
+    }
 
-.notaPublica{
-color:#ffd27a;
-}
+    .nota-linha{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      color:#ffffff;
+      font-size:16px;
+    }
 
-.notaInterna{
-color:#9fd9ff;
-}
+    .nota-publica{
+      font-size:17px;
+      font-weight:bold;
+      color:#f6d68a;
+    }
 
-.badge{
-display:inline-block;
-padding:10px 14px;
-border-radius:999px;
-font-size:16px;
-font-weight:bold;
-margin-top:12px;
-background:#dddddd;
-color:#111;
-}
+    .small{
+      font-size:14px;
+      color:#ead2ca;
+      line-height:1.6;
+    }
 
-@media(max-width:900px){
-.grid-3{
-grid-template-columns:1fr;
-}
-}
+    @media(max-width:640px){
+      header h1{
+        font-size:20px;
+      }
 
-@media(max-width:800px){
-.grid{
-grid-template-columns:1fr;
-}
-}
-</style>
+      .card{
+        padding:16px;
+      }
+
+      .criterio-topo{
+        font-size:16px;
+      }
+    }
+  </style>
 </head>
 <body>
 
-<header>
-<h2>Avaliação Literária</h2>
-<div>
-<button class="sec" onclick="voltar()">Voltar</button>
-</div>
-</header>
-
-<div class="container">
-
-<div class="card">
-<h3>Projeto ativo</h3>
-<div id="projetoNome">Nenhum projeto selecionado.</div>
-<div class="badge" id="modoProducaoBadge">Modo: Personalizada</div>
-</div>
-
-<div class="card">
-<h3>Configuração da avaliação</h3>
-
-<div class="grid">
-<div>
-<label for="tipoAvaliacao">Tipo de avaliação</label>
-<select id="tipoAvaliacao">
-<option>Leitura crítica</option>
-<option>Parecer técnico</option>
-<option>Avaliação completa</option>
-<option>Análise estrutural</option>
-</select>
-</div>
-
-<div>
-<label for="nivelAvaliacao">Profundidade da avaliação</label>
-<select id="nivelAvaliacao">
-<option>Leve</option>
-<option>Médio</option>
-<option>Completo</option>
-<option>Internacional</option>
-</select>
-</div>
-</div>
-
-<label for="obsAvaliacao">Observações gerais</label>
-<textarea id="obsAvaliacao" placeholder="Registrar foco da avaliação, gênero, público, pontos de atenção, intenção editorial e demais observações."></textarea>
-
-<button onclick="salvarConfiguracao()">Salvar configuração da avaliação</button>
-
-<div class="preview" id="statusConfig">
-Configuração da avaliação ainda não registrada.
-</div>
-</div>
-
-<div class="card">
-<h3>Avaliação Técnica Literária</h3>
-<p>Escala interna: <strong>0 a 100.000</strong> • Escala pública: <strong>0 a 10</strong></p>
-
-<div class="blocoEscala">
-<div class="linhaFaixa">
-<div class="topoFaixa">
-<div class="nomeFaixa">Estrutura e organização</div>
-<div class="valorFaixa"><span id="t1v">0</span> / 10000</div>
-</div>
-<input type="range" min="0" max="10000" value="0" id="t1" oninput="syncRange('t1','t1n','t1v')">
-<input type="number" min="0" max="10000" value="0" id="t1n" oninput="syncNumber('t1','t1n','t1v')">
-</div>
-
-<div class="linhaFaixa">
-<div class="topoFaixa">
-<div class="nomeFaixa">Coerência narrativa</div>
-<div class="valorFaixa"><span id="t2v">0</span> / 10000</div>
-</div>
-<input type="range" min="0" max="10000" value="0" id="t2" oninput="syncRange('t2','t2n','t2v')">
-<input type="number" min="0" max="10000" value="0" id="t2n" oninput="syncNumber('t2','t2n','t2v')">
-</div>
-
-<div class="linhaFaixa">
-<div class="topoFaixa">
-<div class="nomeFaixa">Ritmo textual</div>
-<div class="valorFaixa"><span id="t3v">0</span> / 10000</div>
-</div>
-<input type="range" min="0" max="10000" value="0" id="t3" oninput="syncRange('t3','t3n','t3v')">
-<input type="number" min="0" max="10000" value="0" id="t3n" oninput="syncNumber('t3','t3n','t3v')">
-</div>
-
-<div class="linhaFaixa">
-<div class="topoFaixa">
-<div class="nomeFaixa">Personagens</div>
-<div class="valorFaixa"><span id="t4v">0</span> / 10000</div>
-</div>
-<input type="range" min="0" max="10000" value="0" id="t4" oninput="syncRange('t4','t4n','t4v')">
-<input type="number" min="0" max="10000" value="0" id="t4n" oninput="syncNumber('t4','t4n','t4v')">
-</div>
-
-<div class="linhaFaixa">
-<div class="topoFaixa">
-<div class="nomeFaixa">Ambientação</div>
-<div class="valorFaixa"><span id="t5v">0</span> / 10000</div>
-</div>
-<input type="range" min="0" max="10000" value="0" id="t5" oninput="syncRange('t5','t5n','t5v')">
-<input type="number" min="0" max="10000" value="0" id="t5n" oninput="syncNumber('t5','t5n','t5v')">
-</div>
-
-<div class="linhaFaixa">
-<div class="topoFaixa">
-<div class="nomeFaixa">Vocabulário e precisão verbal</div>
-<div class="valorFaixa"><span id="t6v">0</span> / 10000</div>
-</div>
-<input type="range" min="0" max="10000" value="0" id="t6" oninput="syncRange('t6','t6n','t6v')">
-<input type="number" min="0" max="10000" value="0" id="t6n" oninput="syncNumber('t6','t6n','t6v')">
-</div>
-
-<div class="linhaFaixa">
-<div class="topoFaixa">
-<div class="nomeFaixa">Diálogos</div>
-<div class="valorFaixa"><span id="t7v">0</span> / 10000</div>
-</div>
-<input type="range" min="0" max="10000" value="0" id="t7" oninput="syncRange('t7','t7n','t7v')">
-<input type="number" min="0" max="10000" value="0" id="t7n" oninput="syncNumber('t7','t7n','t7v')">
-</div>
-
-<div class="linhaFaixa">
-<div class="topoFaixa">
-<div class="nomeFaixa">Originalidade</div>
-<div class="valorFaixa"><span id="t8v">0</span> / 10000</div>
-</div>
-<input type="range" min="0" max="10000" value="0" id="t8" oninput="syncRange('t8','t8n','t8v')">
-<input type="number" min="0" max="10000" value="0" id="t8n" oninput="syncNumber('t8','t8n','t8v')">
-</div>
-
-<div class="linhaFaixa">
-<div class="topoFaixa">
-<div class="nomeFaixa">Estilo autoral</div>
-<div class="valorFaixa"><span id="t9v">0</span> / 10000</div>
-</div>
-<input type="range" min="0" max="10000" value="0" id="t9" oninput="syncRange('t9','t9n','t9v')">
-<input type="number" min="0" max="10000" value="0" id="t9n" oninput="syncNumber('t9','t9n','t9v')">
-</div>
-
-<div class="linhaFaixa">
-<div class="topoFaixa">
-<div class="nomeFaixa">Impacto técnico final</div>
-<div class="valorFaixa"><span id="t10v">0</span> / 10000</div>
-</div>
-<input type="range" min="0" max="10000" value="0" id="t10" oninput="syncRange('t10','t10n','t10v')">
-<input type="number" min="0" max="10000" value="0" id="t10n" oninput="syncNumber('t10','t10n','t10v')">
-</div>
-
-<button class="ok" onclick="calcularTecnica()">Calcular Avaliação Técnica Literária</button>
-
-<div class="notaBox" id="resultadoTecnica">
-Nenhuma avaliação técnica calculada ainda.
-</div>
-</div>
-</div>
-
-<div class="card">
-<h3>Avaliação Editorial</h3>
-<p>Escala interna: <strong>0 a 100.000</strong> • Escala pública: <strong>0 a 10</strong></p>
-
-<div class="blocoEscala">
-<div class="linhaFaixa">
-<div class="topoFaixa">
-<div class="nomeFaixa">Potencial de publicação</div>
-<div class="valorFaixa"><span id="e1v">0</span> / 10000</div>
-</div>
-<input type="range" min="0" max="10000" value="0" id="e1" oninput="syncRange('e1','e1n','e1v')">
-<input type="number" min="0" max="10000" value="0" id="e1n" oninput="syncNumber('e1','e1n','e1v')">
-</div>
-
-<div class="linhaFaixa">
-<div class="topoFaixa">
-<div class="nomeFaixa">Clareza temática</div>
-<div class="valorFaixa"><span id="e2v">0</span> / 10000</div>
-</div>
-<input type="range" min="0" max="10000" value="0" id="e2" oninput="syncRange('e2','e2n','e2v')">
-<input type="number" min="0" max="10000" value="0" id="e2n" oninput="syncNumber('e2','e2n','e2v')">
-</div>
-
-<div class="linhaFaixa">
-<div class="topoFaixa">
-<div class="nomeFaixa">Adequação ao gênero</div>
-<div class="valorFaixa"><span id="e3v">0</span> / 10000</div>
-</div>
-<input type="range" min="0" max="10000" value="0" id="e3" oninput="syncRange('e3','e3n','e3v')">
-<input type="number" min="0" max="10000" value="0" id="e3n" oninput="syncNumber('e3','e3n','e3v')">
-</div>
-
-<div class="linhaFaixa">
-<div class="topoFaixa">
-<div class="nomeFaixa">Adequação ao público</div>
-<div class="valorFaixa"><span id="e4v">0</span> / 10000</div>
-</div>
-<input type="range" min="0" max="10000" value="0" id="e4" oninput="syncRange('e4','e4n','e4v')">
-<input type="number" min="0" max="10000" value="0" id="e4n" oninput="syncNumber('e4','e4n','e4v')">
-</div>
-
-<div class="linhaFaixa">
-<div class="topoFaixa">
-<div class="nomeFaixa">Força de abertura</div>
-<div class="valorFaixa"><span id="e5v">0</span> / 10000</div>
-</div>
-<input type="range" min="0" max="10000" value="0" id="e5" oninput="syncRange('e5','e5n','e5v')">
-<input type="number" min="0" max="10000" value="0" id="e5n" oninput="syncNumber('e5','e5n','e5v')">
-</div>
-
-<div class="linhaFaixa">
-<div class="topoFaixa">
-<div class="nomeFaixa">Força de fechamento</div>
-<div class="valorFaixa"><span id="e6v">0</span> / 10000</div>
-</div>
-<input type="range" min="0" max="10000" value="0" id="e6" oninput="syncRange('e6','e6n','e6v')">
-<input type="number" min="0" max="10000" value="0" id="e6n" oninput="syncNumber('e6','e6n','e6v')">
-</div>
-
-<div class="linhaFaixa">
-<div class="topoFaixa">
-<div class="nomeFaixa">Posicionamento de catálogo</div>
-<div class="valorFaixa"><span id="e7v">0</span> / 10000</div>
-</div>
-<input type="range" min="0" max="10000" value="0" id="e7" oninput="syncRange('e7','e7n','e7v')">
-<input type="number" min="0" max="10000" value="0" id="e7n" oninput="syncNumber('e7','e7n','e7v')">
-</div>
-
-<div class="linhaFaixa">
-<div class="topoFaixa">
-<div class="nomeFaixa">Potencial comercial</div>
-<div class="valorFaixa"><span id="e8v">0</span> / 10000</div>
-</div>
-<input type="range" min="0" max="10000" value="0" id="e8" oninput="syncRange('e8','e8n','e8v')">
-<input type="number" min="0" max="10000" value="0" id="e8n" oninput="syncNumber('e8','e8n','e8v')">
-</div>
-
-<div class="linhaFaixa">
-<div class="topoFaixa">
-<div class="nomeFaixa">Memorabilidade editorial</div>
-<div class="valorFaixa"><span id="e9v">0</span> / 10000</div>
-</div>
-<input type="range" min="0" max="10000" value="0" id="e9" oninput="syncRange('e9','e9n','e9v')">
-<input type="number" min="0" max="10000" value="0" id="e9n" oninput="syncNumber('e9','e9n','e9v')">
-</div>
-
-<div class="linhaFaixa">
-<div class="topoFaixa">
-<div class="nomeFaixa">Identidade editorial da obra</div>
-<div class="valorFaixa"><span id="e10v">0</span> / 10000</div>
-</div>
-<input type="range" min="0" max="10000" value="0" id="e10" oninput="syncRange('e10','e10n','e10v')">
-<input type="number" min="0" max="10000" value="0" id="e10n" oninput="syncNumber('e10','e10n','e10v')">
-</div>
-
-<button class="ok" onclick="calcularEditorial()">Calcular Avaliação Editorial</button>
-
-<div class="notaBox" id="resultadoEditorial">
-Nenhuma avaliação editorial calculada ainda.
-</div>
-</div>
-</div>
-
-<div class="card">
-<h3>Índice Emocional da Obra</h3>
-<p>Escala interna: <strong>0 a 100.000</strong> • Escala pública: <strong>0 a 10</strong></p>
-
-<div class="blocoEscala">
-<div class="linhaFaixa">
-<div class="topoFaixa">
-<div class="nomeFaixa">Amor e vínculo</div>
-<div class="valorFaixa"><span id="i1v">0</span> / 10000</div>
-</div>
-<input type="range" min="0" max="10000" value="0" id="i1" oninput="syncRange('i1','i1n','i1v')">
-<input type="number" min="0" max="10000" value="0" id="i1n" oninput="syncNumber('i1','i1n','i1v')">
-</div>
-
-<div class="linhaFaixa">
-<div class="topoFaixa">
-<div class="nomeFaixa">Desejo / libido / pulsão</div>
-<div class="valorFaixa"><span id="i2v">0</span> / 10000</div>
-</div>
-<input type="range" min="0" max="10000" value="0" id="i2" oninput="syncRange('i2','i2n','i2v')">
-<input type="number" min="0" max="10000" value="0" id="i2n" oninput="syncNumber('i2','i2n','i2v')">
-</div>
-
-<div class="linhaFaixa">
-<div class="topoFaixa">
-<div class="nomeFaixa">Traição / ruptura / conflito humano</div>
-<div class="valorFaixa"><span id="i3v">0</span> / 10000</div>
-</div>
-<input type="range" min="0" max="10000" value="0" id="i3" oninput="syncRange('i3','i3n','i3v')">
-<input type="number" min="0" max="10000" value="0" id="i3n" oninput="syncNumber('i3','i3n','i3v')">
-</div>
-
-<div class="linhaFaixa">
-<div class="topoFaixa">
-<div class="nomeFaixa">Moral / ética / bons costumes</div>
-<div class="valorFaixa"><span id="i4v">0</span> / 10000</div>
-</div>
-<input type="range" min="0" max="10000" value="0" id="i4" oninput="syncRange('i4','i4n','i4v')">
-<input type="number" min="0" max="10000" value="0" id="i4n" oninput="syncNumber('i4','i4n','i4v')">
-</div>
-
-<div class="linhaFaixa">
-<div class="topoFaixa">
-<div class="nomeFaixa">Humor / leveza / ironia</div>
-<div class="valorFaixa"><span id="i5v">0</span> / 10000</div>
-</div>
-<input type="range" min="0" max="10000" value="0" id="i5" oninput="syncRange('i5','i5n','i5v')">
-<input type="number" min="0" max="10000" value="0" id="i5n" oninput="syncNumber('i5','i5n','i5v')">
-</div>
-
-<div class="linhaFaixa">
-<div class="topoFaixa">
-<div class="nomeFaixa">Horror / medo / tensão</div>
-<div class="valorFaixa"><span id="i6v">0</span> / 10000</div>
-</div>
-<input type="range" min="0" max="10000" value="0" id="i6" oninput="syncRange('i6','i6n','i6v')">
-<input type="number" min="0" max="10000" value="0" id="i6n" oninput="syncNumber('i6','i6n','i6v')">
-</div>
-
-<div class="linhaFaixa">
-<div class="topoFaixa">
-<div class="nomeFaixa">Fantasia / imaginação / encantamento</div>
-<div class="valorFaixa"><span id="i7v">0</span> / 10000</div>
-</div>
-<input type="range" min="0" max="10000" value="0" id="i7" oninput="syncRange('i7','i7n','i7v')">
-<input type="number" min="0" max="10000" value="0" id="i7n" oninput="syncNumber('i7','i7n','i7v')">
-</div>
-
-<div class="linhaFaixa">
-<div class="topoFaixa">
-<div class="nomeFaixa">Loucura / obsessão / abismo psicológico</div>
-<div class="valorFaixa"><span id="i8v">0</span> / 10000</div>
-</div>
-<input type="range" min="0" max="10000" value="0" id="i8" oninput="syncRange('i8','i8n','i8v')">
-<input type="number" min="0" max="10000" value="0" id="i8n" oninput="syncNumber('i8','i8n','i8v')">
-</div>
-
-<div class="linhaFaixa">
-<div class="topoFaixa">
-<div class="nomeFaixa">Crítica social / realidade humana</div>
-<div class="valorFaixa"><span id="i9v">0</span> / 10000</div>
-</div>
-<input type="range" min="0" max="10000" value="0" id="i9" oninput="syncRange('i9','i9n','i9v')">
-<input type="number" min="0" max="10000" value="0" id="i9n" oninput="syncNumber('i9','i9n','i9v')">
-</div>
-
-<div class="linhaFaixa">
-<div class="topoFaixa">
-<div class="nomeFaixa">Impacto sentimental final</div>
-<div class="valorFaixa"><span id="i10v">0</span> / 10000</div>
-</div>
-<input type="range" min="0" max="10000" value="0" id="i10" oninput="syncRange('i10','i10n','i10v')">
-<input type="number" min="0" max="10000" value="0" id="i10n" oninput="syncNumber('i10','i10n','i10v')">
-</div>
-
-<button class="ok" onclick="calcularIEL()">Calcular Índice Emocional da Obra</button>
-
-<div class="notaBox" id="resultadoIEL">
-Nenhum índice emocional calculado ainda.
-</div>
-</div>
-</div>
-
-<div class="card">
-<h3>Resultado final apresentado ao leitor</h3>
-
-<div class="grid-3">
-<div class="notaBox" id="caixaTecnicaFinal">
-Avaliação Técnica Literária<br>
-<div class="notaGrande notaPublica">0,00</div>
-</div>
-
-<div class="notaBox" id="caixaEditorialFinal">
-Avaliação Editorial<br>
-<div class="notaGrande notaPublica">0,00</div>
-</div>
-
-<div class="notaBox" id="caixaIELFinal">
-Índice Emocional da Obra<br>
-<div class="notaGrande notaPublica">0,00</div>
-</div>
-</div>
-
-<button onclick="salvarPainelCompleto()">Salvar painel completo</button>
-
-<div class="preview" id="statusPainelFinal">
-Nenhum resultado final consolidado ainda.
-</div>
-</div>
-
-<div class="card">
-<h3>Parecer literário</h3>
-<textarea id="parecerLiterario" placeholder="Escreva aqui o parecer literário da obra..."></textarea>
-
-<button class="alt" onclick="carregarParecer()">Carregar parecer salvo</button>
-<button onclick="salvarParecer()">Salvar parecer</button>
-
-<div class="preview" id="statusParecer">
-Nenhum parecer salvo ainda.
-</div>
-</div>
-
-<div class="card">
-<h3>Confirmação</h3>
-<div class="preview" id="resumoConfirmacao">
-Revise as três avaliações. Se estiver tudo certo, confirme e siga para o próximo setor marcado.
-</div>
-
-<button class="ok" onclick="confirmarESeguir()">Concordo com esta avaliação e quero seguir</button>
-<button class="sec" onclick="abrirExpedicao()">Pular para expedição</button>
-</div>
-
-</div>
-
-<script>
-const perfil = localStorage.getItem("lapidar_perfil");
-if(!perfil){
-window.location.href = "index.html";
-}
-
-const projeto = localStorage.getItem("lapidar_projeto_ativo");
-if(projeto){
-document.getElementById("projetoNome").innerText = projeto;
-}
-
-const modo = localStorage.getItem("lapidar_modo_producao") || "personalizada";
-document.getElementById("modoProducaoBadge").innerText = "Modo: " + modo.charAt(0).toUpperCase() + modo.slice(1);
-
-function clamp(v){
-let n = Number(v) || 0;
-if(n < 0) n = 0;
-if(n > 10000) n = 10000;
-return n;
-}
-
-function syncRange(rangeId, numberId, valueId){
-const v = clamp(document.getElementById(rangeId).value);
-document.getElementById(rangeId).value = v;
-document.getElementById(numberId).value = v;
-document.getElementById(valueId).innerText = v;
-}
-
-function syncNumber(rangeId, numberId, valueId){
-const v = clamp(document.getElementById(numberId).value);
-document.getElementById(rangeId).value = v;
-document.getElementById(numberId).value = v;
-document.getElementById(valueId).innerText = v;
-}
-
-function somar(ids){
-return ids.reduce((acc,id)=>acc + clamp(document.getElementById(id).value),0);
-}
-
-function notaPublica(total){
-return (total / 10000).toFixed(2).replace(".", ",");
-}
-
-function calcularTecnica(){
-const total = somar(["t1","t2","t3","t4","t5","t6","t7","t8","t9","t10"]);
-const nota = notaPublica(total);
-
-localStorage.setItem("lapidar_sall_t_total", total);
-localStorage.setItem("lapidar_sall_t_nota", nota);
-
-document.getElementById("resultadoTecnica").innerHTML =
-"<strong class='notaInterna'>Pontuação interna:</strong> " + total.toLocaleString("pt-BR") + " / 100.000<br>" +
-"<strong class='notaPublica'>Nota pública:</strong> " + nota;
-
-document.querySelector("#caixaTecnicaFinal .notaGrande").innerText = nota;
-}
-
-function calcularEditorial(){
-const total = somar(["e1","e2","e3","e4","e5","e6","e7","e8","e9","e10"]);
-const nota = notaPublica(total);
-
-localStorage.setItem("lapidar_sall_e_total", total);
-localStorage.setItem("lapidar_sall_e_nota", nota);
-
-document.getElementById("resultadoEditorial").innerHTML =
-"<strong class='notaInterna'>Pontuação interna:</strong> " + total.toLocaleString("pt-BR") + " / 100.000<br>" +
-"<strong class='notaPublica'>Nota pública:</strong> " + nota;
-
-document.querySelector("#caixaEditorialFinal .notaGrande").innerText = nota;
-}
-
-function calcularIEL(){
-const total = somar(["i1","i2","i3","i4","i5","i6","i7","i8","i9","i10"]);
-const nota = notaPublica(total);
-
-localStorage.setItem("lapidar_sall_iel_total", total);
-localStorage.setItem("lapidar_sall_iel_nota", nota);
-
-document.getElementById("resultadoIEL").innerHTML =
-"<strong class='notaInterna'>Pontuação interna:</strong> " + total.toLocaleString("pt-BR") + " / 100.000<br>" +
-"<strong class='notaPublica'>Nota pública:</strong> " + nota;
-
-document.querySelector("#caixaIELFinal .notaGrande").innerText = nota;
-}
-
-function salvarConfiguracao(){
-localStorage.setItem("lapidar_avaliacao_tipo", document.getElementById("tipoAvaliacao").value);
-localStorage.setItem("lapidar_avaliacao_nivel", document.getElementById("nivelAvaliacao").value);
-localStorage.setItem("lapidar_avaliacao_obs", document.getElementById("obsAvaliacao").value);
-
-document.getElementById("statusConfig").innerText =
-"Configuração da avaliação registrada com sucesso.";
-}
-
-function salvarPainelCompleto(){
-const t = localStorage.getItem("lapidar_sall_t_nota") || "0,00";
-const e = localStorage.getItem("lapidar_sall_e_nota") || "0,00";
-const iel = localStorage.getItem("lapidar_sall_iel_nota") || "0,00";
-
-localStorage.setItem("lapidar_resultado_publico_tecnico", t);
-localStorage.setItem("lapidar_resultado_publico_editorial", e);
-localStorage.setItem("lapidar_resultado_publico_iel", iel);
-
-document.getElementById("statusPainelFinal").innerHTML =
-"Painel completo salvo com sucesso.<br>" +
-"Avaliação Técnica Literária: " + t + "<br>" +
-"Avaliação Editorial: " + e + "<br>" +
-"Índice Emocional da Obra: " + iel;
-}
-
-function salvarParecer(){
-localStorage.setItem("lapidar_parecer_literario", document.getElementById("parecerLiterario").value);
-document.getElementById("statusParecer").innerText = "Parecer salvo com sucesso.";
-}
-
-function carregarParecer(){
-const texto = localStorage.getItem("lapidar_parecer_literario") || "";
-document.getElementById("parecerLiterario").value = texto;
-document.getElementById("statusParecer").innerText =
-texto ? "Parecer carregado com sucesso." : "Nenhum parecer salvo encontrado.";
-}
-
-function proximoServicoAposAvaliacao(){
-const s = JSON.parse(localStorage.getItem("lapidar_servicos_marcados") || "{}");
-
-if(s.lapidacao) return "lapidacao_literaria.html";
-if(s.analisador) return "analisador_obra.html";
-
-return "expedicao_material.html";
-}
-
-function confirmarESeguir(){
-salvarPainelCompleto();
-window.location.href = proximoServicoAposAvaliacao();
-}
-
-function abrirExpedicao(){
-window.location.href = "expedicao_material.html";
-}
-
-function voltar(){
-window.location.href = "segunda_lingua.html";
-}
-
-[
-"t1","t2","t3","t4","t5","t6","t7","t8","t9","t10",
-"e1","e2","e3","e4","e5","e6","e7","e8","e9","e10",
-"i1","i2","i3","i4","i5","i6","i7","i8","i9","i10"
-].forEach(id=>{
-const numberId = id + "n";
-const valueId = id + "v";
-if(document.getElementById(id) && document.getElementById(numberId) && document.getElementById(valueId)){
-syncRange(id, numberId, valueId);
-}
-});
-
-const parecerSalvo = localStorage.getItem("lapidar_parecer_literario");
-if(parecerSalvo){
-document.getElementById("parecerLiterario").value = parecerSalvo;
-}
-</script>
+  <header>
+    <h1>Avaliação Literária</h1>
+    <button class="btn-topo" type="button" onclick="voltarPagina()">Voltar</button>
+  </header>
+
+  <div class="container">
+
+    <div class="card">
+      <h2>Projeto ativo</h2>
+      <div class="subcard" id="projetoAtivoBox">Carregando projeto...</div>
+    </div>
+
+    <div class="card">
+      <h2>Configuração da avaliação</h2>
+
+      <div class="grid">
+        <div>
+          <label for="tipoAvaliacao">Tipo de avaliação</label>
+          <select id="tipoAvaliacao">
+            <option value="Leitura crítica">Leitura crítica</option>
+            <option value="Leitura editorial">Leitura editorial</option>
+            <option value="Leitura comercial">Leitura comercial</option>
+            <option value="Leitura técnica">Leitura técnica</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="profundidadeAvaliacao">Profundidade da avaliação</label>
+          <select id="profundidadeAvaliacao">
+            <option value="Leve">Leve</option>
+            <option value="Intermediária">Intermediária</option>
+            <option value="Profunda">Profunda</option>
+          </select>
+        </div>
+      </div>
+
+      <label for="observacoesGerais">Observações gerais</label>
+      <textarea id="observacoesGerais" placeholder="Registrar foco da avaliação, gênero, público, pontos de atenção, intenção editorial e demais observações."></textarea>
+
+      <div class="acoes">
+        <button class="btn-azul" type="button" onclick="salvarConfiguracaoAvaliacao()">Salvar configuração da avaliação</button>
+        <button class="btn-dourado" type="button" onclick="avaliarObraAutomaticamente()">Avaliar obra automaticamente</button>
+      </div>
+
+      <div class="status" id="statusConfiguracaoAvaliacao">Configuração da avaliação ainda não registrada.</div>
+    </div>
+
+    <div class="card">
+      <h2>Avaliação Técnica Literária</h2>
+
+      <div class="escala">
+        Escala interna: <strong>0 a 100.000</strong> • Escala pública: <strong>0 a 10</strong>
+      </div>
+
+      <div class="criterio">
+        <div class="criterio-topo">
+          <span>Estrutura e organização</span>
+          <span id="valorEstruturaTopo">0 / 10000</span>
+        </div>
+        <input type="range" id="estrutura" min="0" max="10000" step="100" value="0" oninput="atualizarVisualNota('estrutura')">
+        <div class="nota-linha">
+          <span id="valorEstruturaBase">0</span>
+          <span class="nota-publica" id="publicaEstrutura">0,0</span>
+        </div>
+      </div>
+
+      <div class="criterio">
+        <div class="criterio-topo">
+          <span>Coerência narrativa</span>
+          <span id="valorCoerenciaTopo">0 / 10000</span>
+        </div>
+        <input type="range" id="coerencia" min="0" max="10000" step="100" value="0" oninput="atualizarVisualNota('coerencia')">
+        <div class="nota-linha">
+          <span id="valorCoerenciaBase">0</span>
+          <span class="nota-publica" id="publicaCoerencia">0,0</span>
+        </div>
+      </div>
+
+      <div class="criterio">
+        <div class="criterio-topo">
+          <span>Ritmo textual</span>
+          <span id="valorRitmoTopo">0 / 10000</span>
+        </div>
+        <input type="range" id="ritmo" min="0" max="10000" step="100" value="0" oninput="atualizarVisualNota('ritmo')">
+        <div class="nota-linha">
+          <span id="valorRitmoBase">0</span>
+          <span class="nota-publica" id="publicaRitmo">0,0</span>
+        </div>
+      </div>
+
+      <div class="criterio">
+        <div class="criterio-topo">
+          <span>Personagens</span>
+          <span id="valorPersonagensTopo">0 / 10000</span>
+        </div>
+        <input type="range" id="personagens" min="0" max="10000" step="100" value="0" oninput="atualizarVisualNota('personagens')">
+        <div class="nota-linha">
+          <span id="valorPersonagensBase">0</span>
+          <span class="nota-publica" id="publicaPersonagens">0,0</span>
+        </div>
+      </div>
+
+      <div class="criterio">
+        <div class="criterio-topo">
+          <span>Ambientação</span>
+          <span id="valorAmbientacaoTopo">0 / 10000</span>
+        </div>
+        <input type="range" id="ambientacao" min="0" max="10000" step="100" value="0" oninput="atualizarVisualNota('ambientacao')">
+        <div class="nota-linha">
+          <span id="valorAmbientacaoBase">0</span>
+          <span class="nota-publica" id="publicaAmbientacao">0,0</span>
+        </div>
+      </div>
+
+      <div class="criterio">
+        <div class="criterio-topo">
+          <span>Originalidade</span>
+          <span id="valorOriginalidadeTopo">0 / 10000</span>
+        </div>
+        <input type="range" id="originalidade" min="0" max="10000" step="100" value="0" oninput="atualizarVisualNota('originalidade')">
+        <div class="nota-linha">
+          <span id="valorOriginalidadeBase">0</span>
+          <span class="nota-publica" id="publicaOriginalidade">0,0</span>
+        </div>
+      </div>
+
+      <div class="criterio">
+        <div class="criterio-topo">
+          <span>Clareza textual</span>
+          <span id="valorClarezaTopo">0 / 10000</span>
+        </div>
+        <input type="range" id="clareza" min="0" max="10000" step="100" value="0" oninput="atualizarVisualNota('clareza')">
+        <div class="nota-linha">
+          <span id="valorClarezaBase">0</span>
+          <span class="nota-publica" id="publicaClareza">0,0</span>
+        </div>
+      </div>
+
+      <div class="criterio">
+        <div class="criterio-topo">
+          <span>Potencial editorial</span>
+          <span id="valorPotencialTopo">0 / 10000</span>
+        </div>
+        <input type="range" id="potencial" min="0" max="10000" step="100" value="0" oninput="atualizarVisualNota('potencial')">
+        <div class="nota-linha">
+          <span id="valorPotencialBase">0</span>
+          <span class="nota-publica" id="publicaPotencial">0,0</span>
+        </div>
+      </div>
+
+      <div class="criterio">
+        <div class="criterio-topo">
+          <span>Linguagem</span>
+          <span id="valorLinguagemTopo">0 / 10000</span>
+        </div>
+        <input type="range" id="linguagem" min="0" max="10000" step="100" value="0" oninput="atualizarVisualNota('linguagem')">
+        <div class="nota-linha">
+          <span id="valorLinguagemBase">0</span>
+          <span class="nota-publica" id="publicaLinguagem">0,0</span>
+        </div>
+      </div>
+
+      <div class="criterio">
+        <div class="criterio-topo">
+          <span>Impacto geral</span>
+          <span id="valorImpactoTopo">0 / 10000</span>
+        </div>
+        <input type="range" id="impacto" min="0" max="10000" step="100" value="0" oninput="atualizarVisualNota('impacto')">
+        <div class="nota-linha">
+          <span id="valorImpactoBase">0</span>
+          <span class="nota-publica" id="publicaImpacto">0,0</span>
+        </div>
+      </div>
+
+      <div class="status" id="statusAvaliacaoTecnica">Nenhuma avaliação técnica calculada ainda.</div>
+    </div>
+
+    <div class="card">
+      <h2>Resumo final da avaliação</h2>
+
+      <div class="grid">
+        <div>
+          <label for="notaInternaFinal">Nota interna final</label>
+          <input type="text" id="notaInternaFinal" readonly>
+        </div>
+
+        <div>
+          <label for="notaPublicaFinal">Nota pública final</label>
+          <input type="text" id="notaPublicaFinal" readonly>
+        </div>
+      </div>
+
+      <label for="parecerFinal">Parecer técnico resumido</label>
+      <textarea id="parecerFinal" readonly></textarea>
+
+      <div class="acoes">
+        <button class="btn-verde" type="button" onclick="salvarAnaliseDaObra()">Salvar avaliação da obra</button>
+        <button class="btn-cinza" type="button" onclick="irParaExpedicao()">Concluir e ir para expedição</button>
+      </div>
+
+      <div class="status" id="statusSalvarAvaliacao">Nada salvo ainda.</div>
+    </div>
+
+  </div>
+
+  <script>
+    function voltarPagina(){
+      window.history.back();
+    }
+
+    function formatarNotaPublica(valor){
+      return (valor / 1000).toFixed(1).replace(".", ",");
+    }
+
+    function atualizarVisualNota(campo){
+      const valor = Number(document.getElementById(campo).value || 0);
+
+      const mapa = {
+        estrutura: ["valorEstruturaTopo", "valorEstruturaBase", "publicaEstrutura"],
+        coerencia: ["valorCoerenciaTopo", "valorCoerenciaBase", "publicaCoerencia"],
+        ritmo: ["valorRitmoTopo", "valorRitmoBase", "publicaRitmo"],
+        personagens: ["valorPersonagensTopo", "valorPersonagensBase", "publicaPersonagens"],
+        ambientacao: ["valorAmbientacaoTopo", "valorAmbientacaoBase", "publicaAmbientacao"],
+        originalidade: ["valorOriginalidadeTopo", "valorOriginalidadeBase", "publicaOriginalidade"],
+        clareza: ["valorClarezaTopo", "valorClarezaBase", "publicaClareza"],
+        potencial: ["valorPotencialTopo", "valorPotencialBase", "publicaPotencial"],
+        linguagem: ["valorLinguagemTopo", "valorLinguagemBase", "publicaLinguagem"],
+        impacto: ["valorImpactoTopo", "valorImpactoBase", "publicaImpacto"]
+      };
+
+      document.getElementById(mapa[campo][0]).innerText = valor + " / 10000";
+      document.getElementById(mapa[campo][1]).innerText = valor;
+      document.getElementById(mapa[campo][2]).innerText = formatarNotaPublica(valor);
+
+      recalcularTotais();
+    }
+
+    function puxarProjetoAtivo(){
+      try{
+        return JSON.parse(localStorage.getItem("projetoAtivo") || "{}");
+      }catch(e){
+        return {};
+      }
+    }
+
+    function contarPalavras(texto){
+      if(!texto) return 0;
+      return texto.trim().split(/\s+/).filter(Boolean).length;
+    }
+
+    function contarParagrafos(texto){
+      if(!texto) return 0;
+      return texto.split(/\n\s*\n/).map(function(p){ return p.trim(); }).filter(Boolean).length;
+    }
+
+    function contarDialogos(texto){
+      if(!texto) return 0;
+      const encontrados = texto.match(/—|"-|“|”|"[^"]+"/g);
+      return encontrados ? encontrados.length : 0;
+    }
+
+    function contarExclamacoes(texto){
+      if(!texto) return 0;
+      const encontrados = texto.match(/[!?]/g);
+      return encontrados ? encontrados.length : 0;
+    }
+
+    function contarNomesPossiveis(texto){
+      if(!texto) return 0;
+      const encontrados = texto.match(/\b[A-ZÁÉÍÓÚÂÊÔÃÕÇ][a-záéíóúâêôãõç]{2,}\b/g);
+      if(!encontrados) return 0;
+      const unicos = [...new Set(encontrados)];
+      return unicos.length;
+    }
+
+    function limitarFaixa(valor){
+      if(valor < 0) return 0;
+      if(valor > 10000) return 10000;
+      return Math.round(valor / 100) * 100;
+    }
+
+    function avaliarTexto(texto){
+      const palavras = contarPalavras(texto);
+      const paragrafos = contarParagrafos(texto);
+      const dialogos = contarDialogos(texto);
+      const sinais = contarExclamacoes(texto);
+      const nomes = contarNomesPossiveis(texto);
+      const comprimentoMedio = paragrafos > 0 ? palavras / paragrafos : palavras;
+
+      let estrutura = 4200 + Math.min(paragrafos * 180, 3200);
+      let coerencia = 4800 + Math.min(palavras / 12, 2800);
+      let ritmo = 4300 + Math.min(dialogos * 150, 1800) + Math.min(sinais * 20, 700);
+      let personagens = 3500 + Math.min(nomes * 250, 3000);
+      let ambientacao = 3800 + Math.min(palavras / 20, 2600);
+      let originalidade = 5000 + Math.min(nomes * 120, 1200);
+      let clareza = 4700 + (comprimentoMedio < 120 ? 1800 : 900);
+      let potencial = 4600 + Math.min(palavras / 18, 2500);
+      let linguagem = 4500 + Math.min(palavras / 14, 2600);
+      let impacto = 4200 + Math.min((dialogos * 120) + (sinais * 15), 2200);
+
+      if(palavras < 120){
+        estrutura -= 1200;
+        coerencia -= 900;
+        ritmo -= 700;
+        personagens -= 1000;
+        ambientacao -= 900;
+        potencial -= 1200;
+        linguagem -= 800;
+        impacto -= 700;
+      }
+
+      if(paragrafos <= 1){
+        estrutura -= 800;
+        clareza -= 500;
+      }
+
+      if(dialogos === 0){
+        ritmo -= 500;
+        impacto -= 300;
+      }
+
+      return {
+        estrutura: limitarFaixa(estrutura),
+        coerencia: limitarFaixa(coerencia),
+        ritmo: limitarFaixa(ritmo),
+        personagens: limitarFaixa(personagens),
+        ambientacao: limitarFaixa(ambientacao),
+        originalidade: limitarFaixa(originalidade),
+        clareza: limitarFaixa(clareza),
+        potencial: limitarFaixa(potencial),
+        linguagem: limitarFaixa(linguagem),
+        impacto: limitarFaixa(impacto),
+        palavras: palavras,
+        paragrafos: paragrafos,
+        dialogos: dialogos,
+        nomes: nomes
+      };
+    }
+
+    function aplicarNotas(resultado){
+      document.getElementById("estrutura").value = resultado.estrutura;
+      document.getElementById("coerencia").value = resultado.coerencia;
+      document.getElementById("ritmo").value = resultado.ritmo;
+      document.getElementById("personagens").value = resultado.personagens;
+      document.getElementById("ambientacao").value = resultado.ambientacao;
+      document.getElementById("originalidade").value = resultado.originalidade;
+      document.getElementById("clareza").value = resultado.clareza;
+      document.getElementById("potencial").value = resultado.potencial;
+      document.getElementById("linguagem").value = resultado.linguagem;
+      document.getElementById("impacto").value = resultado.impacto;
+
+      atualizarVisualNota("estrutura");
+      atualizarVisualNota("coerencia");
+      atualizarVisualNota("ritmo");
+      atualizarVisualNota("personagens");
+      atualizarVisualNota("ambientacao");
+      atualizarVisualNota("originalidade");
+      atualizarVisualNota("clareza");
+      atualizarVisualNota("potencial");
+      atualizarVisualNota("linguagem");
+      atualizarVisualNota("impacto");
+    }
+
+    function recalcularTotais(){
+      const campos = [
+        "estrutura","coerencia","ritmo","personagens","ambientacao",
+        "originalidade","clareza","potencial","linguagem","impacto"
+      ];
+
+      let soma = 0;
+
+      campos.forEach(function(campo){
+        soma += Number(document.getElementById(campo).value || 0);
+      });
+
+      const notaInterna = soma;
+      const notaPublica = (notaInterna / 10000).toFixed(1).replace(".", ",");
+
+      document.getElementById("notaInternaFinal").value = notaInterna + " / 100000";
+      document.getElementById("notaPublicaFinal").value = notaPublica + " / 10";
+
+      const resumo =
+        "Nota interna calculada: " + notaInterna + " de 100000.\n" +
+        "Nota pública estimada: " + notaPublica + " de 10.\n" +
+        "A obra apresenta desempenho técnico distribuído entre estrutura, coerência, ritmo, personagens, ambientação, originalidade, clareza, potencial editorial, linguagem e impacto geral.";
+
+      document.getElementById("parecerFinal").value = resumo;
+
+      document.getElementById("statusAvaliacaoTecnica").innerText =
+        "Avaliação técnica preenchida com sucesso.\n" +
+        "Nota interna: " + notaInterna + " / 100000\n" +
+        "Nota pública: " + notaPublica + " / 10";
+    }
+
+    function salvarConfiguracaoAvaliacao(){
+      const config = {
+        tipo: document.getElementById("tipoAvaliacao").value,
+        profundidade: document.getElementById("profundidadeAvaliacao").value,
+        observacoes: document.getElementById("observacoesGerais").value
+      };
+
+      sessionStorage.setItem("avaliacao_config_atual", JSON.stringify(config));
+
+      document.getElementById("statusConfiguracaoAvaliacao").innerText =
+        "Configuração da avaliação salva com sucesso.\n" +
+        "Tipo: " + config.tipo + "\n" +
+        "Profundidade: " + config.profundidade;
+    }
+
+    function avaliarObraAutomaticamente(){
+      const texto = localStorage.getItem("lapidar_obra_texto") || "";
+      const projeto = puxarProjetoAtivo();
+
+      if(!texto || texto.trim().length < 10){
+        document.getElementById("statusAvaliacaoTecnica").innerText =
+          "Não encontramos texto suficiente para avaliar automaticamente.";
+        return;
+      }
+
+      const resultado = avaliarTexto(texto);
+      aplicarNotas(resultado);
+
+      const parecer =
+        "Título analisado: " + (projeto.titulo || "não identificado") + ".\n" +
+        "Palavras lidas: " + resultado.palavras + ".\n" +
+        "Parágrafos percebidos: " + resultado.paragrafos + ".\n" +
+        "Diálogos percebidos: " + resultado.dialogos + ".\n" +
+        "Nomes percebidos: " + resultado.nomes + ".\n" +
+        "A pontuação automática foi distribuída para servir como base da avaliação técnica.";
+
+      document.getElementById("parecerFinal").value = parecer;
+
+      document.getElementById("statusAvaliacaoTecnica").innerText =
+        "Avaliação automática concluída com sucesso.\n" +
+        "O sistema calculou a base técnica da obra e distribuiu as notas nos critérios.";
+    }
+
+    function salvarAnaliseDaObra(){
+      const dados = {
+        tipo: document.getElementById("tipoAvaliacao").value,
+        profundidade: document.getElementById("profundidadeAvaliacao").value,
+        observacoes: document.getElementById("observacoesGerais").value,
+        estrutura: document.getElementById("estrutura").value,
+        coerencia: document.getElementById("coerencia").value,
+        ritmo: document.getElementById("ritmo").value,
+        personagens: document.getElementById("personagens").value,
+        ambientacao: document.getElementById("ambientacao").value,
+        originalidade: document.getElementById("originalidade").value,
+        clareza: document.getElementById("clareza").value,
+        potencial: document.getElementById("potencial").value,
+        linguagem: document.getElementById("linguagem").value,
+        impacto: document.getElementById("impacto").value,
+        notaInterna: document.getElementById("notaInternaFinal").value,
+        notaPublica: document.getElementById("notaPublicaFinal").value,
+        parecer: document.getElementById("parecerFinal").value
+      };
+
+      sessionStorage.setItem("avaliacao_resultado_atual", JSON.stringify(dados));
+
+      document.getElementById("statusSalvarAvaliacao").innerText =
+        "Avaliação da obra salva com sucesso.\n" +
+        "Nota interna: " + (dados.notaInterna || "não calculada") + "\n" +
+        "Nota pública: " + (dados.notaPublica || "não calculada");
+    }
+
+    function irParaExpedicao(){
+      window.location.href = "expedicao_material.html";
+    }
+
+    function carregarProjetoNaTela(){
+      const projeto = puxarProjetoAtivo();
+
+      const titulo = projeto.titulo || localStorage.getItem("lapidar_obra_titulo") || "Obra não identificada";
+      const autor = projeto.autor || localStorage.getItem("lapidar_obra_autor") || "Autor não identificado";
+      const arquivo = projeto.arquivo || localStorage.getItem("lapidar_obra_arquivo_nome") || "Arquivo não identificado";
+
+      document.getElementById("projetoAtivoBox").innerText =
+        titulo + "\n" +
+        "Autor: " + autor + "\n" +
+        "Arquivo: " + arquivo + "\n" +
+        "Preparando a avaliação literária desta obra.";
+    }
+
+    function carregarAvaliacaoSalvaSeExistir(){
+      try{
+        const salvo = JSON.parse(sessionStorage.getItem("avaliacao_resultado_atual") || "{}");
+        if(!salvo || Object.keys(salvo).length === 0) return;
+
+        if(salvo.tipo) document.getElementById("tipoAvaliacao").value = salvo.tipo;
+        if(salvo.profundidade) document.getElementById("profundidadeAvaliacao").value = salvo.profundidade;
+        if(salvo.observacoes) document.getElementById("observacoesGerais").value = salvo.observacoes;
+
+        const campos = ["estrutura","coerencia","ritmo","personagens","ambientacao","originalidade","clareza","potencial","linguagem","impacto"];
+        campos.forEach(function(campo){
+          if(salvo[campo] !== undefined){
+            document.getElementById(campo).value = salvo[campo];
+            atualizarVisualNota(campo);
+          }
+        });
+
+        if(salvo.parecer){
+          document.getElementById("parecerFinal").value = salvo.parecer;
+        }
+        if(salvo.notaInterna){
+          document.getElementById("notaInternaFinal").value = salvo.notaInterna;
+        }
+        if(salvo.notaPublica){
+          document.getElementById("notaPublicaFinal").value = salvo.notaPublica;
+        }
+
+        document.getElementById("statusSalvarAvaliacao").innerText =
+          "Avaliação salva anteriormente carregada com sucesso.";
+      }catch(e){
+        console.error(e);
+      }
+    }
+
+    window.addEventListener("load", function(){
+      carregarProjetoNaTela();
+      carregarAvaliacaoSalvaSeExistir();
+    });
+  </script>
 
 </body>
 </html>
