@@ -1,45 +1,30 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lapidar — Produção da Obra</title>
+<title>Lapidar — Produção</title>
 
 <style>
 
 body{
-font-family: Arial, sans-serif;
-background:#f7f6f2;
+font-family: Arial;
+background:#f5f5f5;
+text-align:center;
 margin:0;
-padding:0;
-font-size:20px;
 }
 
 .container{
-max-width:700px;
+max-width:500px;
 margin:auto;
-padding:25px;
-}
-
-h1{
-text-align:center;
-font-size:34px;
-margin-bottom:10px;
-}
-
-.subtitle{
-text-align:center;
-margin-bottom:25px;
-font-size:22px;
-color:#555;
+padding:20px;
 }
 
 .card{
 background:white;
-padding:25px;
-margin-bottom:18px;
-border-radius:14px;
-box-shadow:0 2px 10px rgba(0,0,0,0.08);
+padding:20px;
+margin:15px 0;
+border-radius:12px;
+box-shadow:0 3px 8px rgba(0,0,0,.1);
 cursor:pointer;
 transition:.2s;
 }
@@ -48,162 +33,132 @@ transition:.2s;
 transform:scale(1.02);
 }
 
-.card h2{
-margin:0;
-font-size:26px;
-}
+.verde{border-left:6px solid green;}
+.azul{border-left:6px solid blue;}
+.roxo{border-left:6px solid purple;}
 
-.card p{
-margin-top:8px;
-color:#555;
-}
-
-.nacional{
-border-left:10px solid #2e7d32;
-}
-
-.internacional{
-border-left:10px solid #1565c0;
-}
-
-.personalizado{
-border-left:10px solid #6a1b9a;
-}
-
-button{
-width:100%;
-padding:18px;
-font-size:22px;
-border:none;
-border-radius:12px;
+.botao{
 background:#333;
 color:white;
-cursor:pointer;
+padding:15px;
+border-radius:10px;
 margin-top:20px;
+cursor:pointer;
 }
 
-button:hover{
-background:#000;
+.botao:hover{
+background:black;
 }
 
-.footer{
-text-align:center;
-margin-top:30px;
-font-size:18px;
+footer{
+margin-top:40px;
+font-size:14px;
 color:#666;
 }
 
 </style>
 </head>
 
-
 <body>
 
 <div class="container">
 
-<h1>Lapidar</h1>
+<h2>Lapidar</h2>
+<p>Como deseja produzir sua obra hoje?</p>
 
-<div class="subtitle">
-Como deseja produzir sua obra hoje?
-</div>
+<div class="card verde"
+onclick="selecionarModo('NACIONAL')">
 
-
-<div class="card nacional" onclick="modoSelecionado('nacional')">
-
-<h2>🇧🇷 Produção Nacional</h2>
-
-<p>
-Diagramação profissional padrão brasileiro + capa + exportação completa.
-Recomendado para autores no Brasil.
-</p>
+🇧🇷 <b>Produção Nacional</b><br><br>
+Diagramação padrão brasileira + capa + exportação completa
 
 </div>
 
 
-<div class="card internacional" onclick="modoSelecionado('internacional')">
+<div class="card azul"
+onclick="selecionarModo('INTERNACIONAL')">
 
-<h2>🌍 Produção Internacional</h2>
-
-<p>
-Formato compatível Amazon e impressão global + capa internacional.
-Ideal para distribuição mundial.
-</p>
+🌍 <b>Produção Internacional</b><br><br>
+Compatível Amazon + impressão global
 
 </div>
 
 
-<div class="card personalizado" onclick="modoSelecionado('personalizado')">
+<div class="card roxo"
+onclick="selecionarModo('PERSONALIZADO')">
 
-<h2>⚙️ Produção Personalizada</h2>
-
-<p>
-Escolha módulos individuais como tradução, humanização, avaliação e audiobook.
-</p>
+⚙️ <b>Produção Personalizada</b><br><br>
+Escolha módulos manualmente
 
 </div>
 
 
-<button onclick="seguirFluxo()">Seguir fluxo da obra</button>
+<div class="botao"
+onclick="seguirFluxo()">
+
+Seguir fluxo da obra
+
+</div>
 
 
-<div class="footer">
+<footer>
 
 Site das Letras — Edições Literárias & Sonoras<br>
 Uma iniciativa editorial brasileira
 
-</div>
+</footer>
 
 </div>
 
 
 <script>
 
-let modo = "";
+let modoSelecionado=null
 
-function modoSelecionado(tipo){
 
-modo = tipo;
+function selecionarModo(modo){
 
-alert("Modo selecionado: " + tipo.toUpperCase());
+modoSelecionado=modo
+
+alert("Modo selecionado: "+modo)
 
 }
 
 
 function seguirFluxo(){
 
-if(modo===""){
+if(!modoSelecionado){
 
-alert("Escolha um modo antes de continuar.");
+alert("Selecione um modo primeiro")
 
-return;
-
-}
-
-
-if(modo==="nacional"){
-
-window.location.href="diagramacao.html";
+return
 
 }
 
 
-if(modo==="internacional"){
+if(modoSelecionado==="NACIONAL"){
 
-window.location.href="diagramacao.html";
+window.location.href="diagramador_inicio.html"
 
 }
 
 
-if(modo==="personalizado"){
+if(modoSelecionado==="INTERNACIONAL"){
 
-window.location.href="modulos.html";
+window.location.href="segunda_lingua.html"
+
+}
+
+
+if(modoSelecionado==="PERSONALIZADO"){
+
+window.location.href="painel_setores.html"
 
 }
 
 }
 
 </script>
-
 
 </body>
 </html>
