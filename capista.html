@@ -1,584 +1,384 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OKapista • Lapidar</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OKapista • Lapidar</title>
 
-  <style>
-    *{
-      box-sizing:border-box;
-    }
+<style>
 
-    body{
-      margin:0;
-      font-family:Arial, sans-serif;
-      background:#0d1b12;
-      color:#fff;
-    }
+body{
+margin:0;
+font-family:Arial, sans-serif;
+background:#0f1f13;
+color:white;
+}
 
-    header{
-      background:#2e7d32;
-      padding:20px 16px;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-    }
+header{
+background:#2e7d32;
+padding:16px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
 
-    header h1{
-      margin:0;
-      font-size:22px;
-    }
+header h1{
+margin:0;
+font-size:22px;
+}
 
-    header a{
-      background:#8a97a8;
-      color:#fff;
-      text-decoration:none;
-      padding:10px 14px;
-      border-radius:10px;
-      font-weight:bold;
-      font-size:14px;
-    }
+button{
+border:none;
+border-radius:10px;
+padding:12px 16px;
+font-weight:bold;
+cursor:pointer;
+}
 
-    .container{
-      max-width:1000px;
-      margin:0 auto;
-      padding:20px 14px 40px;
-    }
+.container{
+max-width:900px;
+margin:auto;
+padding:20px;
+}
 
-    .card{
-      background:#15281a;
-      border-radius:18px;
-      padding:18px;
-      margin-bottom:18px;
-      box-shadow:0 4px 14px rgba(0,0,0,.22);
-    }
+.card{
+background:#183321;
+padding:20px;
+border-radius:14px;
+margin-bottom:18px;
+}
 
-    .card h2{
-      margin-top:0;
-      font-size:19px;
-    }
+label{
+display:block;
+margin-top:12px;
+font-weight:bold;
+}
 
-    .subcard{
-      background:#1d3724;
-      border-radius:12px;
-      padding:14px;
-      margin-top:10px;
-      line-height:1.6;
-      color:#dff5e2;
-      white-space:pre-line;
-    }
+input, select, textarea{
+width:100%;
+padding:10px;
+margin-top:6px;
+border-radius:8px;
+border:none;
+font-size:16px;
+}
 
-    .destaque-modo{
-      display:inline-block;
-      margin-top:10px;
-      padding:8px 12px;
-      border-radius:999px;
-      font-weight:bold;
-      font-size:14px;
-      background:#d6ae35;
-      color:#3d2f05;
-    }
+textarea{
+min-height:120px;
+}
 
-    .grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));
-      gap:14px;
-    }
+.btn-verde{
+background:#2e7d32;
+color:white;
+}
 
-    label{
-      display:block;
-      font-weight:bold;
-      margin:14px 0 8px;
-      color:#f1fff2;
-      font-size:16px;
-    }
+.btn-azul{
+background:#365a9c;
+color:white;
+}
 
-    input[type="text"],
-    input[type="file"],
-    select,
-    textarea{
-      width:100%;
-      padding:12px;
-      border-radius:10px;
-      border:1px solid rgba(255,255,255,.10);
-      background:#27452d;
-      color:#fff;
-      margin-bottom:10px;
-      font-size:16px;
-      font-family:Arial, sans-serif;
-    }
+.btn-dourado{
+background:#b8943c;
+color:white;
+}
 
-    textarea{
-      min-height:120px;
-      resize:vertical;
-    }
+.btn-cinza{
+background:#8a97a8;
+color:white;
+}
 
-    .readonly{
-      background:#213827;
-    }
+.status{
+margin-top:12px;
+background:#23422b;
+padding:12px;
+border-radius:10px;
+}
 
-    .acoes{
-      display:flex;
-      flex-wrap:wrap;
-      gap:12px;
-      margin-top:18px;
-    }
-
-    button{
-      border:none;
-      border-radius:12px;
-      padding:14px 18px;
-      font-size:15px;
-      font-weight:bold;
-      cursor:pointer;
-    }
-
-    .btn-verde{
-      background:#2e7d32;
-      color:#fff;
-    }
-
-    .btn-azul{
-      background:#365a9c;
-      color:#fff;
-    }
-
-    .btn-dourado{
-      background:#b8943c;
-      color:#fff;
-    }
-
-    .btn-cinza{
-      background:#8a97a8;
-      color:#fff;
-    }
-
-    .status{
-      margin-top:16px;
-      background:#1d3724;
-      border-radius:12px;
-      padding:14px;
-      line-height:1.7;
-      color:#e8f7ea;
-      white-space:pre-line;
-      font-size:16px;
-    }
-
-    .check-item{
-      display:flex;
-      align-items:center;
-      gap:12px;
-      background:#1d3724;
-      padding:14px;
-      border-radius:12px;
-      margin-bottom:12px;
-      font-size:18px;
-      font-weight:700;
-      cursor:pointer;
-    }
-
-    .check-item input{
-      width:24px;
-      height:24px;
-      margin:0;
-      flex:0 0 24px;
-    }
-
-    @media(max-width:640px){
-      header h1{
-        font-size:20px;
-      }
-
-      .check-item{
-        font-size:17px;
-      }
-    }
-  </style>
+</style>
 </head>
+
 <body>
 
-  <header>
-    <h1>OKapista</h1>
-    <a href="index.html">Voltar</a>
-  </header>
-
-  <div class="container">
-
-    <div class="card">
-      <h2>Projeto ativo</h2>
-      <div class="subcard" id="projetoAtivoBox">Carregando projeto...</div>
-      <div class="destaque-modo" id="modoProjetoBox">Modo: Nacional</div>
-    </div>
-
-    <div class="card">
-      <h2>Configuração-base da capa</h2>
-
-      <div class="grid">
-        <div>
-          <label for="modoCapa">Modo da capa</label>
-          <select id="modoCapa">
-            <option value="Nacional">Nacional</option>
-            <option value="Internacional">Internacional</option>
-            <option value="Híbrido">Híbrido</option>
-          </select>
-        </div>
-
-        <div>
-          <label for="tipoProjetoCapa">Tipo de projeto</label>
-          <select id="tipoProjetoCapa">
-            <option value="Obra individual">Obra individual</option>
-            <option value="Antologia">Antologia</option>
-            <option value="Miscelânea">Miscelânea</option>
-            <option value="Coletânea">Coletânea</option>
-          </select>
-        </div>
-      </div>
-
-      <label for="descricaoModoCapa">Descrição do modo</label>
-      <textarea id="descricaoModoCapa" placeholder="Ex.: capa mais sofisticada, acabamento ampliado, versão física e e-book, etc."></textarea>
-
-      <div class="acoes">
-        <button class="btn-azul" type="button" onclick="aplicarPadraoDoModo()">Aplicar padrão do modo</button>
-        <button class="btn-dourado" type="button" onclick="salvarDadosDaCapa()">Salvar dados da capa</button>
-      </div>
-
-      <div class="status" id="statusCapa">Nenhum dado de capa salvo ainda.</div>
-    </div>
-
-    <div class="card">
-      <h2>Dados principais da capa</h2>
-
-      <label for="tituloObra">Título da obra</label>
-      <input type="text" id="tituloObra">
-
-      <label for="subtituloObra">Subtítulo</label>
-      <input type="text" id="subtituloObra">
-
-      <label for="nomeAutor">Nome do autor / organizador</label>
-      <input type="text" id="nomeAutor">
-
-      <label for="sinopseObra">Sinopse</label>
-      <textarea id="sinopseObra" placeholder="Escreva a sinopse da obra."></textarea>
-
-      <label for="biografiaObra">Biografia / texto de orelha</label>
-      <textarea id="biografiaObra" placeholder="Escreva a biografia, apresentação ou texto de orelha."></textarea>
-
-      <div class="grid">
-        <div>
-          <label for="ondeVaiSinopse">Onde vai a sinopse?</label>
-          <select id="ondeVaiSinopse">
-            <option value="Contracapa">Contracapa</option>
-            <option value="Orelha dianteira">Orelha dianteira</option>
-            <option value="Não usar">Não usar</option>
-          </select>
-        </div>
-
-        <div>
-          <label for="ondeVaiBiografia">Onde vai a biografia?</label>
-          <select id="ondeVaiBiografia">
-            <option value="Orelha">Orelha</option>
-            <option value="Contracapa">Contracapa</option>
-            <option value="Não usar">Não usar</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="grid">
-        <div>
-          <label for="fotoAutor">Foto do autor</label>
-          <select id="fotoAutor">
-            <option value="Não">Não</option>
-            <option value="Sim">Sim</option>
-          </select>
-        </div>
-
-        <div>
-          <label for="tipoCapa">Tipo de capa</label>
-          <select id="tipoCapa">
-            <option value="Física">Física</option>
-            <option value="E-book">E-book</option>
-            <option value="Física + E-book">Física + E-book</option>
-          </select>
-        </div>
-      </div>
-    </div>
-
-    <div class="card">
-      <h2>Upload de imagens</h2>
-
-      <label for="imgCapaFrontal">Imagem da capa frontal</label>
-      <input type="file" id="imgCapaFrontal" accept="image/*">
-
-      <label for="imgContracapa">Imagem da contracapa</label>
-      <input type="file" id="imgContracapa" accept="image/*">
-
-      <label for="imgOrelhaDianteira">Imagem da orelha dianteira</label>
-      <input type="file" id="imgOrelhaDianteira" accept="image/*">
-
-      <label for="imgOrelhaTraseira">Imagem da orelha traseira</label>
-      <input type="file" id="imgOrelhaTraseira" accept="image/*">
-
-      <label for="imgFotoAutor">Foto do autor (opcional)</label>
-      <input type="file" id="imgFotoAutor" accept="image/*">
-
-      <label class="check-item">
-        <input type="checkbox" id="confirmacaoDireitos">
-        <span>Declaro possuir autorização legal para uso das imagens enviadas e assumo total responsabilidade pelos direitos autorais.</span>
-      </label>
-
-      <div class="acoes">
-        <button class="btn-dourado" type="button" onclick="registrarImagens()">Registrar imagens</button>
-      </div>
-
-      <div class="status" id="statusImagens">Nenhuma imagem registrada ainda.</div>
-    </div>
-
-    <div class="card">
-      <h2>Confirmação</h2>
-      <div class="subcard" id="confirmacaoCapista">
-        Capa ainda não confirmada.
-      </div>
-
-      <div class="acoes">
-        <button class="btn-verde" type="button" onclick="confirmarCapaESeguir()">Concordo com esta capa e quero seguir</button>
-        <button class="btn-cinza" type="button" onclick="irParaExpedicao()">Pular para expedição</button>
-      </div>
-    </div>
-
-  </div>
-
-  <script>
-    function obterProjetoAtivo(){
-      try{
-        return JSON.parse(localStorage.getItem("projetoAtivo") || "{}");
-      }catch(e){
-        return {};
-      }
-    }
-
-    function obterModulosSelecionados(){
-      try{
-        return JSON.parse(localStorage.getItem("lapidar_modulos_marcados") || "{}");
-      }catch(e){
-        return {};
-      }
-    }
-
-    function limparCamposCapista(){
-      document.getElementById("tituloObra").value = "";
-      document.getElementById("subtituloObra").value = "";
-      document.getElementById("nomeAutor").value = "";
-      document.getElementById("sinopseObra").value = "";
-      document.getElementById("biografiaObra").value = "";
-      document.getElementById("ondeVaiSinopse").value = "Contracapa";
-      document.getElementById("ondeVaiBiografia").value = "Orelha";
-      document.getElementById("fotoAutor").value = "Não";
-      document.getElementById("tipoCapa").value = "Física";
-      document.getElementById("modoCapa").value = "Nacional";
-      document.getElementById("tipoProjetoCapa").value = "Obra individual";
-      document.getElementById("descricaoModoCapa").value = "";
-      document.getElementById("confirmacaoDireitos").checked = false;
-      document.getElementById("statusCapa").innerText = "Nenhum dado de capa salvo ainda.";
-      document.getElementById("statusImagens").innerText = "Nenhuma imagem registrada ainda.";
-      document.getElementById("confirmacaoCapista").innerText = "Capa ainda não confirmada.";
-    }
-
-    function renderProjetoAtivo(){
-      var projeto = obterProjetoAtivo();
-      var titulo = projeto.titulo || localStorage.getItem("lapidar_projeto_ativo") || "Obra não identificada";
-      var autor = projeto.autor || localStorage.getItem("lapidar_obra_autor") || "Autor não identificado";
-      var arquivo = projeto.arquivo || localStorage.getItem("lapidar_obra_arquivo_nome") || "";
-
-      var texto = titulo + "\n";
-      texto += "Autor: " + autor + "\n";
-      if(arquivo){
-        texto += "Arquivo: " + arquivo + "\n";
-      }
-      texto += "Preparando a capa desta obra.";
-
-      document.getElementById("projetoAtivoBox").innerText = texto;
-    }
-
-    function preencherDadosDoProjetoAtual(){
-      var projeto = obterProjetoAtivo();
-
-      var titulo = projeto.titulo || localStorage.getItem("lapidar_obra_titulo") || "";
-      var subtitulo = projeto.subtitulo || localStorage.getItem("lapidar_obra_subtitulo") || "";
-      var autor = projeto.autor || localStorage.getItem("lapidar_obra_autor") || "";
-
-      document.getElementById("tituloObra").value = titulo;
-      document.getElementById("subtituloObra").value = subtitulo;
-      document.getElementById("nomeAutor").value = autor;
-
-      if((titulo || "").toLowerCase().includes("antologia")){
-        document.getElementById("tipoProjetoCapa").value = "Antologia";
-      }
-    }
-
-    function aplicarPadraoDoModo(){
-      var modo = document.getElementById("modoCapa").value;
-      var descricao = "";
-
-      if(modo === "Nacional"){
-        descricao = "Capa voltada ao mercado nacional, com organização direta, equilíbrio visual e foco em clareza editorial.";
-      }else if(modo === "Internacional"){
-        descricao = "Capa com apresentação mais sofisticada, acabamento visual ampliado e estrutura pensada para maior impacto editorial.";
-      }else{
-        descricao = "Capa híbrida, preparada para equilibrar identidade nacional e apresentação internacional no mesmo projeto.";
-      }
-
-      document.getElementById("descricaoModoCapa").value = descricao;
-      document.getElementById("modoProjetoBox").innerText = "Modo: " + modo;
-    }
-
-    function salvarDadosDaCapa(){
-      var dados = {
-        modo: document.getElementById("modoCapa").value,
-        tipoProjeto: document.getElementById("tipoProjetoCapa").value,
-        descricaoModo: document.getElementById("descricaoModoCapa").value,
-        titulo: document.getElementById("tituloObra").value.trim(),
-        subtitulo: document.getElementById("subtituloObra").value.trim(),
-        autor: document.getElementById("nomeAutor").value.trim(),
-        sinopse: document.getElementById("sinopseObra").value.trim(),
-        biografia: document.getElementById("biografiaObra").value.trim(),
-        ondeSinopse: document.getElementById("ondeVaiSinopse").value,
-        ondeBiografia: document.getElementById("ondeVaiBiografia").value,
-        fotoAutor: document.getElementById("fotoAutor").value,
-        tipoCapa: document.getElementById("tipoCapa").value
-      };
-
-      sessionStorage.setItem("capista_config_atual", JSON.stringify(dados));
-      localStorage.setItem("lapidar_sinopse_obra", dados.sinopse || "");
-      localStorage.setItem("lapidar_biografia_obra", dados.biografia || "");
-
-      document.getElementById("statusCapa").innerText =
-        "Dados da capa salvos com sucesso.\n" +
-        "Título: " + (dados.titulo || "não informado") + "\n" +
-        "Autor: " + (dados.autor || "não informado") + "\n" +
-        "Tipo de capa: " + dados.tipoCapa;
-
-      atualizarConfirmacaoCapista();
-    }
-
-    function registrarImagens(){
-      if(!document.getElementById("confirmacaoDireitos").checked){
-        document.getElementById("statusImagens").innerText =
-          "Confirme primeiro a autorização legal para uso das imagens.";
-        return;
-      }
-
-      var imagens = {
-        frontal: document.getElementById("imgCapaFrontal").files[0]?.name || "",
-        contracapa: document.getElementById("imgContracapa").files[0]?.name || "",
-        orelhaDianteira: document.getElementById("imgOrelhaDianteira").files[0]?.name || "",
-        orelhaTraseira: document.getElementById("imgOrelhaTraseira").files[0]?.name || "",
-        fotoAutor: document.getElementById("imgFotoAutor").files[0]?.name || ""
-      };
-
-      sessionStorage.setItem("capista_imagens_atual", JSON.stringify(imagens));
-
-      var lista = [];
-      if(imagens.frontal) lista.push("Capa frontal: " + imagens.frontal);
-      if(imagens.contracapa) lista.push("Contracapa: " + imagens.contracapa);
-      if(imagens.orelhaDianteira) lista.push("Orelha dianteira: " + imagens.orelhaDianteira);
-      if(imagens.orelhaTraseira) lista.push("Orelha traseira: " + imagens.orelhaTraseira);
-      if(imagens.fotoAutor) lista.push("Foto do autor: " + imagens.fotoAutor);
-
-      document.getElementById("statusImagens").innerText =
-        lista.length ? "Imagens registradas com sucesso.\n" + lista.join("\n") : "Nenhuma imagem enviada.";
-
-      atualizarConfirmacaoCapista();
-    }
-
-    function atualizarConfirmacaoCapista(){
-      var dados = {};
-      try{
-        dados = JSON.parse(sessionStorage.getItem("capista_config_atual") || "{}");
-      }catch(e){}
-
-      document.getElementById("confirmacaoCapista").innerText =
-        "Capa configurada.\n" +
-        "Modo: " + (dados.modo || "não definido") + "\n" +
-        "Sinopse em: " + (dados.ondeSinopse || "não definido") + "\n" +
-        "Biografia em: " + (dados.ondeBiografia || "não definido") + "\n" +
-        "Foto do autor: " + (dados.fotoAutor || "não definido") + "\n" +
-        "Tipo: " + (dados.tipoCapa || "não definido");
-    }
-
-    function obterProximoDestinoDepoisDoCapista(){
-      var modulos = obterModulosSelecionados();
-
-      if(modulos.traducao) return "segunda_lingua.html";
-      if(modulos.avaliacao) return "avaliacao_literaria.html";
-      if(modulos.analisador) return "analisador_obra.html";
-      if(modulos.lapidacao) return "lapidacao_literaria.html";
-      if(modulos.siloSonoro) return "narracao_editorial.html";
-
-      return "expedicao_material.html";
-    }
-
-    function confirmarCapaESeguir(){
-      if(!sessionStorage.getItem("capista_config_atual")){
-        salvarDadosDaCapa();
-      }
-
-      atualizarConfirmacaoCapista();
-
-      var destino = obterProximoDestinoDepoisDoCapista();
-
-      document.getElementById("confirmacaoCapista").innerText +=
-        "\nEncaminhando para: " + destino;
-
-      setTimeout(function(){
-        window.location.href = destino;
-      }, 500);
-    }
-
-    function irParaExpedicao(){
-      window.location.href = "expedicao_material.html";
-    }
-
-    function restaurarDadosSalvos(){
-      try{
-        var dados = JSON.parse(sessionStorage.getItem("capista_config_atual") || "null");
-        if(dados){
-          if(dados.modo) document.getElementById("modoCapa").value = dados.modo;
-          if(dados.tipoProjeto) document.getElementById("tipoProjetoCapa").value = dados.tipoProjeto;
-          if(dados.descricaoModo) document.getElementById("descricaoModoCapa").value = dados.descricaoModo;
-          if(dados.titulo) document.getElementById("tituloObra").value = dados.titulo;
-          if(dados.subtitulo) document.getElementById("subtituloObra").value = dados.subtitulo;
-          if(dados.autor) document.getElementById("nomeAutor").value = dados.autor;
-          if(typeof dados.sinopse === "string") document.getElementById("sinopseObra").value = dados.sinopse;
-          if(typeof dados.biografia === "string") document.getElementById("biografiaObra").value = dados.biografia;
-          if(dados.ondeSinopse) document.getElementById("ondeVaiSinopse").value = dados.ondeSinopse;
-          if(dados.ondeBiografia) document.getElementById("ondeVaiBiografia").value = dados.ondeBiografia;
-          if(dados.fotoAutor) document.getElementById("fotoAutor").value = dados.fotoAutor;
-          if(dados.tipoCapa) document.getElementById("tipoCapa").value = dados.tipoCapa;
-          document.getElementById("modoProjetoBox").innerText = "Modo: " + (dados.modo || "Nacional");
-
-          document.getElementById("statusCapa").innerText =
-            "Dados da capa já restaurados.\n" +
-            "Título: " + (dados.titulo || "não informado") + "\n" +
-            "Autor: " + (dados.autor || "não informado") + "\n" +
-            "Tipo de capa: " + (dados.tipoCapa || "não definido");
-        }else{
-          aplicarPadraoDoModo();
-        }
-      }catch(e){
-        aplicarPadraoDoModo();
-      }
-
-      atualizarConfirmacaoCapista();
-    }
-
-    window.addEventListener("load", function(){
-      limparCamposCapista();
-      renderProjetoAtivo();
-      preencherDadosDoProjetoAtual();
-      restaurarDadosSalvos();
-    });
-  </script>
+<header>
+<h1>OKapista</h1>
+<button onclick="history.back()" class="btn-cinza">Voltar</button>
+</header>
+
+<div class="container">
+
+<div class="card">
+
+<h2>Projeto ativo</h2>
+
+<div id="projetoAtivo">
+
+Carregando projeto...
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>Modo da capa</h2>
+
+<label>Modo</label>
+
+<select id="modoCapa">
+
+<option>Nacional</option>
+<option>Internacional</option>
+<option>Híbrido</option>
+
+</select>
+
+
+<label>Tipo de projeto</label>
+
+<select id="tipoProjeto">
+
+<option>Obra individual</option>
+<option>Antologia</option>
+<option>Miscelânea</option>
+<option>Coletânea</option>
+
+</select>
+
+
+<label>Descrição do modo</label>
+
+<textarea id="descricaoModoCapa"></textarea>
+
+
+<button class="btn-azul" onclick="aplicarModo()">Aplicar padrão</button>
+
+<button class="btn-dourado" onclick="salvarModo()">Salvar modo</button>
+
+<div class="status" id="statusModo">
+
+Nenhum modo salvo ainda
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>Dados da capa</h2>
+
+<label>Título</label>
+
+<input id="tituloObra">
+
+
+<label>Subtítulo</label>
+
+<input id="subtituloObra">
+
+
+<label>Autor</label>
+
+<input id="autorObra">
+
+
+<label>Sinopse</label>
+
+<textarea id="sinopseObra"></textarea>
+
+
+<label>Biografia</label>
+
+<textarea id="biografiaObra"></textarea>
+
+
+<label>Destino da sinopse</label>
+
+<select id="destinoSinopse">
+
+<option>Contracapa</option>
+<option>Orelha dianteira</option>
+<option>Não usar</option>
+
+</select>
+
+
+<label>Destino da biografia</label>
+
+<select id="destinoBiografia">
+
+<option>Orelha traseira</option>
+<option>Contracapa</option>
+<option>Não usar</option>
+
+</select>
+
+
+<label>Foto do autor</label>
+
+<select id="fotoAutor">
+
+<option>Não</option>
+<option>Sim</option>
+
+</select>
+
+
+<label>Tipo de capa</label>
+
+<select id="tipoCapa">
+
+<option>Física</option>
+<option>E-book</option>
+<option>Física + E-book</option>
+
+</select>
+
+</div>
+
+
+<div class="card">
+
+<h2>Upload de imagens</h2>
+
+<label>Capa frontal</label>
+<input type="file">
+
+<label>Contracapa</label>
+<input type="file">
+
+<label>Orelha dianteira</label>
+<input type="file">
+
+<label>Orelha traseira</label>
+<input type="file">
+
+<label>Foto do autor</label>
+<input type="file">
+
+</div>
+
+
+<div class="card">
+
+<h2>Confirmação</h2>
+
+<button class="btn-verde" onclick="confirmarCapa()">
+
+Confirmar capa e seguir
+
+</button>
+
+
+<button class="btn-cinza" onclick="irExpedicao()">
+
+Ir direto para expedição
+
+</button>
+
+</div>
+
+
+</div>
+
+
+<script>
+
+
+function aplicarModo(){
+
+let modo=document.getElementById("modoCapa").value
+
+let texto=""
+
+if(modo=="Nacional")
+
+texto="Capa voltada ao mercado nacional"
+
+if(modo=="Internacional")
+
+texto="Capa com padrão internacional"
+
+if(modo=="Híbrido")
+
+texto="Capa híbrida nacional + internacional"
+
+document.getElementById("descricaoModoCapa").value=texto
+
+}
+
+
+
+function salvarModo(){
+
+sessionStorage.setItem("modoCapa",
+
+document.getElementById("modoCapa").value)
+
+document.getElementById("statusModo").innerText=
+
+"Modo salvo com sucesso"
+
+}
+
+
+
+function confirmarCapa(){
+
+salvarModo()
+
+window.location.href="expedicao_material.html"
+
+}
+
+
+
+function irExpedicao(){
+
+window.location.href="expedicao_material.html"
+
+}
+
+
+
+window.onload=function(){
+
+let titulo=localStorage.getItem("lapidar_obra_titulo")
+
+let autor=localStorage.getItem("lapidar_obra_autor")
+
+let subtitulo=localStorage.getItem("lapidar_obra_subtitulo")
+
+
+if(titulo)
+
+document.getElementById("tituloObra").value=titulo
+
+
+if(autor)
+
+document.getElementById("autorObra").value=autor
+
+
+if(subtitulo)
+
+document.getElementById("subtituloObra").value=subtitulo
+
+
+document.getElementById("projetoAtivo").innerText=
+
+(titulo||"Obra não identificada")+
+
+"\nAutor: "+
+
+(autor||"Autor não identificado")
+
+}
+
+
+</script>
+
 
 </body>
 </html>
