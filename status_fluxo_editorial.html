@@ -3,55 +3,200 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Status do Fluxo Editorial</title>
+<title>Status do Fluxo Editorial • Lapidar</title>
+
 <style>
 body{
 margin:0;
 font-family:Arial, sans-serif;
 background:#0e0604;
-color:#fff;
--webkit-user-select:none;
-user-select:none;
+color:white;
+font-size:20px;
 }
+
 header{
 background:#2f436d;
-padding:18px 20px;
+padding:24px 20px;
 display:flex;
 justify-content:space-between;
 align-items:center;
+gap:12px;
+flex-wrap:wrap;
 }
+
 .container{
-max-width:1000px;
+max-width:1150px;
 margin:auto;
-padding:24px 16px 40px;
+padding:28px 18px 44px;
 }
+
 .card{
 background:#1c0e08;
-border-radius:14px;
-padding:18px;
-margin-bottom:18px;
+border-radius:18px;
+padding:24px;
+margin-bottom:22px;
 box-shadow:0 6px 18px rgba(0,0,0,.25);
 }
-.etapa{
-background:#2a140c;
-padding:14px;
-border-radius:10px;
-margin-top:10px;
+
+h2{
+margin:0;
+font-size:34px;
 }
-button{
-padding:12px 16px;
-border:none;
-border-radius:8px;
-cursor:pointer;
+
+h3{
+margin-top:0;
+font-size:28px;
+}
+
+p{
+line-height:1.8;
+font-size:20px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:18px;
+}
+
+.etapa{
+background:#24130c;
+border-radius:16px;
+padding:20px;
+border:2px solid transparent;
+min-height:220px;
+display:flex;
+flex-direction:column;
+justify-content:space-between;
+}
+
+.etapa h4{
+margin:0 0 10px 0;
+font-size:25px;
+}
+
+.etapa p{
+margin:0 0 14px 0;
+font-size:19px;
+}
+
+.etapa.pendente{
+border-color:#9a7b34;
+}
+
+.etapa.concluida{
+border-color:#1f6b36;
+}
+
+.etapa.bloqueada{
+border-color:#8a1f1f;
+}
+
+.etapa.sonora{
+border-color:#c06d98;
+background:#2b1624;
+}
+
+.status-tag{
+display:inline-block;
+padding:10px 14px;
+border-radius:999px;
+font-size:16px;
 font-weight:bold;
+margin-top:12px;
+}
+
+.status-tag.pendente{
+background:#fff0cc;
+color:#7a5616;
+}
+
+.status-tag.concluida{
+background:#d4f3df;
+color:#1f6b36;
+}
+
+.status-tag.bloqueada{
+background:#ffd7d7;
+color:#7a1f1f;
+}
+
+.status-tag.sonora{
+background:#c06d98;
+color:#111;
+}
+
+.preview{
+margin-top:16px;
+background:#2a140c;
+padding:16px;
+border-radius:12px;
+font-size:20px;
+line-height:1.8;
+white-space:pre-line;
+}
+
+button{
+margin-top:16px;
+padding:16px 20px;
+border:none;
+border-radius:12px;
 background:#2f436d;
 color:white;
+font-weight:bold;
+cursor:pointer;
+font-size:22px;
+width:100%;
 }
-.linhaBotoes{
-display:flex;
-gap:10px;
-flex-wrap:wrap;
-margin-top:14px;
+
+.alt{
+background:#8a6f3f;
+}
+
+.sec{
+background:#6c757d;
+}
+
+.ok{
+background:#1f6b36;
+}
+
+.pink{
+background:#c06d98;
+color:#111;
+}
+
+.badge{
+display:inline-block;
+padding:10px 14px;
+border-radius:999px;
+font-size:16px;
+font-weight:bold;
+margin-top:12px;
+background:#2a140c;
+}
+
+@media (max-width:700px){
+body{
+font-size:22px;
+}
+h2{
+font-size:34px;
+}
+h3{
+font-size:30px;
+}
+.etapa h4{
+font-size:28px;
+}
+.etapa p,
+.preview,
+p{
+font-size:21px;
+}
+button{
+font-size:22px;
+}
 }
 </style>
 </head>
@@ -59,31 +204,117 @@ margin-top:14px;
 
 <header>
 <h2>Status do Fluxo Editorial</h2>
-<button onclick="voltar()">Voltar</button>
+<div>
+<button class="sec" onclick="voltar()">Voltar</button>
+</div>
 </header>
 
 <div class="container">
 
 <div class="card">
 <h3>Projeto ativo</h3>
-<div id="projetoAtual">Nenhum projeto ativo selecionado.</div>
+<div id="nomeProjeto">Nenhum projeto ativo selecionado.</div>
+<div class="badge" id="perfilBadge">Perfil: -</div>
+<div class="preview" id="resumoFluxo">
+Carregando status do projeto...
+</div>
 </div>
 
 <div class="card">
-<h3>Etapas do fluxo editorial</h3>
-<div class="etapa">✔ Preparação inicial</div>
-<div class="etapa">✔ Organização estrutural</div>
-<div class="etapa">⏳ Diagramação</div>
-<div class="etapa">⏳ Revisão técnica</div>
-<div class="etapa">⏳ Capa editorial</div>
-<div class="etapa">⏳ Traduções (se houver)</div>
-<div class="etapa">⏳ Publicação final</div>
+<h3>Fluxo editorial do Lapidar</h3>
 
-<div class="linhaBotoes">
-<button onclick="abrirProjetos()">Projetos</button>
-<button onclick="abrirSetores()">Setores</button>
-<button onclick="abrirDepartamentos()">Departamentos</button>
+<div class="grid" id="gridFluxo">
+
+<div class="etapa pendente" id="etapaPreparacao">
+<div>
+<h4>Preparação inicial</h4>
+<p>Entrada da obra, leitura inicial, título, subtítulo e autor confirmados.</p>
+<span class="status-tag pendente" id="tagPreparacao">Pendente</span>
 </div>
+<button onclick="abrirProducao()">Abrir produção</button>
+</div>
+
+<div class="etapa pendente" id="etapaAnalisador">
+<div>
+<h4>Organização estrutural</h4>
+<p>Análise da obra, tema, gênero, personagens, ambiente e resumo estrutural.</p>
+<span class="status-tag pendente" id="tagAnalisador">Pendente</span>
+</div>
+<button onclick="abrirAnalisador()">Abrir analisador</button>
+</div>
+
+<div class="etapa pendente" id="etapaDiagramacao">
+<div>
+<h4>Diagramação</h4>
+<p>Miolo, fonte, margens, paginação, formato e parâmetros editoriais da obra.</p>
+<span class="status-tag pendente" id="tagDiagramacao">Pendente</span>
+</div>
+<button onclick="abrirDiagramador()">Abrir diagramação</button>
+</div>
+
+<div class="etapa pendente" id="etapaAvaliacao">
+<div>
+<h4>Revisão técnica</h4>
+<p>Avaliação Técnica, Avaliação Editorial e Índice Emocional da Obra.</p>
+<span class="status-tag pendente" id="tagAvaliacao">Pendente</span>
+</div>
+<button onclick="abrirAvaliacao()">Abrir avaliação</button>
+</div>
+
+<div class="etapa pendente" id="etapaCapa">
+<div>
+<h4>Preparação da capa</h4>
+<p>Sinopse, biografia, imagens, tipo de capa e organização de frente, contra e orelhas.</p>
+<span class="status-tag pendente" id="tagCapa">Pendente</span>
+</div>
+<button onclick="abrirCapista()">Abrir capa</button>
+</div>
+
+<div class="etapa pendente" id="etapaTraducao">
+<div>
+<h4>Traduções</h4>
+<p>Idiomas, capas por idioma e preparação internacional da obra.</p>
+<span class="status-tag pendente" id="tagTraducao">Pendente</span>
+</div>
+<button onclick="abrirTraducao()">Abrir tradução</button>
+</div>
+
+<div class="etapa pendente" id="etapaLapidacao">
+<div>
+<h4>Lapidação literária</h4>
+<p>Refinamento de texto, clareza, ritmo, humanização e checklist editorial.</p>
+<span class="status-tag pendente" id="tagLapidacao">Pendente</span>
+</div>
+<button onclick="abrirLapidacao()">Abrir lapidação</button>
+</div>
+
+<div class="etapa sonora" id="etapaNarracao">
+<div>
+<h4>Módulo 17 — Silo Sonoro</h4>
+<p>Narração editorial, roteiro narrativo, fila de produção sonora e pacote de áudio.</p>
+<span class="status-tag sonora" id="tagNarracao">Aguardando</span>
+</div>
+<button class="pink" onclick="abrirNarracao()">Abrir Silo Sonoro</button>
+</div>
+
+<div class="etapa bloqueada" id="etapaExpedicao">
+<div>
+<h4>Publicação / Expedição final</h4>
+<p>Saída textual, sonora ou híbrida, com proteção de Word/PDF e conferência final.</p>
+<span class="status-tag bloqueada" id="tagExpedicao">Bloqueada</span>
+</div>
+<button class="ok" onclick="abrirExpedicao()">Abrir expedição</button>
+</div>
+
+</div>
+</div>
+
+<div class="card">
+<h3>Leitura rápida do andamento</h3>
+<div class="preview" id="painelAndamento">
+Nenhum andamento calculado ainda.
+</div>
+<button class="alt" onclick="recalcularFluxo()">Recalcular fluxo</button>
 </div>
 
 </div>
@@ -94,23 +325,150 @@ if(!perfil){
 window.location.href = "index.html";
 }
 
+document.getElementById("perfilBadge").innerText = "Perfil: " + perfil;
+
 const projeto = localStorage.getItem("lapidar_projeto_ativo");
 if(projeto){
-document.getElementById("projetoAtual").innerText = projeto;
+document.getElementById("nomeProjeto").innerText = projeto;
+}
+
+function setEtapa(idBase, status){
+const etapa = document.getElementById("etapa" + idBase);
+const tag = document.getElementById("tag" + idBase);
+
+etapa.classList.remove("pendente","concluida","bloqueada","sonora");
+tag.classList.remove("pendente","concluida","bloqueada","sonora");
+
+if(status === "concluida"){
+etapa.classList.add("concluida");
+tag.classList.add("concluida");
+tag.innerText = "Concluída";
+return;
+}
+
+if(status === "bloqueada"){
+etapa.classList.add("bloqueada");
+tag.classList.add("bloqueada");
+tag.innerText = "Bloqueada";
+return;
+}
+
+if(status === "sonora"){
+etapa.classList.add("sonora");
+tag.classList.add("sonora");
+tag.innerText = "Em áudio";
+return;
+}
+
+etapa.classList.add("pendente");
+tag.classList.add("pendente");
+tag.innerText = "Pendente";
+}
+
+function existe(chave){
+return !!localStorage.getItem(chave);
+}
+
+function recalcularFluxo(){
+const preparacao = existe("lapidar_obra_titulo") || existe("lapidar_obra_texto") || existe("lapidar_obra_arquivo_nome");
+const analisador = existe("lapidar_obra_resumo") || existe("lapidar_obra_genero") || existe("lapidar_obra_tema");
+const diagramacao = existe("lapidar_diagramacao_config");
+const avaliacao = existe("lapidar_resultado_publico_tecnico") || existe("lapidar_resultado_publico_editorial") || existe("lapidar_resultado_publico_iel");
+const capa = existe("lapidar_capa_config") || existe("lapidar_capa_titulo") || existe("lapidar_capa_sinopse");
+const traducao = existe("lapidar_traducao_config") || existe("lapidar_traducao_origem");
+const lapidacao = existe("lapidar_lapidacao_config") || existe("lapidar_texto_lapidado");
+const narracaoConfig = existe("lapidar_narracao_config");
+const narracaoRoteiro = existe("lapidar_roteiro_narracao");
+const narracaoFila = existe("lapidar_audio_fila");
+const narracaoProducao = existe("lapidar_audio_producao");
+const expedicaoTextual = localStorage.getItem("lapidar_expedicao_gerada") === "true";
+const expedicaoSonora = localStorage.getItem("lapidar_expedicao_sonora_gerada") === "true";
+const pacoteCompleto = localStorage.getItem("lapidar_pacote_editorial_completo") === "true";
+
+setEtapa("Preparacao", preparacao ? "concluida" : "pendente");
+setEtapa("Analisador", analisador ? "concluida" : "pendente");
+setEtapa("Diagramacao", diagramacao ? "concluida" : "pendente");
+setEtapa("Avaliacao", avaliacao ? "concluida" : "pendente");
+setEtapa("Capa", capa ? "concluida" : "pendente");
+setEtapa("Traducao", traducao ? "concluida" : "pendente");
+setEtapa("Lapidacao", lapidacao ? "concluida" : "pendente");
+
+if(narracaoProducao || narracaoFila || narracaoRoteiro || narracaoConfig){
+setEtapa("Narracao", narracaoProducao ? "concluida" : "sonora");
+}else{
+setEtapa("Narracao", "pendente");
+document.getElementById("tagNarracao").innerText = "Pendente";
+}
+
+if(expedicaoTextual || expedicaoSonora || pacoteCompleto){
+setEtapa("Expedicao", "concluida");
+}else{
+const algumaEtapa = preparacao || analisador || diagramacao || avaliacao || capa || traducao || lapidacao || narracaoConfig;
+setEtapa("Expedicao", algumaEtapa ? "pendente" : "bloqueada");
+if(algumaEtapa){
+document.getElementById("tagExpedicao").innerText = "Aguardando";
+}
+}
+
+const linhas = [];
+linhas.push("Resumo do andamento do projeto\n");
+linhas.push("Preparação inicial: " + (preparacao ? "Concluída" : "Pendente"));
+linhas.push("Organização estrutural: " + (analisador ? "Concluída" : "Pendente"));
+linhas.push("Diagramação: " + (diagramacao ? "Concluída" : "Pendente"));
+linhas.push("Revisão técnica: " + (avaliacao ? "Concluída" : "Pendente"));
+linhas.push("Preparação da capa: " + (capa ? "Concluída" : "Pendente"));
+linhas.push("Traduções: " + (traducao ? "Concluída" : "Pendente"));
+linhas.push("Lapidação literária: " + (lapidacao ? "Concluída" : "Pendente"));
+linhas.push("Silo Sonoro: " + ((narracaoProducao || narracaoFila || narracaoRoteiro || narracaoConfig) ? "Em andamento / concluído" : "Pendente"));
+linhas.push("Expedição final: " + ((expedicaoTextual || expedicaoSonora || pacoteCompleto) ? "Concluída" : "Ainda não gerada"));
+
+document.getElementById("painelAndamento").innerText = linhas.join("\n");
+
+document.getElementById("resumoFluxo").innerText =
+"Fluxo editorial calculado automaticamente com base no que já foi salvo no projeto atual.";
+}
+
+function abrirProducao(){
+window.location.href = "producao_integrada.html";
+}
+
+function abrirAnalisador(){
+window.location.href = "analisador_obra.html";
+}
+
+function abrirDiagramador(){
+window.location.href = "diagramador_inicio.html";
+}
+
+function abrirAvaliacao(){
+window.location.href = "avaliacao_literaria.html";
+}
+
+function abrirCapista(){
+window.location.href = "capista.html";
+}
+
+function abrirTraducao(){
+window.location.href = "segunda_lingua.html";
+}
+
+function abrirLapidacao(){
+window.location.href = "lapidacao_literaria.html";
+}
+
+function abrirNarracao(){
+window.location.href = "narracao_editorial.html";
+}
+
+function abrirExpedicao(){
+window.location.href = "expedicao_material.html";
 }
 
 function voltar(){
-window.location.href = "projetos.html";
+window.location.href = "hub_relatorios.html";
 }
-function abrirProjetos(){
-window.location.href = "projetos.html";
-}
-function abrirSetores(){
-window.location.href = "painel_setores.html";
-}
-function abrirDepartamentos(){
-window.location.href = "painel_departamentos.html";
-}
+
+recalcularFluxo();
 </script>
 
 </body>
