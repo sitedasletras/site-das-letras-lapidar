@@ -3,418 +3,376 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Painel de Setores - Lapidar</title>
+<title>Painel de Setores • Lapidar</title>
 
 <style>
-:root{
---bg:#0d0603;
---text:#ffffff;
---orange:#f7b22c;
-}
-
 body{
 margin:0;
 font-family:Arial, sans-serif;
-background:var(--bg);
-color:var(--text);
+background:#0e0604;
+color:white;
+font-size:20px;
 }
 
-.container{
-width:min(1200px,95%);
-margin:auto;
-padding:40px 0 60px;
-}
-
-.titulo{
-font-size:42px;
-font-weight:bold;
-text-align:center;
-}
-
-.subtitulo{
-margin-top:10px;
-font-size:16px;
-color:var(--orange);
-line-height:1.7;
-text-align:center;
-}
-
-.status{
-margin:22px auto 0;
-max-width:900px;
-padding:16px;
-border-radius:12px;
-background:rgba(247,178,44,0.12);
-border:1px solid rgba(247,178,44,0.25);
-color:#fffbf0;
-text-align:center;
-}
-
-.grid{
-margin-top:32px;
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:22px;
-}
-
-.card{
-padding:28px 22px;
-border-radius:20px;
-transition:.2s;
-box-shadow:0 10px 26px rgba(0,0,0,0.25);
-border:3px solid transparent;
-min-height:260px;
+header{
+background:#2f436d;
+padding:22px 20px;
 display:flex;
-flex-direction:column;
 justify-content:space-between;
-position:relative;
-}
-
-.card.bloqueado{
-opacity:.45;
-filter:grayscale(.2);
-}
-
-.cardTitulo{
-font-size:26px;
-font-weight:bold;
-margin-bottom:10px;
-}
-
-.cardDesc{
-font-size:15px;
-line-height:1.8;
-}
-
-.botaoInterno{
-margin-top:18px;
-display:inline-block;
-padding:12px 16px;
-border-radius:999px;
-font-weight:bold;
-font-size:14px;
-width:max-content;
-}
-
-.badgeStatus{
-margin-top:16px;
-display:inline-block;
-padding:8px 12px;
-border-radius:999px;
-font-size:13px;
-font-weight:bold;
-background:rgba(0,0,0,0.18);
-}
-
-.badgePlano{
-background:rgba(23,77,39,0.30);
-}
-
-.badgeAviso{
-background:rgba(255,255,255,0.18);
-}
-
-.badgeBloqueado{
-background:rgba(90,0,0,0.25);
-}
-
-.trava{
-position:absolute;
-top:16px;
-right:16px;
-background:rgba(90,0,0,0.78);
-color:#fff;
-padding:6px 10px;
-border-radius:999px;
-font-size:12px;
-font-weight:bold;
-display:none;
-}
-
-.card.bloqueado .trava{
-display:inline-block;
-}
-
-.rodape{
-margin-top:34px;
-display:flex;
-justify-content:center;
+align-items:center;
 gap:12px;
 flex-wrap:wrap;
 }
 
-.botaoRodape{
+.container{
+max-width:1200px;
+margin:auto;
+padding:28px 18px 44px;
+}
+
+.card{
+background:#1c0e08;
+border-radius:18px;
+padding:24px;
+margin-bottom:22px;
+box-shadow:0 6px 18px rgba(0,0,0,.25);
+}
+
+h2{
+margin:0;
+font-size:34px;
+}
+
+h3{
+margin-top:0;
+font-size:28px;
+}
+
+p{
+line-height:1.8;
+font-size:20px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:18px;
+}
+
+.item{
+background:#24130c;
+border-radius:16px;
+padding:20px;
+display:flex;
+flex-direction:column;
+justify-content:space-between;
+min-height:210px;
+border:2px solid transparent;
+}
+
+.item h4{
+margin:0 0 10px 0;
+font-size:26px;
+}
+
+.item p{
+margin:0 0 14px 0;
+font-size:19px;
+}
+
+button{
+margin-top:12px;
+padding:16px 18px;
 border:none;
-padding:12px 16px;
-border-radius:999px;
-cursor:pointer;
-background:#24150f;
+border-radius:12px;
+background:#2f436d;
 color:white;
 font-weight:bold;
-font-size:14px;
+cursor:pointer;
+font-size:21px;
+width:100%;
 }
 
-.botaoRodape.sair{
-background:#5a0000;
+button:hover{
+filter:brightness(1.08);
 }
 
-/* DIAGRAMADOR */
-.azul{
-background:#0f3d91;
-color:#ffffff;
-border-color:#ffffff;
-}
-.azul .botaoInterno{
-background:#0f3d91;
-color:#ffffff;
-border:2px solid #ffffff;
+.azul{ border-color:#2d67c8; }
+.amarelo{ border-color:#d4a62a; }
+.verde{ border-color:#2a8b47; }
+.branco{ border-color:#d8d8d8; }
+.vinho{ border-color:#7a2f63; }
+.vermelho{ border-color:#8b2a2a; }
+.rosa{ border-color:#c06d98; }
+
+.badge{
+display:inline-block;
+padding:10px 14px;
+border-radius:999px;
+font-size:16px;
+font-weight:bold;
+margin-top:12px;
+background:#2a140c;
 }
 
-/* CAPISTA */
-.amarelo{
-background:#f2c230;
-color:#111111;
-border-color:#111111;
-}
-.amarelo .botaoInterno{
-background:#f2c230;
-color:#111111;
-border:2px solid #111111;
+.status{
+margin-top:16px;
+background:#2a140c;
+padding:16px;
+border-radius:12px;
+font-size:19px;
+line-height:1.8;
+white-space:pre-line;
 }
 
-/* TRADUTOR */
-.verde{
-background:#167a45;
-color:#ffffff;
-border-color:#ffffff;
-}
-.verde .botaoInterno{
-background:#ffffff;
-color:#111111;
-border:2px solid #111111;
-}
-
-/* RELATÓRIOS */
-.branco{
-background:#ffffff;
-color:#111111;
-border-color:#111111;
-}
-.branco .botaoInterno{
-background:#ffffff;
-color:#111111;
-border:2px solid #111111;
+.topo{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:12px;
+flex-wrap:wrap;
 }
 
 @media (max-width:700px){
-.container{
-padding:28px 0 42px;
+body{
+font-size:22px;
 }
-.titulo{
+h2{
 font-size:34px;
+}
+h3{
+font-size:30px;
+}
+.item h4{
+font-size:28px;
+}
+.item p,
+.status,
+p{
+font-size:21px;
+}
+button{
+font-size:22px;
 }
 }
 </style>
 </head>
 <body>
 
+<header>
+<div class="topo">
+<h2>Painel de Setores</h2>
+</div>
+<div>
+<button onclick="voltar()">Voltar</button>
+</div>
+</header>
+
 <div class="container">
 
-<div class="titulo">Lapidar</div>
+<div class="card">
+<h3>Projeto ativo</h3>
+<div id="nomeProjeto">Nenhum projeto ativo selecionado.</div>
+<div class="badge" id="perfilBadge">Perfil: -</div>
 
-<div class="subtitulo">
-Escolha o setor editorial que deseja utilizar.<br>
-Cada área possui sua própria identidade visual, fluxo de produção e organização de contribuições.
+<div class="status" id="statusAcesso">
+Carregando permissões do sistema...
+</div>
 </div>
 
-<div id="statusPainelSetores" class="status">
-Verificando sessão ativa...
-</div>
+<div class="card">
+<h3>Setores oficiais do Lapidar</h3>
 
 <div class="grid">
 
-<div id="cardDiagramador" class="card azul" onclick="abrirDiagramador()">
-<div class="trava">Bloqueado</div>
+<div class="item azul">
 <div>
-<div class="cardTitulo">Diagramador</div>
-<div class="cardDesc">
-Envie seu original, escolha o formato desejado e acompanhe a preparação editorial do miolo do seu livro para físico, e-book ou ambos.
+<h4>1 — Assistente de Diagramação</h4>
+<p>Configuração de miolo, margens, fontes, paginação e estrutura visual da obra.</p>
 </div>
-<div id="badgeDiagramador" class="badgeStatus">Verificando...</div>
-</div>
-<div class="botaoInterno">Entrar no Diagramador</div>
+<button onclick="abrirDiagramador()">Abrir setor</button>
 </div>
 
-<div id="cardCapista" class="card amarelo" onclick="abrirCapista()">
-<div class="trava">Bloqueado</div>
+<div class="item amarelo">
 <div>
-<div class="cardTitulo">Capista</div>
-<div class="cardDesc">
-Envie os materiais da capa, escolha a plataforma ou o modelo editorial e acompanhe a geração da capa física, e-book ou ambas.
+<h4>3 — OKapista</h4>
+<p>Configuração de capa, contracapa, orelhas, biografia, sinopse e imagens editoriais.</p>
 </div>
-<div id="badgeCapista" class="badgeStatus">Verificando...</div>
-</div>
-<div class="botaoInterno">Entrar no Capista</div>
+<button onclick="abrirCapista()">Abrir setor</button>
 </div>
 
-<div id="cardTradutor" class="card verde" onclick="abrirTradutor()">
-<div class="trava">Bloqueado</div>
+<div class="item verde">
 <div>
-<div class="cardTitulo">Tradutor</div>
-<div class="cardDesc">
-Envie o livro, selecione os idiomas e formatos desejados e acompanhe a preparação das traduções editoriais da sua obra.
+<h4>5 — Segunda Língua(s)</h4>
+<p>Tradução da obra, idiomas de destino, capas por idioma e organização internacional.</p>
 </div>
-<div id="badgeTradutor" class="badgeStatus">Verificando...</div>
-</div>
-<div class="botaoInterno">Entrar no Tradutor</div>
+<button onclick="abrirSegundaLingua()">Abrir setor</button>
 </div>
 
-<div id="cardRelatorios" class="card branco" onclick="abrirRelatorios()">
-<div class="trava">Bloqueado</div>
+<div class="item branco">
 <div>
-<div class="cardTitulo">Pareceres</div>
-<div class="cardDesc">
-Envie a obra para análise e receba avaliação técnica, leitura crítica e parecer editorial conforme a solicitação realizada.
+<h4>7 — Avaliação Literária</h4>
+<p>Avaliação Técnica, Avaliação Editorial e Índice Emocional da Obra com notas independentes.</p>
 </div>
-<div id="badgeRelatorios" class="badgeStatus">Disponível</div>
+<button onclick="abrirAvaliacao()">Abrir setor</button>
 </div>
-<div class="botaoInterno">Entrar nos Pareceres</div>
+
+<div class="item vinho">
+<div>
+<h4>11 — Analisador de Obra</h4>
+<p>Leitura inicial da obra para alimentar automaticamente os demais módulos do sistema.</p>
+</div>
+<button onclick="abrirAnalisador()">Abrir setor</button>
+</div>
+
+<div class="item vermelho">
+<div>
+<h4>13 — Lapidação Literária</h4>
+<p>Humanização, refinamento narrativo, ritmo, clareza, coerência e acabamento editorial.</p>
+</div>
+<button onclick="abrirLapidacao()">Abrir setor</button>
+</div>
+
+<div class="item rosa">
+<div>
+<h4>17 — Silo Sonoro</h4>
+<p>Narração editorial da obra, das avaliações, relatórios e materiais sonoros do Lapidar.</p>
+</div>
+<button onclick="abrirNarracao()">Abrir setor</button>
 </div>
 
 </div>
+</div>
 
-<div class="rodape">
-<button class="botaoRodape" onclick="abrirCriarPerfil()">Criar perfil</button>
-<button class="botaoRodape" onclick="abrirRecuperarSenha()">Recuperar senha</button>
-<button class="botaoRodape sair" onclick="encerrarSessao()">Sair do sistema</button>
+<div class="card">
+<h3>Integração do Silo Sonoro</h3>
+
+<div class="status">
+O Módulo 17 utiliza a mesma entrada geral da obra já lida no Lapidar.
+
+Ele pode puxar automaticamente:
+• texto da obra
+• avaliação técnica
+• avaliação editorial
+• índice emocional
+• relatório estrutural
+• texto lapidado
+
+E sai pela mesma expedição final do sistema:
+• Word
+• PDF
+• Word + PDF
+• pacote sonoro
+</div>
+</div>
+
+<div class="card">
+<h3>Ações rápidas</h3>
+
+<div class="grid">
+
+<div class="item vinho">
+<div>
+<h4>Produção Integrada</h4>
+<p>Entrada geral da obra, marcação de serviços e encaminhamento direto ao primeiro setor marcado.</p>
+</div>
+<button onclick="abrirProducao()">Abrir</button>
+</div>
+
+<div class="item branco">
+<div>
+<h4>Expedição Final</h4>
+<p>Saída dos materiais da obra e do pacote sonoro, com proteção interna do sistema.</p>
+</div>
+<button onclick="abrirExpedicao()">Abrir</button>
+</div>
+
+<div class="item verde">
+<div>
+<h4>Mesário Mor</h4>
+<p>Liberações, cortesias, validações e acompanhamento institucional do projeto.</p>
+</div>
+<button onclick="abrirMesario()">Abrir</button>
+</div>
+
+</div>
 </div>
 
 </div>
 
 <script>
 const perfil = localStorage.getItem("lapidar_perfil");
-const statusBox = document.getElementById("statusPainelSetores");
-
-const MAPA_PERMISSOES = {
-admin: [1,3,5,7,11,13],
-heteronimo: [1,3,5,7,11,13]
-};
-
-const MAPA_CARTOES = {
-1: {card:"cardDiagramador", badge:"badgeDiagramador", rota:"diagramador_inicio.html", nome:"Diagramador"},
-3: {card:"cardCapista", badge:"badgeCapista", rota:"capista_inicio.html", nome:"Capista"},
-5: {card:"cardTradutor", badge:"badgeTradutor", rota:"tradutor_inicio.html", nome:"Tradutor"},
-7: {card:"cardRelatorios", badge:"badgeRelatorios", rota:"relatorios_inicio.html", nome:"Pareceres"}
-};
-
-function obterPermissoesAtuais(){
-if(!perfil) return [];
-
-if(MAPA_PERMISSOES[perfil]) return MAPA_PERMISSOES[perfil];
-
-const cortesias = JSON.parse(localStorage.getItem("lapidar_courtesy_profiles") || "{}");
-const dados = cortesias[perfil];
-
-if(!dados) return [];
-if(dados.status !== "ativa") return [];
-if(dados.accessLevel === "TOP_GLOBAL") return [1,3,5,7,11,13];
-
-return Array.isArray(dados.sectors) ? dados.sectors : [];
-}
-
-function aplicarStatusBadge(id, setorNumero){
-const el = document.getElementById(id);
-const permitidos = obterPermissoesAtuais();
-
-el.classList.remove("badgePlano","badgeAviso","badgeBloqueado");
-
-if(permitidos.includes(setorNumero)){
-el.innerHTML = "Disponível";
-el.classList.add("badgePlano");
-return;
-}
-
-el.innerHTML = "Bloqueado";
-el.classList.add("badgeBloqueado");
-}
-
-function carregarStatusSetores(){
-aplicarStatusBadge("badgeDiagramador", 1);
-aplicarStatusBadge("badgeCapista", 3);
-aplicarStatusBadge("badgeTradutor", 5);
-aplicarStatusBadge("badgeRelatorios", 7);
-
-const permitidos = obterPermissoesAtuais();
-
-[1,3,5,7].forEach(setor=>{
-const item = MAPA_CARTOES[setor];
-const card = document.getElementById(item.card);
-
-if(!permitidos.includes(setor)){
-card.classList.add("bloqueado");
-}else{
-card.classList.remove("bloqueado");
-}
-});
-}
-
-function verificarSessao(){
 if(!perfil){
 window.location.href = "index.html";
-return false;
 }
 
-statusBox.innerHTML = "Sessão validada. Escolha o setor editorial desejado.";
-statusBox.style.background = "rgba(23,77,39,0.28)";
-return true;
+document.getElementById("perfilBadge").innerText = "Perfil: " + perfil;
+
+const projeto = localStorage.getItem("lapidar_projeto_ativo");
+if(projeto){
+document.getElementById("nomeProjeto").innerText = projeto;
 }
 
-function registrarAcessoInterno(nome){
-let logs = JSON.parse(localStorage.getItem("lapidar_auditoria_logs") || "[]");
-logs.push("Acesso ao setor " + nome + " em " + new Date().toLocaleString("pt-BR"));
-localStorage.setItem("lapidar_auditoria_logs", JSON.stringify(logs));
+function descreverAcesso(){
+let texto = "";
+
+if(perfil === "admin" || perfil === "heteronimo"){
+texto += "Acesso total detectado.\n";
+texto += "Todos os setores do Lapidar, incluindo o Módulo 17 — Silo Sonoro, estão liberados.";
+}else{
+texto += "Acesso por perfil comum ou cortesia detectado.\n";
+texto += "Os setores visíveis ficam à mostra para todos os usuários do Lapidar.\n";
+texto += "A liberação final de uso depende da regra do perfil, cortesia ativa ou validação do Mesário Mor.";
 }
 
-function podeEntrar(setorNumero){
-const permitidos = obterPermissoesAtuais();
-return permitidos.includes(setorNumero);
+document.getElementById("statusAcesso").innerText = texto;
 }
 
-function abrirSetor(setorNumero){
-if(!verificarSessao()) return;
-
-const item = MAPA_CARTOES[setorNumero];
-if(!item) return;
-
-if(!podeEntrar(setorNumero)){
-alert("Este setor não está liberado para este perfil.");
-return;
+function abrirDiagramador(){
+window.location.href = "diagramador_inicio.html";
 }
 
-registrarAcessoInterno(item.nome);
-window.location.href = item.rota;
+function abrirCapista(){
+window.location.href = "capista.html";
 }
 
-function abrirDiagramador(){ abrirSetor(1); }
-function abrirCapista(){ abrirSetor(3); }
-function abrirTradutor(){ abrirSetor(5); }
-function abrirRelatorios(){ abrirSetor(7); }
-
-function abrirCriarPerfil(){
-window.location.href = "criar_perfil.html";
+function abrirSegundaLingua(){
+window.location.href = "segunda_lingua.html";
 }
 
-function abrirRecuperarSenha(){
-window.location.href = "recuperar_senha.html";
+function abrirAvaliacao(){
+window.location.href = "avaliacao_literaria.html";
 }
 
-function encerrarSessao(){
-localStorage.removeItem("lapidar_perfil");
-window.location.href = "index.html";
+function abrirAnalisador(){
+window.location.href = "analisador_obra.html";
 }
 
-verificarSessao();
-carregarStatusSetores();
+function abrirLapidacao(){
+window.location.href = "lapidacao_literaria.html";
+}
+
+function abrirNarracao(){
+window.location.href = "narracao_editorial.html";
+}
+
+function abrirProducao(){
+window.location.href = "producao_integrada.html";
+}
+
+function abrirExpedicao(){
+window.location.href = "expedicao_material.html";
+}
+
+function abrirMesario(){
+window.location.href = "mesario_mor.html";
+}
+
+function voltar(){
+window.location.href = "painel_departamentos.html";
+}
+
+descreverAcesso();
 </script>
 
 </body>
