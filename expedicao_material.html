@@ -25,7 +25,7 @@ flex-wrap:wrap;
 }
 
 .container{
-max-width:1100px;
+max-width:1150px;
 margin:auto;
 padding:28px 18px 44px;
 }
@@ -86,6 +86,7 @@ color:white;
 font-weight:bold;
 cursor:pointer;
 font-size:22px;
+width:100%;
 }
 
 .alt{
@@ -102,6 +103,11 @@ background:#1f6b36;
 
 .warn{
 background:#8a1f1f;
+}
+
+.pink{
+background:#c06d98;
+color:#111;
 }
 
 .preview{
@@ -131,6 +137,21 @@ padding:18px;
 border-radius:14px;
 font-size:20px;
 line-height:1.8;
+display:flex;
+flex-direction:column;
+justify-content:space-between;
+min-height:250px;
+border:2px solid transparent;
+}
+
+.item.sonoro{
+border-color:#c06d98;
+background:#2b1624;
+}
+
+.item h4{
+margin:0 0 10px 0;
+font-size:25px;
 }
 
 .badge{
@@ -148,6 +169,11 @@ background:#1f6b36;
 
 .badge.bloqueado{
 background:#8a1f1f;
+}
+
+.badge.sonoro{
+background:#c06d98;
+color:#111;
 }
 
 .checkline{
@@ -169,7 +195,7 @@ transform:scale(1.4);
 display:none !important;
 }
 
-@media (max-width:900px){
+@media (max-width:950px){
 .grid-3{
 grid-template-columns:1fr;
 }
@@ -197,7 +223,7 @@ grid-template-columns:1fr;
 <h3>Projeto ativo</h3>
 <div id="nomeProjeto">Nenhum projeto ativo selecionado.</div>
 <div class="preview" id="statusProjeto">
-Preparando opções de expedição do Lapidar.
+Preparando opções de expedição do Lapidar e do Silo Sonoro.
 </div>
 </div>
 
@@ -223,57 +249,130 @@ Preparando opções de expedição do Lapidar.
 </div>
 
 <div class="preview" id="statusSaida">
-Se Word for selecionado, o sistema mantém PDF interno salvo para proteção e auditoria.
+Se Word for selecionado, o sistema mantém PDF interno salvo para proteção, auditoria e conferência futura.
 </div>
 </div>
 
 <div class="card">
-<h3>Materiais disponíveis para saída</h3>
+<h3>Pacote principal da obra</h3>
 
 <div class="grid-3">
 
 <div class="item">
-<strong>Miolo diagramado</strong><br>
-Recebimento do miolo final da obra.<br>
+<div>
+<h4>Miolo diagramado</h4>
+Material final da obra em sua versão de leitura e preparação editorial.
+</div>
 <button id="btnMiolo" onclick="baixarArquivo('Miolo diagramado')">Baixar</button>
 </div>
 
 <div class="item">
-<strong>Capa final</strong><br>
-Recebimento de capa física, e-book ou ambas, conforme configurado.<br>
+<div>
+<h4>Capa final</h4>
+Capa física, capa de e-book ou ambas, conforme o fluxo configurado.
+</div>
 <button id="btnCapa" onclick="baixarArquivo('Capa final')">Baixar</button>
 </div>
 
 <div class="item">
-<strong>Relatórios editoriais</strong><br>
-Parecer, avaliação técnica, editorial, IEL e relatório estrutural.<br>
+<div>
+<h4>Relatórios editoriais</h4>
+Avaliação Técnica, Avaliação Editorial, IEL e relatório estrutural.
+</div>
 <button id="btnRelatorios" onclick="baixarArquivo('Relatórios editoriais')">Baixar</button>
 </div>
 
 <div class="item">
-<strong>Texto lapidado</strong><br>
-Versão tratada e refinada do texto, se houver lapidação no fluxo.<br>
+<div>
+<h4>Texto lapidado</h4>
+Versão refinada do texto, se a Lapidação Literária foi utilizada no projeto.
+</div>
 <button id="btnLapidado" onclick="baixarArquivo('Texto lapidado')">Baixar</button>
 </div>
 
 <div class="item">
-<strong>Traduções</strong><br>
-Saída dos idiomas configurados no módulo Segunda Língua(s).<br>
+<div>
+<h4>Traduções</h4>
+Saída dos idiomas configurados no módulo Segunda Língua(s).
+</div>
 <button id="btnTraducao" onclick="baixarArquivo('Traduções')">Baixar</button>
 </div>
 
 <div class="item">
-<strong>Narração editorial</strong><br>
-Audiobook e áudios narrados dos relatórios, se o módulo 17 foi incluído.<br>
-<button id="btnNarracao" onclick="baixarArquivo('Narração editorial')">Baixar</button>
+<div>
+<h4>Pacote completo textual</h4>
+Conjunto completo da obra em sua saída editorial escrita.
+</div>
+<button id="btnPacoteTextual" onclick="baixarArquivo('Pacote completo textual')">Baixar</button>
+</div>
+
+</div>
+</div>
+
+<div class="card">
+<h3>Pacote sonoro • Silo Sonoro</h3>
+
+<div class="preview">
+O Módulo 17 agora sai pela mesma expedição do Lapidar.
+Aqui ficam os materiais de narração editorial, audiobook e relatórios sonoros gerados no fluxo.
+</div>
+
+<div class="badge sonoro">Módulo 17 — Silo Sonoro</div>
+
+<div class="grid-3">
+
+<div class="item sonoro">
+<div>
+<h4>Audiobook da obra</h4>
+Áudio da obra completa ou capítulos selecionados, conforme configuração do Silo Sonoro.
+</div>
+<button id="btnAudiobook" class="pink" onclick="baixarArquivo('Audiobook da obra')">Baixar</button>
+</div>
+
+<div class="item sonoro">
+<div>
+<h4>Áudio das avaliações</h4>
+Narração da avaliação técnica, avaliação editorial e índice emocional da obra.
+</div>
+<button id="btnAudioAvaliacoes" class="pink" onclick="baixarArquivo('Áudio das avaliações')">Baixar</button>
+</div>
+
+<div class="item sonoro">
+<div>
+<h4>Áudio do relatório estrutural</h4>
+Versão sonora do relatório da obra, do parecer ou do material analítico.
+</div>
+<button id="btnAudioRelatorio" class="pink" onclick="baixarArquivo('Áudio do relatório estrutural')">Baixar</button>
+</div>
+
+<div class="item sonoro">
+<div>
+<h4>Pacote sonoro completo</h4>
+Conjunto de todos os materiais narrados produzidos no Módulo 17.
+</div>
+<button id="btnPacoteSonoro" class="pink" onclick="baixarArquivo('Pacote sonoro completo')">Baixar</button>
+</div>
+
+<div class="item sonoro">
+<div>
+<h4>Formato sonoro selecionado</h4>
+Exibe o formato salvo no Silo Sonoro: MP3, WAV ou MP3 + WAV.
+</div>
+<button class="alt" onclick="mostrarFormatoSonoro()">Ver formato</button>
+</div>
+
+<div class="item sonoro">
+<div>
+<h4>Pacote editorial completo</h4>
+Saída final com material textual + sonoro no mesmo fluxo de expedição.
+</div>
+<button id="btnPacoteCompleto" class="ok" onclick="baixarArquivo('Pacote editorial completo')">Baixar</button>
 </div>
 
 </div>
 
-<button class="ok" onclick="gerarExpedicao()">Gerar expedição final</button>
-
-<div class="preview" id="statusGeracao">
-Nenhuma expedição final gerada ainda.
+<div class="preview" id="statusSonoro">
+Nenhum pacote sonoro consolidado ainda.
 </div>
 </div>
 
@@ -298,16 +397,44 @@ Nenhuma conferência nominal registrada ainda.
 <h3>Proteção interna do sistema</h3>
 
 <div class="preview">
-Regra do Lapidar:<br><br>
-• Se o usuário solicitar Word, o sistema mantém um PDF interno salvo para proteção.<br>
-• Se o usuário editar o Word depois, a versão interna do Lapidar continua preservada para auditoria.<br>
-• A identificação estrutural do sistema permanece como prova de origem e versão do arquivo.
+Regra do Lapidar:
+<br><br>
+• Se o usuário solicitar Word, o sistema mantém um PDF interno salvo para proteção.
+<br>
+• Se o usuário editar o Word depois, a versão interna do Lapidar continua preservada para auditoria.
+<br>
+• A identificação estrutural do sistema permanece como prova de origem e versão.
+<br>
+• O mesmo projeto pode sair em formato textual, sonoro ou pacote híbrido.
 </div>
 
 <button onclick="salvarBackupInterno()">Registrar backup interno do PDF</button>
 
 <div class="preview" id="statusBackup">
 Backup interno ainda não registrado.
+</div>
+</div>
+
+<div class="card">
+<h3>Gerar expedição final</h3>
+
+<div class="grid">
+<div>
+<button class="ok" onclick="gerarExpedicao()">Gerar expedição textual</button>
+</div>
+<div>
+<button class="pink" onclick="gerarExpedicaoSonora()">Gerar expedição sonora</button>
+</div>
+<div>
+<button class="ok" onclick="gerarPacoteCompleto()">Gerar pacote editorial completo</button>
+</div>
+<div>
+<button class="sec" onclick="abrirNarracao()">Abrir Módulo 17 — Silo Sonoro</button>
+</div>
+</div>
+
+<div class="preview" id="statusGeracao">
+Nenhuma expedição final gerada ainda.
 </div>
 </div>
 
@@ -325,7 +452,7 @@ Backup interno ainda não registrado.
 <button class="sec" onclick="abrirDepartamentos()">Painel de departamentos</button>
 </div>
 <div>
-<button onclick="abrirNarracao()">Módulo 17 — Narração</button>
+<button class="pink" onclick="abrirNarracao()">Silo Sonoro</button>
 </div>
 </div>
 </div>
@@ -369,16 +496,13 @@ const status = document.getElementById("statusExpedicao");
 const badge = document.getElementById("badgeExpedicao");
 
 const botoes = [
-document.getElementById("btnMiolo"),
-document.getElementById("btnCapa"),
-document.getElementById("btnRelatorios"),
-document.getElementById("btnLapidado"),
-document.getElementById("btnTraducao"),
-document.getElementById("btnNarracao")
-];
+"btnMiolo","btnCapa","btnRelatorios","btnLapidado","btnTraducao",
+"btnPacoteTextual","btnAudiobook","btnAudioAvaliacoes",
+"btnAudioRelatorio","btnPacoteSonoro","btnPacoteCompleto"
+].map(id => document.getElementById(id));
 
 if(liberada){
-status.innerHTML = "Expedição liberada para este perfil.";
+status.innerHTML = "Expedição liberada para este perfil, incluindo pacote textual e pacote sonoro.";
 badge.innerHTML = '<span class="badge livre">Liberada</span>';
 
 botoes.forEach(btn=>{
@@ -403,16 +527,27 @@ return "Word + PDF";
 }
 
 function baixarArquivo(nome){
-alert("Download preparado: " + nome + " | Formato: " + formatoSelecionado());
+alert("Download preparado: " + nome + " | Formato textual: " + formatoSelecionado());
+}
+
+function mostrarFormatoSonoro(){
+let config = {};
+try{
+config = JSON.parse(localStorage.getItem("lapidar_narracao_config") || "{}");
+}catch(e){
+config = {};
+}
+const formato = config.formato || "Nenhum formato sonoro salvo ainda.";
+document.getElementById("statusSonoro").innerHTML =
+"Formato sonoro configurado: " + formato;
 }
 
 function gerarExpedicao(){
 const formato = formatoSelecionado();
 const modoColetivo = document.getElementById("modoColetivo").checked;
-const narracao = localStorage.getItem("lapidar_narracao_config");
 
 let mensagem =
-"Expedição final preparada com sucesso.<br>" +
+"Expedição textual preparada com sucesso.<br>" +
 "Formato escolhido: " + formato + ".<br>";
 
 if(formato === "Word" || formato === "Word + PDF"){
@@ -423,14 +558,62 @@ if(modoColetivo){
 mensagem += "Conferência nominal reforçada recomendada antes do fechamento definitivo.<br>";
 }
 
-if(narracao){
-mensagem += "Narração editorial incluída no pacote final, se aplicável.<br>";
-}
-
 document.getElementById("statusGeracao").innerHTML = mensagem;
 
 localStorage.setItem("lapidar_expedicao_formato", formato);
 localStorage.setItem("lapidar_expedicao_gerada", "true");
+}
+
+function gerarExpedicaoSonora(){
+let config = {};
+try{
+config = JSON.parse(localStorage.getItem("lapidar_narracao_config") || "{}");
+}catch(e){
+config = {};
+}
+
+const formato = config.formato || "MP3";
+const mensagem =
+"Expedição sonora preparada com sucesso.<br>" +
+"Formato sonoro: " + formato + ".<br>" +
+"Pacote do Silo Sonoro integrado à mesma saída do Lapidar.";
+
+document.getElementById("statusGeracao").innerHTML = mensagem;
+document.getElementById("statusSonoro").innerHTML = mensagem;
+
+localStorage.setItem("lapidar_expedicao_sonora_gerada", "true");
+}
+
+function gerarPacoteCompleto(){
+const formato = formatoSelecionado();
+let config = {};
+try{
+config = JSON.parse(localStorage.getItem("lapidar_narracao_config") || "{}");
+}catch(e){
+config = {};
+}
+
+const formatoSonoro = config.formato || "MP3";
+const modoColetivo = document.getElementById("modoColetivo").checked;
+
+let mensagem =
+"Pacote editorial completo preparado com sucesso.<br>" +
+"Saída textual: " + formato + ".<br>" +
+"Saída sonora: " + formatoSonoro + ".<br>" +
+"Texto + áudio integrados na mesma expedição.<br>";
+
+if(formato === "Word" || formato === "Word + PDF"){
+mensagem += "PDF interno preservado automaticamente para proteção do sistema.<br>";
+}
+
+if(modoColetivo){
+mensagem += "Conferência nominal coletiva recomendada antes da entrega final.<br>";
+}
+
+document.getElementById("statusGeracao").innerHTML = mensagem;
+document.getElementById("statusSonoro").innerHTML = "Pacote sonoro incluído no pacote editorial completo.";
+
+localStorage.setItem("lapidar_pacote_editorial_completo", "true");
 }
 
 function salvarConferenciaNomes(){
