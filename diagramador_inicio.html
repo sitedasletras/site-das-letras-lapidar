@@ -1,224 +1,379 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Assistente de Diagramação • Lapidar</title>
 
-<title>Assistente de Diagramação • Lapidar</title>
+  <style>
+    *{
+      box-sizing:border-box;
+    }
 
-<style>
-body{
-margin:0;
-font-family:Arial, sans-serif;
-background:#0e0604;
-color:white;
-}
+    body{
+      margin:0;
+      font-family:Arial, sans-serif;
+      background:#08111f;
+      color:#ffffff;
+    }
 
-header{
-background:#32497d;
-padding:20px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-}
+    header{
+      background:#32497d;
+      padding:20px 16px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+    }
 
-header a{
-background:#7b8795;
-padding:10px 16px;
-border-radius:10px;
-color:white;
-text-decoration:none;
-font-weight:bold;
-}
+    header h2{
+      margin:0;
+      font-size:22px;
+    }
 
-.container{
-max-width:1000px;
-margin:auto;
-padding:20px;
-}
+    header a{
+      background:#7b8795;
+      padding:10px 16px;
+      border-radius:10px;
+      color:#ffffff;
+      text-decoration:none;
+      font-weight:bold;
+      font-size:15px;
+    }
 
-.card{
-background:#210805;
-border-radius:16px;
-padding:20px;
-margin-bottom:20px;
-}
+    .container{
+      max-width:1000px;
+      margin:0 auto;
+      padding:20px 14px 40px;
+    }
 
-button{
-padding:14px 18px;
-border-radius:12px;
-border:none;
-font-weight:bold;
-cursor:pointer;
-}
+    .card{
+      background:#0f1f38;
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:18px;
+      padding:20px;
+      margin-bottom:18px;
+      box-shadow:0 4px 16px rgba(0,0,0,.25);
+    }
 
-.botao-verde{
-background:#2e7d32;
-color:white;
-}
+    .card h3{
+      margin:0 0 18px 0;
+      font-size:22px;
+    }
 
-.botao-cinza{
-background:#7b8795;
-color:white;
-}
+    .secao{
+      background:#132748;
+      border-radius:14px;
+      padding:16px;
+      margin-bottom:14px;
+    }
 
-input,select,textarea{
-width:100%;
-padding:12px;
-border-radius:10px;
-border:none;
-margin-top:8px;
-margin-bottom:18px;
-background:#3a120c;
-color:white;
-}
-</style>
+    .secao h4{
+      margin:0 0 14px 0;
+      font-size:18px;
+      color:#d9e6ff;
+    }
+
+    .grid-2{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
+    }
+
+    label{
+      display:block;
+      font-weight:bold;
+      margin:14px 0 8px;
+      color:#e6eefc;
+    }
+
+    input, select, textarea{
+      width:100%;
+      padding:12px;
+      border-radius:10px;
+      border:1px solid rgba(255,255,255,.10);
+      background:#1a335c;
+      color:#ffffff;
+      margin-bottom:10px;
+      font-size:15px;
+    }
+
+    textarea{
+      min-height:110px;
+      resize:vertical;
+    }
+
+    .acoes{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      margin-top:18px;
+    }
+
+    button{
+      border:none;
+      border-radius:12px;
+      padding:14px 18px;
+      font-size:15px;
+      font-weight:bold;
+      cursor:pointer;
+    }
+
+    .botao-verde{
+      background:#2e7d32;
+      color:#ffffff;
+    }
+
+    .botao-cinza{
+      background:#7b8795;
+      color:#ffffff;
+    }
+
+    .status{
+      margin-top:18px;
+      background:#132748;
+      border-radius:12px;
+      padding:14px;
+      line-height:1.6;
+      white-space:pre-line;
+      color:#e7efff;
+    }
+
+    @media(max-width:700px){
+      .grid-2{
+        grid-template-columns:1fr;
+      }
+
+      header h2{
+        font-size:20px;
+      }
+    }
+  </style>
 </head>
-
 <body>
 
-<header>
-<h2>Assistente de Diagramação</h2>
-<a href="projetos.html">Voltar</a>
-</header>
+  <header>
+    <h2>Assistente de Diagramação</h2>
+    <a href="index.html">Voltar</a>
+  </header>
 
-<div class="container">
+  <div class="container">
+    <div class="card">
+      <h3>Configuração da diagramação</h3>
 
-<div class="card">
+      <div class="secao">
+        <h4>Estrutura do livro</h4>
 
-<h3>Formato do livro</h3>
-<select id="formatoLivro">
-<option>A5</option>
-<option>16x23</option>
-<option>A4</option>
-</select>
+        <div class="grid-2">
+          <div>
+            <label for="formatoLivro">Formato do livro</label>
+            <select id="formatoLivro">
+              <option value="A5">A5</option>
+              <option value="16x23">16x23</option>
+              <option value="A4">A4</option>
+              <option value="6x9">6x9</option>
+            </select>
+          </div>
 
-<h3>Fonte do texto</h3>
-<select id="fonteTexto">
-<option>Garamond</option>
-<option>Times New Roman</option>
-<option>Arial</option>
-</select>
+          <div>
+            <label for="numeracaoPaginas">Numeração de páginas</label>
+            <select id="numeracaoPaginas">
+              <option value="corpo-da-obra">Iniciar no corpo da obra</option>
+              <option value="desde-o-inicio">Iniciar desde o início</option>
+              <option value="sem-numeracao">Sem numeração</option>
+            </select>
+          </div>
+        </div>
 
-<h3>Tamanho da fonte</h3>
-<input id="tamanhoFonte" value="12">
+        <div class="grid-2">
+          <div>
+            <label for="posicaoNumeracao">Posição da numeração</label>
+            <select id="posicaoNumeracao">
+              <option value="rodape-centro">Rodapé central</option>
+              <option value="rodape-direita">Rodapé à direita</option>
+              <option value="rodape-esquerda">Rodapé à esquerda</option>
+              <option value="cabecalho-centro">Cabeçalho central</option>
+            </select>
+          </div>
 
-<h3>Espaçamento entre linhas</h3>
-<select id="espacamento">
-<option>1,15</option>
-<option selected>1,5</option>
-<option>2</option>
-</select>
+          <div>
+            <label for="letraCapitular">Letra capitular</label>
+            <select id="letraCapitular">
+              <option value="nao">Não</option>
+              <option value="sim">Sim</option>
+            </select>
+          </div>
+        </div>
+      </div>
 
-<h3>Observações da diagramação</h3>
-<textarea id="observacoes"></textarea>
+      <div class="secao">
+        <h4>Corpo do texto</h4>
 
-<button class="botao-verde" onclick="confirmarDiagramacao()">
-Concordo com esta diagramação e quero seguir
-</button>
+        <div class="grid-2">
+          <div>
+            <label for="fonteTexto">Fonte do texto</label>
+            <select id="fonteTexto">
+              <option value="Garamond">Garamond</option>
+              <option value="Times New Roman">Times New Roman</option>
+              <option value="Arial">Arial</option>
+              <option value="Libre Baskerville">Libre Baskerville</option>
+            </select>
+          </div>
 
-<button class="botao-cinza" onclick="irParaExpedicao()">
-Pular para expedição
-</button>
+          <div>
+            <label for="tamanhoFonte">Tamanho da fonte</label>
+            <input id="tamanhoFonte" type="text" value="12">
+          </div>
+        </div>
 
-</div>
+        <div class="grid-2">
+          <div>
+            <label for="espacamentoLinhas">Espaçamento entre linhas</label>
+            <select id="espacamentoLinhas">
+              <option value="1,0">1,0</option>
+              <option value="1,15">1,15</option>
+              <option value="1,5" selected>1,5</option>
+              <option value="2,0">2,0</option>
+            </select>
+          </div>
 
-</div>
+          <div>
+            <label for="espacamentoParagrafos">Espaçamento entre parágrafos</label>
+            <select id="espacamentoParagrafos">
+              <option value="0">Sem espaço extra</option>
+              <option value="6">6 pt</option>
+              <option value="12">12 pt</option>
+            </select>
+          </div>
+        </div>
+      </div>
 
-<script>
+      <div class="secao">
+        <h4>Capítulos</h4>
 
-function obterModulosSelecionados(){
+        <div class="grid-2">
+          <div>
+            <label for="fonteCapitulo">Fonte do título do capítulo</label>
+            <select id="fonteCapitulo">
+              <option value="Garamond">Garamond</option>
+              <option value="Times New Roman">Times New Roman</option>
+              <option value="Arial">Arial</option>
+              <option value="Libre Baskerville">Libre Baskerville</option>
+            </select>
+          </div>
 
-try{
-return JSON.parse(localStorage.getItem("lapidar_modulos_marcados")) || {}
-}
-catch{
-return {}
-}
+          <div>
+            <label for="tamanhoCapitulo">Tamanho do título do capítulo</label>
+            <input id="tamanhoCapitulo" type="text" value="16">
+          </div>
+        </div>
+      </div>
 
-}
+      <div class="secao">
+        <h4>Observações</h4>
+        <label for="observacoesDiagramacao">Observações da diagramação</label>
+        <textarea id="observacoesDiagramacao"></textarea>
+      </div>
 
-function salvarConfiguracaoDiagramacao(){
+      <div class="acoes">
+        <button class="botao-verde" type="button" onclick="confirmarDiagramacao()">
+          Concordo com esta diagramação e quero seguir
+        </button>
 
-const config = {
+        <button class="botao-cinza" type="button" onclick="irParaExpedicao()">
+          Pular para expedição
+        </button>
+      </div>
 
-formato:document.getElementById("formatoLivro").value,
-fonte:document.getElementById("fonteTexto").value,
-tamanho:document.getElementById("tamanhoFonte").value,
-espacamento:document.getElementById("espacamento").value,
-observacoes:document.getElementById("observacoes").value
+      <div class="status" id="statusDiagramacao">
+        Ajuste a diagramação e siga para o próximo passo do fluxo.
+      </div>
+    </div>
+  </div>
 
-}
+  <script>
+    function obterModulosSelecionados(){
+      try{
+        return JSON.parse(localStorage.getItem("lapidar_modulos_marcados")) || {};
+      }catch(e){
+        return {};
+      }
+    }
 
-sessionStorage.setItem("diagramacao_config_atual",JSON.stringify(config))
+    function salvarConfiguracaoDiagramacao(){
+      var config = {
+        formato: document.getElementById("formatoLivro").value,
+        numeracao: document.getElementById("numeracaoPaginas").value,
+        posicaoNumeracao: document.getElementById("posicaoNumeracao").value,
+        letraCapitular: document.getElementById("letraCapitular").value,
+        fonteTexto: document.getElementById("fonteTexto").value,
+        tamanhoFonte: document.getElementById("tamanhoFonte").value,
+        espacamentoLinhas: document.getElementById("espacamentoLinhas").value,
+        espacamentoParagrafos: document.getElementById("espacamentoParagrafos").value,
+        fonteCapitulo: document.getElementById("fonteCapitulo").value,
+        tamanhoCapitulo: document.getElementById("tamanhoCapitulo").value,
+        observacoes: document.getElementById("observacoesDiagramacao").value
+      };
 
-}
+      sessionStorage.setItem("diagramacao_config_atual", JSON.stringify(config));
+    }
 
-function proximoModulo(){
+    function obterProximoDestinoDepoisDaDiagramacao(){
+      var modulos = obterModulosSelecionados();
 
-const modulos = obterModulosSelecionados()
+      if(modulos.capista) return "capista.html";
+      if(modulos.traducao) return "segunda_lingua.html";
+      if(modulos.avaliacao) return "avaliacao_literaria.html";
+      if(modulos.analisador) return "analisador_obra.html";
+      if(modulos.lapidacao) return "lapidacao_literaria.html";
+      if(modulos.siloSonoro) return "narracao_editorial.html";
 
-if(modulos.capista){
+      return "expedicao_material.html";
+    }
 
-window.location.href="capista_inicio.html"
-return
+    function confirmarDiagramacao(){
+      salvarConfiguracaoDiagramacao();
 
-}
+      var destino = obterProximoDestinoDepoisDaDiagramacao();
 
-if(modulos.traducao){
+      document.getElementById("statusDiagramacao").innerText =
+        "Configuração salva com sucesso.\nEncaminhando para: " + destino;
 
-window.location.href="tradutor_inicio.html"
-return
+      setTimeout(function(){
+        window.location.href = destino;
+      }, 400);
+    }
 
-}
+    function irParaExpedicao(){
+      document.getElementById("statusDiagramacao").innerText =
+        "Pulando diretamente para a expedição do material.";
 
-if(modulos.avaliacao){
+      setTimeout(function(){
+        window.location.href = "expedicao_material.html";
+      }, 300);
+    }
 
-window.location.href="avaliador_inicio.html"
-return
+    window.addEventListener("load", function(){
+      try{
+        var configSalva = JSON.parse(sessionStorage.getItem("diagramacao_config_atual") || "null");
 
-}
-
-if(modulos.analisador){
-
-window.location.href="analisador_inicio.html"
-return
-
-}
-
-if(modulos.lapidacao){
-
-window.location.href="lapidacao_inicio.html"
-return
-
-}
-
-if(modulos.siloSonoro){
-
-window.location.href="silo_sonoro_inicio.html"
-return
-
-}
-
-window.location.href="expedicao_material.html"
-
-}
-
-function confirmarDiagramacao(){
-
-salvarConfiguracaoDiagramacao()
-
-proximoModulo()
-
-}
-
-function irParaExpedicao(){
-
-window.location.href="expedicao_material.html"
-
-}
-
-</script>
+        if(configSalva){
+          if(configSalva.formato) document.getElementById("formatoLivro").value = configSalva.formato;
+          if(configSalva.numeracao) document.getElementById("numeracaoPaginas").value = configSalva.numeracao;
+          if(configSalva.posicaoNumeracao) document.getElementById("posicaoNumeracao").value = configSalva.posicaoNumeracao;
+          if(configSalva.letraCapitular) document.getElementById("letraCapitular").value = configSalva.letraCapitular;
+          if(configSalva.fonteTexto) document.getElementById("fonteTexto").value = configSalva.fonteTexto;
+          if(configSalva.tamanhoFonte) document.getElementById("tamanhoFonte").value = configSalva.tamanhoFonte;
+          if(configSalva.espacamentoLinhas) document.getElementById("espacamentoLinhas").value = configSalva.espacamentoLinhas;
+          if(configSalva.espacamentoParagrafos) document.getElementById("espacamentoParagrafos").value = configSalva.espacamentoParagrafos;
+          if(configSalva.fonteCapitulo) document.getElementById("fonteCapitulo").value = configSalva.fonteCapitulo;
+          if(configSalva.tamanhoCapitulo) document.getElementById("tamanhoCapitulo").value = configSalva.tamanhoCapitulo;
+          if(configSalva.observacoes) document.getElementById("observacoesDiagramacao").value = configSalva.observacoes;
+        }
+      }catch(e){
+        console.log("Sem configuração anterior de diagramação.");
+      }
+    });
+  </script>
 
 </body>
 </html>
