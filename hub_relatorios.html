@@ -25,7 +25,7 @@ flex-wrap:wrap;
 }
 
 .container{
-max-width:1100px;
+max-width:1150px;
 margin:auto;
 padding:28px 18px 44px;
 }
@@ -78,6 +78,11 @@ background:#6c757d;
 background:#1f6b36;
 }
 
+.pink{
+background:#c06d98;
+color:#111;
+}
+
 .grid{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
@@ -93,12 +98,18 @@ line-height:1.8;
 display:flex;
 flex-direction:column;
 justify-content:space-between;
-min-height:220px;
+min-height:230px;
+border:2px solid transparent;
 }
 
 .item h4{
 margin:0 0 12px 0;
 font-size:26px;
+}
+
+.item.sonoro{
+border-color:#c06d98;
+background:#2b1624;
 }
 
 .preview{
@@ -119,6 +130,11 @@ font-size:16px;
 font-weight:bold;
 margin-top:12px;
 background:#2a140c;
+}
+
+.badge.sonoro{
+background:#c06d98;
+color:#111;
 }
 
 .lista{
@@ -172,7 +188,7 @@ font-size:22px;
 <div id="nomeProjeto">Nenhum projeto ativo selecionado.</div>
 <div class="badge" id="perfilBadge">Perfil: -</div>
 <div class="preview">
-Aqui ficam organizados os relatórios do mestre da obra, estatísticas do sistema, histórico de geração e consolidação do projeto.
+Aqui ficam organizados os relatórios do mestre da obra, estatísticas do sistema, histórico de geração e, agora, o acompanhamento do Silo Sonoro.
 </div>
 </div>
 
@@ -184,7 +200,7 @@ Aqui ficam organizados os relatórios do mestre da obra, estatísticas do sistem
 <div class="item">
 <div>
 <h4>Relatório do Mestre da Obra</h4>
-<p>Consolida o que foi feito nos módulos: análise, diagramação, capa, tradução, avaliação, lapidação, narração e expedição.</p>
+<p>Consolida análise, diagramação, capa, tradução, avaliação, lapidação, narração e expedição do projeto.</p>
 </div>
 <button onclick="gerarRelatorioMestre()">Gerar</button>
 </div>
@@ -192,9 +208,17 @@ Aqui ficam organizados os relatórios do mestre da obra, estatísticas do sistem
 <div class="item">
 <div>
 <h4>Painel Estatístico do Sistema</h4>
-<p>Mostra quais setores foram marcados no projeto atual e o que já foi salvo dentro do fluxo editorial.</p>
+<p>Mostra quais setores foram marcados e o que já foi salvo dentro do fluxo editorial atual.</p>
 </div>
 <button class="alt" onclick="gerarPainelEstatistico()">Gerar</button>
+</div>
+
+<div class="item sonoro">
+<div>
+<h4>Relatório do Silo Sonoro</h4>
+<p>Consolida configuração de voz, roteiro narrativo, fila de produção, formatos e expedição sonora.</p>
+</div>
+<button class="pink" onclick="gerarRelatorioSonoro()">Gerar</button>
 </div>
 
 <div class="item">
@@ -223,6 +247,44 @@ Nenhum relatório registrado ainda.
 </div>
 
 <div class="card">
+<h3>Produção sonora</h3>
+
+<div class="badge sonoro">Módulo 17 — Silo Sonoro</div>
+
+<div class="grid">
+
+<div class="item sonoro">
+<div>
+<h4>Roteiro narrativo</h4>
+<p>Verifica se o roteiro de leitura já foi gerado e salvo para produção.</p>
+</div>
+<button class="pink" onclick="verRoteiroNarrativo()">Ver</button>
+</div>
+
+<div class="item sonoro">
+<div>
+<h4>Fila de produção</h4>
+<p>Mostra se o projeto já entrou na fila e se a produção sonora foi liberada.</p>
+</div>
+<button class="pink" onclick="verFilaSonora()">Ver</button>
+</div>
+
+<div class="item sonoro">
+<div>
+<h4>Expedição sonora</h4>
+<p>Mostra se o pacote sonoro já foi preparado para saída pela expedição final.</p>
+</div>
+<button class="pink" onclick="verExpedicaoSonora()">Ver</button>
+</div>
+
+</div>
+
+<div class="preview" id="painelSonoro">
+Nenhum dado sonoro exibido ainda.
+</div>
+</div>
+
+<div class="card">
 <h3>Ações rápidas</h3>
 
 <div class="grid">
@@ -246,9 +308,17 @@ Nenhum relatório registrado ainda.
 <div class="item">
 <div>
 <h4>Expedição final</h4>
-<p>Vai direto para a saída do material e conferência final.</p>
+<p>Vai direto para a saída textual e sonora do material final.</p>
 </div>
 <button class="ok" onclick="abrirExpedicao()">Abrir</button>
+</div>
+
+<div class="item sonoro">
+<div>
+<h4>Silo Sonoro</h4>
+<p>Abre o Módulo 17 para continuar configuração, roteiro ou fila de produção de áudio.</p>
+</div>
+<button class="pink" onclick="abrirNarracao()">Abrir</button>
 </div>
 
 </div>
@@ -289,8 +359,10 @@ const tema = localStorage.getItem("lapidar_obra_tema") || "-";
 const sallT = localStorage.getItem("lapidar_resultado_publico_tecnico") || "0,00";
 const sallE = localStorage.getItem("lapidar_resultado_publico_editorial") || "0,00";
 const iel = localStorage.getItem("lapidar_resultado_publico_iel") || "0,00";
+const expTextual = localStorage.getItem("lapidar_expedicao_gerada") === "true" ? "Sim" : "Não";
+const expSonora = localStorage.getItem("lapidar_expedicao_sonora_gerada") === "true" ? "Sim" : "Não";
 
-const texto = 
+const texto =
 "Relatório do Mestre da Obra\n\n" +
 "Título: " + titulo + "\n" +
 "Subtítulo: " + subtitulo + "\n" +
@@ -299,12 +371,18 @@ const texto =
 "Tema: " + tema + "\n\n" +
 "Avaliação Técnica Literária: " + sallT + "\n" +
 "Avaliação Editorial: " + sallE + "\n" +
-"Índice Emocional da Obra: " + iel + "\n\n" +
+"Índice Emocional da Obra: " + iel + "\n" +
+"Expedição textual: " + expTextual + "\n" +
+"Expedição sonora: " + expSonora + "\n\n" +
 "Situação geral: projeto consolidado para acompanhamento interno do Lapidar.";
 
 document.getElementById("resultadoRelatorio").innerText = texto;
 registrarHistorico("Relatório do Mestre da Obra", texto);
 carregarHistorico();
+}
+
+function linesPushIfExists(arr, titulo, valor){
+arr.push(titulo + ": " + (valor ? "Sim" : "Não"));
 }
 
 function gerarPainelEstatistico(){
@@ -327,7 +405,11 @@ linesPushIfExists(linhas, "Configuração de tradução salva", localStorage.get
 linesPushIfExists(linhas, "Configuração de avaliação salva", localStorage.getItem("lapidar_resultado_publico_tecnico") || localStorage.getItem("lapidar_resultado_publico_editorial") || localStorage.getItem("lapidar_resultado_publico_iel"));
 linesPushIfExists(linhas, "Configuração de lapidação salva", localStorage.getItem("lapidar_lapidacao_config"));
 linesPushIfExists(linhas, "Configuração de narração salva", localStorage.getItem("lapidar_narracao_config"));
-linesPushIfExists(linhas, "Expedição gerada", localStorage.getItem("lapidar_expedicao_gerada"));
+linesPushIfExists(linhas, "Roteiro narrativo salvo", localStorage.getItem("lapidar_roteiro_narracao"));
+linesPushIfExists(linhas, "Fila sonora registrada", localStorage.getItem("lapidar_audio_fila"));
+linesPushIfExists(linhas, "Produção sonora ativa", localStorage.getItem("lapidar_audio_producao"));
+linesPushIfExists(linhas, "Expedição textual gerada", localStorage.getItem("lapidar_expedicao_gerada"));
+linesPushIfExists(linhas, "Expedição sonora gerada", localStorage.getItem("lapidar_expedicao_sonora_gerada"));
 
 const texto = linhas.join("\n");
 document.getElementById("resultadoRelatorio").innerText = texto;
@@ -335,8 +417,40 @@ registrarHistorico("Painel Estatístico do Sistema", texto);
 carregarHistorico();
 }
 
-function linesPushIfExists(arr, titulo, valor){
-arr.push(titulo + ": " + (valor ? "Sim" : "Não"));
+function gerarRelatorioSonoro(){
+let config = {};
+try{
+config = JSON.parse(localStorage.getItem("lapidar_narracao_config") || "{}");
+}catch(e){
+config = {};
+}
+
+const roteiro = localStorage.getItem("lapidar_roteiro_narracao");
+const fila = localStorage.getItem("lapidar_audio_fila");
+const producao = localStorage.getItem("lapidar_audio_producao");
+const expedicao = localStorage.getItem("lapidar_expedicao_sonora_gerada");
+
+const texto =
+"Relatório do Silo Sonoro\n\n" +
+"Obra completa: " + (config.narraObra ? "Sim" : "Não") + "\n" +
+"Capítulos selecionados: " + (config.narraCapitulos ? "Sim" : "Não") + "\n" +
+"Avaliação técnica narrada: " + (config.narraAvaliacaoTecnica ? "Sim" : "Não") + "\n" +
+"Avaliação editorial narrada: " + (config.narraAvaliacaoEditorial ? "Sim" : "Não") + "\n" +
+"IEL narrado: " + (config.narraIEL ? "Sim" : "Não") + "\n" +
+"Relatório estrutural narrado: " + (config.narraRelatorio ? "Sim" : "Não") + "\n" +
+"Idioma: " + (config.idioma || "-") + "\n" +
+"Voz: " + (config.voz || "-") + "\n" +
+"Estilo: " + (config.estilo || "-") + "\n" +
+"Formato: " + (config.formato || "-") + "\n" +
+"Roteiro narrativo salvo: " + (roteiro ? "Sim" : "Não") + "\n" +
+"Fila de produção registrada: " + (fila ? "Sim" : "Não") + "\n" +
+"Produção sonora ativa: " + (producao ? "Sim" : "Não") + "\n" +
+"Expedição sonora gerada: " + (expedicao ? "Sim" : "Não");
+
+document.getElementById("resultadoRelatorio").innerText = texto;
+document.getElementById("painelSonoro").innerText = texto;
+registrarHistorico("Relatório do Silo Sonoro", texto);
+carregarHistorico();
 }
 
 function carregarHistorico(){
@@ -358,6 +472,28 @@ texto += "\n----------------------------------------\n\n";
 document.getElementById("historicoRelatorios").innerText = texto.trim();
 }
 
+function verRoteiroNarrativo(){
+const roteiro = localStorage.getItem("lapidar_roteiro_narracao");
+document.getElementById("painelSonoro").innerText =
+roteiro ? "Roteiro narrativo encontrado.\n\n" + roteiro.substring(0, 1800) : "Nenhum roteiro narrativo salvo ainda.";
+}
+
+function verFilaSonora(){
+const fila = localStorage.getItem("lapidar_audio_fila");
+const producao = localStorage.getItem("lapidar_audio_producao");
+document.getElementById("painelSonoro").innerText =
+"Fila registrada: " + (fila ? "Sim" : "Não") + "\n" +
+"Produção sonora ativa: " + (producao ? "Sim" : "Não");
+}
+
+function verExpedicaoSonora(){
+const exp = localStorage.getItem("lapidar_expedicao_sonora_gerada");
+const pacote = localStorage.getItem("lapidar_pacote_editorial_completo");
+document.getElementById("painelSonoro").innerText =
+"Expedição sonora gerada: " + (exp ? "Sim" : "Não") + "\n" +
+"Pacote editorial completo: " + (pacote ? "Sim" : "Não");
+}
+
 function abrirFluxo(){
 window.location.href = "status_fluxo_editorial.html";
 }
@@ -368,6 +504,10 @@ window.location.href = "painel_departamentos.html";
 
 function abrirExpedicao(){
 window.location.href = "expedicao_material.html";
+}
+
+function abrirNarracao(){
+window.location.href = "narracao_editorial.html";
 }
 
 function voltar(){
