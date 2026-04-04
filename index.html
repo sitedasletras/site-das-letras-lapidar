@@ -4,56 +4,94 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Lapidar • Entrada oficial</title>
+
   <style>
+    *{
+      box-sizing:border-box;
+    }
+
     body{
       margin:0;
       font-family:Arial, Helvetica, sans-serif;
       background:#e6d3a3;
+      min-height:100vh;
+      position:relative;
+      overflow-x:hidden;
+    }
+
+    .faixa-vertical{
+      position:fixed;
+      top:0;
+      bottom:0;
+      left:50%;
+      transform:translateX(-50%);
+      width:136px;
+      background:#d8c28c;
+      z-index:0;
+    }
+
+    .faixa-horizontal{
+      position:fixed;
+      left:0;
+      right:0;
+      top:50%;
+      transform:translateY(-50%);
+      height:136px;
+      background:#d8c28c;
+      z-index:0;
+    }
+
+    .selo-topo{
+      position:relative;
+      z-index:2;
+      text-align:center;
+      padding-top:44px;
+      margin-bottom:22px;
+    }
+
+    .selo-topo img{
+      width:140px;
+      max-width:42vw;
+      height:auto;
+      display:inline-block;
     }
 
     .page{
+      position:relative;
+      z-index:2;
       max-width:460px;
-      margin:40px auto;
-      padding:20px;
+      margin:0 auto;
+      padding:20px 20px 60px;
     }
 
     .card{
-      background:#fff;
-      border-radius:20px;
-      padding:28px 24px;
-      box-shadow:0 12px 28px rgba(0,0,0,.12);
-    }
-
-    .top{
-      text-align:center;
-      margin-bottom:20px;
-    }
-
-    .brasao{
-      display:block;
-      margin:0 auto 10px;
-      width:130px;
-      height:auto;
-      object-fit:contain;
+      background:#ffffff;
+      border-radius:22px;
+      padding:30px 24px;
+      box-shadow:0 16px 34px rgba(0,0,0,0.14);
     }
 
     .logo{
+      text-align:center;
       font-size:34px;
-      font-weight:bold;
-      letter-spacing:2px;
-      margin:0 0 6px;
+      font-weight:800;
+      letter-spacing:1px;
+      color:#111827;
+      margin:0 0 10px 0;
     }
 
     .sub{
+      text-align:center;
       font-size:13px;
       color:#777;
-      line-height:1.5;
+      line-height:1.55;
+      margin-bottom:24px;
     }
 
     label{
       display:block;
       font-size:13px;
-      font-weight:bold;
+      font-weight:700;
       margin:14px 0 6px;
       color:#444;
     }
@@ -61,10 +99,11 @@
     input{
       width:100%;
       padding:14px;
-      border:1px solid #ccc;
-      border-radius:10px;
+      border:1px solid #d7d7d7;
+      border-radius:11px;
       font-size:15px;
-      box-sizing:border-box;
+      background:#fff;
+      color:#111827;
     }
 
     button{
@@ -74,7 +113,7 @@
       border-radius:12px;
       font-size:16px;
       cursor:pointer;
-      font-weight:bold;
+      font-weight:700;
       margin-top:14px;
     }
 
@@ -89,8 +128,8 @@
     }
 
     .btn-recuperar{
-      background:#eee;
-      color:#333;
+      background:#ececec;
+      color:#555;
     }
 
     .msg{
@@ -99,6 +138,7 @@
       border-radius:10px;
       font-size:14px;
       display:none;
+      line-height:1.5;
     }
 
     .msg.ok{
@@ -122,30 +162,56 @@
       color:#777;
       line-height:1.5;
     }
+
+    @media(max-width:560px){
+      .faixa-vertical{
+        width:120px;
+      }
+
+      .faixa-horizontal{
+        height:120px;
+      }
+
+      .selo-topo img{
+        width:120px;
+      }
+
+      .page{
+        padding:14px 14px 50px;
+      }
+
+      .card{
+        padding:26px 20px;
+      }
+
+      .logo{
+        font-size:30px;
+      }
+    }
   </style>
 </head>
 <body>
 
+  <div class="faixa-vertical"></div>
+  <div class="faixa-horizontal"></div>
+
+  <div class="selo-topo">
+    <img src="file_00000000d8bc71f5b57491905e34ae99.jpg" alt="Selo Lapidar">
+  </div>
+
   <div class="page">
     <div class="card">
+      <div class="logo">LAPIDAR</div>
 
-      <div class="top">
-        <img
-          class="brasao"
-          src="file_00000000d8bc71f5b57491905e34ae99.jpg"
-          alt="Brasão institucional do Site das Letras"
-        >
-        <div class="logo">LAPIDAR</div>
-        <div class="sub">
-          Produto institucional do Celeiro Literário<br>
-          Site das Letras Edições Literárias
-        </div>
+      <div class="sub">
+        Produto institucional do Celeiro Literário<br>
+        Site das Letras Edições Literárias
       </div>
 
-      <label>Login ou e-mail</label>
+      <label for="acesso">Login ou e-mail</label>
       <input id="acesso" placeholder="Digite seu e-mail ou telefone internacional">
 
-      <label>Senha</label>
+      <label for="senha">Senha</label>
       <input id="senha" type="password" placeholder="Digite sua senha">
 
       <button class="btn-entrar" onclick="entrarNoLapidar()">Entrar no Lapidar</button>
@@ -155,15 +221,14 @@
       <div id="mensagem" class="msg"></div>
 
       <div class="footer">
-        Lapidar • Celeiro Literário • Site das Letras Edições Literárias
+        Lapidar &nbsp;•&nbsp; Celeiro Literário &nbsp;•&nbsp; Site das Letras Edições Literárias
       </div>
-
     </div>
   </div>
 
   <script>
     function mostrarMensagem(tipo, texto){
-      const box = document.getElementById("mensagem");
+      var box = document.getElementById("mensagem");
       box.className = "msg " + tipo;
       box.innerText = texto;
     }
@@ -171,21 +236,22 @@
     function normalizarTelefone(valor){
       valor = (valor || "").trim();
       valor = valor.replace(/[^\d+]/g, "");
-      if(valor && !valor.startsWith("+")){
+
+      if (valor && !valor.startsWith("+")) {
         valor = "+" + valor.replace(/\+/g, "");
       }
-      if(valor.indexOf("+") > 0){
+
+      if (valor.indexOf("+") > 0) {
         valor = "+" + valor.replace(/\+/g, "");
       }
+
       return valor.toLowerCase();
     }
 
     function carregarCadastros(){
       try{
-        const dados = localStorage.getItem("lapidar_cadastros");
-        if(!dados){
-          return [];
-        }
+        var dados = localStorage.getItem("lapidar_cadastros");
+        if(!dados) return [];
         return JSON.parse(dados);
       }catch(e){
         return [];
@@ -193,55 +259,53 @@
     }
 
     function entrarNoLapidar(){
-      const acesso = document.getElementById("acesso").value.trim().toLowerCase();
-      const senha = document.getElementById("senha").value;
+      var acesso = document.getElementById("acesso").value.trim().toLowerCase();
+      var senha = document.getElementById("senha").value;
 
       if(!acesso || !senha){
-        mostrarMensagem("erro","Digite seu acesso e sua senha.");
+        mostrarMensagem("erro", "Digite seu acesso e sua senha.");
         return;
       }
 
-      // Perfis internos
       if(acesso.includes("admin")){
-        localStorage.setItem("lapidar_perfil","admin");
-        localStorage.setItem("lapidar_usuario","admin");
-        localStorage.setItem("lapidar_nome","Administrador do Sistema");
+        localStorage.setItem("lapidar_perfil", "admin");
+        localStorage.setItem("lapidar_usuario", "admin");
+        localStorage.setItem("lapidar_nome", "Administrador do Sistema");
         window.location.href = "sala_reunioes.html";
         return;
       }
 
       if(acesso.includes("heteronimo")){
-        localStorage.setItem("lapidar_perfil","heteronimo");
-        localStorage.setItem("lapidar_usuario","heteronimo");
-        localStorage.setItem("lapidar_nome","Heterônimo do Sistema");
+        localStorage.setItem("lapidar_perfil", "heteronimo");
+        localStorage.setItem("lapidar_usuario", "heteronimo");
+        localStorage.setItem("lapidar_nome", "Heterônimo do Sistema");
         window.location.href = "sala_reunioes.html";
         return;
       }
 
-      // Utilizador comum
-      const cadastros = carregarCadastros();
-      const acessoTelefone = normalizarTelefone(acesso);
+      var cadastros = carregarCadastros();
+      var acessoTelefone = normalizarTelefone(acesso);
 
-      const usuario = cadastros.find(function(item){
-        const emailOk = (item.email || "").toLowerCase() === acesso;
-        const telefoneOk = normalizarTelefone(item.telefone || "") === acessoTelefone;
-        const senhaOk = (item.senha || "") === senha;
+      var usuario = cadastros.find(function(item){
+        var emailOk = ((item.email || "").toLowerCase() === acesso);
+        var telefoneOk = (normalizarTelefone(item.telefone || "") === acessoTelefone);
+        var senhaOk = ((item.senha || "") === senha);
         return senhaOk && (emailOk || telefoneOk);
       });
 
       if(!usuario){
-        mostrarMensagem("erro","Cadastro não encontrado ou senha incorreta.");
+        mostrarMensagem("erro", "Cadastro não encontrado ou senha incorreta.");
         return;
       }
 
-      localStorage.setItem("lapidar_perfil","utilizador");
+      localStorage.setItem("lapidar_perfil", "utilizador");
       localStorage.setItem("lapidar_usuario_logado", usuario.id || "");
       localStorage.setItem("lapidar_nome", usuario.nomeCompleto || "Utilizador comum");
       localStorage.setItem("lapidar_email", usuario.email || "");
       localStorage.setItem("lapidar_telefone", usuario.telefone || "");
-      localStorage.setItem("lapidar_status_fluxo", "perfil_criado");
+      localStorage.setItem("lapidar_status_fluxo", "perfil criado");
 
-      mostrarMensagem("ok","Entrada autorizada. Abrindo o Lapidar...");
+      mostrarMensagem("ok", "Entrada autorizada. Abrindo o Lapidar...");
 
       setTimeout(function(){
         window.location.href = "producao_integrada.html";
