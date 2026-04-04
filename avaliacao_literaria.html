@@ -11,11 +11,12 @@ margin:0;
 font-family:Arial, sans-serif;
 background:#0e0604;
 color:white;
+font-size:20px;
 }
 
 header{
 background:#2f436d;
-padding:18px 20px;
+padding:24px 20px;
 display:flex;
 justify-content:space-between;
 align-items:center;
@@ -26,40 +27,48 @@ flex-wrap:wrap;
 .container{
 max-width:1100px;
 margin:auto;
-padding:24px 16px 40px;
+padding:28px 18px 44px;
 }
 
 .card{
 background:#1c0e08;
-border-radius:14px;
-padding:20px;
-margin-bottom:18px;
+border-radius:18px;
+padding:24px;
+margin-bottom:22px;
 box-shadow:0 6px 18px rgba(0,0,0,.25);
+}
+
+h2{
+margin:0;
+font-size:34px;
 }
 
 h3{
 margin-top:0;
+font-size:28px;
 }
 
 label{
 display:block;
-margin-top:14px;
-margin-bottom:6px;
+margin-top:18px;
+margin-bottom:8px;
 font-weight:bold;
+font-size:22px;
 }
 
 input[type="text"],
 input[type="number"],
-textarea,
-select{
+select,
+textarea{
 width:100%;
-padding:12px;
-border-radius:10px;
+padding:16px;
+border-radius:12px;
 border:none;
 background:#2a140c;
 color:white;
 box-sizing:border-box;
 font-family:Arial, sans-serif;
+font-size:22px;
 }
 
 input[type="range"]{
@@ -72,14 +81,15 @@ resize:vertical;
 }
 
 button{
-margin-top:12px;
-padding:12px 16px;
+margin-top:16px;
+padding:16px 20px;
 border:none;
-border-radius:8px;
+border-radius:12px;
 background:#2f436d;
 color:white;
 font-weight:bold;
 cursor:pointer;
+font-size:22px;
 }
 
 .alt{
@@ -95,38 +105,38 @@ background:#1f6b36;
 }
 
 .preview{
-margin-top:12px;
+margin-top:16px;
 background:#2a140c;
-padding:12px;
-border-radius:10px;
-font-size:14px;
-line-height:1.7;
+padding:16px;
+border-radius:12px;
+font-size:20px;
+line-height:1.8;
 }
 
 .grid{
 display:grid;
 grid-template-columns:1fr 1fr;
-gap:16px;
+gap:18px;
 }
 
 .grid-3{
 display:grid;
 grid-template-columns:1fr 1fr 1fr;
-gap:16px;
+gap:18px;
 }
 
 .blocoEscala{
 background:#24130c;
-padding:16px;
-border-radius:12px;
+padding:20px;
+border-radius:14px;
 margin-top:14px;
 }
 
 .linhaFaixa{
-margin-top:12px;
-padding:12px;
+margin-top:14px;
+padding:14px;
 background:#2a140c;
-border-radius:10px;
+border-radius:12px;
 }
 
 .topoFaixa{
@@ -140,22 +150,23 @@ margin-bottom:8px;
 
 .nomeFaixa{
 font-weight:bold;
+font-size:21px;
 }
 
 .valorFaixa{
-font-size:13px;
-opacity:.9;
+font-size:18px;
+opacity:.95;
 }
 
 .notaBox{
 background:#24130c;
-border-radius:12px;
-padding:16px;
+border-radius:14px;
+padding:18px;
 margin-top:16px;
 }
 
 .notaGrande{
-font-size:26px;
+font-size:30px;
 font-weight:bold;
 margin-top:8px;
 }
@@ -168,13 +179,24 @@ color:#ffd27a;
 color:#9fd9ff;
 }
 
+.badge{
+display:inline-block;
+padding:10px 14px;
+border-radius:999px;
+font-size:16px;
+font-weight:bold;
+margin-top:12px;
+background:#dddddd;
+color:#111;
+}
+
 @media(max-width:900px){
 .grid-3{
 grid-template-columns:1fr;
 }
 }
 
-@media(max-width:700px){
+@media(max-width:800px){
 .grid{
 grid-template-columns:1fr;
 }
@@ -186,7 +208,7 @@ grid-template-columns:1fr;
 <header>
 <h2>Avaliação Literária</h2>
 <div>
-<button onclick="voltar()">Voltar</button>
+<button class="sec" onclick="voltar()">Voltar</button>
 </div>
 </header>
 
@@ -195,6 +217,7 @@ grid-template-columns:1fr;
 <div class="card">
 <h3>Projeto ativo</h3>
 <div id="projetoNome">Nenhum projeto selecionado.</div>
+<div class="badge" id="modoProducaoBadge">Modo: Personalizada</div>
 </div>
 
 <div class="card">
@@ -202,7 +225,7 @@ grid-template-columns:1fr;
 
 <div class="grid">
 <div>
-<label>Tipo de avaliação</label>
+<label for="tipoAvaliacao">Tipo de avaliação</label>
 <select id="tipoAvaliacao">
 <option>Leitura crítica</option>
 <option>Parecer técnico</option>
@@ -212,7 +235,7 @@ grid-template-columns:1fr;
 </div>
 
 <div>
-<label>Profundidade da avaliação</label>
+<label for="nivelAvaliacao">Profundidade da avaliação</label>
 <select id="nivelAvaliacao">
 <option>Leve</option>
 <option>Médio</option>
@@ -222,7 +245,7 @@ grid-template-columns:1fr;
 </div>
 </div>
 
-<label>Observações gerais</label>
+<label for="obsAvaliacao">Observações gerais</label>
 <textarea id="obsAvaliacao" placeholder="Registrar foco da avaliação, gênero, público, pontos de atenção, intenção editorial e demais observações."></textarea>
 
 <button onclick="salvarConfiguracao()">Salvar configuração da avaliação</button>
@@ -581,10 +604,13 @@ Nenhum parecer salvo ainda.
 </div>
 
 <div class="card">
-<h3>Ações rápidas</h3>
-<button onclick="abrirDepartamentos()">Painel departamentos</button>
-<button class="alt" onclick="abrirExpedicao()">Ir para expedição</button>
-<button class="sec" onclick="abrirProjetos()">Projetos</button>
+<h3>Confirmação</h3>
+<div class="preview" id="resumoConfirmacao">
+Revise as três avaliações. Se estiver tudo certo, confirme e siga para o próximo setor marcado.
+</div>
+
+<button class="ok" onclick="confirmarESeguir()">Concordo com esta avaliação e quero seguir</button>
+<button class="sec" onclick="abrirExpedicao()">Pular para expedição</button>
 </div>
 
 </div>
@@ -599,6 +625,9 @@ const projeto = localStorage.getItem("lapidar_projeto_ativo");
 if(projeto){
 document.getElementById("projetoNome").innerText = projeto;
 }
+
+const modo = localStorage.getItem("lapidar_modo_producao") || "personalizada";
+document.getElementById("modoProducaoBadge").innerText = "Modo: " + modo.charAt(0).toUpperCase() + modo.slice(1);
 
 function clamp(v){
 let n = Number(v) || 0;
@@ -672,9 +701,9 @@ document.querySelector("#caixaIELFinal .notaGrande").innerText = nota;
 }
 
 function salvarConfiguracao(){
-localStorage.setItem("lapidar_avaliacao_tipo", tipoAvaliacao.value);
-localStorage.setItem("lapidar_avaliacao_nivel", nivelAvaliacao.value);
-localStorage.setItem("lapidar_avaliacao_obs", obsAvaliacao.value);
+localStorage.setItem("lapidar_avaliacao_tipo", document.getElementById("tipoAvaliacao").value);
+localStorage.setItem("lapidar_avaliacao_nivel", document.getElementById("nivelAvaliacao").value);
+localStorage.setItem("lapidar_avaliacao_obs", document.getElementById("obsAvaliacao").value);
 
 document.getElementById("statusConfig").innerText =
 "Configuração da avaliação registrada com sucesso.";
@@ -697,7 +726,7 @@ document.getElementById("statusPainelFinal").innerHTML =
 }
 
 function salvarParecer(){
-localStorage.setItem("lapidar_parecer_literario", parecerLiterario.value);
+localStorage.setItem("lapidar_parecer_literario", document.getElementById("parecerLiterario").value);
 document.getElementById("statusParecer").innerText = "Parecer salvo com sucesso.";
 }
 
@@ -708,26 +737,33 @@ document.getElementById("statusParecer").innerText =
 texto ? "Parecer carregado com sucesso." : "Nenhum parecer salvo encontrado.";
 }
 
-function abrirDepartamentos(){
-window.location.href = "painel_departamentos.html";
+function proximoServicoAposAvaliacao(){
+const s = JSON.parse(localStorage.getItem("lapidar_servicos_marcados") || "{}");
+
+if(s.lapidacao) return "lapidacao_literaria.html";
+if(s.analisador) return "analisador_obra.html";
+
+return "expedicao_material.html";
+}
+
+function confirmarESeguir(){
+salvarPainelCompleto();
+window.location.href = proximoServicoAposAvaliacao();
 }
 
 function abrirExpedicao(){
 window.location.href = "expedicao_material.html";
 }
 
-function abrirProjetos(){
-window.location.href = "projetos.html";
-}
-
 function voltar(){
-window.location.href = "painel_departamentos.html";
+window.location.href = "segunda_lingua.html";
 }
 
-// inicia os displays
-["t1","t2","t3","t4","t5","t6","t7","t8","t9","t10",
- "e1","e2","e3","e4","e5","e6","e7","e8","e9","e10",
- "i1","i2","i3","i4","i5","i6","i7","i8","i9","i10"].forEach(id=>{
+[
+"t1","t2","t3","t4","t5","t6","t7","t8","t9","t10",
+"e1","e2","e3","e4","e5","e6","e7","e8","e9","e10",
+"i1","i2","i3","i4","i5","i6","i7","i8","i9","i10"
+].forEach(id=>{
 const numberId = id + "n";
 const valueId = id + "v";
 if(document.getElementById(id) && document.getElementById(numberId) && document.getElementById(valueId)){
