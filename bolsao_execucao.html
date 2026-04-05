@@ -3,33 +3,51 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lapidar • Bolsão de Limpeza Editorial</title>
+  <title>Lapidar • Módulo 01 — Bolsão de Limpeza Editorial</title>
   <style>
     :root{
       --bg:#f7f5ef;
-      --pergaminho:#f1e8d8;
+      --bg-soft:#efe8da;
+      --hero:#f1e8d8;
       --card:#ffffff;
       --line:#c9c1b2;
       --text:#2f2a24;
       --muted:#5f574c;
+
       --accent:#5f8f86;
       --accent-dark:#3f6f67;
+
+      --gold:#c79a2e;
+      --gold-dark:#a77e1f;
+
       --soft-blue:#dfe6f2;
-      --gold:#d3ae3d;
-      --gold-dark:#b8952b;
-      --danger:#d7d2c6;
-      --danger-dark:#c5beb0;
+      --soft-blue-text:#4f5a69;
+
+      --soft-brown:#ece7db;
+      --soft-brown-dark:#e2dccd;
+
+      --exit:#d7d2c6;
+      --exit-dark:#c9c1b2;
+
       --mesario-bg:#f8f6f0;
       --mesario-line:#b8952b;
-      --shadow:0 12px 28px rgba(67, 58, 45, 0.10);
+
+      --warning-bg:#faf8f2;
+
+      --shadow:0 12px 28px rgba(67,58,45,.10);
+      --radius-lg:28px;
+      --radius-md:18px;
+      --radius-sm:14px;
     }
 
-    *{ box-sizing:border-box; }
+    *{
+      box-sizing:border-box;
+    }
 
     body{
       margin:0;
       font-family: Arial, Helvetica, sans-serif;
-      background:linear-gradient(180deg,var(--bg),#efe8da);
+      background:linear-gradient(180deg,var(--bg),var(--bg-soft));
       color:var(--text);
     }
 
@@ -56,18 +74,32 @@
       transition:.2s ease;
     }
 
-    .small-btn:hover{ transform:translateY(-1px); }
+    .small-btn:hover{
+      transform:translateY(-1px);
+    }
 
-    .btn-back{ background:#ece7db; color:var(--text); }
-    .btn-back:hover{ background:#e2dccd; }
+    .btn-back{
+      background:var(--soft-brown);
+      color:var(--text);
+    }
 
-    .btn-exit{ background:#d7d2c6; color:var(--text); }
-    .btn-exit:hover{ background:#c9c1b2; }
+    .btn-back:hover{
+      background:var(--soft-brown-dark);
+    }
+
+    .btn-exit{
+      background:var(--exit);
+      color:var(--text);
+    }
+
+    .btn-exit:hover{
+      background:var(--exit-dark);
+    }
 
     .hero{
-      background:var(--pergaminho);
+      background:var(--hero);
       border:1px solid var(--line);
-      border-radius:28px;
+      border-radius:var(--radius-lg);
       padding:30px;
       box-shadow:var(--shadow);
       margin-bottom:22px;
@@ -88,6 +120,7 @@
       margin:0 0 10px 0;
       font-size:34px;
       line-height:1.15;
+      color:#5a4631;
     }
 
     .subtitle{
@@ -102,11 +135,10 @@
       background:#f8f6f0;
       border:1px solid var(--line);
       border-left:6px solid var(--accent);
-      border-radius:18px;
+      border-radius:var(--radius-md);
       padding:18px 18px 18px 16px;
       font-size:18px;
       line-height:1.85;
-      color:var(--text);
     }
 
     .trust-box strong{
@@ -134,6 +166,10 @@
       margin:0 0 14px 0;
       font-size:19px;
       line-height:1.8;
+    }
+
+    .muted{
+      color:var(--muted);
     }
 
     label{
@@ -175,26 +211,47 @@
       margin-top:6px;
     }
 
-    .main-btn:hover{ transform:translateY(-1px); }
+    .main-btn:hover{
+      transform:translateY(-1px);
+    }
 
-    .btn-read{ background:var(--gold); color:white; }
-    .btn-read:hover{ background:var(--gold-dark); }
+    .btn-read{
+      background:var(--gold);
+      color:white;
+    }
 
-    .btn-continue{ background:var(--accent); color:white; }
-    .btn-continue:hover{ background:var(--accent-dark); }
+    .btn-read:hover{
+      background:var(--gold-dark);
+    }
 
-    .btn-stop{ background:#9aa8bb; color:white; }
-    .btn-stop:hover{ background:#8797ab; }
+    .btn-continue{
+      background:var(--accent);
+      color:white;
+    }
+
+    .btn-continue:hover{
+      background:var(--accent-dark);
+    }
+
+    .btn-stop{
+      background:#8b98aa;
+      color:white;
+    }
+
+    .btn-stop:hover{
+      background:#738195;
+    }
 
     .status-box{
       background:var(--soft-blue);
       border-left:6px solid #34c36b;
-      border-radius:18px;
+      border-radius:var(--radius-md);
       padding:18px;
       font-size:18px;
       line-height:1.8;
-      color:#4f5a69;
+      color:var(--soft-blue-text);
       margin-top:8px;
+      white-space:pre-line;
     }
 
     .status-list{
@@ -204,15 +261,13 @@
     }
 
     .status-item{
-      background:#faf8f2;
+      background:var(--warning-bg);
       border:1px solid var(--line);
-      border-radius:14px;
+      border-radius:var(--radius-sm);
       padding:14px 16px;
       font-size:18px;
       line-height:1.7;
     }
-
-    .muted{ color:var(--muted); }
 
     .dream-line{
       margin-top:18px;
@@ -223,27 +278,12 @@
       font-weight:bold;
     }
 
-    .actions{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:14px;
-      margin-top:18px;
-    }
-
-    .note{
-      margin-top:12px;
-      font-size:16px;
-      line-height:1.7;
-      color:var(--muted);
-      text-align:center;
-    }
-
     .mesario{
       margin-top:18px;
       background:var(--mesario-bg);
       border:1px solid var(--line);
       border-left:7px solid var(--mesario-line);
-      border-radius:18px;
+      border-radius:var(--radius-md);
       padding:16px 18px;
     }
 
@@ -270,7 +310,24 @@
       color:#7a5d1d;
     }
 
-    .hidden{ display:none; }
+    .actions{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
+      margin-top:18px;
+    }
+
+    .note{
+      margin-top:12px;
+      font-size:16px;
+      line-height:1.7;
+      color:var(--muted);
+      text-align:center;
+    }
+
+    .hidden{
+      display:none !important;
+    }
 
     @media (max-width: 800px){
       .actions,
@@ -279,8 +336,13 @@
         display:grid;
       }
 
-      h1{ font-size:30px; }
-      h2{ font-size:25px; }
+      h1{
+        font-size:30px;
+      }
+
+      h2{
+        font-size:25px;
+      }
 
       p,
       .status-box,
@@ -288,7 +350,9 @@
         font-size:18px;
       }
 
-      .dream-line{ font-size:20px; }
+      .dream-line{
+        font-size:20px;
+      }
     }
   </style>
 </head>
@@ -296,13 +360,13 @@
   <div class="container">
 
     <div class="topbar">
-      <button class="small-btn btn-back" onclick="history.back()">← Sair do Bolsão</button>
-      <button class="small-btn btn-exit" onclick="window.location.href='index.html'">Encerrar sessão</button>
+      <button class="small-btn btn-back" onclick="history.back()">← Retornar</button>
+      <button class="small-btn btn-exit" onclick="window.location.href='index.html'">Sair do sistema</button>
     </div>
 
     <section class="hero">
       <div class="eyebrow">Módulo 01 • Bolsão de Limpeza Editorial</div>
-      <h1>Produção Integrada Lapidar</h1>
+      <h1>Bolsão de Limpeza Editorial</h1>
       <p class="subtitle">
         Aqui sua obra é recebida, interpretada e preparada antes de seguir para os departamentos editoriais.
       </p>
@@ -316,20 +380,28 @@
     </section>
 
     <section class="card">
-      <h2>1. Escolher arquivo da obra</h2>
+      <h2>1. Entrada da obra</h2>
 
       <label for="arquivoObra">Arquivo da obra</label>
       <input type="file" id="arquivoObra" />
 
+      <label for="idiomaBase">Idioma base da obra</label>
+      <select id="idiomaBase">
+        <option>Português</option>
+        <option>Inglês</option>
+        <option>Espanhol</option>
+        <option>Francês</option>
+        <option>Italiano</option>
+        <option>Outro</option>
+      </select>
+
       <p class="muted">
-        O Lapidar lê primeiro a obra inteira, cria o texto-base do projeto e só depois libera os módulos seguintes.
+        O Bolsão recebe a obra como ela vier, identifica sua estrutura e prepara o texto-base do projeto antes da continuidade editorial.
       </p>
 
-      <button class="main-btn btn-read" onclick="lerObra()">Ler obra e preparar projeto</button>
+      <button class="main-btn btn-read" onclick="lerObra()">Ler obra e preparar texto-base</button>
 
-      <div class="status-box" id="statusLeitura">
-        Nenhuma obra lida ainda.
-      </div>
+      <div class="status-box" id="statusLeitura">Nenhuma obra lida ainda.</div>
     </section>
 
     <section class="card">
@@ -339,13 +411,16 @@
       <input type="text" id="tituloObra" placeholder="O título aparecerá aqui após a leitura" />
 
       <label for="subtituloObra">Subtítulo</label>
-      <input type="text" id="subtituloObra" placeholder="O subtítulo aparecerá aqui se for identificado" />
+      <input type="text" id="subtituloObra" placeholder="O subtítulo aparecerá aqui, se for identificado" />
 
       <label for="autorObra">Autor</label>
       <input type="text" id="autorObra" placeholder="O autor aparecerá aqui após a leitura" />
 
-      <label for="textoBase">Texto-base da obra lida</label>
-      <textarea id="textoBase" placeholder="O texto-base preparado aparecerá aqui."></textarea>
+      <label for="classificacaoObra">Classificação preliminar da obra</label>
+      <input type="text" id="classificacaoObra" placeholder="Romance, poesia, infantil, técnico, receitas, etc." />
+
+      <label for="textoBase">Texto-base preparado</label>
+      <textarea id="textoBase" placeholder="O texto-base preparado pelo Bolsão aparecerá aqui."></textarea>
     </section>
 
     <section class="card">
@@ -395,6 +470,7 @@
     function lerObra(){
       const arquivo = document.getElementById("arquivoObra");
       const status = document.getElementById("statusLeitura");
+      const idioma = document.getElementById("idiomaBase").value;
 
       if(!arquivo.files.length){
         alert("Escolha um arquivo antes de continuar.");
@@ -404,34 +480,17 @@
       const nomeArquivo = arquivo.files[0].name;
 
       status.innerHTML =
-        "Obra lida com sucesso ✔<br>" +
-        "Arquivo: " + nomeArquivo + "<br>" +
-        "Título identificado: leitura preliminar concluída<br>" +
-        "Autor identificado: leitura preliminar concluída<br>" +
+        "Obra lida com sucesso ✔\n" +
+        "Arquivo: " + nomeArquivo + "\n" +
+        "Idioma base: " + idioma + "\n" +
+        "Título identificado: leitura preliminar concluída\n" +
+        "Autor identificado: leitura preliminar concluída\n" +
         "Texto-base preparado para os módulos do Lapidar.";
-
-      if(!document.getElementById("tituloObra").value){
-        document.getElementById("tituloObra").value = "";
-      }
-
-      if(!document.getElementById("subtituloObra").value){
-        document.getElementById("subtituloObra").value = "";
-      }
-
-      if(!document.getElementById("autorObra").value){
-        document.getElementById("autorObra").value = "";
-      }
-
-      if(!document.getElementById("textoBase").value){
-        document.getElementById("textoBase").value = "";
-      }
 
       atualizarMesarioBolsao();
     }
 
     function atualizarMesarioBolsao(){
-      // Placeholder inicial.
-      // Depois a gente substitui pela soma real dos itens gerados no Bolsão.
       const valor = 5.00;
       document.getElementById("mesarioValor").textContent =
         "CVR sugerida desta seção: R$ " + valor.toFixed(2).replace(".", ",");
