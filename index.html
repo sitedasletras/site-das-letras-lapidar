@@ -3,196 +3,358 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lapidar — Sistema Editorial</title>
+<title>Lapidar — Acesso</title>
 
 <style>
+*{
+  box-sizing:border-box;
+}
+
+html, body{
+  margin:0;
+  padding:0;
+  width:100%;
+  min-height:100%;
+  font-family:Arial, sans-serif;
+  background:#c8a873;
+}
 
 body{
-margin:0;
-font-family:Arial, sans-serif;
-background:#C9A873;
-height:100vh;
-display:flex;
-align-items:center;
-justify-content:center;
+  position:relative;
+  overflow-x:hidden;
+  color:#2f2418;
+}
+
+/* fundo externo */
+.page{
+  min-height:100vh;
+  position:relative;
+  background:#c8a873;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
 }
 
 /* cruz central */
-
-.cruz{
-position:absolute;
-width:100%;
-height:100%;
-display:flex;
-align-items:center;
-justify-content:center;
+.cross-wrap{
+  position:absolute;
+  inset:0;
+  overflow:hidden;
 }
 
-.cruz::before{
-content:"";
-position:absolute;
-width:320px;
-height:100%;
-background:#E7D2A8;
+.cross-vertical{
+  position:absolute;
+  top:0;
+  bottom:0;
+  left:50%;
+  transform:translateX(-50%);
+  width:min(34vw, 220px);
+  background:#e7d2a8;
 }
 
-.cruz::after{
-content:"";
-position:absolute;
-width:100%;
-height:320px;
-background:#E7D2A8;
+.cross-horizontal{
+  position:absolute;
+  left:0;
+  right:0;
+  top:50%;
+  transform:translateY(-50%);
+  height:min(22vw, 170px);
+  background:#e7d2a8;
 }
 
-/* container central */
-
-.container{
-position:relative;
-z-index:2;
-text-align:center;
+/* conteúdo central */
+.center{
+  position:relative;
+  z-index:2;
+  width:100%;
+  max-width:420px;
+  text-align:center;
 }
 
-/* título */
-
-.titulo{
-font-size:42px;
-font-weight:bold;
-color:#3C2A18;
-margin-bottom:10px;
+.title{
+  font-size:40px;
+  font-weight:700;
+  color:#3c2a18;
+  margin:0 0 14px 0;
+  letter-spacing:.3px;
 }
 
-/* selo */
-
-.selo{
-width:160px;
-margin-bottom:20px;
+.brand{
+  width:140px;
+  height:140px;
+  margin:0 auto 18px auto;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 
-/* painel login */
+.brand img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  border-radius:50%;
+  background:#f4ead7;
+  box-shadow:0 8px 22px rgba(0,0,0,.18);
+}
 
+/* fallback se imagem falhar */
+.brand-fallback{
+  width:100%;
+  height:100%;
+  border-radius:50%;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  background:#f4ead7;
+  box-shadow:0 8px 22px rgba(0,0,0,.18);
+  font-size:18px;
+  font-weight:700;
+  color:#8d5f45;
+  padding:12px;
+  line-height:1.1;
+}
+
+/* quadro branco */
 .login-box{
-
-background:white;
-
-padding:40px;
-
-border-radius:18px;
-
-box-shadow:0px 10px 35px rgba(0,0,0,0.25);
-
-width:320px;
-
-margin:auto;
-
+  background:#ffffff;
+  border-radius:18px;
+  padding:28px 24px;
+  box-shadow:0 18px 40px rgba(0,0,0,.22);
+  text-align:left;
 }
 
-/* campos */
+label{
+  display:block;
+  font-weight:700;
+  color:#214234;
+  margin:0 0 8px 0;
+  font-size:14px;
+}
 
 input{
-
-width:100%;
-
-padding:12px;
-
-margin-top:10px;
-
-margin-bottom:15px;
-
-border-radius:8px;
-
-border:1px solid #ccc;
-
+  width:100%;
+  padding:13px 14px;
+  border:1px solid #ddd;
+  border-radius:10px;
+  font-size:14px;
+  margin-bottom:14px;
+  outline:none;
 }
 
-/* botões */
+input:focus{
+  border-color:#8fbda3;
+}
+
+.recover{
+  text-align:right;
+  margin-top:-4px;
+  margin-bottom:14px;
+}
+
+.recover button{
+  background:none;
+  border:none;
+  color:#5e6e67;
+  padding:0;
+  cursor:pointer;
+  font-size:13px;
+  font-weight:700;
+}
+
+.recover button:hover{
+  text-decoration:underline;
+}
 
 button{
-
-width:100%;
-
-padding:14px;
-
-border:none;
-
-border-radius:10px;
-
-font-weight:bold;
-
-cursor:pointer;
-
-margin-top:10px;
-
+  width:100%;
+  border:none;
+  border-radius:12px;
+  padding:14px 16px;
+  font-size:15px;
+  font-weight:700;
+  cursor:pointer;
 }
 
-.entrar{
-
-background:#2ecc71;
-
-color:white;
-
+.btn-login{
+  background:#2ecc71;
+  color:#062414;
+  margin-bottom:10px;
 }
 
-.entrar:hover{
-
-background:#27ae60;
-
+.btn-login:hover{
+  background:#28b765;
 }
 
-.sair{
-
-background:#eee;
-
+.btn-exit{
+  background:#e7efe9;
+  color:#173528;
 }
 
-/* recuperar senha */
-
-.recuperar{
-
-font-size:13px;
-
-margin-top:10px;
-
-color:#444;
-
-cursor:pointer;
-
+.btn-exit:hover{
+  background:#d8e7de;
 }
 
-.recuperar:hover{
-
-text-decoration:underline;
-
+.status{
+  display:none;
+  margin-top:12px;
+  padding:11px 12px;
+  border-radius:10px;
+  font-size:13px;
+  font-weight:700;
 }
 
+.status.ok{
+  display:block;
+  background:#e9fff3;
+  color:#10412d;
+}
+
+.status.err{
+  display:block;
+  background:#ffe9e9;
+  color:#7a2222;
+}
+
+.footer{
+  text-align:center;
+  margin-top:12px;
+  font-size:12px;
+  color:#6a5a4b;
+}
+
+@media (max-width: 600px){
+  .page{
+    padding:18px;
+  }
+
+  .title{
+    font-size:32px;
+    margin-bottom:12px;
+  }
+
+  .brand{
+    width:118px;
+    height:118px;
+    margin-bottom:16px;
+  }
+
+  .login-box{
+    padding:22px 18px;
+    border-radius:16px;
+  }
+
+  .cross-vertical{
+    width:30vw;
+  }
+
+  .cross-horizontal{
+    height:26vw;
+  }
+}
 </style>
-
 </head>
-
 <body>
 
-<div class="cruz"></div>
+<div class="page">
+  <div class="cross-wrap">
+    <div class="cross-vertical"></div>
+    <div class="cross-horizontal"></div>
+  </div>
 
-<div class="container">
+  <div class="center">
+    <div class="title">Lapidar</div>
 
-<div class="titulo">Lapidar</div>
+    <div class="brand">
+      <img
+        id="brandImg"
+        src="file_000000000d8bc71f5b57491905e34ae99.jpg"
+        alt="Site das Letras"
+        onerror="ativarFallback()"
+      >
+      <div id="brandFallback" class="brand-fallback">
+        Site das<br>Letras
+      </div>
+    </div>
 
-<img src="file_000000000d8bc71f5b57491905e34ae99.jpg" class="selo">
+    <div class="login-box">
+      <label for="usuario">Usuário</label>
+      <input id="usuario" type="text" placeholder="Digite o nome do usuário">
 
-<div class="login-box">
+      <label for="senha">Senha</label>
+      <input id="senha" type="password" placeholder="Digite sua senha">
 
-<input placeholder="Usuário">
+      <div class="recover">
+        <button type="button" onclick="recuperarSenha()">Recuperar senha</button>
+      </div>
 
-<input placeholder="Senha" type="password">
+      <button class="btn-login" type="button" onclick="entrar()">Entrar no sistema</button>
+      <button class="btn-exit" type="button" onclick="sair()">Sair geral</button>
 
-<div class="recuperar">Recuperar senha</div>
+      <div id="statusBox" class="status"></div>
 
-<button class="entrar">Entrar no sistema</button>
-
-<button class="sair">Sair geral</button>
-
+      <div class="footer">Sistema editorial Lapidar</div>
+    </div>
+  </div>
 </div>
 
-</div>
+<script>
+function ativarFallback(){
+  const img = document.getElementById("brandImg");
+  const fb = document.getElementById("brandFallback");
+  img.style.display = "none";
+  fb.style.display = "flex";
+}
+
+function ok(msg){
+  const box = document.getElementById("statusBox");
+  box.className = "status ok";
+  box.textContent = msg;
+}
+
+function err(msg){
+  const box = document.getElementById("statusBox");
+  box.className = "status err";
+  box.textContent = msg;
+}
+
+function entrar(){
+  const usuario = document.getElementById("usuario").value.trim();
+  const senha = document.getElementById("senha").value.trim();
+
+  if(!usuario){
+    err("Informe o usuário.");
+    return;
+  }
+
+  if(!senha){
+    err("Informe a senha.");
+    return;
+  }
+
+  const sessao = {
+    usuario,
+    loginEm: new Date().toISOString()
+  };
+
+  localStorage.setItem("sessao_lapidar", JSON.stringify(sessao));
+  ok("Sessão iniciada com sucesso.");
+
+  setTimeout(() => {
+    window.location.href = "producao_integrada.html";
+  }, 600);
+}
+
+function sair(){
+  localStorage.removeItem("sessao_lapidar");
+  localStorage.removeItem("projeto_lapidar");
+  ok("Sessão encerrada.");
+}
+
+function recuperarSenha(){
+  ok("A recuperação de senha será conectada na próxima etapa.");
+}
+</script>
 
 </body>
 </html>
