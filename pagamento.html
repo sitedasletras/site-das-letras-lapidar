@@ -1,63 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pagamento — Lapidar</title>
 
-PATCH LAPIDAR – CORREÇÃO DO BOTÃO DOWNLOAD + PIPELINE MÓDULOS
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(180deg, #0b3d2e, #021d14);
+    color: white;
+}
 
-Substituir o botão atual "Baixar pacote editorial" por este código:
+.container {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+.card {
+    background: #0f4d3a;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+h2 {
+    margin-top: 0;
+}
+
+button {
+    background: #2ecc71;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #27ae60;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="card">
+<h2>Resumo financeiro</h2>
+<p>Projeto carregado com sucesso.</p>
+</div>
+
+<div class="card">
+<h2>Status pagamento</h2>
+<p>Pagamento confirmado (modo simulação).</p>
+
+<button onclick="simularPagamento()">Simular pagamento aprovado</button>
+</div>
+
+<div class="card">
+<h2>Download</h2>
 
 <button onclick="baixarPacote()">Baixar pacote editorial</button>
 
-Adicionar o script abaixo antes do fechamento da tag </body>:
+</div>
+
+</div>
 
 <script>
-function baixarPacote() {
 
-    const projeto = JSON.parse(localStorage.getItem("projeto_lapidar"));
-
-    if (!projeto) {
-        alert("Nenhum projeto ativo encontrado.");
-        return;
-    }
-
-    if (projeto.modulosSelecionados.includes("Lapidação Literária") 
-        && !projeto.lapidacaoExecutada) {
-
-        alert("A Lapidação Literária ainda não foi executada.");
-        return;
-    }
-
-    const pacote = {
-        titulo: projeto.titulo,
-        autor: projeto.autor,
-        modulos: projeto.modulosSelecionados,
-        status: "Pacote editorial gerado com sucesso"
-    };
-
-    const blob = new Blob([JSON.stringify(pacote, null, 2)], {
-        type: "application/json"
-    });
-
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
-    link.download = "pacote-editorial.json";
-    link.click();
-}
-</script>
-
-
-CORREÇÃO DO PIPELINE DE EXECUÇÃO
-
-Adicionar após registrar projeto:
-
-localStorage.setItem("projeto_lapidar", JSON.stringify({
-    titulo: titulo,
-    autor: autor,
-    modulosSelecionados: modulosSelecionados,
-    lapidacaoExecutada: false
-}));
-
-
-Após finalizar Lapidação Literária:
+function simularPagamento() {
 
 let projeto = JSON.parse(localStorage.getItem("projeto_lapidar"));
-projeto.lapidacaoExecutada = true;
+
+if (!projeto) {
+
+alert("Nenhum projeto encontrado.");
+return;
+
+}
+
+projeto.pagamentoConfirmado = true;
+
 localStorage.setItem("projeto_lapidar", JSON.stringify(projeto));
 
+alert("Pagamento confirmado com sucesso.");
+
+}
+
+
+
+function baixarPacote() {
+
+const projeto = JSON.parse(localStorage.getItem("projeto_lapidar"));
+
+if (!projeto) {
+
+alert("Nenhum projeto ativo encontrado.");
+return;
+
+}
+
+
+if (projeto.modulosSelecionados &&
+projeto.modulosSelecionados.includes("Lapidação Literária") &&
+!projeto.lapidacaoExecutada) {
+
+alert("A Lapidação Literária ainda não foi executada.");
+return;
+
+}
+
+
+const pacote = {
+
+titulo: projeto.titulo || "Sem título",
+autor: projeto.autor || "Sem autor",
+modulos: projeto.modulosSelecionados || [],
+status: "Pacote editorial gerado com sucesso"
+
+};
+
+
+const blob = new Blob(
+
+[JSON.stringify(pacote, null, 2)],
+
+{ type: "application/json" }
+
+);
+
+
+const link = document.createElement("a");
+
+link.href = URL.createObjectURL(blob);
+
+link.download = "pacote-editorial.json";
+
+link.click();
+
+}
+
+</script>
+
+</body>
+</html>
