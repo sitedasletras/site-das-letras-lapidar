@@ -1,176 +1,319 @@
-<!DOCTYPE html><html lang="pt-br">
+<!DOCTYPE html>
+<html lang="pt-BR">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Lapidar — Módulo 13 | Lapidação Literária</title><style>
-body {
-  margin: 0;
-  font-family: "Georgia", serif;
-  background: #f4efe6;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Lapidar • Módulo 13 — Lapidação Literária</title>
+
+<style>
+
+:root{
+--bg:#f7f5ef;
+--card:#ffffff;
+--line:#c9c1b2;
+--text:#2f2a24;
+--muted:#5f574c;
+--rose-soft:#f6e6ea;
+--rose:#b06272;
+--rose-dark:#944e5e;
+--gold:#c79a2e;
+--sand:#d9cfbf;
+--shadow:0 12px 28px rgba(67,58,45,.10);
 }
 
-.container {
-  max-width: 900px;
-  margin: auto;
-  padding: 30px;
+body{
+margin:0;
+font-family:Arial, Helvetica, sans-serif;
+background:var(--bg);
+color:var(--text);
 }
 
-.header {
-  text-align: center;
-  margin-bottom: 20px;
+.container{
+max-width:980px;
+margin:auto;
+padding:28px 16px 40px;
 }
 
-.header h1 {
-  color: #5a4632;
+.topbar{
+display:flex;
+justify-content:space-between;
+margin-bottom:18px;
 }
 
-.section {
-  background: #fffaf3;
-  padding: 20px;
-  margin-bottom: 20px;
-  border-radius: 10px;
-  box-shadow: 0px 2px 6px rgba(0,0,0,0.08);
+.small-btn{
+border:none;
+border-radius:14px;
+padding:12px 16px;
+font-size:15px;
+font-weight:bold;
+cursor:pointer;
+background:#ece7db;
 }
 
-.section h2 {
-  color: #6a4f36;
+.small-btn:hover{
+background:#e2dccd;
 }
 
-.option {
-  margin: 10px 0;
+.hero{
+background:var(--rose-soft);
+border-radius:28px;
+padding:30px;
+margin-bottom:22px;
+box-shadow:var(--shadow);
 }
 
-.option input {
-  margin-right: 10px;
+.eyebrow{
+display:inline-block;
+padding:8px 14px;
+border-radius:999px;
+background:#edd3d9;
+font-size:14px;
+font-weight:bold;
+margin-bottom:14px;
 }
 
-.mesario {
-  background: #efe6d8;
-  padding: 15px;
-  text-align: center;
-  font-weight: bold;
-  margin-top: 20px;
-  border-radius: 8px;
+h1{
+margin:0 0 10px 0;
+font-size:34px;
+color:var(--rose);
 }
 
-.buttons {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
+.subtitle{
+font-size:20px;
+line-height:1.7;
 }
 
-button {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
+.card{
+background:white;
+border-radius:24px;
+padding:22px;
+box-shadow:var(--shadow);
+margin-bottom:20px;
 }
 
-.return {
-  background: #b7a187;
-  color: white;
+h2{
+margin:0 0 14px 0;
+font-size:28px;
+color:var(--rose);
 }
 
-.exit {
-  background: #7a5b43;
-  color: white;
+p{
+font-size:18px;
+line-height:1.8;
 }
 
-.confirm {
-  background: #5a4632;
-  color: white;
-  width: 100%;
-  margin-top: 10px;
+label{
+display:block;
+font-size:17px;
+font-weight:bold;
+margin:14px 0 8px;
 }
-</style></head><body><div class="container"><div class="header">
-<h1>Módulo 13 — Lapidação Literária</h1>
-<p>
-Aqui trabalhamos lado a lado com você para fortalecer a voz da sua obra.
-Nada será alterado sem sua autorização.
+
+select{
+width:100%;
+padding:14px;
+border:1px solid var(--line);
+border-radius:14px;
+font-size:16px;
+background:#f7f8fb;
+}
+
+.checkbox{
+margin-top:10px;
+}
+
+.checkbox label{
+font-weight:normal;
+}
+
+.mesario{
+margin-top:18px;
+background:#faf6ee;
+border-left:7px solid var(--gold);
+border-radius:18px;
+padding:16px 18px;
+}
+
+.mesario-valor{
+margin-top:8px;
+padding:8px 12px;
+border-radius:12px;
+background:#fff7e6;
+border:1px solid #e2c98f;
+font-weight:bold;
+display:inline-block;
+}
+
+.actions{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:14px;
+margin-top:18px;
+}
+
+.main-btn{
+padding:18px;
+font-size:18px;
+border:none;
+border-radius:18px;
+cursor:pointer;
+}
+
+.btn-next{
+background:var(--rose);
+color:white;
+}
+
+.btn-next:hover{
+background:var(--rose-dark);
+}
+
+.btn-skip{
+background:var(--sand);
+}
+
+.hidden{
+display:none !important;
+}
+
+@media(max-width:800px){
+
+.topbar,
+.actions{
+grid-template-columns:1fr;
+display:grid;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="topbar">
+<button class="small-btn" onclick="history.back()">← Retornar</button>
+<button class="small-btn" onclick="window.location.href='index.html'">Sair do sistema</button>
+</div>
+
+<section class="hero">
+
+<div class="eyebrow">Lapidar • Módulo 13</div>
+
+<h1>Lapidação Literária</h1>
+
+<p class="subtitle">
+
+Aqui preservamos sua voz, fortalecemos sua narrativa e organizamos o ritmo do texto para que a obra se apresente com clareza e força ao leitor.
+
 </p>
-</div><div class="section">
-<h2>Humanização Base (Obrigatória ao selecionar o módulo) — R$ 25</h2>
-<label class="option">
-<input type="checkbox" checked disabled>
-Ajustes de concordância verbal e nominal
-</label>
-<label class="option">
-<input type="checkbox" checked disabled>
-Suavização sintática
-</label>
-<label class="option">
-<input type="checkbox" checked disabled>
-Estabilização estrutural do texto
-</label>
-</div><div class="section">
-<h2>Aperfeiçoamentos Narrativos (Opcional — R$ 7 cada)</h2>
-<label class="option">
-<input type="checkbox" class="extra" value="7">
+
+</section>
+
+<section class="card">
+
+<h2>Escolha como deseja lapidar sua obra</h2>
+
+<label>Modo de trabalho</label>
+
+<select>
+
+<option>Humanização completa da obra</option>
+
+<option>Selecionar ajustes específicos</option>
+
+</select>
+
+<div class="checkbox">
+
+<label>
+<input type="checkbox">
 Revisão de diálogos
-</label><label class="option">
-<input type="checkbox" class="extra" value="7">
+</label>
+
+<label>
+<input type="checkbox">
 Coerência narrativa
-</label><label class="option">
-<input type="checkbox" class="extra" value="7">
+</label>
+
+<label>
+<input type="checkbox">
 Ritmo textual
-</label><label class="option">
-<input type="checkbox" class="extra" value="7">
-Preservação do estilo autoral
 </label>
-</div><div class="section">
-<h2>Pacote Narrativo Completo — + R$ 25</h2>
-<label class="option">
-<input type="checkbox" id="pacoteCompleto" value="25">
-Ativar todos os aperfeiçoamentos narrativos
+
+<label>
+<input type="checkbox">
+Preservação de estilo autoral
 </label>
-</div><div class="mesario">
-Mesário da Seção: R$ <span id="total">25</span>
-</div><button class="confirm">Confirmar seleção</button>
 
-<div class="buttons">
-<button class="return">Retornar</button>
-<button class="exit">Sair do sistema</button>
-</div></div><script>
-let extras = document.querySelectorAll(".extra");
-let pacote = document.getElementById("pacoteCompleto");
-let totalDisplay = document.getElementById("total");
+</div>
 
-function atualizarTotal(){
+<div class="mesario" id="mesarioSecao">
 
-let total = 25;
+<h3>Mesário da seção</h3>
 
-if(pacote.checked){
+<p>Valor acumulado desta seção.</p>
 
-extras.forEach(e => e.checked = false);
+<div class="mesario-valor">
 
-extras.forEach(e => e.disabled = true);
+Humanização completa: R$ 25,00  
+Itens individuais: R$ 7,00 cada
 
+</div>
 
- total += 25;
+</div>
 
-}else{
+<div class="actions">
 
-extras.forEach(e => e.disabled = false);
+<button class="main-btn btn-next"
 
-extras.forEach(e => {
+onclick="seguirParaProximo()">
 
-if(e.checked){
+Concluir esta etapa e seguir
 
- total += 7;
+</button>
+
+<button class="main-btn btn-skip"
+
+onclick="window.location.href='motor_sequencial.html'">
+
+Pular este módulo por agora
+
+</button>
+
+</div>
+
+</section>
+
+</div>
+
+<script>
+
+function aplicarRegraPerfil(){
+
+const perfil=(localStorage.getItem("lapidar_perfil")||"").toLowerCase();
+
+if(perfil.includes("cortesia")){
+
+document.getElementById("mesarioSecao").classList.add("hidden");
 
 }
 
-});
+}
+
+function seguirParaProximo(){
+
+window.location.href="motor_sequencial.html";
 
 }
 
- totalDisplay.innerText = total;
+aplicarRegraPerfil();
 
-}
+</script>
 
-extras.forEach(e => e.addEventListener("change", atualizarTotal));
-
-pacote.addEventListener("change", atualizarTotal);
-
-</script></body>
+</body>
 </html>
