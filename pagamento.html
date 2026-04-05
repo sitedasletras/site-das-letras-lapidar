@@ -109,13 +109,14 @@ color:#ffd9d4;
     <div class="card">
         <h1>Pagamento do Projeto</h1>
         <p>
-            Confirme o pagamento para concluir a etapa financeira do Lapidar e seguir automaticamente
-            para a liberação do pacote editorial.
+            Confirme o pagamento para concluir a etapa financeira do Lapidar e seguir corretamente
+            para a exportação da obra dentro do fluxo editorial.
         </p>
     </div>
 
     <div class="card">
         <h2>Dados do projeto</h2>
+
         <div class="info"><strong>Título:</strong> <span id="tituloProjeto">Carregando...</span></div>
         <div class="info"><strong>Autor:</strong> <span id="autorProjeto">Carregando...</span></div>
         <div class="info"><strong>Status da Lapidação:</strong> <span id="statusLapidacao">Carregando...</span></div>
@@ -146,8 +147,27 @@ function obterProjeto(){
     }
 }
 
+function obterHistorico(){
+    try{
+        return JSON.parse(localStorage.getItem("historico_lapidar") || "[]");
+    }catch(e){
+        return [];
+    }
+}
+
 function salvarProjeto(projeto){
+    projeto.ultimaAtualizacao = new Date().toISOString();
     localStorage.setItem("projeto_lapidar", JSON.stringify(projeto));
+
+    const historico = obterHistorico();
+    const novoHistorico = historico.map(item => {
+        if(item.id === projeto.id){
+            return projeto;
+        }
+        return item;
+    });
+
+    localStorage.setItem("historico_lapidar", JSON.stringify(novoHistorico));
 }
 
 function mostrarStatus(texto){
@@ -201,7 +221,7 @@ function confirmarPagamento(){
     salvarProjeto(projeto);
 
     document.getElementById("statusPagamento").textContent = "Confirmado";
-    mostrarStatus("Pagamento confirmado com sucesso. Redirecionando para a liberação do pacote editorial...");
+    mostrarStatus("Pagamento confirmado com sucesso. Redirecionando para o exportador da obra...");
 
     setTimeout(() => {
         window.location.href = "exportador_obra.html";
@@ -214,6 +234,8 @@ function voltarPainel(){
 
 carregarTela();
 </script>
+
+<script src="session_guard.js"></script>
 
 </body>
 </html>
