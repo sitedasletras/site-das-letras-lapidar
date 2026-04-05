@@ -6,26 +6,21 @@
 <title>Projeto Concluído — Lapidar</title>
 
 <style>
-*{
-box-sizing:border-box;
-}
-
 body{
 margin:0;
-font-family:Arial,sans-serif;
+font-family:Arial;
 background:linear-gradient(180deg,#0d2c22,#04130d);
-color:#ffffff;
+color:white;
 }
 
 .container{
 max-width:960px;
-margin:0 auto;
+margin:auto;
 padding:24px;
 }
 
 .card{
-background:rgba(255,255,255,0.07);
-border:1px solid rgba(255,255,255,0.08);
+background:rgba(255,255,255,.07);
 border-radius:18px;
 padding:24px;
 margin-bottom:20px;
@@ -45,7 +40,7 @@ font-size:34px;
 color:#d8efe2;
 line-height:1.7;
 max-width:720px;
-margin:0 auto;
+margin:auto;
 }
 
 .grid{
@@ -58,14 +53,7 @@ gap:18px;
 margin-bottom:12px;
 padding:12px;
 border-radius:12px;
-background:rgba(255,255,255,0.05);
-}
-
-.actions{
-display:flex;
-flex-wrap:wrap;
-gap:12px;
-margin-top:18px;
+background:rgba(255,255,255,.05);
 }
 
 button{
@@ -75,32 +63,25 @@ padding:14px 18px;
 font-size:15px;
 font-weight:bold;
 cursor:pointer;
+margin:6px;
 }
 
-.btn-principal{
+.btn{
 background:#2ecc71;
 color:#062414;
 }
 
-.btn-principal:hover{
-background:#28b765;
-}
-
-.btn-secundario{
+.btn2{
 background:#dcefe4;
 color:#103222;
-}
-
-.btn-secundario:hover{
-background:#c8e6d4;
 }
 
 .badge{
 display:inline-block;
 padding:10px 16px;
 border-radius:999px;
-background:rgba(46,204,113,0.14);
-border:1px solid rgba(46,204,113,0.28);
+background:rgba(46,204,113,.14);
+border:1px solid rgba(46,204,113,.28);
 color:#dbffea;
 font-weight:bold;
 margin-bottom:14px;
@@ -113,151 +94,169 @@ line-height:1.6;
 }
 </style>
 </head>
+
 <body>
 
 <div class="container">
 
-    <div class="card hero">
-        <div class="badge">Fluxo concluído com sucesso</div>
-        <h1>Projeto concluído</h1>
-        <p>
-            O fluxo editorial atual do Lapidar foi finalizado. O pacote editorial já pode ser baixado,
-            revisado e usado como base para a próxima etapa da obra dentro do sistema.
-        </p>
-    </div>
+<div class="card hero">
 
-    <div class="grid">
+<div class="badge">
+Fluxo concluído com sucesso
+</div>
 
-        <div class="card">
-            <h2>Resumo final</h2>
-            <div class="info"><strong>Título:</strong> <span id="tituloProjeto">Carregando...</span></div>
-            <div class="info"><strong>Autor:</strong> <span id="autorProjeto">Carregando...</span></div>
-            <div class="info"><strong>Módulos:</strong> <span id="modulosProjeto">Carregando...</span></div>
-            <div class="info"><strong>Data da exportação:</strong> <span id="dataExportacao">Carregando...</span></div>
-        </div>
+<h1>
+Projeto concluído
+</h1>
 
-        <div class="card">
-            <h2>Próximas ações</h2>
-            <p class="small">
-                Você pode baixar novamente o pacote editorial, voltar ao histórico de projetos
-                ou iniciar uma nova obra com a sessão limpa.
-            </p>
+<p>
+O fluxo editorial atual do Lapidar foi finalizado.
+O pacote editorial já pode ser baixado novamente, revisado ou arquivado.
+</p>
 
-            <div class="actions">
-                <button class="btn-principal" onclick="baixarNovamente()">Baixar novamente</button>
-                <button class="btn-secundario" onclick="abrirHistorico()">Abrir histórico</button>
-                <button class="btn-secundario" onclick="novoProjeto()">Novo projeto</button>
-            </div>
-        </div>
+</div>
 
-    </div>
+
+<div class="grid">
+
+<div class="card">
+
+<h2>Resumo final</h2>
+
+<div class="info">
+<strong>Título:</strong>
+<span id="titulo"></span>
+</div>
+
+<div class="info">
+<strong>Autor:</strong>
+<span id="autor"></span>
+</div>
+
+<div class="info">
+<strong>Módulos:</strong>
+<span id="modulos"></span>
+</div>
+
+<div class="info">
+<strong>Data da exportação:</strong>
+<span id="dataExportacao"></span>
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>Próximas ações</h2>
+
+<p class="small">
+Você pode baixar novamente o pacote editorial, abrir o histórico de projetos
+ou iniciar uma nova obra.
+</p>
+
+<button class="btn" onclick="baixarNovamente()">
+Baixar novamente
+</button>
+
+<button class="btn2" onclick="abrirHistorico()">
+Abrir histórico
+</button>
+
+<button class="btn2" onclick="novoProjeto()">
+Novo projeto
+</button>
+
+</div>
+
+</div>
 
 </div>
 
 <script>
 function obterProjeto(){
-    const projetoSalvo = localStorage.getItem("projeto_lapidar");
-    if(!projetoSalvo){
-        return null;
-    }
-
-    try{
-        return JSON.parse(projetoSalvo);
-    }catch(e){
-        return null;
-    }
+return JSON.parse(localStorage.getItem("projeto_lapidar"));
 }
 
-function formatarData(dataIso){
-    if(!dataIso){
-        return "Não informado";
-    }
-
-    const data = new Date(dataIso);
-
-    if(isNaN(data.getTime())){
-        return "Não informado";
-    }
-
-    return data.toLocaleString("pt-BR");
+function formatarData(d){
+if(!d) return "Não informado";
+return new Date(d).toLocaleString("pt-BR");
 }
 
-function carregarTela(){
-    const projeto = obterProjeto();
+function carregar(){
+let projeto = obterProjeto();
 
-    if(!projeto){
-        alert("Projeto não encontrado. Você será levado para a produção integrada.");
-        window.location.href = "producao_integrada.html";
-        return;
-    }
+if(!projeto){
+window.location.href = "producao_integrada.html";
+return;
+}
 
-    document.getElementById("tituloProjeto").textContent = projeto.titulo || "Sem título";
-    document.getElementById("autorProjeto").textContent = projeto.autor || "Sem autor";
-    document.getElementById("modulosProjeto").textContent =
-        Array.isArray(projeto.modulosSelecionados) && projeto.modulosSelecionados.length
-        ? projeto.modulosSelecionados.join(", ")
-        : "Nenhum módulo selecionado";
-    document.getElementById("dataExportacao").textContent = formatarData(projeto.exportadoEm);
+document.getElementById("titulo").innerText = projeto.titulo || "";
+document.getElementById("autor").innerText = projeto.autor || "";
+document.getElementById("modulos").innerText =
+(projeto.modulosSelecionados || []).join(", ") || "Nenhum módulo";
+document.getElementById("dataExportacao").innerText =
+formatarData(projeto.exportadoEm);
 }
 
 function baixarNovamente(){
-    const projeto = obterProjeto();
+let projeto = obterProjeto();
 
-    if(!projeto){
-        alert("Projeto não encontrado.");
-        return;
-    }
+if(!projeto){
+window.location.href = "producao_integrada.html";
+return;
+}
 
-    const nomeSeguro = (projeto.titulo || "obra")
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .replace(/[^a-zA-Z0-9]+/g, "-")
-        .replace(/^-+|-+$/g, "")
-        .toLowerCase();
+const nomeSeguro = (projeto.titulo || "obra")
+.normalize("NFD")
+.replace(/[\u0300-\u036f]/g, "")
+.replace(/[^a-zA-Z0-9]+/g, "-")
+.replace(/^-+|-+$/g, "")
+.toLowerCase();
 
-    const pacote = {
-        sistema: "Lapidar",
-        etapa: "Projeto Concluído",
-        id: projeto.id || null,
-        titulo: projeto.titulo || "Sem título",
-        autor: projeto.autor || "Sem autor",
-        modulosSelecionados: projeto.modulosSelecionados || [],
-        textoLapidado: projeto.textoLapidado || "",
-        lapidacaoExecutada: !!projeto.lapidacaoExecutada,
-        pagamentoConfirmado: !!projeto.pagamentoConfirmado,
-        downloadLiberado: !!projeto.downloadLiberado,
-        criadoEm: projeto.criadoEm || null,
-        ultimaAtualizacao: projeto.ultimaAtualizacao || null,
-        dataLapidacao: projeto.dataLapidacao || null,
-        dataPagamento: projeto.dataPagamento || null,
-        exportadoEm: projeto.exportadoEm || null,
-        status: "Pacote editorial exportado com sucesso"
-    };
+const pacote = {
+sistema: "Lapidar",
+etapa: "Projeto Concluído",
+id: projeto.id || null,
+titulo: projeto.titulo || "Sem título",
+autor: projeto.autor || "Sem autor",
+modulosSelecionados: projeto.modulosSelecionados || [],
+textoLapidado: projeto.textoLapidado || "",
+lapidacaoExecutada: !!projeto.lapidacaoExecutada,
+pagamentoConfirmado: !!projeto.pagamentoConfirmado,
+downloadLiberado: !!projeto.downloadLiberado,
+criadoEm: projeto.criadoEm || null,
+ultimaAtualizacao: projeto.ultimaAtualizacao || null,
+dataLapidacao: projeto.dataLapidacao || null,
+dataPagamento: projeto.dataPagamento || null,
+exportadoEm: projeto.exportadoEm || null,
+status: "Pacote editorial exportado com sucesso"
+};
 
-    const blob = new Blob(
-        [JSON.stringify(pacote, null, 2)],
-        { type: "application/json;charset=utf-8" }
-    );
+const blob = new Blob(
+[JSON.stringify(pacote, null, 2)],
+{ type: "application/json;charset=utf-8" }
+);
 
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
-    link.download = (nomeSeguro || "obra") + "-pacote-editorial.json";
+const link = document.createElement("a");
+link.href = URL.createObjectURL(blob);
+link.download = (nomeSeguro || "obra") + "-pacote-editorial.json";
 
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+document.body.appendChild(link);
+link.click();
+document.body.removeChild(link);
 }
 
 function abrirHistorico(){
-    window.location.href = "historico_projetos.html";
+window.location.href = "historico_projetos.html";
 }
 
 function novoProjeto(){
-    localStorage.removeItem("projeto_lapidar");
-    window.location.href = "producao_integrada.html";
+localStorage.removeItem("projeto_lapidar");
+window.location.href = "producao_integrada.html";
 }
 
-carregarTela();
+carregar();
 </script>
 
 <script src="session_guard.js"></script>
