@@ -3,9 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Lapidar — Acesso</title>
 
 <style>
+
 *{
 box-sizing:border-box;
 }
@@ -13,7 +15,7 @@ box-sizing:border-box;
 body{
 margin:0;
 height:100vh;
-font-family:Arial, sans-serif;
+font-family:Arial,sans-serif;
 
 background-image:url("pergaminho.jpg");
 background-size:cover;
@@ -31,105 +33,175 @@ top:0;
 left:0;
 right:0;
 bottom:0;
-background:rgba(0,0,0,0.35);
+background:rgba(0,0,0,0.45);
 }
 
-.login-box{
+.login-card{
+
 position:relative;
+
 background:white;
-padding:40px;
+
+padding:42px;
+
+width:360px;
+
 border-radius:18px;
-width:340px;
-box-shadow:0 20px 40px rgba(0,0,0,0.4);
+
+box-shadow:0 30px 60px rgba(0,0,0,0.5);
+
 z-index:2;
+
 }
 
 .logo{
-text-align:center;
-font-size:26px;
+
+font-size:28px;
+
 font-weight:bold;
-margin-bottom:24px;
-color:#0e2f24;
+
+text-align:center;
+
+margin-bottom:26px;
+
+color:#0c2e24;
+
 }
 
 label{
+
 display:block;
-font-weight:bold;
+
 margin-bottom:6px;
-color:#1b3a2f;
+
+font-weight:bold;
+
+color:#1c3e32;
+
 }
 
 input{
+
 width:100%;
-padding:12px;
-margin-bottom:16px;
+
+padding:14px;
+
 border-radius:10px;
+
 border:1px solid #ddd;
-font-size:14px;
+
+margin-bottom:16px;
+
+font-size:15px;
+
 }
 
 select{
+
 width:100%;
-padding:12px;
-margin-bottom:18px;
+
+padding:14px;
+
 border-radius:10px;
+
 border:1px solid #ddd;
-font-size:14px;
+
+margin-bottom:20px;
+
+font-size:15px;
+
 }
 
 button{
+
 width:100%;
+
 padding:14px;
+
 border:none;
+
 border-radius:12px;
+
 font-size:15px;
+
 font-weight:bold;
+
 cursor:pointer;
+
 margin-bottom:10px;
+
 }
 
 .btn-login{
+
 background:#2ecc71;
+
 color:#062414;
+
 }
 
 .btn-login:hover{
-background:#27b765;
+
+background:#28b765;
+
 }
 
 .btn-sair{
-background:#e9f5ee;
-color:#0f2e24;
+
+background:#eef6f2;
+
+color:#0f2d25;
+
 }
 
 .btn-sair:hover{
-background:#d8efe4;
+
+background:#dcefe6;
+
 }
 
 .footer{
-text-align:center;
-font-size:12px;
-color:#5b6e67;
+
 margin-top:10px;
+
+font-size:12px;
+
+text-align:center;
+
+color:#667d74;
+
 }
 
 .status{
+
 display:none;
+
 margin-top:12px;
+
 padding:10px;
+
 border-radius:10px;
+
 font-size:13px;
+
 }
 
 .ok{
-background:#e8fff2;
-color:#0c3c27;
+
+background:#e9fff3;
+
+color:#0e3a2a;
+
 }
 
 .erro{
+
 background:#ffecec;
-color:#7a1d1d;
+
+color:#6b1c1c;
+
 }
+
 </style>
 </head>
 
@@ -137,67 +209,92 @@ color:#7a1d1d;
 
 <div class="overlay"></div>
 
-<div class="login-box">
+<div class="login-card">
 
 <div class="logo">
+
 Lapidar
+
 </div>
 
-<label>Usuário</label>
-<input type="text" id="usuario" placeholder="Digite seu usuário">
 
-<label>Perfil</label>
+<label>Usuário</label>
+
+<input id="usuario" placeholder="Digite o nome do usuário">
+
+
+<label>Perfil de acesso</label>
+
 <select id="perfil">
 
 <option value="admin">
+
 Administrador
+
 </option>
 
 <option value="veterano">
+
 Veterano
+
 </option>
 
 <option value="cortesia">
+
 Cortesia
+
 </option>
 
 </select>
 
-<button class="btn-login" onclick="entrarSistema()">
-Entrar no Lapidar
+
+<button class="btn-login" onclick="entrar()">
+
+Entrar no sistema
+
 </button>
 
-<button class="btn-sair" onclick="sairSistema()">
+
+<button class="btn-sair" onclick="sair()">
+
 Sair geral
+
 </button>
+
 
 <div id="statusBox" class="status"></div>
 
+
 <div class="footer">
+
 Sistema editorial Lapidar
+
 </div>
 
 </div>
+
+
 
 <script>
 
-function entrarSistema(){
 
-let usuario =
-document.getElementById("usuario").value.trim();
+function entrar(){
 
-let perfil =
-document.getElementById("perfil").value;
+let usuario=document.getElementById("usuario").value.trim();
+
+let perfil=document.getElementById("perfil").value;
+
 
 if(!usuario){
 
-mostrarErro("Informe o nome do usuário.");
+erro("Informe o nome do usuário.");
 
 return;
 
 }
 
-const sessao = {
+
+let sessao={
 
 usuario:usuario,
 
@@ -207,12 +304,18 @@ loginEm:new Date().toISOString()
 
 };
 
+
 localStorage.setItem(
+
 "sessao_lapidar",
+
 JSON.stringify(sessao)
+
 );
 
-mostrarOk("Sessão iniciada com sucesso.");
+
+ok("Sessão iniciada com sucesso.");
+
 
 setTimeout(()=>{
 
@@ -223,21 +326,22 @@ window.location.href="producao_integrada.html";
 }
 
 
-function sairSistema(){
+
+function sair(){
 
 localStorage.removeItem("sessao_lapidar");
 
 localStorage.removeItem("projeto_lapidar");
 
-mostrarOk("Sessão encerrada.");
+ok("Sessão encerrada.");
 
 }
 
 
-function mostrarOk(msg){
 
-let box =
-document.getElementById("statusBox");
+function ok(msg){
+
+let box=document.getElementById("statusBox");
 
 box.className="status ok";
 
@@ -248,10 +352,10 @@ box.innerText=msg;
 }
 
 
-function mostrarErro(msg){
 
-let box =
-document.getElementById("statusBox");
+function erro(msg){
+
+let box=document.getElementById("statusBox");
 
 box.className="status erro";
 
@@ -260,6 +364,7 @@ box.style.display="block";
 box.innerText=msg;
 
 }
+
 
 </script>
 
