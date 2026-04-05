@@ -16,7 +16,9 @@
   }
 
   function redirecionar(destino) {
-    window.location.href = destino;
+    if (window.location.pathname.split("/").pop() !== destino) {
+      window.location.href = destino;
+    }
   }
 
   function protegerFluxo() {
@@ -27,6 +29,7 @@
       "index.html",
       "",
       "producao_integrada.html",
+      "historico_projetos.html",
       "login.html"
     ];
 
@@ -52,18 +55,41 @@
       return;
     }
 
-    if (pagina === "pagamento.html" && !lapidacao) {
-      redirecionar("painel_projeto.html");
+    if (pagina === "pagamento.html") {
+      if (!lapidacao) {
+        redirecionar("painel_projeto.html");
+      }
       return;
     }
 
-    if (pagina === "exportador_obra.html" && (!lapidacao || !pagamento || !download)) {
-      redirecionar("painel_projeto.html");
+    if (pagina === "exportador_obra.html") {
+      if (!lapidacao) {
+        redirecionar("lapidacao_literaria.html");
+        return;
+      }
+
+      if (!pagamento || !download) {
+        redirecionar("pagamento.html");
+        return;
+      }
       return;
     }
 
-    if (pagina === "projeto_concluido.html" && !exportado) {
-      redirecionar("painel_projeto.html");
+    if (pagina === "projeto_concluido.html") {
+      if (!lapidacao) {
+        redirecionar("lapidacao_literaria.html");
+        return;
+      }
+
+      if (!pagamento || !download) {
+        redirecionar("pagamento.html");
+        return;
+      }
+
+      if (!exportado) {
+        redirecionar("exportador_obra.html");
+        return;
+      }
       return;
     }
   }
