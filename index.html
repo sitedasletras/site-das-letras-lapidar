@@ -3,114 +3,108 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Lapidar — Acesso</title>
+<title>Lapidar — Sistema Editorial</title>
 
 <style>
 
-*{
-box-sizing:border-box;
-}
-
 body{
 margin:0;
+font-family:Arial, sans-serif;
+background:#C9A873;
 height:100vh;
-font-family:Arial,sans-serif;
-
-background-image:url("pergaminho.jpg");
-background-size:cover;
-background-position:center;
-background-repeat:no-repeat;
-
 display:flex;
 align-items:center;
 justify-content:center;
 }
 
-.overlay{
+/* cruz central */
+
+.cruz{
 position:absolute;
-top:0;
-left:0;
-right:0;
-bottom:0;
-background:rgba(0,0,0,0.45);
+width:100%;
+height:100%;
+display:flex;
+align-items:center;
+justify-content:center;
 }
 
-.login-card{
+.cruz::before{
+content:"";
+position:absolute;
+width:320px;
+height:100%;
+background:#E7D2A8;
+}
 
+.cruz::after{
+content:"";
+position:absolute;
+width:100%;
+height:320px;
+background:#E7D2A8;
+}
+
+/* container central */
+
+.container{
 position:relative;
+z-index:2;
+text-align:center;
+}
+
+/* título */
+
+.titulo{
+font-size:42px;
+font-weight:bold;
+color:#3C2A18;
+margin-bottom:10px;
+}
+
+/* selo */
+
+.selo{
+width:160px;
+margin-bottom:20px;
+}
+
+/* painel login */
+
+.login-box{
 
 background:white;
 
-padding:42px;
-
-width:360px;
+padding:40px;
 
 border-radius:18px;
 
-box-shadow:0 30px 60px rgba(0,0,0,0.5);
+box-shadow:0px 10px 35px rgba(0,0,0,0.25);
 
-z-index:2;
+width:320px;
 
-}
-
-.logo{
-
-font-size:28px;
-
-font-weight:bold;
-
-text-align:center;
-
-margin-bottom:26px;
-
-color:#0c2e24;
+margin:auto;
 
 }
 
-label{
-
-display:block;
-
-margin-bottom:6px;
-
-font-weight:bold;
-
-color:#1c3e32;
-
-}
+/* campos */
 
 input{
 
 width:100%;
 
-padding:14px;
+padding:12px;
 
-border-radius:10px;
+margin-top:10px;
 
-border:1px solid #ddd;
+margin-bottom:15px;
 
-margin-bottom:16px;
+border-radius:8px;
 
-font-size:15px;
-
-}
-
-select{
-
-width:100%;
-
-padding:14px;
-
-border-radius:10px;
-
-border:1px solid #ddd;
-
-margin-bottom:20px;
-
-font-size:15px;
+border:1px solid #ccc;
 
 }
+
+/* botões */
 
 button{
 
@@ -120,253 +114,85 @@ padding:14px;
 
 border:none;
 
-border-radius:12px;
-
-font-size:15px;
+border-radius:10px;
 
 font-weight:bold;
 
 cursor:pointer;
 
-margin-bottom:10px;
+margin-top:10px;
 
 }
 
-.btn-login{
+.entrar{
 
 background:#2ecc71;
 
-color:#062414;
+color:white;
 
 }
 
-.btn-login:hover{
+.entrar:hover{
 
-background:#28b765;
-
-}
-
-.btn-sair{
-
-background:#eef6f2;
-
-color:#0f2d25;
+background:#27ae60;
 
 }
 
-.btn-sair:hover{
+.sair{
 
-background:#dcefe6;
-
-}
-
-.footer{
-
-margin-top:10px;
-
-font-size:12px;
-
-text-align:center;
-
-color:#667d74;
+background:#eee;
 
 }
 
-.status{
+/* recuperar senha */
 
-display:none;
-
-margin-top:12px;
-
-padding:10px;
-
-border-radius:10px;
+.recuperar{
 
 font-size:13px;
 
-}
+margin-top:10px;
 
-.ok{
+color:#444;
 
-background:#e9fff3;
-
-color:#0e3a2a;
+cursor:pointer;
 
 }
 
-.erro{
+.recuperar:hover{
 
-background:#ffecec;
-
-color:#6b1c1c;
+text-decoration:underline;
 
 }
 
 </style>
+
 </head>
 
 <body>
 
-<div class="overlay"></div>
+<div class="cruz"></div>
 
-<div class="login-card">
+<div class="container">
 
-<div class="logo">
+<div class="titulo">Lapidar</div>
 
-Lapidar
+<img src="file_000000000d8bc71f5b57491905e34ae99.jpg" class="selo">
 
-</div>
+<div class="login-box">
 
+<input placeholder="Usuário">
 
-<label>Usuário</label>
+<input placeholder="Senha" type="password">
 
-<input id="usuario" placeholder="Digite o nome do usuário">
+<div class="recuperar">Recuperar senha</div>
 
+<button class="entrar">Entrar no sistema</button>
 
-<label>Perfil de acesso</label>
-
-<select id="perfil">
-
-<option value="admin">
-
-Administrador
-
-</option>
-
-<option value="veterano">
-
-Veterano
-
-</option>
-
-<option value="cortesia">
-
-Cortesia
-
-</option>
-
-</select>
-
-
-<button class="btn-login" onclick="entrar()">
-
-Entrar no sistema
-
-</button>
-
-
-<button class="btn-sair" onclick="sair()">
-
-Sair geral
-
-</button>
-
-
-<div id="statusBox" class="status"></div>
-
-
-<div class="footer">
-
-Sistema editorial Lapidar
+<button class="sair">Sair geral</button>
 
 </div>
 
 </div>
-
-
-
-<script>
-
-
-function entrar(){
-
-let usuario=document.getElementById("usuario").value.trim();
-
-let perfil=document.getElementById("perfil").value;
-
-
-if(!usuario){
-
-erro("Informe o nome do usuário.");
-
-return;
-
-}
-
-
-let sessao={
-
-usuario:usuario,
-
-perfil:perfil,
-
-loginEm:new Date().toISOString()
-
-};
-
-
-localStorage.setItem(
-
-"sessao_lapidar",
-
-JSON.stringify(sessao)
-
-);
-
-
-ok("Sessão iniciada com sucesso.");
-
-
-setTimeout(()=>{
-
-window.location.href="producao_integrada.html";
-
-},600);
-
-}
-
-
-
-function sair(){
-
-localStorage.removeItem("sessao_lapidar");
-
-localStorage.removeItem("projeto_lapidar");
-
-ok("Sessão encerrada.");
-
-}
-
-
-
-function ok(msg){
-
-let box=document.getElementById("statusBox");
-
-box.className="status ok";
-
-box.style.display="block";
-
-box.innerText=msg;
-
-}
-
-
-
-function erro(msg){
-
-let box=document.getElementById("statusBox");
-
-box.className="status erro";
-
-box.style.display="block";
-
-box.innerText=msg;
-
-}
-
-
-</script>
 
 </body>
 </html>
