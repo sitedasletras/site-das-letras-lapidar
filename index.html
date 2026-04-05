@@ -1,296 +1,339 @@
-      <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lapidar — Entrada</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lapidar — Entrada</title>
 
-  <style>
-    *{
-      box-sizing:border-box;
-    }
+<style>
 
-    body{
-      margin:0;
-      font-family:Arial,sans-serif;
-      background:
-        radial-gradient(circle at top, rgba(46,204,113,0.10), transparent 30%),
-        linear-gradient(180deg,#0c241c,#04120d);
-      color:#ffffff;
-      min-height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-    }
+*{
+box-sizing:border-box;
+}
 
-    .container{
-      width:100%;
-      max-width:1100px;
-      padding:24px;
-    }
+body{
+margin:0;
+font-family:Arial,sans-serif;
 
-    .hero{
-      display:grid;
-      grid-template-columns:1.1fr .9fr;
-      gap:22px;
-      align-items:stretch;
-    }
+background:
+radial-gradient(circle at top, rgba(46,204,113,0.10), transparent 30%),
+linear-gradient(180deg,#0c241c,#04120d);
 
-    .card{
-      background:rgba(255,255,255,0.07);
-      border:1px solid rgba(255,255,255,0.08);
-      border-radius:22px;
-      padding:30px;
-      box-shadow:0 18px 40px rgba(0,0,0,0.25);
-      backdrop-filter:blur(2px);
-    }
+color:#ffffff;
 
-    .selo{
-      display:inline-block;
-      padding:10px 16px;
-      border-radius:999px;
-      background:rgba(46,204,113,0.12);
-      border:1px solid rgba(46,204,113,0.24);
-      color:#dbffea;
-      font-weight:bold;
-      font-size:14px;
-      margin-bottom:18px;
-    }
+min-height:100vh;
 
-    h1{
-      margin:0 0 12px 0;
-      font-size:40px;
-      line-height:1.1;
-      letter-spacing:0.2px;
-    }
+display:flex;
+align-items:center;
+justify-content:center;
+}
 
-    .subtitulo{
-      color:#d8efe2;
-      line-height:1.8;
-      font-size:17px;
-      margin-bottom:26px;
-      max-width:700px;
-    }
+.container{
+width:100%;
+max-width:1100px;
+padding:24px;
+}
 
-    .acoes{
-      display:flex;
-      flex-wrap:wrap;
-      gap:14px;
-      margin-bottom:26px;
-    }
+.hero{
+display:grid;
+grid-template-columns:1.1fr .9fr;
+gap:22px;
+align-items:stretch;
+}
 
-    button{
-      border:none;
-      border-radius:14px;
-      padding:16px 22px;
-      font-size:16px;
-      font-weight:bold;
-      cursor:pointer;
-      transition:transform .15s ease, background .15s ease, opacity .15s ease;
-    }
+.card{
+background:rgba(255,255,255,0.07);
+border:1px solid rgba(255,255,255,0.08);
+border-radius:22px;
+padding:30px;
+box-shadow:0 18px 40px rgba(0,0,0,0.25);
+}
 
-    button:hover{
-      transform:translateY(-1px);
-    }
+.selo{
+display:inline-block;
+padding:10px 16px;
+border-radius:999px;
+background:rgba(46,204,113,0.12);
+border:1px solid rgba(46,204,113,0.24);
+color:#dbffea;
+font-weight:bold;
+font-size:14px;
+margin-bottom:18px;
+}
 
-    .botao-principal{
-      background:#2ecc71;
-      color:#062414;
-    }
+h1{
+margin:0 0 12px 0;
+font-size:40px;
+line-height:1.1;
+}
 
-    .botao-principal:hover{
-      background:#29b765;
-    }
+.subtitulo{
+color:#d8efe2;
+line-height:1.8;
+font-size:17px;
+margin-bottom:26px;
+max-width:700px;
+}
 
-    .botao-secundario{
-      background:#dcefe4;
-      color:#103222;
-    }
+.acoes{
+display:flex;
+flex-wrap:wrap;
+gap:14px;
+margin-bottom:26px;
+}
 
-    .botao-secundario:hover{
-      background:#c8e6d4;
-    }
+button{
+border:none;
+border-radius:14px;
+padding:16px 22px;
+font-size:16px;
+font-weight:bold;
+cursor:pointer;
+transition:.15s;
+}
 
-    .fluxo{
-      display:grid;
-      gap:12px;
-      margin-top:12px;
-    }
+button:hover{
+transform:translateY(-1px);
+}
 
-    .etapa{
-      padding:14px 16px;
-      border-radius:14px;
-      background:rgba(255,255,255,0.05);
-      border:1px solid rgba(255,255,255,0.06);
-      color:#e6fff0;
-    }
+.botao-principal{
+background:#2ecc71;
+color:#062414;
+}
 
-    .etapa strong{
-      display:block;
-      margin-bottom:4px;
-      color:#dbffea;
-    }
+.botao-principal:hover{
+background:#29b765;
+}
 
-    .lado-direito{
-      display:grid;
-      gap:18px;
-    }
+.botao-secundario{
+background:#dcefe4;
+color:#103222;
+}
 
-    .painel-mini h2,
-    .resumo h2{
-      margin-top:0;
-      margin-bottom:14px;
-      font-size:22px;
-    }
+.botao-secundario:hover{
+background:#c8e6d4;
+}
 
-    .painel-mini p,
-    .resumo p{
-      color:#d6ede0;
-      line-height:1.7;
-      margin:0;
-    }
+.fluxo{
+display:grid;
+gap:12px;
+margin-top:12px;
+}
 
-    .lista{
-      display:grid;
-      gap:10px;
-      margin-top:16px;
-    }
+.etapa{
+padding:14px 16px;
+border-radius:14px;
+background:rgba(255,255,255,0.05);
+border:1px solid rgba(255,255,255,0.06);
+color:#e6fff0;
+}
 
-    .item{
-      padding:12px 14px;
-      border-radius:12px;
-      background:rgba(255,255,255,0.05);
-      color:#e8fff2;
-      font-size:14px;
-      line-height:1.6;
-    }
+.etapa strong{
+display:block;
+margin-bottom:4px;
+}
 
-    .rodape{
-      margin-top:20px;
-      color:#cfe8da;
-      font-size:14px;
-      line-height:1.7;
-    }
+.lado-direito{
+display:grid;
+gap:18px;
+}
 
-    @media (max-width: 920px){
-      .hero{
-        grid-template-columns:1fr;
-      }
+.lista{
+display:grid;
+gap:10px;
+margin-top:16px;
+}
 
-      h1{
-        font-size:34px;
-      }
-    }
+.item{
+padding:12px 14px;
+border-radius:12px;
+background:rgba(255,255,255,0.05);
+color:#e8fff2;
+font-size:14px;
+}
 
-    @media (max-width: 600px){
-      .card{
-        padding:22px 18px;
-      }
+.rodape{
+margin-top:20px;
+color:#cfe8da;
+font-size:14px;
+line-height:1.7;
+}
 
-      h1{
-        font-size:28px;
-      }
+@media (max-width: 920px){
 
-      .subtitulo{
-        font-size:15px;
-      }
+.hero{
+grid-template-columns:1fr;
+}
 
-      .acoes{
-        flex-direction:column;
-      }
+h1{
+font-size:34px;
+}
 
-      button{
-        width:100%;
-      }
-    }
-  </style>
+}
+
+@media (max-width: 600px){
+
+.card{
+padding:22px 18px;
+}
+
+h1{
+font-size:28px;
+}
+
+.subtitulo{
+font-size:15px;
+}
+
+.acoes{
+flex-direction:column;
+}
+
+button{
+width:100%;
+}
+
+}
+
+</style>
 </head>
+
 <body>
 
-  <div class="container">
+<div class="container">
 
-    <div class="hero">
+<div class="hero">
 
-      <div class="card">
-        <div class="selo">Site das Letras — Lapidar</div>
+<div class="card">
 
-        <h1>Ambiente editorial do autor independente</h1>
+<div class="selo">
+Site das Letras — Lapidar
+</div>
 
-        <div class="subtitulo">
-          Inicie uma nova obra, retome projetos já registrados e acompanhe o fluxo editorial
-          da lapidação da sua obra com mais clareza, continuidade e organização profissional.
-        </div>
+<h1>
+Ambiente editorial do autor independente
+</h1>
 
-        <div class="acoes">
-          <button class="botao-principal" onclick="iniciarNovoProjeto()">
-            Iniciar novo projeto
-          </button>
+<div class="subtitulo">
 
-          <button class="botao-secundario" onclick="abrirProjetosExistentes()">
-            Abrir projetos existentes
-          </button>
-        </div>
+Inicie uma nova obra, retome projetos registrados e acompanhe o fluxo editorial
+da lapidação com continuidade, segurança e organização profissional.
 
-        <div class="fluxo">
-          <div class="etapa">
-            <strong>1. Produção Integrada</strong>
-            Cadastro da obra, do autor e definição dos módulos desejados.
-          </div>
+</div>
 
-          <div class="etapa">
-            <strong>2. Painel do Projeto</strong>
-            Acompanhamento central do progresso editorial e da próxima ação.
-          </div>
+<div class="acoes">
 
-          <div class="etapa">
-            <strong>3. Lapidação → Pagamento → Exportação</strong>
-            Refinamento textual, confirmação financeira e geração do pacote editorial.
-          </div>
-        </div>
+<button class="botao-principal"
+onclick="iniciarNovoProjeto()">
 
-        <div class="rodape">
-          O Lapidar organiza o projeto por etapas, evita perda de contexto e aproxima o autor
-          de uma experiência editorial mais estável, clara e contínua.
-        </div>
-      </div>
+Iniciar novo projeto
 
-      <div class="lado-direito">
-        <div class="card painel-mini">
-          <h2>O que já está ativo</h2>
-          <div class="lista">
-            <div class="item">Histórico de projetos com retomada de obras.</div>
-            <div class="item">Painel central com progresso do projeto.</div>
-            <div class="item">Lapidação Literária integrada ao fluxo.</div>
-            <div class="item">Pagamento com bloqueio de etapa anterior.</div>
-            <div class="item">Exportador de obra com pacote editorial.</div>
-            <div class="item">Tela final de projeto concluído.</div>
-          </div>
-        </div>
+</button>
 
-        <div class="card resumo">
-          <h2>Entrada oficial do sistema</h2>
-          <p>
-            Esta tela funciona como o ponto de partida do Lapidar. Ao iniciar um novo projeto,
-            a sessão atual é limpa para evitar mistura com obras anteriores. Ao abrir projetos
-            existentes, o autor retoma diretamente o ambiente editorial salvo.
-          </p>
-        </div>
-      </div>
+<button class="botao-secundario"
+onclick="abrirProjetosExistentes()">
 
-    </div>
+Abrir projetos existentes
 
-  </div>
+</button>
 
-  <script>
-    function iniciarNovoProjeto(){
-      localStorage.removeItem("projeto_lapidar");
-      window.location.href = "producao_integrada.html";
-    }
+</div>
 
-    function abrirProjetosExistentes(){
-      window.location.href = "historico_projetos.html";
-    }
-  </script>
+<div class="fluxo">
+
+<div class="etapa">
+
+<strong>1. Produção Integrada</strong>
+
+Cadastro da obra e seleção dos módulos editoriais.
+
+</div>
+
+<div class="etapa">
+
+<strong>2. Painel do Projeto</strong>
+
+Acompanhamento central do progresso editorial.
+
+</div>
+
+<div class="etapa">
+
+<strong>3. Lapidação → Pagamento → Exportação</strong>
+
+Refinamento textual, confirmação financeira e geração do pacote editorial.
+
+</div>
+
+</div>
+
+<div class="rodape">
+
+O Lapidar organiza o projeto por etapas e evita perda de contexto durante a produção editorial.
+
+</div>
+
+</div>
+
+<div class="lado-direito">
+
+<div class="card">
+
+<h2>Recursos ativos</h2>
+
+<div class="lista">
+
+<div class="item">Histórico completo de projetos</div>
+
+<div class="item">Painel central com progresso editorial</div>
+
+<div class="item">Lapidação Literária integrada</div>
+
+<div class="item">Pagamento com controle de fluxo</div>
+
+<div class="item">Exportador de pacote editorial</div>
+
+<div class="item">Tela final de encerramento de projeto</div>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>Entrada oficial do sistema</h2>
+
+<p>
+
+Ao iniciar um novo projeto, a sessão atual é limpa automaticamente para evitar mistura com obras anteriores.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+function iniciarNovoProjeto(){
+
+localStorage.removeItem("projeto_lapidar");
+
+window.location.href="producao_integrada.html";
+
+}
+
+function abrirProjetosExistentes(){
+
+window.location.href="historico_projetos.html";
+
+}
+
+</script>
 
 </body>
 </html>
