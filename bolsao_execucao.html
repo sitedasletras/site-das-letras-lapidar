@@ -1,520 +1,159 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lapidar • Módulo 01 — Bolsão de Limpeza Editorial</title>
-  <style>
-    :root{
-      --bg:#f7f5ef;
-      --bg-soft:#efe8da;
-      --hero:#f1e8d8;
-      --card:#ffffff;
-      --line:#c9c1b2;
-      --text:#2f2a24;
-      --muted:#5f574c;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-      --accent:#5f8f86;
-      --accent-dark:#3f6f67;
+<title>Lapidar • Bolsão de Limpeza Editorial</title>
 
-      --gold:#c79a2e;
-      --gold-dark:#a77e1f;
+<style>
 
-      --soft-blue:#dfe6f2;
-      --soft-blue-text:#4f5a69;
+body{
+margin:0;
+font-family:Georgia, serif;
+background:#f4ecd8;
+color:#2f2a24;
+}
 
-      --soft-brown:#ece7db;
-      --soft-brown-dark:#e2dccd;
+.container{
+max-width:900px;
+margin:auto;
+padding:40px 20px;
+}
 
-      --exit:#d7d2c6;
-      --exit-dark:#c9c1b2;
+.hero{
+background:white;
+padding:35px;
+border-radius:14px;
+box-shadow:0px 4px 12px rgba(0,0,0,0.12);
+}
 
-      --mesario-bg:#f8f6f0;
-      --mesario-line:#b8952b;
+h1{
+text-align:center;
+margin-bottom:10px;
+}
 
-      --warning-bg:#faf8f2;
+.subtitle{
+text-align:center;
+font-size:18px;
+margin-bottom:30px;
+}
 
-      --shadow:0 12px 28px rgba(67,58,45,.10);
-      --radius-lg:28px;
-      --radius-md:18px;
-      --radius-sm:14px;
-    }
+.bloco{
+margin-bottom:20px;
+font-size:18px;
+line-height:1.6;
+}
 
-    *{
-      box-sizing:border-box;
-    }
+.botao-area{
+margin-top:35px;
+text-align:center;
+}
 
-    body{
-      margin:0;
-      font-family: Arial, Helvetica, sans-serif;
-      background:linear-gradient(180deg,var(--bg),var(--bg-soft));
-      color:var(--text);
-    }
+button{
 
-    .container{
-      max-width:980px;
-      margin:0 auto;
-      padding:28px 16px 40px;
-    }
+background:#5a4a2f;
+color:white;
 
-    .topbar{
-      display:flex;
-      justify-content:space-between;
-      gap:12px;
-      margin-bottom:18px;
-    }
+border:none;
 
-    .small-btn{
-      border:none;
-      border-radius:14px;
-      padding:12px 16px;
-      font-size:15px;
-      font-weight:bold;
-      cursor:pointer;
-      transition:.2s ease;
-    }
+padding:16px 40px;
 
-    .small-btn:hover{
-      transform:translateY(-1px);
-    }
+font-size:20px;
 
-    .btn-back{
-      background:var(--soft-brown);
-      color:var(--text);
-    }
+border-radius:10px;
 
-    .btn-back:hover{
-      background:var(--soft-brown-dark);
-    }
+cursor:pointer;
 
-    .btn-exit{
-      background:var(--exit);
-      color:var(--text);
-    }
+}
 
-    .btn-exit:hover{
-      background:var(--exit-dark);
-    }
+button:hover{
 
-    .hero{
-      background:var(--hero);
-      border:1px solid var(--line);
-      border-radius:var(--radius-lg);
-      padding:30px;
-      box-shadow:var(--shadow);
-      margin-bottom:22px;
-    }
+background:#3e321f;
 
-    .eyebrow{
-      display:inline-block;
-      padding:8px 14px;
-      border-radius:999px;
-      background:#e4dccb;
-      color:#6b5b46;
-      font-size:14px;
-      font-weight:bold;
-      margin-bottom:14px;
-    }
+}
 
-    h1{
-      margin:0 0 10px 0;
-      font-size:34px;
-      line-height:1.15;
-      color:#5a4631;
-    }
+.footer{
 
-    .subtitle{
-      margin:0;
-      font-size:20px;
-      color:var(--muted);
-      line-height:1.7;
-    }
+margin-top:35px;
 
-    .trust-box{
-      margin-top:22px;
-      background:#f8f6f0;
-      border:1px solid var(--line);
-      border-left:6px solid var(--accent);
-      border-radius:var(--radius-md);
-      padding:18px 18px 18px 16px;
-      font-size:18px;
-      line-height:1.85;
-    }
+text-align:center;
 
-    .trust-box strong{
-      display:block;
-      margin-bottom:6px;
-      font-size:19px;
-    }
+font-size:16px;
 
-    .card{
-      background:var(--card);
-      border:1px solid var(--line);
-      border-radius:24px;
-      padding:22px;
-      box-shadow:var(--shadow);
-      margin-bottom:20px;
-    }
+color:#6b5c3d;
 
-    h2{
-      margin:0 0 14px 0;
-      font-size:28px;
-      color:#5a4631;
-    }
+}
 
-    p{
-      margin:0 0 14px 0;
-      font-size:19px;
-      line-height:1.8;
-    }
+</style>
 
-    .muted{
-      color:var(--muted);
-    }
-
-    label{
-      display:block;
-      font-size:18px;
-      font-weight:bold;
-      margin-bottom:10px;
-      color:#5a4631;
-    }
-
-    input[type="file"],
-    input[type="text"],
-    textarea,
-    select{
-      width:100%;
-      padding:16px;
-      border-radius:16px;
-      border:1px solid var(--line);
-      background:#f7f8fb;
-      font-size:17px;
-      color:var(--text);
-      margin-bottom:18px;
-    }
-
-    textarea{
-      min-height:180px;
-      resize:vertical;
-    }
-
-    .main-btn{
-      width:100%;
-      border:none;
-      border-radius:18px;
-      padding:18px 20px;
-      font-size:19px;
-      font-weight:bold;
-      cursor:pointer;
-      transition:.2s ease;
-      margin-top:6px;
-    }
-
-    .main-btn:hover{
-      transform:translateY(-1px);
-    }
-
-    .btn-read{
-      background:var(--gold);
-      color:white;
-    }
-
-    .btn-read:hover{
-      background:var(--gold-dark);
-    }
-
-    .btn-continue{
-      background:var(--accent);
-      color:white;
-    }
-
-    .btn-continue:hover{
-      background:var(--accent-dark);
-    }
-
-    .btn-stop{
-      background:#8b98aa;
-      color:white;
-    }
-
-    .btn-stop:hover{
-      background:#738195;
-    }
-
-    .status-box{
-      background:var(--soft-blue);
-      border-left:6px solid #34c36b;
-      border-radius:var(--radius-md);
-      padding:18px;
-      font-size:18px;
-      line-height:1.8;
-      color:var(--soft-blue-text);
-      margin-top:8px;
-      white-space:pre-line;
-    }
-
-    .status-list{
-      display:grid;
-      gap:10px;
-      margin-top:14px;
-    }
-
-    .status-item{
-      background:var(--warning-bg);
-      border:1px solid var(--line);
-      border-radius:var(--radius-sm);
-      padding:14px 16px;
-      font-size:18px;
-      line-height:1.7;
-    }
-
-    .dream-line{
-      margin-top:18px;
-      text-align:center;
-      font-size:22px;
-      line-height:1.6;
-      color:#a87f4c;
-      font-weight:bold;
-    }
-
-    .mesario{
-      margin-top:18px;
-      background:var(--mesario-bg);
-      border:1px solid var(--line);
-      border-left:7px solid var(--mesario-line);
-      border-radius:var(--radius-md);
-      padding:16px 18px;
-    }
-
-    .mesario h3{
-      margin:0 0 8px 0;
-      font-size:22px;
-      color:#6a5435;
-    }
-
-    .mesario p{
-      margin:0;
-      font-size:18px;
-      line-height:1.8;
-    }
-
-    .mesario-valor{
-      display:inline-block;
-      margin-top:8px;
-      padding:8px 12px;
-      border-radius:12px;
-      background:#fff7e6;
-      border:1px solid #e2c98f;
-      font-weight:bold;
-      color:#7a5d1d;
-    }
-
-    .actions{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:14px;
-      margin-top:18px;
-    }
-
-    .note{
-      margin-top:12px;
-      font-size:16px;
-      line-height:1.7;
-      color:var(--muted);
-      text-align:center;
-    }
-
-    .hidden{
-      display:none !important;
-    }
-
-    @media (max-width: 800px){
-      .actions,
-      .topbar{
-        grid-template-columns:1fr;
-        display:grid;
-      }
-
-      h1{
-        font-size:30px;
-      }
-
-      h2{
-        font-size:25px;
-      }
-
-      p,
-      .status-box,
-      .status-item{
-        font-size:18px;
-      }
-
-      .dream-line{
-        font-size:20px;
-      }
-    }
-  </style>
 </head>
+
 <body>
-  <div class="container">
 
-    <div class="topbar">
-      <button class="small-btn btn-back" onclick="history.back()">← Retornar</button>
-      <button class="small-btn btn-exit" onclick="window.location.href='index.html'">Sair do sistema</button>
-    </div>
+<div class="container">
 
-    <section class="hero">
-      <div class="eyebrow">Módulo 01 • Bolsão de Limpeza Editorial</div>
-      <h1>Bolsão de Limpeza Editorial</h1>
-      <p class="subtitle">
-        Aqui sua obra é recebida, interpretada e preparada antes de seguir para os departamentos editoriais.
-      </p>
+<div class="hero">
 
-      <div class="trust-box">
-        <strong>O Lapidar trabalha de mãos dadas com o autor.</strong>
-        Cada etapa é realizada em ação conjunta, sempre com sua autorização.
-        <br><br>
-        Nesta etapa, o Bolsão realiza a preparação técnica e estrutural da obra, sem alterar o conteúdo criativo do autor.
-      </div>
-    </section>
+<h1>Bolsão de Limpeza Editorial</h1>
 
-    <section class="card">
-      <h2>1. Entrada da obra</h2>
+<div class="subtitle">
 
-      <label for="arquivoObra">Arquivo da obra</label>
-      <input type="file" id="arquivoObra" />
+Aqui recebemos o seu material como ele nasceu. Seguimos juntos a partir daqui, escutando sempre a sua voz e a sua vontade.
 
-      <label for="idiomaBase">Idioma base da obra</label>
-      <select id="idiomaBase">
-        <option>Português</option>
-        <option>Inglês</option>
-        <option>Espanhol</option>
-        <option>Francês</option>
-        <option>Italiano</option>
-        <option>Outro</option>
-      </select>
+</div>
 
-      <p class="muted">
-        O Bolsão recebe a obra como ela vier, identifica sua estrutura e prepara o texto-base do projeto antes da continuidade editorial.
-      </p>
+<div class="bloco">
 
-      <button class="main-btn btn-read" onclick="lerObra()">Ler obra e preparar texto-base</button>
+Neste espaço organizamos sua obra antes das próximas etapas:
 
-      <div class="status-box" id="statusLeitura">Nenhuma obra lida ainda.</div>
-    </section>
+</div>
 
-    <section class="card">
-      <h2>2. Dados identificados da obra</h2>
+<div class="bloco">
 
-      <label for="tituloObra">Título da obra</label>
-      <input type="text" id="tituloObra" placeholder="O título aparecerá aqui após a leitura" />
+• identificamos estrutura do texto  
+• reconhecemos título e autoria  
+• organizamos partes editoriais  
+• verificamos elementos enviados  
+• preparamos o caminho da obra dentro do Lapidar  
 
-      <label for="subtituloObra">Subtítulo</label>
-      <input type="text" id="subtituloObra" placeholder="O subtítulo aparecerá aqui, se for identificado" />
+</div>
 
-      <label for="autorObra">Autor</label>
-      <input type="text" id="autorObra" placeholder="O autor aparecerá aqui após a leitura" />
+<div class="bloco">
 
-      <label for="classificacaoObra">Classificação preliminar da obra</label>
-      <input type="text" id="classificacaoObra" placeholder="Romance, poesia, infantil, técnico, receitas, etc." />
+Nada será alterado sem sua autorização. Estamos trabalhando ao seu lado desde o primeiro passo.
 
-      <label for="textoBase">Texto-base preparado</label>
-      <textarea id="textoBase" placeholder="O texto-base preparado pelo Bolsão aparecerá aqui."></textarea>
-    </section>
+</div>
 
-    <section class="card">
-      <h2>3. Relatório inicial do Bolsão</h2>
+<div class="botao-area">
 
-      <div class="status-list">
-        <div class="status-item">Leitura estrutural da obra</div>
-        <div class="status-item">Identificação preliminar de título, autor e estrutura</div>
-        <div class="status-item">Preparação do texto-base para os módulos do Lapidar</div>
-        <div class="status-item">Separação da etapa de entrada antes dos departamentos editoriais</div>
-      </div>
+<button onclick="continuarFluxo()">
 
-      <div class="dream-line">
-        Aqui começa o primeiro passo em prol da realização de um sonho.
-      </div>
-    </section>
+Continuar preparação da obra
 
-    <section class="card">
-      <h2>4. Continuidade editorial</h2>
-      <p>
-        Se desejar continuar, o Lapidar abrirá a próxima página com os módulos editoriais disponíveis para esta sessão.
-      </p>
+</button>
 
-      <div class="mesario" id="mesarioSecao">
-        <h3>Mesário da seção</h3>
-        <p>
-          Preparação editorial inicial concluída nesta seção.
-        </p>
-        <div class="mesario-valor" id="mesarioValor">
-          CVR sugerida desta seção: R$ 5,00
-        </div>
-      </div>
+</div>
 
-      <div class="actions">
-        <button class="main-btn btn-continue" onclick="continuar()">Continuar para os módulos</button>
-        <button class="main-btn btn-stop" onclick="encerrarAqui()">Encerrar aqui</button>
-      </div>
+<div class="footer">
 
-      <div class="note">
-        Os módulos editoriais não aparecem nesta tela. Eles só serão mostrados na página seguinte.
-      </div>
-    </section>
+Aqui começa a nossa jornada.
 
-  </div>
+</div>
 
-  <script>
-    function lerObra(){
-      const arquivo = document.getElementById("arquivoObra");
-      const status = document.getElementById("statusLeitura");
-      const idioma = document.getElementById("idiomaBase").value;
+</div>
 
-      if(!arquivo.files.length){
-        alert("Escolha um arquivo antes de continuar.");
-        return;
-      }
+</div>
 
-      const nomeArquivo = arquivo.files[0].name;
+<script>
 
-      status.innerHTML =
-        "Obra lida com sucesso ✔\n" +
-        "Arquivo: " + nomeArquivo + "\n" +
-        "Idioma base: " + idioma + "\n" +
-        "Título identificado: leitura preliminar concluída\n" +
-        "Autor identificado: leitura preliminar concluída\n" +
-        "Texto-base preparado para os módulos do Lapidar.";
+function continuarFluxo(){
 
-      atualizarMesarioBolsao();
-    }
+window.location.href="selecionar_modulos.html";
 
-    function atualizarMesarioBolsao(){
-      const valor = 5.00;
-      document.getElementById("mesarioValor").textContent =
-        "CVR sugerida desta seção: R$ " + valor.toFixed(2).replace(".", ",");
-    }
+}
 
-    function continuar(){
-      window.location.href = "selecionar_modulos.html";
-    }
+</script>
 
-    function encerrarAqui(){
-      alert("Processo encerrado após o Bolsão de Limpeza Editorial.");
-    }
-
-    function aplicarRegraPerfil(){
-      const perfil = (localStorage.getItem("lapidar_perfil") || "").toLowerCase();
-      const cortesia = perfil.includes("cortesia");
-
-      if(cortesia){
-        document.getElementById("mesarioSecao").classList.add("hidden");
-      }
-    }
-
-    aplicarRegraPerfil();
-    atualizarMesarioBolsao();
-  </script>
 </body>
 </html>
