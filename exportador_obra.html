@@ -111,154 +111,185 @@ color:#cfe8da;
 
 <div class="container">
 
-    <div class="card">
-        <h1>Exportador de Obra</h1>
-        <p>
-            Etapa final do fluxo editorial. Aqui o Lapidar reúne os dados do projeto,
-            confirma a liberação do download e gera um pacote editorial simples para teste e validação.
-        </p>
-    </div>
+<div class="card">
+<h1>Exportador de Obra</h1>
+<p>
+Etapa final do fluxo editorial. Aqui o Lapidar reúne os dados do projeto,
+gera o pacote editorial e encerra o fluxo atual de forma profissional.
+</p>
+</div>
 
-    <div class="card">
-        <h2>Resumo do projeto</h2>
-        <div class="info"><strong>Título:</strong> <span id="tituloProjeto">Carregando...</span></div>
-        <div class="info"><strong>Autor:</strong> <span id="autorProjeto">Carregando...</span></div>
-        <div class="info"><strong>Módulos:</strong> <span id="modulosProjeto">Carregando...</span></div>
-        <div class="info"><strong>Lapidação:</strong> <span id="lapidacaoProjeto">Carregando...</span></div>
-        <div class="info"><strong>Pagamento:</strong> <span id="pagamentoProjeto">Carregando...</span></div>
-        <div class="info"><strong>Download:</strong> <span id="downloadProjeto">Carregando...</span></div>
+<div class="card">
+<h2>Resumo do projeto</h2>
 
-        <div class="actions">
-            <button class="btn-principal" onclick="baixarPacoteEditorial()">Baixar pacote editorial</button>
-            <button class="btn-secundario" onclick="voltarPainel()">Voltar ao painel</button>
-            <button class="btn-secundario" onclick="novoProjeto()">Iniciar novo projeto</button>
-        </div>
+<div class="info"><strong>Título:</strong> <span id="tituloProjeto">Carregando...</span></div>
+<div class="info"><strong>Autor:</strong> <span id="autorProjeto">Carregando...</span></div>
+<div class="info"><strong>Módulos:</strong> <span id="modulosProjeto">Carregando...</span></div>
+<div class="info"><strong>Lapidação:</strong> <span id="lapidacaoProjeto">Carregando...</span></div>
+<div class="info"><strong>Pagamento:</strong> <span id="pagamentoProjeto">Carregando...</span></div>
+<div class="info"><strong>Download:</strong> <span id="downloadProjeto">Carregando...</span></div>
 
-        <div class="status" id="mensagemStatus"></div>
-        <div class="erro" id="mensagemErro"></div>
-    </div>
+<div class="actions">
+<button class="btn-principal" onclick="baixarPacoteEditorial()">Baixar pacote editorial</button>
+<button class="btn-secundario" onclick="voltarPainel()">Voltar ao painel</button>
+</div>
 
-    <div class="card">
-        <h2>Saída atual do exportador</h2>
-        <p class="small">
-            Neste estágio do Lapidar, o exportador gera um pacote editorial em formato JSON com os dados centrais do projeto.
-            Isso já permite validar o fluxo completo do sistema enquanto preparamos a próxima fase de saídas mais avançadas.
-        </p>
-    </div>
+<div class="status" id="mensagemStatus"></div>
+<div class="erro" id="mensagemErro"></div>
+
+</div>
+
+<div class="card">
+<h2>Saída atual do exportador</h2>
+<p class="small">
+Neste estágio do Lapidar, o exportador gera um pacote editorial em formato JSON com os dados centrais do projeto.
+Após o download, o sistema redireciona automaticamente para a tela final de projeto concluído.
+</p>
+</div>
 
 </div>
 
 <script>
-function obterProjeto(){
-    const projetoSalvo = localStorage.getItem("projeto_lapidar");
-    if(!projetoSalvo){
-        return null;
-    }
 
-    try{
-        return JSON.parse(projetoSalvo);
-    }catch(e){
-        return null;
-    }
+function obterProjeto(){
+const projetoSalvo = localStorage.getItem("projeto_lapidar");
+
+if(!projetoSalvo){
+return null;
+}
+
+try{
+return JSON.parse(projetoSalvo);
+}catch(e){
+return null;
+}
+}
+
+function salvarProjeto(projeto){
+localStorage.setItem("projeto_lapidar", JSON.stringify(projeto));
 }
 
 function mostrarStatus(texto){
-    const box = document.getElementById("mensagemStatus");
-    box.style.display = "block";
-    box.textContent = texto;
+const box = document.getElementById("mensagemStatus");
+box.style.display = "block";
+box.textContent = texto;
 }
 
 function mostrarErro(texto){
-    const box = document.getElementById("mensagemErro");
-    box.style.display = "block";
-    box.textContent = texto;
+const box = document.getElementById("mensagemErro");
+box.style.display = "block";
+box.textContent = texto;
 }
 
 function carregarTela(){
-    const projeto = obterProjeto();
 
-    if(!projeto){
-        alert("Projeto não encontrado. Volte para a produção integrada.");
-        window.location.href = "producao_integrada.html";
-        return;
-    }
+const projeto = obterProjeto();
 
-    document.getElementById("tituloProjeto").textContent = projeto.titulo || "Sem título";
-    document.getElementById("autorProjeto").textContent = projeto.autor || "Sem autor";
-    document.getElementById("modulosProjeto").textContent = Array.isArray(projeto.modulosSelecionados) && projeto.modulosSelecionados.length
-        ? projeto.modulosSelecionados.join(", ")
-        : "Nenhum módulo selecionado";
+if(!projeto){
+alert("Projeto não encontrado. Volte para a produção integrada.");
+window.location.href="producao_integrada.html";
+return;
+}
 
-    document.getElementById("lapidacaoProjeto").textContent = projeto.lapidacaoExecutada ? "Concluída" : "Pendente";
-    document.getElementById("pagamentoProjeto").textContent = projeto.pagamentoConfirmado ? "Confirmado" : "Pendente";
-    document.getElementById("downloadProjeto").textContent = projeto.downloadLiberado ? "Liberado" : "Bloqueado";
+document.getElementById("tituloProjeto").textContent = projeto.titulo || "Sem título";
+document.getElementById("autorProjeto").textContent = projeto.autor || "Sem autor";
 
-    if(!projeto.downloadLiberado){
-        mostrarErro("O download ainda não foi liberado. Conclua o fluxo corretamente antes de exportar a obra.");
-    }
+document.getElementById("modulosProjeto").textContent =
+Array.isArray(projeto.modulosSelecionados) && projeto.modulosSelecionados.length
+? projeto.modulosSelecionados.join(", ")
+: "Nenhum módulo selecionado";
+
+document.getElementById("lapidacaoProjeto").textContent =
+projeto.lapidacaoExecutada ? "Concluída" : "Pendente";
+
+document.getElementById("pagamentoProjeto").textContent =
+projeto.pagamentoConfirmado ? "Confirmado" : "Pendente";
+
+document.getElementById("downloadProjeto").textContent =
+projeto.downloadLiberado ? "Liberado" : "Bloqueado";
+
+if(!projeto.downloadLiberado){
+mostrarErro("O download ainda não foi liberado. Conclua o fluxo corretamente antes de exportar a obra.");
+}
+
 }
 
 function baixarPacoteEditorial(){
-    const projeto = obterProjeto();
 
-    if(!projeto){
-        alert("Projeto não encontrado.");
-        return;
-    }
+const projeto = obterProjeto();
 
-    if(!projeto.downloadLiberado){
-        alert("O download ainda não está liberado.");
-        return;
-    }
+if(!projeto){
+alert("Projeto não encontrado.");
+return;
+}
 
-    const nomeSeguro = (projeto.titulo || "obra")
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .replace(/[^a-zA-Z0-9]+/g, "-")
-        .replace(/^-+|-+$/g, "")
-        .toLowerCase();
+if(!projeto.downloadLiberado){
+alert("O download ainda não está liberado.");
+return;
+}
 
-    const pacote = {
-        sistema: "Lapidar",
-        etapa: "Exportador de Obra",
-        titulo: projeto.titulo || "Sem título",
-        autor: projeto.autor || "Sem autor",
-        modulosSelecionados: projeto.modulosSelecionados || [],
-        lapidacaoExecutada: !!projeto.lapidacaoExecutada,
-        pagamentoConfirmado: !!projeto.pagamentoConfirmado,
-        downloadLiberado: !!projeto.downloadLiberado,
-        criadoEm: projeto.criadoEm || null,
-        dataLapidacao: projeto.dataLapidacao || null,
-        dataPagamento: projeto.dataPagamento || null,
-        exportadoEm: new Date().toISOString(),
-        status: "Pacote editorial exportado com sucesso"
-    };
+const nomeSeguro = (projeto.titulo || "obra")
+.normalize("NFD")
+.replace(/[\\u0300-\\u036f]/g,"")
+.replace(/[^a-zA-Z0-9]+/g,"-")
+.replace(/^-+|-+$/g,"")
+.toLowerCase();
 
-    const blob = new Blob(
-        [JSON.stringify(pacote, null, 2)],
-        { type: "application/json;charset=utf-8" }
-    );
+projeto.exportadoEm = new Date().toISOString();
 
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
-    link.download = (nomeSeguro || "obra") + "-pacote-editorial.json";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+salvarProjeto(projeto);
 
-    mostrarStatus("Pacote editorial gerado e baixado com sucesso.");
+const pacote = {
+
+sistema:"Lapidar",
+etapa:"Exportador de Obra",
+titulo:projeto.titulo,
+autor:projeto.autor,
+modulosSelecionados:projeto.modulosSelecionados,
+lapidacaoExecutada:projeto.lapidacaoExecutada,
+pagamentoConfirmado:projeto.pagamentoConfirmado,
+downloadLiberado:projeto.downloadLiberado,
+criadoEm:projeto.criadoEm,
+dataLapidacao:projeto.dataLapidacao,
+dataPagamento:projeto.dataPagamento,
+exportadoEm:projeto.exportadoEm,
+status:"Pacote editorial exportado com sucesso"
+
+};
+
+const blob = new Blob(
+[JSON.stringify(pacote,null,2)],
+{type:"application/json;charset=utf-8"}
+);
+
+const link = document.createElement("a");
+
+link.href = URL.createObjectURL(blob);
+
+link.download = nomeSeguro + "-pacote-editorial.json";
+
+document.body.appendChild(link);
+
+link.click();
+
+document.body.removeChild(link);
+
+mostrarStatus("Pacote editorial gerado com sucesso. Redirecionando...");
+
+setTimeout(()=>{
+
+window.location.href="projeto_concluido.html";
+
+},900);
+
 }
 
 function voltarPainel(){
-    window.location.href = "painel_projeto.html";
-}
-
-function novoProjeto(){
-    localStorage.removeItem("projeto_lapidar");
-    window.location.href = "producao_integrada.html";
+window.location.href="painel_projeto.html";
 }
 
 carregarTela();
+
 </script>
 
 </body>
