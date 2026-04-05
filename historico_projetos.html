@@ -18,7 +18,7 @@ color:#ffffff;
 }
 
 .container{
-max-width:1100px;
+max-width:1120px;
 margin:0 auto;
 padding:24px;
 }
@@ -40,15 +40,22 @@ color:#d8efe2;
 line-height:1.6;
 }
 
+.topo-acoes{
+display:flex;
+flex-wrap:wrap;
+gap:12px;
+margin-top:18px;
+}
+
 .projeto{
 background:rgba(255,255,255,0.05);
 border:1px solid rgba(255,255,255,0.06);
 padding:16px;
 border-radius:14px;
-margin-bottom:12px;
+margin-bottom:14px;
 display:flex;
 justify-content:space-between;
-gap:16px;
+gap:18px;
 align-items:flex-start;
 }
 
@@ -64,7 +71,7 @@ margin-bottom:8px;
 
 .meta{
 color:#d4ebde;
-line-height:1.6;
+line-height:1.7;
 font-size:14px;
 }
 
@@ -89,10 +96,25 @@ border:1px solid rgba(52,152,219,0.28);
 color:#d7efff;
 }
 
+.status-exportacao{
+background:rgba(155,89,182,0.14);
+border:1px solid rgba(155,89,182,0.28);
+color:#f0dcff;
+}
+
 .status-concluido{
 background:rgba(46,204,113,0.14);
 border:1px solid rgba(46,204,113,0.28);
 color:#dbffea;
+}
+
+.proxima-etapa{
+margin-top:10px;
+padding:10px 12px;
+border-radius:12px;
+background:rgba(255,255,255,0.04);
+font-size:14px;
+color:#e8fff2;
 }
 
 .acoes{
@@ -145,14 +167,7 @@ background:rgba(255,255,255,0.05);
 color:#cfe8da;
 }
 
-.topo-acoes{
-display:flex;
-flex-wrap:wrap;
-gap:12px;
-margin-top:18px;
-}
-
-@media (max-width: 760px){
+@media (max-width: 780px){
 .projeto{
 flex-direction:column;
 }
@@ -170,8 +185,8 @@ justify-content:flex-start;
     <div class="card">
         <h1>Histórico de Projetos</h1>
         <p>
-            Aqui ficam as obras já registradas no Lapidar. Você pode retomar um projeto, excluir um registro
-            antigo ou iniciar uma nova obra sem perder a organização do ambiente editorial.
+            Aqui ficam as obras já registradas no Lapidar. Você pode retomar um projeto, duplicar uma base,
+            excluir um registro antigo ou iniciar uma nova obra sem perder a organização do ambiente editorial.
         </p>
 
         <div class="topo-acoes">
@@ -215,30 +230,34 @@ function formatarData(dataIso){
 }
 
 function obterStatusProjeto(projeto){
-    if(projeto.downloadLiberado || projeto.exportadoEm){
+    if(projeto.exportadoEm){
         return {
             texto: "Projeto concluído",
-            classe: "status-concluido"
+            classe: "status-concluido",
+            proximaEtapa: "Fluxo finalizado. Você pode baixar novamente o pacote na tela final."
         };
     }
 
-    if(projeto.pagamentoConfirmado){
+    if(projeto.downloadLiberado && projeto.pagamentoConfirmado){
         return {
             texto: "Pronto para exportação",
-            classe: "status-pagamento"
+            classe: "status-exportacao",
+            proximaEtapa: "Próxima etapa: abrir o exportador e gerar o pacote editorial."
         };
     }
 
     if(projeto.lapidacaoExecutada){
         return {
             texto: "Aguardando pagamento",
-            classe: "status-pagamento"
+            classe: "status-pagamento",
+            proximaEtapa: "Próxima etapa: confirmar o pagamento para liberar a exportação."
         };
     }
 
     return {
         texto: "Em preparação editorial",
-        classe: "status-preparacao"
+        classe: "status-preparacao",
+        proximaEtapa: "Próxima etapa: concluir a Lapidação Literária."
     };
 }
 
@@ -279,16 +298,30 @@ function carregarProjetos(){
                 </div>
 
                 <span class="status-tag ${status.classe}">${status.texto}</span>
+
+                <div class="proxima-etapa">${status.proximaEtapa}</div>
             </div>
 
             <div class="acoes">
                 <button class="btn" onclick="abrirProjeto('${projeto.id}')">Abrir</button>
+                <button class="btn2" onclick="duplicarProjeto('${projeto.id}')">Duplicar</button>
                 <button class="btn3" onclick="excluirProjeto('${projeto.id}')">Excluir</button>
             </div>
         `;
 
         container.appendChild(bloco);
     });
+}
+
+function atualizarProjetoNoHistorico(projetoAtualizado){
+    const historico = obterHistorico();
+    const novoHistorico = historico.map(item => {
+        if(item.id === projetoAtualizado.id){
+            return projetoAtualizado;
+        }
+        return item;
+    });
+    salvarHistorico(novoHistorico);
 }
 
 function abrirProjeto(idProjeto){
@@ -301,16 +334,41 @@ function abrirProjeto(idProjeto){
     }
 
     projeto.ultimaAtualizacao = new Date().toISOString();
+
     localStorage.setItem("projeto_lapidar", JSON.stringify(projeto));
+    atualizarProjetoNoHistorico(projeto);
 
-    const novoHistorico = historico.map(item => {
-        if(item.id === idProjeto){
-            return projeto;
-        }
-        return item;
-    });
+    window.location.href = "painel_projeto.html";
+}
 
+function duplicarProjeto(idProjeto){
+    const historico = obterHistorico();
+    const projeto = historico.find(item => item.id === idProjeto);
+
+    if(!projeto){
+        alert("Projeto não encontrado no histórico.");
+        return;
+    }
+
+    const agora = new Date().toISOString();
+
+    const copia = {
+        ...projeto,
+        id: "lapidar_" + Date.now(),
+        titulo: (projeto.titulo || "Projeto") + " — Cópia",
+        criadoEm: agora,
+        ultimaAtualizacao: agora,
+        lapidacaoExecutada: false,
+        pagamentoConfirmado: false,
+        downloadLiberado: false,
+        dataLapidacao: null,
+        dataPagamento: null,
+        exportadoEm: null
+    };
+
+    const novoHistorico = [...historico, copia];
     salvarHistorico(novoHistorico);
+    localStorage.setItem("projeto_lapidar", JSON.stringify(copia));
 
     window.location.href = "painel_projeto.html";
 }
