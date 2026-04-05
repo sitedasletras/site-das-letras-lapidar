@@ -6,364 +6,136 @@
 <title>Painel do Projeto — Lapidar</title>
 
 <style>
-* {
-    box-sizing: border-box;
+body{
+margin:0;
+font-family:Arial;
+background:linear-gradient(180deg,#0d2a21,#04120d);
+color:white;
 }
 
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: linear-gradient(180deg, #0f2d22, #061711);
-    color: #ffffff;
+.container{
+max-width:900px;
+margin:auto;
+padding:24px;
 }
 
-.container {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 24px;
+.card{
+background:rgba(255,255,255,0.06);
+border-radius:16px;
+padding:20px;
+margin-bottom:18px;
 }
 
-.hero {
-    background: rgba(255,255,255,0.07);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 18px;
-    padding: 28px;
-    margin-bottom: 22px;
+button{
+padding:14px;
+border:none;
+border-radius:10px;
+font-weight:bold;
+cursor:pointer;
+width:100%;
+margin-top:10px;
 }
 
-.hero h1 {
-    margin: 0 0 10px 0;
-    font-size: 30px;
+.locked{
+background:#555;
+color:#bbb;
+cursor:not-allowed;
 }
 
-.hero p {
-    margin: 0;
-    color: #d9f0e2;
-    line-height: 1.6;
+.enabled{
+background:#2ecc71;
+color:#062414;
 }
 
-.grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 18px;
-    margin-bottom: 22px;
-}
-
-.card {
-    background: rgba(255,255,255,0.07);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 16px;
-    padding: 20px;
-}
-
-.card h2 {
-    margin-top: 0;
-    margin-bottom: 14px;
-    font-size: 21px;
-}
-
-.info-item {
-    margin-bottom: 12px;
-    line-height: 1.5;
-}
-
-.info-item strong {
-    display: block;
-    margin-bottom: 4px;
-    color: #c7efd8;
-}
-
-.status-box {
-    padding: 14px;
-    border-radius: 12px;
-    margin-bottom: 12px;
-    background: rgba(255,255,255,0.05);
-}
-
-.status-ok {
-    border: 1px solid rgba(46, 204, 113, 0.35);
-    background: rgba(46, 204, 113, 0.12);
-}
-
-.status-wait {
-    border: 1px solid rgba(241, 196, 15, 0.35);
-    background: rgba(241, 196, 15, 0.12);
-}
-
-.status-stop {
-    border: 1px solid rgba(231, 76, 60, 0.35);
-    background: rgba(231, 76, 60, 0.12);
-}
-
-.modules-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-}
-
-.module-tag {
-    padding: 10px 14px;
-    border-radius: 999px;
-    background: rgba(255,255,255,0.08);
-    border: 1px solid rgba(255,255,255,0.12);
-    font-size: 14px;
-}
-
-.actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-top: 10px;
-}
-
-button {
-    border: none;
-    border-radius: 12px;
-    padding: 13px 18px;
-    font-size: 15px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.btn-principal {
-    background: #2ecc71;
-    color: #062414;
-}
-
-.btn-principal:hover {
-    background: #28b765;
-}
-
-.btn-secundario {
-    background: #dcefe4;
-    color: #103222;
-}
-
-.btn-secundario:hover {
-    background: #c8e6d4;
-}
-
-.timeline {
-    display: grid;
-    gap: 12px;
-}
-
-.step {
-    border-radius: 14px;
-    padding: 14px;
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.07);
-}
-
-.step strong {
-    display: block;
-    margin-bottom: 5px;
-    color: #d5f5e1;
-}
-
-.empty {
-    color: #cde8d9;
+.title{
+font-size:22px;
+margin-bottom:10px;
 }
 </style>
 </head>
+
 <body>
 
 <div class="container">
 
-    <div class="hero">
-        <h1>Painel do Projeto</h1>
-        <p>
-            Acompanhe a obra dentro do fluxo editorial do Lapidar. Esta tela reúne as informações centrais
-            do projeto, mostra o andamento dos módulos escolhidos e indica com clareza o próximo passo.
-        </p>
-    </div>
+<div class="card">
+<div class="title">Painel Central do Projeto</div>
+<div id="dadosProjeto"></div>
+</div>
 
-    <div class="grid">
-
-        <div class="card">
-            <h2>Dados da obra</h2>
-
-            <div class="info-item">
-                <strong>Título</strong>
-                <span id="tituloProjeto">Carregando...</span>
-            </div>
-
-            <div class="info-item">
-                <strong>Autor</strong>
-                <span id="autorProjeto">Carregando...</span>
-            </div>
-
-            <div class="info-item">
-                <strong>Status geral</strong>
-                <span id="statusGeral">Carregando...</span>
-            </div>
-        </div>
-
-        <div class="card">
-            <h2>Status do fluxo</h2>
-
-            <div id="statusLapidacaoBox" class="status-box status-wait">
-                Lapidação Literária: aguardando
-            </div>
-
-            <div id="statusPagamentoBox" class="status-box status-wait">
-                Pagamento: aguardando
-            </div>
-
-            <div id="statusDownloadBox" class="status-box status-stop">
-                Download: indisponível
-            </div>
-        </div>
-
-    </div>
-
-    <div class="card">
-        <h2>Módulos selecionados</h2>
-        <div id="modulosProjeto" class="modules-list">
-            <span class="empty">Carregando módulos...</span>
-        </div>
-    </div>
-
-    <div class="grid">
-
-        <div class="card">
-            <h2>Próxima ação</h2>
-            <p id="proximaAcaoTexto">Carregando orientação do sistema...</p>
-
-            <div class="actions">
-                <button class="btn-principal" id="botaoContinuar" onclick="continuarFluxo()">Continuar fluxo</button>
-                <button class="btn-secundario" onclick="abrirProducao()">Voltar à produção</button>
-            </div>
-        </div>
-
-        <div class="card">
-            <h2>Esteira editorial</h2>
-            <div class="timeline">
-                <div class="step">
-                    <strong>1. Registro do projeto</strong>
-                    Cadastro inicial da obra e seleção dos módulos desejados.
-                </div>
-                <div class="step">
-                    <strong>2. Lapidação Literária</strong>
-                    Humanização, refinamento, respiro textual, fluidez e acabamento editorial.
-                </div>
-                <div class="step">
-                    <strong>3. Pagamento</strong>
-                    Confirmação do status financeiro antes da liberação do pacote editorial.
-                </div>
-                <div class="step">
-                    <strong>4. Download</strong>
-                    Entrega do pacote editorial pronto para o fluxo final.
-                </div>
-            </div>
-        </div>
-
-    </div>
+<div class="card">
+<button id="btnLapidacao" onclick="abrirLapidacao()">Executar Lapidação Literária</button>
+<button id="btnPagamento" onclick="abrirPagamento()">Ir para Pagamento</button>
+<button id="btnDownload" onclick="abrirDownload()">Liberar Download</button>
+</div>
 
 </div>
 
 <script>
-function obterProjeto() {
-    const projetoSalvo = localStorage.getItem("projeto_lapidar");
-    if (!projetoSalvo) {
-        return null;
-    }
 
-    try {
-        return JSON.parse(projetoSalvo);
-    } catch (erro) {
-        return null;
-    }
+const projeto = JSON.parse(localStorage.getItem("projeto_lapidar"));
+
+if(!projeto){
+alert("Projeto não encontrado. Volte para produção integrada.");
+window.location.href="producao_integrada.html";
 }
 
-function atualizarBox(id, texto, classe) {
-    const elemento = document.getElementById(id);
-    elemento.className = "status-box " + classe;
-    elemento.textContent = texto;
+document.getElementById("dadosProjeto").innerHTML=
+"<b>Obra:</b> "+projeto.titulo+"<br>"+
+"<b>Autor:</b> "+projeto.autor+"<br>"+
+"<b>Módulos:</b> "+projeto.modulosSelecionados.join(", ");
+
+const btnLapidacao=document.getElementById("btnLapidacao");
+const btnPagamento=document.getElementById("btnPagamento");
+const btnDownload=document.getElementById("btnDownload");
+
+btnLapidacao.className="enabled";
+
+if(projeto.lapidacaoExecutada){
+btnPagamento.className="enabled";
+}else{
+btnPagamento.className="locked";
+btnPagamento.disabled=true;
 }
 
-function carregarPainel() {
-    const projeto = obterProjeto();
-
-    if (!projeto) {
-        document.getElementById("tituloProjeto").textContent = "Nenhum projeto ativo";
-        document.getElementById("autorProjeto").textContent = "Nenhum projeto ativo";
-        document.getElementById("statusGeral").textContent = "Projeto não encontrado";
-        document.getElementById("modulosProjeto").innerHTML = '<span class="empty">Nenhum módulo encontrado.</span>';
-        document.getElementById("proximaAcaoTexto").textContent = "Volte para a produção integrada e registre uma nova obra.";
-        document.getElementById("botaoContinuar").disabled = true;
-        return;
-    }
-
-    document.getElementById("tituloProjeto").textContent = projeto.titulo || "Sem título";
-    document.getElementById("autorProjeto").textContent = projeto.autor || "Sem autor";
-
-    const modulos = Array.isArray(projeto.modulosSelecionados) ? projeto.modulosSelecionados : [];
-    const modulosContainer = document.getElementById("modulosProjeto");
-
-    if (modulos.length === 0) {
-        modulosContainer.innerHTML = '<span class="empty">Nenhum módulo selecionado.</span>';
-    } else {
-        modulosContainer.innerHTML = "";
-        modulos.forEach(modulo => {
-            const tag = document.createElement("span");
-            tag.className = "module-tag";
-            tag.textContent = modulo;
-            modulosContainer.appendChild(tag);
-        });
-    }
-
-    const lapidacaoExecutada = !!projeto.lapidacaoExecutada;
-    const pagamentoConfirmado = !!projeto.pagamentoConfirmado;
-
-    if (lapidacaoExecutada) {
-        atualizarBox("statusLapidacaoBox", "Lapidação Literária: concluída", "status-ok");
-    } else {
-        atualizarBox("statusLapidacaoBox", "Lapidação Literária: aguardando", "status-wait");
-    }
-
-    if (pagamentoConfirmado) {
-        atualizarBox("statusPagamentoBox", "Pagamento: confirmado", "status-ok");
-    } else {
-        atualizarBox("statusPagamentoBox", "Pagamento: aguardando", "status-wait");
-    }
-
-    if (lapidacaoExecutada && pagamentoConfirmado) {
-        atualizarBox("statusDownloadBox", "Download: disponível para liberação", "status-ok");
-        document.getElementById("statusGeral").textContent = "Projeto pronto para download";
-        document.getElementById("proximaAcaoTexto").textContent = "Seu projeto já cumpriu as etapas principais. Continue para a tela de pagamento e realize o download do pacote editorial.";
-    } else if (lapidacaoExecutada && !pagamentoConfirmado) {
-        atualizarBox("statusDownloadBox", "Download: bloqueado até pagamento", "status-stop");
-        document.getElementById("statusGeral").textContent = "Projeto aguardando pagamento";
-        document.getElementById("proximaAcaoTexto").textContent = "A Lapidação Literária já foi concluída. O próximo passo é confirmar o pagamento.";
-    } else {
-        atualizarBox("statusDownloadBox", "Download: indisponível", "status-stop");
-        document.getElementById("statusGeral").textContent = "Projeto em preparação editorial";
-        document.getElementById("proximaAcaoTexto").textContent = "O próximo passo é executar a Lapidação Literária para o fluxo seguir corretamente.";
-    }
+if(projeto.pagamentoConfirmado){
+btnDownload.className="enabled";
+}else{
+btnDownload.className="locked";
+btnDownload.disabled=true;
 }
 
-function continuarFluxo() {
-    const projeto = obterProjeto();
+function abrirLapidacao(){
 
-    if (!projeto) {
-        window.location.href = "producao_integrada.html";
-        return;
-    }
+projeto.lapidacaoExecutada=true;
+localStorage.setItem("projeto_lapidar",JSON.stringify(projeto));
 
-    if (!projeto.lapidacaoExecutada) {
-        window.location.href = "lapidacao_literaria.html";
-        return;
-    }
+window.location.href="lapidacao_literaria.html";
 
-    window.location.href = "pagamento.html";
 }
 
-function abrirProducao() {
-    window.location.href = "producao_integrada.html";
+function abrirPagamento(){
+
+if(!projeto.lapidacaoExecutada)return;
+
+projeto.pagamentoConfirmado=true;
+localStorage.setItem("projeto_lapidar",JSON.stringify(projeto));
+
+window.location.href="pagamento.html";
+
 }
 
-carregarPainel();
+function abrirDownload(){
+
+if(!projeto.pagamentoConfirmado)return;
+
+projeto.downloadLiberado=true;
+localStorage.setItem("projeto_lapidar",JSON.stringify(projeto));
+
+window.location.href="exportador_obra.html";
+
+}
+
 </script>
 
 </body>
