@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lapidar • Módulo 05 — Mapa de Segunda Língua(s)</title>
+  <style>
+    :root{
+      --bg-geral:#f7f5ef;
+      --setor-pergaminho:#f1e8d8;
+      --setor-tecnico:#eee6f7;
+      --setor-violeta:#e6dbf2;
+      --setor-violeta-forte:#7e63a3;
+      --setor-verde:#dfeee7;
+      --setor-dourado:#f5ecd9;
+      --card:#ffffff;
+      --line:#c9c1b2;
+      --text:#2f2a24;
+      --muted:#5f574c;
+      --shadow:0 12px 28px rgba(67,58,45,0.10);
+    }
+
+    *{
+      box-sizing:border-box;
+    }
+
+    body{
+      margin:0;
+      font-family: Arial, Helvetica, sans-serif;
+      background:var(--bg-geral);
+      color:var(--text);
+    }
+
+    .container{
+      max-width:1180px;
+      margin:0 auto;
+      padding:28px 16px 40px;
+    }
+
+    .topbar{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:18px;
+    }
+
+    .small-btn{
+      border:none;
+      border-radius:14px;
+      padding:12px 16px;
+      font-size:15px;
+      font-weight:bold;
+      cursor:pointer;
+      transition:.2s ease;
+      background:#ece7db;
+      color:var(--text);
+    }
+
+    .small-btn:hover{
+      transform:translateY(-1px);
+      background:#e2dccd;
+    }
+
+    .hero{
+      background:var(--setor-pergaminho);
+      border:1px solid var(--line);
+      border-radius:28px;
+      padding:30px;
+      box-shadow:var(--shadow);
+      margin-bottom:22px;
+    }
+
+    .eyebrow{
+      display:inline-block;
+      padding:8px 14px;
+      border-radius:999px;
+      background:#e4dccb;
+      color:#6b5b46;
+      font-size:14px;
+      font-weight:bold;
+      margin-bottom:14px;
+    }
+
+    h1{
+      margin:0 0 10px 0;
+      font-size:34px;
+      line-height:1.15;
+      color:#5c447d;
+    }
+
+    .subtitle{
+      margin:0;
+      font-size:20px;
+      color:var(--muted);
+      line-height:1.7;
+    }
+
+    .trust-box{
+      margin-top:22px;
+      background:#f8f6f0;
+      border:1px solid var(--line);
+      border-left:6px solid var(--setor-violeta-forte);
+      border-radius:18px;
+      padding:18px 18px 18px 16px;
+      font-size:18px;
+      line-height:1.85;
+      color:var(--text);
+    }
+
+    .trust-box strong{
+      display:block;
+      margin-bottom:6px;
+      font-size:19px;
+    }
+
+    .section-title{
+      margin:28px 0 14px;
+      font-size:26px;
+      color:#5c447d;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0,1fr));
+      gap:18px;
+    }
+
+    .card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:24px;
+      padding:22px;
+      box-shadow:var(--shadow);
+    }
+
+    .card.pergaminho{
+      background:var(--setor-pergaminho);
+    }
+
+    .card.violeta{
+      background:var(--setor-violeta);
+      border-left:8px solid var(--setor-violeta-forte);
+    }
+
+    .card.tecnico{
+      background:var(--setor-tecnico);
+    }
+
+    .card.verde{
+      background:var(--setor-verde);
+      border-left:8px solid #6c9b86;
+    }
+
+    .card.dourado{
+      background:var(--setor-dourado);
+      border-left:8px solid #b89042;
+    }
+
+    h2{
+      margin:0 0 12px 0;
+      font-size:28px;
+    }
+
+    h3{
+      margin:0 0 10px 0;
+      font-size:22px;
+      color:#4c3966;
+    }
+
+    p{
+      margin:0 0 14px 0;
+      font-size:18px;
+      line-height:1.8;
+    }
+
+    ul{
+      margin:10px 0 0 18px;
+      padding:0;
+    }
+
+    li{
+      margin-bottom:8px;
+      font-size:17px;
+      line-height:1.7;
+    }
+
+    .badge{
+      display:inline-block;
+      padding:6px 12px;
+      border-radius:999px;
+      font-size:13px;
+      font-weight:bold;
+      margin-bottom:12px;
+      background:rgba(255,255,255,.65);
+      color:#4d4336;
+      border:1px solid rgba(0,0,0,.06);
+    }
+
+    .footer-note{
+      margin-top:24px;
+      text-align:center;
+      font-size:18px;
+      color:var(--muted);
+      line-height:1.8;
+    }
+
+    @media (max-width:900px){
+      .grid{
+        grid-template-columns:1fr;
+      }
+
+      h1{
+        font-size:30px;
+      }
+
+      h2{
+        font-size:25px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <div class="topbar">
+      <button class="small-btn" onclick="history.back()">← Retornar</button>
+      <button class="small-btn" onclick="window.location.href='index.html'">Sair do sistema</button>
+    </div>
+
+    <section class="hero">
+      <div class="eyebrow">Lapidar • Seção 04 • Módulo 05</div>
+      <h1>Segunda Língua(s) — Mapa Estrutural</h1>
+      <p class="subtitle">
+        Esta página organiza tudo o que pertence oficialmente à tradução e localização linguística da obra antes de mexermos item por item dentro do módulo.
+      </p>
+
+      <div class="trust-box">
+        <strong>Estamos juntos atravessando fronteiras para que sua obra alcance novos leitores.</strong>
+        O módulo Segunda Língua(s) transforma a obra em novas versões editoriais por idioma, região e variante linguística. Ele não substitui a Humanização nem a Diagramação: ele conversa com elas.
+      </div>
+    </section>
+
+    <h2 class="section-title">1. Base do módulo</h2>
+    <div class="grid">
+      <section class="card pergaminho">
+        <div class="badge">Entrada do módulo</div>
+        <h3>O que Segunda Língua(s) recebe</h3>
+        <ul>
+          <li>Texto-base vindo do Bolsão</li>
+          <li>Ou versão humanizada, se escolhida antes</li>
+          <li>Idioma principal da obra</li>
+          <li>Estrutura editorial já reconhecida</li>
+          <li>Título, autoria e organização básica da obra</li>
+        </ul>
+      </section>
+
+      <section class="card verde">
+        <div class="badge">Limite do módulo</div>
+        <h3>O que Segunda Língua(s) não faz sozinha</h3>
+        <ul>
+          <li>Não substitui o Bolsão</li>
+          <li>Não faz a diagramação final</li>
+          <li>Não gera capa</li>
+          <li>Não faz leitura inicial do arquivo bruto</li>
+          <li>Não humaniza automaticamente, salvo escolha do autor</li>
+        </ul>
+      </section>
+    </div>
+
+    <h2 class="section-title">2. Idioma, região e variante</h2>
+    <div class="grid">
+      <section class="card violeta">
+        <div class="badge">Idioma principal</div>
+        <h3>Línguas disponíveis</h3>
+        <ul>
+          <li>Português</li>
+          <li>Inglês</li>
+          <li>Espanhol</li>
+          <li>Francês</li>
+          <li>Italiano</li>
+        </ul>
+      </section>
+
+      <section class="card tecnico">
+        <div class="badge">Localização linguística</div>
+        <h3>Região e variante editorial</h3>
+        <ul>
+          <li>Português do Brasil</li>
+          <li>Português de Portugal</li>
+          <li>Português de Angola</li>
+          <li>Português internacional lusófono</li>
+          <li>Inglês dos EUA</li>
+          <li>Inglês do Reino Unido</li>
+          <li>Espanhol da Espanha</li>
+          <li>Espanhol da América Latina</li>
+        </ul>
+      </section>
+    </div>
+
+    <h2 class="section-title">3. Natureza da tradução</h2>
+    <div class="grid">
+      <section class="card tecnico">
+        <div class="badge">Instância nova</div>
+        <h3>O que a tradução cria</h3>
+        <ul>
+          <li>Uma nova versão editorial da obra</li>
+          <li>Uma nova instância linguística</li>
+          <li>Uma nova base para diagramação localizada</li>
+          <li>Possível novo fluxo de humanização daquela língua</li>
+        </ul>
+      </section>
+
+      <section class="card dourado">
+        <div class="badge">Cobrança por idioma</div>
+        <h3>Valor-base da tradução</h3>
+        <ul>
+          <li>Cada idioma traduzido gera cobrança própria</li>
+          <li>Exemplo: Inglês = R$ 25</li>
+          <li>Exemplo: Espanhol = R$ 25</li>
+          <li>Cada idioma vira projeto editorial paralelo</li>
+        </ul>
+      </section>
+    </div>
+
+    <h2 class="section-title">4. Ordem do processo</h2>
+    <div class="grid">
+      <section class="card violeta">
+        <div class="badge">Fluxo recomendado</div>
+        <h3>Humanizar antes e traduzir depois</h3>
+        <ul>
+          <li>Texto já mais estabilizado</li>
+          <li>Redução de retrabalho</li>
+          <li>Melhora da base da tradução</li>
+          <li>Fluxo recomendado pelo sistema</li>
+        </ul>
+      </section>
+
+      <section class="card tecnico">
+        <div class="badge">Fluxos permitidos</div>
+        <h3>Outras possibilidades</h3>
+        <ul>
+          <li>Traduzir primeiro e humanizar depois</li>
+          <li>Fazer somente a tradução</li>
+          <li>Humanizar apenas algumas versões linguísticas</li>
+          <li>Manter outras sem humanização</li>
+        </ul>
+      </section>
+    </div>
+
+    <h2 class="section-title">5. Relação com Humanização</h2>
+    <div class="grid">
+      <section class="card dourado">
+        <div class="badge">Humanização da nova língua</div>
+        <h3>O que pode acontecer depois da tradução</h3>
+        <ul>
+          <li>Humanização base da língua traduzida</li>
+          <li>Itens narrativos adicionais</li>
+          <li>Pacote completo daquela língua</li>
+          <li>Fluxo independente por idioma</li>
+        </ul>
+      </section>
+
+      <section class="card verde">
+        <div class="badge">Separação correta</div>
+        <h3>O que não se confunde</h3>
+        <ul>
+          <li>Tradução não é humanização</li>
+          <li>Humanização não é diagramação</li>
+          <li>Cada etapa possui função própria</li>
+          <li>Cada etapa pode gerar cobrança própria</li>
+        </ul>
+      </section>
+    </div>
+
+    <h2 class="section-title">6. Relação com Diagramação</h2>
+    <div class="grid">
+      <section class="card tecnico">
+        <div class="badge">Fluxo seguinte</div>
+        <h3>O que acontece após a tradução</h3>
+        <ul>
+          <li>A nova versão segue para Diagramação</li>
+          <li>A Diagramação recebe idioma e variante já definidos</li>
+          <li>O miolo é adaptado àquela língua</li>
+          <li>O mercado editorial da edição é respeitado</li>
+        </ul>
+      </section>
+
+      <section class="card violeta">
+        <div class="badge">Resultado final</div>
+        <h3>Entrega do módulo</h3>
+        <ul>
+          <li>Nova instância editorial da obra</li>
+          <li>Obra preparada em outra língua</li>
+          <li>Base pronta para diagramação localizada</li>
+          <li>Expansão internacional da obra</li>
+        </ul>
+      </section>
+    </div>
+
+    <div class="footer-note">
+      Estamos juntos atravessando fronteiras para que sua obra alcance novos leitores.
+    </div>
+
+  </div>
+</body>
+</html>
