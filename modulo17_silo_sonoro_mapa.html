@@ -1,373 +1,336 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lapidar • Módulo 17 — Mapa do Silo Sonoro</title>
-  <style>
-    :root{
-      --bg-geral:#f7f5ef;
-      --setor-pergaminho:#f1e8d8;
-      --setor-tecnico:#f0e3ee;
-      --setor-ameixa:#e6d3e3;
-      --setor-ameixa-forte:#8a5c82;
-      --setor-verde:#dfeee7;
-      --setor-dourado:#f5ecd9;
-      --card:#ffffff;
-      --line:#c9c1b2;
-      --text:#2f2a24;
-      --muted:#5f574c;
-      --shadow:0 12px 28px rgba(67,58,45,0.10);
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    *{
-      box-sizing:border-box;
-    }
+<title>Lapidar • Módulo 17 — Silo Sonoro</title>
 
-    body{
-      margin:0;
-      font-family: Arial, Helvetica, sans-serif;
-      background:var(--bg-geral);
-      color:var(--text);
-    }
+<style>
 
-    .container{
-      max-width:1180px;
-      margin:0 auto;
-      padding:28px 16px 40px;
-    }
+:root{
+--bg-geral:#f7f5ef;
+--setor-pergaminho:#f1e8d8;
+--setor-marrom:#efe4d6;
+--setor-marrom-forte:#7a5a3f;
+--setor-verde:#dfeee7;
+--setor-dourado:#f5ecd9;
+--card:#ffffff;
+--line:#c9c1b2;
+--text:#2f2a24;
+--muted:#5f574c;
+--shadow:0 12px 28px rgba(67,58,45,0.10);
+}
 
-    .topbar{
-      display:flex;
-      justify-content:space-between;
-      gap:12px;
-      margin-bottom:18px;
-    }
+body{
+margin:0;
+font-family:Arial, Helvetica, sans-serif;
+background:var(--bg-geral);
+color:var(--text);
+}
 
-    .small-btn{
-      border:none;
-      border-radius:14px;
-      padding:12px 16px;
-      font-size:15px;
-      font-weight:bold;
-      cursor:pointer;
-      transition:.2s ease;
-      background:#ece7db;
-      color:var(--text);
-    }
+.container{
+max-width:1180px;
+margin:auto;
+padding:28px 16px 40px;
+}
 
-    .small-btn:hover{
-      transform:translateY(-1px);
-      background:#e2dccd;
-    }
+.topbar{
+display:flex;
+justify-content:space-between;
+margin-bottom:18px;
+}
 
-    .hero{
-      background:var(--setor-pergaminho);
-      border:1px solid var(--line);
-      border-radius:28px;
-      padding:30px;
-      box-shadow:var(--shadow);
-      margin-bottom:22px;
-    }
+.small-btn{
+border:none;
+border-radius:14px;
+padding:12px 16px;
+font-size:15px;
+font-weight:bold;
+cursor:pointer;
+background:#ece7db;
+}
 
-    .eyebrow{
-      display:inline-block;
-      padding:8px 14px;
-      border-radius:999px;
-      background:#e4dccb;
-      color:#6b5b46;
-      font-size:14px;
-      font-weight:bold;
-      margin-bottom:14px;
-    }
+.small-btn:hover{
+background:#e2dccd;
+}
 
-    h1{
-      margin:0 0 10px 0;
-      font-size:34px;
-      line-height:1.15;
-      color:#7b5574;
-    }
+.hero{
+background:var(--setor-pergaminho);
+border-radius:28px;
+padding:30px;
+margin-bottom:22px;
+box-shadow:var(--shadow);
+}
 
-    .subtitle{
-      margin:0;
-      font-size:20px;
-      color:var(--muted);
-      line-height:1.7;
-    }
+.eyebrow{
+display:inline-block;
+padding:8px 14px;
+border-radius:999px;
+background:#e4dccb;
+font-size:14px;
+font-weight:bold;
+margin-bottom:14px;
+}
 
-    .trust-box{
-      margin-top:22px;
-      background:#f8f6f0;
-      border:1px solid var(--line);
-      border-left:6px solid var(--setor-ameixa-forte);
-      border-radius:18px;
-      padding:18px 18px 18px 16px;
-      font-size:18px;
-      line-height:1.85;
-      color:var(--text);
-    }
+h1{
+margin:0 0 10px 0;
+font-size:34px;
+color:#7a5a3f;
+}
 
-    .trust-box strong{
-      display:block;
-      margin-bottom:6px;
-      font-size:19px;
-    }
+.subtitle{
+font-size:20px;
+line-height:1.7;
+}
 
-    .section-title{
-      margin:28px 0 14px;
-      font-size:26px;
-      color:#7b5574;
-    }
+.trust-box{
+margin-top:20px;
+background:#f8f6f0;
+border-left:6px solid var(--setor-marrom-forte);
+padding:18px;
+border-radius:18px;
+font-size:18px;
+line-height:1.8;
+}
 
-    .grid{
-      display:grid;
-      grid-template-columns:repeat(2, minmax(0,1fr));
-      gap:18px;
-    }
+.section-title{
+margin:28px 0 14px;
+font-size:26px;
+color:#7a5a3f;
+}
 
-    .card{
-      background:var(--card);
-      border:1px solid var(--line);
-      border-radius:24px;
-      padding:22px;
-      box-shadow:var(--shadow);
-    }
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:18px;
+}
 
-    .card.pergaminho{
-      background:var(--setor-pergaminho);
-    }
+.card{
+background:white;
+border-radius:24px;
+padding:22px;
+box-shadow:var(--shadow);
+}
 
-    .card.ameixa{
-      background:var(--setor-ameixa);
-      border-left:8px solid var(--setor-ameixa-forte);
-    }
+.card.marrom{
+background:var(--setor-marrom);
+border-left:8px solid var(--setor-marrom-forte);
+}
 
-    .card.tecnico{
-      background:var(--setor-tecnico);
-    }
+.card.verde{
+background:var(--setor-verde);
+border-left:8px solid #6c9b86;
+}
 
-    .card.verde{
-      background:var(--setor-verde);
-      border-left:8px solid #6c9b86;
-    }
+.card.dourado{
+background:var(--setor-dourado);
+border-left:8px solid #b89042;
+}
 
-    .card.dourado{
-      background:var(--setor-dourado);
-      border-left:8px solid #b89042;
-    }
+h3{
+margin-top:0;
+}
 
-    h2{
-      margin:0 0 12px 0;
-      font-size:28px;
-    }
+.actions{
+margin-top:28px;
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:14px;
+}
 
-    h3{
-      margin:0 0 10px 0;
-      font-size:22px;
-      color:#694b63;
-    }
+.action-btn{
+padding:18px;
+font-size:18px;
+border:none;
+border-radius:18px;
+cursor:pointer;
+}
 
-    p{
-      margin:0 0 14px 0;
-      font-size:18px;
-      line-height:1.8;
-    }
+.btn-enter{
+background:#7a5a3f;
+color:white;
+}
 
-    ul{
-      margin:10px 0 0 18px;
-      padding:0;
-    }
+.btn-enter:hover{
+background:#62482f;
+}
 
-    li{
-      margin-bottom:8px;
-      font-size:17px;
-      line-height:1.7;
-    }
+.btn-skip{
+background:#d9cfbf;
+}
 
-    .badge{
-      display:inline-block;
-      padding:6px 12px;
-      border-radius:999px;
-      font-size:13px;
-      font-weight:bold;
-      margin-bottom:12px;
-      background:rgba(255,255,255,.65);
-      color:#4d4336;
-      border:1px solid rgba(0,0,0,.06);
-    }
+.footer-note{
+margin-top:24px;
+text-align:center;
+font-size:18px;
+line-height:1.8;
+}
 
-    .footer-note{
-      margin-top:24px;
-      text-align:center;
-      font-size:18px;
-      color:var(--muted);
-      line-height:1.8;
-    }
+@media(max-width:900px){
 
-    @media (max-width:900px){
-      .grid{
-        grid-template-columns:1fr;
-      }
+.grid{
+grid-template-columns:1fr;
+}
 
-      h1{
-        font-size:30px;
-      }
+.actions{
+grid-template-columns:1fr;
+}
 
-      h2{
-        font-size:25px;
-      }
-    }
-  </style>
+}
+
+</style>
+
 </head>
+
 <body>
-  <div class="container">
 
-    <div class="topbar">
-      <button class="small-btn" onclick="history.back()">← Retornar</button>
-      <button class="small-btn" onclick="window.location.href='index.html'">Sair do sistema</button>
-    </div>
+<div class="container">
 
-    <section class="hero">
-      <div class="eyebrow">Lapidar • Seção 08 • Módulo 17</div>
-      <h1>Silo Sonoro — Mapa Estrutural</h1>
-      <p class="subtitle">
-        Esta página organiza tudo o que pertence oficialmente à produção sonora da obra antes de mexermos item por item dentro do módulo.
-      </p>
+<div class="topbar">
+<button class="small-btn" onclick="history.back()">← Retornar</button>
+<button class="small-btn" onclick="window.location.href='index.html'">Sair do sistema</button>
+</div>
 
-      <div class="trust-box">
-        <strong>Agora sua obra também ganha voz para alcançar novos caminhos.</strong>
-        O Silo Sonoro transforma a obra escrita em experiência sonora editorial. Ele não substitui a Diagramação, não substitui a Tradução e não altera o texto-base da obra.
-      </div>
-    </section>
+<section class="hero">
 
-    <h2 class="section-title">1. Base do módulo</h2>
-    <div class="grid">
-      <section class="card pergaminho">
-        <div class="badge">Entrada do módulo</div>
-        <h3>O que o Silo Sonoro recebe</h3>
-        <ul>
-          <li>Texto-base final da obra</li>
-          <li>Versão já estabilizada para leitura</li>
-          <li>Título e autoria definidos</li>
-          <li>Estrutura principal da obra</li>
-          <li>Idioma e variante da edição sonora</li>
-        </ul>
-      </section>
+<div class="eyebrow">Lapidar • Seção 08 • Módulo 17</div>
 
-      <section class="card verde">
-        <div class="badge">Limite do módulo</div>
-        <h3>O que o Silo Sonoro não faz</h3>
-        <ul>
-          <li>Não substitui o Bolsão</li>
-          <li>Não faz diagramação</li>
-          <li>Não cria capa</li>
-          <li>Não corrige o texto original</li>
-          <li>Não substitui a edição escrita da obra</li>
-        </ul>
-      </section>
-    </div>
+<h1>Silo Sonoro — Mapa Estrutural</h1>
 
-    <h2 class="section-title">2. Natureza da produção sonora</h2>
-    <div class="grid">
-      <section class="card ameixa">
-        <div class="badge">Transformação editorial</div>
-        <h3>O que o módulo realiza</h3>
-        <ul>
-          <li>Preparação da obra para narração</li>
-          <li>Conversão da experiência escrita em experiência sonora</li>
-          <li>Organização da leitura em fluxo de escuta</li>
-          <li>Construção editorial do audiobook</li>
-        </ul>
-      </section>
+<p class="subtitle">
 
-      <section class="card tecnico">
-        <div class="badge">Natureza do resultado</div>
-        <h3>O que o autor recebe</h3>
-        <ul>
-          <li>Versão sonora da obra</li>
-          <li>Material preparado para audiobook</li>
-          <li>Expansão do alcance da obra para o campo da escuta</li>
-        </ul>
-      </section>
-    </div>
+Aqui sua obra ganha voz. O texto passa a existir também como experiência sonora.
 
-    <h2 class="section-title">3. Elementos do módulo</h2>
-    <div class="grid">
-      <section class="card tecnico">
-        <div class="badge">Construção da experiência</div>
-        <h3>Itens que pertencem ao Silo Sonoro</h3>
-        <ul>
-          <li>Narração editorial</li>
-          <li>Ritmo de leitura</li>
-          <li>Respiração sonora da obra</li>
-          <li>Adaptação do texto para a escuta</li>
-          <li>Preparação de capítulos para áudio</li>
-        </ul>
-      </section>
+</p>
 
-      <section class="card dourado">
-        <div class="badge">Forma da entrega</div>
-        <h3>Modos de saída do módulo</h3>
-        <ul>
-          <li>Audiobook</li>
-          <li>Versão sonora institucional</li>
-          <li>Arquivo narrado para circulação digital</li>
-        </ul>
-      </section>
-    </div>
+<div class="trust-box">
 
-    <h2 class="section-title">4. Relação com outros módulos</h2>
-    <div class="grid">
-      <section class="card ameixa">
-        <div class="badge">Fluxo anterior</div>
-        <h3>O que deve vir antes</h3>
-        <ul>
-          <li>Texto já preparado pelo Bolsão</li>
-          <li>Lapidação Literária, se escolhida</li>
-          <li>Tradução, se a versão sonora for em outro idioma</li>
-          <li>Estrutura textual já estabilizada</li>
-        </ul>
-      </section>
+O Silo Sonoro transforma a obra escrita em edição sonora estruturada. Este módulo amplia o alcance do livro para leitores que escutam.
 
-      <section class="card verde">
-        <div class="badge">Fluxo independente</div>
-        <h3>O que o módulo não depende</h3>
-        <ul>
-          <li>Não depende da capa para começar</li>
-          <li>Não depende do miolo impresso estar pronto</li>
-          <li>Pode existir como braço próprio da obra</li>
-        </ul>
-      </section>
-    </div>
+</div>
 
-    <h2 class="section-title">5. Papel do módulo na jornada</h2>
-    <div class="grid">
-      <section class="card tecnico">
-        <div class="badge">Impacto editorial</div>
-        <h3>O que o Silo Sonoro amplia</h3>
-        <ul>
-          <li>Alcance da obra</li>
-          <li>Experiência do leitor/ouvinte</li>
-          <li>Circulação da obra em novos formatos</li>
-          <li>Presença do livro no campo sonoro</li>
-        </ul>
-      </section>
+</section>
 
-      <section class="card ameixa">
-        <div class="badge">Resultado final</div>
-        <h3>Entrega do módulo</h3>
-        <ul>
-          <li>Obra pronta para escuta</li>
-          <li>Nova dimensão de presença da obra</li>
-          <li>Continuidade editorial no formato sonoro</li>
-        </ul>
-      </section>
-    </div>
+<h2 class="section-title">1. Entrada do módulo</h2>
 
-    <div class="footer-note">
-      Agora sua obra também ganha voz para alcançar novos caminhos.
-    </div>
+<div class="grid">
 
-  </div>
+<section class="card marrom">
+
+<h3>O que o módulo recebe</h3>
+
+<ul>
+<li>Texto vindo do Bolsão</li>
+<li>Texto humanizado (recomendado)</li>
+<li>Texto diagramado (opcional)</li>
+<li>Estrutura editorial definida</li>
+</ul>
+
+</section>
+
+<section class="card verde">
+
+<h3>O que o módulo não faz</h3>
+
+<ul>
+<li>Não substitui a Diagramação</li>
+<li>Não substitui a Humanização</li>
+<li>Não altera o texto original</li>
+<li>Não gera capa</li>
+</ul>
+
+</section>
+
+</div>
+
+<h2 class="section-title">2. Produção sonora</h2>
+
+<div class="grid">
+
+<section class="card marrom">
+
+<h3>O que o módulo cria</h3>
+
+<ul>
+<li>Narração estruturada</li>
+<li>Versão audiobook da obra</li>
+<li>Base sonora organizada</li>
+<li>Arquivo pronto para distribuição</li>
+</ul>
+
+</section>
+
+<section class="card dourado">
+
+<h3>Resultado editorial</h3>
+
+<ul>
+<li>Ampliação de público</li>
+<li>Acesso por escuta</li>
+<li>Versão paralela ao livro impresso</li>
+<li>Nova presença da obra no mercado</li>
+</ul>
+
+</section>
+
+</div>
+
+<h2 class="section-title">3. Relação com outros módulos</h2>
+
+<div class="grid">
+
+<section class="card marrom">
+
+<h3>Fluxo recomendado</h3>
+
+<ul>
+<li>Após Humanização</li>
+<li>Após Diagramação</li>
+<li>Após Tradução (quando houver)</li>
+</ul>
+
+</section>
+
+<section class="card verde">
+
+<h3>Fluxos alternativos possíveis</h3>
+
+<ul>
+<li>Pode ocorrer antes da capa</li>
+<li>Pode ocorrer antes da impressão</li>
+<li>Pode ocorrer em paralelo com outras etapas</li>
+</ul>
+
+</section>
+
+</div>
+
+<div class="actions">
+
+<button class="action-btn btn-enter"
+onclick="window.location.href='modulo17_silo_sonoro.html'">
+
+Entrar no Silo Sonoro
+
+</button>
+
+<button class="action-btn btn-skip"
+onclick="window.location.href='motor_sequencial.html'">
+
+Pular este módulo por agora
+
+</button>
+
+</div>
+
+<div class="footer-note">
+
+Sua obra também pode ser ouvida. E alcançar novos caminhos.
+
+</div>
+
+</div>
+
 </body>
 </html>
