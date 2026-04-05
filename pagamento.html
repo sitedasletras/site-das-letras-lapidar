@@ -6,145 +6,213 @@
 <title>Pagamento — Lapidar</title>
 
 <style>
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: linear-gradient(180deg, #0b3d2e, #021d14);
-    color: white;
+*{
+box-sizing:border-box;
 }
 
-.container {
-    max-width: 600px;
-    margin: 40px auto;
-    padding: 20px;
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:linear-gradient(180deg,#0b3a2b,#041a12);
+color:#ffffff;
 }
 
-.card {
-    background: #0f4d3a;
-    border-radius: 12px;
-    padding: 20px;
-    margin-bottom: 20px;
+.container{
+max-width:900px;
+margin:0 auto;
+padding:24px;
 }
 
-h2 {
-    margin-top: 0;
+.card{
+background:rgba(255,255,255,0.07);
+border:1px solid rgba(255,255,255,0.08);
+border-radius:18px;
+padding:22px;
+margin-bottom:20px;
 }
 
-button {
-    background: #2ecc71;
-    border: none;
-    padding: 12px 20px;
-    border-radius: 8px;
-    font-size: 16px;
-    cursor: pointer;
+h1,h2{
+margin-top:0;
 }
 
-button:hover {
-    background: #27ae60;
+p{
+color:#d9efe2;
+line-height:1.6;
+}
+
+.info{
+margin-bottom:12px;
+padding:12px;
+border-radius:12px;
+background:rgba(255,255,255,0.05);
+}
+
+.actions{
+display:flex;
+flex-wrap:wrap;
+gap:12px;
+margin-top:18px;
+}
+
+button{
+border:none;
+border-radius:12px;
+padding:14px 18px;
+font-size:15px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.btn-principal{
+background:#2ecc71;
+color:#062414;
+}
+
+.btn-principal:hover{
+background:#29b765;
+}
+
+.btn-secundario{
+background:#dcefe4;
+color:#103222;
+}
+
+.btn-secundario:hover{
+background:#c8e6d4;
+}
+
+.status{
+display:none;
+margin-top:16px;
+padding:14px;
+border-radius:12px;
+background:rgba(46,204,113,0.14);
+border:1px solid rgba(46,204,113,0.25);
+color:#dbffea;
+}
+
+.erro{
+display:none;
+margin-top:16px;
+padding:14px;
+border-radius:12px;
+background:rgba(231,76,60,0.14);
+border:1px solid rgba(231,76,60,0.25);
+color:#ffd9d4;
 }
 </style>
-
 </head>
-
 <body>
 
 <div class="container">
 
-<div class="card">
-<h2>Resumo financeiro</h2>
-<p>Projeto carregado com sucesso.</p>
-</div>
+    <div class="card">
+        <h1>Pagamento do Projeto</h1>
+        <p>
+            Confirme o pagamento para concluir a etapa financeira do Lapidar e seguir automaticamente
+            para a liberação do pacote editorial.
+        </p>
+    </div>
 
-<div class="card">
-<h2>Status pagamento</h2>
-<p>Pagamento confirmado (modo simulação).</p>
+    <div class="card">
+        <h2>Dados do projeto</h2>
+        <div class="info"><strong>Título:</strong> <span id="tituloProjeto">Carregando...</span></div>
+        <div class="info"><strong>Autor:</strong> <span id="autorProjeto">Carregando...</span></div>
+        <div class="info"><strong>Status da Lapidação:</strong> <span id="statusLapidacao">Carregando...</span></div>
+        <div class="info"><strong>Status do Pagamento:</strong> <span id="statusPagamento">Carregando...</span></div>
 
-<button onclick="simularPagamento()">Simular pagamento aprovado</button>
-</div>
+        <div class="actions">
+            <button class="btn-principal" onclick="confirmarPagamento()">Simular pagamento aprovado</button>
+            <button class="btn-secundario" onclick="voltarPainel()">Voltar ao painel</button>
+        </div>
 
-<div class="card">
-<h2>Download</h2>
-
-<button onclick="baixarPacote()">Baixar pacote editorial</button>
-
-</div>
+        <div class="status" id="mensagemStatus"></div>
+        <div class="erro" id="mensagemErro"></div>
+    </div>
 
 </div>
 
 <script>
+function obterProjeto(){
+    const projetoSalvo = localStorage.getItem("projeto_lapidar");
+    if(!projetoSalvo){
+        return null;
+    }
 
-function simularPagamento() {
-
-let projeto = JSON.parse(localStorage.getItem("projeto_lapidar"));
-
-if (!projeto) {
-
-alert("Nenhum projeto encontrado.");
-return;
-
+    try{
+        return JSON.parse(projetoSalvo);
+    }catch(e){
+        return null;
+    }
 }
 
-projeto.pagamentoConfirmado = true;
-
-localStorage.setItem("projeto_lapidar", JSON.stringify(projeto));
-
-alert("Pagamento confirmado com sucesso.");
-
+function salvarProjeto(projeto){
+    localStorage.setItem("projeto_lapidar", JSON.stringify(projeto));
 }
 
-
-
-function baixarPacote() {
-
-const projeto = JSON.parse(localStorage.getItem("projeto_lapidar"));
-
-if (!projeto) {
-
-alert("Nenhum projeto ativo encontrado.");
-return;
-
+function mostrarStatus(texto){
+    const box = document.getElementById("mensagemStatus");
+    box.style.display = "block";
+    box.textContent = texto;
 }
 
-
-if (projeto.modulosSelecionados &&
-projeto.modulosSelecionados.includes("Lapidação Literária") &&
-!projeto.lapidacaoExecutada) {
-
-alert("A Lapidação Literária ainda não foi executada.");
-return;
-
+function mostrarErro(texto){
+    const box = document.getElementById("mensagemErro");
+    box.style.display = "block";
+    box.textContent = texto;
 }
 
+function carregarTela(){
+    const projeto = obterProjeto();
 
-const pacote = {
+    if(!projeto){
+        alert("Projeto não encontrado. Volte para a produção integrada.");
+        window.location.href = "producao_integrada.html";
+        return;
+    }
 
-titulo: projeto.titulo || "Sem título",
-autor: projeto.autor || "Sem autor",
-modulos: projeto.modulosSelecionados || [],
-status: "Pacote editorial gerado com sucesso"
+    document.getElementById("tituloProjeto").textContent = projeto.titulo || "Sem título";
+    document.getElementById("autorProjeto").textContent = projeto.autor || "Sem autor";
+    document.getElementById("statusLapidacao").textContent = projeto.lapidacaoExecutada ? "Concluída" : "Pendente";
+    document.getElementById("statusPagamento").textContent = projeto.pagamentoConfirmado ? "Confirmado" : "Aguardando";
 
-};
-
-
-const blob = new Blob(
-
-[JSON.stringify(pacote, null, 2)],
-
-{ type: "application/json" }
-
-);
-
-
-const link = document.createElement("a");
-
-link.href = URL.createObjectURL(blob);
-
-link.download = "pacote-editorial.json";
-
-link.click();
-
+    if(!projeto.lapidacaoExecutada){
+        mostrarErro("A Lapidação Literária ainda não foi concluída. O pagamento só pode seguir depois dessa etapa.");
+    }
 }
 
+function confirmarPagamento(){
+    const projeto = obterProjeto();
+
+    if(!projeto){
+        alert("Projeto não encontrado.");
+        return;
+    }
+
+    if(!projeto.lapidacaoExecutada){
+        alert("Conclua primeiro a Lapidação Literária.");
+        return;
+    }
+
+    projeto.pagamentoConfirmado = true;
+    projeto.downloadLiberado = true;
+    projeto.dataPagamento = new Date().toISOString();
+
+    salvarProjeto(projeto);
+
+    document.getElementById("statusPagamento").textContent = "Confirmado";
+    mostrarStatus("Pagamento confirmado com sucesso. Redirecionando para a liberação do pacote editorial...");
+
+    setTimeout(() => {
+        window.location.href = "exportador_obra.html";
+    }, 800);
+}
+
+function voltarPainel(){
+    window.location.href = "painel_projeto.html";
+}
+
+carregarTela();
 </script>
 
 </body>
