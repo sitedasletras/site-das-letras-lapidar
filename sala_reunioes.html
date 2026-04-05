@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lapidar • Sala de Reuniões</title>
+  <title>Lapidar • Redirecionando</title>
+  <meta http-equiv="refresh" content="0; url=admin_painel.html" />
   <style>
     :root{
       --bg:#f7f5ef;
@@ -13,17 +14,10 @@
       --muted:#5f574c;
       --hero:#f1e8d8;
       --hero-dark:#8a6a43;
-      --prod-soft:#e3edf7;
-      --prod:#4f6f8f;
-      --cort-soft:#e8f2e8;
-      --cort:#5e8b6b;
-      --admin-soft:#f4e3e3;
-      --admin:#9a4d4d;
-      --rare-soft:#efe6f7;
-      --rare:#7e63a3;
-      --gold:#c79a2e;
-      --sand:#ece7db;
-      --sand-dark:#e2dccd;
+      --soft:#ece7db;
+      --soft-dark:#e2dccd;
+      --accent:#9a4d4d;
+      --accent-dark:#823c3c;
       --shadow:0 12px 28px rgba(67,58,45,.10);
     }
 
@@ -34,45 +28,21 @@
       font-family:Arial, Helvetica, sans-serif;
       background:var(--bg);
       color:var(--text);
-    }
-
-    .container{
-      max-width:1100px;
-      margin:0 auto;
-      padding:28px 16px 40px;
-    }
-
-    .topbar{
       display:flex;
-      justify-content:space-between;
-      gap:12px;
-      margin-bottom:18px;
+      align-items:center;
+      justify-content:center;
+      min-height:100vh;
+      padding:20px;
     }
 
-    .small-btn{
-      border:none;
-      border-radius:14px;
-      padding:12px 16px;
-      font-size:15px;
-      font-weight:bold;
-      cursor:pointer;
-      background:var(--sand);
-      color:var(--text);
-      transition:.2s ease;
-    }
-
-    .small-btn:hover{
-      background:var(--sand-dark);
-      transform:translateY(-1px);
-    }
-
-    .hero{
-      background:var(--hero);
+    .card{
+      width:100%;
+      max-width:760px;
+      background:var(--card);
       border:1px solid var(--line);
       border-radius:28px;
-      padding:30px;
+      padding:32px 28px;
       box-shadow:var(--shadow);
-      margin-bottom:22px;
       text-align:center;
     }
 
@@ -80,7 +50,7 @@
       display:inline-block;
       padding:8px 14px;
       border-radius:999px;
-      background:#e4dccb;
+      background:var(--hero);
       color:#6b5b46;
       font-size:14px;
       font-weight:bold;
@@ -88,313 +58,55 @@
     }
 
     h1{
-      margin:0 0 10px 0;
-      font-size:34px;
+      margin:0 0 12px 0;
+      font-size:32px;
       line-height:1.15;
       color:var(--hero-dark);
     }
 
-    .subtitle{
-      margin:0 auto;
-      max-width:760px;
-      font-size:20px;
-      color:var(--muted);
-      line-height:1.8;
-    }
-
-    .grid{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:18px;
-      margin-bottom:20px;
-    }
-
-    .card{
-      background:var(--card);
-      border:1px solid var(--line);
-      border-radius:24px;
-      padding:22px;
-      box-shadow:var(--shadow);
-    }
-
-    .wide{
-      grid-column:1 / -1;
-    }
-
-    .prod{
-      background:var(--prod-soft);
-      border-left:8px solid var(--prod);
-    }
-
-    .cort{
-      background:var(--cort-soft);
-      border-left:8px solid var(--cort);
-    }
-
-    .admin{
-      background:var(--admin-soft);
-      border-left:8px solid var(--admin);
-    }
-
-    .rare{
-      background:var(--rare-soft);
-      border-left:8px solid var(--rare);
-    }
-
-    h2{
-      margin:0 0 14px 0;
-      font-size:28px;
-      color:var(--hero-dark);
-    }
-
-    h3{
-      margin:0 0 10px 0;
-      font-size:24px;
-    }
-
     p{
       margin:0 0 14px 0;
-      font-size:18px;
+      font-size:19px;
       line-height:1.8;
+      color:var(--muted);
     }
 
-    .tag{
-      display:inline-block;
-      padding:6px 12px;
-      border-radius:999px;
-      font-size:13px;
-      font-weight:bold;
-      background:rgba(255,255,255,.7);
-      border:1px solid rgba(0,0,0,.06);
-      margin-bottom:10px;
-    }
-
-    .mesarios{
-      margin-top:12px;
-      background:#faf6ee;
-      border:1px solid var(--line);
-      border-left:7px solid var(--gold);
-      border-radius:18px;
-      padding:16px 18px;
-    }
-
-    .mesarios h4{
-      margin:0 0 8px 0;
-      font-size:20px;
-      color:#6a5435;
-    }
-
-    .mesario-chip{
-      display:inline-block;
-      margin:6px 8px 0 0;
-      padding:8px 12px;
-      border-radius:12px;
-      background:#fff7e6;
-      border:1px solid #e2c98f;
-      font-weight:bold;
-      color:#7a5d1d;
-      font-size:15px;
-    }
-
-    .actions{
-      margin-top:18px;
-      display:grid;
-      grid-template-columns:1fr;
-      gap:12px;
-    }
-
-    .main-btn{
-      width:100%;
+    .btn{
+      margin-top:14px;
       border:none;
       border-radius:18px;
-      padding:18px 20px;
+      padding:16px 22px;
       font-size:18px;
       font-weight:bold;
       cursor:pointer;
-      transition:.2s ease;
+      background:var(--accent);
       color:#fff;
+      transition:.2s ease;
     }
 
-    .main-btn:hover{
+    .btn:hover{
+      background:var(--accent-dark);
       transform:translateY(-1px);
-    }
-
-    .btn-prod{ background:var(--prod); }
-    .btn-prod:hover{ background:#3d5a73; }
-
-    .btn-cort{ background:var(--cort); }
-    .btn-cort:hover{ background:#4c7459; }
-
-    .btn-admin{ background:var(--admin); }
-    .btn-admin:hover{ background:#823c3c; }
-
-    .btn-rare{ background:var(--rare); }
-    .btn-rare:hover{ background:#6c518f; }
-
-    .hidden{
-      display:none !important;
-    }
-
-    .footer-note{
-      margin-top:12px;
-      text-align:center;
-      font-size:17px;
-      line-height:1.8;
-      color:var(--muted);
-    }
-
-    @media (max-width:900px){
-      .grid,
-      .topbar{
-        grid-template-columns:1fr;
-        display:grid;
-      }
-
-      h1{ font-size:30px; }
-      h2{ font-size:25px; }
-      h3{ font-size:22px; }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-
-    <div class="topbar">
-      <button class="small-btn" onclick="history.back()">← Retornar</button>
-      <button class="small-btn" onclick="window.location.href='index.html'">Sair do sistema</button>
-    </div>
-
-    <section class="hero">
-      <div class="eyebrow">Lapidar • Sala de Reuniões</div>
-      <h1>Sala de Reuniões</h1>
-      <p class="subtitle">
-        Este é o espaço de comando e organização das rotas do sistema. Aqui ficam reunidas as portas principais da produção, das cortesias, da administração e dos acessos raros.
-      </p>
-    </section>
-
-    <div class="grid">
-
-      <section class="card prod">
-        <div class="tag">Porta 01 • Produção</div>
-        <h3>Produção Editorial</h3>
-        <p>
-          Entrada para o fluxo de trabalho da obra: Bolsão, seleção de módulos e pipeline editorial.
-        </p>
-
-        <div class="mesarios" id="mesarioProducao">
-          <h4>Mesários visíveis nesta porta</h4>
-          <span class="mesario-chip">Mesário da seção</span>
-          <span class="mesario-chip">Mesário Mor</span>
-        </div>
-
-        <div class="actions">
-          <button class="main-btn btn-prod" onclick="window.location.href='pagina_institucional_lapidar.html'">
-            Entrar na Produção
-          </button>
-        </div>
-      </section>
-
-      <section class="card cort">
-        <div class="tag">Porta 02 • Cortesias</div>
-        <h3>Cortesias</h3>
-        <p>
-          Acesso à área de benefícios, perfis de cortesia e usos simbólicos da plataforma conforme o tipo de acesso.
-        </p>
-
-        <div class="mesarios" id="mesarioCortesia">
-          <h4>Regra de visibilidade</h4>
-          <p style="margin:0;">
-            Perfis de cortesia não visualizam Mesário da seção nem cobrança do Mesário Mor quando estiverem em condição top global da seção. Fora disso, visualizam nas demais seções em que não forem top global.
-          </p>
-        </div>
-
-        <div class="actions">
-          <button class="main-btn btn-cort" onclick="window.location.href='cortesias_painel.html'">
-            Acessar Cortesias
-          </button>
-        </div>
-      </section>
-
-      <section class="card admin">
-        <div class="tag">Porta 03 • Administração</div>
-        <h3>Administração</h3>
-        <p>
-          Área reservada ao controle interno, relatórios, auditoria, gerenciamento de acessos e arquitetura administrativa do sistema.
-        </p>
-
-        <div class="mesarios" id="mesarioAdmin">
-          <h4>Mesários visíveis nesta porta</h4>
-          <span class="mesario-chip">Mesário da seção</span>
-          <span class="mesario-chip">Mesário Mor</span>
-        </div>
-
-        <div class="actions">
-          <button class="main-btn btn-admin" onclick="window.location.href='admin_painel.html'">
-            Entrar na Administração
-          </button>
-        </div>
-      </section>
-
-      <section class="card rare">
-        <div class="tag">Joia Rara 🔐</div>
-        <h3>Acesso Raro</h3>
-        <p>
-          Espaço reservado exclusivamente para Admin e Heterônimo, reunindo acessos sensíveis, logins estratégicos e credenciais institucionais.
-        </p>
-
-        <div class="actions">
-          <button class="main-btn btn-rare" onclick="window.location.href='login.html'">
-            Abrir Joia Rara
-          </button>
-        </div>
-      </section>
-
-      <section class="card wide">
-        <h2>Regras de acesso desta sala</h2>
-        <p>
-          <strong>Admin</strong> visualiza Produção, Cortesias, Administração e Joia Rara.
-        </p>
-        <p>
-          <strong>Heterônimo</strong> visualiza Produção, Cortesias e Joia Rara.
-        </p>
-        <p>
-          <strong>Utilizador comum</strong> e <strong>Cortesia</strong> não entram nesta sala. Eles seguem pelo caminho institucional do Lapidar.
-        </p>
-
-        <div class="footer-note">
-          Esta sala organiza o comando interno do sistema antes do fluxo editorial seguir seu caminho.
-        </div>
-      </section>
-
-    </div>
-
+  <div class="card">
+    <div class="eyebrow">Lapidar • Redirecionamento interno</div>
+    <h1>Encaminhando para o painel correto</h1>
+    <p>
+      O acesso está sendo levado diretamente para a área administrativa principal do sistema.
+    </p>
+    <p>
+      Se o redirecionamento não acontecer sozinho, toque no botão abaixo.
+    </p>
+    <button class="btn" onclick="window.location.href='admin_painel.html'">
+      Ir para o Painel Administrativo
+    </button>
   </div>
 
   <script>
-    function aplicarPermissoesSala(){
-      const perfil = (localStorage.getItem("lapidar_perfil") || "").toLowerCase();
-
-      const adminCard = document.querySelector(".admin");
-      const rareCard = document.querySelector(".rare");
-      const cortCard = document.querySelector(".cort");
-      const prodCard = document.querySelector(".prod");
-
-      if(perfil.includes("admin")){
-        return;
-      }
-
-      if(perfil.includes("heteronimo") || perfil.includes("heterônimo")){
-        if(adminCard) adminCard.classList.add("hidden");
-        return;
-      }
-
-      if(prodCard) prodCard.classList.add("hidden");
-      if(cortCard) cortCard.classList.add("hidden");
-      if(adminCard) adminCard.classList.add("hidden");
-      if(rareCard) rareCard.classList.add("hidden");
-    }
-
-    aplicarPermissoesSala();
+    window.location.href = "admin_painel.html";
   </script>
 </body>
 </html>
