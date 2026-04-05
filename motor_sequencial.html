@@ -1,41 +1,50 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Motor Sequencial • Lapidar</title>
+<title>Motor Sequencial Lapidar</title>
 
 <style>
 
 body{
-font-family: Arial, sans-serif;
-background:#0f1f13;
-color:white;
-margin:0;
+font-family:Georgia, serif;
+background:#f4ecd8;
+text-align:center;
+padding-top:100px;
 }
 
-.container{
-max-width:900px;
-margin:auto;
-padding:20px;
-}
-
-.card{
-background:#183321;
-padding:20px;
-border-radius:15px;
-margin-bottom:20px;
+.caixa{
+background:white;
+display:inline-block;
+padding:40px;
+border-radius:10px;
+box-shadow:0px 3px 6px rgba(0,0,0,0.2);
 }
 
 button{
-background:#2e7d32;
+
+margin-top:30px;
+
+padding:15px 40px;
+
+font-size:18px;
+
 border:none;
-padding:14px 18px;
-border-radius:10px;
+
+background:#5a4a2f;
+
 color:white;
-font-weight:bold;
+
+border-radius:8px;
+
 cursor:pointer;
-margin-top:15px;
+
+}
+
+button:hover{
+
+background:#3e321f;
+
 }
 
 </style>
@@ -44,96 +53,51 @@ margin-top:15px;
 
 <body>
 
-<div class="container">
+<div class="caixa">
 
-<div class="card">
-
-<h2>Motor Sequencial Lapidar</h2>
+<h2>Lapidar está organizando o próximo passo da sua obra</h2>
 
 <p>
-Este botão simula o final do módulo atual e envia automaticamente
-para o próximo módulo selecionado.
+Seguiremos agora para a próxima etapa do caminho editorial escolhido.
 </p>
 
-<button onclick="irParaProximoModulo()">Continuar para próximo módulo</button>
+<button onclick="irParaProximoModulo()">Continuar</button>
 
 </div>
-
-</div>
-
 
 <script>
 
 function irParaProximoModulo(){
 
-const ordem = [
-"diagramacao.html",
-"capista.html",
-"segunda_lingua.html",
-"avaliacao_literaria.html",
-"analisador_obra.html",
-"lapidacao_literaria.html",
-"silo_sonoro.html",
-"expedicao_material.html"
-];
+let fila = JSON.parse(localStorage.getItem("fila_modulos_lapidar"));
 
-const selecionados =
-JSON.parse(localStorage.getItem("lapidar_modulos"));
+let indice = parseInt(localStorage.getItem("indice_fluxo_lapidar"));
 
-if(!selecionados){
+if(!fila){
 
-alert("Nenhum módulo selecionado.");
-
-window.location.href = "selecionar_modulos.html";
+window.location.href="expedicao_material.html";
 
 return;
 
 }
 
-const paginaAtual =
-window.location.pathname.split("/").pop();
+indice++;
 
-let encontrouAtual = false;
+localStorage.setItem("indice_fluxo_lapidar",indice);
 
-for(let i=0;i<ordem.length;i++){
+if(indice >= fila.length){
 
-if(ordem[i] === paginaAtual){
-
-encontrouAtual = true;
-
-continue;
-
-}
-
-if(encontrouAtual){
-
-const chaveModulo =
-ordem[i]
-.replace(".html","")
-.replace("segunda_lingua","traducao")
-.replace("avaliacao_literaria","avaliacao")
-.replace("analisador_obra","analisador")
-.replace("lapidacao_literaria","lapidacao")
-.replace("silo_sonoro","silo");
-
-if(selecionados[chaveModulo]){
-
-window.location.href = ordem[i];
+window.location.href="expedicao_material.html";
 
 return;
 
 }
 
-}
-
-}
-
-window.location.href = "expedicao_material.html";
+window.location.href=fila[indice];
 
 }
 
 </script>
-
 
 </body>
 </html>
