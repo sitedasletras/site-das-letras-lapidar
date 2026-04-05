@@ -3,60 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ExpediÃ§Ã£o Oficial â€¢ Lapidar</title>
+<title>Expedição do material • Lapidar</title>
 
 <style>
-
-body{
-font-family: Arial, sans-serif;
-background:#0f1f13;
-color:white;
-margin:0;
-}
-
-.container{
-max-width:950px;
-margin:auto;
-padding:20px;
-}
-
-.card{
-background:#183321;
-padding:20px;
-border-radius:15px;
-margin-bottom:20px;
-}
-
-h2{
-margin-top:0;
-}
-
-button{
-background:#2e7d32;
-border:none;
-padding:14px 18px;
-border-radius:10px;
-color:white;
-font-weight:bold;
-cursor:pointer;
-margin-top:10px;
-}
-
-.total{
-font-size:22px;
-font-weight:bold;
-margin-top:10px;
-}
-
-pre{
-background:#102315;
-padding:15px;
-border-radius:10px;
-overflow:auto;
-}
-
+body{font-family:Arial;background:#0f1f13;color:white;margin:0}
+.container{max-width:950px;margin:auto;padding:20px}
+.card{background:#183321;padding:20px;border-radius:15px;margin-bottom:20px}
+button{background:#2e7d32;border:none;padding:14px 18px;border-radius:10px;color:white;font-weight:bold;cursor:pointer}
+.total{font-size:22px;font-weight:bold;margin-top:10px}
 </style>
-
 </head>
 
 <body>
@@ -64,175 +19,76 @@ overflow:auto;
 <div class="container">
 
 <div class="card">
-
-<h2>Resumo Financeiro do Projeto</h2>
-
-<pre id="listaItens">
-Calculando projeto...
-</pre>
-
-<div class="total" id="valorTotal">
-Total: ---
+<h2>Resumo financeiro</h2>
+<pre id="resumo">Calculando...</pre>
+<div class="total" id="total"></div>
 </div>
-
-</div>
-
 
 <div class="card">
-
-<h2>Status do Pedido</h2>
-
-<div id="statusPagamento">
-Aguardando confirmaÃ§Ã£o de pagamento Hotmart
+<h2>Status pagamento</h2>
+<div id="status">Aguardando confirmação Hotmart</div>
+<button onclick="simularPagamento()">Simular pagamento aprovado</button>
 </div>
-
-<button onclick="simularPagamento()">
-Simular pagamento aprovado
-</button>
-
-</div>
-
 
 <div class="card">
-
-<h2>Download do Material</h2>
-
-<button id="botaoDownload" disabled onclick="baixarPacoteFinal()">
-Baixar pacote editorial completo
-</button>
-
+<h2>Download</h2>
+<button id="downloadBtn" disabled onclick="baixar()">Baixar pacote editorial</button>
 </div>
 
 </div>
-
 
 <script src="lapidar_motor_calculo.js"></script>
 
 <script>
 
-let pagamentoConfirmado=false;
+let pago=false;
 
+function carregar(){
 
-function montarProjeto(){
+const dados=JSON.parse(localStorage.getItem("lapidar_modulos"));
 
-const dadosSelecionados=JSON.parse(
-localStorage.getItem("lapidar_modulos")
-);
-
-if(!dadosSelecionados){
-
-alert("Nenhum mÃ³dulo selecionado");
-
-return;
-
-}
-
+if(!dados)return;
 
 const resumo=LapidarCalculo.calcularProjeto({
-
-modulos:dadosSelecionados,
-
-diagramacao:{
-topGlobal:false,
-modo:"hibrido",
-planoAtivo:false,
-cvrItens:[0.12,0.08]
-},
-
-capista:{
-topGlobal:false,
-modo:"nacional",
-planoAtivo:false,
-cvrItens:[0.10]
-},
-
-traducao:{
-topGlobal:false,
-quantidadeIdiomas:2
-},
-
-avaliacao:{
-topGlobal:false,
-quantidadeModulos:4
-},
-
-analisador:{
-topGlobal:false,
-paginasRelatorio:11
-},
-
-lapidacao:{
-topGlobal:false
-},
-
-siloSonoro:{
-topGlobal:false,
-quantidadeAudiobooks:1
-},
-
-extras:{
-gerarSinopse:true,
-gerarPrefacio:true,
-gerarBiografia:true
-}
-
+modulos:dados,
+avaliacao:{quantidadeModulos:4},
+traducao:{quantidadeIdiomas:2}
 });
 
-
-document.getElementById("listaItens").innerText=
-JSON.stringify(resumo.itens,null,2);
-
-
-document.getElementById("valorTotal").innerText=
-"Total: "+resumo.totalFormatado;
+document.getElementById("resumo").innerText=JSON.stringify(resumo.itens,null,2);
+document.getElementById("total").innerText="Total: "+resumo.totalFormatado;
 
 }
-
-
 
 function simularPagamento(){
 
-pagamentoConfirmado=true;
+pago=true;
 
-document.getElementById("statusPagamento").innerText=
-"Pagamento confirmado pela Hotmart";
+document.getElementById("status").innerText="Pagamento confirmado";
 
-document.getElementById("botaoDownload").disabled=false;
-
-}
-
-
-
-function baixarPacoteFinal(){
-
-if(!pagamentoConfirmado){
-
-alert("Pagamento nÃ£o confirmado ainda");
-
-return;
+document.getElementById("downloadBtn").disabled=false;
 
 }
 
-const conteudo="Pacote editorial Lapidar gerado com sucesso";
+function baixar(){
 
-const blob=new Blob([conteudo],{type:"text/plain"});
+if(!pago)return alert("Pagamento não confirmado");
 
-const link=document.createElement("a");
+const blob=new Blob(["Pacote Lapidar"],{type:"text/plain"});
 
-link.href=URL.createObjectURL(blob);
+const a=document.createElement("a");
 
-link.download="pacote_editorial_lapidar.txt";
+a.href=URL.createObjectURL(blob);
 
-link.click();
+a.download="pacote_lapidar.txt";
+
+a.click();
 
 }
 
-
-
-montarProjeto();
+carregar();
 
 </script>
-
 
 </body>
 </html>
