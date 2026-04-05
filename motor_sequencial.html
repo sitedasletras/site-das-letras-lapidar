@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Motor Sequencial • Lapidar</title>
+
+<style>
+
+body{
+font-family: Arial, sans-serif;
+background:#0f1f13;
+color:white;
+margin:0;
+}
+
+.container{
+max-width:900px;
+margin:auto;
+padding:20px;
+}
+
+.card{
+background:#183321;
+padding:20px;
+border-radius:15px;
+margin-bottom:20px;
+}
+
+button{
+background:#2e7d32;
+border:none;
+padding:14px 18px;
+border-radius:10px;
+color:white;
+font-weight:bold;
+cursor:pointer;
+margin-top:15px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="card">
+
+<h2>Motor Sequencial Lapidar</h2>
+
+<p>
+Este botão simula o final do módulo atual e envia automaticamente
+para o próximo módulo selecionado.
+</p>
+
+<button onclick="irParaProximoModulo()">Continuar para próximo módulo</button>
+
+</div>
+
+</div>
+
+
+<script>
+
+function irParaProximoModulo(){
+
+const ordem = [
+"diagramacao.html",
+"capista.html",
+"segunda_lingua.html",
+"avaliacao_literaria.html",
+"analisador_obra.html",
+"lapidacao_literaria.html",
+"silo_sonoro.html",
+"expedicao_material.html"
+];
+
+const selecionados =
+JSON.parse(localStorage.getItem("lapidar_modulos"));
+
+if(!selecionados){
+
+alert("Nenhum módulo selecionado.");
+
+window.location.href = "selecionar_modulos.html";
+
+return;
+
+}
+
+const paginaAtual =
+window.location.pathname.split("/").pop();
+
+let encontrouAtual = false;
+
+for(let i=0;i<ordem.length;i++){
+
+if(ordem[i] === paginaAtual){
+
+encontrouAtual = true;
+
+continue;
+
+}
+
+if(encontrouAtual){
+
+const chaveModulo =
+ordem[i]
+.replace(".html","")
+.replace("segunda_lingua","traducao")
+.replace("avaliacao_literaria","avaliacao")
+.replace("analisador_obra","analisador")
+.replace("lapidacao_literaria","lapidacao")
+.replace("silo_sonoro","silo");
+
+if(selecionados[chaveModulo]){
+
+window.location.href = ordem[i];
+
+return;
+
+}
+
+}
+
+}
+
+window.location.href = "expedicao_material.html";
+
+}
+
+</script>
+
+
+</body>
+</html>
