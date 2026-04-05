@@ -9,12 +9,12 @@
       --bg:#f7f5ef;
       --bg-soft:#f1eee6;
       --card:#fffdf9;
-      --line:#d8d2c4;
-      --text:#3f3a32;
-      --muted:#6b6458;
-      --accent:#7f9c96;
-      --accent-dark:#68867f;
-      --accent-light:#dfe9e6;
+      --line:#c9c1b2;
+      --text:#2f2a24;
+      --muted:#5f574c;
+      --accent:#5f8f86;
+      --accent-dark:#3f6f67;
+      --accent-light:#e4efec;
       --shadow:0 12px 28px rgba(67, 58, 45, 0.10);
       --radius:20px;
     }
@@ -34,6 +34,45 @@
       max-width:1100px;
       margin:0 auto;
       padding:28px 16px 40px;
+    }
+
+    .topbar{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:18px;
+    }
+
+    .small-btn{
+      border:none;
+      border-radius:14px;
+      padding:12px 16px;
+      font-size:15px;
+      font-weight:bold;
+      cursor:pointer;
+      transition:.2s ease;
+    }
+
+    .small-btn:hover{
+      transform:translateY(-1px);
+    }
+
+    .btn-back{
+      background:#ece7db;
+      color:var(--text);
+    }
+
+    .btn-back:hover{
+      background:#e2dccd;
+    }
+
+    .btn-exit{
+      background:#d7d2c6;
+      color:var(--text);
+    }
+
+    .btn-exit:hover{
+      background:#c9c1b2;
     }
 
     .hero{
@@ -240,8 +279,10 @@
     @media (max-width:900px){
       .grid,
       .actions,
-      .choice-buttons{
+      .choice-buttons,
+      .topbar{
         grid-template-columns:1fr;
+        display:grid;
       }
 
       h1{
@@ -265,6 +306,11 @@
 </head>
 <body>
   <div class="container">
+
+    <div class="topbar">
+      <button class="small-btn btn-back" onclick="voltarPaginaAnterior()">← Retornar para página anterior</button>
+      <button class="small-btn btn-exit" onclick="sairSistema()">Sair do sistema</button>
+    </div>
 
     <section class="hero">
       <div class="eyebrow">Continuidade Editorial</div>
@@ -374,9 +420,7 @@
 
     <section class="card">
       <h2>2. Resumo da sessão</h2>
-      <div class="summary" id="resumoSelecao">
-Nenhum módulo selecionado ainda.
-      </div>
+      <div class="summary" id="resumoSelecao">Nenhum módulo selecionado ainda.</div>
 
       <div class="note">
         Ao continuar, você estará autorizando apenas os módulos marcados nesta sessão.
@@ -466,7 +510,6 @@ Nenhum módulo selecionado ainda.
       document.getElementById("modRelatorios").checked = false;
 
       atualizarResumo();
-
       document.getElementById("blocoTIC").classList.add("hidden");
       document.getElementById("blocoRefazer").classList.add("hidden");
     }
@@ -530,9 +573,16 @@ Nenhum módulo selecionado ainda.
       } else {
         localStorage.setItem("lapidar_tic_segunda_resposta", "nao");
         localStorage.setItem("lapidar_pipeline_encerrado", "true");
-
         alert("Processo encerrado após duas recusas consecutivas da TIC. O Bolsão permanece registrado como etapa concluída.");
       }
+    }
+
+    function voltarPaginaAnterior(){
+      window.location.href = "bolsao_execucao.html";
+    }
+
+    function sairSistema(){
+      window.location.href = "index.html";
     }
 
     atualizarResumo();
