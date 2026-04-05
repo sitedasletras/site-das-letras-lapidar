@@ -3,19 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Expedição do Material • Lapidar</title>
+<title>ExpediÃ§Ã£o Oficial â€¢ Lapidar</title>
 
 <style>
+
 body{
 font-family: Arial, sans-serif;
 background:#0f1f13;
-color:#fff;
+color:white;
 margin:0;
-padding:0;
 }
 
 .container{
-max-width:900px;
+max-width:950px;
 margin:auto;
 padding:20px;
 }
@@ -27,6 +27,10 @@ border-radius:15px;
 margin-bottom:20px;
 }
 
+h2{
+margin-top:0;
+}
+
 button{
 background:#2e7d32;
 border:none;
@@ -35,6 +39,7 @@ border-radius:10px;
 color:white;
 font-weight:bold;
 cursor:pointer;
+margin-top:10px;
 }
 
 .total{
@@ -42,7 +47,16 @@ font-size:22px;
 font-weight:bold;
 margin-top:10px;
 }
+
+pre{
+background:#102315;
+padding:15px;
+border-radius:10px;
+overflow:auto;
+}
+
 </style>
+
 </head>
 
 <body>
@@ -50,11 +64,12 @@ margin-top:10px;
 <div class="container">
 
 <div class="card">
-<h2>Resumo do Projeto</h2>
 
-<div id="resultadoCalculo">
-Carregando cálculo...
-</div>
+<h2>Resumo Financeiro do Projeto</h2>
+
+<pre id="listaItens">
+Calculando projeto...
+</pre>
 
 <div class="total" id="valorTotal">
 Total: ---
@@ -62,17 +77,28 @@ Total: ---
 
 </div>
 
+
 <div class="card">
-<h2>Expedição</h2>
+
+<h2>Status do Pedido</h2>
+
+<div id="statusPagamento">
+Aguardando confirmaÃ§Ã£o de pagamento Hotmart
+</div>
 
 <button onclick="simularPagamento()">
 Simular pagamento aprovado
 </button>
 
-<br><br>
+</div>
 
-<button id="btnDownload" disabled onclick="baixarArquivoFinal()">
-Baixar material final
+
+<div class="card">
+
+<h2>Download do Material</h2>
+
+<button id="botaoDownload" disabled onclick="baixarPacoteFinal()">
+Baixar pacote editorial completo
 </button>
 
 </div>
@@ -84,16 +110,45 @@ Baixar material final
 
 <script>
 
-let pagamentoConfirmado = false;
+let pagamentoConfirmado=false;
 
 
-function calcularProjeto(){
+function montarProjeto(){
 
-const resumo = LapidarCalculo.calcularProjeto({
+const dadosSelecionados=JSON.parse(
+localStorage.getItem("lapidar_modulos")
+);
 
-modulos:{
-avaliacao:true,
-traducao:true
+if(!dadosSelecionados){
+
+alert("Nenhum mÃ³dulo selecionado");
+
+return;
+
+}
+
+
+const resumo=LapidarCalculo.calcularProjeto({
+
+modulos:dadosSelecionados,
+
+diagramacao:{
+topGlobal:false,
+modo:"hibrido",
+planoAtivo:false,
+cvrItens:[0.12,0.08]
+},
+
+capista:{
+topGlobal:false,
+modo:"nacional",
+planoAtivo:false,
+cvrItens:[0.10]
+},
+
+traducao:{
+topGlobal:false,
+quantidadeIdiomas:2
 },
 
 avaliacao:{
@@ -101,9 +156,18 @@ topGlobal:false,
 quantidadeModulos:4
 },
 
-traducao:{
+analisador:{
 topGlobal:false,
-quantidadeIdiomas:2
+paginasRelatorio:11
+},
+
+lapidacao:{
+topGlobal:false
+},
+
+siloSonoro:{
+topGlobal:false,
+quantidadeAudiobooks:1
 },
 
 extras:{
@@ -114,52 +178,58 @@ gerarBiografia:true
 
 });
 
-document.getElementById("resultadoCalculo").innerText =
-JSON.stringify(resumo.itens, null, 2);
 
-document.getElementById("valorTotal").innerText =
-"Total: " + resumo.totalFormatado;
+document.getElementById("listaItens").innerText=
+JSON.stringify(resumo.itens,null,2);
+
+
+document.getElementById("valorTotal").innerText=
+"Total: "+resumo.totalFormatado;
 
 }
+
 
 
 function simularPagamento(){
 
-pagamentoConfirmado = true;
+pagamentoConfirmado=true;
 
-alert("Pagamento confirmado (simulação). Download liberado.");
+document.getElementById("statusPagamento").innerText=
+"Pagamento confirmado pela Hotmart";
 
-document.getElementById("btnDownload").disabled = false;
+document.getElementById("botaoDownload").disabled=false;
 
 }
 
 
-function baixarArquivoFinal(){
+
+function baixarPacoteFinal(){
 
 if(!pagamentoConfirmado){
 
-alert("Pagamento ainda não confirmado.");
+alert("Pagamento nÃ£o confirmado ainda");
 
 return;
 
 }
 
-const conteudo = "Arquivo final gerado pelo Lapidar.";
+const conteudo="Pacote editorial Lapidar gerado com sucesso";
 
-const blob = new Blob([conteudo], {type:"text/plain"});
+const blob=new Blob([conteudo],{type:"text/plain"});
 
-const link = document.createElement("a");
+const link=document.createElement("a");
 
-link.href = URL.createObjectURL(blob);
+link.href=URL.createObjectURL(blob);
 
-link.download = "material_final_lapidar.txt";
+link.download="pacote_editorial_lapidar.txt";
 
 link.click();
 
 }
 
 
-calcularProjeto();
+
+montarProjeto();
 
 </script>
 
