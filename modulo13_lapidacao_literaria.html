@@ -1,0 +1,176 @@
+<!DOCTYPE html><html lang="pt-br">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lapidar — Módulo 13 | Lapidação Literária</title><style>
+body {
+  margin: 0;
+  font-family: "Georgia", serif;
+  background: #f4efe6;
+}
+
+.container {
+  max-width: 900px;
+  margin: auto;
+  padding: 30px;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.header h1 {
+  color: #5a4632;
+}
+
+.section {
+  background: #fffaf3;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 2px 6px rgba(0,0,0,0.08);
+}
+
+.section h2 {
+  color: #6a4f36;
+}
+
+.option {
+  margin: 10px 0;
+}
+
+.option input {
+  margin-right: 10px;
+}
+
+.mesario {
+  background: #efe6d8;
+  padding: 15px;
+  text-align: center;
+  font-weight: bold;
+  margin-top: 20px;
+  border-radius: 8px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.return {
+  background: #b7a187;
+  color: white;
+}
+
+.exit {
+  background: #7a5b43;
+  color: white;
+}
+
+.confirm {
+  background: #5a4632;
+  color: white;
+  width: 100%;
+  margin-top: 10px;
+}
+</style></head><body><div class="container"><div class="header">
+<h1>Módulo 13 — Lapidação Literária</h1>
+<p>
+Aqui trabalhamos lado a lado com você para fortalecer a voz da sua obra.
+Nada será alterado sem sua autorização.
+</p>
+</div><div class="section">
+<h2>Humanização Base (Obrigatória ao selecionar o módulo) — R$ 25</h2>
+<label class="option">
+<input type="checkbox" checked disabled>
+Ajustes de concordância verbal e nominal
+</label>
+<label class="option">
+<input type="checkbox" checked disabled>
+Suavização sintática
+</label>
+<label class="option">
+<input type="checkbox" checked disabled>
+Estabilização estrutural do texto
+</label>
+</div><div class="section">
+<h2>Aperfeiçoamentos Narrativos (Opcional — R$ 7 cada)</h2>
+<label class="option">
+<input type="checkbox" class="extra" value="7">
+Revisão de diálogos
+</label><label class="option">
+<input type="checkbox" class="extra" value="7">
+Coerência narrativa
+</label><label class="option">
+<input type="checkbox" class="extra" value="7">
+Ritmo textual
+</label><label class="option">
+<input type="checkbox" class="extra" value="7">
+Preservação do estilo autoral
+</label>
+</div><div class="section">
+<h2>Pacote Narrativo Completo — + R$ 25</h2>
+<label class="option">
+<input type="checkbox" id="pacoteCompleto" value="25">
+Ativar todos os aperfeiçoamentos narrativos
+</label>
+</div><div class="mesario">
+Mesário da Seção: R$ <span id="total">25</span>
+</div><button class="confirm">Confirmar seleção</button>
+
+<div class="buttons">
+<button class="return">Retornar</button>
+<button class="exit">Sair do sistema</button>
+</div></div><script>
+let extras = document.querySelectorAll(".extra");
+let pacote = document.getElementById("pacoteCompleto");
+let totalDisplay = document.getElementById("total");
+
+function atualizarTotal(){
+
+let total = 25;
+
+if(pacote.checked){
+
+extras.forEach(e => e.checked = false);
+
+extras.forEach(e => e.disabled = true);
+
+
+ total += 25;
+
+}else{
+
+extras.forEach(e => e.disabled = false);
+
+extras.forEach(e => {
+
+if(e.checked){
+
+ total += 7;
+
+}
+
+});
+
+}
+
+ totalDisplay.innerText = total;
+
+}
+
+extras.forEach(e => e.addEventListener("change", atualizarTotal));
+
+pacote.addEventListener("change", atualizarTotal);
+
+</script></body>
+</html>
