@@ -1,83 +1,71 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pagamento — Lapidar</title>
+<title>Mesário-mor • Lapidar</title>
 
 <style>
+
 body{
-margin:0;
 font-family:Arial;
-background:linear-gradient(180deg,#0b3a2b,#041a12);
-color:white;
+background:#f4efe4;
+margin:0;
+padding:0;
 }
 
 .container{
 max-width:900px;
 margin:auto;
-padding:24px;
+padding:30px;
 }
 
-.card{
-background:rgba(255,255,255,.07);
-border-radius:18px;
-padding:22px;
-margin-bottom:20px;
+.box{
+background:white;
+border-radius:16px;
+padding:30px;
+box-shadow:0 10px 25px rgba(0,0,0,0.08);
 }
 
-h1,h2{
+h1{
 margin-top:0;
 }
 
-p{
-line-height:1.6;
-color:#d9efe2;
+.status{
+padding:15px;
+border-radius:12px;
+margin-top:20px;
+font-weight:bold;
 }
 
-.info{
-margin-bottom:12px;
-padding:12px;
-border-radius:12px;
-background:rgba(255,255,255,.05);
+.aguardando{
+background:#fff3cd;
+}
+
+.confirmado{
+background:#d4edda;
 }
 
 button{
+padding:16px;
 border:none;
-border-radius:12px;
-padding:14px 18px;
-font-size:15px;
+border-radius:10px;
+font-size:16px;
 font-weight:bold;
 cursor:pointer;
-margin-top:12px;
-margin-right:8px;
+background:#17335d;
+color:white;
+margin-top:20px;
 }
 
-.btn{
-background:#2ecc71;
-color:#062414;
+button:disabled{
+background:#ccc;
 }
 
-.btn2{
-background:#dcefe4;
-color:#103222;
-}
-
-.status{
+.download{
 display:none;
-margin-top:16px;
-padding:14px;
-border-radius:12px;
-background:rgba(46,204,113,.14);
+margin-top:20px;
 }
 
-.erro{
-display:none;
-margin-top:16px;
-padding:14px;
-border-radius:12px;
-background:rgba(231,76,60,.14);
-}
 </style>
 </head>
 
@@ -85,150 +73,115 @@ background:rgba(231,76,60,.14);
 
 <div class="container">
 
-<div class="card">
+<div class="box">
 
-<h1>Pagamento do Projeto</h1>
+<h1>Mesário-mor</h1>
 
 <p>
-Confirme o pagamento para concluir a etapa financeira do Lapidar e liberar a exportação da obra.
+Resumo final da contribuição institucional da obra.
+Após confirmação, o sistema encaminhará automaticamente para validação.
 </p>
 
+<h2>Contribuição final</h2>
+
+<h1 id="valorFinal">CVMI 78,99</h1>
+
+<div id="statusBox" class="status aguardando">
+
+Status atual: aguardando confirmação
+
 </div>
 
-<div class="card">
+<button id="confirmarBtn" onclick="confirmarContribuicao()">
 
-<h2>Dados do projeto</h2>
+Confirmar contribuição
 
-<div class="info">
-<strong>Título:</strong>
-<span id="titulo"></span>
-</div>
-
-<div class="info">
-<strong>Autor:</strong>
-<span id="autor"></span>
-</div>
-
-<div class="info">
-<strong>Lapidação:</strong>
-<span id="lapidacao"></span>
-</div>
-
-<div class="info">
-<strong>Pagamento:</strong>
-<span id="pagamento"></span>
-</div>
-
-<button class="btn" onclick="confirmarPagamento()">
-Simular pagamento aprovado
 </button>
 
-<button class="btn2" onclick="voltarPainel()">
-Voltar ao painel
-</button>
+<div id="downloads" class="download">
 
-<div class="status" id="mensagem"></div>
-<div class="erro" id="erro"></div>
+<h2>Downloads liberados</h2>
+
+<button onclick="baixarMiolo()">Baixar miolo</button>
+
+<button onclick="baixarCapa()">Baixar capa</button>
+
+<button onclick="baixarCompleto()">Baixar pacote completo</button>
+
+</div>
 
 </div>
 
 </div>
 
 <script>
-function obterProjeto(){
-return JSON.parse(localStorage.getItem("projeto_lapidar"));
+
+const STATUS_KEY = "lapidar_status_fluxo"
+
+function confirmarContribuicao(){
+
+localStorage.setItem(STATUS_KEY,"aguardando_contribuicao")
+
+// redirecionamento automático Hotmart
+
+const hotmartLink =
+localStorage.getItem("lapidar_hotmart_link")
+
+if(hotmartLink){
+
+window.location.href = hotmartLink
+
+}else{
+
+// modo teste
+
+setTimeout(()=>{
+contribuicaoConfirmada()
+},1200)
+
 }
 
-function salvarProjeto(p){
-p.ultimaAtualizacao = new Date().toISOString();
-
-localStorage.setItem(
-"projeto_lapidar",
-JSON.stringify(p)
-);
-
-let historico = JSON.parse(
-localStorage.getItem("historico_lapidar") || "[]"
-);
-
-historico = historico.map(x => x.id === p.id ? p : x);
-
-localStorage.setItem(
-"historico_lapidar",
-JSON.stringify(historico)
-);
 }
 
-function mostrar(msg){
-let box = document.getElementById("mensagem");
-box.style.display = "block";
-box.innerText = msg;
+function contribuicaoConfirmada(){
+
+localStorage.setItem(STATUS_KEY,"contribuicao_confirmada")
+
+document.getElementById("statusBox").className =
+"status confirmado"
+
+document.getElementById("statusBox").innerText =
+"Status atual: contribuição confirmada"
+
+document.getElementById("confirmarBtn").disabled = true
+
+document.getElementById("downloads").style.display =
+"block"
+
 }
 
-function mostrarErro(msg){
-let box = document.getElementById("erro");
-box.style.display = "block";
-box.innerText = msg;
+function baixarMiolo(){
+alert("Download miolo liberado")
 }
 
-function carregar(){
-let projeto = obterProjeto();
-
-if(!projeto){
-window.location.href = "producao_integrada.html";
-return;
+function baixarCapa(){
+alert("Download capa liberado")
 }
 
-document.getElementById("titulo").innerText = projeto.titulo;
-document.getElementById("autor").innerText = projeto.autor;
-
-document.getElementById("lapidacao").innerText =
-projeto.lapidacaoExecutada ? "Concluída" : "Pendente";
-
-document.getElementById("pagamento").innerText =
-projeto.pagamentoConfirmado ? "Confirmado" : "Pendente";
-
-if(!projeto.lapidacaoExecutada){
-mostrarErro("A Lapidação Literária precisa ser concluída antes do pagamento.");
-}
+function baixarCompleto(){
+alert("Download completo liberado")
 }
 
-function confirmarPagamento(){
-let projeto = obterProjeto();
+// caso já tenha confirmado antes
 
-if(!projeto){
-window.location.href = "producao_integrada.html";
-return;
+if(localStorage.getItem(STATUS_KEY) ==
+"contribuicao_confirmada"){
+
+contribuicaoConfirmada()
+
 }
 
-if(!projeto.lapidacaoExecutada){
-alert("Conclua primeiro a Lapidação Literária.");
-return;
-}
-
-projeto.pagamentoConfirmado = true;
-projeto.downloadLiberado = true;
-projeto.dataPagamento = new Date().toISOString();
-
-salvarProjeto(projeto);
-
-document.getElementById("pagamento").innerText = "Confirmado";
-
-mostrar("Pagamento confirmado com sucesso.");
-
-setTimeout(() => {
-window.location.href = "exportador_obra.html";
-}, 700);
-}
-
-function voltarPainel(){
-window.location.href = "painel_projeto.html";
-}
-
-carregar();
 </script>
-
-<script src="session_guard.js"></script>
 
 </body>
 </html>

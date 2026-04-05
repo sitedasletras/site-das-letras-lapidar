@@ -1,311 +1,530 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lapidação Literária — Lapidar</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lapidação Literária • Lapidar</title>
 
-<style>
-*{
-box-sizing:border-box;
-}
+  <style>
+    *{
+      box-sizing:border-box;
+    }
 
-body{
-margin:0;
-font-family:Arial,sans-serif;
-background:linear-gradient(180deg,#103126,#051811);
-color:#ffffff;
-}
+    body{
+      margin:0;
+      font-family:Arial, sans-serif;
+      background:#1b0d14;
+      color:#fff;
+    }
 
-.container{
-max-width:1080px;
-margin:0 auto;
-padding:24px;
-}
+    header{
+      background:#6f2342;
+      padding:20px 16px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+    }
 
-.card{
-background:rgba(255,255,255,0.07);
-border:1px solid rgba(255,255,255,0.08);
-border-radius:18px;
-padding:22px;
-margin-bottom:20px;
-}
+    header h1{
+      margin:0;
+      font-size:22px;
+    }
 
-h1,h2{
-margin-top:0;
-}
+    header a{
+      background:#8a97a8;
+      color:#fff;
+      text-decoration:none;
+      padding:10px 14px;
+      border-radius:10px;
+      font-weight:bold;
+      font-size:14px;
+    }
 
-p{
-color:#d8efe2;
-line-height:1.6;
-}
+    .container{
+      max-width:1000px;
+      margin:0 auto;
+      padding:20px 14px 40px;
+    }
 
-.info{
-margin-bottom:12px;
-padding:12px;
-border-radius:12px;
-background:rgba(255,255,255,0.05);
-}
+    .card{
+      background:#2a111c;
+      border-radius:18px;
+      padding:18px;
+      margin-bottom:18px;
+      box-shadow:0 4px 14px rgba(0,0,0,.22);
+    }
 
-textarea{
-width:100%;
-min-height:360px;
-border:none;
-outline:none;
-resize:vertical;
-border-radius:14px;
-padding:16px;
-font-size:15px;
-background:#f4fff8;
-color:#113322;
-line-height:1.7;
-}
+    .card h2{
+      margin-top:0;
+      font-size:19px;
+    }
 
-.actions{
-display:flex;
-flex-wrap:wrap;
-gap:12px;
-margin-top:18px;
-}
+    .subcard{
+      background:#3a1726;
+      border-radius:12px;
+      padding:14px;
+      margin-top:10px;
+      line-height:1.6;
+      color:#f7dfe8;
+      white-space:pre-line;
+    }
 
-button{
-border:none;
-border-radius:12px;
-padding:14px 18px;
-font-size:15px;
-font-weight:bold;
-cursor:pointer;
-}
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));
+      gap:14px;
+    }
 
-.btn-principal{
-background:#2ecc71;
-color:#062414;
-}
+    label{
+      display:block;
+      font-weight:bold;
+      margin:14px 0 8px;
+      color:#ffe7ef;
+      font-size:16px;
+    }
 
-.btn-principal:hover{
-background:#29b765;
-}
+    input[type="text"],
+    select,
+    textarea{
+      width:100%;
+      padding:12px;
+      border-radius:10px;
+      border:1px solid rgba(255,255,255,.10);
+      background:#4a1d31;
+      color:#fff;
+      margin-bottom:10px;
+      font-size:16px;
+      font-family:Arial, sans-serif;
+    }
 
-.btn-secundario{
-background:#dcefe4;
-color:#103222;
-}
+    textarea{
+      min-height:130px;
+      resize:vertical;
+    }
 
-.btn-secundario:hover{
-background:#c8e6d4;
-}
+    .acoes{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      margin-top:18px;
+    }
 
-.status{
-display:none;
-margin-top:16px;
-padding:14px;
-border-radius:12px;
-background:rgba(46,204,113,0.14);
-border:1px solid rgba(46,204,113,0.25);
-color:#dbffea;
-}
+    button{
+      border:none;
+      border-radius:12px;
+      padding:14px 18px;
+      font-size:15px;
+      font-weight:bold;
+      cursor:pointer;
+    }
 
-.erro{
-display:none;
-margin-top:16px;
-padding:14px;
-border-radius:12px;
-background:rgba(231,76,60,0.14);
-border:1px solid rgba(231,76,60,0.25);
-color:#ffd9d4;
-}
+    .btn-azul{
+      background:#365a9c;
+      color:#fff;
+    }
 
-.aviso{
-margin-top:12px;
-padding:12px;
-border-radius:12px;
-background:rgba(52,152,219,0.12);
-border:1px solid rgba(52,152,219,0.22);
-color:#dff1ff;
-}
-</style>
+    .btn-dourado{
+      background:#b8943c;
+      color:#fff;
+    }
+
+    .btn-verde{
+      background:#2e7d32;
+      color:#fff;
+    }
+
+    .btn-cinza{
+      background:#8a97a8;
+      color:#fff;
+    }
+
+    .check-item{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      background:#341421;
+      padding:14px;
+      border-radius:12px;
+      margin-bottom:12px;
+      font-size:18px;
+      font-weight:700;
+      cursor:pointer;
+    }
+
+    .check-item input{
+      width:24px;
+      height:24px;
+      margin:0;
+      flex:0 0 24px;
+    }
+
+    .status{
+      margin-top:16px;
+      background:#3a1726;
+      border-radius:12px;
+      padding:14px;
+      line-height:1.7;
+      color:#ffe8f0;
+      white-space:pre-line;
+      font-size:16px;
+    }
+
+    @media(max-width:640px){
+      header h1{
+        font-size:20px;
+      }
+
+      .check-item{
+        font-size:17px;
+      }
+    }
+  </style>
 </head>
 <body>
 
-<div class="container">
+  <header>
+    <h1>Lapidação Literária</h1>
+    <a href="index.html">Voltar</a>
+  </header>
+
+  <div class="container">
 
     <div class="card">
-        <h1>Lapidação Literária</h1>
-        <p>
-            Esta etapa registra o refinamento textual da obra dentro do fluxo editorial do Lapidar.
-            Se o manuscrito enviado for um arquivo <strong>.txt</strong>, o texto-base já aparece abaixo como ponto de partida da lapidação.
-        </p>
+      <h2>Projeto ativo</h2>
+      <div class="subcard" id="projetoAtivoBox">Carregando projeto...</div>
     </div>
 
     <div class="card">
-        <h2>Dados do projeto</h2>
+      <h2>Configuração da lapidação</h2>
 
-        <div class="info"><strong>Título:</strong> <span id="tituloProjeto">Carregando...</span></div>
-        <div class="info"><strong>Autor:</strong> <span id="autorProjeto">Carregando...</span></div>
-        <div class="info"><strong>Módulos:</strong> <span id="modulosProjeto">Carregando...</span></div>
-        <div class="info"><strong>Status da lapidação:</strong> <span id="statusLapidacao">Carregando...</span></div>
-        <div class="info"><strong>Manuscrito associado:</strong> <span id="manuscritoProjeto">Carregando...</span></div>
-    </div>
-
-    <div class="card">
-        <h2>Refinamento textual</h2>
-
-        <div class="aviso" id="avisoTextoBase">
-            Carregando texto-base do projeto...
+      <div class="grid">
+        <div>
+          <label for="nivelLapidacao">Nível da lapidação</label>
+          <select id="nivelLapidacao">
+            <option value="Essencial">Essencial</option>
+            <option value="Intermediário">Intermediário</option>
+            <option value="Premium">Premium</option>
+          </select>
         </div>
 
-        <textarea id="textoLapidado" placeholder="Escreva aqui as observações da Lapidação Literária..."></textarea>
+        <div>
+          <label for="focoLapidacao">Foco principal</label>
+          <select id="focoLapidacao">
+            <option value="Clareza textual">Clareza textual</option>
+            <option value="Ritmo narrativo">Ritmo narrativo</option>
+            <option value="Diálogos">Diálogos</option>
+            <option value="Coerência estrutural">Coerência estrutural</option>
+            <option value="Humanização geral">Humanização geral</option>
+          </select>
+        </div>
+      </div>
 
-        <div class="actions">
-            <button class="btn-principal" onclick="executarLapidacao()">Concluir Lapidação Literária</button>
-            <button class="btn-secundario" onclick="salvarRascunho()">Salvar rascunho</button>
-            <button class="btn-secundario" onclick="voltarPainel()">Voltar ao painel</button>
+      <div class="grid">
+        <div>
+          <label for="preservarEstilo">Preservar estilo autoral?</label>
+          <select id="preservarEstilo">
+            <option value="Sim">Sim</option>
+            <option value="Não">Não</option>
+          </select>
         </div>
 
-        <div class="status" id="mensagemStatus"></div>
-        <div class="erro" id="mensagemErro"></div>
+        <div>
+          <label for="humanizacaoCompleta">Humanização completa?</label>
+          <select id="humanizacaoCompleta">
+            <option value="Sim">Sim</option>
+            <option value="Não">Não</option>
+          </select>
+        </div>
+      </div>
+
+      <label for="observacoesLapidacao">Observações gerais da lapidação</label>
+      <textarea id="observacoesLapidacao" placeholder="Ex.: eliminar ruídos, evitar microfrases, reforçar diálogos, preservar tom do autor, etc."></textarea>
+
+      <div class="acoes">
+        <button class="btn-azul" type="button" onclick="salvarConfiguracaoLapidacao()">Salvar configuração da lapidação</button>
+      </div>
+
+      <div class="status" id="statusConfiguracaoLapidacao">Configuração da lapidação ainda não registrada.</div>
     </div>
 
-</div>
+    <div class="card">
+      <h2>Texto-base da lapidação</h2>
 
-<script>
-function obterProjeto(){
-    const projetoSalvo = localStorage.getItem("projeto_lapidar");
-    if(!projetoSalvo){
-        return null;
+      <label for="textoLapidacao">Texto para lapidar</label>
+      <textarea id="textoLapidacao" placeholder="Cole ou revise aqui o texto-base que seguirá para a lapidação."></textarea>
+
+      <div class="acoes">
+        <button class="btn-azul" type="button" onclick="puxarTextoDaObra()">Puxar texto da obra já lida</button>
+        <button class="btn-dourado" type="button" onclick="salvarTextoLapidado()">Salvar texto lapidado</button>
+      </div>
+
+      <div class="status" id="statusTextoLapidacao">Nenhum texto salvo ainda.</div>
+    </div>
+
+    <div class="card">
+      <h2>Checklist editorial</h2>
+
+      <label class="check-item">
+        <input type="checkbox" id="checkDialogos">
+        <span>Revisão de diálogos aplicada</span>
+      </label>
+
+      <label class="check-item">
+        <input type="checkbox" id="checkCoerencia">
+        <span>Coerência narrativa verificada</span>
+      </label>
+
+      <label class="check-item">
+        <input type="checkbox" id="checkRitmo">
+        <span>Ritmo textual ajustado</span>
+      </label>
+
+      <label class="check-item">
+        <input type="checkbox" id="checkEstilo">
+        <span>Estilo autoral preservado</span>
+      </label>
+
+      <label class="check-item">
+        <input type="checkbox" id="checkHumanizacao">
+        <span>Humanização completa aplicada</span>
+      </label>
+
+      <div class="acoes">
+        <button class="btn-dourado" type="button" onclick="salvarChecklistEditorial()">Salvar checklist editorial</button>
+      </div>
+
+      <div class="status" id="statusChecklist">Checklist ainda não registrado.</div>
+    </div>
+
+    <div class="card">
+      <h2>Confirmação</h2>
+      <div class="subcard" id="confirmacaoLapidacao">
+        Lapidação ainda não confirmada.
+      </div>
+
+      <div class="acoes">
+        <button class="btn-verde" type="button" onclick="confirmarLapidacaoESeguir()">Concordo com esta lapidação e quero seguir</button>
+        <button class="btn-cinza" type="button" onclick="irParaExpedicao()">Pular para expedição</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    function obterProjetoAtivo(){
+      try{
+        return JSON.parse(localStorage.getItem("projetoAtivo") || "{}");
+      }catch(e){
+        return {};
+      }
     }
 
-    try{
-        return JSON.parse(projetoSalvo);
-    }catch(e){
-        return null;
+    function obterModulosSelecionados(){
+      try{
+        return JSON.parse(localStorage.getItem("lapidar_modulos_marcados") || "{}");
+      }catch(e){
+        return {};
+      }
     }
-}
 
-function obterHistorico(){
-    try{
-        return JSON.parse(localStorage.getItem("historico_lapidar") || "[]");
-    }catch(e){
-        return [];
+    function renderProjetoAtivo(){
+      var projeto = obterProjetoAtivo();
+      var titulo = projeto.titulo || localStorage.getItem("lapidar_projeto_ativo") || "Obra não identificada";
+      var autor = projeto.autor || localStorage.getItem("lapidar_obra_autor") || "Autor não identificado";
+      var arquivo = projeto.arquivo || localStorage.getItem("lapidar_obra_arquivo_nome") || "";
+
+      var texto = titulo + "\n";
+      texto += "Autor: " + autor + "\n";
+      if(arquivo){
+        texto += "Arquivo: " + arquivo + "\n";
+      }
+      texto += "Preparando a lapidação literária desta obra.";
+
+      document.getElementById("projetoAtivoBox").innerText = texto;
     }
-}
 
-function salvarProjeto(projeto){
-    projeto.ultimaAtualizacao = new Date().toISOString();
-    localStorage.setItem("projeto_lapidar", JSON.stringify(projeto));
+    function salvarConfiguracaoLapidacao(){
+      var config = {
+        nivel: document.getElementById("nivelLapidacao").value,
+        foco: document.getElementById("focoLapidacao").value,
+        preservarEstilo: document.getElementById("preservarEstilo").value,
+        humanizacaoCompleta: document.getElementById("humanizacaoCompleta").value,
+        observacoes: document.getElementById("observacoesLapidacao").value
+      };
 
-    const historico = obterHistorico();
-    const novoHistorico = historico.map(item => {
-        if(item.id === projeto.id){
-            return projeto;
+      sessionStorage.setItem("lapidacao_config_atual", JSON.stringify(config));
+
+      document.getElementById("statusConfiguracaoLapidacao").innerText =
+        "Configuração da lapidação salva com sucesso.\n" +
+        "Nível: " + config.nivel + "\n" +
+        "Foco: " + config.foco;
+
+      atualizarConfirmacao();
+    }
+
+    function puxarTextoDaObra(){
+      var texto = localStorage.getItem("lapidar_obra_texto") || "";
+      if(!texto.trim()){
+        document.getElementById("statusTextoLapidacao").innerText =
+          "Nenhum texto original encontrado.";
+        return;
+      }
+
+      document.getElementById("textoLapidacao").value = texto;
+      document.getElementById("statusTextoLapidacao").innerText =
+        "Texto-base da obra puxado com sucesso.\n" +
+        "Conteúdo pronto para lapidação.";
+    }
+
+    function salvarTextoLapidado(){
+      var texto = document.getElementById("textoLapidacao").value.trim();
+
+      if(!texto){
+        document.getElementById("statusTextoLapidacao").innerText =
+          "Nenhum texto para salvar.";
+        return;
+      }
+
+      localStorage.setItem("lapidar_texto_lapidado", texto);
+
+      document.getElementById("statusTextoLapidacao").innerText =
+        "Texto lapidado salvo com sucesso.\n" +
+        "Conteúdo registrado para o restante do fluxo.";
+    }
+
+    function salvarChecklistEditorial(){
+      var checklist = {
+        dialogos: document.getElementById("checkDialogos").checked,
+        coerencia: document.getElementById("checkCoerencia").checked,
+        ritmo: document.getElementById("checkRitmo").checked,
+        estilo: document.getElementById("checkEstilo").checked,
+        humanizacao: document.getElementById("checkHumanizacao").checked
+      };
+
+      sessionStorage.setItem("lapidacao_checklist", JSON.stringify(checklist));
+
+      var itensMarcados = [];
+      if(checklist.dialogos) itensMarcados.push("Revisão de diálogos aplicada");
+      if(checklist.coerencia) itensMarcados.push("Coerência narrativa verificada");
+      if(checklist.ritmo) itensMarcados.push("Ritmo textual ajustado");
+      if(checklist.estilo) itensMarcados.push("Estilo autoral preservado");
+      if(checklist.humanizacao) itensMarcados.push("Humanização completa aplicada");
+
+      document.getElementById("statusChecklist").innerText =
+        itensMarcados.length > 0
+          ? "Checklist editorial salvo.\n" + itensMarcados.join("\n")
+          : "Checklist salvo sem itens marcados.";
+
+      atualizarConfirmacao();
+    }
+
+    function atualizarConfirmacao(){
+      var config = {};
+      var checklist = {};
+
+      try{
+        config = JSON.parse(sessionStorage.getItem("lapidacao_config_atual") || "{}");
+      }catch(e){}
+
+      try{
+        checklist = JSON.parse(sessionStorage.getItem("lapidacao_checklist") || "{}");
+      }catch(e){}
+
+      document.getElementById("confirmacaoLapidacao").innerText =
+        "Lapidação configurada.\n" +
+        "Nível: " + (config.nivel || "não definido") + "\n" +
+        "Foco: " + (config.foco || "não definido") + "\n" +
+        "Preservar estilo: " + (config.preservarEstilo || "não definido") + "\n" +
+        "Humanização completa: " + (config.humanizacaoCompleta || "não definido") + "\n" +
+        "Checklist salvo: " + (Object.keys(checklist).length ? "Sim" : "Não");
+    }
+
+    function obterProximoDestinoDepoisDaLapidacao(){
+      var modulos = obterModulosSelecionados();
+
+      if(modulos.siloSonoro) return "narracao_editorial.html";
+
+      return "expedicao_material.html";
+    }
+
+    function confirmarLapidacaoESeguir(){
+      if(!sessionStorage.getItem("lapidacao_config_atual")){
+        salvarConfiguracaoLapidacao();
+      }
+
+      atualizarConfirmacao();
+
+      var destino = obterProximoDestinoDepoisDaLapidacao();
+
+      document.getElementById("confirmacaoLapidacao").innerText +=
+        "\nEncaminhando para: " + destino;
+
+      setTimeout(function(){
+        window.location.href = destino;
+      }, 500);
+    }
+
+    function irParaExpedicao(){
+      window.location.href = "expedicao_material.html";
+    }
+
+    function restaurarDadosSalvos(){
+      try{
+        var config = JSON.parse(sessionStorage.getItem("lapidacao_config_atual") || "null");
+        if(config){
+          if(config.nivel) document.getElementById("nivelLapidacao").value = config.nivel;
+          if(config.foco) document.getElementById("focoLapidacao").value = config.foco;
+          if(config.preservarEstilo) document.getElementById("preservarEstilo").value = config.preservarEstilo;
+          if(config.humanizacaoCompleta) document.getElementById("humanizacaoCompleta").value = config.humanizacaoCompleta;
+          if(config.observacoes) document.getElementById("observacoesLapidacao").value = config.observacoes;
+          document.getElementById("statusConfiguracaoLapidacao").innerText =
+            "Configuração da lapidação salva com sucesso.\n" +
+            "Nível: " + config.nivel + "\n" +
+            "Foco: " + config.foco;
         }
-        return item;
+      }catch(e){}
+
+      try{
+        var texto = localStorage.getItem("lapidar_texto_lapidado") || "";
+        if(texto){
+          document.getElementById("textoLapidacao").value = texto;
+          document.getElementById("statusTextoLapidacao").innerText =
+            "Texto lapidado já salvo anteriormente.\n" +
+            "Conteúdo restaurado nesta tela.";
+        }
+      }catch(e){}
+
+      try{
+        var checklist = JSON.parse(sessionStorage.getItem("lapidacao_checklist") || "null");
+        if(checklist){
+          document.getElementById("checkDialogos").checked = !!checklist.dialogos;
+          document.getElementById("checkCoerencia").checked = !!checklist.coerencia;
+          document.getElementById("checkRitmo").checked = !!checklist.ritmo;
+          document.getElementById("checkEstilo").checked = !!checklist.estilo;
+          document.getElementById("checkHumanizacao").checked = !!checklist.humanizacao;
+
+          var itensMarcados = [];
+          if(checklist.dialogos) itensMarcados.push("Revisão de diálogos aplicada");
+          if(checklist.coerencia) itensMarcados.push("Coerência narrativa verificada");
+          if(checklist.ritmo) itensMarcados.push("Ritmo textual ajustado");
+          if(checklist.estilo) itensMarcados.push("Estilo autoral preservado");
+          if(checklist.humanizacao) itensMarcados.push("Humanização completa aplicada");
+
+          document.getElementById("statusChecklist").innerText =
+            itensMarcados.length > 0
+              ? "Checklist editorial salvo.\n" + itensMarcados.join("\n")
+              : "Checklist salvo sem itens marcados.";
+        }
+      }catch(e){}
+
+      atualizarConfirmacao();
+    }
+
+    window.addEventListener("load", function(){
+      renderProjetoAtivo();
+      restaurarDadosSalvos();
     });
-
-    localStorage.setItem("historico_lapidar", JSON.stringify(novoHistorico));
-}
-
-function mostrarStatus(texto){
-    const box = document.getElementById("mensagemStatus");
-    box.style.display = "block";
-    box.textContent = texto;
-}
-
-function mostrarErro(texto){
-    const box = document.getElementById("mensagemErro");
-    box.style.display = "block";
-    box.textContent = texto;
-}
-
-function carregarTela(){
-    const projeto = obterProjeto();
-
-    if(!projeto){
-        alert("Projeto não encontrado. Volte para a produção integrada.");
-        window.location.href = "producao_integrada.html";
-        return;
-    }
-
-    document.getElementById("tituloProjeto").textContent = projeto.titulo || "Sem título";
-    document.getElementById("autorProjeto").textContent = projeto.autor || "Sem autor";
-
-    document.getElementById("modulosProjeto").textContent =
-        Array.isArray(projeto.modulosSelecionados) && projeto.modulosSelecionados.length
-        ? projeto.modulosSelecionados.join(", ")
-        : "Nenhum módulo selecionado";
-
-    document.getElementById("statusLapidacao").textContent =
-        projeto.lapidacaoExecutada ? "Concluída" : "Pendente";
-
-    document.getElementById("manuscritoProjeto").textContent =
-        projeto.arquivos && projeto.arquivos.manuscrito
-        ? projeto.arquivos.manuscrito
-        : "Nenhum manuscrito enviado";
-
-    const areaTexto = document.getElementById("textoLapidado");
-    const aviso = document.getElementById("avisoTextoBase");
-
-    if(projeto.textoLapidado && projeto.textoLapidado.trim()){
-        areaTexto.value = projeto.textoLapidado;
-        aviso.textContent = "Rascunho de lapidação carregado com sucesso.";
-    }else if(projeto.textoBaseLido && projeto.textoBaseLido.trim()){
-        areaTexto.value = projeto.textoBaseLido;
-        aviso.textContent = "Texto-base do manuscrito .txt carregado automaticamente como ponto de partida.";
-    }else{
-        areaTexto.value = "";
-        aviso.textContent = "Nenhum texto-base automático disponível. Você pode escrever ou colar o conteúdo manualmente.";
-    }
-
-    const modulos = Array.isArray(projeto.modulosSelecionados) ? projeto.modulosSelecionados : [];
-    if(!modulos.includes("Lapidação Literária")){
-        mostrarErro("Atenção: este projeto não marcou Lapidação Literária entre os módulos. Mesmo assim, você pode usar esta etapa para registrar refinamento textual.");
-    }
-}
-
-function salvarRascunho(){
-    const projeto = obterProjeto();
-
-    if(!projeto){
-        alert("Projeto não encontrado.");
-        return;
-    }
-
-    projeto.textoLapidado = document.getElementById("textoLapidado").value;
-    salvarProjeto(projeto);
-
-    mostrarStatus("Rascunho salvo com sucesso.");
-}
-
-function executarLapidacao(){
-    const projeto = obterProjeto();
-
-    if(!projeto){
-        alert("Projeto não encontrado.");
-        return;
-    }
-
-    projeto.textoLapidado = document.getElementById("textoLapidado").value;
-    projeto.lapidacaoExecutada = true;
-    projeto.dataLapidacao = new Date().toISOString();
-
-    salvarProjeto(projeto);
-
-    document.getElementById("statusLapidacao").textContent = "Concluída";
-    mostrarStatus("Lapidação Literária concluída com sucesso. Redirecionando para o painel do projeto...");
-
-    setTimeout(() => {
-        window.location.href = "painel_projeto.html";
-    }, 800);
-}
-
-function voltarPainel(){
-    window.location.href = "painel_projeto.html";
-}
-
-carregarTela();
-</script>
-
-<script src="session_guard.js"></script>
+  </script>
 
 </body>
 </html>
