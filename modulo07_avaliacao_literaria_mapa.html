@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lapidar • Módulo 07 — Mapa da Avaliação Literária</title>
+  <style>
+    :root{
+      --bg-geral:#f7f5ef;
+      --setor-pergaminho:#f1e8d8;
+      --setor-tecnico:#efe4df;
+      --setor-marrom:#e7d6cc;
+      --setor-marrom-forte:#8d6654;
+      --setor-verde:#dfeee7;
+      --setor-dourado:#f5ecd9;
+      --card:#ffffff;
+      --line:#c9c1b2;
+      --text:#2f2a24;
+      --muted:#5f574c;
+      --shadow:0 12px 28px rgba(67,58,45,0.10);
+    }
+
+    *{
+      box-sizing:border-box;
+    }
+
+    body{
+      margin:0;
+      font-family: Arial, Helvetica, sans-serif;
+      background:var(--bg-geral);
+      color:var(--text);
+    }
+
+    .container{
+      max-width:1180px;
+      margin:0 auto;
+      padding:28px 16px 40px;
+    }
+
+    .topbar{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:18px;
+    }
+
+    .small-btn{
+      border:none;
+      border-radius:14px;
+      padding:12px 16px;
+      font-size:15px;
+      font-weight:bold;
+      cursor:pointer;
+      transition:.2s ease;
+      background:#ece7db;
+      color:var(--text);
+    }
+
+    .small-btn:hover{
+      transform:translateY(-1px);
+      background:#e2dccd;
+    }
+
+    .hero{
+      background:var(--setor-pergaminho);
+      border:1px solid var(--line);
+      border-radius:28px;
+      padding:30px;
+      box-shadow:var(--shadow);
+      margin-bottom:22px;
+    }
+
+    .eyebrow{
+      display:inline-block;
+      padding:8px 14px;
+      border-radius:999px;
+      background:#e4dccb;
+      color:#6b5b46;
+      font-size:14px;
+      font-weight:bold;
+      margin-bottom:14px;
+    }
+
+    h1{
+      margin:0 0 10px 0;
+      font-size:34px;
+      line-height:1.15;
+      color:#704f40;
+    }
+
+    .subtitle{
+      margin:0;
+      font-size:20px;
+      color:var(--muted);
+      line-height:1.7;
+    }
+
+    .trust-box{
+      margin-top:22px;
+      background:#f8f6f0;
+      border:1px solid var(--line);
+      border-left:6px solid var(--setor-marrom-forte);
+      border-radius:18px;
+      padding:18px 18px 18px 16px;
+      font-size:18px;
+      line-height:1.85;
+      color:var(--text);
+    }
+
+    .trust-box strong{
+      display:block;
+      margin-bottom:6px;
+      font-size:19px;
+    }
+
+    .section-title{
+      margin:28px 0 14px;
+      font-size:26px;
+      color:#704f40;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0,1fr));
+      gap:18px;
+    }
+
+    .card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:24px;
+      padding:22px;
+      box-shadow:var(--shadow);
+    }
+
+    .card.pergaminho{
+      background:var(--setor-pergaminho);
+    }
+
+    .card.marrom{
+      background:var(--setor-marrom);
+      border-left:8px solid var(--setor-marrom-forte);
+    }
+
+    .card.tecnico{
+      background:var(--setor-tecnico);
+    }
+
+    .card.verde{
+      background:var(--setor-verde);
+      border-left:8px solid #6c9b86;
+    }
+
+    .card.dourado{
+      background:var(--setor-dourado);
+      border-left:8px solid #b89042;
+    }
+
+    h2{
+      margin:0 0 12px 0;
+      font-size:28px;
+    }
+
+    h3{
+      margin:0 0 10px 0;
+      font-size:22px;
+      color:#6a4a3d;
+    }
+
+    p{
+      margin:0 0 14px 0;
+      font-size:18px;
+      line-height:1.8;
+    }
+
+    ul{
+      margin:10px 0 0 18px;
+      padding:0;
+    }
+
+    li{
+      margin-bottom:8px;
+      font-size:17px;
+      line-height:1.7;
+    }
+
+    .badge{
+      display:inline-block;
+      padding:6px 12px;
+      border-radius:999px;
+      font-size:13px;
+      font-weight:bold;
+      margin-bottom:12px;
+      background:rgba(255,255,255,.65);
+      color:#4d4336;
+      border:1px solid rgba(0,0,0,.06);
+    }
+
+    .footer-note{
+      margin-top:24px;
+      text-align:center;
+      font-size:18px;
+      color:var(--muted);
+      line-height:1.8;
+    }
+
+    @media (max-width:900px){
+      .grid{
+        grid-template-columns:1fr;
+      }
+
+      h1{
+        font-size:30px;
+      }
+
+      h2{
+        font-size:25px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <div class="topbar">
+      <button class="small-btn" onclick="history.back()">← Retornar</button>
+      <button class="small-btn" onclick="window.location.href='index.html'">Sair do sistema</button>
+    </div>
+
+    <section class="hero">
+      <div class="eyebrow">Lapidar • Seção 05 • Módulo 07</div>
+      <h1>Avaliação Literária — Mapa Estrutural</h1>
+      <p class="subtitle">
+        Esta página organiza tudo o que pertence oficialmente à Avaliação Literária antes de mexermos item por item dentro do módulo.
+      </p>
+
+      <div class="trust-box">
+        <strong>Aqui olhamos sua obra com atenção e respeito.</strong>
+        A Avaliação Literária é a leitura crítica da qualidade narrativa e literária do texto. Ela não substitui o Analisador de Obra, porque seu foco é a escrita da obra, e não o seu posicionamento editorial.
+      </div>
+    </section>
+
+    <h2 class="section-title">1. Base do módulo</h2>
+    <div class="grid">
+      <section class="card pergaminho">
+        <div class="badge">Entrada do módulo</div>
+        <h3>O que a Avaliação recebe</h3>
+        <ul>
+          <li>Texto-base vindo do Bolsão</li>
+          <li>Ou versão já lapidada, se for o caso</li>
+          <li>Estrutura principal da obra</li>
+          <li>Título, autoria e corpo narrativo</li>
+        </ul>
+      </section>
+
+      <section class="card verde">
+        <div class="badge">Limite do módulo</div>
+        <h3>O que a Avaliação não faz</h3>
+        <ul>
+          <li>Não substitui o Bolsão</li>
+          <li>Não realiza diagramação</li>
+          <li>Não faz tradução</li>
+          <li>Não cria capa</li>
+          <li>Não posiciona a obra no mercado editorial</li>
+        </ul>
+      </section>
+    </div>
+
+    <h2 class="section-title">2. Natureza da Avaliação Literária</h2>
+    <div class="grid">
+      <section class="card.marrom"></section>
+      <section class="card marrom">
+        <div class="badge">Parecer qualitativo</div>
+        <h3>O que a Avaliação observa</h3>
+        <ul>
+          <li>Clareza da escrita</li>
+          <li>Coerência literária</li>
+          <li>Construção de personagens</li>
+          <li>Ritmo narrativo</li>
+          <li>Consistência da linguagem</li>
+          <li>Maturidade do texto</li>
+        </ul>
+      </section>
+
+      <section class="card tecnico">
+        <div class="badge">Função do módulo</div>
+        <h3>O que a Avaliação entrega</h3>
+        <ul>
+          <li>Parecer crítico estruturado</li>
+          <li>Observações sobre a qualidade narrativa</li>
+          <li>Sugestões de fortalecimento do texto</li>
+          <li>Leitura profissional da obra</li>
+        </ul>
+      </section>
+    </div>
+
+    <h2 class="section-title">3. Diferença para o Analisador de Obra</h2>
+    <div class="grid">
+      <section class="card dourado">
+        <div class="badge">Diferença essencial</div>
+        <h3>Avaliação Literária</h3>
+        <ul>
+          <li>Olha a qualidade da escrita</li>
+          <li>Observa narrativa, ritmo e linguagem</li>
+          <li>Faz parecer crítico da obra como literatura</li>
+        </ul>
+      </section>
+
+      <section class="card verde">
+        <div class="badge">Módulo diferente</div>
+        <h3>Analisador de Obra</h3>
+        <ul>
+          <li>Olha posicionamento editorial</li>
+          <li>Observa público, gênero e circulação</li>
+          <li>Faz diagnóstico técnico e estratégico</li>
+        </ul>
+      </section>
+    </div>
+
+    <h2 class="section-title">4. Papel do módulo na jornada</h2>
+    <div class="grid">
+      <section class="card tecnico">
+        <div class="badge">Quando usar</div>
+        <h3>Momento ideal de uso</h3>
+        <ul>
+          <li>Quando o autor quer saber como está a qualidade literária do texto</li>
+          <li>Antes de seguir para fases posteriores</li>
+          <li>Como apoio à lapidação e amadurecimento da obra</li>
+        </ul>
+      </section>
+
+      <section class="card marrom">
+        <div class="badge">Resultado final</div>
+        <h3>Entrega do módulo</h3>
+        <ul>
+          <li>Relatório crítico estruturado</li>
+          <li>Parecer sobre o texto como literatura</li>
+          <li>Base para decisões futuras do autor</li>
+        </ul>
+      </section>
+    </div>
+
+    <div class="footer-note">
+      Aqui olhamos sua obra com atenção e respeito, buscando fortalecer o caminho que ela já começou.
+    </div>
+
+  </div>
+</body>
+</html>
