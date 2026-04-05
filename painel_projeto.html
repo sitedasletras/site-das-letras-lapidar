@@ -6,22 +6,26 @@
 <title>Painel do Projeto — Lapidar</title>
 
 <style>
+*{
+box-sizing:border-box;
+}
 
 body{
 margin:0;
-font-family:Arial;
+font-family:Arial,sans-serif;
 background:linear-gradient(180deg,#0d2a21,#04120d);
-color:white;
+color:#ffffff;
 }
 
 .container{
-max-width:1100px;
-margin:auto;
+max-width:1180px;
+margin:0 auto;
 padding:24px;
 }
 
 .card{
-background:rgba(255,255,255,.07);
+background:rgba(255,255,255,0.07);
+border:1px solid rgba(255,255,255,0.08);
 border-radius:18px;
 padding:24px;
 margin-bottom:20px;
@@ -31,8 +35,19 @@ h1,h2{
 margin-top:0;
 }
 
+p{
+color:#d8efe2;
+line-height:1.6;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+gap:18px;
+}
+
 .info{
-background:rgba(255,255,255,.05);
+background:rgba(255,255,255,0.05);
 padding:12px;
 border-radius:12px;
 margin-bottom:10px;
@@ -42,23 +57,23 @@ margin-bottom:10px;
 display:inline-block;
 padding:8px 14px;
 border-radius:999px;
-background:rgba(255,255,255,.08);
+background:rgba(255,255,255,0.08);
 margin:4px;
 font-size:14px;
 }
 
 .status-ok{
-background:rgba(46,204,113,.15);
+background:rgba(46,204,113,0.15);
 border-left:4px solid #2ecc71;
 }
 
 .status-wait{
-background:rgba(241,196,15,.15);
+background:rgba(241,196,15,0.15);
 border-left:4px solid #f1c40f;
 }
 
 .status-stop{
-background:rgba(231,76,60,.15);
+background:rgba(231,76,60,0.15);
 border-left:4px solid #e74c3c;
 }
 
@@ -90,351 +105,288 @@ background:#2ecc71;
 color:#062414;
 }
 
+.btn:hover{
+background:#29b765;
+}
+
 .btn2{
 background:#dcefe4;
 color:#103222;
+}
+
+.btn2:hover{
+background:#c8e6d4;
 }
 
 .autosave{
 margin-bottom:14px;
 padding:12px;
 border-radius:12px;
-background:rgba(46,204,113,.12);
-border:1px solid rgba(46,204,113,.25);
+background:rgba(46,204,113,0.12);
+border:1px solid rgba(46,204,113,0.25);
 font-size:14px;
+color:#dbffea;
 }
 
+.file-item{
+padding:10px 12px;
+border-radius:10px;
+background:rgba(255,255,255,0.05);
+margin-bottom:8px;
+font-size:14px;
+line-height:1.5;
+}
+
+.empty{
+color:#cfe8da;
+opacity:0.9;
+}
 </style>
 </head>
-
 <body>
 
 <div class="container">
 
-<div class="card">
+    <div class="card">
+        <h1>Painel do Projeto</h1>
 
-<h1>Painel do Projeto</h1>
+        <div class="autosave">
+            Projeto salvo automaticamente.
+        </div>
 
-<div class="autosave">
-Projeto salvo automaticamente.
-</div>
+        <div class="progress-bar">
+            <div class="progress-fill" id="barra"></div>
+        </div>
 
-<div class="progress-bar">
-<div class="progress-fill" id="barra"></div>
-</div>
+        <br>
 
-<br>
+        <div class="info">
+            <strong>Título:</strong>
+            <span id="titulo"></span>
+        </div>
 
-<div class="info">
-<strong>Título:</strong>
-<span id="titulo"></span>
-</div>
+        <div class="info">
+            <strong>Autor:</strong>
+            <span id="autor"></span>
+        </div>
 
-<div class="info">
-<strong>Autor:</strong>
-<span id="autor"></span>
-</div>
+        <div class="info">
+            <strong>Criado em:</strong>
+            <span id="dataCriacao"></span>
+        </div>
 
-<div class="info">
-<strong>Criado em:</strong>
-<span id="dataCriacao"></span>
-</div>
+        <div class="info">
+            <strong>Última atualização:</strong>
+            <span id="ultimaAtualizacao"></span>
+        </div>
+    </div>
 
-<div class="info">
-<strong>Última atualização:</strong>
-<span id="ultimaAtualizacao"></span>
-</div>
+    <div class="grid">
 
-</div>
+        <div class="card">
+            <h2>Status editorial</h2>
 
+            <div id="statusLapidacao" class="info"></div>
+            <div id="statusPagamento" class="info"></div>
+            <div id="statusExportacao" class="info"></div>
+        </div>
 
-<div class="card">
+        <div class="card">
+            <h2>Próxima ação</h2>
 
-<h2>Status editorial</h2>
+            <div class="info" id="proximaAcao"></div>
 
-<div id="statusLapidacao" class="info"></div>
+            <button class="btn" onclick="continuarFluxo()">
+                Continuar fluxo editorial
+            </button>
 
-<div id="statusPagamento" class="info"></div>
+            <button class="btn2" onclick="abrirHistorico()">
+                Abrir histórico de projetos
+            </button>
 
-<div id="statusExportacao" class="info"></div>
+            <button class="btn2" onclick="novoProjeto()">
+                Criar novo projeto
+            </button>
+        </div>
 
-</div>
+    </div>
 
+    <div class="card">
+        <h2>Módulos selecionados</h2>
+        <div id="modulos"></div>
+    </div>
 
-<div class="card">
+    <div class="card">
+        <h2>Arquivos enviados</h2>
+        <div id="arquivosProjeto"></div>
+    </div>
 
-<h2>Módulos selecionados</h2>
-
-<div id="modulos"></div>
-
-</div>
-
-
-<div class="card">
-
-<h2>Próxima ação</h2>
-
-<div id="proximaAcao"></div>
-
-<br>
-
-<button class="btn" onclick="continuarFluxo()">
-Continuar fluxo editorial
-</button>
-
-<button class="btn2" onclick="abrirHistorico()">
-Abrir histórico de projetos
-</button>
-
-<button class="btn2" onclick="novoProjeto()">
-Criar novo projeto
-</button>
-
-</div>
-
+    <div class="card">
+        <h2>Texto-base lido</h2>
+        <div class="info" id="textoBasePreview"></div>
+    </div>
 
 </div>
-
 
 <script>
-
 function obterProjeto(){
-
-return JSON.parse(localStorage.getItem("projeto_lapidar"));
-
+    return JSON.parse(localStorage.getItem("projeto_lapidar"));
 }
-
 
 function salvarProjeto(p){
+    p.ultimaAtualizacao = new Date().toISOString();
 
-p.ultimaAtualizacao=new Date().toISOString();
+    localStorage.setItem("projeto_lapidar", JSON.stringify(p));
 
-localStorage.setItem(
-"projeto_lapidar",
-JSON.stringify(p)
-);
+    let historico = JSON.parse(localStorage.getItem("historico_lapidar") || "[]");
+    historico = historico.map(x => x.id === p.id ? p : x);
 
-let historico=
-JSON.parse(
-localStorage.getItem("historico_lapidar")
-|| "[]"
-);
-
-historico=
-historico.map(x=>x.id===p.id?p:x);
-
-localStorage.setItem(
-"historico_lapidar",
-JSON.stringify(historico)
-);
-
+    localStorage.setItem("historico_lapidar", JSON.stringify(historico));
 }
-
 
 function formatarData(d){
-
-return new Date(d).toLocaleString("pt-BR");
-
+    if(!d) return "Não informado";
+    return new Date(d).toLocaleString("pt-BR");
 }
-
 
 function atualizarPainel(){
+    let projeto = obterProjeto();
 
-let projeto=obterProjeto();
+    if(!projeto){
+        window.location.href = "producao_integrada.html";
+        return;
+    }
 
-if(!projeto){
+    document.getElementById("titulo").innerText = projeto.titulo || "";
+    document.getElementById("autor").innerText = projeto.autor || "";
+    document.getElementById("dataCriacao").innerText = formatarData(projeto.criadoEm);
+    document.getElementById("ultimaAtualizacao").innerText = formatarData(projeto.ultimaAtualizacao);
 
-window.location.href="producao_integrada.html";
+    let progresso = 20;
 
-return;
+    if(projeto.lapidacaoExecutada){
+        document.getElementById("statusLapidacao").innerHTML = "Lapidação Literária concluída";
+        document.getElementById("statusLapidacao").className = "info status-ok";
+        progresso = 50;
+    } else {
+        document.getElementById("statusLapidacao").innerHTML = "Lapidação Literária pendente";
+        document.getElementById("statusLapidacao").className = "info status-wait";
+    }
 
+    if(projeto.pagamentoConfirmado){
+        document.getElementById("statusPagamento").innerHTML = "Pagamento confirmado";
+        document.getElementById("statusPagamento").className = "info status-ok";
+        progresso = 75;
+    } else {
+        document.getElementById("statusPagamento").innerHTML = "Pagamento pendente";
+        document.getElementById("statusPagamento").className = "info status-wait";
+    }
+
+    if(projeto.exportadoEm){
+        document.getElementById("statusExportacao").innerHTML = "Exportação concluída";
+        document.getElementById("statusExportacao").className = "info status-ok";
+        progresso = 100;
+    } else if(projeto.downloadLiberado){
+        document.getElementById("statusExportacao").innerHTML = "Exportação disponível";
+        document.getElementById("statusExportacao").className = "info status-wait";
+    } else {
+        document.getElementById("statusExportacao").innerHTML = "Exportação indisponível";
+        document.getElementById("statusExportacao").className = "info status-stop";
+    }
+
+    document.getElementById("barra").style.width = progresso + "%";
+
+    let lista = "";
+    (projeto.modulosSelecionados || []).forEach(m => {
+        lista += `<span class="tag">${m}</span>`;
+    });
+    document.getElementById("modulos").innerHTML = lista || '<span class="empty">Nenhum módulo selecionado.</span>';
+
+    if(!projeto.lapidacaoExecutada){
+        document.getElementById("proximaAcao").innerText = "Próximo passo: executar Lapidação Literária.";
+    } else if(!projeto.pagamentoConfirmado){
+        document.getElementById("proximaAcao").innerText = "Próximo passo: confirmar pagamento.";
+    } else if(!projeto.exportadoEm){
+        document.getElementById("proximaAcao").innerText = "Próximo passo: exportar obra.";
+    } else {
+        document.getElementById("proximaAcao").innerText = "Projeto concluído.";
+    }
+
+    renderizarArquivos(projeto);
+    renderizarTextoBase(projeto);
+
+    salvarProjeto(projeto);
 }
 
-document.getElementById("titulo").innerText=projeto.titulo;
+function renderizarArquivos(projeto){
+    const box = document.getElementById("arquivosProjeto");
+    const arquivos = projeto.arquivos || {};
 
-document.getElementById("autor").innerText=projeto.autor;
+    const linhas = [];
 
-document.getElementById("dataCriacao").innerText=
-formatarData(projeto.criadoEm);
+    if(arquivos.manuscrito) linhas.push(`<div class="file-item"><strong>Manuscrito:</strong> ${arquivos.manuscrito}</div>`);
+    if(arquivos.capa) linhas.push(`<div class="file-item"><strong>Capa:</strong> ${arquivos.capa}</div>`);
+    if(arquivos.contracapa) linhas.push(`<div class="file-item"><strong>Contracapa:</strong> ${arquivos.contracapa}</div>`);
+    if(arquivos.orelhaDianteira) linhas.push(`<div class="file-item"><strong>Orelha dianteira:</strong> ${arquivos.orelhaDianteira}</div>`);
+    if(arquivos.orelhaTraseira) linhas.push(`<div class="file-item"><strong>Orelha traseira:</strong> ${arquivos.orelhaTraseira}</div>`);
+    if(arquivos.fotoAutor) linhas.push(`<div class="file-item"><strong>Foto do autor:</strong> ${arquivos.fotoAutor}</div>`);
 
-document.getElementById("ultimaAtualizacao").innerText=
-formatarData(projeto.ultimaAtualizacao);
+    if(Array.isArray(arquivos.selos) && arquivos.selos.length){
+        linhas.push(`<div class="file-item"><strong>Selos:</strong> ${arquivos.selos.join(" | ")}</div>`);
+    }
 
-let progresso=20;
+    if(Array.isArray(arquivos.imagensInternas) && arquivos.imagensInternas.length){
+        linhas.push(`<div class="file-item"><strong>Imagens internas:</strong> ${arquivos.imagensInternas.join(" | ")}</div>`);
+    }
 
-if(projeto.lapidacaoExecutada){
-
-document.getElementById("statusLapidacao").innerHTML=
-"Lapidação Literária concluída";
-
-document.getElementById("statusLapidacao").className=
-"info status-ok";
-
-progresso=50;
-
-}else{
-
-document.getElementById("statusLapidacao").innerHTML=
-"Lapidação Literária pendente";
-
-document.getElementById("statusLapidacao").className=
-"info status-wait";
-
+    box.innerHTML = linhas.length ? linhas.join("") : '<div class="empty">Nenhum arquivo enviado ainda.</div>';
 }
 
+function renderizarTextoBase(projeto){
+    const texto = (projeto.textoBaseLido || "").trim();
+    const box = document.getElementById("textoBasePreview");
 
-if(projeto.pagamentoConfirmado){
+    if(!texto){
+        box.innerHTML = '<span class="empty">Nenhum texto-base lido automaticamente ainda.</span>';
+        return;
+    }
 
-document.getElementById("statusPagamento").innerHTML=
-"Pagamento confirmado";
-
-document.getElementById("statusPagamento").className=
-"info status-ok";
-
-progresso=75;
-
-}else{
-
-document.getElementById("statusPagamento").innerHTML=
-"Pagamento pendente";
-
-document.getElementById("statusPagamento").className=
-"info status-wait";
-
+    const preview = texto.length > 1200 ? texto.slice(0, 1200) + "..." : texto;
+    box.textContent = preview;
 }
-
-
-if(projeto.exportadoEm){
-
-document.getElementById("statusExportacao").innerHTML=
-"Exportação concluída";
-
-document.getElementById("statusExportacao").className=
-"info status-ok";
-
-progresso=100;
-
-}else if(projeto.downloadLiberado){
-
-document.getElementById("statusExportacao").innerHTML=
-"Exportação disponível";
-
-document.getElementById("statusExportacao").className=
-"info status-wait";
-
-}else{
-
-document.getElementById("statusExportacao").innerHTML=
-"Exportação indisponível";
-
-document.getElementById("statusExportacao").className=
-"info status-stop";
-
-}
-
-
-document.getElementById("barra").style.width=
-progresso+"%";
-
-
-let lista="";
-
-(projeto.modulosSelecionados||[])
-.forEach(m=>{
-
-lista+=`<span class="tag">${m}</span>`;
-
-});
-
-document.getElementById("modulos").innerHTML=lista;
-
-
-if(!projeto.lapidacaoExecutada){
-
-document.getElementById("proximaAcao").innerText=
-"Próximo passo: executar Lapidação Literária.";
-
-}
-
-else if(!projeto.pagamentoConfirmado){
-
-document.getElementById("proximaAcao").innerText=
-"Próximo passo: confirmar pagamento.";
-
-}
-
-else if(!projeto.exportadoEm){
-
-document.getElementById("proximaAcao").innerText=
-"Próximo passo: exportar obra.";
-
-}
-
-else{
-
-document.getElementById("proximaAcao").innerText=
-"Projeto concluído.";
-
-}
-
-salvarProjeto(projeto);
-
-}
-
 
 function continuarFluxo(){
+    let projeto = obterProjeto();
 
-let projeto=obterProjeto();
+    if(!projeto.lapidacaoExecutada){
+        window.location.href = "lapidacao_literaria.html";
+        return;
+    }
 
-if(!projeto.lapidacaoExecutada){
+    if(!projeto.pagamentoConfirmado){
+        window.location.href = "pagamento.html";
+        return;
+    }
 
-window.location.href="lapidacao_literaria.html";
+    if(!projeto.exportadoEm){
+        window.location.href = "exportador_obra.html";
+        return;
+    }
 
-return;
-
+    window.location.href = "projeto_concluido.html";
 }
-
-if(!projeto.pagamentoConfirmado){
-
-window.location.href="pagamento.html";
-
-return;
-
-}
-
-if(!projeto.exportadoEm){
-
-window.location.href="exportador_obra.html";
-
-return;
-
-}
-
-window.location.href="projeto_concluido.html";
-
-}
-
 
 function abrirHistorico(){
-
-window.location.href="historico_projetos.html";
-
+    window.location.href = "historico_projetos.html";
 }
-
 
 function novoProjeto(){
-
-localStorage.removeItem("projeto_lapidar");
-
-window.location.href="producao_integrada.html";
-
+    localStorage.removeItem("projeto_lapidar");
+    window.location.href = "producao_integrada.html";
 }
 
-
 atualizarPainel();
-
 </script>
-
 
 <script src="session_guard.js"></script>
 
