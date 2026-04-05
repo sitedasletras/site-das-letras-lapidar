@@ -1,421 +1,333 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lapidar • Módulo 01 — Mapa do Bolsão</title>
-  <style>
-    :root{
-      --bg-geral:#f7f5ef;
-      --setor-pergaminho:#f1e8d8;
-      --setor-tecnico:#e8decc;
-      --setor-marrom:#c7b299;
-      --setor-marrom-forte:#a78d72;
-      --setor-verde:#5f8f86;
-      --setor-verde-claro:#dfe9e6;
-      --setor-dourado:#a87f4c;
-      --card:#ffffff;
-      --line:#c9c1b2;
-      --text:#2f2a24;
-      --muted:#5f574c;
-      --shadow:0 12px 28px rgba(67, 58, 45, 0.10);
-      --radius:20px;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lapidar • Módulo 01 — Mapa do Bolsão</title>
 
-    *{
-      box-sizing:border-box;
-    }
+<style>
 
-    body{
-      margin:0;
-      font-family: Arial, Helvetica, sans-serif;
-      background:var(--bg-geral);
-      color:var(--text);
-    }
+:root{
+--bg:#f7f5ef;
+--pergaminho:#f1e8d8;
+--tecnico:#e8decc;
+--marrom:#c7b299;
+--marrom-forte:#a78d72;
+--verde:#5f8f86;
+--dourado:#a87f4c;
+--linha:#c9c1b2;
+--texto:#2f2a24;
+--muted:#5f574c;
+}
 
-    .container{
-      max-width:1180px;
-      margin:0 auto;
-      padding:28px 16px 40px;
-    }
+body{
+margin:0;
+font-family:Arial, Helvetica, sans-serif;
+background:var(--bg);
+color:var(--texto);
+}
 
-    .hero{
-      background:var(--setor-pergaminho);
-      border:1px solid var(--line);
-      border-radius:28px;
-      padding:30px;
-      box-shadow:var(--shadow);
-      margin-bottom:22px;
-    }
+.container{
+max-width:1150px;
+margin:auto;
+padding:25px;
+}
 
-    .eyebrow{
-      display:inline-block;
-      padding:8px 14px;
-      border-radius:999px;
-      background:#e4dccb;
-      color:#6b5b46;
-      font-size:14px;
-      font-weight:bold;
-      margin-bottom:14px;
-    }
+.topbar{
+display:flex;
+justify-content:space-between;
+margin-bottom:18px;
+}
 
-    h1{
-      margin:0 0 10px 0;
-      font-size:34px;
-      line-height:1.15;
-    }
+.btn{
+padding:10px 18px;
+border-radius:12px;
+border:none;
+cursor:pointer;
+font-size:15px;
+font-weight:bold;
+transition:0.2s;
+}
 
-    .subtitle{
-      margin:0;
-      font-size:20px;
-      color:var(--muted);
-      line-height:1.7;
-    }
+.btn-bolsao{
+background:#e9e3d6;
+}
 
-    .trust-box{
-      margin-top:22px;
-      background:#f8f6f0;
-      border:1px solid var(--line);
-      border-left:6px solid var(--setor-verde);
-      border-radius:18px;
-      padding:18px 18px 18px 16px;
-      font-size:18px;
-      line-height:1.85;
-      color:var(--text);
-    }
+.btn-bolsao:hover{
+background:#ded6c5;
+}
 
-    .trust-box strong{
-      display:block;
-      margin-bottom:6px;
-      font-size:19px;
-    }
+.btn-sistema{
+background:#d7d2c6;
+}
 
-    .grid{
-      display:grid;
-      grid-template-columns:repeat(2, minmax(0,1fr));
-      gap:18px;
-    }
+.btn-sistema:hover{
+background:#c9c3b6;
+}
 
-    .card{
-      background:var(--card);
-      border:1px solid var(--line);
-      border-radius:24px;
-      padding:22px;
-      box-shadow:var(--shadow);
-    }
+.hero{
+background:var(--pergaminho);
+padding:28px;
+border-radius:24px;
+border:1px solid var(--linha);
+margin-bottom:25px;
+}
 
-    .card.pergaminho{
-      background:var(--setor-pergaminho);
-    }
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:18px;
+}
 
-    .card.tecnico{
-      background:var(--setor-tecnico);
-    }
+.card{
+background:white;
+padding:22px;
+border-radius:20px;
+border:1px solid var(--linha);
+}
 
-    .card.marrom{
-      background:#f4ede3;
-      border-left:8px solid var(--setor-marrom-forte);
-    }
+.pergaminho{
+background:var(--pergaminho);
+}
 
-    .card.verde{
-      background:#f3f8f6;
-      border-left:8px solid var(--setor-verde);
-    }
+.tecnico{
+background:var(--tecnico);
+}
 
-    .card.dourado{
-      background:#fbf6ee;
-      border-left:8px solid var(--setor-dourado);
-    }
+.marrom{
+background:#f4ede3;
+border-left:7px solid var(--marrom-forte);
+}
 
-    h2{
-      margin:0 0 12px 0;
-      font-size:28px;
-    }
+.verde{
+background:#f3f8f6;
+border-left:7px solid var(--verde);
+}
 
-    h3{
-      margin:0 0 10px 0;
-      font-size:22px;
-    }
+.dourado{
+background:#fbf6ee;
+border-left:7px solid var(--dourado);
+}
 
-    p{
-      margin:0 0 14px 0;
-      font-size:18px;
-      line-height:1.8;
-    }
+h1{
+margin:0 0 10px 0;
+}
 
-    ul{
-      margin:10px 0 0 18px;
-      padding:0;
-    }
+h2{
+margin-top:30px;
+color:var(--verde);
+}
 
-    li{
-      margin-bottom:8px;
-      font-size:17px;
-      line-height:1.7;
-    }
+ul{
+margin-top:10px;
+}
 
-    .section-title{
-      margin:28px 0 14px;
-      font-size:26px;
-      color:var(--setor-verde);
-    }
+.footer{
+text-align:center;
+margin-top:25px;
+font-size:18px;
+color:var(--muted);
+}
 
-    .badge{
-      display:inline-block;
-      padding:6px 12px;
-      border-radius:999px;
-      font-size:13px;
-      font-weight:bold;
-      margin-bottom:12px;
-      background:rgba(255,255,255,.65);
-      color:#4d4336;
-      border:1px solid rgba(0,0,0,.06);
-    }
+@media(max-width:900px){
+.grid{
+grid-template-columns:1fr;
+}
+}
 
-    .footer-note{
-      margin-top:24px;
-      text-align:center;
-      font-size:18px;
-      color:var(--muted);
-      line-height:1.8;
-    }
-
-    @media (max-width:900px){
-      .grid{
-        grid-template-columns:1fr;
-      }
-
-      h1{
-        font-size:30px;
-      }
-
-      h2{
-        font-size:25px;
-      }
-    }
-  </style>
+</style>
 </head>
+
 <body>
-  <div class="container">
 
-    <section class="hero">
-      <div class="eyebrow">Lapidar • Módulo 01</div>
-      <h1>Bolsão de Limpeza Editorial — Mapa Estrutural</h1>
-      <p class="subtitle">
-        Esta página organiza tudo o que pertence oficialmente ao Bolsão antes de mexermos item por item dentro do módulo.
-      </p>
+<div class="container">
 
-      <div class="trust-box">
-        <strong>O Bolsão é a entrada obrigatória do Lapidar.</strong>
-        Ele recebe a obra, interpreta sua estrutura, organiza os elementos técnicos e prepara o texto-base institucional sem alterar o conteúdo criativo do autor.
-      </div>
-    </section>
+<div class="topbar">
 
-    <h2 class="section-title">1. Entrada universal da obra</h2>
-    <div class="grid">
-      <section class="card pergaminho">
-        <div class="badge">Setor de recepção</div>
-        <h3>Upload multiformato</h3>
-        <ul>
-          <li>DOC</li>
-          <li>DOCX</li>
-          <li>PDF</li>
-          <li>TXT</li>
-          <li>RTF</li>
-          <li>ODT</li>
-          <li>JPG</li>
-          <li>PNG</li>
-          <li>ZIP / conjunto de materiais</li>
-        </ul>
-      </section>
+<button class="btn btn-bolsao"
+onclick="history.back()">
+← Sair do Bolsão
+</button>
 
-      <section class="card tecnico">
-        <div class="badge">Setor técnico</div>
-        <h3>Conversão para formato interno</h3>
-        <ul>
-          <li>O Bolsão identifica o melhor formato interno de trabalho</li>
-          <li>Obras textuais tendem a virar base DOCX interna</li>
-          <li>Obras visuais ou híbridas podem seguir por fluxo próprio</li>
-          <li>O autor não escolhe o formato interno; o Bolsão define</li>
-        </ul>
-      </section>
-    </div>
+<button class="btn btn-sistema"
+onclick="window.location.href='index.html'">
+Encerrar sessão
+</button>
 
-    <h2 class="section-title">2. Leitura automática da obra</h2>
-    <div class="grid">
-      <section class="card tecnico">
-        <div class="badge">Leitura estrutural</div>
-        <h3>Identificações iniciais</h3>
-        <ul>
-          <li>Título</li>
-          <li>Subtítulo</li>
-          <li>Autor</li>
-          <li>Idioma</li>
-          <li>Capítulos</li>
-          <li>Partes</li>
-          <li>Epígrafes</li>
-          <li>Sumário já existente</li>
-        </ul>
-      </section>
+</div>
 
-      <section class="card marrom">
-        <div class="badge">Leitura interpretativa</div>
-        <h3>Classificação provável da obra</h3>
-        <ul>
-          <li>Romance</li>
-          <li>Conto</li>
-          <li>Poesia</li>
-          <li>Infantil / Juvenil</li>
-          <li>Livro técnico</li>
-          <li>Livro de receitas</li>
-          <li>Antologia</li>
-          <li>Miscelânea</li>
-          <li>Projeto híbrido</li>
-        </ul>
-      </section>
-    </div>
 
-    <h2 class="section-title">3. Limpeza editorial e organização técnica</h2>
-    <div class="grid">
-      <section class="card tecnico">
-        <div class="badge">Limpeza técnica</div>
-        <h3>O que o Bolsão corrige</h3>
-        <ul>
-          <li>Espaços duplicados</li>
-          <li>Quebras erradas</li>
-          <li>Marcadores invisíveis</li>
-          <li>Metadados herdados</li>
-          <li>Resíduos de Word / copiar e colar</li>
-          <li>Sujeiras estruturais do rascunho</li>
-        </ul>
-      </section>
+<div class="hero">
 
-      <section class="card verde">
-        <div class="badge">Proteção autoral</div>
-        <h3>O que o Bolsão não faz</h3>
-        <ul>
-          <li>Não reescreve a obra</li>
-          <li>Não altera a voz autoral</li>
-          <li>Não modifica a estrutura criativa</li>
-          <li>Não substitui a intenção do autor</li>
-          <li>Não executa humanização nesta etapa</li>
-        </ul>
-      </section>
-    </div>
+<h1>Bolsão de Limpeza Editorial — Mapa Estrutural</h1>
 
-    <h2 class="section-title">4. Elementos técnicos da obra</h2>
-    <div class="grid">
-      <section class="card marrom">
-        <div class="badge">Pré-textuais</div>
-        <h3>Itens que o Bolsão procura</h3>
-        <ul>
-          <li>Dedicatória</li>
-          <li>Prefácio</li>
-          <li>Sinopse</li>
-          <li>Biografia</li>
-          <li>Agradecimentos</li>
-          <li>Epígrafe</li>
-          <li>Sumário</li>
-          <li>Ficha catalográfica</li>
-        </ul>
-      </section>
+<p>
+Esta página organiza tudo o que pertence oficialmente ao Bolsão antes da execução técnica do módulo.
+</p>
 
-      <section class="card dourado">
-        <div class="badge">Geração opcional</div>
-        <h3>Itens que o Bolsão pode gerar</h3>
-        <ul>
-          <li>Sinopse</li>
-          <li>Prefácio</li>
-          <li>Biografia do autor</li>
-          <li>Ficha de Dados da Obra</li>
-          <li>Sumário provisório</li>
-        </ul>
-        <p>
-          Cada item opcional pode receber CVR sugerida própria.
-        </p>
-      </section>
-    </div>
+<p>
+O Bolsão recebe a obra, interpreta sua estrutura e prepara o texto-base institucional sem alterar o conteúdo criativo do autor.
+</p>
 
-    <h2 class="section-title">5. Catalogação preliminar</h2>
-    <div class="grid">
-      <section class="card tecnico">
-        <div class="badge">Ficha oficial</div>
-        <h3>Se o autor já possui ficha catalográfica</h3>
-        <ul>
-          <li>O Bolsão pergunta se a obra já possui ficha oficial</li>
-          <li>Se sim, libera upload da ficha</li>
-          <li>Se não, prepara a Ficha de Dados da Obra</li>
-        </ul>
-      </section>
+</div>
 
-      <section class="card marrom">
-        <div class="badge">Classificação interna</div>
-        <h3>Dados sugeridos automaticamente</h3>
-        <ul>
-          <li>Tabela Cutter</li>
-          <li>CDD provável</li>
-          <li>Descritores temáticos</li>
-          <li>Tipo editorial da obra</li>
-        </ul>
-      </section>
-    </div>
 
-    <h2 class="section-title">6. Imagens e anexos</h2>
-    <div class="grid">
-      <section class="card tecnico">
-        <div class="badge">Detecção</div>
-        <h3>O que o Bolsão registra</h3>
-        <ul>
-          <li>Existência de imagens internas</li>
-          <li>Quantidade aproximada</li>
-          <li>Preto e branco ou coloridas</li>
-          <li>Natureza visual do projeto</li>
-        </ul>
-      </section>
+<h2>1. Entrada universal da obra</h2>
 
-      <section class="card verde">
-        <div class="badge">Responsabilidade da diagramação</div>
-        <h3>O que não fica no Bolsão</h3>
-        <ul>
-          <li>Posicionamento de imagem</li>
-          <li>Legenda</li>
-          <li>Moldura visual</li>
-          <li>Tamanho da imagem na página</li>
-          <li>Composição gráfica do miolo</li>
-        </ul>
-      </section>
-    </div>
+<div class="grid">
 
-    <h2 class="section-title">7. Saída oficial do Bolsão</h2>
-    <div class="grid">
-      <section class="card dourado">
-        <div class="badge">Produto do módulo</div>
-        <h3>Texto-base Lapidar</h3>
-        <ul>
-          <li>Texto limpo</li>
-          <li>Estrutura reconhecida</li>
-          <li>Metadados organizados</li>
-          <li>Classificação editorial preliminar</li>
-          <li>Relatório inicial da obra</li>
-        </ul>
-      </section>
+<div class="card pergaminho">
 
-      <section class="card verde">
-        <div class="badge">Transição para produção</div>
-        <h3>Saída do Módulo 01</h3>
-        <ul>
-          <li>Continuar para os módulos seguintes</li>
-          <li>Ou encerrar aqui</li>
-          <li>Se houver duas recusas de TIC depois, o Mesário Mor é acionado</li>
-          <li>Downloads externos só após confirmação via gateway</li>
-        </ul>
-      </section>
-    </div>
+<h3>Upload multiformato</h3>
 
-    <div class="footer-note">
-      O Lapidar trabalha de mãos dadas com o autor. Cada etapa é realizada em ação conjunta, sempre com sua autorização.
-    </div>
+<ul>
+<li>DOC</li>
+<li>DOCX</li>
+<li>PDF</li>
+<li>TXT</li>
+<li>RTF</li>
+<li>ODT</li>
+<li>JPG</li>
+<li>PNG</li>
+<li>ZIP</li>
+</ul>
 
-  </div>
+</div>
+
+
+<div class="card tecnico">
+
+<h3>Conversão interna automática</h3>
+
+<ul>
+<li>Formato interno definido pelo Bolsão</li>
+<li>Base textual convertida automaticamente</li>
+<li>Projetos híbridos mantêm fluxo próprio</li>
+</ul>
+
+</div>
+
+</div>
+
+
+<h2>2. Leitura estrutural automática</h2>
+
+<div class="grid">
+
+<div class="card tecnico">
+
+<h3>Identificações iniciais</h3>
+
+<ul>
+<li>Título</li>
+<li>Autor</li>
+<li>Idioma</li>
+<li>Capítulos</li>
+<li>Partes</li>
+<li>Epígrafes</li>
+</ul>
+
+</div>
+
+
+<div class="card marrom">
+
+<h3>Classificação editorial provável</h3>
+
+<ul>
+<li>Romance</li>
+<li>Conto</li>
+<li>Poesia</li>
+<li>Infantil</li>
+<li>Técnico</li>
+<li>Receitas</li>
+<li>Antologia</li>
+<li>Miscelânea</li>
+</ul>
+
+</div>
+
+</div>
+
+
+<h2>3. Limpeza técnica editorial</h2>
+
+<div class="grid">
+
+<div class="card tecnico">
+
+<h3>Correções estruturais</h3>
+
+<ul>
+<li>Espaços duplicados</li>
+<li>Quebras erradas</li>
+<li>Metadados herdados</li>
+<li>Marcadores invisíveis</li>
+</ul>
+
+</div>
+
+
+<div class="card verde">
+
+<h3>Proteção da autoria</h3>
+
+<ul>
+<li>Não altera estilo</li>
+<li>Não altera narrativa</li>
+<li>Não altera estrutura criativa</li>
+<li>Não executa humanização</li>
+</ul>
+
+</div>
+
+</div>
+
+
+<h2>4. Elementos técnicos detectados</h2>
+
+<div class="grid">
+
+<div class="card marrom">
+
+<h3>Pré-textuais existentes</h3>
+
+<ul>
+<li>Dedicatória</li>
+<li>Prefácio</li>
+<li>Sinopse</li>
+<li>Biografia</li>
+<li>Sumário</li>
+<li>Ficha catalográfica</li>
+</ul>
+
+</div>
+
+
+<div class="card dourado">
+
+<h3>Itens que podem ser gerados</h3>
+
+<ul>
+<li>Sinopse</li>
+<li>Prefácio</li>
+<li>Biografia</li>
+<li>Ficha de dados da obra</li>
+<li>Sumário provisório</li>
+</ul>
+
+</div>
+
+</div>
+
+
+<div class="footer">
+
+O Lapidar trabalha de mãos dadas com o autor. Cada etapa é realizada com sua autorização.
+
+</div>
+
+</div>
+
 </body>
 </html>
