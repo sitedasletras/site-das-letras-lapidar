@@ -6,47 +6,109 @@
 <title>Histórico de Projetos — Lapidar</title>
 
 <style>
+*{
+box-sizing:border-box;
+}
 
 body{
 margin:0;
-font-family:Arial;
+font-family:Arial,sans-serif;
 background:linear-gradient(180deg,#0d2a21,#04120d);
-color:white;
+color:#ffffff;
 }
 
 .container{
 max-width:1100px;
-margin:auto;
+margin:0 auto;
 padding:24px;
 }
 
 .card{
-background:rgba(255,255,255,.07);
+background:rgba(255,255,255,0.07);
+border:1px solid rgba(255,255,255,0.08);
 border-radius:18px;
 padding:24px;
 margin-bottom:20px;
 }
 
-h1{
+h1,h2{
 margin-top:0;
 }
 
+p{
+color:#d8efe2;
+line-height:1.6;
+}
+
 .projeto{
-background:rgba(255,255,255,.05);
-padding:14px;
-border-radius:12px;
-margin-bottom:10px;
+background:rgba(255,255,255,0.05);
+border:1px solid rgba(255,255,255,0.06);
+padding:16px;
+border-radius:14px;
+margin-bottom:12px;
 display:flex;
 justify-content:space-between;
-align-items:center;
+gap:16px;
+align-items:flex-start;
+}
+
+.projeto-info{
+flex:1;
+}
+
+.projeto-titulo{
+font-size:18px;
+font-weight:bold;
+margin-bottom:8px;
+}
+
+.meta{
+color:#d4ebde;
+line-height:1.6;
+font-size:14px;
+}
+
+.status-tag{
+display:inline-block;
+margin-top:10px;
+padding:8px 12px;
+border-radius:999px;
+font-size:13px;
+font-weight:bold;
+}
+
+.status-preparacao{
+background:rgba(241,196,15,0.14);
+border:1px solid rgba(241,196,15,0.28);
+color:#fff0b3;
+}
+
+.status-pagamento{
+background:rgba(52,152,219,0.14);
+border:1px solid rgba(52,152,219,0.28);
+color:#d7efff;
+}
+
+.status-concluido{
+background:rgba(46,204,113,0.14);
+border:1px solid rgba(46,204,113,0.28);
+color:#dbffea;
+}
+
+.acoes{
+display:flex;
+flex-wrap:wrap;
+gap:10px;
+justify-content:flex-end;
 }
 
 button{
 border:none;
-padding:10px 14px;
-border-radius:10px;
+padding:12px 16px;
+border-radius:12px;
 cursor:pointer;
 font-weight:bold;
+font-size:14px;
 }
 
 .btn{
@@ -54,105 +116,237 @@ background:#2ecc71;
 color:#062414;
 }
 
+.btn:hover{
+background:#28b765;
+}
+
 .btn2{
 background:#dcefe4;
 color:#103222;
 }
 
-.vazio{
-opacity:.7;
+.btn2:hover{
+background:#c8e6d4;
 }
 
+.btn3{
+background:#5b1f1f;
+color:#ffdede;
+}
+
+.btn3:hover{
+background:#6d2626;
+}
+
+.vazio{
+padding:18px;
+border-radius:14px;
+background:rgba(255,255,255,0.05);
+color:#cfe8da;
+}
+
+.topo-acoes{
+display:flex;
+flex-wrap:wrap;
+gap:12px;
+margin-top:18px;
+}
+
+@media (max-width: 760px){
+.projeto{
+flex-direction:column;
+}
+
+.acoes{
+justify-content:flex-start;
+}
+}
 </style>
 </head>
-
 <body>
 
 <div class="container">
 
-<div class="card">
+    <div class="card">
+        <h1>Histórico de Projetos</h1>
+        <p>
+            Aqui ficam as obras já registradas no Lapidar. Você pode retomar um projeto, excluir um registro
+            antigo ou iniciar uma nova obra sem perder a organização do ambiente editorial.
+        </p>
 
-<h1>Histórico de Projetos</h1>
+        <div class="topo-acoes">
+            <button class="btn" onclick="novoProjeto()">Novo projeto</button>
+            <button class="btn2" onclick="voltarInicio()">Voltar ao início</button>
+        </div>
+    </div>
 
-<div id="listaProjetos"></div>
-
-<br>
-
-<button class="btn" onclick="novoProjeto()">
-Novo projeto
-</button>
-
-</div>
+    <div class="card">
+        <h2>Projetos registrados</h2>
+        <div id="listaProjetos"></div>
+    </div>
 
 </div>
 
 <script>
+function obterHistorico(){
+    try{
+        return JSON.parse(localStorage.getItem("historico_lapidar") || "[]");
+    }catch(e){
+        return [];
+    }
+}
+
+function salvarHistorico(historico){
+    localStorage.setItem("historico_lapidar", JSON.stringify(historico));
+}
+
+function formatarData(dataIso){
+    if(!dataIso){
+        return "Não informado";
+    }
+
+    const data = new Date(dataIso);
+
+    if(isNaN(data.getTime())){
+        return "Não informado";
+    }
+
+    return data.toLocaleString("pt-BR");
+}
+
+function obterStatusProjeto(projeto){
+    if(projeto.downloadLiberado || projeto.exportadoEm){
+        return {
+            texto: "Projeto concluído",
+            classe: "status-concluido"
+        };
+    }
+
+    if(projeto.pagamentoConfirmado){
+        return {
+            texto: "Pronto para exportação",
+            classe: "status-pagamento"
+        };
+    }
+
+    if(projeto.lapidacaoExecutada){
+        return {
+            texto: "Aguardando pagamento",
+            classe: "status-pagamento"
+        };
+    }
+
+    return {
+        texto: "Em preparação editorial",
+        classe: "status-preparacao"
+    };
+}
 
 function carregarProjetos(){
+    const historico = obterHistorico();
+    const container = document.getElementById("listaProjetos");
 
-let projetos = JSON.parse(localStorage.getItem("historico_lapidar") || "[]");
+    if(historico.length === 0){
+        container.innerHTML = '<div class="vazio">Nenhum projeto registrado ainda.</div>';
+        return;
+    }
 
-let container = document.getElementById("listaProjetos");
+    const projetosOrdenados = [...historico].sort((a, b) => {
+        const dataA = new Date(a.ultimaAtualizacao || a.criadoEm || 0).getTime();
+        const dataB = new Date(b.ultimaAtualizacao || b.criadoEm || 0).getTime();
+        return dataB - dataA;
+    });
 
-if(projetos.length === 0){
+    container.innerHTML = "";
 
-container.innerHTML = "<div class='vazio'>Nenhum projeto registrado ainda.</div>";
+    projetosOrdenados.forEach((projeto) => {
+        const status = obterStatusProjeto(projeto);
 
-return;
+        const bloco = document.createElement("div");
+        bloco.className = "projeto";
 
+        bloco.innerHTML = `
+            <div class="projeto-info">
+                <div class="projeto-titulo">${projeto.titulo || "Sem título"}</div>
+
+                <div class="meta">
+                    <strong>Autor:</strong> ${projeto.autor || "Sem autor"}<br>
+                    <strong>Criado em:</strong> ${formatarData(projeto.criadoEm)}<br>
+                    <strong>Última atualização:</strong> ${formatarData(projeto.ultimaAtualizacao || projeto.criadoEm)}<br>
+                    <strong>Módulos:</strong> ${(Array.isArray(projeto.modulosSelecionados) && projeto.modulosSelecionados.length)
+                        ? projeto.modulosSelecionados.join(", ")
+                        : "Nenhum módulo selecionado"}
+                </div>
+
+                <span class="status-tag ${status.classe}">${status.texto}</span>
+            </div>
+
+            <div class="acoes">
+                <button class="btn" onclick="abrirProjeto('${projeto.id}')">Abrir</button>
+                <button class="btn3" onclick="excluirProjeto('${projeto.id}')">Excluir</button>
+            </div>
+        `;
+
+        container.appendChild(bloco);
+    });
 }
 
-container.innerHTML = "";
+function abrirProjeto(idProjeto){
+    const historico = obterHistorico();
+    const projeto = historico.find(item => item.id === idProjeto);
 
-projetos.reverse().forEach((p,i)=>{
+    if(!projeto){
+        alert("Projeto não encontrado no histórico.");
+        return;
+    }
 
-container.innerHTML += `
-<div class="projeto">
+    projeto.ultimaAtualizacao = new Date().toISOString();
+    localStorage.setItem("projeto_lapidar", JSON.stringify(projeto));
 
-<div>
+    const novoHistorico = historico.map(item => {
+        if(item.id === idProjeto){
+            return projeto;
+        }
+        return item;
+    });
 
-<strong>${p.titulo}</strong><br>
+    salvarHistorico(novoHistorico);
 
-Autor: ${p.autor}<br>
-
-Criado: ${new Date(p.criadoEm).toLocaleString()}
-
-</div>
-
-<div>
-
-<button class="btn" onclick="abrirProjeto(${i})">
-Abrir
-</button>
-
-</div>
-
-</div>
-`;
-
-});
-
+    window.location.href = "painel_projeto.html";
 }
 
-function abrirProjeto(index){
+function excluirProjeto(idProjeto){
+    const confirmar = confirm("Deseja realmente excluir este projeto do histórico?");
+    if(!confirmar){
+        return;
+    }
 
-let projetos = JSON.parse(localStorage.getItem("historico_lapidar"));
+    const historico = obterHistorico();
+    const novoHistorico = historico.filter(item => item.id !== idProjeto);
 
-localStorage.setItem("projeto_lapidar", JSON.stringify(projetos[index]));
+    salvarHistorico(novoHistorico);
 
-window.location.href="painel_projeto.html";
+    const projetoAtual = JSON.parse(localStorage.getItem("projeto_lapidar") || "null");
+    if(projetoAtual && projetoAtual.id === idProjeto){
+        localStorage.removeItem("projeto_lapidar");
+    }
 
+    carregarProjetos();
 }
 
 function novoProjeto(){
+    localStorage.removeItem("projeto_lapidar");
+    window.location.href = "producao_integrada.html";
+}
 
-window.location.href="producao_integrada.html";
-
+function voltarInicio(){
+    window.location.href = "index.html";
 }
 
 carregarProjetos();
-
 </script>
+
+<script src="session_guard.js"></script>
 
 </body>
 </html>
