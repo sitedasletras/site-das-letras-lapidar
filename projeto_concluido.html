@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Painel do Projeto — Lapidar</title>
+<title>Projeto Concluído — Lapidar</title>
 
 <style>
 *{
@@ -13,32 +13,39 @@ box-sizing:border-box;
 body{
 margin:0;
 font-family:Arial,sans-serif;
-background:linear-gradient(180deg,#0d2a21,#04120d);
+background:linear-gradient(180deg,#0d2c22,#04130d);
 color:#ffffff;
 }
 
 .container{
-max-width:1080px;
+max-width:960px;
 margin:0 auto;
 padding:24px;
 }
 
-.hero,
 .card{
 background:rgba(255,255,255,0.07);
 border:1px solid rgba(255,255,255,0.08);
 border-radius:18px;
-padding:22px;
+padding:24px;
 margin-bottom:20px;
 }
 
-h1,h2{
-margin-top:0;
+.hero{
+text-align:center;
+padding:32px 24px;
 }
 
-p{
+.hero h1{
+margin-top:0;
+font-size:34px;
+}
+
+.hero p{
 color:#d8efe2;
-line-height:1.6;
+line-height:1.7;
+max-width:720px;
+margin:0 auto;
 }
 
 .grid{
@@ -54,94 +61,11 @@ border-radius:12px;
 background:rgba(255,255,255,0.05);
 }
 
-.modules{
-display:flex;
-flex-wrap:wrap;
-gap:10px;
-}
-
-.tag{
-padding:10px 14px;
-border-radius:999px;
-background:rgba(255,255,255,0.08);
-border:1px solid rgba(255,255,255,0.12);
-font-size:14px;
-}
-
-.progress-wrap{
-margin-top:16px;
-}
-
-.progress-label{
-display:flex;
-justify-content:space-between;
-gap:12px;
-margin-bottom:8px;
-font-weight:bold;
-color:#dff7e9;
-}
-
-.progress-bar{
-width:100%;
-height:18px;
-background:rgba(255,255,255,0.08);
-border-radius:999px;
-overflow:hidden;
-border:1px solid rgba(255,255,255,0.08);
-}
-
-.progress-fill{
-height:100%;
-width:0%;
-background:linear-gradient(90deg,#2ecc71,#7dffb3);
-transition:width .35s ease;
-}
-
-.status-box{
-padding:14px;
-border-radius:12px;
-margin-bottom:12px;
-background:rgba(255,255,255,0.05);
-}
-
-.status-ok{
-border:1px solid rgba(46,204,113,0.35);
-background:rgba(46,204,113,0.12);
-}
-
-.status-wait{
-border:1px solid rgba(241,196,15,0.35);
-background:rgba(241,196,15,0.12);
-}
-
-.status-stop{
-border:1px solid rgba(231,76,60,0.35);
-background:rgba(231,76,60,0.12);
-}
-
-.timeline{
-display:grid;
-gap:12px;
-}
-
-.step{
-border-radius:14px;
-padding:14px;
-background:rgba(255,255,255,0.05);
-border:1px solid rgba(255,255,255,0.07);
-}
-
-.step strong{
-display:block;
-margin-bottom:5px;
-color:#d5f5e1;
-}
-
 .actions{
 display:flex;
 flex-wrap:wrap;
 gap:12px;
-margin-top:10px;
+margin-top:18px;
 }
 
 button{
@@ -171,8 +95,21 @@ color:#103222;
 background:#c8e6d4;
 }
 
-.empty{
-color:#cde8d9;
+.badge{
+display:inline-block;
+padding:10px 16px;
+border-radius:999px;
+background:rgba(46,204,113,0.14);
+border:1px solid rgba(46,204,113,0.28);
+color:#dbffea;
+font-weight:bold;
+margin-bottom:14px;
+}
+
+.small{
+font-size:14px;
+color:#cfe8da;
+line-height:1.6;
 }
 </style>
 </head>
@@ -180,86 +117,39 @@ color:#cde8d9;
 
 <div class="container">
 
-    <div class="hero">
-        <h1>Painel do Projeto</h1>
+    <div class="card hero">
+        <div class="badge">Fluxo concluído com sucesso</div>
+        <h1>Projeto concluído</h1>
         <p>
-            Este é o centro do fluxo editorial do Lapidar. Aqui o autor acompanha a obra, visualiza o progresso
-            real do projeto e segue para a próxima etapa sem se perder no processo.
+            O fluxo editorial atual do Lapidar foi finalizado. O pacote editorial já pode ser baixado,
+            revisado e usado como base para a próxima etapa da obra dentro do sistema.
         </p>
-
-        <div class="progress-wrap">
-            <div class="progress-label">
-                <span>Progresso do projeto</span>
-                <span id="percentualProjeto">0%</span>
-            </div>
-            <div class="progress-bar">
-                <div class="progress-fill" id="barraProjeto"></div>
-            </div>
-        </div>
     </div>
 
     <div class="grid">
 
         <div class="card">
-            <h2>Dados da obra</h2>
+            <h2>Resumo final</h2>
             <div class="info"><strong>Título:</strong> <span id="tituloProjeto">Carregando...</span></div>
             <div class="info"><strong>Autor:</strong> <span id="autorProjeto">Carregando...</span></div>
-            <div class="info"><strong>Status geral:</strong> <span id="statusGeral">Carregando...</span></div>
-            <div class="info"><strong>Criado em:</strong> <span id="criadoEmProjeto">Carregando...</span></div>
+            <div class="info"><strong>Módulos:</strong> <span id="modulosProjeto">Carregando...</span></div>
+            <div class="info"><strong>Data da exportação:</strong> <span id="dataExportacao">Carregando...</span></div>
         </div>
 
         <div class="card">
-            <h2>Status do fluxo</h2>
-            <div id="statusRegistroBox" class="status-box status-ok">Registro do projeto: concluído</div>
-            <div id="statusLapidacaoBox" class="status-box status-wait">Lapidação Literária: aguardando</div>
-            <div id="statusPagamentoBox" class="status-box status-wait">Pagamento: aguardando</div>
-            <div id="statusDownloadBox" class="status-box status-stop">Download: indisponível</div>
-        </div>
-
-    </div>
-
-    <div class="grid">
-
-        <div class="card">
-            <h2>Módulos selecionados</h2>
-            <div id="modulosProjeto" class="modules">
-                <span class="empty">Carregando módulos...</span>
-            </div>
-        </div>
-
-        <div class="card">
-            <h2>Próxima ação</h2>
-            <p id="proximaAcaoTexto">Carregando orientação do sistema...</p>
+            <h2>Próximas ações</h2>
+            <p class="small">
+                Você pode baixar novamente o pacote editorial, voltar ao histórico de projetos
+                ou iniciar uma nova obra com a sessão limpa.
+            </p>
 
             <div class="actions">
-                <button class="btn-principal" id="botaoContinuar" onclick="continuarFluxo()">Continuar fluxo</button>
-                <button class="btn-secundario" onclick="voltarProducao()">Voltar à produção</button>
+                <button class="btn-principal" onclick="baixarNovamente()">Baixar novamente</button>
+                <button class="btn-secundario" onclick="abrirHistorico()">Abrir histórico</button>
                 <button class="btn-secundario" onclick="novoProjeto()">Novo projeto</button>
             </div>
         </div>
 
-    </div>
-
-    <div class="card">
-        <h2>Esteira editorial</h2>
-        <div class="timeline">
-            <div class="step">
-                <strong>1. Registro do projeto</strong>
-                Cadastro da obra, autor e módulos desejados.
-            </div>
-            <div class="step">
-                <strong>2. Lapidação Literária</strong>
-                Humanização, fluidez, ritmo, acabamento e refinamento textual.
-            </div>
-            <div class="step">
-                <strong>3. Pagamento</strong>
-                Confirmação da etapa financeira para liberação da exportação.
-            </div>
-            <div class="step">
-                <strong>4. Exportador de Obra</strong>
-                Geração do pacote editorial e encerramento do fluxo atual.
-            </div>
-        </div>
     </div>
 
 </div>
@@ -292,19 +182,7 @@ function formatarData(dataIso){
     return data.toLocaleString("pt-BR");
 }
 
-function atualizarBox(id, texto, classe){
-    const elemento = document.getElementById(id);
-    elemento.className = "status-box " + classe;
-    elemento.textContent = texto;
-}
-
-function definirProgresso(percentual){
-    const valor = Math.max(0, Math.min(100, percentual));
-    document.getElementById("barraProjeto").style.width = valor + "%";
-    document.getElementById("percentualProjeto").textContent = valor + "%";
-}
-
-function carregarPainel(){
+function carregarTela(){
     const projeto = obterProjeto();
 
     if(!projeto){
@@ -315,92 +193,63 @@ function carregarPainel(){
 
     document.getElementById("tituloProjeto").textContent = projeto.titulo || "Sem título";
     document.getElementById("autorProjeto").textContent = projeto.autor || "Sem autor";
-    document.getElementById("criadoEmProjeto").textContent = formatarData(projeto.criadoEm);
-
-    const modulos = Array.isArray(projeto.modulosSelecionados) ? projeto.modulosSelecionados : [];
-    const modulosContainer = document.getElementById("modulosProjeto");
-
-    if(modulos.length === 0){
-        modulosContainer.innerHTML = '<span class="empty">Nenhum módulo selecionado.</span>';
-    }else{
-        modulosContainer.innerHTML = "";
-        modulos.forEach(modulo => {
-            const tag = document.createElement("span");
-            tag.className = "tag";
-            tag.textContent = modulo;
-            modulosContainer.appendChild(tag);
-        });
-    }
-
-    const lapidacaoExecutada = !!projeto.lapidacaoExecutada;
-    const pagamentoConfirmado = !!projeto.pagamentoConfirmado;
-    const downloadLiberado = !!projeto.downloadLiberado;
-
-    let progresso = 25;
-
-    if(lapidacaoExecutada){
-        progresso = 50;
-        atualizarBox("statusLapidacaoBox", "Lapidação Literária: concluída", "status-ok");
-    }else{
-        atualizarBox("statusLapidacaoBox", "Lapidação Literária: aguardando", "status-wait");
-    }
-
-    if(pagamentoConfirmado){
-        progresso = 75;
-        atualizarBox("statusPagamentoBox", "Pagamento: confirmado", "status-ok");
-    }else{
-        atualizarBox("statusPagamentoBox", "Pagamento: aguardando", "status-wait");
-    }
-
-    if(downloadLiberado){
-        progresso = 100;
-        atualizarBox("statusDownloadBox", "Download: liberado", "status-ok");
-    }else if(lapidacaoExecutada && pagamentoConfirmado){
-        atualizarBox("statusDownloadBox", "Download: pronto para exportação", "status-wait");
-    }else{
-        atualizarBox("statusDownloadBox", "Download: indisponível", "status-stop");
-    }
-
-    definirProgresso(progresso);
-
-    if(downloadLiberado){
-        document.getElementById("statusGeral").textContent = "Projeto concluído e pronto para exportação final";
-        document.getElementById("proximaAcaoTexto").textContent = "Seu projeto já está liberado. Siga para o Exportador de Obra e baixe o pacote editorial.";
-    }else if(lapidacaoExecutada && pagamentoConfirmado){
-        document.getElementById("statusGeral").textContent = "Projeto pronto para exportação";
-        document.getElementById("proximaAcaoTexto").textContent = "A etapa editorial principal foi concluída. Agora siga para o exportador para liberar o pacote editorial.";
-    }else if(lapidacaoExecutada){
-        document.getElementById("statusGeral").textContent = "Projeto aguardando pagamento";
-        document.getElementById("proximaAcaoTexto").textContent = "A Lapidação Literária já foi concluída. O próximo passo é confirmar o pagamento.";
-    }else{
-        document.getElementById("statusGeral").textContent = "Projeto em preparação editorial";
-        document.getElementById("proximaAcaoTexto").textContent = "O próximo passo é executar a Lapidação Literária para o fluxo seguir corretamente.";
-    }
+    document.getElementById("modulosProjeto").textContent =
+        Array.isArray(projeto.modulosSelecionados) && projeto.modulosSelecionados.length
+        ? projeto.modulosSelecionados.join(", ")
+        : "Nenhum módulo selecionado";
+    document.getElementById("dataExportacao").textContent = formatarData(projeto.exportadoEm);
 }
 
-function continuarFluxo(){
+function baixarNovamente(){
     const projeto = obterProjeto();
 
     if(!projeto){
-        window.location.href = "producao_integrada.html";
+        alert("Projeto não encontrado.");
         return;
     }
 
-    if(!projeto.lapidacaoExecutada){
-        window.location.href = "lapidacao_literaria.html";
-        return;
-    }
+    const nomeSeguro = (projeto.titulo || "obra")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-zA-Z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "")
+        .toLowerCase();
 
-    if(!projeto.pagamentoConfirmado){
-        window.location.href = "pagamento.html";
-        return;
-    }
+    const pacote = {
+        sistema: "Lapidar",
+        etapa: "Projeto Concluído",
+        id: projeto.id || null,
+        titulo: projeto.titulo || "Sem título",
+        autor: projeto.autor || "Sem autor",
+        modulosSelecionados: projeto.modulosSelecionados || [],
+        textoLapidado: projeto.textoLapidado || "",
+        lapidacaoExecutada: !!projeto.lapidacaoExecutada,
+        pagamentoConfirmado: !!projeto.pagamentoConfirmado,
+        downloadLiberado: !!projeto.downloadLiberado,
+        criadoEm: projeto.criadoEm || null,
+        ultimaAtualizacao: projeto.ultimaAtualizacao || null,
+        dataLapidacao: projeto.dataLapidacao || null,
+        dataPagamento: projeto.dataPagamento || null,
+        exportadoEm: projeto.exportadoEm || null,
+        status: "Pacote editorial exportado com sucesso"
+    };
 
-    window.location.href = "exportador_obra.html";
+    const blob = new Blob(
+        [JSON.stringify(pacote, null, 2)],
+        { type: "application/json;charset=utf-8" }
+    );
+
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = (nomeSeguro || "obra") + "-pacote-editorial.json";
+
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
 }
 
-function voltarProducao(){
-    window.location.href = "producao_integrada.html";
+function abrirHistorico(){
+    window.location.href = "historico_projetos.html";
 }
 
 function novoProjeto(){
@@ -408,8 +257,10 @@ function novoProjeto(){
     window.location.href = "producao_integrada.html";
 }
 
-carregarPainel();
+carregarTela();
 </script>
+
+<script src="session_guard.js"></script>
 
 </body>
 </html>
