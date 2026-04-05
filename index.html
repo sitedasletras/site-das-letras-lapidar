@@ -1,108 +1,176 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lapidar — Entrada</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lapidar — Entrada</title>
 
-<style>
-*{
-box-sizing:border-box;
-}
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-body{
-margin:0;
-font-family:Arial,sans-serif;
-background:linear-gradient(180deg,#0e2b22,#04120d);
-color:#ffffff;
-display:flex;
-align-items:center;
-justify-content:center;
-min-height:100vh;
-}
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(180deg, #0e2b22, #04120d);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
 
-.container{
-max-width:720px;
-width:100%;
-padding:24px;
-}
+    .container {
+      max-width: 760px;
+      width: 100%;
+      padding: 24px;
+    }
 
-.card{
-background:rgba(255,255,255,0.07);
-border:1px solid rgba(255,255,255,0.08);
-border-radius:18px;
-padding:32px;
-text-align:center;
-}
+    .card {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 18px;
+      padding: 32px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.20);
+    }
 
-h1{
-margin-top:0;
-font-size:32px;
-}
+    h1 {
+      margin-top: 0;
+      margin-bottom: 12px;
+      font-size: 34px;
+      letter-spacing: 0.3px;
+    }
 
-p{
-color:#d8efe2;
-line-height:1.6;
-margin-bottom:24px;
-}
+    .subtitulo {
+      color: #d8efe2;
+      line-height: 1.7;
+      margin-bottom: 28px;
+      font-size: 16px;
+    }
 
-button{
-border:none;
-border-radius:14px;
-padding:16px 22px;
-font-size:16px;
-font-weight:bold;
-cursor:pointer;
-background:#2ecc71;
-color:#062414;
-}
+    .acoes {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      max-width: 360px;
+      margin: 0 auto;
+    }
 
-button:hover{
-background:#29b765;
-}
+    button {
+      border: none;
+      border-radius: 14px;
+      padding: 16px 22px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.15s ease, opacity 0.15s ease, background 0.15s ease;
+    }
 
-.footer{
-margin-top:18px;
-font-size:14px;
-color:#cfe8da;
-}
-</style>
+    button:hover {
+      transform: translateY(-1px);
+    }
+
+    .botao-principal {
+      background: #2ecc71;
+      color: #062414;
+    }
+
+    .botao-principal:hover {
+      background: #29b765;
+    }
+
+    .botao-secundario {
+      background: #dcefe4;
+      color: #103222;
+    }
+
+    .botao-secundario:hover {
+      background: #c8e6d4;
+    }
+
+    .rodape {
+      margin-top: 22px;
+      font-size: 14px;
+      color: #cfe8da;
+      line-height: 1.6;
+    }
+
+    .selo {
+      display: inline-block;
+      margin-bottom: 16px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: rgba(46, 204, 113, 0.12);
+      border: 1px solid rgba(46, 204, 113, 0.24);
+      color: #dbffea;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    @media (max-width: 600px) {
+      .card {
+        padding: 24px 18px;
+      }
+
+      h1 {
+        font-size: 28px;
+      }
+
+      .subtitulo {
+        font-size: 15px;
+      }
+
+      button {
+        font-size: 15px;
+        padding: 15px 18px;
+      }
+    }
+  </style>
 </head>
-
 <body>
 
-<div class="container">
+  <div class="container">
+    <div class="card">
 
-<div class="card">
+      <div class="selo">Site das Letras — Lapidar</div>
 
-<h1>Lapidar</h1>
+      <h1>Lapidar</h1>
 
-<p>
-Ambiente editorial do autor independente.<br>
-Inicie um novo projeto e acompanhe a lapidação da obra passo a passo dentro do fluxo profissional.
-</p>
+      <div class="subtitulo">
+        Ambiente editorial do autor independente.<br>
+        Inicie uma nova obra ou retome um projeto já registrado dentro do fluxo profissional do sistema.
+      </div>
 
-<button onclick="iniciarProjeto()">
-Iniciar novo projeto
-</button>
+      <div class="acoes">
+        <button class="botao-principal" onclick="iniciarNovoProjeto()">
+          Iniciar novo projeto
+        </button>
 
-<div class="footer">
-Fluxo editorial: Produção → Painel → Lapidação → Pagamento → Exportação
-</div>
+        <button class="botao-secundario" onclick="abrirProjetosExistentes()">
+          Abrir projetos existentes
+        </button>
+      </div>
 
-</div>
+      <div class="rodape">
+        Fluxo editorial atual:<br>
+        Produção Integrada → Painel do Projeto → Lapidação Literária → Pagamento → Exportador → Projeto Concluído
+      </div>
 
-</div>
+    </div>
+  </div>
 
-<script>
-function iniciarProjeto(){
+  <script>
+    function iniciarNovoProjeto() {
+      localStorage.removeItem("projeto_lapidar");
+      window.location.href = "producao_integrada.html";
+    }
 
-localStorage.removeItem("projeto_lapidar");
-
-window.location.href="producao_integrada.html";
-
-}
-</script>
+    function abrirProjetosExistentes() {
+      window.location.href = "historico_projetos.html";
+    }
+  </script>
 
 </body>
 </html>
