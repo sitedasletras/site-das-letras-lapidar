@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Seleção de Módulos • Lapidar</title>
+
+<style>
+
+body{
+font-family: Arial, sans-serif;
+background:#0f1f13;
+color:white;
+margin:0;
+}
+
+.container{
+max-width:900px;
+margin:auto;
+padding:20px;
+}
+
+.card{
+background:#183321;
+padding:20px;
+border-radius:15px;
+margin-bottom:20px;
+}
+
+h2{
+margin-top:0;
+}
+
+.check{
+display:block;
+margin:10px 0;
+font-size:18px;
+}
+
+button{
+background:#2e7d32;
+border:none;
+padding:14px 18px;
+border-radius:10px;
+color:white;
+font-weight:bold;
+cursor:pointer;
+margin-top:15px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="card">
+
+<h2>Selecionar módulos do projeto</h2>
+
+<label class="check">
+<input type="checkbox" id="diagramacao"> Assistente de Diagramação
+</label>
+
+<label class="check">
+<input type="checkbox" id="capista"> OKapista
+</label>
+
+<label class="check">
+<input type="checkbox" id="traducao"> Segunda Língua(s)
+</label>
+
+<label class="check">
+<input type="checkbox" id="avaliacao"> Avaliação Literária
+</label>
+
+<label class="check">
+<input type="checkbox" id="analisador"> Analisador de Obra
+</label>
+
+<label class="check">
+<input type="checkbox" id="lapidacao"> Lapidação Literária
+</label>
+
+<label class="check">
+<input type="checkbox" id="silo"> Silo Sonoro
+</label>
+
+<button onclick="irParaProximoModulo()">Continuar</button>
+
+</div>
+
+</div>
+
+
+<script>
+
+function irParaProximoModulo(){
+
+const ordem = [
+{ id:"diagramacao", pagina:"diagramacao.html" },
+{ id:"capista", pagina:"capista.html" },
+{ id:"traducao", pagina:"segunda_lingua.html" },
+{ id:"avaliacao", pagina:"avaliacao_literaria.html" },
+{ id:"analisador", pagina:"analisador_obra.html" },
+{ id:"lapidacao", pagina:"lapidacao_literaria.html" },
+{ id:"silo", pagina:"silo_sonoro.html" }
+];
+
+const selecionados = {};
+
+ordem.forEach(modulo => {
+selecionados[modulo.id] =
+document.getElementById(modulo.id).checked;
+});
+
+localStorage.setItem(
+"lapidar_modulos",
+JSON.stringify(selecionados)
+);
+
+
+for(let i=0;i<ordem.length;i++){
+
+if(selecionados[ordem[i].id]){
+
+window.location.href = ordem[i].pagina;
+
+return;
+
+}
+
+}
+
+alert("Selecione pelo menos um módulo");
+
+}
+
+</script>
+
+
+</body>
+</html>
