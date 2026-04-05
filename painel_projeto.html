@@ -139,7 +139,19 @@ line-height:1.5;
 
 .empty{
 color:#cfe8da;
-opacity:0.9;
+opacity:.9;
+}
+
+.preview-box{
+background:rgba(255,255,255,0.05);
+border-radius:12px;
+padding:14px;
+font-size:14px;
+line-height:1.7;
+white-space:pre-wrap;
+color:#eafcf1;
+max-height:320px;
+overflow:auto;
 }
 </style>
 </head>
@@ -223,7 +235,7 @@ opacity:0.9;
 
     <div class="card">
         <h2>Texto-base lido</h2>
-        <div class="info" id="textoBasePreview"></div>
+        <div id="textoBasePreview" class="preview-box"></div>
     </div>
 
 </div>
@@ -239,18 +251,20 @@ function salvarProjeto(p){
     localStorage.setItem("projeto_lapidar", JSON.stringify(p));
 
     let historico = JSON.parse(localStorage.getItem("historico_lapidar") || "[]");
-    historico = historico.map(x => x.id === p.id ? p : x);
+    historico = historico.map(item => item.id === p.id ? p : item);
 
     localStorage.setItem("historico_lapidar", JSON.stringify(historico));
 }
 
 function formatarData(d){
-    if(!d) return "Não informado";
+    if(!d){
+        return "Não informado";
+    }
     return new Date(d).toLocaleString("pt-BR");
 }
 
 function atualizarPainel(){
-    let projeto = obterProjeto();
+    const projeto = obterProjeto();
 
     if(!projeto){
         window.location.href = "producao_integrada.html";
@@ -268,7 +282,7 @@ function atualizarPainel(){
         document.getElementById("statusLapidacao").innerHTML = "Lapidação Literária concluída";
         document.getElementById("statusLapidacao").className = "info status-ok";
         progresso = 50;
-    } else {
+    }else{
         document.getElementById("statusLapidacao").innerHTML = "Lapidação Literária pendente";
         document.getElementById("statusLapidacao").className = "info status-wait";
     }
@@ -277,7 +291,7 @@ function atualizarPainel(){
         document.getElementById("statusPagamento").innerHTML = "Pagamento confirmado";
         document.getElementById("statusPagamento").className = "info status-ok";
         progresso = 75;
-    } else {
+    }else{
         document.getElementById("statusPagamento").innerHTML = "Pagamento pendente";
         document.getElementById("statusPagamento").className = "info status-wait";
     }
@@ -286,10 +300,10 @@ function atualizarPainel(){
         document.getElementById("statusExportacao").innerHTML = "Exportação concluída";
         document.getElementById("statusExportacao").className = "info status-ok";
         progresso = 100;
-    } else if(projeto.downloadLiberado){
+    }else if(projeto.downloadLiberado){
         document.getElementById("statusExportacao").innerHTML = "Exportação disponível";
         document.getElementById("statusExportacao").className = "info status-wait";
-    } else {
+    }else{
         document.getElementById("statusExportacao").innerHTML = "Exportação indisponível";
         document.getElementById("statusExportacao").className = "info status-stop";
     }
@@ -297,18 +311,18 @@ function atualizarPainel(){
     document.getElementById("barra").style.width = progresso + "%";
 
     let lista = "";
-    (projeto.modulosSelecionados || []).forEach(m => {
-        lista += `<span class="tag">${m}</span>`;
+    (projeto.modulosSelecionados || []).forEach(modulo => {
+        lista += `<span class="tag">${modulo}</span>`;
     });
     document.getElementById("modulos").innerHTML = lista || '<span class="empty">Nenhum módulo selecionado.</span>';
 
     if(!projeto.lapidacaoExecutada){
         document.getElementById("proximaAcao").innerText = "Próximo passo: executar Lapidação Literária.";
-    } else if(!projeto.pagamentoConfirmado){
+    }else if(!projeto.pagamentoConfirmado){
         document.getElementById("proximaAcao").innerText = "Próximo passo: confirmar pagamento.";
-    } else if(!projeto.exportadoEm){
+    }else if(!projeto.exportadoEm){
         document.getElementById("proximaAcao").innerText = "Próximo passo: exportar obra.";
-    } else {
+    }else{
         document.getElementById("proximaAcao").innerText = "Projeto concluído.";
     }
 
@@ -321,7 +335,6 @@ function atualizarPainel(){
 function renderizarArquivos(projeto){
     const box = document.getElementById("arquivosProjeto");
     const arquivos = projeto.arquivos || {};
-
     const linhas = [];
 
     if(arquivos.manuscrito) linhas.push(`<div class="file-item"><strong>Manuscrito:</strong> ${arquivos.manuscrito}</div>`);
@@ -343,20 +356,20 @@ function renderizarArquivos(projeto){
 }
 
 function renderizarTextoBase(projeto){
-    const texto = (projeto.textoBaseLido || "").trim();
     const box = document.getElementById("textoBasePreview");
+    const texto = (projeto.textoBaseLido || "").trim();
 
     if(!texto){
         box.innerHTML = '<span class="empty">Nenhum texto-base lido automaticamente ainda.</span>';
         return;
     }
 
-    const preview = texto.length > 1200 ? texto.slice(0, 1200) + "..." : texto;
+    const preview = texto.length > 2000 ? texto.slice(0, 2000) + "..." : texto;
     box.textContent = preview;
 }
 
 function continuarFluxo(){
-    let projeto = obterProjeto();
+    const projeto = obterProjeto();
 
     if(!projeto.lapidacaoExecutada){
         window.location.href = "lapidacao_literaria.html";
