@@ -1,278 +1,264 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Exportador da Obra — Lapidar</title>
+<title>Exportador de Obra — Lapidar</title>
 
 <style>
-:root{
---bg:#0d0603;
---card:#140c08;
---cardHover:#1b100a;
---border:rgba(255,123,44,0.18);
---orange:#f7b22c;
---muted:#ffd2b3;
---ok:#9cfdb2;
+*{
+box-sizing:border-box;
 }
 
 body{
 margin:0;
-font-family:Arial, sans-serif;
-background:var(--bg);
-color:white;
+font-family:Arial,sans-serif;
+background:linear-gradient(180deg,#0c2f24,#04150f);
+color:#ffffff;
 }
 
 .container{
-width:min(1200px,95%);
-margin:auto;
-padding:40px 0 60px;
-}
-
-.titulo{
-font-size:38px;
-font-weight:bold;
-}
-
-.subtitulo{
-margin-top:6px;
-color:var(--orange);
-}
-
-.status{
-margin-top:18px;
-padding:16px;
-border-radius:12px;
-background:rgba(247,178,44,0.12);
-border:1px solid rgba(247,178,44,0.25);
-}
-
-.grid{
-margin-top:30px;
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-gap:18px;
+max-width:960px;
+margin:0 auto;
+padding:24px;
 }
 
 .card{
-background:var(--card);
+background:rgba(255,255,255,0.07);
+border:1px solid rgba(255,255,255,0.08);
+border-radius:18px;
 padding:22px;
-border-radius:16px;
-border:1px solid var(--border);
-cursor:pointer;
-transition:.2s;
+margin-bottom:20px;
 }
 
-.card:hover{
-background:var(--cardHover);
+h1,h2{
+margin-top:0;
 }
 
-.cardTitulo{
-font-size:20px;
-font-weight:bold;
-margin-bottom:6px;
+p{
+color:#d8efe2;
+line-height:1.6;
 }
 
-.cardDesc{
-color:var(--muted);
-font-size:14px;
-line-height:1.7;
-}
-
-.badge{
-margin-top:12px;
-display:inline-block;
-padding:6px 12px;
-border-radius:999px;
-background:#2a160d;
-font-size:13px;
-}
-
-.badge.ok{
-background:rgba(23,77,39,0.35);
-color:var(--ok);
+.info{
+margin-bottom:12px;
+padding:12px;
+border-radius:12px;
+background:rgba(255,255,255,0.05);
 }
 
 .actions{
-margin-top:40px;
 display:flex;
-gap:12px;
 flex-wrap:wrap;
+gap:12px;
+margin-top:18px;
 }
 
 button{
 border:none;
+border-radius:12px;
 padding:14px 18px;
-border-radius:999px;
-background:#24150f;
-color:white;
+font-size:15px;
+font-weight:bold;
 cursor:pointer;
+}
+
+.btn-principal{
+background:#2ecc71;
+color:#062414;
+}
+
+.btn-principal:hover{
+background:#29b765;
+}
+
+.btn-secundario{
+background:#dcefe4;
+color:#103222;
+}
+
+.btn-secundario:hover{
+background:#c8e6d4;
+}
+
+.status{
+display:none;
+margin-top:16px;
+padding:14px;
+border-radius:12px;
+background:rgba(46,204,113,0.14);
+border:1px solid rgba(46,204,113,0.25);
+color:#dbffea;
+}
+
+.erro{
+display:none;
+margin-top:16px;
+padding:14px;
+border-radius:12px;
+background:rgba(231,76,60,0.14);
+border:1px solid rgba(231,76,60,0.25);
+color:#ffd9d4;
+}
+
+.small{
+font-size:14px;
+color:#cfe8da;
 }
 </style>
 </head>
-
 <body>
 
 <div class="container">
 
-<div class="titulo">Exportador da Obra</div>
-<div class="subtitulo">Central técnica de saída editorial da obra ativa</div>
+    <div class="card">
+        <h1>Exportador de Obra</h1>
+        <p>
+            Etapa final do fluxo editorial. Aqui o Lapidar reúne os dados do projeto,
+            confirma a liberação do download e gera um pacote editorial simples para teste e validação.
+        </p>
+    </div>
 
-<div id="statusExportador" class="status">
-Verificando obra ativa...
-</div>
+    <div class="card">
+        <h2>Resumo do projeto</h2>
+        <div class="info"><strong>Título:</strong> <span id="tituloProjeto">Carregando...</span></div>
+        <div class="info"><strong>Autor:</strong> <span id="autorProjeto">Carregando...</span></div>
+        <div class="info"><strong>Módulos:</strong> <span id="modulosProjeto">Carregando...</span></div>
+        <div class="info"><strong>Lapidação:</strong> <span id="lapidacaoProjeto">Carregando...</span></div>
+        <div class="info"><strong>Pagamento:</strong> <span id="pagamentoProjeto">Carregando...</span></div>
+        <div class="info"><strong>Download:</strong> <span id="downloadProjeto">Carregando...</span></div>
 
-<div class="grid">
+        <div class="actions">
+            <button class="btn-principal" onclick="baixarPacoteEditorial()">Baixar pacote editorial</button>
+            <button class="btn-secundario" onclick="voltarPainel()">Voltar ao painel</button>
+            <button class="btn-secundario" onclick="novoProjeto()">Iniciar novo projeto</button>
+        </div>
 
-<div class="card" onclick="abrirRelatorioObra()">
-<div class="cardTitulo">Exportar Relatório da Obra</div>
-<div class="cardDesc">
-Resumo editorial simplificado para compartilhamento com o autor.
-</div>
-<div id="badgeRelatorioObraExport" class="badge">Verificando...</div>
-</div>
+        <div class="status" id="mensagemStatus"></div>
+        <div class="erro" id="mensagemErro"></div>
+    </div>
 
-<div class="card" onclick="abrirRelatorioMestre()">
-<div class="cardTitulo">Exportar Relatório Mestre</div>
-<div class="cardDesc">
-Prontuário editorial consolidado da obra.
-</div>
-<div id="badgeRelatorioMestreExport" class="badge">Verificando...</div>
-</div>
-
-<div class="card" onclick="abrirLeituraTecnica()">
-<div class="cardTitulo">Exportar Leitura Técnica</div>
-<div class="cardDesc">
-Parecer analítico e recomendação editorial da obra.
-</div>
-<div id="badgeLeituraTecnicaExport" class="badge">Verificando...</div>
-</div>
-
-<div class="card" onclick="abrirRelatorioCapista()">
-<div class="cardTitulo">Exportar Relatório do Capista</div>
-<div class="cardDesc">
-Documento técnico da identidade visual e estrutura da capa.
-</div>
-<div id="badgeRelatorioCapistaExport" class="badge">Verificando...</div>
-</div>
-
-<div class="card" onclick="abrirRelatorioTradutor()">
-<div class="cardTitulo">Exportar Relatório do Tradutor</div>
-<div class="cardDesc">
-Documento executivo da estratégia tradutória da obra.
-</div>
-<div id="badgeRelatorioTradutorExport" class="badge">Verificando...</div>
-</div>
-
-<div class="card" onclick="abrirFichaEditorial()">
-<div class="cardTitulo">Exportar Ficha Editorial</div>
-<div class="cardDesc">
-Ficha Editorial Integrada da obra para uso técnico interno.
-</div>
-<div id="badgeFichaEditorialExport" class="badge">Verificando...</div>
-</div>
-
-<div class="card" onclick="abrirLombada()">
-<div class="cardTitulo">Exportar Cálculo de Lombada</div>
-<div class="cardDesc">
-Base técnica da espessura da lombada para capa completa.
-</div>
-<div id="badgeLombadaExport" class="badge">Verificando...</div>
-</div>
-
-<div class="card" onclick="abrirHubRelatorios()">
-<div class="cardTitulo">Abrir Hub de Relatórios</div>
-<div class="cardDesc">
-Central executiva de consulta e geração dos relatórios editoriais.
-</div>
-<div class="badge ok">Disponível</div>
-</div>
+    <div class="card">
+        <h2>Saída atual do exportador</h2>
+        <p class="small">
+            Neste estágio do Lapidar, o exportador gera um pacote editorial em formato JSON com os dados centrais do projeto.
+            Isso já permite validar o fluxo completo do sistema enquanto preparamos a próxima fase de saídas mais avançadas.
+        </p>
+    </div>
 
 </div>
-
-<div class="actions">
-<button onclick="abrirCentroObra()">Abrir centro da obra</button>
-<button onclick="voltarIndice()">Voltar ao índice</button>
-</div>
-
-</div>
-
-<script src="auditoria.js"></script>
 
 <script>
-function obterProjetoAtivo(){
-  try{
-    const lista = JSON.parse(localStorage.getItem("SDL_projetos_lista") || "[]");
-    const ativo = localStorage.getItem("SDL_projeto_ativo");
-    return lista.find(p => p.id === ativo) || null;
-  }catch{
-    return null;
-  }
+function obterProjeto(){
+    const projetoSalvo = localStorage.getItem("projeto_lapidar");
+    if(!projetoSalvo){
+        return null;
+    }
+
+    try{
+        return JSON.parse(projetoSalvo);
+    }catch(e){
+        return null;
+    }
 }
 
-function lerJSON(chave){
-  try{
-    return JSON.parse(localStorage.getItem(chave) || "null");
-  }catch{
-    return null;
-  }
+function mostrarStatus(texto){
+    const box = document.getElementById("mensagemStatus");
+    box.style.display = "block";
+    box.textContent = texto;
 }
 
-function aplicarBadge(id, status){
-  const el = document.getElementById(id);
-
-  if(status){
-    el.classList.add("ok");
-    el.innerHTML = "Disponível";
-  }else{
-    el.innerHTML = "Pendente";
-  }
+function mostrarErro(texto){
+    const box = document.getElementById("mensagemErro");
+    box.style.display = "block";
+    box.textContent = texto;
 }
 
-function atualizarStatusExportador(){
-  const projeto = obterProjetoAtivo();
+function carregarTela(){
+    const projeto = obterProjeto();
 
-  if(!projeto){
-    statusExportador.innerHTML = "Nenhum projeto ativo selecionado.";
-    return;
-  }
+    if(!projeto){
+        alert("Projeto não encontrado. Volte para a produção integrada.");
+        window.location.href = "producao_integrada.html";
+        return;
+    }
 
-  statusExportador.innerHTML =
-    "Central de exportação vinculada à obra: <strong>" + projeto.titulo + "</strong>";
+    document.getElementById("tituloProjeto").textContent = projeto.titulo || "Sem título";
+    document.getElementById("autorProjeto").textContent = projeto.autor || "Sem autor";
+    document.getElementById("modulosProjeto").textContent = Array.isArray(projeto.modulosSelecionados) && projeto.modulosSelecionados.length
+        ? projeto.modulosSelecionados.join(", ")
+        : "Nenhum módulo selecionado";
 
-  statusExportador.style.background = "rgba(23,77,39,0.28)";
+    document.getElementById("lapidacaoProjeto").textContent = projeto.lapidacaoExecutada ? "Concluída" : "Pendente";
+    document.getElementById("pagamentoProjeto").textContent = projeto.pagamentoConfirmado ? "Confirmado" : "Pendente";
+    document.getElementById("downloadProjeto").textContent = projeto.downloadLiberado ? "Liberado" : "Bloqueado";
 
-  const leitura = lerJSON("SDL_leitura_tecnica_ativa");
-  const capa = lerJSON("SDL_configuracao_capa_ativa");
-  const tradutor = lerJSON("SDL_planejamento_traducao_ativo");
-  const ficha = lerJSON("SDL_ficha_editorial_integrada_ativa");
-  const planejamentoMiolo = lerJSON("SDL_planejamento_miolo_ativo");
-
-  aplicarBadge("badgeRelatorioObraExport", !!projeto);
-  aplicarBadge("badgeRelatorioMestreExport", !!projeto);
-  aplicarBadge("badgeLeituraTecnicaExport", leitura && leitura.projetoID === projeto.id);
-  aplicarBadge("badgeRelatorioCapistaExport", capa && capa.projetoID === projeto.id);
-  aplicarBadge("badgeRelatorioTradutorExport", tradutor && tradutor.projetoID === projeto.id);
-  aplicarBadge("badgeFichaEditorialExport", !!ficha || !!planejamentoMiolo);
-  aplicarBadge("badgeLombadaExport", true);
-
-  try{
-    SDL_registrarAuditoria("Acesso ao exportador da obra", "exportador_obra");
-  }catch(e){}
+    if(!projeto.downloadLiberado){
+        mostrarErro("O download ainda não foi liberado. Conclua o fluxo corretamente antes de exportar a obra.");
+    }
 }
 
-function abrirRelatorioObra(){ window.location.href = "relatorio_projeto.html"; }
-function abrirRelatorioMestre(){ window.location.href = "relatorio_lapidar.html"; }
-function abrirLeituraTecnica(){ window.location.href = "relatorio_leitura_tecnica.html"; }
-function abrirRelatorioCapista(){ window.location.href = "relatorio_capista.html"; }
-function abrirRelatorioTradutor(){ window.location.href = "relatorio_tradutor.html"; }
-function abrirFichaEditorial(){ window.location.href = "ficha_editorial_integrada.html"; }
-function abrirLombada(){ window.location.href = "calculo_lombada.html"; }
-function abrirHubRelatorios(){ window.location.href = "hub_relatorios.html"; }
-function abrirCentroObra(){ window.location.href = "centro_obra.html"; }
-function voltarIndice(){ window.location.href = "_Indice.html"; }
+function baixarPacoteEditorial(){
+    const projeto = obterProjeto();
 
-atualizarStatusExportador();
+    if(!projeto){
+        alert("Projeto não encontrado.");
+        return;
+    }
+
+    if(!projeto.downloadLiberado){
+        alert("O download ainda não está liberado.");
+        return;
+    }
+
+    const nomeSeguro = (projeto.titulo || "obra")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-zA-Z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "")
+        .toLowerCase();
+
+    const pacote = {
+        sistema: "Lapidar",
+        etapa: "Exportador de Obra",
+        titulo: projeto.titulo || "Sem título",
+        autor: projeto.autor || "Sem autor",
+        modulosSelecionados: projeto.modulosSelecionados || [],
+        lapidacaoExecutada: !!projeto.lapidacaoExecutada,
+        pagamentoConfirmado: !!projeto.pagamentoConfirmado,
+        downloadLiberado: !!projeto.downloadLiberado,
+        criadoEm: projeto.criadoEm || null,
+        dataLapidacao: projeto.dataLapidacao || null,
+        dataPagamento: projeto.dataPagamento || null,
+        exportadoEm: new Date().toISOString(),
+        status: "Pacote editorial exportado com sucesso"
+    };
+
+    const blob = new Blob(
+        [JSON.stringify(pacote, null, 2)],
+        { type: "application/json;charset=utf-8" }
+    );
+
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = (nomeSeguro || "obra") + "-pacote-editorial.json";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    mostrarStatus("Pacote editorial gerado e baixado com sucesso.");
+}
+
+function voltarPainel(){
+    window.location.href = "painel_projeto.html";
+}
+
+function novoProjeto(){
+    localStorage.removeItem("projeto_lapidar");
+    window.location.href = "producao_integrada.html";
+}
+
+carregarTela();
 </script>
 
 </body>
