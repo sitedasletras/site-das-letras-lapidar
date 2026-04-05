@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
@@ -170,8 +170,27 @@ function obterProjeto(){
     }
 }
 
+function obterHistorico(){
+    try{
+        return JSON.parse(localStorage.getItem("historico_lapidar") || "[]");
+    }catch(e){
+        return [];
+    }
+}
+
 function salvarProjeto(projeto){
+    projeto.ultimaAtualizacao = new Date().toISOString();
     localStorage.setItem("projeto_lapidar", JSON.stringify(projeto));
+
+    const historico = obterHistorico();
+    const novoHistorico = historico.map(item => {
+        if(item.id === projeto.id){
+            return projeto;
+        }
+        return item;
+    });
+
+    localStorage.setItem("historico_lapidar", JSON.stringify(novoHistorico));
 }
 
 function mostrarStatus(texto){
@@ -259,5 +278,7 @@ function voltarPainel(){
 carregarTela();
 </script>
 
+<script src="session_guard.js"></script>
+
 </body>
-</html>
+</html>    
