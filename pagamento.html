@@ -6,26 +6,21 @@
 <title>Pagamento — Lapidar</title>
 
 <style>
-*{
-box-sizing:border-box;
-}
-
 body{
 margin:0;
-font-family:Arial,sans-serif;
+font-family:Arial;
 background:linear-gradient(180deg,#0b3a2b,#041a12);
-color:#ffffff;
+color:white;
 }
 
 .container{
 max-width:900px;
-margin:0 auto;
+margin:auto;
 padding:24px;
 }
 
 .card{
-background:rgba(255,255,255,0.07);
-border:1px solid rgba(255,255,255,0.08);
+background:rgba(255,255,255,.07);
 border-radius:18px;
 padding:22px;
 margin-bottom:20px;
@@ -36,22 +31,15 @@ margin-top:0;
 }
 
 p{
-color:#d9efe2;
 line-height:1.6;
+color:#d9efe2;
 }
 
 .info{
 margin-bottom:12px;
 padding:12px;
 border-radius:12px;
-background:rgba(255,255,255,0.05);
-}
-
-.actions{
-display:flex;
-flex-wrap:wrap;
-gap:12px;
-margin-top:18px;
+background:rgba(255,255,255,.05);
 }
 
 button{
@@ -61,24 +49,18 @@ padding:14px 18px;
 font-size:15px;
 font-weight:bold;
 cursor:pointer;
+margin-top:12px;
+margin-right:8px;
 }
 
-.btn-principal{
+.btn{
 background:#2ecc71;
 color:#062414;
 }
 
-.btn-principal:hover{
-background:#29b765;
-}
-
-.btn-secundario{
+.btn2{
 background:#dcefe4;
 color:#103222;
-}
-
-.btn-secundario:hover{
-background:#c8e6d4;
 }
 
 .status{
@@ -86,9 +68,7 @@ display:none;
 margin-top:16px;
 padding:14px;
 border-radius:12px;
-background:rgba(46,204,113,0.14);
-border:1px solid rgba(46,204,113,0.25);
-color:#dbffea;
+background:rgba(46,204,113,.14);
 }
 
 .erro{
@@ -96,143 +76,156 @@ display:none;
 margin-top:16px;
 padding:14px;
 border-radius:12px;
-background:rgba(231,76,60,0.14);
-border:1px solid rgba(231,76,60,0.25);
-color:#ffd9d4;
+background:rgba(231,76,60,.14);
 }
 </style>
 </head>
+
 <body>
 
 <div class="container">
 
-    <div class="card">
-        <h1>Pagamento do Projeto</h1>
-        <p>
-            Confirme o pagamento para concluir a etapa financeira do Lapidar e seguir corretamente
-            para a exportação da obra dentro do fluxo editorial.
-        </p>
-    </div>
+<div class="card">
 
-    <div class="card">
-        <h2>Dados do projeto</h2>
+<h1>Pagamento do Projeto</h1>
 
-        <div class="info"><strong>Título:</strong> <span id="tituloProjeto">Carregando...</span></div>
-        <div class="info"><strong>Autor:</strong> <span id="autorProjeto">Carregando...</span></div>
-        <div class="info"><strong>Status da Lapidação:</strong> <span id="statusLapidacao">Carregando...</span></div>
-        <div class="info"><strong>Status do Pagamento:</strong> <span id="statusPagamento">Carregando...</span></div>
+<p>
+Confirme o pagamento para concluir a etapa financeira do Lapidar e liberar a exportação da obra.
+</p>
 
-        <div class="actions">
-            <button class="btn-principal" onclick="confirmarPagamento()">Simular pagamento aprovado</button>
-            <button class="btn-secundario" onclick="voltarPainel()">Voltar ao painel</button>
-        </div>
+</div>
 
-        <div class="status" id="mensagemStatus"></div>
-        <div class="erro" id="mensagemErro"></div>
-    </div>
+<div class="card">
+
+<h2>Dados do projeto</h2>
+
+<div class="info">
+<strong>Título:</strong>
+<span id="titulo"></span>
+</div>
+
+<div class="info">
+<strong>Autor:</strong>
+<span id="autor"></span>
+</div>
+
+<div class="info">
+<strong>Lapidação:</strong>
+<span id="lapidacao"></span>
+</div>
+
+<div class="info">
+<strong>Pagamento:</strong>
+<span id="pagamento"></span>
+</div>
+
+<button class="btn" onclick="confirmarPagamento()">
+Simular pagamento aprovado
+</button>
+
+<button class="btn2" onclick="voltarPainel()">
+Voltar ao painel
+</button>
+
+<div class="status" id="mensagem"></div>
+<div class="erro" id="erro"></div>
+
+</div>
 
 </div>
 
 <script>
 function obterProjeto(){
-    const projetoSalvo = localStorage.getItem("projeto_lapidar");
-    if(!projetoSalvo){
-        return null;
-    }
-
-    try{
-        return JSON.parse(projetoSalvo);
-    }catch(e){
-        return null;
-    }
+return JSON.parse(localStorage.getItem("projeto_lapidar"));
 }
 
-function obterHistorico(){
-    try{
-        return JSON.parse(localStorage.getItem("historico_lapidar") || "[]");
-    }catch(e){
-        return [];
-    }
+function salvarProjeto(p){
+p.ultimaAtualizacao = new Date().toISOString();
+
+localStorage.setItem(
+"projeto_lapidar",
+JSON.stringify(p)
+);
+
+let historico = JSON.parse(
+localStorage.getItem("historico_lapidar") || "[]"
+);
+
+historico = historico.map(x => x.id === p.id ? p : x);
+
+localStorage.setItem(
+"historico_lapidar",
+JSON.stringify(historico)
+);
 }
 
-function salvarProjeto(projeto){
-    projeto.ultimaAtualizacao = new Date().toISOString();
-    localStorage.setItem("projeto_lapidar", JSON.stringify(projeto));
-
-    const historico = obterHistorico();
-    const novoHistorico = historico.map(item => {
-        if(item.id === projeto.id){
-            return projeto;
-        }
-        return item;
-    });
-
-    localStorage.setItem("historico_lapidar", JSON.stringify(novoHistorico));
+function mostrar(msg){
+let box = document.getElementById("mensagem");
+box.style.display = "block";
+box.innerText = msg;
 }
 
-function mostrarStatus(texto){
-    const box = document.getElementById("mensagemStatus");
-    box.style.display = "block";
-    box.textContent = texto;
+function mostrarErro(msg){
+let box = document.getElementById("erro");
+box.style.display = "block";
+box.innerText = msg;
 }
 
-function mostrarErro(texto){
-    const box = document.getElementById("mensagemErro");
-    box.style.display = "block";
-    box.textContent = texto;
+function carregar(){
+let projeto = obterProjeto();
+
+if(!projeto){
+window.location.href = "producao_integrada.html";
+return;
 }
 
-function carregarTela(){
-    const projeto = obterProjeto();
+document.getElementById("titulo").innerText = projeto.titulo;
+document.getElementById("autor").innerText = projeto.autor;
 
-    if(!projeto){
-        alert("Projeto não encontrado. Volte para a produção integrada.");
-        window.location.href = "producao_integrada.html";
-        return;
-    }
+document.getElementById("lapidacao").innerText =
+projeto.lapidacaoExecutada ? "Concluída" : "Pendente";
 
-    document.getElementById("tituloProjeto").textContent = projeto.titulo || "Sem título";
-    document.getElementById("autorProjeto").textContent = projeto.autor || "Sem autor";
-    document.getElementById("statusLapidacao").textContent = projeto.lapidacaoExecutada ? "Concluída" : "Pendente";
-    document.getElementById("statusPagamento").textContent = projeto.pagamentoConfirmado ? "Confirmado" : "Aguardando";
+document.getElementById("pagamento").innerText =
+projeto.pagamentoConfirmado ? "Confirmado" : "Pendente";
 
-    if(!projeto.lapidacaoExecutada){
-        mostrarErro("A Lapidação Literária ainda não foi concluída. O pagamento só pode seguir depois dessa etapa.");
-    }
+if(!projeto.lapidacaoExecutada){
+mostrarErro("A Lapidação Literária precisa ser concluída antes do pagamento.");
+}
 }
 
 function confirmarPagamento(){
-    const projeto = obterProjeto();
+let projeto = obterProjeto();
 
-    if(!projeto){
-        alert("Projeto não encontrado.");
-        return;
-    }
+if(!projeto){
+window.location.href = "producao_integrada.html";
+return;
+}
 
-    if(!projeto.lapidacaoExecutada){
-        alert("Conclua primeiro a Lapidação Literária.");
-        return;
-    }
+if(!projeto.lapidacaoExecutada){
+alert("Conclua primeiro a Lapidação Literária.");
+return;
+}
 
-    projeto.pagamentoConfirmado = true;
-    projeto.downloadLiberado = true;
-    projeto.dataPagamento = new Date().toISOString();
+projeto.pagamentoConfirmado = true;
+projeto.downloadLiberado = true;
+projeto.dataPagamento = new Date().toISOString();
 
-    salvarProjeto(projeto);
+salvarProjeto(projeto);
 
-    document.getElementById("statusPagamento").textContent = "Confirmado";
-    mostrarStatus("Pagamento confirmado com sucesso. Redirecionando para o exportador da obra...");
+document.getElementById("pagamento").innerText = "Confirmado";
 
-    setTimeout(() => {
-        window.location.href = "exportador_obra.html";
-    }, 800);
+mostrar("Pagamento confirmado com sucesso.");
+
+setTimeout(() => {
+window.location.href = "exportador_obra.html";
+}, 700);
 }
 
 function voltarPainel(){
-    window.location.href = "painel_projeto.html";
+window.location.href = "painel_projeto.html";
 }
 
-carregarTela();
+carregar();
 </script>
 
 <script src="session_guard.js"></script>
