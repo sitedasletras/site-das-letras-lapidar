@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lapidar • Módulo 03 — Mapa do Assistente de Diagramação do Autor</title>
+  <style>
+    :root{
+      --bg-geral:#f7f5ef;
+      --setor-pergaminho:#f1e8d8;
+      --setor-tecnico:#e5edf7;
+      --setor-azul:#d7e5f5;
+      --setor-azul-forte:#6e8fb3;
+      --setor-verde:#dfeee7;
+      --setor-dourado:#f5ecd9;
+      --card:#ffffff;
+      --line:#c9c1b2;
+      --text:#2f2a24;
+      --muted:#5f574c;
+      --shadow:0 12px 28px rgba(67,58,45,0.10);
+    }
+
+    *{
+      box-sizing:border-box;
+    }
+
+    body{
+      margin:0;
+      font-family: Arial, Helvetica, sans-serif;
+      background:var(--bg-geral);
+      color:var(--text);
+    }
+
+    .container{
+      max-width:1180px;
+      margin:0 auto;
+      padding:28px 16px 40px;
+    }
+
+    .topbar{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:18px;
+    }
+
+    .small-btn{
+      border:none;
+      border-radius:14px;
+      padding:12px 16px;
+      font-size:15px;
+      font-weight:bold;
+      cursor:pointer;
+      transition:.2s ease;
+      background:#ece7db;
+      color:var(--text);
+    }
+
+    .small-btn:hover{
+      transform:translateY(-1px);
+      background:#e2dccd;
+    }
+
+    .hero{
+      background:var(--setor-pergaminho);
+      border:1px solid var(--line);
+      border-radius:28px;
+      padding:30px;
+      box-shadow:var(--shadow);
+      margin-bottom:22px;
+    }
+
+    .eyebrow{
+      display:inline-block;
+      padding:8px 14px;
+      border-radius:999px;
+      background:#e4dccb;
+      color:#6b5b46;
+      font-size:14px;
+      font-weight:bold;
+      margin-bottom:14px;
+    }
+
+    h1{
+      margin:0 0 10px 0;
+      font-size:34px;
+      line-height:1.15;
+      color:#4d6280;
+    }
+
+    .subtitle{
+      margin:0;
+      font-size:20px;
+      color:var(--muted);
+      line-height:1.7;
+    }
+
+    .trust-box{
+      margin-top:22px;
+      background:#f8f6f0;
+      border:1px solid var(--line);
+      border-left:6px solid var(--setor-azul-forte);
+      border-radius:18px;
+      padding:18px 18px 18px 16px;
+      font-size:18px;
+      line-height:1.85;
+      color:var(--text);
+    }
+
+    .trust-box strong{
+      display:block;
+      margin-bottom:6px;
+      font-size:19px;
+    }
+
+    .section-title{
+      margin:28px 0 14px;
+      font-size:26px;
+      color:#4d6280;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0,1fr));
+      gap:18px;
+    }
+
+    .card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:24px;
+      padding:22px;
+      box-shadow:var(--shadow);
+    }
+
+    .card.pergaminho{
+      background:var(--setor-pergaminho);
+    }
+
+    .card.azul{
+      background:var(--setor-azul);
+      border-left:8px solid var(--setor-azul-forte);
+    }
+
+    .card.tecnico{
+      background:var(--setor-tecnico);
+    }
+
+    .card.verde{
+      background:var(--setor-verde);
+      border-left:8px solid #6c9b86;
+    }
+
+    .card.dourado{
+      background:var(--setor-dourado);
+      border-left:8px solid #b89042;
+    }
+
+    h2{
+      margin:0 0 12px 0;
+      font-size:28px;
+    }
+
+    h3{
+      margin:0 0 10px 0;
+      font-size:22px;
+      color:#41566f;
+    }
+
+    p{
+      margin:0 0 14px 0;
+      font-size:18px;
+      line-height:1.8;
+    }
+
+    ul{
+      margin:10px 0 0 18px;
+      padding:0;
+    }
+
+    li{
+      margin-bottom:8px;
+      font-size:17px;
+      line-height:1.7;
+    }
+
+    .badge{
+      display:inline-block;
+      padding:6px 12px;
+      border-radius:999px;
+      font-size:13px;
+      font-weight:bold;
+      margin-bottom:12px;
+      background:rgba(255,255,255,.65);
+      color:#4d4336;
+      border:1px solid rgba(0,0,0,.06);
+    }
+
+    .footer-note{
+      margin-top:24px;
+      text-align:center;
+      font-size:18px;
+      color:var(--muted);
+      line-height:1.8;
+    }
+
+    @media (max-width:900px){
+      .grid{
+        grid-template-columns:1fr;
+      }
+
+      h1{
+        font-size:30px;
+      }
+
+      h2{
+        font-size:25px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <div class="topbar">
+      <button class="small-btn" onclick="history.back()">← Retornar</button>
+      <button class="small-btn" onclick="window.location.href='index.html'">Sair do sistema</button>
+    </div>
+
+    <section class="hero">
+      <div class="eyebrow">Lapidar • Seção 03 • Módulo 03</div>
+      <h1>Assistente de Diagramação do Autor — Mapa Estrutural</h1>
+      <p class="subtitle">
+        Esta página organiza tudo o que pertence oficialmente à Diagramação antes de mexermos item por item dentro do módulo.
+      </p>
+
+      <div class="trust-box">
+        <strong>Aqui é onde o seu texto ganha formato e forma de páginas para formar o seu futuro livro.</strong>
+        A Diagramação trabalha a forma visual da obra. Ela não faz leitura estrutural inicial do arquivo e não substitui o Bolsão. Ela recebe o texto-base e transforma esse material em miolo editorial.
+      </div>
+    </section>
+
+    <h2 class="section-title">1. Base da diagramação</h2>
+    <div class="grid">
+      <section class="card pergaminho">
+        <div class="badge">Entrada do módulo</div>
+        <h3>O que a diagramação recebe</h3>
+        <ul>
+          <li>Texto-base preparado pelo Bolsão</li>
+          <li>Título da obra</li>
+          <li>Subtítulo, se houver</li>
+          <li>Autor identificado</li>
+          <li>Idioma e variante da edição</li>
+          <li>Estrutura geral da obra</li>
+        </ul>
+      </section>
+
+      <section class="card verde">
+        <div class="badge">Proteção estrutural</div>
+        <h3>O que a diagramação não faz</h3>
+        <ul>
+          <li>Não realiza leitura inicial do arquivo</li>
+          <li>Não identifica autoria pela primeira vez</li>
+          <li>Não faz correção ortográfica básica</li>
+          <li>Não faz limpeza estrutural inicial</li>
+          <li>Não substitui o Bolsão</li>
+        </ul>
+      </section>
+    </div>
+
+    <h2 class="section-title">2. Formato do livro</h2>
+    <div class="grid">
+      <section class="card azul">
+        <div class="badge">Formato gratuito</div>
+        <h3>Formatos disponíveis</h3>
+        <ul>
+          <li>A5</li>
+          <li>A4</li>
+          <li>16x23</li>
+          <li>Infantil</li>
+          <li>Pocket</li>
+          <li>Personalizado</li>
+        </ul>
+        <p>
+          O formato do livro é gratuito dentro da Diagramação.
+        </p>
+      </section>
+
+      <section class="card tecnico">
+        <div class="badge">Localização editorial</div>
+        <h3>Formato por idioma e variante</h3>
+        <ul>
+          <li>Português do Brasil</li>
+          <li>Português de Portugal</li>
+          <li>Português internacional lusófono</li>
+          <li>Inglês dos Estados Unidos</li>
+          <li>Inglês do Reino Unido</li>
+          <li>Espanhol da Espanha</li>
+          <li>Espanhol da América Latina</li>
+        </ul>
+      </section>
+    </div>
+
+    <h2 class="section-title">3. Recursos visuais do miolo</h2>
+    <div class="grid">
+      <section class="card tecnico">
+        <div class="badge">Estrutura visual</div>
+        <h3>Itens que pertencem à Diagramação</h3>
+        <ul>
+          <li>Tipografia</li>
+          <li>Entrelinha</li>
+          <li>Recuo de parágrafo</li>
+          <li>Espaço entre parágrafos</li>
+          <li>Página par e ímpar</li>
+          <li>Cabeçalho e rodapé</li>
+          <li>Numeração</li>
+          <li>Estilo de capítulos</li>
+        </ul>
+      </section>
+
+      <section class="card azul">
+        <div class="badge">Recursos especiais</div>
+        <h3>Itens adicionais da seção</h3>
+        <ul>
+          <li>Letra capitular</li>
+          <li>Capitular com moldura</li>
+          <li>Capitular com fundo decorativo</li>
+          <li>Separadores de cena</li>
+          <li>Ornamentos tipográficos</li>
+          <li>Molduras internas</li>
+        </ul>
+      </section>
+    </div>
+
+    <h2 class="section-title">4. Imagens internas</h2>
+    <div class="grid">
+      <section class="card dourado">
+        <div class="badge">Imagens da obra</div>
+        <h3>O que a Diagramação faz com imagens</h3>
+        <ul>
+          <li>Posiciona imagens internas</li>
+          <li>Define tamanho de página</li>
+          <li>Organiza fluxo visual</li>
+          <li>Insere legenda, se houver</li>
+          <li>Adapta o miolo ao tipo de imagem</li>
+        </ul>
+      </section>
+
+      <section class="card verde">
+        <div class="badge">Limite do módulo</div>
+        <h3>O que não cabe aqui</h3>
+        <ul>
+          <li>Gerar a imagem do zero</li>
+          <li>Fazer leitura inicial do livro por causa da imagem</li>
+          <li>Classificar a obra com base nas imagens</li>
+          <li>Substituir o módulo de tradução</li>
+        </ul>
+      </section>
+    </div>
+
+    <h2 class="section-title">5. Modo internacional</h2>
+    <div class="grid">
+      <section class="card tecnico">
+        <div class="badge">Diagramação multilíngue</div>
+        <h3>Integração com Segunda Língua(s)</h3>
+        <ul>
+          <li>Recebe a nova instância do texto traduzido</li>
+          <li>Adapta diagramação ao idioma da edição</li>
+          <li>Respeita variante linguística</li>
+          <li>Prepara o miolo para o mercado editorial daquela língua</li>
+        </ul>
+      </section>
+
+      <section class="card azul">
+        <div class="badge">Resultado final</div>
+        <h3>Entrega do módulo</h3>
+        <ul>
+          <li>Miolo diagramado</li>
+          <li>Estrutura visual pronta</li>
+          <li>Formato de páginas definido</li>
+          <li>Organização de leitura confortável</li>
+        </ul>
+      </section>
+    </div>
+
+    <div class="footer-note">
+      Estamos dando forma aos seus sonhos, no seu idioma e nos caminhos que sua obra ainda irá alcançar.
+    </div>
+
+  </div>
+</body>
+</html>
