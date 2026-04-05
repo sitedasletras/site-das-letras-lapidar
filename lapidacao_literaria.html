@@ -3,148 +3,260 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pagamento — Lapidar</title>
+<title>Lapidação Literária — Lapidar</title>
 
 <style>
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: linear-gradient(180deg, #0b3d2e, #021d14);
-    color: white;
+*{
+box-sizing:border-box;
 }
 
-.container {
-    max-width: 600px;
-    margin: 40px auto;
-    padding: 20px;
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:linear-gradient(180deg,#103126,#051811);
+color:#ffffff;
 }
 
-.card {
-    background: #0f4d3a;
-    border-radius: 12px;
-    padding: 20px;
-    margin-bottom: 20px;
+.container{
+max-width:980px;
+margin:0 auto;
+padding:24px;
 }
 
-h2 {
-    margin-top: 0;
+.card{
+background:rgba(255,255,255,0.07);
+border:1px solid rgba(255,255,255,0.08);
+border-radius:18px;
+padding:22px;
+margin-bottom:20px;
 }
 
-button {
-    background: #2ecc71;
-    border: none;
-    padding: 12px 20px;
-    border-radius: 8px;
-    font-size: 16px;
-    cursor: pointer;
+h1,h2{
+margin-top:0;
 }
 
-button:hover {
-    background: #27ae60;
+p{
+color:#d8efe2;
+line-height:1.6;
+}
+
+.info{
+margin-bottom:12px;
+padding:12px;
+border-radius:12px;
+background:rgba(255,255,255,0.05);
+}
+
+textarea{
+width:100%;
+min-height:220px;
+border:none;
+outline:none;
+resize:vertical;
+border-radius:14px;
+padding:16px;
+font-size:15px;
+background:#f4fff8;
+color:#113322;
+}
+
+.actions{
+display:flex;
+flex-wrap:wrap;
+gap:12px;
+margin-top:18px;
+}
+
+button{
+border:none;
+border-radius:12px;
+padding:14px 18px;
+font-size:15px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.btn-principal{
+background:#2ecc71;
+color:#062414;
+}
+
+.btn-principal:hover{
+background:#29b765;
+}
+
+.btn-secundario{
+background:#dcefe4;
+color:#103222;
+}
+
+.btn-secundario:hover{
+background:#c8e6d4;
+}
+
+.status{
+display:none;
+margin-top:16px;
+padding:14px;
+border-radius:12px;
+background:rgba(46,204,113,0.14);
+border:1px solid rgba(46,204,113,0.25);
+color:#dbffea;
+}
+
+.erro{
+display:none;
+margin-top:16px;
+padding:14px;
+border-radius:12px;
+background:rgba(231,76,60,0.14);
+border:1px solid rgba(231,76,60,0.25);
+color:#ffd9d4;
 }
 </style>
-
 </head>
-
 <body>
 
 <div class="container">
 
-<div class="card">
-<h2>Resumo financeiro</h2>
-<p>Projeto carregado com sucesso.</p>
-</div>
+    <div class="card">
+        <h1>Lapidação Literária</h1>
+        <p>
+            Esta etapa registra o refinamento textual da obra dentro do fluxo editorial do Lapidar.
+            Quando a lapidação for concluída, o sistema libera a próxima fase do projeto.
+        </p>
+    </div>
 
-<div class="card">
-<h2>Status pagamento</h2>
-<p>Pagamento confirmado (modo simulação).</p>
+    <div class="card">
+        <h2>Dados do projeto</h2>
+        <div class="info"><strong>Título:</strong> <span id="tituloProjeto">Carregando...</span></div>
+        <div class="info"><strong>Autor:</strong> <span id="autorProjeto">Carregando...</span></div>
+        <div class="info"><strong>Módulos:</strong> <span id="modulosProjeto">Carregando...</span></div>
+        <div class="info"><strong>Status da lapidação:</strong> <span id="statusLapidacao">Carregando...</span></div>
+    </div>
 
-<button onclick="simularPagamento()">Simular pagamento aprovado</button>
-</div>
+    <div class="card">
+        <h2>Refinamento textual</h2>
+        <p>
+            Use este espaço para registrar observações, humanização, lapidação de estilo, respiro narrativo,
+            fluidez, ritmo, diálogos, acabamento e outras intervenções editoriais.
+        </p>
 
-<div class="card">
-<h2>Download</h2>
+        <textarea id="textoLapidado" placeholder="Escreva aqui as observações da Lapidação Literária..."></textarea>
 
-<button onclick="baixarPacote()">Baixar pacote editorial</button>
+        <div class="actions">
+            <button class="btn-principal" onclick="executarLapidacao()">Concluir Lapidação Literária</button>
+            <button class="btn-secundario" onclick="salvarRascunho()">Salvar rascunho</button>
+            <button class="btn-secundario" onclick="voltarPainel()">Voltar ao painel</button>
+        </div>
 
-</div>
+        <div class="status" id="mensagemStatus"></div>
+        <div class="erro" id="mensagemErro"></div>
+    </div>
 
 </div>
 
 <script>
+function obterProjeto(){
+    const projetoSalvo = localStorage.getItem("projeto_lapidar");
+    if(!projetoSalvo){
+        return null;
+    }
 
-function simularPagamento() {
-
-let projeto = JSON.parse(localStorage.getItem("projeto_lapidar"));
-
-if (!projeto) {
-
-alert("Nenhum projeto encontrado.");
-return;
-
+    try{
+        return JSON.parse(projetoSalvo);
+    }catch(e){
+        return null;
+    }
 }
 
-projeto.pagamentoConfirmado = true;
-
-localStorage.setItem("projeto_lapidar", JSON.stringify(projeto));
-
-alert("Pagamento confirmado com sucesso.");
-
+function salvarProjeto(projeto){
+    localStorage.setItem("projeto_lapidar", JSON.stringify(projeto));
 }
 
-
-
-function baixarPacote() {
-
-const projeto = JSON.parse(localStorage.getItem("projeto_lapidar"));
-
-if (!projeto) {
-
-alert("Nenhum projeto ativo encontrado.");
-return;
-
+function mostrarStatus(texto){
+    const box = document.getElementById("mensagemStatus");
+    box.style.display = "block";
+    box.textContent = texto;
 }
 
-
-if (projeto.modulosSelecionados &&
-projeto.modulosSelecionados.includes("Lapidação Literária") &&
-!projeto.lapidacaoExecutada) {
-
-alert("A Lapidação Literária ainda não foi executada.");
-return;
-
+function mostrarErro(texto){
+    const box = document.getElementById("mensagemErro");
+    box.style.display = "block";
+    box.textContent = texto;
 }
 
+function carregarTela(){
+    const projeto = obterProjeto();
 
-const pacote = {
+    if(!projeto){
+        alert("Projeto não encontrado. Volte para a produção integrada.");
+        window.location.href = "producao_integrada.html";
+        return;
+    }
 
-titulo: projeto.titulo || "Sem título",
-autor: projeto.autor || "Sem autor",
-modulos: projeto.modulosSelecionados || [],
-status: "Pacote editorial gerado com sucesso"
+    document.getElementById("tituloProjeto").textContent = projeto.titulo || "Sem título";
+    document.getElementById("autorProjeto").textContent = projeto.autor || "Sem autor";
 
-};
+    document.getElementById("modulosProjeto").textContent =
+        Array.isArray(projeto.modulosSelecionados) && projeto.modulosSelecionados.length
+        ? projeto.modulosSelecionados.join(", ")
+        : "Nenhum módulo selecionado";
 
+    document.getElementById("statusLapidacao").textContent =
+        projeto.lapidacaoExecutada ? "Concluída" : "Pendente";
 
-const blob = new Blob(
+    if(projeto.textoLapidado){
+        document.getElementById("textoLapidado").value = projeto.textoLapidado;
+    }
 
-[JSON.stringify(pacote, null, 2)],
-
-{ type: "application/json" }
-
-);
-
-
-const link = document.createElement("a");
-
-link.href = URL.createObjectURL(blob);
-
-link.download = "pacote-editorial.json";
-
-link.click();
-
+    const modulos = Array.isArray(projeto.modulosSelecionados) ? projeto.modulosSelecionados : [];
+    if(!modulos.includes("Lapidação Literária")){
+        mostrarErro("Atenção: este projeto não marcou Lapidação Literária entre os módulos. Mesmo assim, você pode usar esta etapa para registrar refinamento textual.");
+    }
 }
 
+function salvarRascunho(){
+    const projeto = obterProjeto();
+
+    if(!projeto){
+        alert("Projeto não encontrado.");
+        return;
+    }
+
+    projeto.textoLapidado = document.getElementById("textoLapidado").value;
+    salvarProjeto(projeto);
+
+    mostrarStatus("Rascunho salvo com sucesso.");
+}
+
+function executarLapidacao(){
+    const projeto = obterProjeto();
+
+    if(!projeto){
+        alert("Projeto não encontrado.");
+        return;
+    }
+
+    projeto.textoLapidado = document.getElementById("textoLapidado").value;
+    projeto.lapidacaoExecutada = true;
+    projeto.dataLapidacao = new Date().toISOString();
+
+    salvarProjeto(projeto);
+
+    document.getElementById("statusLapidacao").textContent = "Concluída";
+    mostrarStatus("Lapidação Literária concluída com sucesso. Redirecionando para o painel do projeto...");
+
+    setTimeout(() => {
+        window.location.href = "painel_projeto.html";
+    }, 800);
+}
+
+function voltarPainel(){
+    window.location.href = "painel_projeto.html";
+}
+
+carregarTela();
 </script>
 
 </body>
