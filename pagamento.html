@@ -1,187 +1,63 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-<meta charset="UTF-8">
-<title>Mesário-mor • Lapidar</title>
 
-<style>
+PATCH LAPIDAR – CORREÇÃO DO BOTÃO DOWNLOAD + PIPELINE MÓDULOS
 
-body{
-font-family:Arial;
-background:#f4efe4;
-margin:0;
-padding:0;
-}
+Substituir o botão atual "Baixar pacote editorial" por este código:
 
-.container{
-max-width:900px;
-margin:auto;
-padding:30px;
-}
+<button onclick="baixarPacote()">Baixar pacote editorial</button>
 
-.box{
-background:white;
-border-radius:16px;
-padding:30px;
-box-shadow:0 10px 25px rgba(0,0,0,0.08);
-}
-
-h1{
-margin-top:0;
-}
-
-.status{
-padding:15px;
-border-radius:12px;
-margin-top:20px;
-font-weight:bold;
-}
-
-.aguardando{
-background:#fff3cd;
-}
-
-.confirmado{
-background:#d4edda;
-}
-
-button{
-padding:16px;
-border:none;
-border-radius:10px;
-font-size:16px;
-font-weight:bold;
-cursor:pointer;
-background:#17335d;
-color:white;
-margin-top:20px;
-}
-
-button:disabled{
-background:#ccc;
-}
-
-.download{
-display:none;
-margin-top:20px;
-}
-
-</style>
-</head>
-
-<body>
-
-<div class="container">
-
-<div class="box">
-
-<h1>Mesário-mor</h1>
-
-<p>
-Resumo final da contribuição institucional da obra.
-Após confirmação, o sistema encaminhará automaticamente para validação.
-</p>
-
-<h2>Contribuição final</h2>
-
-<h1 id="valorFinal">CVMI 78,99</h1>
-
-<div id="statusBox" class="status aguardando">
-
-Status atual: aguardando confirmação
-
-</div>
-
-<button id="confirmarBtn" onclick="confirmarContribuicao()">
-
-Confirmar contribuição
-
-</button>
-
-<div id="downloads" class="download">
-
-<h2>Downloads liberados</h2>
-
-<button onclick="baixarMiolo()">Baixar miolo</button>
-
-<button onclick="baixarCapa()">Baixar capa</button>
-
-<button onclick="baixarCompleto()">Baixar pacote completo</button>
-
-</div>
-
-</div>
-
-</div>
+Adicionar o script abaixo antes do fechamento da tag </body>:
 
 <script>
+function baixarPacote() {
 
-const STATUS_KEY = "lapidar_status_fluxo"
+    const projeto = JSON.parse(localStorage.getItem("projeto_lapidar"));
 
-function confirmarContribuicao(){
+    if (!projeto) {
+        alert("Nenhum projeto ativo encontrado.");
+        return;
+    }
 
-localStorage.setItem(STATUS_KEY,"aguardando_contribuicao")
+    if (projeto.modulosSelecionados.includes("Lapidação Literária") 
+        && !projeto.lapidacaoExecutada) {
 
-// redirecionamento automático Hotmart
+        alert("A Lapidação Literária ainda não foi executada.");
+        return;
+    }
 
-const hotmartLink =
-localStorage.getItem("lapidar_hotmart_link")
+    const pacote = {
+        titulo: projeto.titulo,
+        autor: projeto.autor,
+        modulos: projeto.modulosSelecionados,
+        status: "Pacote editorial gerado com sucesso"
+    };
 
-if(hotmartLink){
+    const blob = new Blob([JSON.stringify(pacote, null, 2)], {
+        type: "application/json"
+    });
 
-window.location.href = hotmartLink
-
-}else{
-
-// modo teste
-
-setTimeout(()=>{
-contribuicaoConfirmada()
-},1200)
-
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "pacote-editorial.json";
+    link.click();
 }
-
-}
-
-function contribuicaoConfirmada(){
-
-localStorage.setItem(STATUS_KEY,"contribuicao_confirmada")
-
-document.getElementById("statusBox").className =
-"status confirmado"
-
-document.getElementById("statusBox").innerText =
-"Status atual: contribuição confirmada"
-
-document.getElementById("confirmarBtn").disabled = true
-
-document.getElementById("downloads").style.display =
-"block"
-
-}
-
-function baixarMiolo(){
-alert("Download miolo liberado")
-}
-
-function baixarCapa(){
-alert("Download capa liberado")
-}
-
-function baixarCompleto(){
-alert("Download completo liberado")
-}
-
-// caso já tenha confirmado antes
-
-if(localStorage.getItem(STATUS_KEY) ==
-"contribuicao_confirmada"){
-
-contribuicaoConfirmada()
-
-}
-
 </script>
 
-</body>
-</html>
+
+CORREÇÃO DO PIPELINE DE EXECUÇÃO
+
+Adicionar após registrar projeto:
+
+localStorage.setItem("projeto_lapidar", JSON.stringify({
+    titulo: titulo,
+    autor: autor,
+    modulosSelecionados: modulosSelecionados,
+    lapidacaoExecutada: false
+}));
+
+
+Após finalizar Lapidação Literária:
+
+let projeto = JSON.parse(localStorage.getItem("projeto_lapidar"));
+projeto.lapidacaoExecutada = true;
+localStorage.setItem("projeto_lapidar", JSON.stringify(projeto));
+
