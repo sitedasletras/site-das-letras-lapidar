@@ -115,7 +115,7 @@ font-size:14px;
 
 <h1>Painel do Projeto</h1>
 
-<div class="autosave" id="autoSaveStatus">
+<div class="autosave">
 Projeto salvo automaticamente.
 </div>
 
@@ -207,9 +207,26 @@ return JSON.parse(localStorage.getItem("projeto_lapidar"));
 
 function salvarProjeto(p){
 
-p.ultimaAtualizacao = new Date().toISOString();
+p.ultimaAtualizacao=new Date().toISOString();
 
-localStorage.setItem("projeto_lapidar",JSON.stringify(p));
+localStorage.setItem(
+"projeto_lapidar",
+JSON.stringify(p)
+);
+
+let historico=
+JSON.parse(
+localStorage.getItem("historico_lapidar")
+|| "[]"
+);
+
+historico=
+historico.map(x=>x.id===p.id?p:x);
+
+localStorage.setItem(
+"historico_lapidar",
+JSON.stringify(historico)
+);
 
 }
 
@@ -223,7 +240,7 @@ return new Date(d).toLocaleString("pt-BR");
 
 function atualizarPainel(){
 
-let projeto = obterProjeto();
+let projeto=obterProjeto();
 
 if(!projeto){
 
@@ -233,38 +250,34 @@ return;
 
 }
 
-document.getElementById("titulo").innerText = projeto.titulo;
+document.getElementById("titulo").innerText=projeto.titulo;
 
-document.getElementById("autor").innerText = projeto.autor;
+document.getElementById("autor").innerText=projeto.autor;
 
-document.getElementById("dataCriacao").innerText =
+document.getElementById("dataCriacao").innerText=
 formatarData(projeto.criadoEm);
 
-document.getElementById("ultimaAtualizacao").innerText =
-projeto.ultimaAtualizacao
-? formatarData(projeto.ultimaAtualizacao)
-: "Agora";
+document.getElementById("ultimaAtualizacao").innerText=
+formatarData(projeto.ultimaAtualizacao);
 
-
-let progresso = 20;
-
+let progresso=20;
 
 if(projeto.lapidacaoExecutada){
 
-document.getElementById("statusLapidacao").innerHTML =
+document.getElementById("statusLapidacao").innerHTML=
 "Lapidação Literária concluída";
 
-document.getElementById("statusLapidacao").className =
+document.getElementById("statusLapidacao").className=
 "info status-ok";
 
-progresso = 50;
+progresso=50;
 
 }else{
 
-document.getElementById("statusLapidacao").innerHTML =
+document.getElementById("statusLapidacao").innerHTML=
 "Lapidação Literária pendente";
 
-document.getElementById("statusLapidacao").className =
+document.getElementById("statusLapidacao").className=
 "info status-wait";
 
 }
@@ -272,79 +285,95 @@ document.getElementById("statusLapidacao").className =
 
 if(projeto.pagamentoConfirmado){
 
-document.getElementById("statusPagamento").innerHTML =
+document.getElementById("statusPagamento").innerHTML=
 "Pagamento confirmado";
 
-document.getElementById("statusPagamento").className =
+document.getElementById("statusPagamento").className=
 "info status-ok";
 
-progresso = 75;
+progresso=75;
 
 }else{
 
-document.getElementById("statusPagamento").innerHTML =
+document.getElementById("statusPagamento").innerHTML=
 "Pagamento pendente";
 
-document.getElementById("statusPagamento").className =
+document.getElementById("statusPagamento").className=
 "info status-wait";
 
 }
 
 
-if(projeto.downloadLiberado){
+if(projeto.exportadoEm){
 
-document.getElementById("statusExportacao").innerHTML =
-"Exportação liberada";
+document.getElementById("statusExportacao").innerHTML=
+"Exportação concluída";
 
-document.getElementById("statusExportacao").className =
+document.getElementById("statusExportacao").className=
 "info status-ok";
 
-progresso = 100;
+progresso=100;
+
+}else if(projeto.downloadLiberado){
+
+document.getElementById("statusExportacao").innerHTML=
+"Exportação disponível";
+
+document.getElementById("statusExportacao").className=
+"info status-wait";
 
 }else{
 
-document.getElementById("statusExportacao").innerHTML =
+document.getElementById("statusExportacao").innerHTML=
 "Exportação indisponível";
 
-document.getElementById("statusExportacao").className =
+document.getElementById("statusExportacao").className=
 "info status-stop";
 
 }
 
 
-document.getElementById("barra").style.width =
+document.getElementById("barra").style.width=
 progresso+"%";
 
 
-let lista = "";
+let lista="";
 
-projeto.modulosSelecionados.forEach(m=>{
+(projeto.modulosSelecionados||[])
+.forEach(m=>{
 
-lista += `<span class="tag">${m}</span>`;
+lista+=`<span class="tag">${m}</span>`;
 
 });
 
-document.getElementById("modulos").innerHTML = lista;
+document.getElementById("modulos").innerHTML=lista;
 
 
 if(!projeto.lapidacaoExecutada){
 
-document.getElementById("proximaAcao").innerText =
+document.getElementById("proximaAcao").innerText=
 "Próximo passo: executar Lapidação Literária.";
 
 }
 
 else if(!projeto.pagamentoConfirmado){
 
-document.getElementById("proximaAcao").innerText =
+document.getElementById("proximaAcao").innerText=
 "Próximo passo: confirmar pagamento.";
+
+}
+
+else if(!projeto.exportadoEm){
+
+document.getElementById("proximaAcao").innerText=
+"Próximo passo: exportar obra.";
 
 }
 
 else{
 
-document.getElementById("proximaAcao").innerText =
-"Próximo passo: exportar obra.";
+document.getElementById("proximaAcao").innerText=
+"Projeto concluído.";
 
 }
 
@@ -355,7 +384,7 @@ salvarProjeto(projeto);
 
 function continuarFluxo(){
 
-let projeto = obterProjeto();
+let projeto=obterProjeto();
 
 if(!projeto.lapidacaoExecutada){
 
@@ -373,7 +402,15 @@ return;
 
 }
 
+if(!projeto.exportadoEm){
+
 window.location.href="exportador_obra.html";
+
+return;
+
+}
+
+window.location.href="projeto_concluido.html";
 
 }
 
