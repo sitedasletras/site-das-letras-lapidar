@@ -6,6 +6,10 @@
 <title>Histórico de Projetos — Lapidar</title>
 
 <style>
+*{
+box-sizing:border-box;
+}
+
 body{
 margin:0;
 font-family:Arial,sans-serif;
@@ -24,6 +28,7 @@ background:rgba(255,255,255,.07);
 border-radius:18px;
 padding:24px;
 margin-bottom:20px;
+border:1px solid rgba(255,255,255,.08);
 }
 
 h1,h2{
@@ -110,6 +115,35 @@ border-radius:12px;
 background:rgba(255,255,255,.04);
 font-size:14px;
 color:#e8fff2;
+}
+
+.arquivos-resumo{
+display:flex;
+flex-wrap:wrap;
+gap:8px;
+margin-top:12px;
+}
+
+.arquivo-badge{
+display:inline-block;
+padding:7px 10px;
+border-radius:999px;
+font-size:12px;
+font-weight:bold;
+background:rgba(255,255,255,.08);
+color:#e8fff2;
+border:1px solid rgba(255,255,255,.08);
+}
+
+.arquivo-ok{
+background:rgba(46,204,113,.12);
+border:1px solid rgba(46,204,113,.25);
+color:#dbffea;
+}
+
+.arquivo-vazio{
+background:rgba(255,255,255,.06);
+color:#cfe8da;
 }
 
 .acoes{
@@ -205,201 +239,235 @@ duplicar uma base, excluir um registro antigo ou iniciar uma nova obra sem perde
 
 <script>
 function obterHistorico(){
-try{
-return JSON.parse(localStorage.getItem("historico_lapidar") || "[]");
-}catch(e){
-return [];
-}
+    try{
+        return JSON.parse(localStorage.getItem("historico_lapidar") || "[]");
+    }catch(e){
+        return [];
+    }
 }
 
 function salvarHistorico(historico){
-localStorage.setItem("historico_lapidar", JSON.stringify(historico));
+    localStorage.setItem("historico_lapidar", JSON.stringify(historico));
 }
 
 function formatarData(dataIso){
-if(!dataIso){
-return "Não informado";
-}
+    if(!dataIso){
+        return "Não informado";
+    }
 
-const data = new Date(dataIso);
+    const data = new Date(dataIso);
 
-if(isNaN(data.getTime())){
-return "Não informado";
-}
+    if(isNaN(data.getTime())){
+        return "Não informado";
+    }
 
-return data.toLocaleString("pt-BR");
+    return data.toLocaleString("pt-BR");
 }
 
 function obterStatusProjeto(projeto){
-if(projeto.exportadoEm){
-return {
-texto: "Projeto concluído",
-classe: "status-concluido",
-proximaEtapa: "Fluxo finalizado. Você pode baixar novamente o pacote na tela final."
-};
+    if(projeto.exportadoEm){
+        return {
+            texto: "Projeto concluído",
+            classe: "status-concluido",
+            proximaEtapa: "Fluxo finalizado. Você pode baixar novamente o pacote na tela final."
+        };
+    }
+
+    if(projeto.downloadLiberado && projeto.pagamentoConfirmado){
+        return {
+            texto: "Pronto para exportação",
+            classe: "status-exportacao",
+            proximaEtapa: "Próxima etapa: abrir o exportador e gerar o pacote editorial."
+        };
+    }
+
+    if(projeto.lapidacaoExecutada){
+        return {
+            texto: "Aguardando pagamento",
+            classe: "status-pagamento",
+            proximaEtapa: "Próxima etapa: confirmar o pagamento para liberar a exportação."
+        };
+    }
+
+    return {
+        texto: "Em preparação editorial",
+        classe: "status-preparacao",
+        proximaEtapa: "Próxima etapa: concluir a Lapidação Literária."
+    };
 }
 
-if(projeto.downloadLiberado && projeto.pagamentoConfirmado){
-return {
-texto: "Pronto para exportação",
-classe: "status-exportacao",
-proximaEtapa: "Próxima etapa: abrir o exportador e gerar o pacote editorial."
-};
+function badgeArquivo(label, ok){
+    return `<span class="arquivo-badge ${ok ? 'arquivo-ok' : 'arquivo-vazio'}">${label}</span>`;
 }
 
-if(projeto.lapidacaoExecutada){
-return {
-texto: "Aguardando pagamento",
-classe: "status-pagamento",
-proximaEtapa: "Próxima etapa: confirmar o pagamento para liberar a exportação."
-};
-}
+function resumirArquivos(projeto){
+    const arquivos = projeto.arquivos || {};
 
-return {
-texto: "Em preparação editorial",
-classe: "status-preparacao",
-proximaEtapa: "Próxima etapa: concluir a Lapidação Literária."
-};
+    const temManuscrito = !!arquivos.manuscrito;
+    const temCapa = !!arquivos.capa;
+    const temContra = !!arquivos.contracapa;
+    const temOrelhaDianteira = !!arquivos.orelhaDianteira;
+    const temOrelhaTraseira = !!arquivos.orelhaTraseira;
+    const temSelos = Array.isArray(arquivos.selos) && arquivos.selos.length > 0;
+    const temFoto = !!arquivos.fotoAutor;
+    const temInternas = Array.isArray(arquivos.imagensInternas) && arquivos.imagensInternas.length > 0;
+
+    return `
+        <div class="arquivos-resumo">
+            ${badgeArquivo("Manuscrito", temManuscrito)}
+            ${badgeArquivo("Capa", temCapa)}
+            ${badgeArquivo("Contracapa", temContra)}
+            ${badgeArquivo("Orelha D.", temOrelhaDianteira)}
+            ${badgeArquivo("Orelha T.", temOrelhaTraseira)}
+            ${badgeArquivo("Selos", temSelos)}
+            ${badgeArquivo("Foto", temFoto)}
+            ${badgeArquivo("Imagens", temInternas)}
+        </div>
+    `;
 }
 
 function carregarProjetos(){
-const historico = obterHistorico();
-const container = document.getElementById("listaProjetos");
+    const historico = obterHistorico();
+    const container = document.getElementById("listaProjetos");
 
-if(historico.length === 0){
-container.innerHTML = '<div class="vazio">Nenhum projeto registrado ainda.</div>';
-return;
-}
+    if(historico.length === 0){
+        container.innerHTML = '<div class="vazio">Nenhum projeto registrado ainda.</div>';
+        return;
+    }
 
-const projetosOrdenados = [...historico].sort((a, b) => {
-const dataA = new Date(a.ultimaAtualizacao || a.criadoEm || 0).getTime();
-const dataB = new Date(b.ultimaAtualizacao || b.criadoEm || 0).getTime();
-return dataB - dataA;
-});
+    const projetosOrdenados = [...historico].sort((a, b) => {
+        const dataA = new Date(a.ultimaAtualizacao || a.criadoEm || 0).getTime();
+        const dataB = new Date(b.ultimaAtualizacao || b.criadoEm || 0).getTime();
+        return dataB - dataA;
+    });
 
-container.innerHTML = "";
+    container.innerHTML = "";
 
-projetosOrdenados.forEach((projeto) => {
-const status = obterStatusProjeto(projeto);
+    projetosOrdenados.forEach((projeto) => {
+        const status = obterStatusProjeto(projeto);
 
-const bloco = document.createElement("div");
-bloco.className = "projeto";
+        const bloco = document.createElement("div");
+        bloco.className = "projeto";
 
-bloco.innerHTML = `
-<div class="projeto-info">
-<div class="projeto-titulo">${projeto.titulo || "Sem título"}</div>
+        bloco.innerHTML = `
+            <div class="projeto-info">
+                <div class="projeto-titulo">${projeto.titulo || "Sem título"}</div>
 
-<div class="meta">
-<strong>Autor:</strong> ${projeto.autor || "Sem autor"}<br>
-<strong>Criado em:</strong> ${formatarData(projeto.criadoEm)}<br>
-<strong>Última atualização:</strong> ${formatarData(projeto.ultimaAtualizacao || projeto.criadoEm)}<br>
-<strong>Módulos:</strong> ${(Array.isArray(projeto.modulosSelecionados) && projeto.modulosSelecionados.length)
-? projeto.modulosSelecionados.join(", ")
-: "Nenhum módulo selecionado"}
-</div>
+                <div class="meta">
+                    <strong>Autor:</strong> ${projeto.autor || "Sem autor"}<br>
+                    <strong>Criado em:</strong> ${formatarData(projeto.criadoEm)}<br>
+                    <strong>Última atualização:</strong> ${formatarData(projeto.ultimaAtualizacao || projeto.criadoEm)}<br>
+                    <strong>Módulos:</strong> ${(Array.isArray(projeto.modulosSelecionados) && projeto.modulosSelecionados.length)
+                        ? projeto.modulosSelecionados.join(", ")
+                        : "Nenhum módulo selecionado"}
+                </div>
 
-<span class="status-tag ${status.classe}">${status.texto}</span>
+                <span class="status-tag ${status.classe}">${status.texto}</span>
 
-<div class="proxima-etapa">${status.proximaEtapa}</div>
-</div>
+                <div class="proxima-etapa">${status.proximaEtapa}</div>
 
-<div class="acoes">
-<button class="btn" onclick="abrirProjeto('${projeto.id}')">Abrir</button>
-<button class="btn2" onclick="duplicarProjeto('${projeto.id}')">Duplicar</button>
-<button class="btn3" onclick="excluirProjeto('${projeto.id}')">Excluir</button>
-</div>
-`;
+                ${resumirArquivos(projeto)}
+            </div>
 
-container.appendChild(bloco);
-});
+            <div class="acoes">
+                <button class="btn" onclick="abrirProjeto('${projeto.id}')">Abrir</button>
+                <button class="btn2" onclick="duplicarProjeto('${projeto.id}')">Duplicar</button>
+                <button class="btn3" onclick="excluirProjeto('${projeto.id}')">Excluir</button>
+            </div>
+        `;
+
+        container.appendChild(bloco);
+    });
 }
 
 function atualizarProjetoNoHistorico(projetoAtualizado){
-const historico = obterHistorico();
-const novoHistorico = historico.map(item => {
-if(item.id === projetoAtualizado.id){
-return projetoAtualizado;
-}
-return item;
-});
-salvarHistorico(novoHistorico);
+    const historico = obterHistorico();
+    const novoHistorico = historico.map(item => {
+        if(item.id === projetoAtualizado.id){
+            return projetoAtualizado;
+        }
+        return item;
+    });
+    salvarHistorico(novoHistorico);
 }
 
 function abrirProjeto(idProjeto){
-const historico = obterHistorico();
-const projeto = historico.find(item => item.id === idProjeto);
+    const historico = obterHistorico();
+    const projeto = historico.find(item => item.id === idProjeto);
 
-if(!projeto){
-alert("Projeto não encontrado no histórico.");
-return;
-}
+    if(!projeto){
+        alert("Projeto não encontrado no histórico.");
+        return;
+    }
 
-projeto.ultimaAtualizacao = new Date().toISOString();
+    projeto.ultimaAtualizacao = new Date().toISOString();
 
-localStorage.setItem("projeto_lapidar", JSON.stringify(projeto));
-atualizarProjetoNoHistorico(projeto);
+    localStorage.setItem("projeto_lapidar", JSON.stringify(projeto));
+    atualizarProjetoNoHistorico(projeto);
 
-window.location.href = "painel_projeto.html";
+    window.location.href = "painel_projeto.html";
 }
 
 function duplicarProjeto(idProjeto){
-const historico = obterHistorico();
-const projeto = historico.find(item => item.id === idProjeto);
+    const historico = obterHistorico();
+    const projeto = historico.find(item => item.id === idProjeto);
 
-if(!projeto){
-alert("Projeto não encontrado no histórico.");
-return;
-}
+    if(!projeto){
+        alert("Projeto não encontrado no histórico.");
+        return;
+    }
 
-const agora = new Date().toISOString();
+    const agora = new Date().toISOString();
 
-const copia = {
-...projeto,
-id: "lapidar_" + Date.now(),
-titulo: (projeto.titulo || "Projeto") + " — Cópia",
-criadoEm: agora,
-ultimaAtualizacao: agora,
-lapidacaoExecutada: false,
-pagamentoConfirmado: false,
-downloadLiberado: false,
-dataLapidacao: null,
-dataPagamento: null,
-exportadoEm: null
-};
+    const copia = {
+        ...projeto,
+        id: "lapidar_" + Date.now(),
+        titulo: (projeto.titulo || "Projeto") + " — Cópia",
+        criadoEm: agora,
+        ultimaAtualizacao: agora,
+        lapidacaoExecutada: false,
+        pagamentoConfirmado: false,
+        downloadLiberado: false,
+        dataLapidacao: null,
+        dataPagamento: null,
+        exportadoEm: null,
+        textoLapidado: "",
+        textoBaseLido: projeto.textoBaseLido || ""
+    };
 
-const novoHistorico = [...historico, copia];
-salvarHistorico(novoHistorico);
-localStorage.setItem("projeto_lapidar", JSON.stringify(copia));
+    const novoHistorico = [...historico, copia];
+    salvarHistorico(novoHistorico);
+    localStorage.setItem("projeto_lapidar", JSON.stringify(copia));
 
-window.location.href = "painel_projeto.html";
+    window.location.href = "painel_projeto.html";
 }
 
 function excluirProjeto(idProjeto){
-const confirmar = confirm("Deseja realmente excluir este projeto do histórico?");
-if(!confirmar){
-return;
-}
+    const confirmar = confirm("Deseja realmente excluir este projeto do histórico?");
+    if(!confirmar){
+        return;
+    }
 
-const historico = obterHistorico();
-const novoHistorico = historico.filter(item => item.id !== idProjeto);
+    const historico = obterHistorico();
+    const novoHistorico = historico.filter(item => item.id !== idProjeto);
 
-salvarHistorico(novoHistorico);
+    salvarHistorico(novoHistorico);
 
-const projetoAtual = JSON.parse(localStorage.getItem("projeto_lapidar") || "null");
-if(projetoAtual && projetoAtual.id === idProjeto){
-localStorage.removeItem("projeto_lapidar");
-}
+    const projetoAtual = JSON.parse(localStorage.getItem("projeto_lapidar") || "null");
+    if(projetoAtual && projetoAtual.id === idProjeto){
+        localStorage.removeItem("projeto_lapidar");
+    }
 
-carregarProjetos();
+    carregarProjetos();
 }
 
 function novoProjeto(){
-localStorage.removeItem("projeto_lapidar");
-window.location.href = "producao_integrada.html";
+    localStorage.removeItem("projeto_lapidar");
+    window.location.href = "producao_integrada.html";
 }
 
 function voltarInicio(){
-window.location.href = "index.html";
+    window.location.href = "index.html";
 }
 
 carregarProjetos();
