@@ -1,86 +1,541 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Selecionar módulos • Lapidar</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lapidar • Seleção de Módulos Editoriais</title>
+  <style>
+    :root{
+      --bg:#f7f5ef;
+      --bg-soft:#f1eee6;
+      --card:#fffdf9;
+      --line:#d8d2c4;
+      --text:#3f3a32;
+      --muted:#6b6458;
+      --accent:#7f9c96;
+      --accent-dark:#68867f;
+      --accent-light:#dfe9e6;
+      --shadow:0 12px 28px rgba(67, 58, 45, 0.10);
+      --radius:20px;
+    }
 
-<style>
-body{font-family:Arial;background:#0f1f13;color:white;margin:0}
-.container{max-width:900px;margin:auto;padding:20px}
-.card{background:#183321;padding:20px;border-radius:15px}
-label{display:block;margin:10px 0;font-size:18px}
-button{background:#2e7d32;border:none;padding:14px 18px;border-radius:10px;color:white;font-weight:bold;cursor:pointer}
-</style>
+    *{
+      box-sizing:border-box;
+    }
+
+    body{
+      margin:0;
+      font-family: Arial, Helvetica, sans-serif;
+      background:linear-gradient(180deg, var(--bg), var(--bg-soft));
+      color:var(--text);
+    }
+
+    .container{
+      max-width:1100px;
+      margin:0 auto;
+      padding:28px 16px 40px;
+    }
+
+    .hero{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:28px;
+      padding:28px;
+      box-shadow:var(--shadow);
+      margin-bottom:22px;
+    }
+
+    .eyebrow{
+      display:inline-block;
+      padding:8px 14px;
+      border-radius:999px;
+      background:var(--accent-light);
+      color:var(--accent-dark);
+      font-size:14px;
+      font-weight:bold;
+      margin-bottom:14px;
+    }
+
+    h1{
+      margin:0 0 8px 0;
+      font-size:34px;
+      line-height:1.15;
+    }
+
+    .subtitle{
+      margin:0;
+      font-size:20px;
+      color:var(--muted);
+      line-height:1.6;
+    }
+
+    .dream-line{
+      margin:16px 0 14px;
+      font-size:24px;
+      font-weight:bold;
+      color:var(--accent-dark);
+      text-align:center;
+      line-height:1.5;
+    }
+
+    .card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:24px;
+      padding:22px;
+      box-shadow:var(--shadow);
+      margin-bottom:20px;
+    }
+
+    h2{
+      margin:0 0 12px 0;
+      font-size:28px;
+    }
+
+    h3{
+      margin:0 0 10px 0;
+      font-size:23px;
+    }
+
+    p{
+      margin:0 0 14px 0;
+      font-size:19px;
+      line-height:1.8;
+      color:var(--text);
+    }
+
+    .muted{
+      color:var(--muted);
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0,1fr));
+      gap:18px;
+    }
+
+    .module{
+      background:#faf8f2;
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:18px;
+    }
+
+    .module label{
+      display:flex;
+      gap:12px;
+      align-items:flex-start;
+      cursor:pointer;
+    }
+
+    .module input[type="checkbox"]{
+      margin-top:4px;
+      transform:scale(1.25);
+    }
+
+    .module strong{
+      display:block;
+      font-size:20px;
+      margin-bottom:6px;
+    }
+
+    .module span{
+      font-size:17px;
+      color:var(--muted);
+      line-height:1.6;
+      display:block;
+    }
+
+    .summary{
+      background:#faf8f2;
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:16px;
+      font-size:18px;
+      line-height:1.8;
+      white-space:pre-line;
+    }
+
+    .btn{
+      border:none;
+      border-radius:14px;
+      padding:15px 18px;
+      font-size:18px;
+      font-weight:bold;
+      cursor:pointer;
+      transition:.2s ease;
+      width:100%;
+      margin-top:8px;
+    }
+
+    .btn:hover{
+      transform:translateY(-1px);
+    }
+
+    .btn-primary{
+      background:var(--accent);
+      color:white;
+    }
+
+    .btn-primary:hover{
+      background:var(--accent-dark);
+    }
+
+    .btn-soft{
+      background:#ece7db;
+      color:var(--text);
+    }
+
+    .btn-soft:hover{
+      background:#e2dccd;
+    }
+
+    .btn-danger{
+      background:#c4b8a4;
+      color:#3f3a32;
+    }
+
+    .btn-danger:hover{
+      background:#b8aa95;
+    }
+
+    .actions{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
+      margin-top:10px;
+    }
+
+    .hidden{
+      display:none;
+    }
+
+    .note{
+      margin-top:12px;
+      font-size:16px;
+      line-height:1.7;
+      color:var(--muted);
+    }
+
+    .choice-box{
+      background:#faf8f2;
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:18px;
+      margin-top:14px;
+    }
+
+    .choice-box h4{
+      margin:0 0 12px 0;
+      font-size:21px;
+    }
+
+    .choice-buttons{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+      margin-top:10px;
+    }
+
+    @media (max-width:900px){
+      .grid,
+      .actions,
+      .choice-buttons{
+        grid-template-columns:1fr;
+      }
+
+      h1{
+        font-size:30px;
+      }
+
+      h2{
+        font-size:25px;
+      }
+
+      p,
+      .summary{
+        font-size:18px;
+      }
+
+      .dream-line{
+        font-size:21px;
+      }
+    }
+  </style>
 </head>
-
 <body>
+  <div class="container">
 
-<div class="container">
-<div class="card">
+    <section class="hero">
+      <div class="eyebrow">Continuidade Editorial</div>
+      <h1>Seleção de Módulos Editoriais</h1>
 
-<h2>Selecionar módulos do projeto</h2>
+      <p class="subtitle">
+        O Bolsão concluiu a preparação inicial da obra.
+      </p>
 
-<label><input type="checkbox" id="diagramacao"> Assistente de Diagramação</label>
-<label><input type="checkbox" id="capista"> OKapista</label>
-<label><input type="checkbox" id="traducao"> Segunda Língua(s)</label>
-<label><input type="checkbox" id="avaliacao"> Avaliação Literária</label>
-<label><input type="checkbox" id="analisador"> Analisador de Obra</label>
-<label><input type="checkbox" id="lapidacao"> Lapidação Literária</label>
-<label><input type="checkbox" id="silo"> Silo Sonoro</label>
+      <p class="dream-line">
+        Aqui começa o primeiro passo em prol da realização de um sonho.
+      </p>
 
-<button onclick="salvarSelecao()">Continuar</button>
+      <p class="subtitle">
+        Agora você pode escolher quais departamentos editoriais deseja autorizar nesta sessão.
+      </p>
+    </section>
 
-</div>
-</div>
+    <section class="card">
+      <h2>1. Escolha os módulos que deseja executar</h2>
+      <p>
+        Marque apenas os módulos que deseja autorizar agora. Você poderá voltar em outro momento para selecionar novas etapas.
+      </p>
 
-<script>
+      <div class="grid">
+        <div class="module">
+          <label>
+            <input type="checkbox" id="modHumanizacao" onchange="atualizarResumo()">
+            <div>
+              <strong>Lapidação Literária / Humanização</strong>
+              <span>Refino textual, naturalização da prosa e melhoria de fluidez antes da diagramação.</span>
+            </div>
+          </label>
+        </div>
 
-function salvarSelecao(){
+        <div class="module">
+          <label>
+            <input type="checkbox" id="modDiagramacao" onchange="atualizarResumo()">
+            <div>
+              <strong>Assistente de Diagramação</strong>
+              <span>Configuração visual do livro: margens, parágrafos, entrelinha, tipografia, capítulos e paginação.</span>
+            </div>
+          </label>
+        </div>
 
-const modulos={
-diagramacao:document.getElementById("diagramacao").checked,
-capista:document.getElementById("capista").checked,
-traducao:document.getElementById("traducao").checked,
-avaliacao:document.getElementById("avaliacao").checked,
-analisador:document.getElementById("analisador").checked,
-lapidacao:document.getElementById("lapidacao").checked,
-silo:document.getElementById("silo").checked
-};
+        <div class="module">
+          <label>
+            <input type="checkbox" id="modTraducao" onchange="atualizarResumo()">
+            <div>
+              <strong>Segunda Língua(s)</strong>
+              <span>Tradução editorial da obra para idioma adicional, com nova instância de diagramação do idioma traduzido.</span>
+            </div>
+          </label>
+        </div>
 
-localStorage.setItem("lapidar_modulos",JSON.stringify(modulos));
+        <div class="module">
+          <label>
+            <input type="checkbox" id="modAvaliacao" onchange="atualizarResumo()">
+            <div>
+              <strong>Avaliação Literária</strong>
+              <span>Parecer editorial estruturado com leitura crítica da obra.</span>
+            </div>
+          </label>
+        </div>
 
-const ordem=[
-"diagramacao.html",
-"capista.html",
-"segunda_lingua.html",
-"avaliacao_literaria.html",
-"analisador_obra.html",
-"lapidacao_literaria.html",
-"silo_sonoro.html",
-"expedicao_material.html"
-];
+        <div class="module">
+          <label>
+            <input type="checkbox" id="modAnalisador" onchange="atualizarResumo()">
+            <div>
+              <strong>Analisador de Obra</strong>
+              <span>Diagnóstico estrutural mais aprofundado sobre a composição do manuscrito.</span>
+            </div>
+          </label>
+        </div>
 
-for(let i=0;i<ordem.length;i++){
-const chave=ordem[i]
-.replace(".html","")
-.replace("segunda_lingua","traducao")
-.replace("avaliacao_literaria","avaliacao")
-.replace("analisador_obra","analisador")
-.replace("lapidacao_literaria","lapidacao")
-.replace("silo_sonoro","silo");
+        <div class="module">
+          <label>
+            <input type="checkbox" id="modCapista" onchange="atualizarResumo()">
+            <div>
+              <strong>OKapista</strong>
+              <span>Preparação de capa, contracapa, lombada e orelhas conforme o projeto editorial.</span>
+            </div>
+          </label>
+        </div>
 
-if(modulos[chave]){
-window.location.href=ordem[i];
-return;
-}
-}
+        <div class="module">
+          <label>
+            <input type="checkbox" id="modSonoro" onchange="atualizarResumo()">
+            <div>
+              <strong>Silo Sonoro</strong>
+              <span>Preparação da etapa de narração editorial e audiobook institucional.</span>
+            </div>
+          </label>
+        </div>
 
-alert("Selecione pelo menos um módulo");
+        <div class="module">
+          <label>
+            <input type="checkbox" id="modRelatorios" onchange="atualizarResumo()">
+            <div>
+              <strong>Relatórios</strong>
+              <span>Consolidação institucional das etapas executadas e do estado da obra no sistema.</span>
+            </div>
+          </label>
+        </div>
+      </div>
+    </section>
 
-}
+    <section class="card">
+      <h2>2. Resumo da sessão</h2>
+      <div class="summary" id="resumoSelecao">
+Nenhum módulo selecionado ainda.
+      </div>
 
-</script>
+      <div class="note">
+        Ao continuar, você estará autorizando apenas os módulos marcados nesta sessão.
+      </div>
 
+      <div class="actions">
+        <button class="btn btn-primary" onclick="abrirTIC()">Continuar</button>
+        <button class="btn btn-soft" onclick="limparEscolhas()">Limpar escolhas</button>
+      </div>
+    </section>
+
+    <section class="card hidden" id="blocoTIC">
+      <h2>3. TIC — Termo Institucional de Continuidade</h2>
+      <p>
+        Você selecionou os módulos abaixo para esta sessão. Ao confirmar, autoriza a ferramenta a executar os processamentos editoriais correspondentes.
+      </p>
+
+      <div class="summary" id="resumoTIC"></div>
+
+      <div class="choice-box">
+        <h4>Deseja autorizar a execução destes módulos?</h4>
+        <div class="choice-buttons">
+          <button class="btn btn-primary" onclick="responderTIC(true)">Sim</button>
+          <button class="btn btn-danger" onclick="responderTIC(false)">Não</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="card hidden" id="blocoRefazer">
+      <h2>4. Revisão de decisão</h2>
+      <p>
+        Você optou por não autorizar a execução dos módulos selecionados nesta sessão.
+      </p>
+
+      <div class="choice-box">
+        <h4>Deseja refazer suas escolhas?</h4>
+        <div class="choice-buttons">
+          <button class="btn btn-primary" onclick="refazerEscolhas(true)">Sim</button>
+          <button class="btn btn-danger" onclick="refazerEscolhas(false)">Não</button>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+    let ticPrimeiraResposta = null;
+
+    function listarSelecionados(){
+      const itens = [];
+
+      if(document.getElementById("modHumanizacao").checked) itens.push("Lapidação Literária / Humanização");
+      if(document.getElementById("modDiagramacao").checked) itens.push("Assistente de Diagramação");
+      if(document.getElementById("modTraducao").checked) itens.push("Segunda Língua(s)");
+      if(document.getElementById("modAvaliacao").checked) itens.push("Avaliação Literária");
+      if(document.getElementById("modAnalisador").checked) itens.push("Analisador de Obra");
+      if(document.getElementById("modCapista").checked) itens.push("OKapista");
+      if(document.getElementById("modSonoro").checked) itens.push("Silo Sonoro");
+      if(document.getElementById("modRelatorios").checked) itens.push("Relatórios");
+
+      return itens;
+    }
+
+    function atualizarResumo(){
+      const itens = listarSelecionados();
+      const resumo = document.getElementById("resumoSelecao");
+
+      if(itens.length === 0){
+        resumo.textContent = "Nenhum módulo selecionado ainda.";
+        return;
+      }
+
+      resumo.textContent =
+`Módulos selecionados nesta sessão:
+
+• ${itens.join("\n• ")}`;
+    }
+
+    function limparEscolhas(){
+      document.getElementById("modHumanizacao").checked = false;
+      document.getElementById("modDiagramacao").checked = false;
+      document.getElementById("modTraducao").checked = false;
+      document.getElementById("modAvaliacao").checked = false;
+      document.getElementById("modAnalisador").checked = false;
+      document.getElementById("modCapista").checked = false;
+      document.getElementById("modSonoro").checked = false;
+      document.getElementById("modRelatorios").checked = false;
+
+      atualizarResumo();
+
+      document.getElementById("blocoTIC").classList.add("hidden");
+      document.getElementById("blocoRefazer").classList.add("hidden");
+    }
+
+    function abrirTIC(){
+      const itens = listarSelecionados();
+
+      if(itens.length === 0){
+        alert("Selecione pelo menos um módulo antes de continuar.");
+        return;
+      }
+
+      document.getElementById("resumoTIC").textContent =
+`Você autorizará a execução dos seguintes módulos nesta sessão:
+
+• ${itens.join("\n• ")}`;
+
+      document.getElementById("blocoTIC").classList.remove("hidden");
+      document.getElementById("blocoRefazer").classList.add("hidden");
+    }
+
+    function responderTIC(resposta){
+      if(resposta){
+        const itens = listarSelecionados();
+
+        localStorage.setItem("lapidar_modulos_sessao", JSON.stringify(itens));
+        localStorage.setItem("lapidar_tic_primeira_resposta", ticPrimeiraResposta === false ? "nao" : "sim");
+        localStorage.setItem("lapidar_tic_resposta_final", "sim");
+
+        alert("TIC registrada com sucesso. A sessão editorial pode continuar.");
+
+        if(itens.includes("Lapidação Literária / Humanização")){
+          window.location.href = "hub_lapidacao.html";
+        } else if(itens.includes("Assistente de Diagramação")){
+          window.location.href = "hub_diagramador.html";
+        } else if(itens.includes("Segunda Língua(s)")){
+          window.location.href = "hub_tradutor.html";
+        } else if(itens.includes("Avaliação Literária")){
+          window.location.href = "hub_avaliacao.html";
+        } else if(itens.includes("Analisador de Obra")){
+          window.location.href = "hub_analisador.html";
+        } else if(itens.includes("OKapista")){
+          window.location.href = "hub_capista.html";
+        } else if(itens.includes("Silo Sonoro")){
+          window.location.href = "hub_silo_sonoro.html";
+        } else if(itens.includes("Relatórios")){
+          window.location.href = "hub_relatorios.html";
+        }
+      } else {
+        ticPrimeiraResposta = false;
+        localStorage.setItem("lapidar_tic_primeira_resposta", "nao");
+        document.getElementById("blocoRefazer").classList.remove("hidden");
+      }
+    }
+
+    function refazerEscolhas(resposta){
+      if(resposta){
+        localStorage.setItem("lapidar_tic_segunda_resposta", "sim");
+        limparEscolhas();
+        alert("Seleções limpas. Refaça suas escolhas para esta sessão.");
+      } else {
+        localStorage.setItem("lapidar_tic_segunda_resposta", "nao");
+        localStorage.setItem("lapidar_pipeline_encerrado", "true");
+
+        alert("Processo encerrado após duas recusas consecutivas da TIC. O Bolsão permanece registrado como etapa concluída.");
+      }
+    }
+
+    atualizarResumo();
+  </script>
 </body>
 </html>
