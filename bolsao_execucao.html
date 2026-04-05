@@ -19,12 +19,12 @@
       --gold-dark:#b8952b;
       --danger:#d7d2c6;
       --danger-dark:#c5beb0;
+      --mesario-bg:#f8f6f0;
+      --mesario-line:#b8952b;
       --shadow:0 12px 28px rgba(67, 58, 45, 0.10);
     }
 
-    *{
-      box-sizing:border-box;
-    }
+    *{ box-sizing:border-box; }
 
     body{
       margin:0;
@@ -56,27 +56,13 @@
       transition:.2s ease;
     }
 
-    .small-btn:hover{
-      transform:translateY(-1px);
-    }
+    .small-btn:hover{ transform:translateY(-1px); }
 
-    .btn-back{
-      background:#ece7db;
-      color:var(--text);
-    }
+    .btn-back{ background:#ece7db; color:var(--text); }
+    .btn-back:hover{ background:#e2dccd; }
 
-    .btn-back:hover{
-      background:#e2dccd;
-    }
-
-    .btn-exit{
-      background:#d7d2c6;
-      color:var(--text);
-    }
-
-    .btn-exit:hover{
-      background:#c9c1b2;
-    }
+    .btn-exit{ background:#d7d2c6; color:var(--text); }
+    .btn-exit:hover{ background:#c9c1b2; }
 
     .hero{
       background:var(--pergaminho);
@@ -189,36 +175,16 @@
       margin-top:6px;
     }
 
-    .main-btn:hover{
-      transform:translateY(-1px);
-    }
+    .main-btn:hover{ transform:translateY(-1px); }
 
-    .btn-read{
-      background:var(--gold);
-      color:white;
-    }
+    .btn-read{ background:var(--gold); color:white; }
+    .btn-read:hover{ background:var(--gold-dark); }
 
-    .btn-read:hover{
-      background:var(--gold-dark);
-    }
+    .btn-continue{ background:var(--accent); color:white; }
+    .btn-continue:hover{ background:var(--accent-dark); }
 
-    .btn-continue{
-      background:var(--accent);
-      color:white;
-    }
-
-    .btn-continue:hover{
-      background:var(--accent-dark);
-    }
-
-    .btn-stop{
-      background:#9aa8bb;
-      color:white;
-    }
-
-    .btn-stop:hover{
-      background:#8797ab;
-    }
+    .btn-stop{ background:#9aa8bb; color:white; }
+    .btn-stop:hover{ background:#8797ab; }
 
     .status-box{
       background:var(--soft-blue);
@@ -246,9 +212,7 @@
       line-height:1.7;
     }
 
-    .muted{
-      color:var(--muted);
-    }
+    .muted{ color:var(--muted); }
 
     .dream-line{
       margin-top:18px;
@@ -257,10 +221,6 @@
       line-height:1.6;
       color:#a87f4c;
       font-weight:bold;
-    }
-
-    .hidden{
-      display:none;
     }
 
     .actions{
@@ -278,6 +238,40 @@
       text-align:center;
     }
 
+    .mesario{
+      margin-top:18px;
+      background:var(--mesario-bg);
+      border:1px solid var(--line);
+      border-left:7px solid var(--mesario-line);
+      border-radius:18px;
+      padding:16px 18px;
+    }
+
+    .mesario h3{
+      margin:0 0 8px 0;
+      font-size:22px;
+      color:#6a5435;
+    }
+
+    .mesario p{
+      margin:0;
+      font-size:18px;
+      line-height:1.8;
+    }
+
+    .mesario-valor{
+      display:inline-block;
+      margin-top:8px;
+      padding:8px 12px;
+      border-radius:12px;
+      background:#fff7e6;
+      border:1px solid #e2c98f;
+      font-weight:bold;
+      color:#7a5d1d;
+    }
+
+    .hidden{ display:none; }
+
     @media (max-width: 800px){
       .actions,
       .topbar{
@@ -285,13 +279,8 @@
         display:grid;
       }
 
-      h1{
-        font-size:30px;
-      }
-
-      h2{
-        font-size:25px;
-      }
+      h1{ font-size:30px; }
+      h2{ font-size:25px; }
 
       p,
       .status-box,
@@ -299,9 +288,7 @@
         font-size:18px;
       }
 
-      .dream-line{
-        font-size:20px;
-      }
+      .dream-line{ font-size:20px; }
     }
   </style>
 </head>
@@ -382,6 +369,16 @@
         Se desejar continuar, o Lapidar abrirá a próxima página com os módulos editoriais disponíveis para esta sessão.
       </p>
 
+      <div class="mesario" id="mesarioSecao">
+        <h3>Mesário da seção</h3>
+        <p>
+          Preparação editorial inicial concluída nesta seção.
+        </p>
+        <div class="mesario-valor" id="mesarioValor">
+          CVR sugerida desta seção: R$ 5,00
+        </div>
+      </div>
+
       <div class="actions">
         <button class="main-btn btn-continue" onclick="continuar()">Continuar para os módulos</button>
         <button class="main-btn btn-stop" onclick="encerrarAqui()">Encerrar aqui</button>
@@ -428,6 +425,16 @@
       if(!document.getElementById("textoBase").value){
         document.getElementById("textoBase").value = "";
       }
+
+      atualizarMesarioBolsao();
+    }
+
+    function atualizarMesarioBolsao(){
+      // Placeholder inicial.
+      // Depois a gente substitui pela soma real dos itens gerados no Bolsão.
+      const valor = 5.00;
+      document.getElementById("mesarioValor").textContent =
+        "CVR sugerida desta seção: R$ " + valor.toFixed(2).replace(".", ",");
     }
 
     function continuar(){
@@ -437,6 +444,18 @@
     function encerrarAqui(){
       alert("Processo encerrado após o Bolsão de Limpeza Editorial.");
     }
+
+    function aplicarRegraPerfil(){
+      const perfil = (localStorage.getItem("lapidar_perfil") || "").toLowerCase();
+      const cortesia = perfil.includes("cortesia");
+
+      if(cortesia){
+        document.getElementById("mesarioSecao").classList.add("hidden");
+      }
+    }
+
+    aplicarRegraPerfil();
+    atualizarMesarioBolsao();
   </script>
 </body>
 </html>
