@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lapidar • Bolsão de Limpeza Editorial</title>
+  <style>
+    :root{
+      --bg:#f7f5ef;
+      --bg-soft:#f1eee6;
+      --card:#fffdf9;
+      --line:#d8d2c4;
+      --text:#3f3a32;
+      --muted:#6b6458;
+      --accent:#7f9c96;
+      --accent-dark:#68867f;
+      --accent-light:#dfe9e6;
+      --warn:#b18a59;
+      --ok:#6f8f88;
+      --shadow:0 12px 28px rgba(67, 58, 45, 0.10);
+      --radius:20px;
+    }
+
+    *{
+      box-sizing:border-box;
+    }
+
+    body{
+      margin:0;
+      font-family: Arial, Helvetica, sans-serif;
+      background:linear-gradient(180deg, var(--bg), var(--bg-soft));
+      color:var(--text);
+    }
+
+    .container{
+      max-width:1100px;
+      margin:0 auto;
+      padding:28px 16px 40px;
+    }
+
+    .hero{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:28px;
+      padding:28px;
+      box-shadow:var(--shadow);
+      margin-bottom:22px;
+    }
+
+    .eyebrow{
+      display:inline-block;
+      padding:8px 14px;
+      border-radius:999px;
+      background:var(--accent-light);
+      color:var(--accent-dark);
+      font-size:14px;
+      font-weight:bold;
+      margin-bottom:14px;
+    }
+
+    h1{
+      margin:0 0 8px 0;
+      font-size:34px;
+      line-height:1.15;
+    }
+
+    .subtitle{
+      margin:0;
+      font-size:20px;
+      color:var(--muted);
+      line-height:1.6;
+    }
+
+    .trust-box{
+      margin-top:22px;
+      background:#faf8f2;
+      border:1px solid var(--line);
+      border-left:6px solid var(--accent);
+      border-radius:18px;
+      padding:18px 18px 18px 16px;
+      font-size:18px;
+      line-height:1.8;
+      color:var(--text);
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:1.2fr .8fr;
+      gap:20px;
+      margin-bottom:22px;
+    }
+
+    .card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:24px;
+      padding:22px;
+      box-shadow:var(--shadow);
+    }
+
+    h2{
+      margin:0 0 14px 0;
+      font-size:28px;
+    }
+
+    h3{
+      margin:0 0 12px 0;
+      font-size:23px;
+    }
+
+    p{
+      margin:0 0 14px 0;
+      font-size:19px;
+      line-height:1.8;
+      color:var(--text);
+    }
+
+    .muted{
+      color:var(--muted);
+    }
+
+    .upload-zone{
+      margin-top:16px;
+      background:#fbfaf6;
+      border:2px dashed var(--accent);
+      border-radius:18px;
+      padding:22px;
+    }
+
+    .upload-zone label{
+      display:block;
+      font-size:18px;
+      font-weight:bold;
+      margin-bottom:10px;
+    }
+
+    input[type="file"],
+    select{
+      width:100%;
+      padding:14px;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background:white;
+      font-size:17px;
+      margin-bottom:14px;
+      color:var(--text);
+    }
+
+    .formats{
+      margin-top:8px;
+      font-size:16px;
+      line-height:1.7;
+      color:var(--muted);
+    }
+
+    .btn{
+      border:none;
+      border-radius:14px;
+      padding:15px 18px;
+      font-size:18px;
+      font-weight:bold;
+      cursor:pointer;
+      transition:.2s ease;
+      width:100%;
+      margin-top:6px;
+    }
+
+    .btn:hover{
+      transform:translateY(-1px);
+    }
+
+    .btn-primary{
+      background:var(--accent);
+      color:white;
+    }
+
+    .btn-primary:hover{
+      background:var(--accent-dark);
+    }
+
+    .btn-soft{
+      background:#ece7db;
+      color:var(--text);
+    }
+
+    .btn-soft:hover{
+      background:#e2dccd;
+    }
+
+    .status-list{
+      display:grid;
+      gap:10px;
+      margin-top:12px;
+    }
+
+    .status-item{
+      background:#faf8f2;
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:14px 16px;
+      font-size:18px;
+      line-height:1.6;
+    }
+
+    .badge{
+      display:inline-block;
+      padding:6px 12px;
+      border-radius:999px;
+      font-size:14px;
+      font-weight:bold;
+      margin-left:8px;
+      vertical-align:middle;
+    }
+
+    .badge-ok{
+      background:#e3efe9;
+      color:#47665f;
+    }
+
+    .badge-miss{
+      background:#f6ecde;
+      color:#8c6c41;
+    }
+
+    .report{
+      display:grid;
+      gap:14px;
+    }
+
+    .report-block{
+      background:#faf8f2;
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:16px;
+    }
+
+    .report-block strong{
+      display:block;
+      margin-bottom:8px;
+      font-size:18px;
+    }
+
+    ul.clean{
+      margin:8px 0 0 18px;
+      padding:0;
+    }
+
+    ul.clean li{
+      margin-bottom:8px;
+      font-size:18px;
+      line-height:1.7;
+    }
+
+    .decision{
+      margin-top:16px;
+      padding-top:8px;
+    }
+
+    .action-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
+      margin-top:16px;
+    }
+
+    .small-note{
+      margin-top:12px;
+      font-size:16px;
+      color:var(--muted);
+      line-height:1.7;
+    }
+
+    .hidden{
+      display:none;
+    }
+
+    .divider{
+      height:1px;
+      background:var(--line);
+      margin:18px 0;
+    }
+
+    .preview-box{
+      white-space:pre-line;
+      font-size:18px;
+      line-height:1.8;
+      color:var(--text);
+    }
+
+    @media (max-width:900px){
+      .grid{
+        grid-template-columns:1fr;
+      }
+
+      .action-grid{
+        grid-template-columns:1fr;
+      }
+
+      h1{
+        font-size:30px;
+      }
+
+      h2{
+        font-size:25px;
+      }
+
+      p,
+      .status-item,
+      ul.clean li,
+      .preview-box{
+        font-size:18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <section class="hero">
+      <div class="eyebrow">Módulo 01 • Bolsão de Limpeza Editorial</div>
+      <h1>Bolsão de Limpeza Editorial</h1>
+      <p class="subtitle">
+        Aqui sua obra é recebida, compreendida e preparada antes de seguir para os departamentos editoriais.
+      </p>
+
+      <div class="trust-box">
+        O Bolsão realiza apenas a preparação técnica e estrutural da obra.
+        <strong>O conteúdo autoral não é modificado nesta etapa.</strong>
+        Este espaço existe para acolher o manuscrito, interpretar sua estrutura, organizar seus elementos e preparar o texto-base para continuidade editorial.
+      </div>
+    </section>
+
+    <div class="grid">
+      <section class="card">
+        <h2>1. Envie sua obra</h2>
+        <p>
+          O Bolsão aceita o material como ele vier. Ele identifica o melhor caminho técnico para trabalhar a obra internamente e preparar sua continuidade.
+        </p>
+
+        <div class="upload-zone">
+          <label for="arquivoObra">Arquivo da obra</label>
+          <input type="file" id="arquivoObra" />
+
+          <label for="idiomaPrincipal">Idioma principal da obra</label>
+          <select id="idiomaPrincipal">
+            <option>Português</option>
+            <option>Inglês</option>
+            <option>Espanhol</option>
+            <option>Francês</option>
+            <option>Italiano</option>
+            <option>Outro</option>
+          </select>
+
+          <label for="formatoLivro">Formato pretendido do livro (opcional)</label>
+          <select id="formatoLivro">
+            <option>Não definido ainda</option>
+            <option>A5</option>
+            <option>16x23</option>
+            <option>16x27</option>
+            <option>6x9</option>
+            <option>A4 vertical</option>
+            <option>A4 horizontal</option>
+            <option>Infantil</option>
+            <option>Personalizado</option>
+          </select>
+
+          <button class="btn btn-primary" onclick="iniciarLeitura()">Iniciar leitura editorial</button>
+
+          <div class="formats">
+            Formatos aceitos: DOCX, PDF, TXT, RTF, ODT, JPG, PNG, ZIP e outros materiais compatíveis com preparação editorial.
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>2. O que o Bolsão faz</h2>
+        <div class="status-list">
+          <div class="status-item">Recebe a obra como ela foi enviada.</div>
+          <div class="status-item">Lê a estrutura e identifica o tipo de material predominante.</div>
+          <div class="status-item">Organiza elementos técnicos e metadados da obra.</div>
+          <div class="status-item">Prepara o texto-base institucional para os módulos seguintes.</div>
+        </div>
+
+        <div class="divider"></div>
+
+        <p class="muted">
+          O Bolsão é a entrada obrigatória do Lapidar. Os demais módulos só aparecem depois que esta etapa for concluída e você decidir continuar.
+        </p>
+      </section>
+    </div>
+
+    <section class="card hidden" id="blocoLeitura">
+      <h2>3. Leitura automática iniciando</h2>
+      <p>
+        O Bolsão está analisando a obra com cuidado antes de qualquer continuidade editorial.
+      </p>
+
+      <div class="status-list">
+        <div class="status-item">Analisando estrutura textual <span class="badge badge-ok">em andamento</span></div>
+        <div class="status-item">Detectando tipo predominante da obra <span class="badge badge-ok">em andamento</span></div>
+        <div class="status-item">Verificando elementos editoriais <span class="badge badge-ok">em andamento</span></div>
+        <div class="status-item">Preparando relatório preliminar <span class="badge badge-ok">em andamento</span></div>
+      </div>
+    </section>
+
+    <section class="card hidden" id="blocoClassificacao">
+      <h2>4. Identificação preliminar da obra</h2>
+      <p id="textoClassificacao" class="preview-box">
+        Identifiquei predominância de prosa narrativa com estrutura capitular contínua.
+      </p>
+
+      <p class="muted">
+        Esta é uma leitura preliminar do Bolsão. Você poderá confirmar ou ajustar a classificação.
+      </p>
+
+      <div class="action-grid">
+        <button class="btn btn-primary" onclick="confirmarClassificacao()">Confirmar classificação</button>
+        <button class="btn btn-soft" onclick="mostrarAlteracao()">Alterar classificação</button>
+      </div>
+
+      <div id="alteracaoClassificacao" class="hidden" style="margin-top:16px;">
+        <label for="novaClassificacao" style="display:block; font-size:18px; font-weight:bold; margin-bottom:8px;">
+          Escolha a classificação desejada
+        </label>
+        <select id="novaClassificacao">
+          <option>Romance contemporâneo</option>
+          <option>Crônica narrativa</option>
+          <option>Conto</option>
+          <option>Novela</option>
+          <option>Poesia</option>
+          <option>Miscelânea literária</option>
+          <option>Antologia</option>
+          <option>Infantil</option>
+          <option>Infanto-juvenil</option>
+          <option>Juvenil</option>
+          <option>Livro técnico</option>
+          <option>Livro de receitas</option>
+          <option>Outro</option>
+        </select>
+      </div>
+    </section>
+
+    <section class="card hidden" id="blocoRelatorio">
+      <h2>5. Relatório inicial do Bolsão</h2>
+      <div class="report">
+        <div class="report-block">
+          <strong>Itens identificados</strong>
+          <ul class="clean">
+            <li>Título identificado <span class="badge badge-ok">ok</span></li>
+            <li>Autor identificado <span class="badge badge-ok">ok</span></li>
+            <li>Estrutura capitular detectada <span class="badge badge-ok">ok</span></li>
+          </ul>
+        </div>
+
+        <div class="report-block">
+          <strong>Itens não encontrados</strong>
+          <ul class="clean">
+            <li>Sinopse <span class="badge badge-miss">ausente</span></li>
+            <li>Prefácio <span class="badge badge-miss">ausente</span></li>
+            <li>Biografia <span class="badge badge-miss">ausente</span></li>
+          </ul>
+        </div>
+
+        <div class="report-block">
+          <strong>Observação institucional</strong>
+          <div class="preview-box">
+O Bolsão recebeu sua obra, identificou sua estrutura e preparou a etapa inicial de organização editorial.
+
+Nesta fase, o conteúdo autoral foi preservado.
+          </div>
+        </div>
+      </div>
+
+      <div class="decision">
+        <h3>6. Continuidade editorial</h3>
+        <p>
+          A preparação inicial foi concluída. Deseja continuar para a próxima página, onde estarão disponíveis os departamentos editoriais?
+        </p>
+
+        <div class="action-grid">
+          <button class="btn btn-primary" onclick="continuarProducao()">Continuar para produção editorial</button>
+          <button class="btn btn-soft" onclick="encerrarAqui()">Encerrar aqui</button>
+        </div>
+
+        <div class="small-note">
+          Se você encerrar aqui, o pipeline editorial não seguirá para os departamentos. O Bolsão permanece como etapa concluída de preparação inicial da obra.
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+    function iniciarLeitura(){
+      document.getElementById("blocoLeitura").classList.remove("hidden");
+
+      setTimeout(function(){
+        document.getElementById("blocoClassificacao").classList.remove("hidden");
+      }, 900);
+
+      setTimeout(function(){
+        document.getElementById("blocoRelatorio").classList.remove("hidden");
+      }, 1600);
+    }
+
+    function confirmarClassificacao(){
+      const alteracao = document.getElementById("alteracaoClassificacao");
+      alteracao.classList.add("hidden");
+      alert("Classificação preliminar confirmada.");
+    }
+
+    function mostrarAlteracao(){
+      document.getElementById("alteracaoClassificacao").classList.remove("hidden");
+    }
+
+    function continuarProducao(){
+      window.location.href = "selecionar_modulos.html";
+    }
+
+    function encerrarAqui(){
+      alert("Processo encerrado após o Bolsão de Limpeza Editorial.");
+    }
+  </script>
+</body>
+</html>
