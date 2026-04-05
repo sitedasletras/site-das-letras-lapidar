@@ -10,57 +10,57 @@
 body{
 margin:0;
 font-family:Arial;
-background:#0d0603;
+background:linear-gradient(180deg,#0d2a21,#04120d);
 color:white;
 }
 
-header{
-background:#2f436d;
-padding:20px;
+.container{
+max-width:1100px;
+margin:auto;
+padding:24px;
+}
+
+.card{
+background:rgba(255,255,255,.07);
+border-radius:18px;
+padding:24px;
+margin-bottom:20px;
+}
+
+h1{
+margin-top:0;
+}
+
+.projeto{
+background:rgba(255,255,255,.05);
+padding:14px;
+border-radius:12px;
+margin-bottom:10px;
 display:flex;
 justify-content:space-between;
 align-items:center;
 }
 
-.container{
-max-width:1000px;
-margin:auto;
-padding:30px 20px;
-}
-
-.card{
-background:#14100c;
-border-radius:14px;
-padding:20px;
-margin-bottom:20px;
-box-shadow:0 6px 20px rgba(0,0,0,.25);
-}
-
-.lista{
-background:#1b100a;
-border-radius:10px;
-padding:15px;
-margin-top:10px;
-}
-
 button{
-padding:12px 16px;
 border:none;
-border-radius:8px;
+padding:10px 14px;
+border-radius:10px;
 cursor:pointer;
 font-weight:bold;
-background:#2f436d;
-color:white;
-margin-right:10px;
-margin-top:10px;
 }
 
-button.alt{
-background:#8a6f3f;
+.btn{
+background:#2ecc71;
+color:#062414;
 }
 
-button.sec{
-background:#6c757d;
+.btn2{
+background:#dcefe4;
+color:#103222;
+}
+
+.vazio{
+opacity:.7;
 }
 
 </style>
@@ -68,145 +68,91 @@ background:#6c757d;
 
 <body>
 
-<header>
-
-<h2>Histórico de Projetos</h2>
-
-<button onclick="voltar()">Voltar</button>
-
-</header>
-
-
 <div class="container">
 
-
 <div class="card">
 
-<h3>Projeto ativo</h3>
+<h1>Histórico de Projetos</h1>
 
-<div id="projetoAtual">
+<div id="listaProjetos"></div>
 
-Nenhum projeto ativo selecionado.
+<br>
 
-</div>
-
-</div>
-
-
-<div class="card">
-
-<h3>Projetos registrados</h3>
-
-<div class="lista" id="listaProjetos">
-
-Nenhum projeto registrado ainda.
-
-</div>
-
-<button onclick="limparHistorico()" class="alt">
-Limpar histórico
+<button class="btn" onclick="novoProjeto()">
+Novo projeto
 </button>
 
 </div>
 
-
-<div class="card">
-
-<h3>Ações rápidas</h3>
-
-<button onclick="abrirProjetos()">
-Ir para Projetos
-</button>
-
-<button onclick="abrirFluxo()" class="sec">
-Abrir Fluxo Editorial
-</button>
-
 </div>
-
-
-</div>
-
 
 <script>
 
-/* =========================
-SESSION GUARD PADRÃO LAPIDAR
-========================= */
+function carregarProjetos(){
 
-const perfil = localStorage.getItem("lapidar_perfil")
+let projetos = JSON.parse(localStorage.getItem("historico_lapidar") || "[]");
 
-if(!perfil){
+let container = document.getElementById("listaProjetos");
 
-window.location.href="index.html"
+if(projetos.length === 0){
 
-}
+container.innerHTML = "<div class='vazio'>Nenhum projeto registrado ainda.</div>";
 
-
-/* =========================
-CARREGAR PROJETO ATIVO
-========================= */
-
-const ativo = localStorage.getItem("lapidar_projeto_ativo")
-
-if(ativo){
-
-document.getElementById("projetoAtual").innerText = ativo
+return;
 
 }
 
+container.innerHTML = "";
 
-/* =========================
-CARREGAR HISTÓRICO
-========================= */
+projetos.reverse().forEach((p,i)=>{
 
-const historico = JSON.parse(
-localStorage.getItem("lapidar_historico_projetos") || "[]"
-)
+container.innerHTML += `
+<div class="projeto">
 
-if(historico.length){
+<div>
 
-document.getElementById("listaProjetos").innerHTML =
-historico.join("<br>")
+<strong>${p.titulo}</strong><br>
 
-}
+Autor: ${p.autor}<br>
 
+Criado: ${new Date(p.criadoEm).toLocaleString()}
 
-/* =========================
-FUNÇÕES
-========================= */
+</div>
 
-function limparHistorico(){
+<div>
 
-localStorage.removeItem("lapidar_historico_projetos")
+<button class="btn" onclick="abrirProjeto(${i})">
+Abrir
+</button>
 
-location.reload()
+</div>
 
-}
+</div>
+`;
 
-
-function abrirProjetos(){
-
-window.location.href="projetos.html"
+});
 
 }
 
+function abrirProjeto(index){
 
-function abrirFluxo(){
+let projetos = JSON.parse(localStorage.getItem("historico_lapidar"));
 
-window.location.href="status_fluxo_editorial.html"
+localStorage.setItem("projeto_lapidar", JSON.stringify(projetos[index]));
+
+window.location.href="painel_projeto.html";
+
+}
+
+function novoProjeto(){
+
+window.location.href="producao_integrada.html";
 
 }
 
-
-function voltar(){
-
-window.location.href="admin.html"
-
-}
+carregarProjetos();
 
 </script>
-
 
 </body>
 </html>
