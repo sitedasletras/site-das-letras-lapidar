@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Lapidar • Módulo 17 — Silo Sonoro</title>
 
 <style>
@@ -11,16 +10,23 @@
 :root{
 --bg:#f7f5ef;
 --card:#ffffff;
---line:#c9c1b2;
+--line:#d8d2c4;
 --text:#2f2a24;
 --muted:#5f574c;
---blue-soft:#e3edf7;
---blue:#4f6f8f;
---blue-dark:#3d5a73;
+--title:#6b5b46;
+
+--silo-bg:#f4edf8;
+--silo-accent:#8b5fb1;
+--silo-accent-dark:#6f4c8e;
+
+--soft:#ece7db;
+--soft-dark:#e2dccd;
+
 --gold:#c79a2e;
---sand:#d9cfbf;
---shadow:0 12px 28px rgba(67,58,45,.10);
+--gold-bg:#fff7e6;
 }
+
+*{box-sizing:border-box;}
 
 body{
 margin:0;
@@ -30,7 +36,7 @@ color:var(--text);
 }
 
 .container{
-max-width:980px;
+max-width:1050px;
 margin:auto;
 padding:28px 16px 40px;
 }
@@ -38,6 +44,7 @@ padding:28px 16px 40px;
 .topbar{
 display:flex;
 justify-content:space-between;
+gap:12px;
 margin-bottom:18px;
 }
 
@@ -48,26 +55,30 @@ padding:12px 16px;
 font-size:15px;
 font-weight:bold;
 cursor:pointer;
-background:#ece7db;
+background:var(--soft);
+color:var(--text);
+transition:.2s ease;
 }
 
 .small-btn:hover{
-background:#e2dccd;
+background:var(--soft-dark);
+transform:translateY(-1px);
 }
 
 .hero{
-background:var(--blue-soft);
+background:var(--silo-bg);
+border:1px solid var(--line);
+border-left:8px solid var(--silo-accent);
 border-radius:28px;
 padding:30px;
 margin-bottom:22px;
-box-shadow:var(--shadow);
 }
 
 .eyebrow{
 display:inline-block;
 padding:8px 14px;
 border-radius:999px;
-background:#d4e3f2;
+background:#fff;
 font-size:14px;
 font-weight:bold;
 margin-bottom:14px;
@@ -76,36 +87,43 @@ margin-bottom:14px;
 h1{
 margin:0 0 10px 0;
 font-size:34px;
-color:#3d5a73;
+line-height:1.15;
+color:var(--title);
 }
 
 .subtitle{
+margin:0;
 font-size:20px;
-line-height:1.7;
+line-height:1.8;
+color:var(--muted);
+}
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:18px;
+margin-bottom:20px;
 }
 
 .card{
-background:white;
+background:var(--card);
+border:1px solid var(--line);
 border-radius:24px;
 padding:22px;
-box-shadow:var(--shadow);
-margin-bottom:20px;
+}
+
+.wide{
+grid-column:1 / -1;
 }
 
 h2{
 margin:0 0 14px 0;
 font-size:28px;
-color:#3d5a73;
-}
-
-p{
-font-size:18px;
-line-height:1.8;
+color:var(--title);
 }
 
 label{
 display:block;
-font-size:17px;
 font-weight:bold;
 margin:14px 0 8px;
 }
@@ -113,28 +131,40 @@ margin:14px 0 8px;
 select{
 width:100%;
 padding:14px;
-border:1px solid var(--line);
 border-radius:14px;
-font-size:16px;
+border:1px solid var(--line);
 background:#f7f8fb;
+font-size:16px;
+}
+
+.field{
+margin-top:12px;
+background:#faf8f2;
+border:1px solid var(--line);
+border-radius:16px;
+padding:14px 16px;
+}
+
+.field strong{
+display:block;
+margin-bottom:6px;
+font-size:16px;
+color:#3d352d;
+}
+
+.field span{
+display:block;
+font-size:17px;
+color:#000;
+line-height:1.7;
 }
 
 .mesario{
-margin-top:18px;
-background:#faf6ee;
+margin-top:14px;
+background:var(--gold-bg);
 border-left:7px solid var(--gold);
 border-radius:18px;
 padding:16px 18px;
-}
-
-.mesario-valor{
-margin-top:8px;
-padding:8px 12px;
-border-radius:12px;
-background:#fff7e6;
-border:1px solid #e2c98f;
-font-weight:bold;
-display:inline-block;
 }
 
 .actions{
@@ -145,44 +175,55 @@ margin-top:18px;
 }
 
 .main-btn{
-padding:18px;
-font-size:18px;
 border:none;
 border-radius:18px;
+padding:18px;
+font-size:18px;
+font-weight:bold;
 cursor:pointer;
+transition:.2s ease;
+}
+
+.main-btn:hover{
+transform:translateY(-1px);
 }
 
 .btn-next{
-background:var(--blue);
-color:white;
+background:var(--silo-accent);
+color:#fff;
 }
 
 .btn-next:hover{
-background:var(--blue-dark);
+background:var(--silo-accent-dark);
 }
 
 .btn-skip{
-background:var(--sand);
+background:var(--soft);
+color:var(--text);
+}
+
+.btn-skip:hover{
+background:var(--soft-dark);
 }
 
 .hidden{
 display:none !important;
 }
 
-@media(max-width:800px){
-
-.topbar,
-.actions{
+@media (max-width:900px){
+.grid,
+.actions,
+.topbar{
 grid-template-columns:1fr;
 display:grid;
 }
 
+h1{font-size:30px;}
+h2{font-size:25px;}
 }
 
 </style>
-
 </head>
-
 <body>
 
 <div class="container">
@@ -193,111 +234,106 @@ display:grid;
 </div>
 
 <section class="hero">
-
 <div class="eyebrow">Lapidar • Módulo 17</div>
-
 <h1>Silo Sonoro</h1>
-
 <p class="subtitle">
-
-Aqui sua obra ganha voz. Transformamos o texto em experiência narrada para alcançar novos leitores e ouvintes.
-
+Aqui a sua obra ganha presença sonora, preparando o caminho para sua escuta além da leitura.
 </p>
+</section>
 
+<div class="grid">
+
+<section class="card">
+<h2>Dados principais da obra</h2>
+
+<div class="field">
+<strong>Título da obra</strong>
+<span id="tituloObra">Aguardando identificação da obra</span>
+</div>
+
+<div class="field">
+<strong>Autor</strong>
+<span id="autorObra">Aguardando identificação do autor</span>
+</div>
+
+<div class="field">
+<strong>Idioma base</strong>
+<span id="idiomaObra">Aguardando idioma da obra</span>
+</div>
 </section>
 
 <section class="card">
+<h2>Configuração sonora</h2>
 
-<h2>Configuração da narração editorial</h2>
-
-<label>Formato da narração</label>
-
-<select>
-
+<label for="formatoNarracao">Formato da narração</label>
+<select id="formatoNarracao">
 <option>Audiobook completo</option>
-
 <option>Narração por capítulos</option>
-
 <option>Trechos selecionados para divulgação</option>
-
 <option>Amostra sonora da obra</option>
-
 </select>
 
-<label>Estilo de voz</label>
-
-<select>
-
+<label for="estiloVoz">Estilo de voz</label>
+<select id="estiloVoz">
 <option>Voz narrativa neutra</option>
-
 <option>Voz literária expressiva</option>
-
 <option>Voz documental</option>
-
 <option>Voz institucional</option>
+</select>
+</section>
 
+<section class="card wide">
+<h2>Encaminhamento da produção sonora</h2>
+
+<label for="objetivoSonoro">Objetivo principal</label>
+<select id="objetivoSonoro">
+<option>Produção completa do audiobook</option>
+<option>Preparação de amostra promocional</option>
+<option>Versão sonora para divulgação editorial</option>
+<option>Conversão institucional da obra em áudio</option>
 </select>
 
 <div class="mesario" id="mesarioSecao">
-
-<h3>Mesário da seção</h3>
-
-<p>Valor acumulado desta seção.</p>
-
-<div class="mesario-valor">
-
-Silo Sonoro: R$ 630,00
-
-</div>
-
+<strong>Mesário da seção</strong><br>
+Valor acumulado desta produção sonora.<br><br>
+<strong>Silo Sonoro: R$ 630,00</strong>
 </div>
 
 <div class="actions">
-
-<button class="main-btn btn-next"
-
-onclick="seguirParaProximo()">
-
+<button class="main-btn btn-next" onclick="window.location.href='motor_sequencial.html'">
 Concluir esta etapa e seguir
-
 </button>
 
-<button class="main-btn btn-skip"
-
-onclick="window.location.href='motor_sequencial.html'">
-
+<button class="main-btn btn-skip" onclick="window.location.href='motor_sequencial.html'">
 Pular este módulo por agora
-
 </button>
+</div>
+</section>
 
 </div>
-
-</section>
 
 </div>
 
 <script>
+function preencherDadosDaObra(){
+const titulo = localStorage.getItem("lapidar_titulo_obra") || "Aguardando identificação da obra";
+const autor = localStorage.getItem("lapidar_autor_obra") || "Aguardando identificação do autor";
+const idioma = localStorage.getItem("lapidar_idioma_obra") || "Aguardando idioma da obra";
+
+document.getElementById("tituloObra").textContent = titulo;
+document.getElementById("autorObra").textContent = autor;
+document.getElementById("idiomaObra").textContent = idioma;
+}
 
 function aplicarRegraPerfil(){
-
 const perfil=(localStorage.getItem("lapidar_perfil")||"").toLowerCase();
-
 if(perfil.includes("cortesia")){
-
 document.getElementById("mesarioSecao").classList.add("hidden");
-
+}
 }
 
-}
-
-function seguirParaProximo(){
-
-window.location.href="motor_sequencial.html";
-
-}
-
+preencherDadosDaObra();
 aplicarRegraPerfil();
-
 </script>
 
 </body>
