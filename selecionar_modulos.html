@@ -1,11 +1,589 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta http-equiv="refresh" content="0; URL=selecionar_modulos_atualizado.html">
-<title>Redirecionando...</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lapidar • Seleção dos Módulos</title>
+  <style>
+    :root{
+      --bg:#f4f1e8;
+      --card:#ffffff;
+      --text:#3f352c;
+      --muted:#6a5f54;
+      --line:#ddd4c8;
+      --shadow:0 10px 24px rgba(56,42,24,.08);
+
+      --m03-bg:#dfeaf7;
+      --m05-bg:#dceee2;
+      --m07-bg:#ece9ea;
+      --m11-bg:#ead7df;
+      --m13-bg:#efd7b7;
+      --m17-bg:#e6dbf2;
+      --m19-bg:#efe7b5;
+      --m23-bg:#dce8f4;
+      --m29-bg:#e2efe5;
+      --m31-bg:#eadff1;
+
+      --portal-bg:#fff7dd;
+      --portal-line:#d4b05b;
+
+      --btn:#7d6440;
+      --btn-hover:#6a5334;
+      --btn-main:#6b8f6e;
+      --btn-main-hover:#5d7d60;
+
+      --selected:#6b8f6e;
+    }
+
+    *{
+      box-sizing:border-box;
+    }
+
+    body{
+      margin:0;
+      font-family:Arial, Helvetica, sans-serif;
+      background:var(--bg);
+      color:var(--text);
+    }
+
+    .page{
+      max-width:1180px;
+      margin:auto;
+      padding:20px 14px 38px;
+    }
+
+    .hero{
+      background:#f7f4ed;
+      border:1px solid var(--line);
+      border-radius:22px;
+      padding:18px 18px 16px;
+      box-shadow:var(--shadow);
+      margin-bottom:18px;
+    }
+
+    .eyebrow{
+      display:inline-block;
+      padding:6px 12px;
+      border-radius:999px;
+      background:#efe7d9;
+      color:#7a6a54;
+      font-size:12px;
+      font-weight:700;
+      margin-bottom:10px;
+    }
+
+    .hero h1{
+      margin:0 0 8px;
+      font-size:21px;
+      line-height:1.3;
+    }
+
+    .hero p{
+      margin:0;
+      color:var(--muted);
+      line-height:1.7;
+      font-size:15px;
+    }
+
+    .portal-box{
+      background:var(--portal-bg);
+      border-left:6px solid var(--portal-line);
+      border-radius:18px;
+      padding:16px 16px 14px;
+      box-shadow:var(--shadow);
+      margin-bottom:18px;
+    }
+
+    .portal-box h2{
+      margin:0 0 8px;
+      font-size:18px;
+      color:#7b5d1b;
+    }
+
+    .portal-box p{
+      margin:0 0 12px;
+      line-height:1.7;
+      color:#67573d;
+      font-size:14px;
+    }
+
+    .portal-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+
+    .portal-btn{
+      display:inline-block;
+      text-decoration:none;
+      background:var(--btn);
+      color:#fff;
+      padding:12px 16px;
+      border-radius:12px;
+      font-weight:700;
+      font-size:14px;
+      transition:.2s;
+    }
+
+    .portal-btn:hover{
+      background:var(--btn-hover);
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0, 1fr));
+      gap:16px;
+    }
+
+    .mod-card{
+      border-radius:22px;
+      padding:16px;
+      box-shadow:var(--shadow);
+      border:2px solid transparent;
+      cursor:pointer;
+      transition:.18s ease;
+      user-select:none;
+      position:relative;
+    }
+
+    .mod-card:hover{
+      transform:translateY(-2px);
+    }
+
+    .mod-card.selected{
+      border-color:var(--selected);
+      box-shadow:0 12px 28px rgba(81, 108, 79, 0.18);
+    }
+
+    .mod-card.selected::after{
+      content:"Selecionado";
+      position:absolute;
+      top:14px;
+      right:14px;
+      background:rgba(255,255,255,.88);
+      color:var(--selected);
+      font-size:12px;
+      font-weight:700;
+      padding:6px 10px;
+      border-radius:999px;
+    }
+
+    .mod-tag{
+      display:inline-block;
+      padding:5px 10px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:700;
+      margin-bottom:12px;
+      background:rgba(255,255,255,0.72);
+      color:#6a5b4d;
+    }
+
+    .mod-card h3{
+      margin:0 0 10px;
+      font-size:18px;
+      line-height:1.35;
+      padding-right:88px;
+    }
+
+    .mod-card p{
+      margin:0 0 14px;
+      color:#584d43;
+      font-size:14px;
+      line-height:1.7;
+      min-height:72px;
+    }
+
+    .info-box{
+      background:rgba(255,255,255,.8);
+      border:1px solid rgba(89,73,55,0.08);
+      border-radius:14px;
+      padding:11px 12px;
+      margin-bottom:10px;
+    }
+
+    .info-box strong{
+      display:block;
+      font-size:12px;
+      margin-bottom:4px;
+      color:#6d5d4c;
+    }
+
+    .info-box span{
+      font-size:14px;
+      color:#342c25;
+    }
+
+    .check-row{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      margin-top:6px;
+      font-size:14px;
+      color:#4e4338;
+      font-weight:700;
+    }
+
+    .fake-check{
+      width:22px;
+      height:22px;
+      border:2px solid #9c9385;
+      border-radius:6px;
+      background:rgba(255,255,255,.8);
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      flex-shrink:0;
+      transition:.18s ease;
+    }
+
+    .mod-card.selected .fake-check{
+      border-color:var(--selected);
+      background:rgba(255,255,255,.95);
+    }
+
+    .mod-card.selected .fake-check::before{
+      content:"✓";
+      color:var(--selected);
+      font-weight:700;
+      font-size:14px;
+      line-height:1;
+    }
+
+    .checkbox{
+      display:none;
+    }
+
+    .bottom-actions{
+      text-align:center;
+      margin-top:24px;
+    }
+
+    .continue-btn{
+      border:none;
+      background:var(--btn-main);
+      color:#fff;
+      padding:15px 26px;
+      border-radius:14px;
+      font-size:16px;
+      font-weight:700;
+      cursor:pointer;
+      transition:.2s;
+      box-shadow:var(--shadow);
+    }
+
+    .continue-btn:hover{
+      background:var(--btn-main-hover);
+    }
+
+    .route-note{
+      margin-top:10px;
+      font-size:13px;
+      color:#6b6055;
+      line-height:1.7;
+    }
+
+    .m03{ background:var(--m03-bg); }
+    .m05{ background:var(--m05-bg); }
+    .m07{ background:var(--m07-bg); }
+    .m11{ background:var(--m11-bg); }
+    .m13{ background:var(--m13-bg); }
+    .m17{ background:var(--m17-bg); }
+    .m19{ background:var(--m19-bg); }
+    .m23{ background:var(--m23-bg); }
+    .m29{ background:var(--m29-bg); }
+    .m31{ background:var(--m31-bg); }
+
+    @media (max-width:820px){
+      .grid{
+        grid-template-columns:1fr;
+      }
+
+      .mod-card p{
+        min-height:auto;
+      }
+
+      .portal-actions{
+        flex-direction:column;
+      }
+
+      .portal-btn{
+        text-align:center;
+      }
+
+      .mod-card h3{
+        padding-right:0;
+      }
+
+      .mod-card.selected::after{
+        position:static;
+        display:inline-block;
+        margin-bottom:10px;
+      }
+    }
+  </style>
 </head>
 <body>
-Redirecionando para a nova interface do Lapidar...
+  <div class="page">
+
+    <section class="hero">
+      <div class="eyebrow">Lapidar • Seleção dos módulos</div>
+      <h1>Escolha o que deseja fazer com sua obra</h1>
+      <p>Depois do Bolsão, você escolhe os módulos desejados. O Lapidar organiza automaticamente a melhor sequência editorial e conduz sua jornada até a Expedição Editorial e Cultural da Obra.</p>
+    </section>
+
+    <section class="portal-box">
+      <h2>Portal Assistencial de Benefícios ao Autor</h2>
+      <p>Recomendamos a todos os autores que utilizam o Lapidar a consulta deste portal de direcionamento e apoio à carreira autoral. Nele, você encontrará caminhos institucionais, culturais e orientativos para o futuro da sua obra.</p>
+      <div class="portal-actions">
+        <a class="portal-btn" href="modulo29_expedicao_editorial_cultural.html">Acessar o portal e a expedição da obra</a>
+      </div>
+    </section>
+
+    <section class="grid">
+
+      <article class="mod-card m03" data-module="03" onclick="toggleCard(this)">
+        <input type="checkbox" class="checkbox" />
+        <div class="mod-tag">■ Módulo 03</div>
+        <h3>Assistente de Diagramação do Autor</h3>
+        <p>Aqui é onde o seu texto ganha formato e forma de páginas para formar o seu futuro livro.</p>
+        <div class="info-box">
+          <strong>Título da obra</strong>
+          <span>Ladies, Señoras & Donnas</span>
+        </div>
+        <div class="info-box">
+          <strong>Autor</strong>
+          <span>Wilson Silva</span>
+        </div>
+        <div class="check-row">
+          <span class="fake-check"></span>
+          <span>Selecionar este módulo</span>
+        </div>
+      </article>
+
+      <article class="mod-card m19" data-module="19" onclick="toggleCard(this)">
+        <input type="checkbox" class="checkbox" />
+        <div class="mod-tag">■ Módulo 19</div>
+        <h3>OKapista</h3>
+        <p>Aqui damos rosto à sua obra, criando a primeira impressão que acompanhará o leitor antes mesmo da primeira página.</p>
+        <div class="info-box">
+          <strong>Título da obra</strong>
+          <span>Ladies, Señoras & Donnas</span>
+        </div>
+        <div class="info-box">
+          <strong>Autor</strong>
+          <span>Wilson Silva</span>
+        </div>
+        <div class="check-row">
+          <span class="fake-check"></span>
+          <span>Selecionar este módulo</span>
+        </div>
+      </article>
+
+      <article class="mod-card m05" data-module="05" onclick="toggleCard(this)">
+        <input type="checkbox" class="checkbox" />
+        <div class="mod-tag">■ Módulo 05</div>
+        <h3>Segunda Língua(s)</h3>
+        <p>Aqui ampliamos o alcance da sua obra para que ela atravesse fronteiras sem perder sua voz original.</p>
+        <div class="info-box">
+          <strong>Título da obra</strong>
+          <span>Ladies, Señoras & Donnas</span>
+        </div>
+        <div class="info-box">
+          <strong>Autor</strong>
+          <span>Wilson Silva</span>
+        </div>
+        <div class="check-row">
+          <span class="fake-check"></span>
+          <span>Selecionar este módulo</span>
+        </div>
+      </article>
+
+      <article class="mod-card m07" data-module="07" onclick="toggleCard(this)">
+        <input type="checkbox" class="checkbox" />
+        <div class="mod-tag">■ Módulo 07</div>
+        <h3>Avaliação Literária</h3>
+        <p>Aqui observamos sua obra com atenção técnica e sensível, indicando caminhos possíveis para fortalecer sua estrutura.</p>
+        <div class="info-box">
+          <strong>Título da obra</strong>
+          <span>Ladies, Señoras & Donnas</span>
+        </div>
+        <div class="info-box">
+          <strong>Autor</strong>
+          <span>Wilson Silva</span>
+        </div>
+        <div class="check-row">
+          <span class="fake-check"></span>
+          <span>Selecionar este módulo</span>
+        </div>
+      </article>
+
+      <article class="mod-card m11" data-module="11" onclick="toggleCard(this)">
+        <input type="checkbox" class="checkbox" />
+        <div class="mod-tag">■ Módulo 11</div>
+        <h3>Analisador de Obra</h3>
+        <p>Aqui investigamos a arquitetura interna do texto para compreender seus eixos narrativos e potenciais de desenvolvimento.</p>
+        <div class="info-box">
+          <strong>Título da obra</strong>
+          <span>Ladies, Señoras & Donnas</span>
+        </div>
+        <div class="info-box">
+          <strong>Autor</strong>
+          <span>Wilson Silva</span>
+        </div>
+        <div class="check-row">
+          <span class="fake-check"></span>
+          <span>Selecionar este módulo</span>
+        </div>
+      </article>
+
+      <article class="mod-card m13" data-module="13" onclick="toggleCard(this)">
+        <input type="checkbox" class="checkbox" />
+        <div class="mod-tag">■ Módulo 13</div>
+        <h3>Lapidação Literária</h3>
+        <p>Aqui preservamos sua voz autoral enquanto fortalecemos ritmo, clareza e coerência narrativa.</p>
+        <div class="info-box">
+          <strong>Título da obra</strong>
+          <span>Ladies, Señoras & Donnas</span>
+        </div>
+        <div class="info-box">
+          <strong>Autor</strong>
+          <span>Wilson Silva</span>
+        </div>
+        <div class="check-row">
+          <span class="fake-check"></span>
+          <span>Selecionar este módulo</span>
+        </div>
+      </article>
+
+      <article class="mod-card m17" data-module="17" onclick="toggleCard(this)">
+        <input type="checkbox" class="checkbox" />
+        <div class="mod-tag">■ Módulo 17</div>
+        <h3>Silo Sonoro</h3>
+        <p>Aqui a sua obra ganha presença sonora, preparando o caminho para sua escuta além da leitura.</p>
+        <div class="info-box">
+          <strong>Título da obra</strong>
+          <span>Ladies, Señoras & Donnas</span>
+        </div>
+        <div class="info-box">
+          <strong>Autor</strong>
+          <span>Wilson Silva</span>
+        </div>
+        <div class="check-row">
+          <span class="fake-check"></span>
+          <span>Selecionar este módulo</span>
+        </div>
+      </article>
+
+      <article class="mod-card m23" data-module="23" onclick="toggleCard(this)">
+        <input type="checkbox" class="checkbox" />
+        <div class="mod-tag">■ Módulo 23</div>
+        <h3>Silo Indústria Cinematográfica Literária</h3>
+        <p>Aqui a obra poderá ser expandida para produções audiovisuais baseadas e autorizadas a partir de seu universo autoral.</p>
+        <div class="info-box">
+          <strong>Título da obra</strong>
+          <span>Ladies, Señoras & Donnas</span>
+        </div>
+        <div class="info-box">
+          <strong>Autor</strong>
+          <span>Wilson Silva</span>
+        </div>
+        <div class="check-row">
+          <span class="fake-check"></span>
+          <span>Selecionar este módulo</span>
+        </div>
+      </article>
+
+      <article class="mod-card m29" data-module="29" onclick="toggleCard(this)">
+        <input type="checkbox" class="checkbox" />
+        <div class="mod-tag">■ Módulo 29</div>
+        <h3>Expedição Editorial e Cultural da Obra</h3>
+        <p>Aqui reunimos a saída editorial, institucional e cultural da obra em um único espaço de encaminhamento autoral.</p>
+        <div class="info-box">
+          <strong>Título da obra</strong>
+          <span>Ladies, Señoras & Donnas</span>
+        </div>
+        <div class="info-box">
+          <strong>Autor</strong>
+          <span>Wilson Silva</span>
+        </div>
+        <div class="check-row">
+          <span class="fake-check"></span>
+          <span>Selecionar este módulo</span>
+        </div>
+      </article>
+
+      <article class="mod-card m31" data-module="31" onclick="toggleCard(this)">
+        <input type="checkbox" class="checkbox" />
+        <div class="mod-tag">■ Módulo 31</div>
+        <h3>Silo Sings & Music</h3>
+        <p>Aqui poemas, cordéis, letras musicais e textos literários podem ganhar trilha, voz e identidade musical autoral.</p>
+        <div class="info-box">
+          <strong>Título da obra</strong>
+          <span>Ladies, Señoras & Donnas</span>
+        </div>
+        <div class="info-box">
+          <strong>Autor</strong>
+          <span>Wilson Silva</span>
+        </div>
+        <div class="check-row">
+          <span class="fake-check"></span>
+          <span>Selecionar este módulo</span>
+        </div>
+      </article>
+
+    </section>
+
+    <div class="bottom-actions">
+      <button class="continue-btn" onclick="abrirPrimeiroModulo()">Continuar com módulos selecionados</button>
+      <div class="route-note">
+        Mesmo com a seleção do autor, o Lapidar organiza a rota editorial automaticamente conforme a ordem interna de produção definida pelo sistema.
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    function toggleCard(card){
+      const checkbox = card.querySelector('.checkbox');
+      checkbox.checked = !checkbox.checked;
+      card.classList.toggle('selected', checkbox.checked);
+    }
+
+    function abrirPrimeiroModulo(){
+      const rotaEditorial = [
+        { modulo: '03', arquivo: 'modulo03_assistente_diagramacao.html' },
+        { modulo: '05', arquivo: 'modulo05_segunda_linguas_mapa.html' },
+        { modulo: '07', arquivo: 'modulo07_avaliacao_literaria_mapa.html' },
+        { modulo: '11', arquivo: 'modulo11_analisador_de_obra_mapa.html' },
+        { modulo: '13', arquivo: 'modulo13_lapidacao_literaria.html' },
+        { modulo: '17', arquivo: 'modulo17_silo_sonoro_mapa.html' },
+        { modulo: '19', arquivo: 'modulo19_okapista_mapa.html' },
+        { modulo: '23', arquivo: 'modulo23_silo_cinema_literario.html' },
+        { modulo: '31', arquivo: 'modulo31_silo_sings_music.html' },
+        { modulo: '29', arquivo: 'modulo29_expedicao_editorial_cultural.html' }
+      ];
+
+      const cardsSelecionados = Array.from(document.querySelectorAll('.mod-card.selected'))
+        .map(card => card.getAttribute('data-module'));
+
+      if(cardsSelecionados.length === 0){
+        alert('Selecione pelo menos um módulo.');
+        return;
+      }
+
+      const primeiroDaRota = rotaEditorial.find(item => cardsSelecionados.includes(item.modulo));
+
+      if(!primeiroDaRota){
+        alert('Não foi possível localizar a rota do primeiro módulo selecionado.');
+        return;
+      }
+
+      localStorage.setItem('lapidar_modulos_selecionados', JSON.stringify(cardsSelecionados));
+      localStorage.setItem('lapidar_primeiro_modulo_rota', primeiroDaRota.modulo);
+
+      window.location.href = primeiroDaRota.arquivo;
+    }
+  </script>
 </body>
 </html>
