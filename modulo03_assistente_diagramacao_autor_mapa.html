@@ -6,31 +6,35 @@
   <title>Lapidar • Módulo 03 — Assistente de Diagramação</title>
   <style>
     :root{
-      --bg:#f7f5ef;
+      --bg-offwhite:#f7f5ef;
       --card:#ffffff;
-      --line:#c9c1b2;
+      --line:#d8d2c4;
       --text:#2f2a24;
       --muted:#5f574c;
-      --blue-soft:#e3edf7;
-      --blue:#4f6f8f;
-      --blue-dark:#3d5a73;
-      --gold:#c79a2e;
-      --gold-dark:#a77e1f;
-      --sand:#d9cfbf;
+      --title:#6b5b46;
       --shadow:0 12px 28px rgba(67,58,45,.10);
+
+      --diag-bg:#e9f1f8;
+      --diag-accent:#4f6f8f;
+      --diag-accent-dark:#3d5a73;
+
+      --soft:#ece7db;
+      --soft-dark:#e2dccd;
+      --gold:#c79a2e;
+      --gold-bg:#fff7e6;
     }
 
     *{ box-sizing:border-box; }
 
     body{
       margin:0;
-      font-family: Arial, Helvetica, sans-serif;
-      background:var(--bg);
+      font-family:Arial, Helvetica, sans-serif;
+      background:var(--bg-offwhite);
       color:var(--text);
     }
 
     .container{
-      max-width:980px;
+      max-width:1050px;
       margin:0 auto;
       padding:28px 16px 40px;
     }
@@ -49,17 +53,20 @@
       font-size:15px;
       font-weight:bold;
       cursor:pointer;
-      background:#ece7db;
+      background:var(--soft);
       color:var(--text);
+      transition:.2s ease;
     }
 
     .small-btn:hover{
-      background:#e2dccd;
+      background:var(--soft-dark);
+      transform:translateY(-1px);
     }
 
     .hero{
-      background:var(--blue-soft);
+      background:var(--diag-bg);
       border:1px solid var(--line);
+      border-left:8px solid var(--diag-accent);
       border-radius:28px;
       padding:30px;
       box-shadow:var(--shadow);
@@ -70,25 +77,33 @@
       display:inline-block;
       padding:8px 14px;
       border-radius:999px;
-      background:#d4e3f2;
-      color:#3d5f7a;
+      background:rgba(255,255,255,.72);
+      color:#4b6074;
       font-size:14px;
       font-weight:bold;
       margin-bottom:14px;
+      border:1px solid rgba(0,0,0,.05);
     }
 
     h1{
       margin:0 0 10px 0;
       font-size:34px;
       line-height:1.15;
-      color:#3d5f7a;
+      color:var(--title);
     }
 
     .subtitle{
       margin:0;
       font-size:20px;
+      line-height:1.8;
       color:var(--muted);
-      line-height:1.7;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:18px;
+      margin-bottom:20px;
     }
 
     .card{
@@ -97,13 +112,16 @@
       border-radius:24px;
       padding:22px;
       box-shadow:var(--shadow);
-      margin-bottom:20px;
+    }
+
+    .wide{
+      grid-column:1 / -1;
     }
 
     h2{
       margin:0 0 14px 0;
       font-size:28px;
-      color:#3d5f7a;
+      color:var(--title);
     }
 
     p{
@@ -119,6 +137,7 @@
       margin:14px 0 8px;
     }
 
+    input[type="text"],
     select{
       width:100%;
       padding:14px;
@@ -128,10 +147,32 @@
       background:#f7f8fb;
     }
 
-    .mesario{
-      margin-top:18px;
-      background:#faf6ee;
+    .field{
+      margin-top:12px;
+      background:#faf8f2;
       border:1px solid var(--line);
+      border-radius:16px;
+      padding:14px 16px;
+    }
+
+    .field strong{
+      display:block;
+      margin-bottom:6px;
+      font-size:16px;
+      color:#3d352d;
+    }
+
+    .field span{
+      display:block;
+      font-size:17px;
+      color:#000;
+      line-height:1.7;
+    }
+
+    .mesario{
+      margin-top:14px;
+      background:var(--gold-bg);
+      border:1px solid #e2c98f;
       border-left:7px solid var(--gold);
       border-radius:18px;
       padding:16px 18px;
@@ -148,7 +189,7 @@
       margin-top:8px;
       padding:8px 12px;
       border-radius:12px;
-      background:#fff7e6;
+      background:#fff;
       border:1px solid #e2c98f;
       font-weight:bold;
       color:#7a5d1d;
@@ -169,33 +210,39 @@
       font-size:18px;
       font-weight:bold;
       cursor:pointer;
+      transition:.2s ease;
+    }
+
+    .main-btn:hover{
+      transform:translateY(-1px);
     }
 
     .btn-next{
-      background:var(--blue);
-      color:white;
+      background:var(--diag-accent);
+      color:#fff;
     }
 
     .btn-next:hover{
-      background:var(--blue-dark);
+      background:var(--diag-accent-dark);
     }
 
     .btn-skip{
-      background:var(--sand);
+      background:var(--soft);
       color:var(--text);
     }
 
     .btn-skip:hover{
-      background:#cdc1ae;
+      background:var(--soft-dark);
     }
 
     .hidden{
       display:none !important;
     }
 
-    @media (max-width:800px){
-      .topbar,
-      .actions{
+    @media (max-width:900px){
+      .grid,
+      .actions,
+      .topbar{
         grid-template-columns:1fr;
         display:grid;
       }
@@ -221,52 +268,102 @@
       </p>
     </section>
 
-    <section class="card">
-      <h2>Configuração inicial da diagramação</h2>
+    <div class="grid">
 
-      <label for="formatoLivro">Formato do livro</label>
-      <select id="formatoLivro">
-        <option>A5</option>
-        <option>A4</option>
-        <option>16x23</option>
-        <option>Infantil</option>
-        <option>Pocket</option>
-        <option>Personalizado</option>
-      </select>
+      <section class="card">
+        <h2>Dados principais da obra</h2>
 
-      <label for="tipografia">Tipografia</label>
-      <select id="tipografia">
-        <option>Times New Roman</option>
-        <option>Arial</option>
-        <option>Garamond</option>
-      </select>
+        <div class="field">
+          <strong>Título da obra</strong>
+          <span id="tituloObra">Aguardando identificação da obra</span>
+        </div>
 
-      <label for="idiomaEdicao">Idioma da edição</label>
-      <select id="idiomaEdicao">
-        <option>Português do Brasil</option>
-        <option>Português de Portugal</option>
-        <option>Português internacional lusófono</option>
-        <option>Inglês dos Estados Unidos</option>
-        <option>Inglês do Reino Unido</option>
-        <option>Espanhol da Espanha</option>
-        <option>Espanhol da América Latina</option>
-      </select>
+        <div class="field">
+          <strong>Autor</strong>
+          <span id="autorObra">Aguardando identificação do autor</span>
+        </div>
 
-      <div class="mesario" id="mesarioSecao">
-        <h3>Mesário da seção</h3>
-        <p>Valor acumulado da diagramação nesta seção.</p>
-        <div class="mesario-valor" id="mesarioValor">CVR sugerida desta seção: R$ 0,00</div>
-      </div>
+        <div class="field">
+          <strong>Idioma base</strong>
+          <span id="idiomaObra">Aguardando idioma da obra</span>
+        </div>
+      </section>
 
-      <div class="actions">
-        <button class="main-btn btn-next" onclick="seguirParaProximo()">Concluir esta etapa e seguir</button>
-        <button class="main-btn btn-skip" onclick="window.location.href='motor_sequencial.html'">Pular este módulo por agora</button>
-      </div>
-    </section>
+      <section class="card">
+        <h2>Formato inicial</h2>
+
+        <label for="formatoLivro">Formato do livro</label>
+        <select id="formatoLivro">
+          <option>A5</option>
+          <option>A4</option>
+          <option>16x23</option>
+          <option>Infantil</option>
+          <option>Pocket</option>
+          <option>Personalizado</option>
+        </select>
+
+        <label for="tipografia">Tipografia</label>
+        <select id="tipografia">
+          <option>Times New Roman</option>
+          <option>Arial</option>
+          <option>Garamond</option>
+        </select>
+      </section>
+
+      <section class="card wide">
+        <h2>Estrutura de diagramação</h2>
+
+        <label for="idiomaEdicao">Idioma da edição diagramada</label>
+        <select id="idiomaEdicao">
+          <option>Português do Brasil</option>
+          <option>Português de Portugal</option>
+          <option>Português internacional lusófono</option>
+          <option>Inglês dos Estados Unidos</option>
+          <option>Inglês do Reino Unido</option>
+          <option>Espanhol da Espanha</option>
+          <option>Espanhol da América Latina</option>
+        </select>
+
+        <label for="estruturaCapitulos">Organização inicial dos capítulos</label>
+        <select id="estruturaCapitulos">
+          <option>Capítulos simples</option>
+          <option>Capítulos com subtítulo</option>
+          <option>Capítulos com abertura decorativa</option>
+          <option>Capítulos com separadores internos</option>
+        </select>
+
+        <div class="mesario" id="mesarioSecao">
+          <h3>Mesário da seção</h3>
+          <p>Valor acumulado da diagramação nesta seção.</p>
+          <div class="mesario-valor">CVR sugerida desta seção: R$ 0,00</div>
+        </div>
+
+        <div class="actions">
+          <button class="main-btn btn-next" onclick="seguirParaProximo()">
+            Concluir esta etapa e seguir
+          </button>
+
+          <button class="main-btn btn-skip" onclick="window.location.href='motor_sequencial.html'">
+            Pular este módulo por agora
+          </button>
+        </div>
+      </section>
+
+    </div>
 
   </div>
 
   <script>
+    function preencherDadosDaObra(){
+      const titulo = localStorage.getItem("lapidar_titulo_obra") || "Aguardando identificação da obra";
+      const autor = localStorage.getItem("lapidar_autor_obra") || "Aguardando identificação do autor";
+      const idioma = localStorage.getItem("lapidar_idioma_obra") || "Aguardando idioma da obra";
+
+      document.getElementById("tituloObra").textContent = titulo;
+      document.getElementById("autorObra").textContent = autor;
+      document.getElementById("idiomaObra").textContent = idioma;
+    }
+
     function aplicarRegraPerfil(){
       const perfil = (localStorage.getItem("lapidar_perfil") || "").toLowerCase();
       const cortesia = perfil.includes("cortesia");
@@ -279,6 +376,7 @@
       window.location.href = "motor_sequencial.html";
     }
 
+    preencherDadosDaObra();
     aplicarRegraPerfil();
   </script>
 </body>
