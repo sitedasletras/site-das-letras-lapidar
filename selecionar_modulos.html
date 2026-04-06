@@ -1,190 +1,532 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<title>Lapidar — Seleção de Módulos</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lapidar • Escolha o Setor Editorial</title>
+  <style>
+    :root{
+      --bg-offwhite:#f7f5ef;
+      --card:#ffffff;
+      --line:#d8d2c4;
+      --text:#2f2a24;
+      --muted:#5f574c;
+      --title:#6b5b46;
+      --btn:#8a6a43;
+      --btn-hover:#705331;
+      --shadow:0 12px 28px rgba(67,58,45,.10);
 
-<style>
+      --diag-bg:#e9f1f8;
+      --diag-accent:#4f6f8f;
 
-body{
-font-family: Georgia, serif;
-background:#f4ecd8;
-margin:0;
-padding:0;
-}
+      --ok-bg:#f6eedf;
+      --ok-accent:#b89042;
 
-.container{
-max-width:900px;
-margin:auto;
-padding:40px;
-}
+      --lang-bg:#eaf2e7;
+      --lang-accent:#5e8b6b;
 
-h1{
-text-align:center;
-color:#5a4a2f;
-}
+      --aval-bg:#efe8e3;
+      --aval-accent:#8d6654;
 
-.subtexto{
-text-align:center;
-margin-bottom:30px;
-color:#6b5c3d;
-}
+      --anal-bg:#ebecef;
+      --anal-accent:#5f6772;
 
-.modulos{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:15px;
-}
+      --lap-bg:#f5e8ec;
+      --lap-accent:#b06272;
 
-.modulo{
-background:white;
-border-radius:10px;
-padding:15px;
-box-shadow:0px 2px 5px rgba(0,0,0,0.15);
-}
+      --silo-bg:#eee8f6;
+      --silo-accent:#7e63a3;
+    }
 
-.modulo label{
-font-size:18px;
-cursor:pointer;
-}
+    *{
+      box-sizing:border-box;
+    }
 
-.botao{
-margin-top:40px;
-text-align:center;
-}
+    body{
+      margin:0;
+      font-family:Arial, Helvetica, sans-serif;
+      background:var(--bg-offwhite);
+      color:var(--text);
+    }
 
-button{
-background:#5a4a2f;
-color:white;
-font-size:18px;
-padding:15px 40px;
-border:none;
-border-radius:8px;
-cursor:pointer;
-}
+    .container{
+      max-width:1100px;
+      margin:0 auto;
+      padding:28px 16px 42px;
+    }
 
-button:hover{
-background:#3e321f;
-}
+    .topbar{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:18px;
+    }
 
-.aviso{
-margin-top:25px;
-text-align:center;
-font-size:14px;
-color:#7a6a48;
-}
+    .small-btn{
+      border:none;
+      border-radius:14px;
+      padding:12px 16px;
+      font-size:15px;
+      font-weight:bold;
+      cursor:pointer;
+      background:#ece7db;
+      color:var(--text);
+      transition:.2s ease;
+    }
 
-</style>
+    .small-btn:hover{
+      background:#e2dccd;
+      transform:translateY(-1px);
+    }
 
+    .hero{
+      background:#faf8f2;
+      border:1px solid var(--line);
+      border-radius:28px;
+      padding:30px;
+      box-shadow:var(--shadow);
+      margin-bottom:22px;
+    }
+
+    .eyebrow{
+      display:inline-block;
+      padding:8px 14px;
+      border-radius:999px;
+      background:#efe9dc;
+      color:#6b5b46;
+      font-size:14px;
+      font-weight:bold;
+      margin-bottom:14px;
+    }
+
+    h1{
+      margin:0 0 10px 0;
+      font-size:34px;
+      line-height:1.15;
+      color:var(--title);
+    }
+
+    .subtitle{
+      margin:0;
+      font-size:20px;
+      line-height:1.8;
+      color:var(--muted);
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:18px;
+      margin-bottom:20px;
+    }
+
+    .card{
+      border:1px solid var(--line);
+      border-radius:24px;
+      padding:22px;
+      box-shadow:var(--shadow);
+      background:var(--card);
+      position:relative;
+    }
+
+    .diag{ background:var(--diag-bg); border-left:8px solid var(--diag-accent); }
+    .ok{ background:var(--ok-bg); border-left:8px solid var(--ok-accent); }
+    .lang{ background:var(--lang-bg); border-left:8px solid var(--lang-accent); }
+    .aval{ background:var(--aval-bg); border-left:8px solid var(--aval-accent); }
+    .anal{ background:var(--anal-bg); border-left:8px solid var(--anal-accent); }
+    .lap{ background:var(--lap-bg); border-left:8px solid var(--lap-accent); }
+    .silo{ background:var(--silo-bg); border-left:8px solid var(--silo-accent); }
+
+    .tag{
+      display:inline-block;
+      padding:6px 12px;
+      border-radius:999px;
+      font-size:13px;
+      font-weight:bold;
+      background:rgba(255,255,255,.72);
+      border:1px solid rgba(0,0,0,.05);
+      margin-bottom:12px;
+      color:#54493d;
+    }
+
+    h2{
+      margin:0 0 10px 0;
+      font-size:26px;
+      line-height:1.2;
+      color:var(--title);
+    }
+
+    p{
+      margin:0 0 14px 0;
+      font-size:18px;
+      line-height:1.8;
+    }
+
+    .field{
+      margin-top:12px;
+      background:rgba(255,255,255,.72);
+      border:1px solid rgba(0,0,0,.05);
+      border-radius:16px;
+      padding:14px 16px;
+    }
+
+    .field strong{
+      display:block;
+      margin-bottom:6px;
+      font-size:16px;
+      color:#3d352d;
+    }
+
+    .field span{
+      display:block;
+      font-size:17px;
+      color:#000;
+      line-height:1.7;
+    }
+
+    .checkline{
+      margin-top:16px;
+      display:flex;
+      align-items:flex-start;
+      gap:10px;
+      font-size:18px;
+      line-height:1.7;
+    }
+
+    .checkline input{
+      margin-top:5px;
+      transform:scale(1.2);
+    }
+
+    .footer-card{
+      background:#faf8f2;
+      border:1px solid var(--line);
+      border-radius:24px;
+      padding:22px;
+      box-shadow:var(--shadow);
+    }
+
+    .footer-card h3{
+      margin:0 0 12px 0;
+      font-size:25px;
+      color:var(--title);
+    }
+
+    .footer-card p{
+      margin:0 0 14px 0;
+      font-size:18px;
+      line-height:1.8;
+    }
+
+    .actions{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
+      margin-top:18px;
+    }
+
+    .main-btn{
+      width:100%;
+      border:none;
+      border-radius:18px;
+      padding:18px 20px;
+      font-size:18px;
+      font-weight:bold;
+      cursor:pointer;
+      transition:.2s ease;
+    }
+
+    .main-btn:hover{
+      transform:translateY(-1px);
+    }
+
+    .btn-next{
+      background:var(--btn);
+      color:#fff;
+    }
+
+    .btn-next:hover{
+      background:var(--btn-hover);
+    }
+
+    .btn-back{
+      background:#ece7db;
+      color:var(--text);
+    }
+
+    .btn-back:hover{
+      background:#e2dccd;
+    }
+
+    .status{
+      margin-top:12px;
+      font-size:16px;
+      color:var(--muted);
+      text-align:center;
+      line-height:1.8;
+    }
+
+    @media (max-width:900px){
+      .grid,
+      .actions,
+      .topbar{
+        grid-template-columns:1fr;
+        display:grid;
+      }
+
+      h1{ font-size:30px; }
+      h2{ font-size:23px; }
+    }
+  </style>
 </head>
-
 <body>
+  <div class="container">
 
-<div class="container">
+    <div class="topbar">
+      <button class="small-btn" onclick="history.back()">← Retornar</button>
+      <button class="small-btn" onclick="window.location.href='index.html'">Sair do sistema</button>
+    </div>
 
-<h1>Seleção de Caminho Editorial</h1>
+    <section class="hero">
+      <div class="eyebrow">Lapidar • Escolha do Setor Editorial</div>
+      <h1>Escolha a sequência da sua jornada editorial</h1>
+      <p class="subtitle">
+        O Bolsão já recebeu a sua obra. Agora escolha os setores que deseja utilizar. Depois disso, o Lapidar seguirá automaticamente a ordem marcada por você.
+      </p>
+    </section>
 
-<div class="subtexto">
-Escolha abaixo quais etapas deseja realizar agora com sua obra.<br>
-Você pode selecionar quantas desejar. O sistema seguirá a ordem escolhida automaticamente.
-</div>
+    <div class="grid">
 
-<form id="form_modulos">
+      <section class="card diag">
+        <div class="tag">Módulo 03</div>
+        <h2>Assistente de Diagramação do Autor</h2>
+        <p>
+          Aqui é onde o seu texto ganha formato e forma de páginas para formar o seu futuro livro.
+        </p>
 
-<div class="modulos">
+        <div class="field">
+          <strong>Título da obra</strong>
+          <span id="tituloDiag">Aguardando identificação da obra</span>
+        </div>
 
-<div class="modulo">
-<label>
-<input type="checkbox" value="modulo03_assistente_diagramacao_mapa.html">
-Assistente de Diagramação do Autor
-</label>
-</div>
+        <div class="field">
+          <strong>Autor</strong>
+          <span id="autorDiag">Aguardando identificação do autor</span>
+        </div>
 
-<div class="modulo">
-<label>
-<input type="checkbox" value="modulo05_segunda_linguas_mapa.html">
-Segunda Língua(s)
-</label>
-</div>
+        <label class="checkline">
+          <input type="checkbox" value="modulo03_assistente_diagramacao_mapa.html">
+          <span>Selecionar este setor</span>
+        </label>
+      </section>
 
-<div class="modulo">
-<label>
-<input type="checkbox" value="modulo07_avaliacao_literaria_mapa.html">
-Avaliação Literária
-</label>
-</div>
+      <section class="card ok">
+        <div class="tag">Módulo 19</div>
+        <h2>OKapista</h2>
+        <p>
+          Aqui damos rosto à sua obra, criando a primeira impressão que acompanhará o leitor antes mesmo da primeira página.
+        </p>
 
-<div class="modulo">
-<label>
-<input type="checkbox" value="modulo11_analisador_de_obra_mapa.html">
-Analisador de Obra
-</label>
-</div>
+        <div class="field">
+          <strong>Título da obra</strong>
+          <span id="tituloOk">Aguardando identificação da obra</span>
+        </div>
 
-<div class="modulo">
-<label>
-<input type="checkbox" value="modulo13_lapidacao_literaria_mapa.html">
-Lapidação Literária
-</label>
-</div>
+        <div class="field">
+          <strong>Autor</strong>
+          <span id="autorOk">Aguardando identificação do autor</span>
+        </div>
 
-<div class="modulo">
-<label>
-<input type="checkbox" value="modulo17_silo_sonoro_mapa.html">
-Silo Sonoro (Audiobook)
-</label>
-</div>
+        <label class="checkline">
+          <input type="checkbox" value="modulo19_okapista_mapa.html">
+          <span>Selecionar este setor</span>
+        </label>
+      </section>
 
-<div class="modulo">
-<label>
-<input type="checkbox" value="modulo19_okapista_mapa.html">
-OKapista (Capa completa)
-</label>
-</div>
+      <section class="card lang">
+        <div class="tag">Módulo 05</div>
+        <h2>Segunda Língua(s)</h2>
+        <p>
+          Aqui ampliamos o alcance da sua obra para que ela atravesse fronteiras sem perder sua voz original.
+        </p>
 
-</div>
+        <div class="field">
+          <strong>Título da obra</strong>
+          <span id="tituloLang">Aguardando identificação da obra</span>
+        </div>
 
-<div class="botao">
-<button type="button" onclick="iniciarFluxo()">Iniciar Caminho Editorial</button>
-</div>
+        <div class="field">
+          <strong>Autor</strong>
+          <span id="autorLang">Aguardando identificação do autor</span>
+        </div>
 
-<div class="aviso">
-Após iniciar, o Lapidar seguirá automaticamente a sequência escolhida.
-</div>
+        <label class="checkline">
+          <input type="checkbox" value="modulo05_segunda_linguas_mapa.html">
+          <span>Selecionar este setor</span>
+        </label>
+      </section>
 
-</form>
+      <section class="card aval">
+        <div class="tag">Módulo 07</div>
+        <h2>Avaliação Literária</h2>
+        <p>
+          Aqui observamos sua obra com atenção técnica e sensível, indicando caminhos possíveis para fortalecer sua estrutura.
+        </p>
 
-</div>
+        <div class="field">
+          <strong>Título da obra</strong>
+          <span id="tituloAval">Aguardando identificação da obra</span>
+        </div>
 
-<script>
+        <div class="field">
+          <strong>Autor</strong>
+          <span id="autorAval">Aguardando identificação do autor</span>
+        </div>
 
-function iniciarFluxo(){
+        <label class="checkline">
+          <input type="checkbox" value="modulo07_avaliacao_literaria_mapa.html">
+          <span>Selecionar este setor</span>
+        </label>
+      </section>
 
-const selecionados = document.querySelectorAll("input[type=checkbox]:checked");
+      <section class="card anal">
+        <div class="tag">Módulo 11</div>
+        <h2>Analisador de Obra</h2>
+        <p>
+          Aqui investigamos a arquitetura interna do texto para compreender seus eixos narrativos e potenciais de desenvolvimento.
+        </p>
 
-if(selecionados.length===0){
+        <div class="field">
+          <strong>Título da obra</strong>
+          <span id="tituloAnal">Aguardando identificação da obra</span>
+        </div>
 
-alert("Selecione pelo menos um módulo para continuar.");
+        <div class="field">
+          <strong>Autor</strong>
+          <span id="autorAnal">Aguardando identificação do autor</span>
+        </div>
 
-return;
+        <label class="checkline">
+          <input type="checkbox" value="modulo11_analisador_de_obra_mapa.html">
+          <span>Selecionar este setor</span>
+        </label>
+      </section>
 
-}
+      <section class="card lap">
+        <div class="tag">Módulo 13</div>
+        <h2>Lapidação Literária</h2>
+        <p>
+          Aqui trabalhamos junto com você na respiração do texto, preservando sua voz enquanto refinamos sua força expressiva.
+        </p>
 
-let fila=[];
+        <div class="field">
+          <strong>Título da obra</strong>
+          <span id="tituloLap">Aguardando identificação da obra</span>
+        </div>
 
-selecionados.forEach(item=>{
-fila.push(item.value);
-});
+        <div class="field">
+          <strong>Autor</strong>
+          <span id="autorLap">Aguardando identificação do autor</span>
+        </div>
 
-localStorage.setItem("fila_modulos_lapidar",JSON.stringify(fila));
+        <label class="checkline">
+          <input type="checkbox" value="modulo13_lapidacao_literaria_mapa.html">
+          <span>Selecionar este setor</span>
+        </label>
+      </section>
 
-localStorage.setItem("indice_fluxo_lapidar",0);
+      <section class="card silo">
+        <div class="tag">Módulo 17</div>
+        <h2>Silo Sonoro</h2>
+        <p>
+          Aqui a sua obra ganha presença sonora, preparando o caminho para sua escuta além da leitura.
+        </p>
 
-window.location.href=fila[0];
+        <div class="field">
+          <strong>Título da obra</strong>
+          <span id="tituloSilo">Aguardando identificação da obra</span>
+        </div>
 
-}
+        <div class="field">
+          <strong>Autor</strong>
+          <span id="autorSilo">Aguardando identificação do autor</span>
+        </div>
 
-</script>
+        <label class="checkline">
+          <input type="checkbox" value="modulo17_silo_sonoro_mapa.html">
+          <span>Selecionar este setor</span>
+        </label>
+      </section>
 
+    </div>
+
+    <section class="footer-card">
+      <h3>Continuar jornada editorial</h3>
+      <p>
+        Escolha os setores que deseja ativar nesta etapa. Depois que você confirmar, o sistema seguirá automaticamente a sequência marcada.
+      </p>
+
+      <div class="actions">
+        <button class="main-btn btn-next" onclick="iniciarFluxo()">
+          Continuar jornada editorial
+        </button>
+
+        <button class="main-btn btn-back" onclick="history.back()">
+          Voltar ao Bolsão
+        </button>
+      </div>
+
+      <div class="status">
+        O Lapidar seguirá o caminho que você definir aqui.
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+    function preencherDadosDaObra(){
+      const titulo = localStorage.getItem("lapidar_titulo_obra") || "Aguardando identificação da obra";
+      const autor = localStorage.getItem("lapidar_autor_obra") || "Aguardando identificação do autor";
+
+      const idsTitulo = [
+        "tituloDiag","tituloOk","tituloLang","tituloAval","tituloAnal","tituloLap","tituloSilo"
+      ];
+
+      const idsAutor = [
+        "autorDiag","autorOk","autorLang","autorAval","autorAnal","autorLap","autorSilo"
+      ];
+
+      idsTitulo.forEach(id => {
+        const el = document.getElementById(id);
+        if(el) el.textContent = titulo;
+      });
+
+      idsAutor.forEach(id => {
+        const el = document.getElementById(id);
+        if(el) el.textContent = autor;
+      });
+    }
+
+    function iniciarFluxo(){
+      const selecionados = document.querySelectorAll("input[type='checkbox']:checked");
+
+      if(selecionados.length === 0){
+        alert("Selecione pelo menos um setor editorial para continuar.");
+        return;
+      }
+
+      let fila = [];
+      selecionados.forEach(item => {
+        fila.push(item.value);
+      });
+
+      localStorage.setItem("fila_modulos_lapidar", JSON.stringify(fila));
+      localStorage.setItem("indice_fluxo_lapidar", "0");
+
+      window.location.href = fila[0];
+    }
+
+    preencherDadosDaObra();
+  </script>
 </body>
 </html>
