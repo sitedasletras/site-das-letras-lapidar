@@ -3,40 +3,45 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lapidar • Seleção de módulos</title>
+<title>Lapidar — Seleção de módulos</title>
 
 <style>
 
 body{
+font-family:Arial;
 background:#f7f5ef;
-font-family:Arial, Helvetica, sans-serif;
 margin:0;
-padding:0;
 }
 
 .container{
-max-width:1000px;
+max-width:720px;
 margin:auto;
 padding:40px 20px;
 }
 
 .card{
 background:white;
-border-radius:20px;
-padding:25px;
-margin-bottom:20px;
-box-shadow:0px 8px 25px rgba(0,0,0,0.08);
+border-radius:18px;
+padding:28px;
+box-shadow:0px 8px 20px rgba(0,0,0,.08);
 }
 
 h1{
-color:#6b5b46;
+font-size:22px;
+margin-bottom:8px;
+}
+
+.sub{
+font-size:14px;
+color:#555;
+margin-bottom:26px;
 }
 
 .module{
-padding:18px;
-border-radius:14px;
+background:#f2efe8;
+padding:16px;
 margin-bottom:12px;
-background:#faf8f2;
+border-radius:12px;
 display:flex;
 align-items:center;
 gap:12px;
@@ -44,29 +49,28 @@ gap:12px;
 
 button{
 width:100%;
-padding:18px;
-border:none;
-border-radius:14px;
-font-size:18px;
-font-weight:bold;
-background:#8a6a43;
+margin-top:18px;
+background:#8a6a3c;
 color:white;
+border:none;
+padding:16px;
+font-size:16px;
+border-radius:12px;
 cursor:pointer;
-margin-top:20px;
 }
 
 button:hover{
-background:#705331;
+background:#73572f;
 }
 
-.footer{
-margin-top:20px;
+footer{
 text-align:center;
+margin-top:20px;
+font-size:13px;
 color:#777;
 }
 
 </style>
-
 </head>
 
 <body>
@@ -77,86 +81,74 @@ color:#777;
 
 <h1>Escolha os módulos editoriais</h1>
 
-<p>
+<div class="sub">
 Após o Bolsão de Limpeza Editorial, selecione os setores que deseja ativar.
 O Lapidar seguirá automaticamente a sequência definida.
-</p>
-
-<div class="module">
-<input type="checkbox" value="modulo03_assistente_diagramacao_mapa.html">
-Assistente de Diagramação do Autor
 </div>
 
-<div class="module">
+<form id="formModulos">
+
+<label class="module">
+<input type="checkbox" value="modulo03_assistente_diagramacao_autor_mapa.html">
+Assistente de Diagramação do Autor
+</label>
+
+<label class="module">
 <input type="checkbox" value="modulo19_okapista_mapa.html">
 OKapista
-</div>
+</label>
 
-<div class="module">
+<label class="module">
 <input type="checkbox" value="modulo05_segunda_linguas_mapa.html">
 Segunda Língua(s)
-</div>
+</label>
 
-<div class="module">
+<label class="module">
 <input type="checkbox" value="modulo07_avaliacao_literaria_mapa.html">
 Avaliação Literária
-</div>
+</label>
 
-<div class="module">
+<label class="module">
 <input type="checkbox" value="modulo11_analisador_de_obra_mapa.html">
 Analisador de Obra
-</div>
+</label>
 
-<div class="module">
+<label class="module">
 <input type="checkbox" value="modulo13_lapidacao_literaria_mapa.html">
 Lapidação Literária
-</div>
+</label>
 
-<div class="module">
+<label class="module">
 <input type="checkbox" value="modulo17_silo_sonoro_mapa.html">
 Silo Sonoro
-</div>
+</label>
 
-<button onclick="seguirFluxo()">
+<button type="button" onclick="seguirFluxo()">
 Continuar jornada editorial
 </button>
 
+</form>
+
 </div>
 
-<div class="footer">
+<footer>
 Lapidar • Celeiro Literário
-</div>
+</footer>
 
 </div>
-
 
 <script>
 
 function seguirFluxo(){
 
-let selecionados = document.querySelectorAll("input[type='checkbox']:checked");
+let selecionados = document.querySelectorAll("input:checked");
 
-if(selecionados.length === 0){
-
+if(selecionados.length===0){
 alert("Selecione pelo menos um módulo.");
-
 return;
-
 }
 
-let fila = [];
-
-selecionados.forEach(item => {
-
-fila.push(item.value);
-
-});
-
-localStorage.setItem("fila_modulos_lapidar", JSON.stringify(fila));
-
-localStorage.setItem("indice_fluxo_lapidar", 0);
-
-window.location.href = fila[0];
+window.location.href = selecionados[0].value;
 
 }
 
