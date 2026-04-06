@@ -1,578 +1,680 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lapidar • Bolsão de Limpeza Editorial</title>
-  <style>
-    :root{
-      --bg:#f7f5ef;
-      --card:#ffffff;
-      --line:#d8d2c4;
-      --text:#2f2a24;
-      --muted:#5f574c;
-      --hero:#faf8f2;
-      --hero-dark:#6b5b46;
-      --soft:#ece7db;
-      --soft-dark:#e2dccd;
-      --green:#6c9b86;
-      --green-dark:#537a68;
-      --gold:#c79a2e;
-      --gold-bg:#fff7e6;
-      --danger:#9a4d4d;
-      --danger-bg:#f7e6e6;
-      --status:#e3edf7;
-      --shadow:0 12px 28px rgba(67,58,45,.10);
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lapidar • Módulo 01 — Bolsão de Limpeza Editorial</title>
 
-    *{ box-sizing:border-box; }
+<style>
 
-    body{
-      margin:0;
-      font-family:Arial, Helvetica, sans-serif;
-      background:var(--bg);
-      color:var(--text);
-    }
+:root{
 
-    .container{
-      max-width:1100px;
-      margin:0 auto;
-      padding:28px 16px 40px;
-    }
+--bg:#f7f5ef;
+--card:#ffffff;
 
-    .topbar{
-      display:flex;
-      justify-content:space-between;
-      gap:12px;
-      margin-bottom:18px;
-    }
+--line:#ddd5c8;
 
-    .small-btn{
-      border:none;
-      border-radius:14px;
-      padding:12px 16px;
-      font-size:15px;
-      font-weight:bold;
-      cursor:pointer;
-      background:var(--soft);
-      color:var(--text);
-      transition:.2s ease;
-    }
+--text:#2f2a24;
+--muted:#5f574c;
+--title:#6b5b46;
 
-    .small-btn:hover{
-      background:var(--soft-dark);
-      transform:translateY(-1px);
-    }
+--accent:#8a6a3c;
+--accent-dark:#73572f;
 
-    .hero{
-      background:var(--hero);
-      border:1px solid var(--line);
-      border-radius:28px;
-      padding:30px;
-      box-shadow:var(--shadow);
-      margin-bottom:22px;
-    }
+--mesario-bg:#f3eee3;
+--mesario-line:#d4c4a4;
 
-    .eyebrow{
-      display:inline-block;
-      padding:8px 14px;
-      border-radius:999px;
-      background:#efe9dc;
-      color:#6b5b46;
-      font-size:14px;
-      font-weight:bold;
-      margin-bottom:14px;
-    }
+--shadow:0 12px 28px rgba(0,0,0,.08);
 
-    h1{
-      margin:0 0 10px 0;
-      font-size:34px;
-      line-height:1.15;
-      color:var(--hero-dark);
-    }
+}
 
-    .subtitle{
-      margin:0;
-      font-size:20px;
-      line-height:1.8;
-      color:var(--muted);
-    }
+*{ box-sizing:border-box; }
 
-    .grid{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:18px;
-      margin-bottom:20px;
-    }
+body{
 
-    .card{
-      background:var(--card);
-      border:1px solid var(--line);
-      border-radius:24px;
-      padding:22px;
-      box-shadow:var(--shadow);
-    }
+margin:0;
+font-family:Arial, Helvetica, sans-serif;
 
-    .wide{
-      grid-column:1 / -1;
-    }
+background:var(--bg);
+color:var(--text);
 
-    h2{
-      margin:0 0 14px 0;
-      font-size:28px;
-      color:var(--hero-dark);
-    }
+}
 
-    h3{
-      margin:0 0 10px 0;
-      font-size:22px;
-      color:#6a5435;
-    }
+.container{
 
-    p{
-      margin:0 0 14px 0;
-      font-size:18px;
-      line-height:1.8;
-    }
+max-width:1100px;
+margin:auto;
 
-    label{
-      display:block;
-      font-size:17px;
-      font-weight:bold;
-      margin:14px 0 8px;
-    }
+padding:34px 18px 45px;
 
-    input[type="text"],
-    textarea,
-    select,
-    input[type="file"]{
-      width:100%;
-      padding:14px;
-      border:1px solid var(--line);
-      border-radius:14px;
-      font-size:16px;
-      background:#f7f8fb;
-    }
+}
 
-    textarea{
-      min-height:150px;
-      resize:vertical;
-    }
+.topbar{
 
-    .hint{
-      font-size:15px;
-      color:var(--muted);
-      margin-top:8px;
-      line-height:1.7;
-    }
+display:flex;
+justify-content:space-between;
+margin-bottom:18px;
 
-    .highlight{
-      background:var(--gold-bg);
-      border:1px solid #e2c98f;
-      border-left:7px solid var(--gold);
-      border-radius:18px;
-      padding:18px;
-      margin-top:12px;
-    }
+}
 
-    .status{
-      background:var(--status);
-      border:1px solid #c8d9ee;
-      border-left:7px solid var(--green);
-      border-radius:18px;
-      padding:16px 18px;
-      margin-top:14px;
-      font-size:17px;
-      line-height:1.8;
-    }
+.small-btn{
 
-    .warning{
-      background:var(--danger-bg);
-      border:1px solid #e5bcbc;
-      border-left:7px solid var(--danger);
-      border-radius:18px;
-      padding:16px 18px;
-      margin-top:14px;
-      font-size:17px;
-      line-height:1.8;
-    }
+border:none;
+border-radius:14px;
 
-    .mesario{
-      margin-top:14px;
-      background:#faf6ee;
-      border:1px solid var(--line);
-      border-left:7px solid var(--gold);
-      border-radius:18px;
-      padding:16px 18px;
-    }
+padding:12px 16px;
 
-    .mesario h3{
-      margin:0 0 8px 0;
-      font-size:22px;
-      color:#6a5435;
-    }
+font-weight:bold;
 
-    .mesario-valor{
-      display:inline-block;
-      margin-top:8px;
-      padding:8px 12px;
-      border-radius:12px;
-      background:#fff7e6;
-      border:1px solid #e2c98f;
-      font-weight:bold;
-      color:#7a5d1d;
-    }
+cursor:pointer;
 
-    .actions{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:14px;
-      margin-top:18px;
-    }
+background:#ece7db;
 
-    .main-btn{
-      width:100%;
-      border:none;
-      border-radius:18px;
-      padding:18px 20px;
-      font-size:18px;
-      font-weight:bold;
-      cursor:pointer;
-      transition:.2s ease;
-    }
+}
 
-    .main-btn:hover{
-      transform:translateY(-1px);
-    }
+.small-btn:hover{
 
-    .btn-prepare{
-      background:var(--green);
-      color:#fff;
-    }
+background:#e2dccd;
 
-    .btn-prepare:hover{
-      background:var(--green-dark);
-    }
+}
 
-    .btn-next{
-      background:#8a6a43;
-      color:#fff;
-    }
+.hero{
 
-    .btn-next:hover{
-      background:#705331;
-    }
+background:#faf8f2;
 
-    .hidden{
-      display:none !important;
-    }
+border-left:8px solid var(--accent);
 
-    .inline-grid{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:14px;
-    }
+border-radius:26px;
 
-    .obra-memory{
-      background:#faf8f2;
-      border:1px solid var(--line);
-      border-radius:18px;
-      padding:18px;
-      margin-top:10px;
-    }
+padding:30px;
 
-    .obra-memory strong{
-      display:block;
-      margin-bottom:8px;
-      color:#3d352d;
-    }
+margin-bottom:22px;
 
-    .obra-memory span{
-      display:block;
-      color:#000;
-      line-height:1.7;
-      margin-bottom:4px;
-    }
+box-shadow:var(--shadow);
 
-    .footer-note{
-      margin-top:14px;
-      text-align:center;
-      font-size:17px;
-      line-height:1.8;
-      color:var(--muted);
-    }
+}
 
-    @media (max-width:850px){
-      .grid,
-      .actions,
-      .inline-grid,
-      .topbar{
-        grid-template-columns:1fr;
-        display:grid;
-      }
+.eyebrow{
 
-      h1{ font-size:30px; }
-      h2{ font-size:25px; }
-      h3{ font-size:21px; }
-    }
-  </style>
+display:inline-block;
+
+padding:8px 14px;
+
+border-radius:999px;
+
+background:#efe9dc;
+
+font-size:14px;
+
+font-weight:bold;
+
+margin-bottom:14px;
+
+color:#6b5b46;
+
+}
+
+h1{
+
+margin:0 0 10px;
+
+font-size:34px;
+
+color:var(--title);
+
+}
+
+.subtitle{
+
+font-size:20px;
+
+line-height:1.8;
+
+color:var(--muted);
+
+}
+
+.grid{
+
+display:grid;
+
+grid-template-columns:1fr 1fr;
+
+gap:18px;
+
+}
+
+.card{
+
+background:var(--card);
+
+border-radius:24px;
+
+padding:22px;
+
+border:1px solid var(--line);
+
+box-shadow:var(--shadow);
+
+}
+
+.wide{
+
+grid-column:1 / -1;
+
+}
+
+h2{
+
+margin:0 0 12px;
+
+font-size:26px;
+
+color:var(--title);
+
+}
+
+.field{
+
+background:#faf8f2;
+
+border-radius:16px;
+
+padding:14px;
+
+border:1px solid var(--line);
+
+margin-top:10px;
+
+}
+
+.field strong{
+
+display:block;
+
+margin-bottom:4px;
+
+color:#000;
+
+}
+
+.field span{
+
+color:#000;
+
+line-height:1.7;
+
+}
+
+.check-group{
+
+display:grid;
+
+gap:10px;
+
+margin-top:12px;
+
+}
+
+.check-item{
+
+display:flex;
+
+gap:10px;
+
+background:#faf8f2;
+
+border-radius:14px;
+
+padding:14px;
+
+border:1px solid var(--line);
+
+line-height:1.7;
+
+}
+
+.check-item input{
+
+margin-top:3px;
+
+transform:scale(1.1);
+
+}
+
+.preview{
+
+background:#faf8f2;
+
+border-radius:22px;
+
+padding:20px;
+
+border:1px solid var(--line);
+
+}
+
+.preview-box{
+
+background:#fff;
+
+border-radius:16px;
+
+padding:18px;
+
+border:1px solid var(--line);
+
+line-height:1.8;
+
+}
+
+.preview-title{
+
+font-size:20px;
+
+font-weight:bold;
+
+color:var(--title);
+
+margin-bottom:10px;
+
+}
+
+.preview-line{
+
+margin-bottom:8px;
+
+}
+
+.mesario{
+
+margin-top:16px;
+
+background:var(--mesario-bg);
+
+border-left:6px solid var(--mesario-line);
+
+border-radius:18px;
+
+padding:16px;
+
+}
+
+.actions{
+
+display:grid;
+
+grid-template-columns:1fr 1fr;
+
+gap:14px;
+
+margin-top:18px;
+
+}
+
+.main-btn{
+
+border:none;
+
+border-radius:18px;
+
+padding:18px;
+
+font-size:18px;
+
+font-weight:bold;
+
+cursor:pointer;
+
+}
+
+.btn-next{
+
+background:var(--accent);
+
+color:white;
+
+}
+
+.btn-next:hover{
+
+background:var(--accent-dark);
+
+}
+
+.btn-skip{
+
+background:#ece7db;
+
+}
+
+.btn-skip:hover{
+
+background:#e2dccd;
+
+}
+
+@media(max-width:900px){
+
+.grid,
+.actions,
+.topbar{
+
+grid-template-columns:1fr;
+display:grid;
+
+}
+
+}
+
+</style>
 </head>
+
 <body>
-  <div class="container">
 
-    <div class="topbar">
-      <button class="small-btn" onclick="history.back()">← Retornar</button>
-      <button class="small-btn" onclick="window.location.href='index.html'">Sair do sistema</button>
-    </div>
+<div class="container">
 
-    <section class="hero">
-      <div class="eyebrow">Lapidar • Módulo 01</div>
-      <h1>Bolsão de Limpeza Editorial</h1>
-      <p class="subtitle">
-        Aqui recebemos o seu material como ele nasceu. Seguimos juntos a partir daqui, escutando sempre a sua voz e a sua vontade.
-      </p>
-    </section>
+<div class="topbar">
 
-    <div class="grid">
+<button class="small-btn"
+onclick="window.location.href='index.html'">
 
-      <section class="card">
-        <h2>Enviar arquivo da obra</h2>
+← Retornar ao início
 
-        <label for="arquivoObra">Arquivo principal da obra</label>
-        <input type="file" id="arquivoObra" accept=".doc,.docx,.pdf,.txt" />
+</button>
 
-        <div class="hint">
-          Você pode enviar o texto da obra para leitura inicial e preparação do texto-base.
-        </div>
+<button class="small-btn"
+onclick="window.location.href='index.html'">
 
-        <label for="idiomaBase">Idioma base da obra</label>
-        <select id="idiomaBase" onchange="salvarMemoriaDaObra()">
-          <option>Português do Brasil</option>
-          <option>Português de Portugal</option>
-          <option>Português internacional lusófono</option>
-          <option>Inglês dos Estados Unidos</option>
-          <option>Inglês do Reino Unido</option>
-          <option>Espanhol da Espanha</option>
-          <option>Espanhol da América Latina</option>
-          <option>Francês</option>
-          <option>Italiano</option>
-        </select>
-      </section>
+Sair do sistema
 
-      <section class="card">
-        <h2>Enviar imagens da obra</h2>
+</button>
 
-        <label for="arquivoImagens">Imagens e materiais visuais</label>
-        <input type="file" id="arquivoImagens" accept=".jpg,.jpeg,.png,.webp,.pdf" multiple />
+</div>
 
-        <div class="hint">
-          Aqui entram imagens para capa, contracapa, orelhas, miolo, biografia, release ou outros materiais visuais da obra.
-        </div>
 
-        <div class="highlight">
-          Antes de seguir, o sistema considera que as imagens enviadas precisam estar autorizadas para uso editorial nesta obra.
-        </div>
-      </section>
+<section class="hero">
 
-      <section class="card wide">
-        <h2>Declaração sobre as imagens enviadas</h2>
+<div class="eyebrow">
 
-        <div class="inline-grid">
-          <div>
-            <label for="autorizacaoImagens">Você possui autorização para utilizar as imagens enviadas nesta obra?</label>
-            <select id="autorizacaoImagens" onchange="verificarAutorizacao()">
-              <option value="sim">Sim</option>
-              <option value="nao">Não</option>
-              <option value="duvida">Ainda não tenho certeza</option>
-            </select>
-          </div>
+📘 Lapidar • Módulo 01
 
-          <div>
-            <label for="autoriaImagens">Essas imagens são de sua autoria?</label>
-            <select id="autoriaImagens">
-              <option value="sim">Sim</option>
-              <option value="nao">Não</option>
-            </select>
-          </div>
-        </div>
+</div>
 
-        <div id="avisoAutorizacao" class="warning hidden">
-          As imagens não poderão seguir para produção editorial enquanto a autorização de uso não estiver confirmada.
-        </div>
-      </section>
+<h1>
 
-      <section class="card wide">
-        <h2>Identificação inicial da obra</h2>
+Bolsão de Limpeza Editorial
 
-        <label for="tituloObra"><strong>Título da obra</strong></label>
-        <input type="text" id="tituloObra" placeholder="O título pode ser confirmado ou ajustado depois." oninput="salvarMemoriaDaObra()" />
+</h1>
 
-        <label for="subtituloObra"><strong>Subtítulo</strong></label>
-        <input type="text" id="subtituloObra" placeholder="Opcional" oninput="salvarMemoriaDaObra()" />
+<p class="subtitle">
 
-        <label for="autorObra"><strong>Autor</strong></label>
-        <input type="text" id="autorObra" placeholder="Nome do autor ou heterônimo" oninput="salvarMemoriaDaObra()" />
+Aqui a obra entra oficialmente no ambiente Lapidar.  
+É realizada a leitura estrutural inicial, a preparação do texto-base e a organização editorial antes da jornada pelos módulos seguintes.
 
-        <label for="textoBase"><strong>Texto-base ou observações iniciais</strong></label>
-        <textarea id="textoBase" placeholder="Se quiser, você também pode colar aqui um trecho, observação ou recado sobre a obra." oninput="salvarMemoriaDaObra()"></textarea>
+</p>
 
-        <div class="obra-memory">
-          <strong>Memória atual da obra no sistema</strong>
-          <span id="memTitulo">Título: ainda não informado</span>
-          <span id="memSubtitulo">Subtítulo: ainda não informado</span>
-          <span id="memAutor">Autor: ainda não informado</span>
-          <span id="memIdioma">Idioma: ainda não informado</span>
-        </div>
-      </section>
+</section>
 
-      <section class="card wide">
-        <h2>Preparação editorial inicial</h2>
 
-        <p>
-          Neste espaço o Lapidar organiza sua obra antes das próximas etapas:
-        </p>
+<div class="grid">
 
-        <p>
-          • identifica estrutura do texto<br>
-          • reconhece título e autoria<br>
-          • organiza partes editoriais<br>
-          • verifica elementos enviados<br>
-          • prepara o caminho da obra dentro do Lapidar
-        </p>
 
-        <div class="status" id="statusPreparacao">
-          Nenhuma preparação foi executada ainda.
-        </div>
+<section class="card">
 
-        <div class="mesario" id="mesarioSecao">
-          <h3>Mesário da seção</h3>
-          <p>Valor acumulado desta preparação inicial.</p>
-          <div class="mesario-valor">CVR sugerida desta seção: R$ 5,00</div>
-        </div>
+<h2>
 
-        <div class="actions">
-          <button class="main-btn btn-prepare" onclick="prepararObra()">
-            Ler obra e preparar projeto
-          </button>
+Dados iniciais da obra
 
-          <button class="main-btn btn-next" onclick="seguirParaSelecao()">
-            Continuar para a seleção de módulos
-          </button>
-        </div>
+</h2>
 
-        <div class="footer-note">
-          Aqui começa a nossa jornada.
-        </div>
-      </section>
+<div class="field">
 
-    </div>
+<strong>Título</strong>
 
-  </div>
+<span id="tituloObra">
 
-  <script>
-    function aplicarRegraPerfil(){
-      const perfil = (localStorage.getItem("lapidar_perfil") || "").toLowerCase();
-      const cortesia = perfil.includes("cortesia");
-      if(cortesia){
-        document.getElementById("mesarioSecao").classList.add("hidden");
-      }
-    }
+Aguardando identificação
 
-    function verificarAutorizacao(){
-      const valor = document.getElementById("autorizacaoImagens").value;
-      const aviso = document.getElementById("avisoAutorizacao");
+</span>
 
-      if(valor === "nao" || valor === "duvida"){
-        aviso.classList.remove("hidden");
-      }else{
-        aviso.classList.add("hidden");
-      }
-    }
+</div>
 
-    function salvarMemoriaDaObra(){
-      const titulo = document.getElementById("tituloObra").value.trim();
-      const subtitulo = document.getElementById("subtituloObra").value.trim();
-      const autor = document.getElementById("autorObra").value.trim();
-      const idioma = document.getElementById("idiomaBase").value;
-      const observacoes = document.getElementById("textoBase").value.trim();
+<div class="field">
 
-      localStorage.setItem("lapidar_titulo_obra", titulo);
-      localStorage.setItem("lapidar_subtitulo_obra", subtitulo);
-      localStorage.setItem("lapidar_autor_obra", autor);
-      localStorage.setItem("lapidar_idioma_obra", idioma);
-      localStorage.setItem("lapidar_observacoes_obra", observacoes);
+<strong>Autor</strong>
 
-      document.getElementById("memTitulo").textContent = "Título: " + (titulo || "ainda não informado");
-      document.getElementById("memSubtitulo").textContent = "Subtítulo: " + (subtitulo || "ainda não informado");
-      document.getElementById("memAutor").textContent = "Autor: " + (autor || "ainda não informado");
-      document.getElementById("memIdioma").textContent = "Idioma: " + (idioma || "ainda não informado");
-    }
+<span id="autorObra">
 
-    function carregarMemoriaDaObra(){
-      const titulo = localStorage.getItem("lapidar_titulo_obra") || "";
-      const subtitulo = localStorage.getItem("lapidar_subtitulo_obra") || "";
-      const autor = localStorage.getItem("lapidar_autor_obra") || "";
-      const idioma = localStorage.getItem("lapidar_idioma_obra") || "Português do Brasil";
-      const observacoes = localStorage.getItem("lapidar_observacoes_obra") || "";
+Aguardando identificação
 
-      document.getElementById("tituloObra").value = titulo;
-      document.getElementById("subtituloObra").value = subtitulo;
-      document.getElementById("autorObra").value = autor;
-      document.getElementById("idiomaBase").value = idioma;
-      document.getElementById("textoBase").value = observacoes;
+</span>
 
-      salvarMemoriaDaObra();
-    }
+</div>
 
-    function prepararObra(){
-      salvarMemoriaDaObra();
+<div class="field">
 
-      const arquivo = document.getElementById("arquivoObra").files.length;
-      const imagens = document.getElementById("arquivoImagens").files.length;
-      const titulo = localStorage.getItem("lapidar_titulo_obra") || "";
-      const autor = localStorage.getItem("lapidar_autor_obra") || "";
-      const idioma = localStorage.getItem("lapidar_idioma_obra") || "";
+<strong>Idioma base</strong>
 
-      let linhas = [];
+<span id="idiomaObra">
 
-      linhas.push("Preparação inicial concluída.");
-      linhas.push("Idioma base identificado: " + (idioma || "não informado") + ".");
+Aguardando idioma
 
-      if(arquivo > 0){
-        linhas.push("Arquivo principal recebido para leitura.");
-      }else{
-        linhas.push("Nenhum arquivo principal foi enviado ainda.");
-      }
+</span>
 
-      if(imagens > 0){
-        linhas.push("Imagens recebidas nesta obra: " + imagens + ".");
-      }else{
-        linhas.push("Nenhuma imagem foi enviada nesta etapa.");
-      }
+</div>
 
-      if(titulo){
-        linhas.push("Título informado: " + titulo + ".");
-      }else{
-        linhas.push("Título ainda não informado.");
-      }
+</section>
 
-      if(autor){
-        linhas.push("Autoria informada: " + autor + ".");
-      }else{
-        linhas.push("Autoria ainda não informada.");
-      }
 
-      document.getElementById("statusPreparacao").innerHTML = linhas.join("<br>");
-    }
+<section class="card">
 
-    function seguirParaSelecao(){
-      salvarMemoriaDaObra();
-      window.location.href = "selecionar_modulos.html";
-    }
+<h2>
 
-    aplicarRegraPerfil();
-    verificarAutorizacao();
-    carregarMemoriaDaObra();
-  </script>
+Preparação inicial
+
+</h2>
+
+<div class="check-group">
+
+<label class="check-item">
+
+<input type="checkbox" onchange="atualizarPreview()">
+
+Leitura estrutural inicial
+
+</label>
+
+<label class="check-item">
+
+<input type="checkbox" onchange="atualizarPreview()">
+
+Limpeza ortográfica básica
+
+</label>
+
+<label class="check-item">
+
+<input type="checkbox" onchange="atualizarPreview()">
+
+Detecção de metadados editoriais
+
+</label>
+
+<label class="check-item">
+
+<input type="checkbox" onchange="atualizarPreview()">
+
+Preparação do texto-base
+
+</label>
+
+<label class="check-item">
+
+<input type="checkbox" onchange="atualizarPreview()">
+
+Geração opcional de pré-textuais
+
+</label>
+
+</div>
+
+</section>
+
+
+<section class="card wide">
+
+<h2>
+
+Situação atual da obra
+
+</h2>
+
+<div class="preview">
+
+<div class="preview-box">
+
+<div class="preview-title">
+
+A obra está sendo preparada para entrar no fluxo editorial
+
+</div>
+
+<div class="preview-line">
+
+<strong>Obra:</strong>
+<span id="previewTitulo">Título da obra</span>
+
+</div>
+
+<div class="preview-line">
+
+<strong>Autor:</strong>
+<span id="previewAutor">Autor</span>
+
+</div>
+
+<div class="preview-line">
+
+<strong>Ações selecionadas:</strong>
+<span id="previewAcoes">
+
+Nenhuma ação selecionada ainda.
+
+</span>
+
+</div>
+
+<div class="preview-line">
+
+<strong>Direção editorial:</strong>
+
+O texto está sendo organizado e preparado como base sólida para a jornada completa dentro do sistema Lapidar.
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="mesario" id="mesarioSecao">
+
+<strong>Mesário da seção</strong><br>
+
+Valor acumulado do Bolsão.<br><br>
+
+<strong>CVR sugerida desta seção: R$ 0,00</strong>
+
+</div>
+
+
+<div class="actions">
+
+<button class="main-btn btn-next"
+onclick="window.location.href='selecionar_modulos.html'">
+
+Entrar no fluxo editorial
+
+</button>
+
+<button class="main-btn btn-skip"
+onclick="window.location.href='index.html'">
+
+Encerrar por agora
+
+</button>
+
+</div>
+
+</section>
+
+</div>
+
+</div>
+
+
+<script>
+
+function preencherDados(){
+
+const titulo =
+localStorage.getItem("lapidar_titulo_obra")
+|| "Título da obra";
+
+const autor =
+localStorage.getItem("lapidar_autor_obra")
+|| "Autor";
+
+const idioma =
+localStorage.getItem("lapidar_idioma_obra")
+|| "Idioma base";
+
+document.getElementById("tituloObra").textContent = titulo;
+
+document.getElementById("autorObra").textContent = autor;
+
+document.getElementById("idiomaObra").textContent = idioma;
+
+document.getElementById("previewTitulo").textContent = titulo;
+
+document.getElementById("previewAutor").textContent = autor;
+
+}
+
+function atualizarPreview(){
+
+const ativos =
+Array.from(document.querySelectorAll(".check-item"))
+.filter(item=>item.querySelector("input").checked)
+.map(item=>item.textContent.trim());
+
+document.getElementById("previewAcoes").textContent =
+ativos.length
+? ativos.join(" • ")
+: "Nenhuma ação selecionada ainda.";
+
+}
+
+function aplicarPerfil(){
+
+const perfil =
+(localStorage.getItem("lapidar_perfil")||"")
+.toLowerCase();
+
+if(perfil.includes("cortesia")){
+
+document.getElementById("mesarioSecao").style.display="none";
+
+}
+
+}
+
+preencherDados();
+atualizarPreview();
+aplicarPerfil();
+
+</script>
+
 </body>
 </html>
