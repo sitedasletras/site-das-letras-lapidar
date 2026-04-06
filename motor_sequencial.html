@@ -8,15 +8,17 @@
     :root{
       --bg:#f7f5ef;
       --card:#ffffff;
-      --line:#d8d2c4;
+      --line:#ddd5c8;
       --text:#2f2a24;
       --muted:#5f574c;
       --title:#6b5b46;
+      --accent:#8a6a3c;
+      --accent-dark:#73572f;
       --soft:#ece7db;
       --soft-dark:#e2dccd;
-      --accent:#8a6a43;
-      --accent-dark:#705331;
-      --shadow:0 12px 28px rgba(67,58,45,.10);
+      --shadow:0 12px 28px rgba(0,0,0,.08);
+      --ok:#d8ead6;
+      --ok-line:#9fbc9c;
     }
 
     *{ box-sizing:border-box; }
@@ -27,21 +29,43 @@
       background:var(--bg);
       color:var(--text);
       min-height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:20px;
     }
 
-    .card{
-      width:100%;
-      max-width:860px;
-      background:var(--card);
-      border:1px solid var(--line);
-      border-radius:28px;
-      padding:32px 28px;
+    .container{
+      max-width:980px;
+      margin:auto;
+      padding:30px 18px 45px;
+    }
+
+    .topbar{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:18px;
+    }
+
+    .small-btn{
+      border:none;
+      border-radius:14px;
+      padding:12px 16px;
+      font-size:15px;
+      font-weight:bold;
+      cursor:pointer;
+      background:var(--soft);
+      color:var(--text);
+    }
+
+    .small-btn:hover{
+      background:var(--soft-dark);
+    }
+
+    .hero{
+      background:#faf8f2;
+      border-left:8px solid var(--accent);
+      border-radius:26px;
+      padding:28px;
+      margin-bottom:22px;
       box-shadow:var(--shadow);
-      text-align:center;
     }
 
     .eyebrow{
@@ -56,62 +80,156 @@
     }
 
     h1{
-      margin:0 0 12px 0;
+      margin:0 0 10px;
       font-size:34px;
-      line-height:1.15;
       color:var(--title);
     }
 
-    p{
-      margin:0 0 14px 0;
-      font-size:19px;
-      line-height:1.9;
+    .subtitle{
+      margin:0;
+      font-size:20px;
+      line-height:1.8;
       color:var(--muted);
     }
 
+    .grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:18px;
+      margin-bottom:20px;
+    }
+
+    .card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:24px;
+      padding:22px;
+      box-shadow:var(--shadow);
+    }
+
+    .wide{
+      grid-column:1 / -1;
+    }
+
+    h2{
+      margin:0 0 12px;
+      font-size:25px;
+      color:var(--title);
+    }
+
     .field{
-      margin:18px auto 0;
-      max-width:640px;
       background:#faf8f2;
       border:1px solid var(--line);
-      border-radius:18px;
-      padding:16px 18px;
-      text-align:left;
+      border-radius:16px;
+      padding:14px 16px;
+      margin-top:10px;
     }
 
     .field strong{
       display:block;
-      margin-bottom:6px;
-      font-size:16px;
-      color:#3d352d;
+      margin-bottom:4px;
+      color:#000;
+      font-size:15px;
     }
 
     .field span{
       display:block;
-      font-size:17px;
       color:#000;
       line-height:1.7;
+      font-size:16px;
+    }
+
+    .status-ok{
+      background:var(--ok);
+      border-left:6px solid var(--ok-line);
+      border-radius:18px;
+      padding:16px;
+      line-height:1.8;
+      color:#355034;
+    }
+
+    .journey{
+      display:grid;
+      gap:10px;
+      margin-top:10px;
+    }
+
+    .journey-item{
+      padding:14px 16px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background:#fff;
+      font-size:16px;
+      line-height:1.6;
+    }
+
+    .journey-item.done{
+      background:#f2f7f1;
+      border-color:#cfe0cb;
+      color:#4a6847;
+    }
+
+    .journey-item.current{
+      background:#fff7e6;
+      border-color:#ecd398;
+      color:#6b5b24;
+      font-weight:bold;
+    }
+
+    .journey-item.next{
+      background:#eef4fb;
+      border-color:#cfe0f4;
+      color:#35516f;
+    }
+
+    .journey-item.future{
+      background:#faf8f2;
+      color:#6b6254;
+    }
+
+    .progress-wrap{
+      margin-top:12px;
+    }
+
+    .progress-head{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      font-size:14px;
+      color:var(--muted);
+      margin-bottom:8px;
+    }
+
+    .progress-bar{
+      width:100%;
+      height:14px;
+      border-radius:999px;
+      background:#e8e0d2;
+      overflow:hidden;
+      border:1px solid #ddd5c8;
+    }
+
+    .progress-fill{
+      height:100%;
+      width:0%;
+      background:linear-gradient(90deg,#c79a2e,#8a6a3c);
+      transition:width .25s ease;
     }
 
     .actions{
       display:grid;
       grid-template-columns:1fr 1fr;
       gap:14px;
-      margin-top:22px;
+      margin-top:18px;
     }
 
     .main-btn{
       border:none;
       border-radius:18px;
-      padding:18px 20px;
+      padding:18px;
       font-size:18px;
       font-weight:bold;
       cursor:pointer;
-      transition:.2s ease;
-    }
-
-    .main-btn:hover{
-      transform:translateY(-1px);
     }
 
     .btn-next{
@@ -132,88 +250,229 @@
       background:var(--soft-dark);
     }
 
-    @media (max-width:800px){
-      .actions{
+    .footer-note{
+      margin-top:12px;
+      text-align:center;
+      color:var(--muted);
+      font-size:15px;
+      line-height:1.7;
+    }
+
+    @media(max-width:900px){
+      .grid, .actions, .topbar{
         grid-template-columns:1fr;
+        display:grid;
       }
 
-      h1{
-        font-size:30px;
-      }
-
-      p{
-        font-size:18px;
-      }
+      h1{ font-size:30px; }
     }
   </style>
 </head>
 <body>
-  <section class="card">
+
+<div class="container">
+
+  <div class="topbar">
+    <button class="small-btn" onclick="history.back()">← Retornar</button>
+    <button class="small-btn" onclick="window.location.href='index.html'">Sair do sistema</button>
+  </div>
+
+  <section class="hero">
     <div class="eyebrow">Lapidar • Continuidade da Jornada</div>
-    <h1>O próximo setor da sua obra já está preparado</h1>
-    <p>
-      O Lapidar está seguindo a sequência que você escolheu. Quando estiver pronto, continue para o próximo passo da jornada editorial.
+    <h1>A obra segue pelo caminho escolhido</h1>
+    <p class="subtitle">
+      O Lapidar está organizando sua jornada editorial de forma progressiva. Cada etapa concluída conduz a obra ao próximo setor até chegar à Expedição Final.
     </p>
-
-    <div class="field">
-      <strong>Próximo setor</strong>
-      <span id="proximoModuloNome">Preparando o próximo passo...</span>
-    </div>
-
-    <div class="actions">
-      <button class="main-btn btn-next" onclick="irParaProximoModulo()">
-        Seguir para o próximo setor
-      </button>
-
-      <button class="main-btn btn-home" onclick="window.location.href='pagina_institucional_lapidar.html'">
-        Voltar ao início do Lapidar
-      </button>
-    </div>
   </section>
 
-  <script>
-    function nomeBonitoDoModulo(arquivo){
-      const mapa = {
-        "modulo03_assistente_diagramacao.html": "Assistente de Diagramação do Autor",
-        "modulo05_segunda_lingua.html": "Segunda Língua(s)",
-        "modulo07_avaliacao_literaria.html": "Avaliação Literária",
-        "modulo11_analisador_de_obra.html": "Analisador de Obra",
-        "modulo13_lapidacao_literaria.html": "Lapidação Literária",
-        "modulo17_silo_sonoro.html": "Silo Sonoro",
-        "modulo19_okapista.html": "OKapista"
-      };
-      return mapa[arquivo] || "Próxima etapa editorial";
+  <div class="grid">
+
+    <section class="card">
+      <h2>Situação atual</h2>
+
+      <div class="status-ok" id="statusAtual">
+        Etapa concluída com sucesso. O sistema está preparando a continuidade da jornada editorial.
+      </div>
+
+      <div class="field">
+        <strong>Obra</strong>
+        <span id="obraTitulo">Título da obra</span>
+      </div>
+
+      <div class="field">
+        <strong>Autor</strong>
+        <span id="obraAutor">Autor</span>
+      </div>
+
+      <div class="field">
+        <strong>Próximo setor</strong>
+        <span id="proximoModuloNome">Preparando o próximo passo...</span>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Progresso da jornada</h2>
+
+      <div class="progress-wrap">
+        <div class="progress-head">
+          <span id="progressTexto">0 de 0 etapas</span>
+          <span id="progressPercentual">0%</span>
+        </div>
+
+        <div class="progress-bar">
+          <div class="progress-fill" id="barraProgresso"></div>
+        </div>
+      </div>
+
+      <div class="field">
+        <strong>Destino final</strong>
+        <span>Expedição Final</span>
+      </div>
+    </section>
+
+    <section class="card wide">
+      <h2>Mapa atual do percurso</h2>
+
+      <div class="journey" id="journeyList"></div>
+
+      <div class="actions">
+        <button class="main-btn btn-next" onclick="irParaProximoModulo()">
+          Seguir para o próximo setor
+        </button>
+
+        <button class="main-btn btn-home" onclick="window.location.href='selecionar_modulos.html'">
+          Voltar à seleção de módulos
+        </button>
+      </div>
+
+      <div class="footer-note">
+        O Lapidar mantém a rota da obra até o fechamento da jornada editorial.
+      </div>
+    </section>
+
+  </div>
+
+</div>
+
+<script>
+  function nomeBonitoDoModulo(arquivo){
+    const mapa = {
+      "modulo03_assistente_diagramacao_autor_mapa.html": "Assistente de Diagramação do Autor",
+      "modulo19_okapista_mapa.html": "OKapista",
+      "modulo05_segunda_linguas_mapa.html": "Segunda Língua(s)",
+      "modulo07_avaliacao_literaria_mapa.html": "Avaliação Literária",
+      "modulo11_analisador_de_obra_mapa.html": "Analisador de Obra",
+      "modulo13_lapidacao_literaria_mapa.html": "Lapidação Literária",
+      "modulo17_silo_sonoro_mapa.html": "Silo Sonoro"
+    };
+    return mapa[arquivo] || "Etapa editorial";
+  }
+
+  function preencherCabecalhoDaObra(){
+    const titulo = localStorage.getItem("lapidar_titulo_obra") || "Título da obra";
+    const autor = localStorage.getItem("lapidar_autor_obra") || "Autor";
+
+    document.getElementById("obraTitulo").textContent = titulo;
+    document.getElementById("obraAutor").textContent = autor;
+  }
+
+  function atualizarTextoDoProximo(fila, indiceAtual){
+    const proximoIndice = indiceAtual + 1;
+
+    if(proximoIndice >= fila.length){
+      document.getElementById("proximoModuloNome").textContent = "Expedição Final";
+      document.getElementById("statusAtual").textContent =
+        "A última etapa selecionada foi concluída. O sistema está pronto para encaminhar a obra à Expedição Final.";
+      return;
     }
 
-    function atualizarTextoDoProximo(){
-      const fila = JSON.parse(localStorage.getItem("fila_modulos_lapidar") || "[]");
-      const indiceAtual = parseInt(localStorage.getItem("indice_fluxo_lapidar") || "0", 10);
-      const proximoIndice = indiceAtual + 1;
+    document.getElementById("proximoModuloNome").textContent =
+      nomeBonitoDoModulo(fila[proximoIndice]);
+  }
 
-      if(proximoIndice >= fila.length){
-        document.getElementById("proximoModuloNome").textContent = "Expedição Final";
-        return;
+  function atualizarBarraProgresso(fila, indiceAtual){
+    const totalEtapas = fila.length;
+    const etapasConcluidas = Math.min(indiceAtual + 1, totalEtapas);
+    const percentual = totalEtapas > 0 ? Math.round((etapasConcluidas / totalEtapas) * 100) : 0;
+
+    document.getElementById("progressTexto").textContent =
+      etapasConcluidas + " de " + totalEtapas + " etapas";
+
+    document.getElementById("progressPercentual").textContent =
+      percentual + "%";
+
+    document.getElementById("barraProgresso").style.width =
+      percentual + "%";
+  }
+
+  function montarMapaDoPercurso(fila, indiceAtual){
+    const journey = document.getElementById("journeyList");
+    journey.innerHTML = "";
+
+    if(!fila.length){
+      const vazio = document.createElement("div");
+      vazio.className = "journey-item future";
+      vazio.textContent = "Nenhuma etapa ativa no momento.";
+      journey.appendChild(vazio);
+      return;
+    }
+
+    fila.forEach((arquivo, i) => {
+      const div = document.createElement("div");
+      const nome = nomeBonitoDoModulo(arquivo);
+
+      if(i < indiceAtual){
+        div.className = "journey-item done";
+        div.textContent = "✓ Concluído — " + nome;
+      } else if(i === indiceAtual){
+        div.className = "journey-item current";
+        div.textContent = "• Etapa atual concluída — " + nome;
+      } else if(i === indiceAtual + 1){
+        div.className = "journey-item next";
+        div.textContent = "→ Próximo setor — " + nome;
+      } else {
+        div.className = "journey-item future";
+        div.textContent = "○ Setor futuro — " + nome;
       }
 
-      document.getElementById("proximoModuloNome").textContent = nomeBonitoDoModulo(fila[proximoIndice]);
+      journey.appendChild(div);
+    });
+
+    const finalDiv = document.createElement("div");
+    finalDiv.className = (indiceAtual + 1 >= fila.length) ? "journey-item current" : "journey-item future";
+    finalDiv.textContent = (indiceAtual + 1 >= fila.length)
+      ? "→ Próximo setor — Expedição Final"
+      : "○ Destino final — Expedição Final";
+    journey.appendChild(finalDiv);
+  }
+
+  function irParaProximoModulo(){
+    let fila = JSON.parse(localStorage.getItem("fila_modulos_lapidar") || "[]");
+    let indice = parseInt(localStorage.getItem("indice_fluxo_lapidar") || "0", 10);
+
+    indice++;
+    localStorage.setItem("indice_fluxo_lapidar", indice.toString());
+
+    if(indice >= fila.length){
+      window.location.href = "expedicao_final.html";
+      return;
     }
 
-    function irParaProximoModulo(){
-      let fila = JSON.parse(localStorage.getItem("fila_modulos_lapidar") || "[]");
-      let indice = parseInt(localStorage.getItem("indice_fluxo_lapidar") || "0", 10);
+    window.location.href = fila[indice];
+  }
 
-      indice++;
-      localStorage.setItem("indice_fluxo_lapidar", indice.toString());
+  function iniciarPainelSequencial(){
+    const fila = JSON.parse(localStorage.getItem("fila_modulos_lapidar") || "[]");
+    const indiceAtual = parseInt(localStorage.getItem("indice_fluxo_lapidar") || "0", 10);
 
-      if(indice >= fila.length){
-        window.location.href = "expedicao_final.html";
-        return;
-      }
+    preencherCabecalhoDaObra();
+    atualizarTextoDoProximo(fila, indiceAtual);
+    atualizarBarraProgresso(fila, indiceAtual);
+    montarMapaDoPercurso(fila, indiceAtual);
+  }
 
-      window.location.href = fila[indice];
-    }
+  iniciarPainelSequencial();
+</script>
 
-    atualizarTextoDoProximo();
-  </script>
 </body>
 </html>
