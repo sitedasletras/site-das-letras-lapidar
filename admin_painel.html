@@ -1,454 +1,374 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Painel Administrativo • Lapidar</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lapidar • Painel Administrativo</title>
   <style>
     :root{
-      --bg:#e8d6b4;
-      --panel:#fffaf2;
-      --line:#dbc9a8;
-      --text:#2f2418;
-      --muted:#6a5846;
-      --deep:#1f3158;
-      --deep2:#2d4c89;
-      --green:#2d9b57;
-      --violet:#8d67c4;
-      --gold:#b88a2f;
-      --red:#a63c38;
-      --shadow:0 14px 30px rgba(52,34,10,.14);
+      --bg:#f7f5ef;
+      --card:#ffffff;
+      --line:#d8d2c4;
+      --text:#2f2a24;
+      --muted:#5f574c;
+      --title:#6b5b46;
+      --blue:#244786;
+      --blue-dark:#1c3768;
+      --purple:#8b5fc7;
+      --purple-dark:#734aac;
+      --gold:#b28727;
+      --gold-dark:#946f1e;
+      --red:#b44a4a;
+      --red-dark:#943636;
+      --soft:#ece7db;
+      --soft-dark:#e2dccd;
+      --shadow:0 12px 28px rgba(67,58,45,.10);
     }
 
-    *{box-sizing:border-box}
+    *{ box-sizing:border-box; }
 
-    html,body{
+    body{
       margin:0;
-      padding:0;
       font-family:Arial, Helvetica, sans-serif;
       background:var(--bg);
       color:var(--text);
     }
 
     .hero{
-      background:linear-gradient(135deg,var(--deep) 0%, var(--deep2) 100%);
+      background:var(--blue);
       color:#fff;
-      padding:28px 18px 30px;
-      border-bottom-left-radius:34px;
-      border-bottom-right-radius:34px;
-      box-shadow:var(--shadow);
+      padding:22px 16px 26px;
+      border-bottom-left-radius:26px;
+      border-bottom-right-radius:26px;
     }
 
-    .hero small{
-      display:block;
-      text-transform:uppercase;
-      letter-spacing:.16em;
-      font-size:12px;
+    .hero-wrap{
+      max-width:1100px;
+      margin:0 auto;
+    }
+
+    .hero-top{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      align-items:center;
       margin-bottom:10px;
-      font-weight:900;
-      opacity:.9;
     }
 
     .hero h1{
-      margin:0 0 10px;
-      font-size:32px;
-      line-height:1.05;
+      margin:0 0 8px 0;
+      font-size:24px;
     }
 
     .hero p{
       margin:0;
       font-size:15px;
       line-height:1.7;
-      max-width:980px;
+      opacity:.95;
     }
 
-    .hero-actions{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      margin-top:18px;
-    }
-
-    .hero-actions button{
+    .hero-btn{
       border:none;
-      border-radius:15px;
-      padding:13px 16px;
-      font-size:15px;
-      font-weight:900;
-      cursor:pointer;
-    }
-
-    .ghost{
-      background:rgba(255,255,255,.14);
-      color:#fff;
-      border:1px solid rgba(255,255,255,.18);
-    }
-
-    .light{
-      background:#fff;
-      color:var(--deep);
-    }
-
-    .wrap{
-      max-width:1180px;
-      margin:0 auto;
-      padding:22px 16px 30px;
-      display:grid;
-      gap:22px;
-    }
-
-    .card{
-      background:var(--panel);
-      border:1px solid var(--line);
-      border-radius:28px;
-      box-shadow:var(--shadow);
-      overflow:hidden;
-    }
-
-    .card-head{
-      padding:22px 22px 0;
-    }
-
-    .card-head small{
-      display:block;
-      text-transform:uppercase;
-      letter-spacing:.16em;
-      font-size:12px;
-      font-weight:900;
-      color:#8c6e3c;
-      margin-bottom:10px;
-    }
-
-    .card-head h2{
-      margin:0 0 10px;
-      font-size:30px;
-      line-height:1.05;
-    }
-
-    .card-head p{
-      margin:0;
-      color:var(--muted);
+      border-radius:12px;
+      padding:10px 14px;
       font-size:14px;
-      line-height:1.7;
+      font-weight:bold;
+      cursor:pointer;
+      background:#fff;
+      color:var(--text);
     }
 
-    .card-body{
+    .container{
+      max-width:1100px;
+      margin:0 auto;
+      padding:18px 16px 40px;
+    }
+
+    .summary{
+      background:#faf8f2;
+      border:1px solid var(--line);
+      border-radius:24px;
       padding:22px;
+      box-shadow:var(--shadow);
+      margin-bottom:18px;
     }
 
-    .stats{
+    .summary h2{
+      margin:0 0 10px 0;
+      font-size:20px;
+      color:var(--title);
+    }
+
+    .summary-grid{
       display:grid;
-      grid-template-columns:repeat(4,minmax(0,1fr));
+      grid-template-columns:1fr 1fr;
       gap:14px;
+      margin-top:16px;
     }
 
-    .stat{
+    .mini{
       background:#fff;
       border:1px solid var(--line);
       border-radius:18px;
       padding:16px;
     }
 
-    .stat small{
+    .mini strong{
       display:block;
+      font-size:12px;
       text-transform:uppercase;
-      letter-spacing:.08em;
-      font-size:11px;
-      font-weight:900;
-      color:#8a7357;
-      margin-bottom:8px;
-    }
-
-    .stat strong{
-      display:block;
-      font-size:28px;
-      line-height:1.1;
+      color:#8b7d68;
       margin-bottom:6px;
+      letter-spacing:.5px;
     }
 
-    .stat span{
-      display:block;
+    .mini span{
+      font-size:18px;
+      font-weight:bold;
+      color:var(--text);
+    }
+
+    .section{
+      background:#faf8f2;
+      border:1px solid var(--line);
+      border-radius:24px;
+      padding:22px;
+      box-shadow:var(--shadow);
+      margin-bottom:18px;
+    }
+
+    .section h3{
+      margin:0 0 8px 0;
+      font-size:16px;
+      text-transform:uppercase;
+      letter-spacing:.6px;
+      color:#8b7d68;
+    }
+
+    .section h2{
+      margin:0 0 8px 0;
+      font-size:20px;
+      color:var(--title);
+    }
+
+    .section p{
+      margin:0 0 16px 0;
       color:var(--muted);
+      line-height:1.7;
+      font-size:15px;
+    }
+
+    .action-card{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:20px;
+      padding:16px;
+      margin-bottom:14px;
+    }
+
+    .action-card:last-child{
+      margin-bottom:0;
+    }
+
+    .action-card .bar{
+      height:5px;
+      border-radius:999px;
+      margin-bottom:12px;
+    }
+
+    .bar-blue{ background:var(--blue); }
+    .bar-purple{ background:var(--purple); }
+    .bar-red{ background:var(--red); }
+    .bar-gold{ background:var(--gold); }
+
+    .action-card h4{
+      margin:0 0 6px 0;
+      font-size:17px;
+      color:var(--text);
+    }
+
+    .action-card p{
+      margin:0 0 14px 0;
+      font-size:14px;
+      color:var(--muted);
+    }
+
+    .btn{
+      width:100%;
+      border:none;
+      border-radius:14px;
+      padding:14px 16px;
+      font-size:16px;
+      font-weight:bold;
+      cursor:pointer;
+      transition:.2s ease;
+    }
+
+    .btn:hover{
+      transform:translateY(-1px);
+    }
+
+    .btn-blue{ background:var(--blue); color:#fff; }
+    .btn-blue:hover{ background:var(--blue-dark); }
+
+    .btn-purple{ background:var(--purple); color:#fff; }
+    .btn-purple:hover{ background:var(--purple-dark); }
+
+    .btn-red{ background:#efe7dc; color:#6a5435; }
+    .btn-red:hover{ background:#e6dbc9; }
+
+    .btn-gold{ background:#efe7dc; color:#6a5435; }
+    .btn-gold:hover{ background:#e6dbc9; }
+
+    .note{
+      margin-top:10px;
       font-size:13px;
+      color:#8b7d68;
       line-height:1.6;
     }
 
-    .grid{
-      display:grid;
-      grid-template-columns:repeat(2,minmax(0,1fr));
-      gap:18px;
-    }
-
-    .panel-box{
-      background:#fff;
-      border:1px solid var(--line);
-      border-radius:22px;
-      padding:18px;
-      display:grid;
-      gap:14px;
-    }
-
-    .band{
-      height:8px;
-      border-radius:999px;
-      margin-bottom:4px;
-    }
-
-    .blue{background:linear-gradient(90deg,var(--deep2),var(--deep))}
-    .green{background:linear-gradient(90deg,#43b36b,#25814a)}
-    .violet{background:linear-gradient(90deg,#a17ad6,#7f5bb6)}
-    .gold{background:linear-gradient(90deg,#d4aa4d,#a97c2a)}
-    .red{background:linear-gradient(90deg,#cb5a56,#983430)}
-
-    .panel-box h3{
-      margin:0;
-      font-size:24px;
-      line-height:1.1;
-    }
-
-    .panel-box p{
-      margin:0;
-      color:var(--muted);
-      font-size:14px;
-      line-height:1.7;
-    }
-
-    .links{
-      display:grid;
-      gap:10px;
-    }
-
-    .links a,
-    .single-action{
-      min-height:52px;
-      border-radius:14px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      text-decoration:none;
-      font-size:15px;
-      font-weight:900;
-      padding:12px 14px;
-      border:none;
-      cursor:pointer;
-      width:100%;
-    }
-
-    .btn-blue{background:linear-gradient(135deg,var(--deep) 0%, var(--deep2) 100%); color:#fff;}
-    .btn-green{background:linear-gradient(135deg,#2d9b57 0%, #217641 100%); color:#fff;}
-    .btn-violet{background:linear-gradient(135deg,#8d67c4 0%, #6d49a6 100%); color:#fff;}
-    .btn-gold{background:linear-gradient(135deg,#c79a40 0%, #a97823 100%); color:#fff;}
-    .btn-light{background:#efe5d3; color:#5b482e;}
-
-    .notice{
-      background:#fff4df;
-      border:1px solid #efd4a4;
-      color:#7a5621;
-      border-radius:16px;
-      padding:14px;
-      font-size:13px;
-      line-height:1.7;
-    }
-
-    .footer{
-      text-align:center;
-      padding:0 16px 24px;
-      color:#6d5a43;
-      font-size:12px;
-      font-weight:800;
-    }
-
-    @media (max-width:980px){
-      .stats{grid-template-columns:1fr 1fr}
-      .grid{grid-template-columns:1fr}
-    }
-
-    @media (max-width:640px){
-      .stats{grid-template-columns:1fr}
+    @media (max-width:800px){
+      .summary-grid{
+        grid-template-columns:1fr;
+      }
+      .hero-top{
+        flex-direction:column;
+        align-items:flex-start;
+      }
     }
   </style>
 </head>
 <body>
-  <header class="hero">
-    <small>Lapidar • Painel Administrativo</small>
-    <h1>Administrativo do sistema</h1>
-    <p>Ambiente central de gestão do Lapidar. Aqui o Admin pode organizar usuários, relatórios, setores, projetos e auditoria institucional.</p>
-    <div class="hero-actions">
-      <button class="ghost" onclick="window.location.href='sala_reunioes.html'">Voltar à sala de reuniões</button>
-      <button class="light" onclick="sairDoSistema()">Sair geral</button>
+
+  <section class="hero">
+    <div class="hero-wrap">
+      <div class="hero-top">
+        <div>
+          <div style="font-size:12px; opacity:.85; font-weight:bold; letter-spacing:.6px;">LAPIDAR • PAINEL ADMINISTRATIVO</div>
+          <h1>Administrativo do sistema</h1>
+          <p>Ambiente central de gestão do Lapidar. Aqui o Admin organiza usuários, relatórios, setores, projetos e auditoria institucional.</p>
+        </div>
+        <button class="hero-btn" onclick="window.location.href='index.html'">Sair geral</button>
+      </div>
     </div>
-  </header>
+  </section>
 
-  <main class="wrap">
+  <div class="container">
 
-    <section class="card">
-      <div class="card-head">
-        <small>Resumo geral</small>
-        <h2>Visão administrativa</h2>
-        <p>Leitura rápida das áreas centrais do sistema para navegação imediata.</p>
-      </div>
-      <div class="card-body">
-        <div class="stats">
-          <div class="stat">
-            <small>Perfil ativo</small>
-            <strong>Admin</strong>
-            <span>Controle institucional completo.</span>
-          </div>
-          <div class="stat">
-            <small>Portas abertas</small>
-            <strong>3</strong>
-            <span>Administrativo, Produção e Cortesias.</span>
-          </div>
-          <div class="stat">
-            <small>Modo atual</small>
-            <strong>Central</strong>
-            <span>Painel de comando do sistema.</span>
-          </div>
-          <div class="stat">
-            <small>Sessão</small>
-            <strong>Ativa</strong>
-            <span>Acesso reconhecido como administrador.</span>
-          </div>
+    <section class="summary">
+      <h2>Visão administrativa</h2>
+      <p>Leitura rápida das áreas centrais do sistema para navegação imediata.</p>
+
+      <div class="summary-grid">
+        <div class="mini">
+          <strong>Perfil ativo</strong>
+          <span>Admin</span>
+        </div>
+        <div class="mini">
+          <strong>Sessão</strong>
+          <span>Ativa</span>
+        </div>
+        <div class="mini">
+          <strong>Modo atual</strong>
+          <span>Central</span>
+        </div>
+        <div class="mini">
+          <strong>Fluxo principal</strong>
+          <span>Bolsão primeiro</span>
         </div>
       </div>
     </section>
 
-    <section class="grid">
+    <section class="section">
+      <h3>Ações rápidas</h3>
+      <h2>Atalhos do Admin</h2>
+      <p>Acesso direto para as áreas que o administrador usa com mais frequência.</p>
 
-      <article class="panel-box">
-        <div class="band blue"></div>
-        <h3>Usuários e cadastros</h3>
-        <p>Abra a área de perfis, acessos, projetos e cadastro institucional.</p>
-        <div class="links">
-          <a class="btn-blue" href="criar_perfil.html">Criar / completar perfil</a>
-          <a class="btn-light" href="cadastro.html">Cadastro manual</a>
-          <a class="btn-light" href="recuperar_senha.html">Recuperar acesso</a>
-        </div>
-      </article>
-
-      <article class="panel-box">
-        <div class="band green"></div>
-        <h3>Projetos e obras</h3>
-        <p>Acompanhe o andamento dos projetos editoriais e a base de obras em produção.</p>
-        <div class="links">
-          <a class="btn-green" href="projetos.html">Projetos</a>
-          <a class="btn-light" href="historico_projetos.html">Histórico de projetos</a>
-          <a class="btn-light" href="preview_projeto.html">Preview de projeto</a>
-        </div>
-      </article>
-
-      <article class="panel-box">
-        <div class="band violet"></div>
-        <h3>Setores e relatórios</h3>
-        <p>Abra os painéis de setores, departamentos e relatórios técnicos do sistema.</p>
-        <div class="links">
-          <a class="btn-violet" href="painel_setores.html">Painel de setores</a>
-          <a class="btn-light" href="painel_departamentos.html">Painel de departamentos</a>
-          <a class="btn-light" href="hub_relatorios.html">Hub de relatórios</a>
-        </div>
-      </article>
-
-      <article class="panel-box">
-        <div class="band gold"></div>
-        <h3>Auditoria e controle</h3>
-        <p>Use esta área para auditoria, rastreio e supervisão dos fluxos internos.</p>
-        <div class="links">
-          <a class="btn-gold" href="auditoria.html">Auditoria</a>
-          <a class="btn-light" href="status_fluxo_editorial.html">Status do fluxo editorial</a>
-          <button class="single-action btn-light" onclick="confirmarReset()">Abrir Reset Admin</button>
-        </div>
-      </article>
-
-    </section>
-
-    <section class="card">
-      <div class="card-head">
-        <small>Ações rápidas</small>
-        <h2>Atalhos do Admin</h2>
-        <p>Acesso direto para áreas que o administrador usa com mais frequência.</p>
+      <div class="action-card">
+        <div class="bar bar-blue"></div>
+        <h4>Produção integrada</h4>
+        <p>Entrada oficial da produção editorial. Todo fluxo produtivo começa pelo Bolsão.</p>
+        <button class="btn btn-blue" onclick="window.location.href='bolsao_execucao.html'">Abrir Produção</button>
       </div>
-      <div class="card-body">
-        <div class="grid">
-          <div class="panel-box">
-            <div class="band blue"></div>
-            <h3>Produção integrada</h3>
-            <p>Ir direto para os setores produtivos.</p>
-            <a class="single-action btn-blue" href="producao_integrada.html">Abrir Produção</a>
-          </div>
 
-          <div class="panel-box">
-            <div class="band violet"></div>
-            <h3>Cortesias</h3>
-            <p>Gerenciar cortesias, convidados institucionais e níveis de acesso.</p>
-            <a class="single-action btn-violet" href="cortesias_painel.html">Abrir Cortesias</a>
-          </div>
+      <div class="action-card">
+        <div class="bar bar-purple"></div>
+        <h4>Cortesias</h4>
+        <p>Gerenciar cortesias, convidados institucionais e níveis de acesso.</p>
+        <button class="btn btn-purple" onclick="window.location.href='cortesias_painel.html'">Abrir Cortesias</button>
+      </div>
 
-          <div class="panel-box">
-            <div class="band red"></div>
-            <h3>Pagamento / Mesário-mor</h3>
-            <p>Visualizar encaminhamento de contribuição e fluxo final de liberação.</p>
-            <a class="single-action btn-light" href="pagamento.html">Abrir Mesário-mor</a>
-          </div>
+      <div class="action-card">
+        <div class="bar bar-red"></div>
+        <h4>Pagamento / Mesário-mor</h4>
+        <p>Visualizar encaminhamento de contribuição e fluxo final de liberação.</p>
+        <button class="btn btn-red" onclick="window.location.href='mesario_mor.html'">Abrir Mesário-mor</button>
+      </div>
 
-          <div class="panel-box">
-            <div class="band gold"></div>
-            <h3>Segurança de sistema</h3>
-            <p>Entrada protegida para redefinição e ajustes internos do ambiente administrativo.</p>
-            <button class="single-action btn-light" onclick="confirmarReset()">Abrir Reset Admin</button>
-          </div>
-        </div>
-
-        <div class="notice" style="margin-top:18px;">
-          O Reset Admin agora exige dupla confirmação e motivo obrigatório antes de abrir a área de redefinição.
-        </div>
+      <div class="action-card">
+        <div class="bar bar-gold"></div>
+        <h4>Segurança de sistema</h4>
+        <p>Entrada protegida para redefinição e ajustes internos do ambiente administrativo.</p>
+        <button class="btn btn-gold" onclick="confirmarResetAdmin()">Abrir Reset Admin</button>
+        <div class="note">O Reset Admin exige dupla confirmação e motivo obrigatório antes de abrir a área de redefinição.</div>
       </div>
     </section>
 
-  </main>
+    <section class="section">
+      <h3>Setores e relatórios</h3>
+      <h2>Painéis técnicos</h2>
+      <p>Abra os painéis de setores, departamentos e relatórios técnicos do sistema.</p>
 
-  <div class="footer">Lapidar • Celeiro Literário • Painel Administrativo</div>
+      <div class="action-card">
+        <div class="bar bar-purple"></div>
+        <h4>Painel de setores</h4>
+        <p>Visão técnica dos módulos e setores editoriais.</p>
+        <button class="btn btn-purple" onclick="window.location.href='selecionar_modulos.html'">Abrir painel de setores</button>
+      </div>
+
+      <div class="action-card">
+        <div class="bar bar-gold"></div>
+        <h4>Painel de departamentos</h4>
+        <p>Painel interno para organização estrutural dos departamentos.</p>
+        <button class="btn btn-gold" onclick="window.location.href='painel_departamentos.html'">Abrir painel de departamentos</button>
+      </div>
+
+      <div class="action-card">
+        <div class="bar bar-blue"></div>
+        <h4>Hub de relatórios</h4>
+        <p>Atalhos para relatórios técnicos e acompanhamento institucional.</p>
+        <button class="btn btn-blue" onclick="window.location.href='hub_relatorios.html'">Abrir hub de relatórios</button>
+      </div>
+    </section>
+
+    <section class="section">
+      <h3>Auditoria e controle</h3>
+      <h2>Segurança institucional</h2>
+      <p>Use esta área para auditoria, rastreio e supervisão dos fluxos internos.</p>
+
+      <div class="action-card">
+        <div class="bar bar-gold"></div>
+        <h4>Auditoria</h4>
+        <p>Acompanhamento de eventos e registros internos do sistema.</p>
+        <button class="btn btn-gold" onclick="window.location.href='auditoria.html'">Abrir Auditoria</button>
+      </div>
+
+      <div class="action-card">
+        <div class="bar bar-blue"></div>
+        <h4>Status do fluxo editorial</h4>
+        <p>Consultar o comportamento atual do pipeline do Lapidar.</p>
+        <button class="btn btn-blue" onclick="window.location.href='status_fluxo_editorial.html'">Abrir status do fluxo</button>
+      </div>
+    </section>
+
+  </div>
 
   <script>
-    const perfil = localStorage.getItem("lapidar_perfil");
-    const usuario = localStorage.getItem("lapidar_usuario");
-
-    if(perfil !== "admin" || !usuario){
-      window.location.href = "index.html";
-    }
-
-    function sairDoSistema(){
-      localStorage.removeItem("lapidar_usuario");
-      localStorage.removeItem("lapidar_perfil");
-      localStorage.removeItem("lapidar_nome");
-      localStorage.removeItem("lapidar_entrada_setor");
-      window.location.href = "index.html";
-    }
-
-    function confirmarReset(){
-      const confirmar = confirm("⚠️ Atenção: você realmente deseja acessar o painel de RESET administrativo?");
-
-      if(!confirmar){
-        return;
+    function confirmarResetAdmin(){
+      const ok = confirm("⚠️ Atenção: você realmente deseja acessar o painel de RESET administrativo?");
+      if(ok){
+        window.location.href = "reset_admin.html";
       }
-
-      const motivo = prompt("Por segurança institucional, informe o motivo do reset:");
-
-      if(!motivo || motivo.trim() === ""){
-        alert("Reset cancelado. Motivo não informado.");
-        return;
-      }
-
-      const confirmarFinal = confirm(
-        "Última confirmação:\n\nMotivo informado:\n" +
-        motivo +
-        "\n\nConfirmar acesso ao Reset Admin?"
-      );
-
-      if(!confirmarFinal){
-        return;
-      }
-
-      window.location.href = "reset_admin.html";
     }
   </script>
 </body>
