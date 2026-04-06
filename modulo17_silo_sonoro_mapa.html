@@ -22,6 +22,8 @@
       --ok-line:#9ec2a4;
       --warn-bg:#fff8eb;
       --warn-line:#d9b96b;
+      --danger-bg:#fdeeee;
+      --danger-line:#d28a8a;
       --shadow:0 12px 28px rgba(0,0,0,.10);
     }
 
@@ -238,6 +240,12 @@
       color:#6b5621;
     }
 
+    .status-danger{
+      background:var(--danger-bg);
+      border-left:6px solid var(--danger-line);
+      color:#7a3f3f;
+    }
+
     .history-list{
       display:grid;
       gap:10px;
@@ -264,6 +272,23 @@
       border-left:6px solid var(--mesario-line);
       border-radius:18px;
       padding:16px;
+    }
+
+    .price-table{
+      display:grid;
+      gap:10px;
+      margin-top:12px;
+    }
+
+    .price-row{
+      display:flex;
+      justify-content:space-between;
+      gap:14px;
+      background:#fcfafe;
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:12px 14px;
+      line-height:1.6;
     }
 
     .actions{
@@ -332,6 +357,10 @@
       .mini-grid{
         grid-template-columns:1fr;
       }
+
+      .price-row{
+        flex-direction:column;
+      }
     }
   </style>
 </head>
@@ -348,7 +377,7 @@
     <div class="eyebrow">📒 Lapidar • Módulo 17</div>
     <h1>Silo Sonoro</h1>
     <p class="subtitle">
-      Aqui a sua obra ganha presença sonora. O Silo Sonoro organiza a base de narração, define o formato da produção e prepara a experiência de escuta com identidade autoral.
+      Aqui a sua obra ganha presença sonora. O Silo Sonoro trabalha com capacidade equivalente em páginas A5, permitindo transformar livro, poesia, vinheta, comercial ou outro material textual em produção sonora utilizável dentro do limite contratado.
     </p>
   </section>
 
@@ -373,37 +402,50 @@
       </div>
 
       <div class="field">
-        <strong>Texto-base em uso</strong>
+        <strong>Base textual em uso</strong>
         <span id="baseEmUso">Texto principal da obra</span>
       </div>
     </section>
 
     <section class="card">
-      <h2>Status do uso sonoro</h2>
+      <h2>Plano / capacidade sonora</h2>
 
-      <div class="status-box status-ok" id="statusPlano">
-        Status do plano: avulso. Esta produção será tratada como execução individual, salvo se houver cobertura ativa registrada no sistema.
+      <label for="tipoContratacao">Modo de contratação</label>
+      <select id="tipoContratacao" onchange="atualizarPlanoSonoro()">
+        <option value="avulso">Avulso — R$ 25 (até 5 páginas, uso único)</option>
+        <option value="9">Plano — até 9 páginas (R$ 9,90)</option>
+        <option value="30">Plano — até 30 páginas (R$ 39,90)</option>
+        <option value="50">Plano — até 50 páginas (R$ 59,90)</option>
+        <option value="90">Plano — até 90 páginas (R$ 99,90)</option>
+        <option value="200">Plano — até 200 páginas (R$ 299,90)</option>
+        <option value="300">Plano — até 300 páginas (R$ 399,90)</option>
+        <option value="400">Plano — até 400 páginas (R$ 450,00)</option>
+      </select>
+
+      <div class="field">
+        <strong>Capacidade contratada</strong>
+        <span id="capacidadeTotal">Até 5 páginas A5 equivalentes</span>
       </div>
 
       <div class="field">
-        <strong>Produções sonoras neste ciclo</strong>
-        <span id="contadorUso">0 / 0</span>
+        <strong>Capacidade utilizada nesta contratação</strong>
+        <span id="capacidadeUsada">0 páginas</span>
       </div>
 
       <div class="field">
-        <strong>Modo atual</strong>
-        <span id="modoUso">Avulso</span>
+        <strong>Capacidade restante</strong>
+        <span id="capacidadeRestante">5 páginas</span>
       </div>
 
-      <div class="note">
-        Quando houver cobertura por Universal, Top Global, cortesia ou condição especial, o comportamento do Mesário será ajustado automaticamente.
+      <div class="status-box status-warn" id="statusPlano">
+        Modo avulso ativo. Esta contratação permite uma única utilização de até 5 páginas A5 equivalentes. Usou qualquer parte, a ativação é considerada consumida.
       </div>
     </section>
 
     <section class="card">
       <h2>Configuração da produção sonora</h2>
 
-      <label for="formatoNarracao">Formato da narração</label>
+      <label for="formatoNarracao">Tipo de uso do espaço</label>
       <select id="formatoNarracao" onchange="atualizarPreview()">
         <option>Audiobook completo</option>
         <option>Audiobook parcial</option>
@@ -412,6 +454,9 @@
         <option>Trecho promocional</option>
         <option>Prefácio narrado</option>
         <option>Poema narrado</option>
+        <option>Vinheta</option>
+        <option>Texto comercial</option>
+        <option>Projeto sonoro híbrido</option>
       </select>
 
       <label for="baseTextual">Base textual utilizada</label>
@@ -420,6 +465,7 @@
         <option>Versão traduzida ativa</option>
         <option>Trecho promocional</option>
         <option>Capítulo selecionado</option>
+        <option>Texto institucional</option>
       </select>
 
       <label for="estiloVoz">Estilo de voz</label>
@@ -462,9 +508,14 @@
     </section>
 
     <section class="card wide">
-      <h2>Recorte da produção</h2>
+      <h2>Consumo desta produção</h2>
 
-      <div class="mini-grid">
+      <div class="triple-grid">
+        <div>
+          <label for="paginasEstimadas">Páginas A5 equivalentes desta produção</label>
+          <input type="number" id="paginasEstimadas" min="1" value="1" oninput="atualizarPlanoSonoro()" />
+        </div>
+
         <div>
           <label for="capituloInicial">Capítulo inicial</label>
           <input type="number" id="capituloInicial" min="1" value="1" oninput="atualizarPreview()" />
@@ -495,17 +546,16 @@
           <div class="preview-line"><strong>Atmosfera:</strong> <span id="previewAtmosfera">Atmosfera limpa e clara</span></div>
           <div class="preview-line"><strong>Recorte:</strong> <span id="previewCapitulos">Capítulo 1 ao 1</span></div>
           <div class="preview-line"><strong>Saída prevista:</strong> <span id="previewSaida">MP3</span></div>
+          <div class="preview-line"><strong>Consumo estimado:</strong> <span id="previewPaginas">1 página A5 equivalente</span></div>
 
-          <div class="voice-demo" id="voiceDemo">
-“A voz entra no texto com delicadeza, como se a obra respirasse pela primeira vez no ouvido do leitor.”
-          </div>
+          <div class="voice-demo" id="voiceDemo">“A voz entra no texto com delicadeza, como se a obra respirasse pela primeira vez no ouvido do leitor.”</div>
         </div>
       </div>
 
       <div class="mesario" id="mesarioSecao">
         <strong>Mesário da seção</strong><br>
-        Valor acumulado desta produção sonora.<br><br>
-        <strong id="valorMesario">Produção avulsa do Silo Sonoro: R$ 630,00</strong>
+        <span id="textoMesario">Ativação avulsa do Silo Sonoro — uso único de até 5 páginas A5 equivalentes.</span><br><br>
+        <strong id="valorMesario">Valor desta contratação: R$ 25,00</strong>
       </div>
 
       <div class="actions">
@@ -520,6 +570,33 @@
         <button class="main-btn btn-next" onclick="window.location.href='motor_sequencial.html'">
           Concluir esta etapa e seguir
         </button>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Tabela do Silo Sonoro</h2>
+
+      <div class="price-table">
+        <div class="price-row"><strong>Avulso — uso único</strong><span>R$ 25,00 • até 5 páginas</span></div>
+        <div class="price-row"><strong>Plano 9</strong><span>R$ 9,90 • até 9 páginas</span></div>
+        <div class="price-row"><strong>Plano 30</strong><span>R$ 39,90 • até 30 páginas</span></div>
+        <div class="price-row"><strong>Plano 50</strong><span>R$ 59,90 • até 50 páginas</span></div>
+        <div class="price-row"><strong>Plano 90</strong><span>R$ 99,90 • até 90 páginas</span></div>
+        <div class="price-row"><strong>Plano 200</strong><span>R$ 299,90 • até 200 páginas</span></div>
+        <div class="price-row"><strong>Plano 300</strong><span>R$ 399,90 • até 300 páginas</span></div>
+        <div class="price-row"><strong>Plano 400</strong><span>R$ 450,00 • até 400 páginas</span></div>
+      </div>
+
+      <div class="note">
+        No avulso, a contratação é uma única entrada. Se a produção usar 1 página, 2 páginas ou 5 páginas, a ativação já é considerada consumida.
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Resumo de uso desta contratação</h2>
+
+      <div class="status-box status-ok" id="resumoContratacao">
+        A capacidade desta contratação ainda está íntegra e pronta para ser usada.
       </div>
     </section>
 
@@ -539,7 +616,21 @@
 </div>
 
 <script>
-  const HISTORY_KEY = "lapidar_silo_historico";
+  const HISTORY_KEY = "lapidar_silo_historico_v2";
+
+  function obterTabelaPlano(valor){
+    const tabela = {
+      "avulso": { capacidade: 5, valor: "R$ 25,00", nome: "Avulso — uso único", tipo: "avulso" },
+      "9": { capacidade: 9, valor: "R$ 9,90", nome: "Plano 9", tipo: "plano" },
+      "30": { capacidade: 30, valor: "R$ 39,90", nome: "Plano 30", tipo: "plano" },
+      "50": { capacidade: 50, valor: "R$ 59,90", nome: "Plano 50", tipo: "plano" },
+      "90": { capacidade: 90, valor: "R$ 99,90", nome: "Plano 90", tipo: "plano" },
+      "200": { capacidade: 200, valor: "R$ 299,90", nome: "Plano 200", tipo: "plano" },
+      "300": { capacidade: 300, valor: "R$ 399,90", nome: "Plano 300", tipo: "plano" },
+      "400": { capacidade: 400, valor: "R$ 450,00", nome: "Plano 400", tipo: "plano" }
+    };
+    return tabela[valor] || tabela["avulso"];
+  }
 
   function preencherDados(){
     const titulo = localStorage.getItem("lapidar_titulo_obra") || "Título da obra";
@@ -554,69 +645,51 @@
     document.getElementById("previewAutor").textContent = autor;
   }
 
-  function aplicarStatusDoPlano(){
-    const statusPlano = (localStorage.getItem("lapidar_silo_status") || "avulso").toLowerCase();
-    const limite = parseInt(localStorage.getItem("lapidar_silo_limite") || "0", 10);
-    const usado = parseInt(localStorage.getItem("lapidar_silo_usado") || "0", 10);
+  function atualizarPlanoSonoro(){
+    const modo = document.getElementById("tipoContratacao").value;
+    const plano = obterTabelaPlano(modo);
+    const paginas = parseInt(document.getElementById("paginasEstimadas").value || "1", 10);
 
-    const contador = document.getElementById("contadorUso");
-    const modo = document.getElementById("modoUso");
-    const status = document.getElementById("statusPlano");
-    const mesario = document.getElementById("mesarioSecao");
+    const usada = Math.min(paginas, plano.capacidade);
+    const restante = Math.max(plano.capacidade - usada, 0);
 
-    contador.textContent = usado + " / " + limite;
+    document.getElementById("capacidadeTotal").textContent = "Até " + plano.capacidade + " páginas A5 equivalentes";
+    document.getElementById("capacidadeUsada").textContent = usada + " página(s)";
+    document.getElementById("capacidadeRestante").textContent = restante + " página(s)";
+    document.getElementById("previewPaginas").textContent = paginas + " página(s) A5 equivalente(s)";
+    document.getElementById("valorMesario").textContent = "Valor desta contratação: " + plano.valor;
 
-    if(statusPlano === "universal"){
-      modo.textContent = "Universal";
-      contador.textContent = usado + " / " + (limite || 3);
-      status.className = "status-box status-ok";
-      status.textContent = "Status do plano: Universal ativo. O Silo Sonoro está coberto neste ciclo com limite de 3 produções por período.";
-      if(usado < (limite || 3)){
-        mesario.classList.add("hidden");
-      }else{
-        mesario.classList.remove("hidden");
-        status.className = "status-box status-warn";
-        status.textContent = "O limite de produções do Silo Sonoro neste ciclo foi atingido. Novas solicitações passam a gerar cobrança normal.";
+    const statusPlano = document.getElementById("statusPlano");
+    const resumo = document.getElementById("resumoContratacao");
+    const textoMesario = document.getElementById("textoMesario");
+
+    if(plano.tipo === "avulso"){
+      textoMesario.textContent = "Ativação avulsa do Silo Sonoro — uso único de até 5 páginas A5 equivalentes.";
+      if(paginas <= 5){
+        statusPlano.className = "status-box status-warn";
+        statusPlano.textContent = "Modo avulso ativo. Esta contratação permite uma única utilização de até 5 páginas A5 equivalentes. Usou qualquer parte, a ativação é considerada consumida.";
+        resumo.className = "status-box status-ok";
+        resumo.textContent = "Esta produção cabe dentro da ativação avulsa do Silo Sonoro.";
+      } else {
+        statusPlano.className = "status-box status-danger";
+        statusPlano.textContent = "A produção estimada ultrapassa o limite do avulso. Para este volume, o ideal é contratar um plano de capacidade compatível.";
+        resumo.className = "status-box status-danger";
+        resumo.textContent = "Esta produção excede a ativação avulsa de até 5 páginas. Se quiser seguir com este volume, o correto é subir para um plano do Silo.";
       }
-      return;
-    }
-
-    if(statusPlano === "supremo"){
-      modo.textContent = "Plano Supremo";
-      contador.textContent = "Uso livre neste módulo";
-      status.className = "status-box status-ok";
-      status.textContent = "Status do plano: Plano Supremo ativo neste módulo. O Mesário desta seção permanece oculto durante a vigência do plano.";
-      mesario.classList.add("hidden");
-      return;
-    }
-
-    if(statusPlano === "global"){
-      modo.textContent = "Top Global";
-      contador.textContent = "Uso liberado neste módulo";
-      status.className = "status-box status-ok";
-      status.textContent = "Status do plano: Top Global ativo neste módulo. O Mesário desta seção permanece oculto enquanto a cobertura estiver ativa.";
-      mesario.classList.add("hidden");
-      return;
-    }
-
-    if(statusPlano === "cortesia"){
-      modo.textContent = "Cortesia";
-      contador.textContent = usado + " / " + limite;
-      status.className = "status-box status-ok";
-      status.textContent = "Status do plano: cortesia configurada para esta seção. O sistema acompanhará o consumo conforme a quantidade liberada.";
-      if(limite > 0 && usado < limite){
-        mesario.classList.add("hidden");
-      }else{
-        mesario.classList.remove("hidden");
+    } else {
+      textoMesario.textContent = "Capacidade sonora contratada para uso livre dentro do limite escolhido.";
+      statusPlano.className = "status-box status-ok";
+      statusPlano.textContent = plano.nome + " ativo. Você pode usar essa capacidade como quiser dentro do Silo Sonoro, inclusive combinando livro, poesia, vinheta, comercial ou outros formatos sonoros.";
+      if(paginas <= plano.capacidade){
+        resumo.className = "status-box status-ok";
+        resumo.textContent = "Esta produção cabe dentro do plano atual. A capacidade restante poderá ser usada depois no que você quiser dentro do Silo.";
+      } else {
+        resumo.className = "status-box status-danger";
+        resumo.textContent = "A produção estimada ultrapassa a capacidade do plano atual. Será necessário subir para uma faixa maior de páginas.";
       }
-      return;
     }
 
-    modo.textContent = "Avulso";
-    status.className = "status-box status-warn";
-    status.textContent = "Status do plano: avulso. Esta produção será tratada como execução individual, salvo se houver cobertura ativa registrada no sistema.";
-    contador.textContent = "0 / 0";
-    mesario.classList.remove("hidden");
+    atualizarPreview();
   }
 
   function atualizarPreview(){
@@ -687,12 +760,14 @@
     }
 
     list.innerHTML = "";
-    historico.slice().reverse().forEach((item, idx) => {
+    historico.slice().reverse().forEach((item) => {
       const div = document.createElement("div");
       div.className = "history-item";
       div.innerHTML = `
         <strong>${item.formato}</strong>
         Obra: ${item.titulo}<br>
+        Contratação: ${item.plano}<br>
+        Capacidade desta produção: ${item.paginas} página(s)<br>
         Base: ${item.base}<br>
         Voz: ${item.voz}<br>
         Recorte: ${item.capitulos}<br>
@@ -701,32 +776,6 @@
       `;
       list.appendChild(div);
     });
-  }
-
-  function consumirUsoSeNecessario(){
-    const statusPlano = (localStorage.getItem("lapidar_silo_status") || "avulso").toLowerCase();
-    let limite = parseInt(localStorage.getItem("lapidar_silo_limite") || "0", 10);
-    let usado = parseInt(localStorage.getItem("lapidar_silo_usado") || "0", 10);
-
-    if(statusPlano === "universal"){
-      if(limite === 0){
-        limite = 3;
-        localStorage.setItem("lapidar_silo_limite", "3");
-      }
-      if(usado < limite){
-        usado += 1;
-        localStorage.setItem("lapidar_silo_usado", String(usado));
-      }
-      if(usado > limite){
-        usado = limite;
-        localStorage.setItem("lapidar_silo_usado", String(usado));
-      }
-    }
-
-    if(statusPlano === "cortesia" && limite > 0 && usado < limite){
-      usado += 1;
-      localStorage.setItem("lapidar_silo_usado", String(usado));
-    }
   }
 
   function registrarProducaoSonora(){
@@ -739,6 +788,19 @@
     const saida = document.getElementById("saidaAudio").value;
     const capIni = document.getElementById("capituloInicial").value || "1";
     const capFim = document.getElementById("capituloFinal").value || "1";
+    const paginas = parseInt(document.getElementById("paginasEstimadas").value || "1", 10);
+    const planoSelecionado = document.getElementById("tipoContratacao").value;
+    const plano = obterTabelaPlano(planoSelecionado);
+
+    if(plano.tipo === "avulso" && paginas > 5){
+      alert("O avulso do Silo Sonoro é uma única ativação de até 5 páginas A5 equivalentes. Para este volume, selecione um plano maior.");
+      return;
+    }
+
+    if(plano.tipo === "plano" && paginas > plano.capacidade){
+      alert("A produção estimada ultrapassa a capacidade do plano atual. Selecione uma faixa maior.");
+      return;
+    }
 
     const historico = obterHistorico();
     historico.push({
@@ -749,13 +811,12 @@
       ritmo,
       atmosfera,
       saida,
+      paginas,
+      plano: plano.nome + " — " + plano.valor,
       capitulos: "Capítulo " + capIni + " ao " + capFim,
       data: new Date().toLocaleString("pt-BR")
     });
     salvarHistorico(historico);
-
-    consumirUsoSeNecessario();
-    aplicarStatusDoPlano();
     renderHistorico();
 
     alert("Produção sonora registrada no histórico interno do Silo Sonoro.");
@@ -774,7 +835,10 @@
     const saida = document.getElementById("saidaAudio").value;
     const capIni = document.getElementById("capituloInicial").value || "1";
     const capFim = document.getElementById("capituloFinal").value || "1";
+    const paginas = document.getElementById("paginasEstimadas").value || "1";
     const trecho = document.getElementById("trechoSelecionado").value.trim() || "Sem observações adicionais.";
+    const planoSelecionado = document.getElementById("tipoContratacao").value;
+    const plano = obterTabelaPlano(planoSelecionado);
 
     const conteudo = [
       "SILO SONORO — FICHA DE PRODUÇÃO",
@@ -782,6 +846,11 @@
       "Título: " + titulo,
       "Autor: " + autor,
       "Idioma base: " + idioma,
+      "",
+      "Modo de contratação: " + plano.nome,
+      "Valor: " + plano.valor,
+      "Capacidade do plano: até " + plano.capacidade + " páginas A5 equivalentes",
+      "Consumo estimado desta produção: " + paginas + " página(s) A5 equivalente(s)",
       "",
       "Formato da narração: " + formato,
       "Base textual: " + base,
@@ -806,8 +875,7 @@
   }
 
   preencherDados();
-  aplicarStatusDoPlano();
-  atualizarPreview();
+  atualizarPlanoSonoro();
   renderHistorico();
 </script>
 
