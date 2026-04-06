@@ -1,353 +1,105 @@
 <!DOCTYPE html><html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lapidar • Seleção dos Módulos</title>
-  <style>
-    :root {
-      --bg: #f4f1e8;
-      --card: #ffffff;
-      --text: #3f352c;
-      --muted: #6a5f54;
-      --line: #ddd4c8;
-      --shadow: 0 10px 24px rgba(56, 42, 24, 0.08);--m03-bg: #dfeaf7;
-  --m03-tag: #5b8ec7;
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Lapidar • Seleção dos Módulos</title>
+<style>
+:root {
+--bg:#f4f1e8;
+--card:#ffffff;
+--text:#3f352c;
+--muted:#6a5f54;
+--line:#ddd4c8;
+--shadow:0 10px 24px rgba(56,42,24,.08);--m03-bg:#dfeaf7; --m05-bg:#dceee2; --m07-bg:#ece9ea; --m11-bg:#ead7df; --m13-bg:#efd7b7; --m17-bg:#e6dbf2; --m19-bg:#efe7b5; --m23-bg:#dce8f4; --m29-bg:#e2efe5; --m31-bg:#eadff1;
 
-  --m05-bg: #dceee2;
-  --m05-tag: #6ea27b;
+--portal-bg:#fff7dd; --portal-line:#d4b05b; }
 
-  --m07-bg: #ece9ea;
-  --m07-tag: #8e8e96;
+body{ margin:0; font-family:Arial; background:var(--bg); color:var(--text); }
 
-  --m11-bg: #ead7df;
-  --m11-tag: #b36b7a;
+.page{ max-width:1180px; margin:auto; padding:20px; }
 
-  --m13-bg: #efd7b7;
-  --m13-tag: #c49047;
+.hero{ background:#f7f4ed; border-radius:20px; padding:18px; margin-bottom:18px; }
 
-  --m17-bg: #e6dbf2;
-  --m17-tag: #8b72a6;
+.portal-box{ background:var(--portal-bg); border-left:6px solid var(--portal-line); border-radius:18px; padding:16px; margin-bottom:18px; }
 
-  --m19-bg: #efe7b5;
-  --m19-tag: #caa74c;
+.grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:16px; }
 
-  --m23-bg: #dce8f4;
-  --m23-tag: #5d85b0;
+.mod-card{ border-radius:22px; padding:16px; box-shadow:var(--shadow); cursor:pointer; transition:.2s; }
 
-  --m29-bg: #e2efe5;
-  --m29-tag: #6b9b74;
+.mod-card:hover{ transform:translateY(-2px); }
 
-  --m31-bg: #eadff1;
-  --m31-tag: #9b70b2;
+.mod-card.selected{ outline:3px solid #6b8f6e; }
 
-  --portal-bg: #fff7dd;
-  --portal-line: #d4b05b;
-  --btn: #7d6440;
-  --btn-hover: #6a5334;
-}
+.info-box{ background:rgba(255,255,255,.8); border-radius:12px; padding:10px; margin-bottom:10px; }
 
-* { box-sizing: border-box; }
+.checkbox{ display:none; }
 
-body {
-  margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-}
+.m03{background:var(--m03-bg);} .m05{background:var(--m05-bg);} .m07{background:var(--m07-bg);} .m11{background:var(--m11-bg);} .m13{background:var(--m13-bg);} .m17{background:var(--m17-bg);} .m19{background:var(--m19-bg);} .m23{background:var(--m23-bg);} .m29{background:var(--m29-bg);} .m31{background:var(--m31-bg);}
 
-.page {
-  max-width: 1180px;
-  margin: 0 auto;
-  padding: 22px 14px 38px;
-}
+@media(max-width:820px){ .grid{grid-template-columns:1fr;} } </style>
 
-.hero {
-  background: #f7f4ed;
-  border: 1px solid var(--line);
-  border-radius: 22px;
-  padding: 18px 18px 16px;
-  box-shadow: var(--shadow);
-  margin-bottom: 18px;
-}
-
-.eyebrow {
-  display: inline-block;
-  padding: 6px 12px;
-  border-radius: 999px;
-  background: #efe7d9;
-  color: #7a6a54;
-  font-size: 12px;
-  font-weight: 700;
-  margin-bottom: 10px;
-}
-
-.hero h1 {
-  margin: 0 0 8px;
-  font-size: 21px;
-  line-height: 1.3;
-}
-
-.hero p {
-  margin: 0;
-  color: var(--muted);
-  line-height: 1.7;
-  font-size: 15px;
-}
-
-.portal-box {
-  background: var(--portal-bg);
-  border-left: 6px solid var(--portal-line);
-  border-radius: 18px;
-  padding: 16px 16px 14px;
-  box-shadow: var(--shadow);
-  margin-bottom: 18px;
-}
-
-.portal-box h2 {
-  margin: 0 0 8px;
-  font-size: 18px;
-  color: #7b5d1b;
-}
-
-.portal-box p {
-  margin: 0 0 12px;
-  line-height: 1.7;
-  color: #67573d;
-  font-size: 14px;
-}
-
-.portal-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.portal-btn {
-  display: inline-block;
-  text-decoration: none;
-  background: var(--btn);
-  color: #fff;
-  padding: 12px 16px;
-  border-radius: 12px;
-  font-weight: 700;
-  font-size: 14px;
-}
-
-.portal-btn:hover { background: var(--btn-hover); }
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
-}
-
-.mod-card {
-  border-radius: 22px;
-  padding: 16px;
-  box-shadow: var(--shadow);
-  border: 1px solid rgba(0,0,0,0.04);
-}
-
-.mod-tag {
-  display: inline-block;
-  padding: 5px 10px;
-  border-radius: 999px;
-  font-size: 12px;
-  font-weight: 700;
-  margin-bottom: 12px;
-  background: rgba(255,255,255,0.72);
-}
-
-.mod-card h3 {
-  margin: 0 0 10px;
-  font-size: 18px;
-  line-height: 1.35;
-}
-
-.mod-card p {
-  margin: 0 0 14px;
-  color: #584d43;
-  font-size: 14px;
-  line-height: 1.7;
-  min-height: 72px;
-}
-
-.info-box {
-  background: rgba(255,255,255,0.8);
-  border: 1px solid rgba(89,73,55,0.08);
-  border-radius: 14px;
-  padding: 11px 12px;
-  margin-bottom: 10px;
-}
-
-.info-box strong {
-  display: block;
-  font-size: 12px;
-  margin-bottom: 4px;
-  color: #6d5d4c;
-}
-
-.info-box span {
-  font-size: 14px;
-  color: #342c25;
-}
-
-.check-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 4px;
-  font-size: 14px;
-  color: #4e4338;
-}
-
-.check-row input { width: 16px; height: 16px; }
-
-.m03 { background: var(--m03-bg); }
-.m03 .mod-tag { color: var(--m03-tag); }
-
-.m05 { background: var(--m05-bg); }
-.m05 .mod-tag { color: var(--m05-tag); }
-
-.m07 { background: var(--m07-bg); }
-.m07 .mod-tag { color: var(--m07-tag); }
-
-.m11 { background: var(--m11-bg); }
-.m11 .mod-tag { color: var(--m11-tag); }
-
-.m13 { background: var(--m13-bg); }
-.m13 .mod-tag { color: var(--m13-tag); }
-
-.m17 { background: var(--m17-bg); }
-.m17 .mod-tag { color: var(--m17-tag); }
-
-.m19 { background: var(--m19-bg); }
-.m19 .mod-tag { color: var(--m19-tag); }
-
-.m23 { background: var(--m23-bg); }
-.m23 .mod-tag { color: var(--m23-tag); }
-
-.m29 { background: var(--m29-bg); }
-.m29 .mod-tag { color: var(--m29-tag); }
-
-.m31 { background: var(--m31-bg); }
-.m31 .mod-tag { color: var(--m31-tag); }
-
-@media (max-width: 820px) {
-  .grid { grid-template-columns: 1fr; }
-  .mod-card p { min-height: auto; }
-  .portal-actions { flex-direction: column; }
-  .portal-btn { text-align: center; }
-}
-
-  </style>
 </head>
-<body>
-  <div class="page">
-    <section class="hero">
-      <div class="eyebrow">Lapidar • Seleção dos módulos</div>
-      <h1>Escolha o que deseja fazer com sua obra</h1>
-      <p>Depois do Bolsão, você escolhe os módulos desejados. O Lapidar organiza automaticamente a melhor sequência editorial e conduz sua jornada até a Expedição Editorial e Cultural da Obra.</p>
-    </section><section class="portal-box">
-  <h2>Portal Assistencial de Benefícios ao Autor</h2>
-  <p>Recomendamos a todos os autores que utilizam o Lapidar a consulta deste portal de direcionamento e apoio à carreira autoral. Nele, você encontrará orientações institucionais, informações culturais e caminhos úteis para ampliar o futuro da sua obra.</p>
-  <div class="portal-actions">
-    <a class="portal-btn" href="modulo29_expedicao_editorial_cultural.html">Acessar o portal e a expedição da obra</a>
-  </div>
-</section>
-
-<section class="grid">
-  <article class="mod-card m03">
-    <div class="mod-tag">■ Módulo 03</div>
-    <h3>Assistente de Diagramação do Autor</h3>
-    <p>Aqui é onde o seu texto ganha formato e forma de páginas para formar o seu futuro livro.</p>
-    <div class="info-box"><strong>Título da obra</strong><span>Ladies, Señoras & Donnas</span></div>
-    <div class="info-box"><strong>Autor</strong><span>Wilson Silva</span></div>
-    <label class="check-row"><input type="checkbox">Selecionar este módulo</label>
-  </article>
-
-  <article class="mod-card m19">
-    <div class="mod-tag">■ Módulo 19</div>
-    <h3>OKapista</h3>
-    <p>Aqui damos rosto à sua obra, criando a primeira impressão que acompanhará o leitor antes mesmo da primeira página.</p>
-    <div class="info-box"><strong>Título da obra</strong><span>Ladies, Señoras & Donnas</span></div>
-    <div class="info-box"><strong>Autor</strong><span>Wilson Silva</span></div>
-    <label class="check-row"><input type="checkbox">Selecionar este módulo</label>
-  </article>
-
-  <article class="mod-card m05">
-    <div class="mod-tag">■ Módulo 05</div>
-    <h3>Segunda Língua(s)</h3>
-    <p>Aqui ampliamos o alcance da sua obra para que ela atravesse fronteiras sem perder sua voz original.</p>
-    <div class="info-box"><strong>Título da obra</strong><span>Ladies, Señoras & Donnas</span></div>
-    <div class="info-box"><strong>Autor</strong><span>Wilson Silva</span></div>
-    <label class="check-row"><input type="checkbox">Selecionar este módulo</label>
-  </article>
-
-  <article class="mod-card m07">
-    <div class="mod-tag">■ Módulo 07</div>
-    <h3>Avaliação Literária</h3>
-    <p>Aqui observamos sua obra com atenção técnica e sensível, indicando caminhos possíveis para fortalecer sua estrutura.</p>
-    <div class="info-box"><strong>Título da obra</strong><span>Ladies, Señoras & Donnas</span></div>
-    <div class="info-box"><strong>Autor</strong><span>Wilson Silva</span></div>
-    <label class="check-row"><input type="checkbox">Selecionar este módulo</label>
-  </article>
-
-  <article class="mod-card m11">
-    <div class="mod-tag">■ Módulo 11</div>
-    <h3>Analisador de Obra</h3>
-    <p>Aqui investigamos a arquitetura interna do texto para compreender seus eixos narrativos e potenciais de desenvolvimento.</p>
-    <div class="info-box"><strong>Título da obra</strong><span>Ladies, Señoras & Donnas</span></div>
-    <div class="info-box"><strong>Autor</strong><span>Wilson Silva</span></div>
-    <label class="check-row"><input type="checkbox">Selecionar este módulo</label>
-  </article>
-
-  <article class="mod-card m13">
-    <div class="mod-tag">■ Módulo 13</div>
-    <h3>Lapidação Literária</h3>
-    <p>Aqui preservamos sua voz autoral enquanto fortalecemos ritmo, clareza e coerência narrativa.</p>
-    <div class="info-box"><strong>Título da obra</strong><span>Ladies, Señoras & Donnas</span></div>
-    <div class="info-box"><strong>Autor</strong><span>Wilson Silva</span></div>
-    <label class="check-row"><input type="checkbox">Selecionar este módulo</label>
-  </article>
-
-  <article class="mod-card m17">
-    <div class="mod-tag">■ Módulo 17</div>
-    <h3>Silo Sonoro</h3>
-    <p>Aqui a sua obra ganha presença sonora, preparando o caminho para sua escuta além da leitura.</p>
-    <div class="info-box"><strong>Título da obra</strong><span>Ladies, Señoras & Donnas</span></div>
-    <div class="info-box"><strong>Autor</strong><span>Wilson Silva</span></div>
-    <label class="check-row"><input type="checkbox">Selecionar este módulo</label>
-  </article>
-
-  <article class="mod-card m23">
-    <div class="mod-tag">■ Módulo 23</div>
-    <h3>Silo Indústria Cinematográfica Literária</h3>
-    <p>Aqui a obra poderá ser expandida para produções audiovisuais baseadas e autorizadas a partir de seu universo autoral.</p>
-    <div class="info-box"><strong>Título da obra</strong><span>Ladies, Señoras & Donnas</span></div>
-    <div class="info-box"><strong>Autor</strong><span>Wilson Silva</span></div>
-    <label class="check-row"><input type="checkbox">Selecionar este módulo</label>
-  </article>
-
-  <article class="mod-card m29">
-    <div class="mod-tag">■ Módulo 29</div>
-    <h3>Expedição Editorial e Cultural da Obra</h3>
-    <p>Aqui reunimos a saída editorial, institucional e cultural da obra em um único espaço de encaminhamento autoral.</p>
-    <div class="info-box"><strong>Título da obra</strong><span>Ladies, Señoras & Donnas</span></div>
-    <div class="info-box"><strong>Autor</strong><span>Wilson Silva</span></div>
-    <label class="check-row"><input type="checkbox">Selecionar este módulo</label>
-  </article>
-
-  <article class="mod-card m31">
-    <div class="mod-tag">■ Módulo 31</div>
-    <h3>Silo Sings & Music</h3>
-    <p>Aqui poemas, cordéis, letras musicais e textos literários podem ganhar trilha, voz e identidade musical autoral.</p>
-    <div class="info-box"><strong>Título da obra</strong><span>Ladies, Señoras & Donnas</span></div>
-    <div class="info-box"><strong>Autor</strong><span>Wilson Silva</span></div>
-    <label class="check-row"><input type="checkbox">Selecionar este módulo</label>
-  </article>
-</section>
-
-  </div>
-</body>
+<body><div class="page"><section class="hero">
+<h1>Escolha o que deseja fazer com sua obra</h1>
+<p>Depois do Bolsão, você escolhe os módulos desejados. O Lapidar organiza automaticamente a melhor sequência editorial e conduz sua jornada até a Expedição Editorial e Cultural da Obra.</p>
+</section><section class="portal-box">
+<h2>Portal Assistencial de Benefícios ao Autor</h2>
+<p>Recomendamos a todos os autores que utilizam o Lapidar a consulta deste portal de direcionamento e apoio à carreira autoral.</p>
+</section><section class="grid"><div class="mod-card m03" onclick="toggleCard(this)">
+<input type="checkbox" class="checkbox">
+<h3>Módulo 03 — Assistente de Diagramação do Autor</h3>
+<div class="info-box"><strong>Título:</strong> Ladies, Señoras & Donnas</div>
+<div class="info-box"><strong>Autor:</strong> Wilson Silva</div>
+</div><div class="mod-card m19" onclick="toggleCard(this)">
+<input type="checkbox" class="checkbox">
+<h3>Módulo 19 — OKapista</h3>
+<div class="info-box"><strong>Título:</strong> Ladies, Señoras & Donnas</div>
+<div class="info-box"><strong>Autor:</strong> Wilson Silva</div>
+</div><div class="mod-card m05" onclick="toggleCard(this)">
+<input type="checkbox" class="checkbox">
+<h3>Módulo 05 — Segunda Língua(s)</h3>
+<div class="info-box"><strong>Título:</strong> Ladies, Señoras & Donnas</div>
+<div class="info-box"><strong>Autor:</strong> Wilson Silva</div>
+</div><div class="mod-card m07" onclick="toggleCard(this)">
+<input type="checkbox" class="checkbox">
+<h3>Módulo 07 — Avaliação Literária</h3>
+<div class="info-box"><strong>Título:</strong> Ladies, Señoras & Donnas</div>
+<div class="info-box"><strong>Autor:</strong> Wilson Silva</div>
+</div><div class="mod-card m11" onclick="toggleCard(this)">
+<input type="checkbox" class="checkbox">
+<h3>Módulo 11 — Analisador de Obra</h3>
+<div class="info-box"><strong>Título:</strong> Ladies, Señoras & Donnas</div>
+<div class="info-box"><strong>Autor:</strong> Wilson Silva</div>
+</div><div class="mod-card m13" onclick="toggleCard(this)">
+<input type="checkbox" class="checkbox">
+<h3>Módulo 13 — Lapidação Literária</h3>
+<div class="info-box"><strong>Título:</strong> Ladies, Señoras & Donnas</div>
+<div class="info-box"><strong>Autor:</strong> Wilson Silva</div>
+</div><div class="mod-card m17" onclick="toggleCard(this)">
+<input type="checkbox" class="checkbox">
+<h3>Módulo 17 — Silo Sonoro</h3>
+<div class="info-box"><strong>Título:</strong> Ladies, Señoras & Donnas</div>
+<div class="info-box"><strong>Autor:</strong> Wilson Silva</div>
+</div><div class="mod-card m23" onclick="toggleCard(this)">
+<input type="checkbox" class="checkbox">
+<h3>Módulo 23 — Silo Cinema Literário</h3>
+<div class="info-box"><strong>Título:</strong> Ladies, Señoras & Donnas</div>
+<div class="info-box"><strong>Autor:</strong> Wilson Silva</div>
+</div><div class="mod-card m29" onclick="toggleCard(this)">
+<input type="checkbox" class="checkbox">
+<h3>Módulo 29 — Expedição Editorial e Cultural</h3>
+<div class="info-box"><strong>Título:</strong> Ladies, Señoras & Donnas</div>
+<div class="info-box"><strong>Autor:</strong> Wilson Silva</div>
+</div><div class="mod-card m31" onclick="toggleCard(this)">
+<input type="checkbox" class="checkbox">
+<h3>Módulo 31 — Silo Sings & Music</h3>
+<div class="info-box"><strong>Título:</strong> Ladies, Señoras & Donnas</div>
+<div class="info-box"><strong>Autor:</strong> Wilson Silva</div>
+</div></section></div><script>
+function toggleCard(card){
+const checkbox = card.querySelector(".checkbox");
+checkbox.checked = !checkbox.checked;
+card.classList.toggle("selected");
+}
+</script></body>
 </html>
