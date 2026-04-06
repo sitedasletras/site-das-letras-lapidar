@@ -5,86 +5,234 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Lapidar — Seleção de módulos</title>
   <style>
+    :root{
+      --bg:#f7f5ef;
+      --card:#ffffff;
+      --line:#ddd5c8;
+      --text:#2f2a24;
+      --muted:#5f574c;
+      --title:#6b5b46;
+      --btn:#8a6a3c;
+      --btn-hover:#73572f;
+      --shadow:0 10px 24px rgba(67,58,45,.08);
+
+      --diag:#D6E2F0;
+      --capa:#E8DFAF;
+      --trad:#CFE5D6;
+      --aval:#D9D9D9;
+      --anal:#D8C2C8;
+      --lapi:#F2D1A8;
+      --silo:#DCCFE8;
+    }
+
+    *{ box-sizing:border-box; }
+
     body{
-      font-family:Arial, Helvetica, sans-serif;
-      background:#f7f5ef;
       margin:0;
-      padding:0;
+      font-family:Arial, Helvetica, sans-serif;
+      background:var(--bg);
+      color:var(--text);
     }
 
     .container{
-      max-width:720px;
+      max-width:1100px;
       margin:auto;
-      padding:40px 20px;
+      padding:34px 18px 42px;
     }
 
-    .card{
-      background:white;
-      border-radius:18px;
+    .hero{
+      background:#faf8f2;
+      border:1px solid var(--line);
+      border-radius:24px;
       padding:28px;
-      box-shadow:0px 8px 20px rgba(0,0,0,.08);
+      box-shadow:var(--shadow);
+      margin-bottom:20px;
+    }
+
+    .eyebrow{
+      display:inline-block;
+      padding:8px 14px;
+      border-radius:999px;
+      background:#efe9dc;
+      color:#6b5b46;
+      font-size:13px;
+      font-weight:bold;
+      margin-bottom:14px;
     }
 
     h1{
-      font-size:22px;
-      margin-bottom:8px;
-      color:#6b5b46;
+      margin:0 0 10px;
+      font-size:32px;
+      color:var(--title);
     }
 
     .sub{
-      font-size:14px;
-      color:#555;
-      margin-bottom:26px;
-      line-height:1.6;
+      margin:0;
+      font-size:18px;
+      line-height:1.8;
+      color:var(--muted);
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:18px;
+      margin-bottom:20px;
     }
 
     .module{
-      background:#f2efe8;
-      padding:16px;
-      margin-bottom:12px;
-      border-radius:12px;
-      display:flex;
-      align-items:center;
-      gap:12px;
-      font-size:16px;
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:22px;
+      padding:22px;
+      box-shadow:var(--shadow);
     }
 
-    .module input{
-      transform:scale(1.1);
+    .diag{ background:var(--diag); }
+    .capa{ background:var(--capa); }
+    .trad{ background:var(--trad); }
+    .aval{ background:var(--aval); }
+    .anal{ background:var(--anal); }
+    .lapi{ background:var(--lapi); }
+    .silo{ background:var(--silo); }
+
+    .tag{
+      display:inline-block;
+      padding:6px 12px;
+      border-radius:999px;
+      background:rgba(255,255,255,.65);
+      font-size:12px;
+      font-weight:bold;
+      margin-bottom:12px;
+    }
+
+    h2{
+      margin:0 0 10px;
+      font-size:24px;
+      color:#000;
+    }
+
+    .phrase{
+      font-size:16px;
+      line-height:1.7;
+      color:#000;
+      margin-bottom:14px;
+    }
+
+    .data-box{
+      background:rgba(255,255,255,.65);
+      border:1px solid rgba(0,0,0,.06);
+      border-radius:14px;
+      padding:12px 14px;
+      margin-bottom:10px;
+    }
+
+    .data-box strong{
+      display:block;
+      margin-bottom:4px;
+      font-size:14px;
+      color:#000;
+    }
+
+    .data-box span{
+      display:block;
+      color:#000;
+      font-size:15px;
+      line-height:1.6;
+    }
+
+    .checkline{
+      margin-top:14px;
+      display:flex;
+      align-items:flex-start;
+      gap:10px;
+      font-size:16px;
+      color:#000;
+    }
+
+    .checkline input{
+      margin-top:4px;
+      transform:scale(1.15);
+    }
+
+    .footer-card{
+      background:#faf8f2;
+      border:1px solid var(--line);
+      border-radius:24px;
+      padding:24px;
+      box-shadow:var(--shadow);
+    }
+
+    .footer-card h3{
+      margin:0 0 10px;
+      font-size:24px;
+      color:var(--title);
+    }
+
+    .footer-card p{
+      margin:0 0 14px;
+      font-size:17px;
+      line-height:1.8;
+      color:var(--muted);
     }
 
     .status{
       margin-top:14px;
       padding:12px 14px;
-      border-radius:12px;
-      background:#faf8f2;
+      border-radius:14px;
+      background:#f3eee3;
+      border:1px solid #e1d7c4;
       color:#6b5b46;
       font-size:14px;
-      border:1px solid #e0d7c8;
+      line-height:1.7;
     }
 
-    button{
-      width:100%;
+    .actions{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
       margin-top:18px;
-      background:#8a6a3c;
-      color:white;
+    }
+
+    .btn{
       border:none;
-      padding:16px;
+      border-radius:16px;
+      padding:16px 18px;
       font-size:16px;
-      border-radius:12px;
-      cursor:pointer;
       font-weight:bold;
+      cursor:pointer;
+      transition:.2s ease;
     }
 
-    button:hover{
-      background:#73572f;
+    .btn:hover{
+      transform:translateY(-1px);
     }
 
-    footer{
-      text-align:center;
-      margin-top:20px;
-      font-size:13px;
-      color:#777;
+    .btn-main{
+      background:var(--btn);
+      color:#fff;
+    }
+
+    .btn-main:hover{
+      background:var(--btn-hover);
+    }
+
+    .btn-soft{
+      background:#ece7db;
+      color:var(--text);
+    }
+
+    .btn-soft:hover{
+      background:#e2dccd;
+    }
+
+    @media (max-width:900px){
+      .grid, .actions{
+        grid-template-columns:1fr;
+      }
+
+      h1{ font-size:28px; }
+      h2{ font-size:22px; }
     }
   </style>
 </head>
@@ -92,74 +240,181 @@
 
 <div class="container">
 
-  <div class="card">
-    <h1>Escolha os módulos editoriais</h1>
+  <section class="hero">
+    <div class="eyebrow">Lapidar • Seleção dos módulos</div>
+    <h1>Escolha o que deseja fazer com sua obra</h1>
+    <p class="sub">
+      Depois do Bolsão, você escolhe os módulos desejados. O Lapidar organiza automaticamente a melhor sequência editorial e conduz sua jornada até a Expedição Final.
+    </p>
+  </section>
 
-    <div class="sub">
-      Após o Bolsão de Limpeza Editorial, selecione os setores que deseja ativar.
-      O Lapidar seguirá automaticamente a sequência definida.
-    </div>
+  <div class="grid">
 
-    <form id="formModulos">
-
-      <label class="module">
-        <input type="checkbox" value="modulo03_assistente_diagramacao_autor_mapa.html">
-        Assistente de Diagramação do Autor
-      </label>
-
-      <label class="module">
-        <input type="checkbox" value="modulo19_okapista_mapa.html">
-        OKapista
-      </label>
-
-      <label class="module">
-        <input type="checkbox" value="modulo05_segunda_linguas_mapa.html">
-        Segunda Língua(s)
-      </label>
-
-      <label class="module">
-        <input type="checkbox" value="modulo07_avaliacao_literaria_mapa.html">
-        Avaliação Literária
-      </label>
-
-      <label class="module">
-        <input type="checkbox" value="modulo11_analisador_de_obra_mapa.html">
-        Analisador de Obra
-      </label>
-
-      <label class="module">
-        <input type="checkbox" value="modulo13_lapidacao_literaria_mapa.html">
-        Lapidação Literária
-      </label>
-
-      <label class="module">
-        <input type="checkbox" value="modulo17_silo_sonoro_mapa.html">
-        Silo Sonoro
-      </label>
-
-      <div class="status" id="statusFila">
-        Nenhum módulo selecionado ainda.
+    <section class="module diag">
+      <div class="tag">📘 Módulo 03</div>
+      <h2>Assistente de Diagramação do Autor</h2>
+      <div class="phrase">Aqui é onde o seu texto ganha formato e forma de páginas para formar o seu futuro livro.</div>
+      <div class="data-box">
+        <strong>Título da obra</strong>
+        <span id="tituloDiag">Aguardando identificação da obra</span>
       </div>
+      <div class="data-box">
+        <strong>Autor</strong>
+        <span id="autorDiag">Aguardando identificação do autor</span>
+      </div>
+      <label class="checkline">
+        <input type="checkbox" value="modulo03_assistente_diagramacao_autor_mapa.html">
+        Selecionar este módulo
+      </label>
+    </section>
 
-      <button type="button" onclick="seguirFluxo()">
-        Continuar jornada editorial
-      </button>
+    <section class="module capa">
+      <div class="tag">📙 Módulo 19</div>
+      <h2>OKapista</h2>
+      <div class="phrase">Aqui damos rosto à sua obra, criando a primeira impressão que acompanhará o leitor antes mesmo da primeira página.</div>
+      <div class="data-box">
+        <strong>Título da obra</strong>
+        <span id="tituloCapa">Aguardando identificação da obra</span>
+      </div>
+      <div class="data-box">
+        <strong>Autor</strong>
+        <span id="autorCapa">Aguardando identificação do autor</span>
+      </div>
+      <label class="checkline">
+        <input type="checkbox" value="modulo19_okapista_mapa.html">
+        Selecionar este módulo
+      </label>
+    </section>
 
-    </form>
+    <section class="module trad">
+      <div class="tag">📗 Módulo 05</div>
+      <h2>Segunda Língua(s)</h2>
+      <div class="phrase">Aqui ampliamos o alcance da sua obra para que ela atravesse fronteiras sem perder sua voz original.</div>
+      <div class="data-box">
+        <strong>Título da obra</strong>
+        <span id="tituloTrad">Aguardando identificação da obra</span>
+      </div>
+      <div class="data-box">
+        <strong>Autor</strong>
+        <span id="autorTrad">Aguardando identificação do autor</span>
+      </div>
+      <label class="checkline">
+        <input type="checkbox" value="modulo05_segunda_linguas_mapa.html">
+        Selecionar este módulo
+      </label>
+    </section>
+
+    <section class="module aval">
+      <div class="tag">📓 Módulo 07</div>
+      <h2>Avaliação Literária</h2>
+      <div class="phrase">Aqui observamos sua obra com atenção técnica e sensível, indicando caminhos possíveis para fortalecer sua estrutura.</div>
+      <div class="data-box">
+        <strong>Título da obra</strong>
+        <span id="tituloAval">Aguardando identificação da obra</span>
+      </div>
+      <div class="data-box">
+        <strong>Autor</strong>
+        <span id="autorAval">Aguardando identificação do autor</span>
+      </div>
+      <label class="checkline">
+        <input type="checkbox" value="modulo07_avaliacao_literaria_mapa.html">
+        Selecionar este módulo
+      </label>
+    </section>
+
+    <section class="module anal">
+      <div class="tag">📕 Módulo 11</div>
+      <h2>Analisador de Obra</h2>
+      <div class="phrase">Aqui investigamos a arquitetura interna do texto para compreender seus eixos narrativos e potenciais de desenvolvimento.</div>
+      <div class="data-box">
+        <strong>Título da obra</strong>
+        <span id="tituloAnal">Aguardando identificação da obra</span>
+      </div>
+      <div class="data-box">
+        <strong>Autor</strong>
+        <span id="autorAnal">Aguardando identificação do autor</span>
+      </div>
+      <label class="checkline">
+        <input type="checkbox" value="modulo11_analisador_de_obra_mapa.html">
+        Selecionar este módulo
+      </label>
+    </section>
+
+    <section class="module lapi">
+      <div class="tag">📔 Módulo 13</div>
+      <h2>Lapidação Literária</h2>
+      <div class="phrase">Aqui preservamos sua voz autoral enquanto fortalecemos ritmo, clareza e coerência narrativa.</div>
+      <div class="data-box">
+        <strong>Título da obra</strong>
+        <span id="tituloLapi">Aguardando identificação da obra</span>
+      </div>
+      <div class="data-box">
+        <strong>Autor</strong>
+        <span id="autorLapi">Aguardando identificação do autor</span>
+      </div>
+      <label class="checkline">
+        <input type="checkbox" value="modulo13_lapidacao_literaria_mapa.html">
+        Selecionar este módulo
+      </label>
+    </section>
+
+    <section class="module silo">
+      <div class="tag">📒 Módulo 17</div>
+      <h2>Silo Sonoro</h2>
+      <div class="phrase">Aqui a sua obra ganha presença sonora, preparando o caminho para sua escuta além da leitura.</div>
+      <div class="data-box">
+        <strong>Título da obra</strong>
+        <span id="tituloSilo">Aguardando identificação da obra</span>
+      </div>
+      <div class="data-box">
+        <strong>Autor</strong>
+        <span id="autorSilo">Aguardando identificação do autor</span>
+      </div>
+      <label class="checkline">
+        <input type="checkbox" value="modulo17_silo_sonoro_mapa.html">
+        Selecionar este módulo
+      </label>
+    </section>
+
   </div>
 
-  <footer>
-    Lapidar • Celeiro Literário
-  </footer>
+  <section class="footer-card">
+    <h3>Continuação da jornada editorial</h3>
+    <p>Você escolhe os módulos desejados. O Lapidar organiza a sequência e conduz o percurso até a Expedição Final.</p>
+
+    <div class="status" id="statusFila">
+      Nenhum módulo selecionado ainda.
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-main" type="button" onclick="seguirFluxo()">Continuar jornada editorial</button>
+      <button class="btn btn-soft" type="button" onclick="history.back()">Voltar ao Bolsão</button>
+    </div>
+  </section>
 
 </div>
 
 <script>
-  const checkboxes = document.querySelectorAll("input[type='checkbox']");
+  const caixas = document.querySelectorAll("input[type='checkbox']");
   const statusFila = document.getElementById("statusFila");
 
+  function preencherDados(){
+    const titulo = localStorage.getItem("lapidar_titulo_obra") || "Aguardando identificação da obra";
+    const autor = localStorage.getItem("lapidar_autor_obra") || "Aguardando identificação do autor";
+
+    ["tituloDiag","tituloCapa","tituloTrad","tituloAval","tituloAnal","tituloLapi","tituloSilo"].forEach(id=>{
+      const el = document.getElementById(id);
+      if(el) el.textContent = titulo;
+    });
+
+    ["autorDiag","autorCapa","autorTrad","autorAval","autorAnal","autorLapi","autorSilo"].forEach(id=>{
+      const el = document.getElementById(id);
+      if(el) el.textContent = autor;
+    });
+  }
+
   function atualizarStatus(){
-    const selecionados = Array.from(checkboxes)
+    const selecionados = Array.from(caixas)
       .filter(cb => cb.checked)
       .map(cb => cb.parentElement.textContent.trim());
 
@@ -171,9 +426,21 @@
     statusFila.textContent = "Módulos selecionados: " + selecionados.join(" → ");
   }
 
-  checkboxes.forEach(cb => {
-    cb.addEventListener("change", atualizarStatus);
-  });
+  caixas.forEach(cb => cb.addEventListener("change", atualizarStatus));
+
+  function ordemTecnica(lista){
+    const ordemIdeal = [
+      "modulo11_analisador_de_obra_mapa.html",
+      "modulo13_lapidacao_literaria_mapa.html",
+      "modulo07_avaliacao_literaria_mapa.html",
+      "modulo05_segunda_linguas_mapa.html",
+      "modulo03_assistente_diagramacao_autor_mapa.html",
+      "modulo19_okapista_mapa.html",
+      "modulo17_silo_sonoro_mapa.html"
+    ];
+
+    return ordemIdeal.filter(item => lista.includes(item));
+  }
 
   function seguirFluxo(){
     const selecionados = Array.from(document.querySelectorAll("input[type='checkbox']:checked"))
@@ -185,16 +452,19 @@
       return;
     }
 
+    const filaOrdenada = ordemTecnica(selecionados);
+
     localStorage.removeItem("fila_modulos_lapidar");
     localStorage.removeItem("indice_fluxo_lapidar");
 
-    localStorage.setItem("fila_modulos_lapidar", JSON.stringify(selecionados));
+    localStorage.setItem("fila_modulos_lapidar", JSON.stringify(filaOrdenada));
     localStorage.setItem("indice_fluxo_lapidar", "0");
     localStorage.setItem("lapidar_fluxo_ativo", "sim");
 
-    window.location.href = selecionados[0];
+    window.location.href = filaOrdenada[0];
   }
 
+  preencherDados();
   atualizarStatus();
 </script>
 
