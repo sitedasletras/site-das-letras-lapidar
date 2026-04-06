@@ -3,34 +3,40 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Lapidar • Módulo 19 — OKapista</title>
 
 <style>
 
 :root{
---bg-geral:#f7f5ef;
---setor-pergaminho:#f1e8d8;
---setor-amarelo:#f5e8c9;
---setor-amarelo-forte:#b89042;
---setor-verde:#dfeee7;
---setor-dourado:#f5ecd9;
+--bg:#f7f5ef;
 --card:#ffffff;
---line:#c9c1b2;
+--line:#d8d2c4;
 --text:#2f2a24;
 --muted:#5f574c;
---shadow:0 12px 28px rgba(67,58,45,0.10);
+--title:#6b5b46;
+
+--cap-bg:#f6f1e4;
+--cap-accent:#b89042;
+--cap-accent-dark:#927232;
+
+--soft:#ece7db;
+--soft-dark:#e2dccd;
+
+--gold:#c79a2e;
+--gold-bg:#fff7e6;
 }
+
+*{box-sizing:border-box;}
 
 body{
 margin:0;
 font-family:Arial, Helvetica, sans-serif;
-background:var(--bg-geral);
+background:var(--bg);
 color:var(--text);
 }
 
 .container{
-max-width:1180px;
+max-width:1050px;
 margin:auto;
 padding:28px 16px 40px;
 }
@@ -38,6 +44,7 @@ padding:28px 16px 40px;
 .topbar{
 display:flex;
 justify-content:space-between;
+gap:12px;
 margin-bottom:18px;
 }
 
@@ -48,26 +55,30 @@ padding:12px 16px;
 font-size:15px;
 font-weight:bold;
 cursor:pointer;
-background:#ece7db;
+background:var(--soft);
+color:var(--text);
+transition:.2s ease;
 }
 
 .small-btn:hover{
-background:#e2dccd;
+background:var(--soft-dark);
+transform:translateY(-1px);
 }
 
 .hero{
-background:var(--setor-pergaminho);
+background:var(--cap-bg);
+border:1px solid var(--line);
+border-left:8px solid var(--cap-accent);
 border-radius:28px;
 padding:30px;
 margin-bottom:22px;
-box-shadow:var(--shadow);
 }
 
 .eyebrow{
 display:inline-block;
 padding:8px 14px;
 border-radius:999px;
-background:#e4dccb;
+background:#fff;
 font-size:14px;
 font-weight:bold;
 margin-bottom:14px;
@@ -76,113 +87,143 @@ margin-bottom:14px;
 h1{
 margin:0 0 10px 0;
 font-size:34px;
-color:#b89042;
+line-height:1.15;
+color:var(--title);
 }
 
 .subtitle{
+margin:0;
 font-size:20px;
-line-height:1.7;
-}
-
-.trust-box{
-margin-top:20px;
-background:#f8f6f0;
-border-left:6px solid var(--setor-amarelo-forte);
-padding:18px;
-border-radius:18px;
-font-size:18px;
 line-height:1.8;
-}
-
-.section-title{
-margin:28px 0 14px;
-font-size:26px;
-color:#b89042;
+color:var(--muted);
 }
 
 .grid{
 display:grid;
 grid-template-columns:1fr 1fr;
 gap:18px;
+margin-bottom:20px;
 }
 
 .card{
-background:white;
+background:var(--card);
+border:1px solid var(--line);
 border-radius:24px;
 padding:22px;
-box-shadow:var(--shadow);
 }
 
-.card.amarelo{
-background:var(--setor-amarelo);
-border-left:8px solid var(--setor-amarelo-forte);
+.wide{
+grid-column:1 / -1;
 }
 
-.card.verde{
-background:var(--setor-verde);
-border-left:8px solid #6c9b86;
+h2{
+margin:0 0 14px 0;
+font-size:28px;
+color:var(--title);
 }
 
-.card.dourado{
-background:var(--setor-dourado);
-border-left:8px solid #b89042;
+label{
+display:block;
+font-weight:bold;
+margin:14px 0 8px;
 }
 
-h3{
-margin-top:0;
+select{
+width:100%;
+padding:14px;
+border-radius:14px;
+border:1px solid var(--line);
+background:#f7f8fb;
+font-size:16px;
+}
+
+.field{
+margin-top:12px;
+background:#faf8f2;
+border:1px solid var(--line);
+border-radius:16px;
+padding:14px 16px;
+}
+
+.field strong{
+display:block;
+margin-bottom:6px;
+font-size:16px;
+color:#3d352d;
+}
+
+.field span{
+display:block;
+font-size:17px;
+color:#000;
+line-height:1.7;
+}
+
+.mesario{
+margin-top:14px;
+background:var(--gold-bg);
+border-left:7px solid var(--gold);
+border-radius:18px;
+padding:16px 18px;
 }
 
 .actions{
-margin-top:28px;
 display:grid;
 grid-template-columns:1fr 1fr;
 gap:14px;
+margin-top:18px;
 }
 
-.action-btn{
-padding:18px;
-font-size:18px;
+.main-btn{
 border:none;
 border-radius:18px;
+padding:18px;
+font-size:18px;
+font-weight:bold;
 cursor:pointer;
+transition:.2s ease;
 }
 
-.btn-enter{
-background:#b89042;
-color:white;
+.main-btn:hover{
+transform:translateY(-1px);
 }
 
-.btn-enter:hover{
-background:#9e7934;
+.btn-next{
+background:var(--cap-accent);
+color:#fff;
+}
+
+.btn-next:hover{
+background:var(--cap-accent-dark);
 }
 
 .btn-skip{
-background:#d9cfbf;
+background:var(--soft);
+color:var(--text);
 }
 
-.footer-note{
-margin-top:24px;
-text-align:center;
-font-size:18px;
-line-height:1.8;
+.btn-skip:hover{
+background:var(--soft-dark);
 }
 
-@media(max-width:900px){
+.hidden{
+display:none !important;
+}
 
-.grid{
+@media (max-width:900px){
+.grid,
+.actions,
+.topbar{
 grid-template-columns:1fr;
+display:grid;
 }
 
-.actions{
-grid-template-columns:1fr;
-}
-
+h1{font-size:30px;}
+h2{font-size:25px;}
 }
 
 </style>
-
 </head>
-
 <body>
 
 <div class="container">
@@ -193,149 +234,117 @@ grid-template-columns:1fr;
 </div>
 
 <section class="hero">
-
-<div class="eyebrow">Lapidar • Seção 09 • Módulo 19</div>
-
-<h1>OKapista — Mapa Estrutural</h1>
-
+<div class="eyebrow">Lapidar • Módulo 19</div>
+<h1>OKapista</h1>
 <p class="subtitle">
-
-Aqui vestimos o seu livro para encontrar o mundo.
-
+Aqui damos rosto à sua obra, criando a primeira impressão que acompanhará o leitor antes mesmo da primeira página.
 </p>
-
-<div class="trust-box">
-
-O OKapista constrói a apresentação visual externa da obra: capa, contracapa, lombada e orelhas. Este é o módulo que prepara o livro para o leitor antes mesmo da primeira página.
-
-</div>
-
 </section>
-
-<h2 class="section-title">1. Entrada do módulo</h2>
 
 <div class="grid">
 
-<section class="card amarelo">
+<section class="card">
+<h2>Dados principais da obra</h2>
 
-<h3>O que o módulo recebe</h3>
-
-<ul>
-<li>Título da obra</li>
-<li>Nome do autor</li>
-<li>Sinopse</li>
-<li>Biografia</li>
-<li>Imagem de capa (se houver)</li>
-<li>Formato editorial definido</li>
-</ul>
-
-</section>
-
-<section class="card verde">
-
-<h3>O que o módulo não faz</h3>
-
-<ul>
-<li>Não faz diagramação do miolo</li>
-<li>Não altera o texto interno</li>
-<li>Não substitui Humanização</li>
-<li>Não substitui Tradução</li>
-</ul>
-
-</section>
-
+<div class="field">
+<strong>Título da obra</strong>
+<span id="tituloObra">Aguardando identificação da obra</span>
 </div>
 
-<h2 class="section-title">2. Elementos construídos</h2>
-
-<div class="grid">
-
-<section class="card amarelo">
-
-<h3>Estrutura visual externa</h3>
-
-<ul>
-<li>Capa</li>
-<li>Contracapa</li>
-<li>Lombada</li>
-<li>Orelha dianteira</li>
-<li>Orelha traseira</li>
-</ul>
-
-</section>
-
-<section class="card dourado">
-
-<h3>Resultado editorial</h3>
-
-<ul>
-<li>Identidade visual da obra</li>
-<li>Apresentação profissional</li>
-<li>Preparação para impressão</li>
-<li>Preparação para plataformas digitais</li>
-</ul>
-
-</section>
-
+<div class="field">
+<strong>Autor</strong>
+<span id="autorObra">Aguardando identificação do autor</span>
 </div>
 
-<h2 class="section-title">3. Relação com o fluxo final</h2>
-
-<div class="grid">
-
-<section class="card amarelo">
-
-<h3>Posição no pipeline</h3>
-
-<ul>
-<li>Antes da Expedição</li>
-<li>Após Diagramação</li>
-<li>Após Humanização (quando houver)</li>
-<li>Após Tradução (quando houver)</li>
-</ul>
-
+<div class="field">
+<strong>Idioma base</strong>
+<span id="idiomaObra">Aguardando idioma da obra</span>
+</div>
 </section>
 
-<section class="card verde">
+<section class="card">
+<h2>Estrutura da capa</h2>
 
-<h3>Última etapa visual</h3>
+<label for="tipoCapa">Tipo de capa</label>
+<select id="tipoCapa">
+<option>Capa simples (frente)</option>
+<option>Capa completa (frente + lombada + contracapa)</option>
+<option>Capa completa com orelhas</option>
+<option>Capa física + ePUB</option>
+</select>
 
-<ul>
-<li>Finaliza a apresentação externa</li>
-<li>Organiza materiais de capa</li>
-<li>Prepara envio editorial</li>
-<li>Entrega base para publicação</li>
-</ul>
-
+<label for="perfilVisual">Perfil visual</label>
+<select id="perfilVisual">
+<option>Nacional</option>
+<option>Internacional</option>
+<option>Híbrido</option>
+<option>Personalizado</option>
+</select>
 </section>
 
+<section class="card wide">
+<h2>Encaminhamento editorial da capa</h2>
+
+<label for="objetivoCapa">Objetivo da capa</label>
+<select id="objetivoCapa">
+<option>Publicação impressa</option>
+<option>Publicação digital</option>
+<option>Publicação híbrida</option>
+<option>Preparação promocional</option>
+</select>
+
+<div class="mesario" id="mesarioSecao">
+<strong>Mesário da seção</strong><br>
+Valor acumulado desta produção de capa.<br><br>
+<strong>CVR sugerida desta seção: R$ 0,00</strong>
 </div>
 
 <div class="actions">
-
-<button class="action-btn btn-enter"
-onclick="window.location.href='modulo19_okapista.html'">
-
-Entrar no OKapista
-
+<button class="main-btn btn-next" onclick="window.location.href='motor_sequencial.html'">
+Concluir esta etapa e seguir
 </button>
 
-<button class="action-btn btn-skip"
-onclick="window.location.href='motor_sequencial.html'">
-
+<button class="main-btn btn-skip" onclick="window.location.href='motor_sequencial.html'">
 Pular este módulo por agora
-
 </button>
-
 </div>
 
-<div class="footer-note">
-
-Aqui vestimos o seu livro antes de ele encontrar o mundo.
+</section>
 
 </div>
 
 </div>
+
+<script>
+
+function preencherDadosDaObra(){
+
+const titulo = localStorage.getItem("lapidar_titulo_obra") || "Aguardando identificação da obra";
+const autor = localStorage.getItem("lapidar_autor_obra") || "Aguardando identificação do autor";
+const idioma = localStorage.getItem("lapidar_idioma_obra") || "Aguardando idioma da obra";
+
+document.getElementById("tituloObra").textContent = titulo;
+document.getElementById("autorObra").textContent = autor;
+document.getElementById("idiomaObra").textContent = idioma;
+
+}
+
+function aplicarRegraPerfil(){
+
+const perfil=(localStorage.getItem("lapidar_perfil")||"").toLowerCase();
+
+if(perfil.includes("cortesia")){
+
+document.getElementById("mesarioSecao").classList.add("hidden");
+
+}
+
+}
+
+preencherDadosDaObra();
+aplicarRegraPerfil();
+
+</script>
 
 </body>
 </html>
