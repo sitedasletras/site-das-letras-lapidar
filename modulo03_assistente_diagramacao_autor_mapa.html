@@ -3,25 +3,22 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lapidar • Módulo 03 — Assistente de Diagramação</title>
+  <title>Lapidar • Módulo 03 — Assistente de Diagramação do Autor</title>
   <style>
     :root{
-      --bg-offwhite:#f7f5ef;
+      --bg:#D6E2F0;
       --card:#ffffff;
-      --line:#d8d2c4;
+      --line:#c9d5e2;
       --text:#2f2a24;
-      --muted:#5f574c;
-      --title:#6b5b46;
-      --shadow:0 12px 28px rgba(67,58,45,.10);
-
-      --diag-bg:#e9f1f8;
-      --diag-accent:#4f6f8f;
-      --diag-accent-dark:#3d5a73;
-
-      --soft:#ece7db;
-      --soft-dark:#e2dccd;
+      --muted:#4f5c69;
+      --title:#24384d;
+      --soft:#eef3f8;
+      --soft-dark:#dfe8f1;
+      --accent:#4f6f8f;
+      --accent-dark:#3d5a73;
       --gold:#c79a2e;
       --gold-bg:#fff7e6;
+      --shadow:0 12px 28px rgba(67,58,45,.10);
     }
 
     *{ box-sizing:border-box; }
@@ -29,13 +26,13 @@
     body{
       margin:0;
       font-family:Arial, Helvetica, sans-serif;
-      background:var(--bg-offwhite);
+      background:var(--bg);
       color:var(--text);
     }
 
     .container{
-      max-width:1050px;
-      margin:0 auto;
+      max-width:1150px;
+      margin:auto;
       padding:28px 16px 40px;
     }
 
@@ -53,20 +50,20 @@
       font-size:15px;
       font-weight:bold;
       cursor:pointer;
-      background:var(--soft);
+      background:rgba(255,255,255,.75);
       color:var(--text);
       transition:.2s ease;
     }
 
     .small-btn:hover{
-      background:var(--soft-dark);
+      background:#fff;
       transform:translateY(-1px);
     }
 
     .hero{
-      background:var(--diag-bg);
+      background:rgba(255,255,255,.55);
       border:1px solid var(--line);
-      border-left:8px solid var(--diag-accent);
+      border-left:8px solid var(--accent);
       border-radius:28px;
       padding:30px;
       box-shadow:var(--shadow);
@@ -77,12 +74,11 @@
       display:inline-block;
       padding:8px 14px;
       border-radius:999px;
-      background:rgba(255,255,255,.72);
-      color:#4b6074;
+      background:#fff;
+      color:var(--title);
       font-size:14px;
       font-weight:bold;
       margin-bottom:14px;
-      border:1px solid rgba(0,0,0,.05);
     }
 
     h1{
@@ -135,21 +131,22 @@
       font-size:17px;
       font-weight:bold;
       margin:14px 0 8px;
+      color:#000;
     }
 
-    input[type="text"],
-    select{
+    input[type="text"], select{
       width:100%;
       padding:14px;
       border:1px solid var(--line);
       border-radius:14px;
       font-size:16px;
       background:#f7f8fb;
+      color:#000;
     }
 
     .field{
       margin-top:12px;
-      background:#faf8f2;
+      background:#f8fbfe;
       border:1px solid var(--line);
       border-radius:16px;
       padding:14px 16px;
@@ -159,7 +156,7 @@
       display:block;
       margin-bottom:6px;
       font-size:16px;
-      color:#3d352d;
+      color:#000;
     }
 
     .field span{
@@ -169,30 +166,118 @@
       line-height:1.7;
     }
 
+    .preview-wrap{
+      background:#f8fbfe;
+      border:1px solid var(--line);
+      border-radius:22px;
+      padding:22px;
+    }
+
+    .preview-title{
+      font-size:22px;
+      font-weight:bold;
+      color:var(--title);
+      margin-bottom:8px;
+    }
+
+    .preview-sub{
+      font-size:16px;
+      color:var(--muted);
+      margin-bottom:18px;
+      line-height:1.7;
+    }
+
+    .book-page-stage{
+      display:flex;
+      justify-content:center;
+      padding:10px 0 0;
+    }
+
+    .page{
+      width:270px;
+      min-height:390px;
+      background:#fff;
+      border:1px solid #ddd;
+      box-shadow:0 12px 24px rgba(0,0,0,.10);
+      padding:28px 24px 34px 28px;
+      position:relative;
+    }
+
+    .page-header{
+      text-align:center;
+      margin-bottom:20px;
+    }
+
+    .page-book{
+      font-size:11px;
+      letter-spacing:.8px;
+      text-transform:uppercase;
+      color:#666;
+      margin-bottom:8px;
+    }
+
+    .page-title{
+      font-size:20px;
+      font-weight:bold;
+      line-height:1.25;
+      margin-bottom:6px;
+      color:#111;
+    }
+
+    .page-author{
+      font-size:13px;
+      color:#444;
+    }
+
+    .chapter-number{
+      text-align:center;
+      font-size:16px;
+      font-weight:bold;
+      margin:18px 0 6px;
+      color:#111;
+    }
+
+    .chapter-subtitle{
+      text-align:center;
+      font-size:14px;
+      font-style:italic;
+      margin-bottom:18px;
+      color:#333;
+    }
+
+    .sample-text{
+      font-size:15px;
+      line-height:1.85;
+      text-align:justify;
+      color:#111;
+    }
+
+    .sample-text.garamond{
+      font-family:Garamond, "Times New Roman", serif;
+    }
+
+    .sample-text.arial{
+      font-family:Arial, Helvetica, sans-serif;
+    }
+
+    .sample-text.times{
+      font-family:"Times New Roman", Times, serif;
+    }
+
+    .page-number{
+      position:absolute;
+      bottom:14px;
+      right:20px;
+      font-size:13px;
+      color:#444;
+    }
+
     .mesario{
       margin-top:14px;
       background:var(--gold-bg);
-      border:1px solid #e2c98f;
       border-left:7px solid var(--gold);
       border-radius:18px;
       padding:16px 18px;
-    }
-
-    .mesario h3{
-      margin:0 0 8px 0;
-      font-size:22px;
-      color:#6a5435;
-    }
-
-    .mesario-valor{
-      display:inline-block;
-      margin-top:8px;
-      padding:8px 12px;
-      border-radius:12px;
-      background:#fff;
-      border:1px solid #e2c98f;
-      font-weight:bold;
-      color:#7a5d1d;
     }
 
     .actions{
@@ -218,21 +303,21 @@
     }
 
     .btn-next{
-      background:var(--diag-accent);
+      background:var(--accent);
       color:#fff;
     }
 
     .btn-next:hover{
-      background:var(--diag-accent-dark);
+      background:var(--accent-dark);
     }
 
     .btn-skip{
-      background:var(--soft);
+      background:rgba(255,255,255,.75);
       color:var(--text);
     }
 
     .btn-skip:hover{
-      background:var(--soft-dark);
+      background:#fff;
     }
 
     .hidden{
@@ -240,13 +325,10 @@
     }
 
     @media (max-width:900px){
-      .grid,
-      .actions,
-      .topbar{
+      .grid, .actions, .topbar{
         grid-template-columns:1fr;
         display:grid;
       }
-
       h1{ font-size:30px; }
       h2{ font-size:25px; }
     }
@@ -261,7 +343,7 @@
     </div>
 
     <section class="hero">
-      <div class="eyebrow">Lapidar • Módulo 03</div>
+      <div class="eyebrow">📘 Lapidar • Módulo 03</div>
       <h1>Assistente de Diagramação do Autor</h1>
       <p class="subtitle">
         Aqui é onde o seu texto ganha formato e forma de páginas para formar o seu futuro livro.
@@ -293,7 +375,7 @@
         <h2>Formato inicial</h2>
 
         <label for="formatoLivro">Formato do livro</label>
-        <select id="formatoLivro">
+        <select id="formatoLivro" onchange="atualizarPreview()">
           <option>A5</option>
           <option>A4</option>
           <option>16x23</option>
@@ -303,15 +385,41 @@
         </select>
 
         <label for="tipografia">Tipografia</label>
-        <select id="tipografia">
-          <option>Times New Roman</option>
-          <option>Arial</option>
-          <option>Garamond</option>
+        <select id="tipografia" onchange="atualizarPreview()">
+          <option value="times">Times New Roman</option>
+          <option value="arial">Arial</option>
+          <option value="garamond">Garamond</option>
         </select>
       </section>
 
       <section class="card wide">
-        <h2>Estrutura de diagramação</h2>
+        <h2>Palhinha da página em formação</h2>
+
+        <div class="preview-wrap">
+          <div class="preview-title">Sua página nasce aqui</div>
+          <div class="preview-sub">
+            Esta pré-visualização acompanha suas escolhas para dar segurança e emoção ao autor durante a diagramação.
+          </div>
+
+          <div class="book-page-stage">
+            <div class="page">
+              <div class="page-header">
+                <div class="page-book" id="prevBookTop">Título da obra</div>
+                <div class="page-title" id="prevTitle">Título da obra</div>
+                <div class="page-author" id="prevAuthor">Nome do autor</div>
+              </div>
+
+              <div class="chapter-number">Capítulo 1</div>
+              <div class="chapter-subtitle">A travessia começa</div>
+
+              <div class="sample-text times" id="sampleText">
+                A primeira página não nasce apenas do papel. Ela nasce da escolha, do ritmo e da forma com que a obra começa a respirar diante dos olhos do autor. É aqui que o livro deixa de ser apenas arquivo e começa a ganhar corpo.
+              </div>
+
+              <div class="page-number">9</div>
+            </div>
+          </div>
+        </div>
 
         <label for="idiomaEdicao">Idioma da edição diagramada</label>
         <select id="idiomaEdicao">
@@ -333,9 +441,9 @@
         </select>
 
         <div class="mesario" id="mesarioSecao">
-          <h3>Mesário da seção</h3>
-          <p>Valor acumulado da diagramação nesta seção.</p>
-          <div class="mesario-valor">CVR sugerida desta seção: R$ 0,00</div>
+          <strong>Mesário da seção</strong><br>
+          Valor acumulado da diagramação nesta seção.<br><br>
+          <strong>CVR sugerida desta seção: R$ 0,00</strong>
         </div>
 
         <div class="actions">
@@ -362,18 +470,29 @@
       document.getElementById("tituloObra").textContent = titulo;
       document.getElementById("autorObra").textContent = autor;
       document.getElementById("idiomaObra").textContent = idioma;
+
+      document.getElementById("prevBookTop").textContent = titulo;
+      document.getElementById("prevTitle").textContent = titulo;
+      document.getElementById("prevAuthor").textContent = autor;
     }
 
     function aplicarRegraPerfil(){
       const perfil = (localStorage.getItem("lapidar_perfil") || "").toLowerCase();
-      const cortesia = perfil.includes("cortesia");
-      if(cortesia){
+      if(perfil.includes("cortesia")){
         document.getElementById("mesarioSecao").classList.add("hidden");
       }
     }
 
+    function atualizarPreview(){
+      const tipo = document.getElementById("tipografia").value;
+      const sample = document.getElementById("sampleText");
+      sample.classList.remove("times","arial","garamond");
+      sample.classList.add(tipo);
+    }
+
     preencherDadosDaObra();
     aplicarRegraPerfil();
+    atualizarPreview();
   </script>
 </body>
 </html>
