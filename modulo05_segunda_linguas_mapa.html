@@ -1,252 +1,355 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lapidar • Módulo 05 — Segunda Língua(s)</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lapidar • Módulo 05 — Segunda Língua(s)</title>
+  <style>
+    :root{
+      --bg:#CFE5D6;
+      --card:#ffffff;
+      --line:#b9d2c2;
+      --text:#2f2a24;
+      --muted:#456255;
+      --title:#214437;
+      --accent:#5e8b6b;
+      --accent-dark:#476b52;
+      --mesario-bg:#f5fbf7;
+      --mesario-line:#7da58a;
+      --shadow:0 12px 28px rgba(0,0,0,.10);
+    }
 
-<style>
+    *{ box-sizing:border-box; }
 
-:root{
---bg:#f7f5ef;
---card:#ffffff;
---line:#d8d2c4;
---text:#2f2a24;
---muted:#5f574c;
---title:#6b5b46;
+    body{
+      margin:0;
+      font-family:Arial, Helvetica, sans-serif;
+      background:var(--bg);
+      color:var(--text);
+    }
 
---trad-bg:#eef6f1;
---trad-accent:#3e7d61;
---trad-accent-dark:#2f5f4a;
+    .container{
+      max-width:1100px;
+      margin:auto;
+      padding:30px 18px 45px;
+    }
 
---soft:#ece7db;
---soft-dark:#e2dccd;
+    .topbar{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:18px;
+    }
 
---gold:#c79a2e;
---gold-bg:#fff7e6;
-}
+    .small-btn{
+      border:none;
+      border-radius:14px;
+      padding:12px 16px;
+      font-weight:bold;
+      cursor:pointer;
+      background:rgba(255,255,255,.8);
+    }
 
-*{box-sizing:border-box;}
+    .small-btn:hover{
+      background:#fff;
+    }
 
-body{
-margin:0;
-font-family:Arial;
-background:var(--bg);
-color:var(--text);
-}
+    .hero{
+      background:rgba(255,255,255,.6);
+      border-left:8px solid var(--accent);
+      border-radius:26px;
+      padding:28px;
+      margin-bottom:22px;
+      box-shadow:var(--shadow);
+    }
 
-.container{
-max-width:1050px;
-margin:auto;
-padding:28px 16px 40px;
-}
+    .eyebrow{
+      display:inline-block;
+      background:#fff;
+      padding:8px 14px;
+      border-radius:999px;
+      font-size:14px;
+      font-weight:bold;
+      margin-bottom:14px;
+      color:var(--title);
+    }
 
-.topbar{
-display:flex;
-justify-content:space-between;
-margin-bottom:18px;
-}
+    h1{
+      margin:0 0 10px;
+      font-size:34px;
+      color:var(--title);
+    }
 
-.small-btn{
-border:none;
-border-radius:14px;
-padding:12px 16px;
-font-size:15px;
-font-weight:bold;
-cursor:pointer;
-background:var(--soft);
-}
+    .subtitle{
+      font-size:20px;
+      line-height:1.8;
+      color:var(--muted);
+    }
 
-.small-btn:hover{
-background:var(--soft-dark);
-}
+    .grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:18px;
+    }
 
-.hero{
-background:var(--trad-bg);
-border:1px solid var(--line);
-border-left:8px solid var(--trad-accent);
-border-radius:28px;
-padding:30px;
-margin-bottom:22px;
-}
+    .card{
+      background:var(--card);
+      border-radius:24px;
+      padding:22px;
+      border:1px solid var(--line);
+      box-shadow:var(--shadow);
+    }
 
-.eyebrow{
-display:inline-block;
-padding:8px 14px;
-border-radius:999px;
-background:#fff;
-font-size:14px;
-font-weight:bold;
-margin-bottom:14px;
-}
+    .wide{
+      grid-column:1 / -1;
+    }
 
-h1{
-margin:0 0 10px 0;
-font-size:34px;
-color:var(--title);
-}
+    h2{
+      margin:0 0 12px;
+      font-size:26px;
+      color:var(--title);
+    }
 
-.subtitle{
-font-size:20px;
-line-height:1.8;
-color:var(--muted);
-}
+    label{
+      display:block;
+      font-weight:bold;
+      margin-top:14px;
+      margin-bottom:6px;
+      color:#000;
+    }
 
-.card{
-background:var(--card);
-border:1px solid var(--line);
-border-radius:24px;
-padding:22px;
-margin-bottom:18px;
-}
+    select, input[type="text"]{
+      width:100%;
+      padding:14px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background:#fff;
+      font-size:16px;
+      color:#000;
+    }
 
-h2{
-margin:0 0 14px 0;
-font-size:28px;
-color:var(--title);
-}
+    .field{
+      background:#f7fcf8;
+      border-radius:16px;
+      padding:14px;
+      border:1px solid var(--line);
+      margin-top:10px;
+    }
 
-label{
-display:block;
-font-weight:bold;
-margin:14px 0 8px;
-}
+    .field strong{
+      display:block;
+      margin-bottom:4px;
+      color:#000;
+    }
 
-select{
-width:100%;
-padding:14px;
-border-radius:14px;
-border:1px solid var(--line);
-background:#f7f8fb;
-}
+    .field span{
+      color:#000;
+      line-height:1.7;
+    }
 
-.mesario{
-margin-top:14px;
-background:var(--gold-bg);
-border-left:7px solid var(--gold);
-border-radius:18px;
-padding:16px 18px;
-}
+    .preview{
+      background:#f7fcf8;
+      border-radius:22px;
+      padding:20px;
+      border:1px solid var(--line);
+    }
 
-.actions{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:14px;
-margin-top:18px;
-}
+    .preview-box{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:18px;
+      line-height:1.8;
+      color:#1f2b24;
+    }
 
-.main-btn{
-border:none;
-border-radius:18px;
-padding:18px;
-font-size:18px;
-font-weight:bold;
-cursor:pointer;
-}
+    .preview-box .lang-title{
+      font-size:20px;
+      font-weight:bold;
+      color:var(--title);
+      margin-bottom:10px;
+    }
 
-.btn-next{
-background:var(--trad-accent);
-color:white;
-}
+    .preview-box .lang-line{
+      margin-bottom:8px;
+    }
 
-.btn-next:hover{
-background:var(--trad-accent-dark);
-}
+    .mesario{
+      margin-top:16px;
+      background:var(--mesario-bg);
+      border-left:6px solid var(--mesario-line);
+      border-radius:18px;
+      padding:16px;
+    }
 
-.btn-skip{
-background:var(--soft);
-}
+    .actions{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
+      margin-top:18px;
+    }
 
-.hidden{
-display:none!important;
-}
+    .main-btn{
+      border:none;
+      border-radius:18px;
+      padding:18px;
+      font-size:18px;
+      font-weight:bold;
+      cursor:pointer;
+    }
 
-</style>
+    .btn-next{
+      background:var(--accent);
+      color:#fff;
+    }
+
+    .btn-next:hover{
+      background:var(--accent-dark);
+    }
+
+    .btn-skip{
+      background:rgba(255,255,255,.8);
+      color:var(--text);
+    }
+
+    .btn-skip:hover{
+      background:#fff;
+    }
+
+    @media(max-width:900px){
+      .grid, .actions, .topbar{
+        grid-template-columns:1fr;
+        display:grid;
+      }
+    }
+  </style>
 </head>
-
 <body>
 
 <div class="container">
 
-<div class="topbar">
-<button class="small-btn" onclick="history.back()">← Retornar</button>
-<button class="small-btn" onclick="window.location.href='index.html'">Sair do sistema</button>
-</div>
+  <div class="topbar">
+    <button class="small-btn" onclick="history.back()">← Retornar</button>
+    <button class="small-btn" onclick="window.location.href='index.html'">Sair do sistema</button>
+  </div>
 
-<section class="hero">
-<div class="eyebrow">Lapidar • Módulo 05</div>
+  <section class="hero">
+    <div class="eyebrow">📗 Lapidar • Módulo 05</div>
+    <h1>Segunda Língua(s)</h1>
+    <p class="subtitle">
+      Aqui ampliamos o alcance da sua obra para que ela atravesse fronteiras sem perder sua voz original.
+    </p>
+  </section>
 
-<h1>Segunda Língua(s)</h1>
+  <div class="grid">
 
-<p class="subtitle">
-Aqui preparamos a travessia da sua obra para outros idiomas com segurança editorial.
-</p>
-</section>
+    <section class="card">
+      <h2>Dados da obra</h2>
 
-<section class="card">
+      <div class="field">
+        <strong>Título</strong>
+        <span id="tituloObra">Aguardando identificação</span>
+      </div>
 
-<h2>Idioma de destino</h2>
+      <div class="field">
+        <strong>Autor</strong>
+        <span id="autorObra">Aguardando identificação</span>
+      </div>
 
-<label>Selecionar idioma para tradução</label>
+      <div class="field">
+        <strong>Idioma base</strong>
+        <span id="idiomaObra">Aguardando idioma</span>
+      </div>
+    </section>
 
-<select>
+    <section class="card">
+      <h2>Configuração da tradução</h2>
 
-<option>Inglês (Estados Unidos)</option>
-<option>Inglês (Reino Unido)</option>
-<option>Espanhol (Espanha)</option>
-<option>Espanhol (América Latina)</option>
-<option>Francês</option>
-<option>Italiano</option>
+      <label for="idiomaDestino">Idioma de destino</label>
+      <select id="idiomaDestino" onchange="atualizarPreview()">
+        <option>Inglês (Estados Unidos)</option>
+        <option>Inglês (Reino Unido)</option>
+        <option>Espanhol (Espanha)</option>
+        <option>Espanhol (América Latina)</option>
+        <option>Francês</option>
+        <option>Italiano</option>
+      </select>
 
-</select>
+      <label for="tipoTraducao">Tipo de tradução</label>
+      <select id="tipoTraducao" onchange="atualizarPreview()">
+        <option>Editorial literária</option>
+        <option>Institucional</option>
+        <option>Comercial</option>
+        <option>Adaptada para publicação</option>
+      </select>
+    </section>
 
-<div class="mesario" id="mesarioSecao">
+    <section class="card wide">
+      <h2>Palhinha da transposição linguística</h2>
 
-<strong>Mesário da seção</strong><br>
-Valor acumulado desta tradução.<br><br>
+      <div class="preview">
+        <div class="preview-box">
+          <div class="lang-title" id="previewIdioma">Idioma de destino</div>
+          <div class="lang-line"><strong>Obra:</strong> <span id="previewTitulo">Título da obra</span></div>
+          <div class="lang-line"><strong>Autor:</strong> <span id="previewAutor">Autor</span></div>
+          <div class="lang-line"><strong>Modo:</strong> <span id="previewModo">Editorial literária</span></div>
+          <div class="lang-line"><strong>Objetivo:</strong> A obra será preparada para circular em outro idioma sem perder sua identidade autoral.</div>
+        </div>
+      </div>
 
-<strong>CVR sugerida desta seção: R$ 0,00</strong>
+      <div class="mesario" id="mesarioSecao">
+        <strong>Mesário da seção</strong><br>
+        Valor acumulado desta tradução.<br><br>
+        <strong>CVR sugerida desta seção: R$ 0,00</strong>
+      </div>
 
-</div>
+      <div class="actions">
+        <button class="main-btn btn-next" onclick="window.location.href='motor_sequencial.html'">
+          Concluir esta etapa e seguir
+        </button>
 
-<div class="actions">
+        <button class="main-btn btn-skip" onclick="window.location.href='motor_sequencial.html'">
+          Pular este módulo por agora
+        </button>
+      </div>
+    </section>
 
-<button class="main-btn btn-next"
-onclick="window.location.href='motor_sequencial.html'">
-
-Concluir esta etapa e seguir
-
-</button>
-
-<button class="main-btn btn-skip"
-onclick="window.location.href='motor_sequencial.html'">
-
-Pular este módulo por agora
-
-</button>
-
-</div>
-
-</section>
+  </div>
 
 </div>
 
 <script>
+  function preencherDados(){
+    const titulo = localStorage.getItem("lapidar_titulo_obra") || "Título da obra";
+    const autor = localStorage.getItem("lapidar_autor_obra") || "Autor";
+    const idioma = localStorage.getItem("lapidar_idioma_obra") || "Idioma base";
 
-function aplicarRegraPerfil(){
+    document.getElementById("tituloObra").textContent = titulo;
+    document.getElementById("autorObra").textContent = autor;
+    document.getElementById("idiomaObra").textContent = idioma;
 
-const perfil=(localStorage.getItem("lapidar_perfil")||"").toLowerCase();
+    document.getElementById("previewTitulo").textContent = titulo;
+    document.getElementById("previewAutor").textContent = autor;
+  }
 
-if(perfil.includes("cortesia")){
+  function atualizarPreview(){
+    document.getElementById("previewIdioma").textContent =
+      document.getElementById("idiomaDestino").value;
 
-document.getElementById("mesarioSecao").classList.add("hidden");
+    document.getElementById("previewModo").textContent =
+      document.getElementById("tipoTraducao").value;
+  }
 
-}
+  function aplicarPerfil(){
+    const perfil = (localStorage.getItem("lapidar_perfil") || "").toLowerCase();
+    if(perfil.includes("cortesia")){
+      document.getElementById("mesarioSecao").style.display = "none";
+    }
+  }
 
-}
-
-aplicarRegraPerfil();
-
+  preencherDados();
+  atualizarPreview();
+  aplicarPerfil();
 </script>
 
 </body>
