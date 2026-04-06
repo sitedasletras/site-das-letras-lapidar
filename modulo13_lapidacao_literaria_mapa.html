@@ -3,38 +3,35 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lapidar • Módulo 13 — Mapa da Lapidação Literária</title>
+  <title>Lapidar • Módulo 13 — Lapidação Literária</title>
   <style>
     :root{
-      --bg-geral:#f7f5ef;
-      --setor-pergaminho:#f1e8d8;
-      --setor-tecnico:#f2e6ea;
-      --setor-vinho:#ead6de;
-      --setor-vinho-forte:#9a6677;
-      --setor-verde:#dfeee7;
-      --setor-dourado:#f5ecd9;
+      --bg:#F2D1A8;
       --card:#ffffff;
-      --line:#c9c1b2;
+      --line:#e0bc92;
       --text:#2f2a24;
-      --muted:#5f574c;
-      --shadow:0 12px 28px rgba(67,58,45,0.10);
+      --muted:#7a5938;
+      --title:#6b4725;
+      --accent:#c78649;
+      --accent-dark:#a66933;
+      --mesario-bg:#fff7ee;
+      --mesario-line:#d59a5c;
+      --shadow:0 12px 28px rgba(0,0,0,.10);
     }
 
-    *{
-      box-sizing:border-box;
-    }
+    *{ box-sizing:border-box; }
 
     body{
       margin:0;
-      font-family: Arial, Helvetica, sans-serif;
-      background:var(--bg-geral);
+      font-family:Arial, Helvetica, sans-serif;
+      background:var(--bg);
       color:var(--text);
     }
 
     .container{
-      max-width:1180px;
-      margin:0 auto;
-      padding:28px 16px 40px;
+      max-width:1100px;
+      margin:auto;
+      padding:30px 18px 45px;
     }
 
     .topbar{
@@ -48,384 +45,329 @@
       border:none;
       border-radius:14px;
       padding:12px 16px;
-      font-size:15px;
       font-weight:bold;
       cursor:pointer;
-      transition:.2s ease;
-      background:#ece7db;
-      color:var(--text);
+      background:rgba(255,255,255,.82);
+      color:#222;
     }
 
     .small-btn:hover{
-      transform:translateY(-1px);
-      background:#e2dccd;
+      background:#fff;
     }
 
     .hero{
-      background:var(--setor-pergaminho);
-      border:1px solid var(--line);
-      border-radius:28px;
-      padding:30px;
-      box-shadow:var(--shadow);
+      background:rgba(255,255,255,.62);
+      border-left:8px solid var(--accent);
+      border-radius:26px;
+      padding:28px;
       margin-bottom:22px;
+      box-shadow:var(--shadow);
     }
 
     .eyebrow{
       display:inline-block;
+      background:#fff;
       padding:8px 14px;
       border-radius:999px;
-      background:#e4dccb;
-      color:#6b5b46;
       font-size:14px;
       font-weight:bold;
       margin-bottom:14px;
+      color:var(--title);
     }
 
     h1{
-      margin:0 0 10px 0;
+      margin:0 0 10px;
       font-size:34px;
-      line-height:1.15;
-      color:#7d4f61;
+      color:var(--title);
     }
 
     .subtitle{
-      margin:0;
       font-size:20px;
+      line-height:1.8;
       color:var(--muted);
-      line-height:1.7;
-    }
-
-    .trust-box{
-      margin-top:22px;
-      background:#f8f6f0;
-      border:1px solid var(--line);
-      border-left:6px solid var(--setor-vinho-forte);
-      border-radius:18px;
-      padding:18px 18px 18px 16px;
-      font-size:18px;
-      line-height:1.85;
-      color:var(--text);
-    }
-
-    .trust-box strong{
-      display:block;
-      margin-bottom:6px;
-      font-size:19px;
-    }
-
-    .section-title{
-      margin:28px 0 14px;
-      font-size:26px;
-      color:#7d4f61;
     }
 
     .grid{
       display:grid;
-      grid-template-columns:repeat(2, minmax(0,1fr));
+      grid-template-columns:1fr 1fr;
       gap:18px;
     }
 
     .card{
       background:var(--card);
-      border:1px solid var(--line);
       border-radius:24px;
       padding:22px;
+      border:1px solid var(--line);
       box-shadow:var(--shadow);
     }
 
-    .card.pergaminho{
-      background:var(--setor-pergaminho);
-    }
-
-    .card.vinho{
-      background:var(--setor-vinho);
-      border-left:8px solid var(--setor-vinho-forte);
-    }
-
-    .card.tecnico{
-      background:var(--setor-tecnico);
-    }
-
-    .card.verde{
-      background:var(--setor-verde);
-      border-left:8px solid #6c9b86;
-    }
-
-    .card.dourado{
-      background:var(--setor-dourado);
-      border-left:8px solid #b89042;
+    .wide{
+      grid-column:1 / -1;
     }
 
     h2{
-      margin:0 0 12px 0;
-      font-size:28px;
+      margin:0 0 12px;
+      font-size:26px;
+      color:var(--title);
     }
 
-    h3{
-      margin:0 0 10px 0;
-      font-size:22px;
-      color:#6a4452;
+    .field{
+      background:#fffaf4;
+      border-radius:16px;
+      padding:14px;
+      border:1px solid var(--line);
+      margin-top:10px;
     }
 
-    p{
-      margin:0 0 14px 0;
-      font-size:18px;
-      line-height:1.8;
+    .field strong{
+      display:block;
+      margin-bottom:4px;
+      color:#000;
     }
 
-    ul{
-      margin:10px 0 0 18px;
-      padding:0;
-    }
-
-    li{
-      margin-bottom:8px;
-      font-size:17px;
+    .field span{
+      color:#000;
       line-height:1.7;
     }
 
-    .badge{
-      display:inline-block;
-      padding:6px 12px;
-      border-radius:999px;
-      font-size:13px;
+    .check-group{
+      display:grid;
+      gap:10px;
+      margin-top:12px;
+    }
+
+    .check-item{
+      display:flex;
+      align-items:flex-start;
+      gap:10px;
+      background:#fffaf4;
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:14px;
+      color:#000;
+      line-height:1.6;
+    }
+
+    .check-item input{
+      margin-top:3px;
+      transform:scale(1.12);
+    }
+
+    .preview{
+      background:#fffaf4;
+      border-radius:22px;
+      padding:20px;
+      border:1px solid var(--line);
+    }
+
+    .preview-box{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:18px;
+      line-height:1.8;
+      color:#222;
+    }
+
+    .preview-box .preview-title{
+      font-size:20px;
       font-weight:bold;
-      margin-bottom:12px;
-      background:rgba(255,255,255,.65);
-      color:#4d4336;
-      border:1px solid rgba(0,0,0,.06);
+      color:var(--title);
+      margin-bottom:10px;
+    }
+
+    .preview-line{
+      margin-bottom:8px;
+    }
+
+    .mesario{
+      margin-top:16px;
+      background:var(--mesario-bg);
+      border-left:6px solid var(--mesario-line);
+      border-radius:18px;
+      padding:16px;
     }
 
     .actions{
-      margin-top:28px;
       display:grid;
       grid-template-columns:1fr 1fr;
       gap:14px;
+      margin-top:18px;
     }
 
-    .action-btn{
-      width:100%;
+    .main-btn{
       border:none;
       border-radius:18px;
-      padding:18px 20px;
+      padding:18px;
       font-size:18px;
       font-weight:bold;
       cursor:pointer;
-      transition:.2s ease;
     }
 
-    .action-btn:hover{
-      transform:translateY(-1px);
-    }
-
-    .btn-enter{
-      background:#7d4f61;
+    .btn-next{
+      background:var(--accent);
       color:#fff;
     }
 
-    .btn-enter:hover{
-      background:#693f50;
+    .btn-next:hover{
+      background:var(--accent-dark);
     }
 
     .btn-skip{
-      background:#d9cfbf;
-      color:#2f2a24;
+      background:rgba(255,255,255,.82);
+      color:var(--text);
     }
 
     .btn-skip:hover{
-      background:#cdc1ae;
+      background:#fff;
     }
 
-    .footer-note{
-      margin-top:24px;
-      text-align:center;
-      font-size:18px;
-      color:var(--muted);
-      line-height:1.8;
-    }
-
-    @media (max-width:900px){
-      .grid,
-      .actions{
+    @media(max-width:900px){
+      .grid, .actions, .topbar{
         grid-template-columns:1fr;
-      }
-
-      h1{
-        font-size:30px;
-      }
-
-      h2{
-        font-size:25px;
+        display:grid;
       }
     }
   </style>
 </head>
 <body>
-  <div class="container">
 
-    <div class="topbar">
-      <button class="small-btn" onclick="history.back()">← Retornar</button>
-      <button class="small-btn" onclick="window.location.href='index.html'">Sair do sistema</button>
-    </div>
+<div class="container">
 
-    <section class="hero">
-      <div class="eyebrow">Lapidar • Seção 07 • Módulo 13</div>
-      <h1>Lapidação Literária — Mapa Estrutural</h1>
-      <p class="subtitle">
-        Esta página organiza tudo o que pertence oficialmente à Lapidação Literária antes de entrar na ferramenta deste módulo.
-      </p>
+  <div class="topbar">
+    <button class="small-btn" onclick="history.back()">← Retornar</button>
+    <button class="small-btn" onclick="window.location.href='index.html'">Sair do sistema</button>
+  </div>
 
-      <div class="trust-box">
-        <strong>Aqui trabalhamos lado a lado com você para fortalecer a voz da sua obra.</strong>
-        A Lapidação Literária refina o texto sem apagar a identidade do autor. Ela não substitui o Bolsão, não substitui a Tradução e não substitui a Diagramação.
+  <section class="hero">
+    <div class="eyebrow">📔 Lapidar • Módulo 13</div>
+    <h1>Lapidação Literária</h1>
+    <p class="subtitle">
+      Aqui preservamos sua voz autoral enquanto fortalecemos ritmo, clareza e coerência narrativa.
+    </p>
+  </section>
+
+  <div class="grid">
+
+    <section class="card">
+      <h2>Dados da obra</h2>
+
+      <div class="field">
+        <strong>Título</strong>
+        <span id="tituloObra">Aguardando identificação</span>
+      </div>
+
+      <div class="field">
+        <strong>Autor</strong>
+        <span id="autorObra">Aguardando identificação</span>
+      </div>
+
+      <div class="field">
+        <strong>Idioma base</strong>
+        <span id="idiomaObra">Aguardando idioma</span>
       </div>
     </section>
 
-    <h2 class="section-title">1. Base do módulo</h2>
-    <div class="grid">
-      <section class="card pergaminho">
-        <div class="badge">Entrada do módulo</div>
-        <h3>O que a Lapidação recebe</h3>
-        <ul>
-          <li>Texto-base vindo do Bolsão</li>
-          <li>Ou texto já estabilizado para refinamento</li>
-          <li>Estrutura editorial já identificada</li>
-          <li>Título, autoria e corpo principal da obra</li>
-        </ul>
-      </section>
+    <section class="card">
+      <h2>Selecione os ajustes desejados</h2>
 
-      <section class="card verde">
-        <div class="badge">Limite do módulo</div>
-        <h3>O que a Lapidação não faz</h3>
-        <ul>
-          <li>Não substitui o Bolsão</li>
-          <li>Não faz diagramação</li>
-          <li>Não cria capa</li>
-          <li>Não faz tradução sozinha</li>
-          <li>Não apaga a identidade do autor</li>
-        </ul>
-      </section>
-    </div>
+      <div class="check-group">
+        <label class="check-item">
+          <input type="checkbox" onchange="atualizarPreview()">
+          <span>Humanização completa da obra</span>
+        </label>
 
-    <h2 class="section-title">2. Humanização base</h2>
-    <div class="grid">
-      <section class="card vinho">
-        <div class="badge">Base obrigatória do módulo</div>
-        <h3>Humanização base</h3>
-        <ul>
-          <li>Concordância verbal</li>
-          <li>Concordância nominal</li>
-          <li>Suavização sintática</li>
-          <li>Estabilização estrutural do texto</li>
-        </ul>
-        <p>
-          A humanização base possui valor próprio de entrada dentro do módulo.
-        </p>
-      </section>
+        <label class="check-item">
+          <input type="checkbox" onchange="atualizarPreview()">
+          <span>Revisão de diálogos</span>
+        </label>
 
-      <section class="card tecnico">
-        <div class="badge">Natureza da base</div>
-        <h3>O que essa base representa</h3>
-        <ul>
-          <li>Refino técnico inicial</li>
-          <li>Fortalecimento da leitura</li>
-          <li>Clareza textual maior</li>
-          <li>Preparação para ajustes narrativos mais profundos</li>
-        </ul>
-      </section>
-    </div>
+        <label class="check-item">
+          <input type="checkbox" onchange="atualizarPreview()">
+          <span>Coerência narrativa</span>
+        </label>
 
-    <h2 class="section-title">3. Aperfeiçoamentos adicionais</h2>
-    <div class="grid">
-      <section class="card tecnico">
-        <div class="badge">Itens individuais</div>
-        <h3>Recursos adicionais do módulo</h3>
-        <ul>
-          <li>Revisão de diálogos</li>
-          <li>Coerência narrativa</li>
-          <li>Ritmo textual</li>
-          <li>Preservação do estilo</li>
-        </ul>
-        <p>
-          Cada item adicional pode gerar valor próprio dentro da seção.
-        </p>
-      </section>
+        <label class="check-item">
+          <input type="checkbox" onchange="atualizarPreview()">
+          <span>Ritmo textual</span>
+        </label>
 
-      <section class="card dourado">
-        <div class="badge">Pacote completo</div>
-        <h3>Pacote narrativo ampliado</h3>
-        <ul>
-          <li>Substitui os quatro itens individuais quando ativado</li>
-          <li>Representa a ampliação máxima da lapidação narrativa</li>
-          <li>É somado à humanização base</li>
-        </ul>
-      </section>
-    </div>
+        <label class="check-item">
+          <input type="checkbox" onchange="atualizarPreview()">
+          <span>Preservação de estilo autoral</span>
+        </label>
+      </div>
+    </section>
 
-    <h2 class="section-title">4. Papel do módulo na obra</h2>
-    <div class="grid">
-      <section class="card vinho">
-        <div class="badge">Resultado autoral</div>
-        <h3>O que a Lapidação entrega</h3>
-        <ul>
-          <li>Texto mais firme</li>
-          <li>Leitura mais clara</li>
-          <li>Narrativa mais coesa</li>
-          <li>Ritmo mais consistente</li>
-          <li>Voz autoral preservada</li>
-        </ul>
-      </section>
+    <section class="card wide">
+      <h2>Palhinha da lapidação em andamento</h2>
 
-      <section class="card verde">
-        <div class="badge">Proteção da identidade</div>
-        <h3>O que deve permanecer intacto</h3>
-        <ul>
-          <li>A intenção do autor</li>
-          <li>A personalidade da escrita</li>
-          <li>A alma da obra</li>
-          <li>O sentido principal do texto</li>
-        </ul>
-      </section>
-    </div>
+      <div class="preview">
+        <div class="preview-box">
+          <div class="preview-title">A obra está sendo refinada sem perder sua identidade</div>
+          <div class="preview-line"><strong>Obra:</strong> <span id="previewTitulo">Título da obra</span></div>
+          <div class="preview-line"><strong>Autor:</strong> <span id="previewAutor">Autor</span></div>
+          <div class="preview-line"><strong>Ajustes ativos:</strong> <span id="previewAjustes">Nenhum ajuste selecionado ainda.</span></div>
+          <div class="preview-line"><strong>Direção literária:</strong> O Lapidar atua para aprimorar o texto mantendo a respiração, a intenção e a assinatura autoral da obra.</div>
+        </div>
+      </div>
 
-    <h2 class="section-title">5. Relação com outros módulos</h2>
-    <div class="grid">
-      <section class="card tecnico">
-        <div class="badge">Antes e depois</div>
-        <h3>Relação com o fluxo</h3>
-        <ul>
-          <li>Pode acontecer antes da Tradução</li>
-          <li>Pode acontecer depois da Tradução</li>
-          <li>Pode ser pulada, conforme escolha do autor</li>
-          <li>Entrega texto pronto para a Diagramação</li>
-        </ul>
-      </section>
+      <div class="mesario" id="mesarioSecao">
+        <strong>Mesário da seção</strong><br>
+        Valor acumulado desta lapidação.<br><br>
+        <strong>CVR sugerida desta seção: R$ 0,00</strong>
+      </div>
 
-      <section class="card vinho">
-        <div class="badge">Resultado final</div>
-        <h3>Entrega do módulo</h3>
-        <ul>
-          <li>Texto lapidado</li>
-          <li>Base narrativa fortalecida</li>
-          <li>Obra mais estável para as próximas etapas</li>
-        </ul>
-      </section>
-    </div>
+      <div class="actions">
+        <button class="main-btn btn-next" onclick="window.location.href='motor_sequencial.html'">
+          Concluir esta etapa e seguir
+        </button>
 
-    <div class="actions">
-      <button class="action-btn btn-enter" onclick="window.location.href='modulo13_lapidacao_literaria.html'">
-        Entrar na Lapidação Literária
-      </button>
-
-      <button class="action-btn btn-skip" onclick="window.location.href='motor_sequencial.html'">
-        Pular este módulo por agora
-      </button>
-    </div>
-
-    <div class="footer-note">
-      Aqui trabalhamos lado a lado com você para fortalecer a voz da sua obra.
-    </div>
+        <button class="main-btn btn-skip" onclick="window.location.href='motor_sequencial.html'">
+          Pular este módulo por agora
+        </button>
+      </div>
+    </section>
 
   </div>
+
+</div>
+
+<script>
+  function preencherDados(){
+    const titulo = localStorage.getItem("lapidar_titulo_obra") || "Título da obra";
+    const autor = localStorage.getItem("lapidar_autor_obra") || "Autor";
+    const idioma = localStorage.getItem("lapidar_idioma_obra") || "Idioma base";
+
+    document.getElementById("tituloObra").textContent = titulo;
+    document.getElementById("autorObra").textContent = autor;
+    document.getElementById("idiomaObra").textContent = idioma;
+
+    document.getElementById("previewTitulo").textContent = titulo;
+    document.getElementById("previewAutor").textContent = autor;
+  }
+
+  function atualizarPreview(){
+    const labels = Array.from(document.querySelectorAll(".check-item"));
+    const ativos = labels
+      .filter(item => item.querySelector("input").checked)
+      .map(item => item.querySelector("span").textContent.trim());
+
+    document.getElementById("previewAjustes").textContent =
+      ativos.length ? ativos.join(" • ") : "Nenhum ajuste selecionado ainda.";
+  }
+
+  function aplicarPerfil(){
+    const perfil = (localStorage.getItem("lapidar_perfil") || "").toLowerCase();
+    if(perfil.includes("cortesia")){
+      document.getElementById("mesarioSecao").style.display = "none";
+    }
+  }
+
+  preencherDados();
+  atualizarPreview();
+  aplicarPerfil();
+</script>
+
 </body>
 </html>
