@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Lapidar • Módulo 13 — Lapidação Literária</title>
 
 <style>
@@ -11,26 +10,33 @@
 :root{
 --bg:#f7f5ef;
 --card:#ffffff;
---line:#c9c1b2;
+--line:#d8d2c4;
 --text:#2f2a24;
 --muted:#5f574c;
---rose-soft:#f6e6ea;
---rose:#b06272;
---rose-dark:#944e5e;
+--title:#6b5b46;
+
+--lap-bg:#f1eef8;
+--lap-accent:#6c5aa8;
+--lap-accent-dark:#52448b;
+
+--soft:#ece7db;
+--soft-dark:#e2dccd;
+
 --gold:#c79a2e;
---sand:#d9cfbf;
---shadow:0 12px 28px rgba(67,58,45,.10);
+--gold-bg:#fff7e6;
 }
+
+*{box-sizing:border-box;}
 
 body{
 margin:0;
-font-family:Arial, Helvetica, sans-serif;
+font-family:Arial;
 background:var(--bg);
 color:var(--text);
 }
 
 .container{
-max-width:980px;
+max-width:1050px;
 margin:auto;
 padding:28px 16px 40px;
 }
@@ -48,26 +54,27 @@ padding:12px 16px;
 font-size:15px;
 font-weight:bold;
 cursor:pointer;
-background:#ece7db;
+background:var(--soft);
 }
 
 .small-btn:hover{
-background:#e2dccd;
+background:var(--soft-dark);
 }
 
 .hero{
-background:var(--rose-soft);
+background:var(--lap-bg);
+border:1px solid var(--line);
+border-left:8px solid var(--lap-accent);
 border-radius:28px;
 padding:30px;
 margin-bottom:22px;
-box-shadow:var(--shadow);
 }
 
 .eyebrow{
 display:inline-block;
 padding:8px 14px;
 border-radius:999px;
-background:#edd3d9;
+background:#fff;
 font-size:14px;
 font-weight:bold;
 margin-bottom:14px;
@@ -76,73 +83,44 @@ margin-bottom:14px;
 h1{
 margin:0 0 10px 0;
 font-size:34px;
-color:var(--rose);
+color:var(--title);
 }
 
 .subtitle{
 font-size:20px;
-line-height:1.7;
+line-height:1.8;
+color:var(--muted);
 }
 
 .card{
-background:white;
+background:var(--card);
+border:1px solid var(--line);
 border-radius:24px;
 padding:22px;
-box-shadow:var(--shadow);
-margin-bottom:20px;
+margin-bottom:18px;
 }
 
 h2{
 margin:0 0 14px 0;
 font-size:28px;
-color:var(--rose);
-}
-
-p{
-font-size:18px;
-line-height:1.8;
-}
-
-label{
-display:block;
-font-size:17px;
-font-weight:bold;
-margin:14px 0 8px;
-}
-
-select{
-width:100%;
-padding:14px;
-border:1px solid var(--line);
-border-radius:14px;
-font-size:16px;
-background:#f7f8fb;
+color:var(--title);
 }
 
 .checkbox{
-margin-top:10px;
+margin-bottom:10px;
+font-size:18px;
 }
 
-.checkbox label{
-font-weight:normal;
+.checkbox input{
+margin-right:8px;
 }
 
 .mesario{
-margin-top:18px;
-background:#faf6ee;
+margin-top:14px;
+background:var(--gold-bg);
 border-left:7px solid var(--gold);
 border-radius:18px;
 padding:16px 18px;
-}
-
-.mesario-valor{
-margin-top:8px;
-padding:8px 12px;
-border-radius:12px;
-background:#fff7e6;
-border:1px solid #e2c98f;
-font-weight:bold;
-display:inline-block;
 }
 
 .actions{
@@ -153,42 +131,32 @@ margin-top:18px;
 }
 
 .main-btn{
-padding:18px;
-font-size:18px;
 border:none;
 border-radius:18px;
+padding:18px;
+font-size:18px;
+font-weight:bold;
 cursor:pointer;
 }
 
 .btn-next{
-background:var(--rose);
+background:var(--lap-accent);
 color:white;
 }
 
 .btn-next:hover{
-background:var(--rose-dark);
+background:var(--lap-accent-dark);
 }
 
 .btn-skip{
-background:var(--sand);
+background:var(--soft);
 }
 
 .hidden{
-display:none !important;
-}
-
-@media(max-width:800px){
-
-.topbar,
-.actions{
-grid-template-columns:1fr;
-display:grid;
-}
-
+display:none!important;
 }
 
 </style>
-
 </head>
 
 <body>
@@ -196,19 +164,40 @@ display:grid;
 <div class="container">
 
 <div class="topbar">
-<button class="small-btn" onclick="history.back()">← Retornar</button>
-<button class="small-btn" onclick="window.location.href='index.html'">Sair do sistema</button>
+
+<button class="small-btn"
+onclick="history.back()">
+
+← Retornar
+
+</button>
+
+<button class="small-btn"
+onclick="window.location.href='index.html'">
+
+Sair do sistema
+
+</button>
+
 </div>
 
 <section class="hero">
 
-<div class="eyebrow">Lapidar • Módulo 13</div>
+<div class="eyebrow">
 
-<h1>Lapidação Literária</h1>
+Lapidar • Módulo 13
+
+</div>
+
+<h1>
+
+Lapidação Literária
+
+</h1>
 
 <p class="subtitle">
 
-Aqui preservamos sua voz, fortalecemos sua narrativa e organizamos o ritmo do texto para que a obra se apresente com clareza e força ao leitor.
+Aqui preservamos sua voz autoral enquanto fortalecemos ritmo, clareza e coerência narrativa.
 
 </p>
 
@@ -216,69 +205,85 @@ Aqui preservamos sua voz, fortalecemos sua narrativa e organizamos o ritmo do te
 
 <section class="card">
 
-<h2>Escolha como deseja lapidar sua obra</h2>
+<h2>
 
-<label>Modo de trabalho</label>
+Selecione os ajustes desejados
 
-<select>
+</h2>
 
-<option>Humanização completa da obra</option>
+<label class="checkbox">
 
-<option>Selecionar ajustes específicos</option>
-
-</select>
-
-<div class="checkbox">
-
-<label>
 <input type="checkbox">
+
+Humanização completa da obra
+
+</label>
+
+<label class="checkbox">
+
+<input type="checkbox">
+
 Revisão de diálogos
+
 </label>
 
-<label>
+<label class="checkbox">
+
 <input type="checkbox">
+
 Coerência narrativa
+
 </label>
 
-<label>
+<label class="checkbox">
+
 <input type="checkbox">
+
 Ritmo textual
+
 </label>
 
-<label>
+<label class="checkbox">
+
 <input type="checkbox">
+
 Preservação de estilo autoral
+
 </label>
 
-</div>
+<div class="mesario"
+id="mesarioSecao">
 
-<div class="mesario" id="mesarioSecao">
+<strong>
 
-<h3>Mesário da seção</h3>
+Mesário da seção
 
-<p>Valor acumulado desta seção.</p>
+</strong>
 
-<div class="mesario-valor">
+<br>
 
-Humanização completa: R$ 25,00  
-Itens individuais: R$ 7,00 cada
+Valor acumulado desta lapidação.
 
-</div>
+<br><br>
+
+<strong>
+
+CVR sugerida desta seção: R$ 0,00
+
+</strong>
 
 </div>
 
 <div class="actions">
 
 <button class="main-btn btn-next"
-
-onclick="seguirParaProximo()">
+onclick="window.location.href='motor_sequencial.html'">
 
 Concluir esta etapa e seguir
 
 </button>
 
 <button class="main-btn btn-skip"
-
 onclick="window.location.href='motor_sequencial.html'">
 
 Pular este módulo por agora
@@ -302,12 +307,6 @@ if(perfil.includes("cortesia")){
 document.getElementById("mesarioSecao").classList.add("hidden");
 
 }
-
-}
-
-function seguirParaProximo(){
-
-window.location.href="motor_sequencial.html";
 
 }
 
