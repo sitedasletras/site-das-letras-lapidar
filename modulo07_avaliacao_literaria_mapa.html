@@ -1,331 +1,354 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lapidar • Módulo 07 — Avaliação Literária</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lapidar • Módulo 07 — Avaliação Literária</title>
+  <style>
+    :root{
+      --bg:#D9D9D9;
+      --card:#ffffff;
+      --line:#c4c4c4;
+      --text:#2f2a24;
+      --muted:#5a5a5a;
+      --title:#3d3d3d;
+      --accent:#7c7c7c;
+      --accent-dark:#616161;
+      --mesario-bg:#f8f8f8;
+      --mesario-line:#9a9a9a;
+      --shadow:0 12px 28px rgba(0,0,0,.10);
+    }
 
-<style>
-:root{
---bg:#f7f5ef;
---card:#ffffff;
---line:#d8d2c4;
---text:#2f2a24;
---muted:#5f574c;
---title:#6b5b46;
+    *{ box-sizing:border-box; }
 
---aval-bg:#f3ece8;
---aval-accent:#8d6654;
---aval-accent-dark:#6f4f41;
+    body{
+      margin:0;
+      font-family:Arial, Helvetica, sans-serif;
+      background:var(--bg);
+      color:var(--text);
+    }
 
---soft:#ece7db;
---soft-dark:#e2dccd;
+    .container{
+      max-width:1100px;
+      margin:auto;
+      padding:30px 18px 45px;
+    }
 
---gold:#c79a2e;
---gold-bg:#fff7e6;
-}
+    .topbar{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:18px;
+    }
 
-*{box-sizing:border-box;}
+    .small-btn{
+      border:none;
+      border-radius:14px;
+      padding:12px 16px;
+      font-weight:bold;
+      cursor:pointer;
+      background:rgba(255,255,255,.82);
+      color:#222;
+    }
 
-body{
-margin:0;
-font-family:Arial, Helvetica, sans-serif;
-background:var(--bg);
-color:var(--text);
-}
+    .small-btn:hover{
+      background:#fff;
+    }
 
-.container{
-max-width:1050px;
-margin:auto;
-padding:28px 16px 40px;
-}
+    .hero{
+      background:rgba(255,255,255,.6);
+      border-left:8px solid var(--accent);
+      border-radius:26px;
+      padding:28px;
+      margin-bottom:22px;
+      box-shadow:var(--shadow);
+    }
 
-.topbar{
-display:flex;
-justify-content:space-between;
-gap:12px;
-margin-bottom:18px;
-}
+    .eyebrow{
+      display:inline-block;
+      background:#fff;
+      padding:8px 14px;
+      border-radius:999px;
+      font-size:14px;
+      font-weight:bold;
+      margin-bottom:14px;
+      color:var(--title);
+    }
 
-.small-btn{
-border:none;
-border-radius:14px;
-padding:12px 16px;
-font-size:15px;
-font-weight:bold;
-cursor:pointer;
-background:var(--soft);
-color:var(--text);
-}
+    h1{
+      margin:0 0 10px;
+      font-size:34px;
+      color:var(--title);
+    }
 
-.small-btn:hover{
-background:var(--soft-dark);
-}
+    .subtitle{
+      font-size:20px;
+      line-height:1.8;
+      color:var(--muted);
+    }
 
-.hero{
-background:var(--aval-bg);
-border:1px solid var(--line);
-border-left:8px solid var(--aval-accent);
-border-radius:28px;
-padding:30px;
-margin-bottom:22px;
-}
+    .grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:18px;
+    }
 
-.eyebrow{
-display:inline-block;
-padding:8px 14px;
-border-radius:999px;
-background:#fff;
-font-size:14px;
-font-weight:bold;
-margin-bottom:14px;
-}
+    .card{
+      background:var(--card);
+      border-radius:24px;
+      padding:22px;
+      border:1px solid var(--line);
+      box-shadow:var(--shadow);
+    }
 
-h1{
-margin:0 0 10px 0;
-font-size:34px;
-color:var(--title);
-line-height:1.15;
-}
+    .wide{
+      grid-column:1 / -1;
+    }
 
-.subtitle{
-font-size:20px;
-line-height:1.8;
-color:var(--muted);
-margin:0;
-}
+    h2{
+      margin:0 0 12px;
+      font-size:26px;
+      color:var(--title);
+    }
 
-.grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:18px;
-margin-bottom:20px;
-}
+    label{
+      display:block;
+      font-weight:bold;
+      margin-top:14px;
+      margin-bottom:6px;
+      color:#000;
+    }
 
-.card{
-background:var(--card);
-border:1px solid var(--line);
-border-radius:24px;
-padding:22px;
-}
+    select{
+      width:100%;
+      padding:14px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background:#fff;
+      font-size:16px;
+      color:#000;
+    }
 
-.wide{
-grid-column:1 / -1;
-}
+    .field{
+      background:#fbfbfb;
+      border-radius:16px;
+      padding:14px;
+      border:1px solid var(--line);
+      margin-top:10px;
+    }
 
-h2{
-margin:0 0 14px 0;
-font-size:28px;
-color:var(--title);
-}
+    .field strong{
+      display:block;
+      margin-bottom:4px;
+      color:#000;
+    }
 
-label{
-display:block;
-font-weight:bold;
-margin:14px 0 8px;
-}
+    .field span{
+      color:#000;
+      line-height:1.7;
+    }
 
-select{
-width:100%;
-padding:14px;
-border-radius:14px;
-border:1px solid var(--line);
-background:#f7f8fb;
-font-size:16px;
-}
+    .preview{
+      background:#fbfbfb;
+      border-radius:22px;
+      padding:20px;
+      border:1px solid var(--line);
+    }
 
-.field{
-margin-top:12px;
-background:#faf8f2;
-border:1px solid var(--line);
-border-radius:16px;
-padding:14px 16px;
-}
+    .preview-box{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:18px;
+      line-height:1.8;
+      color:#222;
+    }
 
-.field strong{
-display:block;
-margin-bottom:6px;
-font-size:16px;
-color:#3d352d;
-}
+    .preview-box .preview-title{
+      font-size:20px;
+      font-weight:bold;
+      color:var(--title);
+      margin-bottom:10px;
+    }
 
-.field span{
-display:block;
-font-size:17px;
-color:#000;
-line-height:1.7;
-}
+    .preview-line{
+      margin-bottom:8px;
+    }
 
-.mesario{
-margin-top:14px;
-background:var(--gold-bg);
-border-left:7px solid var(--gold);
-border-radius:18px;
-padding:16px 18px;
-}
+    .mesario{
+      margin-top:16px;
+      background:var(--mesario-bg);
+      border-left:6px solid var(--mesario-line);
+      border-radius:18px;
+      padding:16px;
+    }
 
-.actions{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:14px;
-margin-top:18px;
-}
+    .actions{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
+      margin-top:18px;
+    }
 
-.main-btn{
-border:none;
-border-radius:18px;
-padding:18px;
-font-size:18px;
-font-weight:bold;
-cursor:pointer;
-}
+    .main-btn{
+      border:none;
+      border-radius:18px;
+      padding:18px;
+      font-size:18px;
+      font-weight:bold;
+      cursor:pointer;
+    }
 
-.btn-next{
-background:var(--aval-accent);
-color:#fff;
-}
+    .btn-next{
+      background:var(--accent);
+      color:#fff;
+    }
 
-.btn-next:hover{
-background:var(--aval-accent-dark);
-}
+    .btn-next:hover{
+      background:var(--accent-dark);
+    }
 
-.btn-skip{
-background:var(--soft);
-color:var(--text);
-}
+    .btn-skip{
+      background:rgba(255,255,255,.82);
+      color:var(--text);
+    }
 
-.btn-skip:hover{
-background:var(--soft-dark);
-}
+    .btn-skip:hover{
+      background:#fff;
+    }
 
-.hidden{
-display:none!important;
-}
-
-@media (max-width:900px){
-.grid,
-.actions,
-.topbar{
-grid-template-columns:1fr;
-display:grid;
-}
-
-h1{font-size:30px;}
-h2{font-size:25px;}
-}
-</style>
+    @media(max-width:900px){
+      .grid, .actions, .topbar{
+        grid-template-columns:1fr;
+        display:grid;
+      }
+    }
+  </style>
 </head>
-
 <body>
 
 <div class="container">
 
-<div class="topbar">
-<button class="small-btn" onclick="history.back()">← Retornar</button>
-<button class="small-btn" onclick="window.location.href='index.html'">Sair do sistema</button>
-</div>
+  <div class="topbar">
+    <button class="small-btn" onclick="history.back()">← Retornar</button>
+    <button class="small-btn" onclick="window.location.href='index.html'">Sair do sistema</button>
+  </div>
 
-<section class="hero">
-<div class="eyebrow">Lapidar • Módulo 07</div>
-<h1>Avaliação Literária</h1>
-<p class="subtitle">
-Aqui observamos sua obra com atenção técnica e sensível, indicando caminhos possíveis para fortalecer sua estrutura.
-</p>
-</section>
+  <section class="hero">
+    <div class="eyebrow">📓 Lapidar • Módulo 07</div>
+    <h1>Avaliação Literária</h1>
+    <p class="subtitle">
+      Aqui observamos sua obra com atenção técnica e sensível, indicando caminhos possíveis para fortalecer sua estrutura.
+    </p>
+  </section>
 
-<div class="grid">
+  <div class="grid">
 
-<section class="card">
-<h2>Dados principais da obra</h2>
+    <section class="card">
+      <h2>Dados da obra</h2>
 
-<div class="field">
-<strong>Título da obra</strong>
-<span id="tituloObra">Aguardando identificação da obra</span>
-</div>
+      <div class="field">
+        <strong>Título</strong>
+        <span id="tituloObra">Aguardando identificação</span>
+      </div>
 
-<div class="field">
-<strong>Autor</strong>
-<span id="autorObra">Aguardando identificação do autor</span>
-</div>
+      <div class="field">
+        <strong>Autor</strong>
+        <span id="autorObra">Aguardando identificação</span>
+      </div>
 
-<div class="field">
-<strong>Idioma base</strong>
-<span id="idiomaObra">Aguardando idioma da obra</span>
-</div>
-</section>
+      <div class="field">
+        <strong>Idioma base</strong>
+        <span id="idiomaObra">Aguardando idioma</span>
+      </div>
+    </section>
 
-<section class="card">
-<h2>Tipo de avaliação</h2>
+    <section class="card">
+      <h2>Configuração da avaliação</h2>
 
-<label for="tipoParecer">Tipo de parecer</label>
-<select id="tipoParecer">
-<option>Parecer geral da obra</option>
-<option>Parecer narrativo</option>
-<option>Parecer estrutural</option>
-<option>Parecer editorial ampliado</option>
-</select>
+      <label for="tipoParecer">Tipo de parecer</label>
+      <select id="tipoParecer" onchange="atualizarPreview()">
+        <option>Parecer geral da obra</option>
+        <option>Parecer narrativo</option>
+        <option>Parecer estrutural</option>
+        <option>Parecer editorial ampliado</option>
+      </select>
 
-<label for="profundidadeAnalise">Profundidade da análise</label>
-<select id="profundidadeAnalise">
-<option>Leitura inicial</option>
-<option>Leitura intermediária</option>
-<option>Leitura aprofundada</option>
-<option>Leitura completa</option>
-</select>
-</section>
+      <label for="profundidadeAnalise">Profundidade da análise</label>
+      <select id="profundidadeAnalise" onchange="atualizarPreview()">
+        <option>Leitura inicial</option>
+        <option>Leitura intermediária</option>
+        <option>Leitura aprofundada</option>
+        <option>Leitura completa</option>
+      </select>
+    </section>
 
-<section class="card wide">
-<h2>Encaminhamento da leitura</h2>
+    <section class="card wide">
+      <h2>Palhinha da leitura crítica</h2>
 
-<label for="objetivoAvaliacao">Objetivo principal da avaliação</label>
-<select id="objetivoAvaliacao">
-<option>Fortalecer a estrutura da obra</option>
-<option>Preparar para lapidação literária</option>
-<option>Preparar para publicação</option>
-<option>Preparar para leitura externa</option>
-</select>
+      <div class="preview">
+        <div class="preview-box">
+          <div class="preview-title" id="previewTipo">Parecer geral da obra</div>
+          <div class="preview-line"><strong>Obra:</strong> <span id="previewTitulo">Título da obra</span></div>
+          <div class="preview-line"><strong>Autor:</strong> <span id="previewAutor">Autor</span></div>
+          <div class="preview-line"><strong>Profundidade:</strong> <span id="previewProfundidade">Leitura inicial</span></div>
+          <div class="preview-line"><strong>Direção editorial:</strong> A obra será observada com atenção técnica para indicar os caminhos mais fortes do seu desenvolvimento literário.</div>
+        </div>
+      </div>
 
-<div class="mesario" id="mesarioSecao">
-<strong>Mesário da seção</strong><br>
-Valor acumulado desta avaliação.<br><br>
-<strong>CVR sugerida desta seção: R$ 0,00</strong>
-</div>
+      <div class="mesario" id="mesarioSecao">
+        <strong>Mesário da seção</strong><br>
+        Valor acumulado desta avaliação.<br><br>
+        <strong>CVR sugerida desta seção: R$ 0,00</strong>
+      </div>
 
-<div class="actions">
-<button class="main-btn btn-next" onclick="window.location.href='motor_sequencial.html'">
-Concluir esta etapa e seguir
-</button>
+      <div class="actions">
+        <button class="main-btn btn-next" onclick="window.location.href='motor_sequencial.html'">
+          Concluir esta etapa e seguir
+        </button>
 
-<button class="main-btn btn-skip" onclick="window.location.href='motor_sequencial.html'">
-Pular este módulo por agora
-</button>
-</div>
-</section>
+        <button class="main-btn btn-skip" onclick="window.location.href='motor_sequencial.html'">
+          Pular este módulo por agora
+        </button>
+      </div>
+    </section>
 
-</div>
+  </div>
 
 </div>
 
 <script>
-function preencherDadosDaObra(){
-const titulo = localStorage.getItem("lapidar_titulo_obra") || "Aguardando identificação da obra";
-const autor = localStorage.getItem("lapidar_autor_obra") || "Aguardando identificação do autor";
-const idioma = localStorage.getItem("lapidar_idioma_obra") || "Aguardando idioma da obra";
+  function preencherDados(){
+    const titulo = localStorage.getItem("lapidar_titulo_obra") || "Título da obra";
+    const autor = localStorage.getItem("lapidar_autor_obra") || "Autor";
+    const idioma = localStorage.getItem("lapidar_idioma_obra") || "Idioma base";
 
-document.getElementById("tituloObra").textContent = titulo;
-document.getElementById("autorObra").textContent = autor;
-document.getElementById("idiomaObra").textContent = idioma;
-}
+    document.getElementById("tituloObra").textContent = titulo;
+    document.getElementById("autorObra").textContent = autor;
+    document.getElementById("idiomaObra").textContent = idioma;
 
-function aplicarRegraPerfil(){
-const perfil=(localStorage.getItem("lapidar_perfil")||"").toLowerCase();
-if(perfil.includes("cortesia")){
-document.getElementById("mesarioSecao").classList.add("hidden");
-}
-}
+    document.getElementById("previewTitulo").textContent = titulo;
+    document.getElementById("previewAutor").textContent = autor;
+  }
 
-preencherDadosDaObra();
-aplicarRegraPerfil();
+  function atualizarPreview(){
+    document.getElementById("previewTipo").textContent =
+      document.getElementById("tipoParecer").value;
+
+    document.getElementById("previewProfundidade").textContent =
+      document.getElementById("profundidadeAnalise").value;
+  }
+
+  function aplicarPerfil(){
+    const perfil = (localStorage.getItem("lapidar_perfil") || "").toLowerCase();
+    if(perfil.includes("cortesia")){
+      document.getElementById("mesarioSecao").style.display = "none";
+    }
+  }
+
+  preencherDados();
+  atualizarPreview();
+  aplicarPerfil();
 </script>
 
 </body>
