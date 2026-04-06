@@ -1,291 +1,247 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lapidar — Acesso</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lapidar • Login</title>
+  <style>
+    :root{
+      --bg:#e8d7a4;
+      --cross:#d7c187;
+      --card:#ffffff;
+      --text:#1f2430;
+      --muted:#7b7f87;
+      --blue:#244786;
+      --blue-dark:#1c3768;
+      --gold:#d7ad3a;
+      --gold-dark:#be972d;
+      --gray:#ececec;
+      --gray-dark:#dcdcdc;
+      --shadow:0 18px 40px rgba(0,0,0,.14);
+      --line:#e6e6e6;
+    }
 
-<style>
-*{
-box-sizing:border-box;
-}
+    *{ box-sizing:border-box; }
 
-html, body{
-margin:0;
-padding:0;
-width:100%;
-height:100%;
-font-family:Arial, sans-serif;
-background:#efe2b8;
-overflow:hidden;
-}
+    body{
+      margin:0;
+      min-height:100vh;
+      font-family:Arial, Helvetica, sans-serif;
+      color:var(--text);
+      background:
+        linear-gradient(to right,
+          transparent 0,
+          transparent calc(50% - 56px),
+          var(--cross) calc(50% - 56px),
+          var(--cross) calc(50% + 56px),
+          transparent calc(50% + 56px),
+          transparent 100%),
+        linear-gradient(to bottom,
+          transparent 0,
+          transparent calc(50% - 42px),
+          var(--cross) calc(50% - 42px),
+          var(--cross) calc(50% + 42px),
+          transparent calc(50% + 42px),
+          transparent 100%),
+        var(--bg);
+      display:flex;
+      align-items:flex-start;
+      justify-content:center;
+      padding:36px 18px;
+    }
 
-body{
-position:relative;
-display:flex;
-align-items:center;
-justify-content:center;
-}
+    .wrap{
+      width:100%;
+      max-width:420px;
+      text-align:center;
+    }
 
-/* FUNDO EXTERNO PERGAMINHO CLARO */
-.fundo-externo{
-position:fixed;
-inset:0;
-background:#e6d6a6;
-z-index:0;
-}
+    .seal{
+      width:100px;
+      height:100px;
+      object-fit:contain;
+      display:block;
+      margin:0 auto 16px;
+      background:#ead6af;
+    }
 
-/* CRUZ CENTRAL EM TOM MAIS ESCURO */
-.cruz-vertical{
-position:fixed;
-top:0;
-bottom:0;
-left:50%;
-transform:translateX(-50%);
-width:24vw;
-min-width:120px;
-max-width:190px;
-background:#d6c08a;
-z-index:1;
-}
+    .card{
+      background:var(--card);
+      border-radius:26px;
+      box-shadow:var(--shadow);
+      padding:26px 18px 20px;
+      text-align:left;
+    }
 
-.cruz-horizontal{
-position:fixed;
-left:0;
-right:0;
-top:50%;
-transform:translateY(-50%);
-height:24vw;
-min-height:120px;
-max-height:190px;
-background:#d6c08a;
-z-index:1;
-}
+    h1{
+      margin:0;
+      font-size:26px;
+      font-weight:800;
+      letter-spacing:.4px;
+      text-align:center;
+    }
 
-/* SELO FORA DA CAIXA BRANCA */
-.selo-topo{
-position:fixed;
-left:50%;
-top:4.5vh;
-transform:translateX(-50%);
-z-index:4;
-width:min(34vw, 180px);
-display:flex;
-justify-content:center;
-pointer-events:none;
-}
+    .sub{
+      margin:8px 0 18px;
+      text-align:center;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.5;
+    }
 
-.selo-topo img{
-width:100%;
-height:auto;
-display:block;
-object-fit:contain;
-}
+    label{
+      display:block;
+      font-size:12px;
+      font-weight:700;
+      margin:12px 0 6px;
+      color:#4d535d;
+    }
 
-/* CAIXA BRANCA */
-.login-box{
-position:relative;
-z-index:3;
-background:#ffffff;
-width:min(78vw, 500px);
-height:75vh;
-max-height:760px;
-min-height:520px;
-border-radius:22px;
-box-shadow:0 14px 40px rgba(0,0,0,0.16);
-padding:clamp(22px, 4vw, 34px);
-padding-top:clamp(110px, 16vh, 145px);
-display:flex;
-flex-direction:column;
-justify-content:flex-start;
-align-items:center;
-text-align:center;
-}
+    input{
+      width:100%;
+      border:1px solid var(--line);
+      border-radius:12px;
+      padding:13px 14px;
+      font-size:15px;
+      outline:none;
+    }
 
-/* TÍTULO E SUBTÍTULO */
-.logo-titulo{
-margin:0;
-font-size:clamp(24px, 5vw, 42px);
-font-weight:800;
-letter-spacing:1px;
-color:#111827;
-}
+    input:focus{
+      border-color:#bfc8d8;
+    }
 
-.logo-sub{
-margin:10px 0 26px 0;
-font-size:clamp(13px, 2vw, 16px);
-line-height:1.6;
-color:#6b7280;
-max-width:92%;
-}
+    .btn{
+      width:100%;
+      border:none;
+      border-radius:12px;
+      padding:14px 16px;
+      font-size:16px;
+      font-weight:700;
+      cursor:pointer;
+      margin-top:12px;
+      transition:.18s ease;
+    }
 
-/* FORMULÁRIO */
-.form-area{
-width:100%;
-max-width:380px;
-margin:0 auto;
-}
+    .btn:hover{
+      transform:translateY(-1px);
+    }
 
-label{
-display:block;
-text-align:left;
-margin:12px 0 6px;
-font-size:14px;
-font-weight:700;
-color:#374151;
-}
+    .btn-primary{
+      background:var(--blue);
+      color:#fff;
+    }
 
-input{
-width:100%;
-padding:14px 16px;
-border:1px solid #d1d5db;
-border-radius:12px;
-font-size:16px;
-outline:none;
-background:#fff;
-transition:0.2s;
-}
+    .btn-primary:hover{
+      background:var(--blue-dark);
+    }
 
-input:focus{
-border-color:#b58f2e;
-box-shadow:0 0 0 3px rgba(181,143,46,0.12);
-}
+    .btn-gold{
+      background:var(--gold);
+      color:#fff;
+    }
 
-/* BOTÕES */
-button,
-.btn-secundario,
-.btn-neutro{
-width:100%;
-padding:14px 16px;
-border:none;
-border-radius:12px;
-font-size:16px;
-font-weight:700;
-cursor:pointer;
-text-decoration:none;
-display:flex;
-align-items:center;
-justify-content:center;
-margin-top:14px;
-transition:0.2s;
-}
+    .btn-gold:hover{
+      background:var(--gold-dark);
+    }
 
-button{
-background:#284b87;
-color:#ffffff;
-}
+    .btn-gray{
+      background:var(--gray);
+      color:#666;
+    }
 
-button:hover{
-background:#1f3c6d;
-}
+    .btn-gray:hover{
+      background:var(--gray-dark);
+    }
 
-.btn-secundario{
-background:#d3ab3a;
-color:#ffffff;
-}
+    .footer{
+      margin-top:16px;
+      text-align:center;
+      color:#8b8f96;
+      font-size:12px;
+      line-height:1.5;
+    }
 
-.btn-secundario:hover{
-background:#bb952d;
-}
-
-.btn-neutro{
-background:#efefef;
-color:#4b5563;
-}
-
-.btn-neutro:hover{
-background:#e4e4e4;
-}
-
-/* RODAPÉ */
-.rodape-login{
-margin-top:auto;
-padding-top:22px;
-font-size:12px;
-line-height:1.7;
-color:#6b7280;
-}
-
-/* MOBILE FINO */
-@media (max-width:520px){
-.cruz-vertical{
-width:28vw;
-min-width:110px;
-}
-
-.cruz-horizontal{
-height:28vw;
-min-height:110px;
-}
-
-.selo-topo{
-top:5vh;
-width:min(40vw, 165px);
-}
-
-.login-box{
-width:86vw;
-height:75vh;
-min-height:500px;
-padding:24px;
-padding-top:120px;
-border-radius:20px;
-}
-
-.form-area{
-max-width:100%;
-}
-}
-
-/* TELAS MAIS BAIXAS */
-@media (max-height:720px){
-.selo-topo{
-top:3vh;
-width:min(30vw, 145px);
-}
-
-.login-box{
-height:78vh;
-padding-top:100px;
-min-height:470px;
-}
-}
-</style>
+    .msg{
+      margin-top:12px;
+      font-size:13px;
+      line-height:1.5;
+      color:#7c3d3d;
+      min-height:20px;
+      text-align:center;
+      font-weight:700;
+    }
+  </style>
 </head>
 <body>
+  <div class="wrap">
+    <img class="seal" src="https://via.placeholder.com/100x100?text=Site+das+Letras" alt="Selo Lapidar">
 
-<div class="fundo-externo"></div>
-<div class="cruz-vertical"></div>
-<div class="cruz-horizontal"></div>
+    <div class="card">
+      <h1>LAPIDAR</h1>
+      <div class="sub">
+        Produto institucional do Celeiro Literário<br>
+        Site das Letras Edições Literárias
+      </div>
 
-<div class="selo-topo">
-  <img src="selo-lapidar.png" alt="Selo Lapidar">
-</div>
+      <label for="email">Login ou e-mail</label>
+      <input id="email" type="text" placeholder="Digite seu e-mail ou telefone internacional">
 
-<div class="login-box">
-  <h1 class="logo-titulo">LAPIDAR</h1>
-  <div class="logo-sub">
-    Produto institucional do Celeiro Literário<br>
-    Site das Letras Edições Literárias
+      <label for="senha">Senha</label>
+      <input id="senha" type="password" placeholder="Digite sua senha">
+
+      <button class="btn btn-primary" onclick="entrarNoLapidar()">
+        Entrar no Lapidar
+      </button>
+
+      <button class="btn btn-gold" onclick="window.location.href='cadastro.html'">
+        Criar cadastro
+      </button>
+
+      <button class="btn btn-gray" onclick="window.location.href='recuperar_senha.html'">
+        Recuperar senha
+      </button>
+
+      <div id="mensagem" class="msg"></div>
+
+      <div class="footer">
+        Lapidar &nbsp;•&nbsp; Celeiro Literário &nbsp;•&nbsp; Site das Letras Edições Literárias
+      </div>
+    </div>
   </div>
 
-  <form class="form-area">
-    <label for="login">Login ou e-mail</label>
-    <input id="login" type="text" placeholder="Digite seu e-mail ou telefone internacional">
+  <script>
+    function entrarNoLapidar(){
+      const email = document.getElementById("email").value.trim().toLowerCase();
+      const senha = document.getElementById("senha").value.trim();
+      const msg = document.getElementById("mensagem");
 
-    <label for="senha">Senha</label>
-    <input id="senha" type="password" placeholder="Digite sua senha">
+      if(!email || !senha){
+        msg.textContent = "Preencha login e senha para continuar.";
+        return;
+      }
 
-    <button type="submit">Entrar no Lapidar</button>
+      // Recria a memória local básica do sistema
+      let perfil = "utilizador";
 
-    <a class="btn-secundario" href="cadastro.html">Criar cadastro</a>
-    <a class="btn-neutro" href="recuperar_senha.html">Recuperar senha</a>
-  </form>
+      if(email.includes("admin")){
+        perfil = "admin";
+      }else if(email.includes("heteronimo") || email.includes("heterônimo") || email.includes("hetero")){
+        perfil = "heteronimo";
+      }else if(email.includes("cortesia")){
+        perfil = "cortesia";
+      }
 
-  <div class="rodape-login">
-    Lapidar &nbsp;•&nbsp; Celeiro Literário &nbsp;•&nbsp; Site das Letras Edições Literárias
-  </div>
-</div>
+      localStorage.setItem("lapidar_perfil", perfil);
+      localStorage.setItem("lapidar_sessao_ativa", "true");
+      localStorage.setItem("lapidar_email", email);
 
+      // Roteamento principal
+      if(perfil === "admin" || perfil === "heteronimo"){
+        window.location.href = "admin_painel.html";
+      }else{
+        window.location.href = "pagina_institucional_lapidar.html";
+      }
+    }
+  </script>
 </body>
 </html>
