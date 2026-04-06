@@ -8,19 +8,20 @@
     :root{
       --bg:#f7f5ef;
       --card:#ffffff;
-      --line:#c9c1b2;
+      --line:#d8d2c4;
       --text:#2f2a24;
       --muted:#5f574c;
-      --hero:#f1e8d8;
-      --hero-dark:#8a6a43;
+      --hero:#faf8f2;
+      --hero-dark:#6b5b46;
       --soft:#ece7db;
       --soft-dark:#e2dccd;
       --green:#6c9b86;
       --green-dark:#537a68;
-      --blue-soft:#e3edf7;
       --gold:#c79a2e;
       --gold-bg:#fff7e6;
       --danger:#9a4d4d;
+      --danger-bg:#f7e6e6;
+      --status:#e3edf7;
       --shadow:0 12px 28px rgba(67,58,45,.10);
     }
 
@@ -76,7 +77,7 @@
       display:inline-block;
       padding:8px 14px;
       border-radius:999px;
-      background:#e4dccb;
+      background:#efe9dc;
       color:#6b5b46;
       font-size:14px;
       font-weight:bold;
@@ -93,8 +94,8 @@
     .subtitle{
       margin:0;
       font-size:20px;
+      line-height:1.8;
       color:var(--muted);
-      line-height:1.7;
     }
 
     .grid{
@@ -175,7 +176,7 @@
     }
 
     .status{
-      background:var(--blue-soft);
+      background:var(--status);
       border:1px solid #c8d9ee;
       border-left:7px solid var(--green);
       border-radius:18px;
@@ -186,7 +187,7 @@
     }
 
     .warning{
-      background:#f7e6e6;
+      background:var(--danger-bg);
       border:1px solid #e5bcbc;
       border-left:7px solid var(--danger);
       border-radius:18px;
@@ -254,7 +255,7 @@
     }
 
     .btn-next{
-      background:var(--hero-dark);
+      background:#8a6a43;
       color:#fff;
     }
 
@@ -382,16 +383,16 @@
       <section class="card wide">
         <h2>Identificação inicial da obra</h2>
 
-        <label for="tituloObra">Título da obra</label>
+        <label for="tituloObra"><strong>Título da obra</strong></label>
         <input type="text" id="tituloObra" placeholder="O título pode ser confirmado ou ajustado depois." />
 
-        <label for="subtituloObra">Subtítulo</label>
+        <label for="subtituloObra"><strong>Subtítulo</strong></label>
         <input type="text" id="subtituloObra" placeholder="Opcional" />
 
-        <label for="autorObra">Autor</label>
+        <label for="autorObra"><strong>Autor</strong></label>
         <input type="text" id="autorObra" placeholder="Nome do autor ou heterônimo" />
 
-        <label for="textoBase">Texto-base ou observações iniciais</label>
+        <label for="textoBase"><strong>Texto-base ou observações iniciais</strong></label>
         <textarea id="textoBase" placeholder="Se quiser, você também pode colar aqui um trecho, observação ou recado sobre a obra."></textarea>
       </section>
 
@@ -463,8 +464,14 @@
       const arquivo = document.getElementById("arquivoObra").files.length;
       const imagens = document.getElementById("arquivoImagens").files.length;
       const titulo = document.getElementById("tituloObra").value.trim();
+      const subtitulo = document.getElementById("subtituloObra").value.trim();
       const autor = document.getElementById("autorObra").value.trim();
       const idioma = document.getElementById("idiomaBase").value;
+
+      localStorage.setItem("lapidar_titulo_obra", titulo || "Aguardando identificação da obra");
+      localStorage.setItem("lapidar_subtitulo_obra", subtitulo || "");
+      localStorage.setItem("lapidar_autor_obra", autor || "Aguardando identificação do autor");
+      localStorage.setItem("lapidar_idioma_obra", idioma);
 
       let linhas = [];
 
@@ -499,6 +506,16 @@
     }
 
     function seguirParaSelecao(){
+      const titulo = document.getElementById("tituloObra").value.trim();
+      const subtitulo = document.getElementById("subtituloObra").value.trim();
+      const autor = document.getElementById("autorObra").value.trim();
+      const idioma = document.getElementById("idiomaBase").value;
+
+      localStorage.setItem("lapidar_titulo_obra", titulo || "Aguardando identificação da obra");
+      localStorage.setItem("lapidar_subtitulo_obra", subtitulo || "");
+      localStorage.setItem("lapidar_autor_obra", autor || "Aguardando identificação do autor");
+      localStorage.setItem("lapidar_idioma_obra", idioma);
+
       window.location.href = "selecionar_modulos.html";
     }
 
