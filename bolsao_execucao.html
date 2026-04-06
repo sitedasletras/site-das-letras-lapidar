@@ -35,7 +35,7 @@
     }
 
     .container{
-      max-width:1050px;
+      max-width:1100px;
       margin:0 auto;
       padding:28px 16px 40px;
     }
@@ -273,6 +273,27 @@
       gap:14px;
     }
 
+    .obra-memory{
+      background:#faf8f2;
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:18px;
+      margin-top:10px;
+    }
+
+    .obra-memory strong{
+      display:block;
+      margin-bottom:8px;
+      color:#3d352d;
+    }
+
+    .obra-memory span{
+      display:block;
+      color:#000;
+      line-height:1.7;
+      margin-bottom:4px;
+    }
+
     .footer-note{
       margin-top:14px;
       text-align:center;
@@ -325,7 +346,7 @@
         </div>
 
         <label for="idiomaBase">Idioma base da obra</label>
-        <select id="idiomaBase">
+        <select id="idiomaBase" onchange="salvarMemoriaDaObra()">
           <option>Português do Brasil</option>
           <option>Português de Portugal</option>
           <option>Português internacional lusófono</option>
@@ -384,16 +405,24 @@
         <h2>Identificação inicial da obra</h2>
 
         <label for="tituloObra"><strong>Título da obra</strong></label>
-        <input type="text" id="tituloObra" placeholder="O título pode ser confirmado ou ajustado depois." />
+        <input type="text" id="tituloObra" placeholder="O título pode ser confirmado ou ajustado depois." oninput="salvarMemoriaDaObra()" />
 
         <label for="subtituloObra"><strong>Subtítulo</strong></label>
-        <input type="text" id="subtituloObra" placeholder="Opcional" />
+        <input type="text" id="subtituloObra" placeholder="Opcional" oninput="salvarMemoriaDaObra()" />
 
         <label for="autorObra"><strong>Autor</strong></label>
-        <input type="text" id="autorObra" placeholder="Nome do autor ou heterônimo" />
+        <input type="text" id="autorObra" placeholder="Nome do autor ou heterônimo" oninput="salvarMemoriaDaObra()" />
 
         <label for="textoBase"><strong>Texto-base ou observações iniciais</strong></label>
-        <textarea id="textoBase" placeholder="Se quiser, você também pode colar aqui um trecho, observação ou recado sobre a obra."></textarea>
+        <textarea id="textoBase" placeholder="Se quiser, você também pode colar aqui um trecho, observação ou recado sobre a obra." oninput="salvarMemoriaDaObra()"></textarea>
+
+        <div class="obra-memory">
+          <strong>Memória atual da obra no sistema</strong>
+          <span id="memTitulo">Título: ainda não informado</span>
+          <span id="memSubtitulo">Subtítulo: ainda não informado</span>
+          <span id="memAutor">Autor: ainda não informado</span>
+          <span id="memIdioma">Idioma: ainda não informado</span>
+        </div>
       </section>
 
       <section class="card wide">
@@ -460,23 +489,54 @@
       }
     }
 
-    function prepararObra(){
-      const arquivo = document.getElementById("arquivoObra").files.length;
-      const imagens = document.getElementById("arquivoImagens").files.length;
+    function salvarMemoriaDaObra(){
       const titulo = document.getElementById("tituloObra").value.trim();
       const subtitulo = document.getElementById("subtituloObra").value.trim();
       const autor = document.getElementById("autorObra").value.trim();
       const idioma = document.getElementById("idiomaBase").value;
+      const observacoes = document.getElementById("textoBase").value.trim();
 
-      localStorage.setItem("lapidar_titulo_obra", titulo || "Aguardando identificação da obra");
-      localStorage.setItem("lapidar_subtitulo_obra", subtitulo || "");
-      localStorage.setItem("lapidar_autor_obra", autor || "Aguardando identificação do autor");
+      localStorage.setItem("lapidar_titulo_obra", titulo);
+      localStorage.setItem("lapidar_subtitulo_obra", subtitulo);
+      localStorage.setItem("lapidar_autor_obra", autor);
       localStorage.setItem("lapidar_idioma_obra", idioma);
+      localStorage.setItem("lapidar_observacoes_obra", observacoes);
+
+      document.getElementById("memTitulo").textContent = "Título: " + (titulo || "ainda não informado");
+      document.getElementById("memSubtitulo").textContent = "Subtítulo: " + (subtitulo || "ainda não informado");
+      document.getElementById("memAutor").textContent = "Autor: " + (autor || "ainda não informado");
+      document.getElementById("memIdioma").textContent = "Idioma: " + (idioma || "ainda não informado");
+    }
+
+    function carregarMemoriaDaObra(){
+      const titulo = localStorage.getItem("lapidar_titulo_obra") || "";
+      const subtitulo = localStorage.getItem("lapidar_subtitulo_obra") || "";
+      const autor = localStorage.getItem("lapidar_autor_obra") || "";
+      const idioma = localStorage.getItem("lapidar_idioma_obra") || "Português do Brasil";
+      const observacoes = localStorage.getItem("lapidar_observacoes_obra") || "";
+
+      document.getElementById("tituloObra").value = titulo;
+      document.getElementById("subtituloObra").value = subtitulo;
+      document.getElementById("autorObra").value = autor;
+      document.getElementById("idiomaBase").value = idioma;
+      document.getElementById("textoBase").value = observacoes;
+
+      salvarMemoriaDaObra();
+    }
+
+    function prepararObra(){
+      salvarMemoriaDaObra();
+
+      const arquivo = document.getElementById("arquivoObra").files.length;
+      const imagens = document.getElementById("arquivoImagens").files.length;
+      const titulo = localStorage.getItem("lapidar_titulo_obra") || "";
+      const autor = localStorage.getItem("lapidar_autor_obra") || "";
+      const idioma = localStorage.getItem("lapidar_idioma_obra") || "";
 
       let linhas = [];
 
       linhas.push("Preparação inicial concluída.");
-      linhas.push("Idioma base identificado: " + idioma + ".");
+      linhas.push("Idioma base identificado: " + (idioma || "não informado") + ".");
 
       if(arquivo > 0){
         linhas.push("Arquivo principal recebido para leitura.");
@@ -506,21 +566,13 @@
     }
 
     function seguirParaSelecao(){
-      const titulo = document.getElementById("tituloObra").value.trim();
-      const subtitulo = document.getElementById("subtituloObra").value.trim();
-      const autor = document.getElementById("autorObra").value.trim();
-      const idioma = document.getElementById("idiomaBase").value;
-
-      localStorage.setItem("lapidar_titulo_obra", titulo || "Aguardando identificação da obra");
-      localStorage.setItem("lapidar_subtitulo_obra", subtitulo || "");
-      localStorage.setItem("lapidar_autor_obra", autor || "Aguardando identificação do autor");
-      localStorage.setItem("lapidar_idioma_obra", idioma);
-
+      salvarMemoriaDaObra();
       window.location.href = "selecionar_modulos.html";
     }
 
     aplicarRegraPerfil();
     verificarAutorizacao();
+    carregarMemoriaDaObra();
   </script>
 </body>
 </html>
