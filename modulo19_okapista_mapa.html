@@ -1,349 +1,705 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lapidar • Módulo 19 — OKapista</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lapidar • Módulo 19 — OKapista</title>
+  <style>
+    :root{
+      --bg:#f7f5ef;
+      --card:#ffffff;
+      --line:#d8d2c4;
+      --text:#2f2a24;
+      --muted:#5f574c;
+      --title:#6b5b46;
 
-<style>
+      --cap-bg:#f6f1e4;
+      --cap-accent:#b89042;
+      --cap-accent-dark:#927232;
 
-:root{
---bg:#f7f5ef;
---card:#ffffff;
---line:#d8d2c4;
---text:#2f2a24;
---muted:#5f574c;
---title:#6b5b46;
+      --soft:#ece7db;
+      --soft-dark:#e2dccd;
 
---cap-bg:#f6f1e4;
---cap-accent:#b89042;
---cap-accent-dark:#927232;
+      --gold:#c79a2e;
+      --gold-bg:#fff7e6;
 
---soft:#ece7db;
---soft-dark:#e2dccd;
+      --shadow:0 12px 28px rgba(67,58,45,.10);
+    }
 
---gold:#c79a2e;
---gold-bg:#fff7e6;
-}
+    *{ box-sizing:border-box; }
 
-*{box-sizing:border-box;}
+    body{
+      margin:0;
+      font-family:Arial, Helvetica, sans-serif;
+      background:var(--bg);
+      color:var(--text);
+    }
 
-body{
-margin:0;
-font-family:Arial, Helvetica, sans-serif;
-background:var(--bg);
-color:var(--text);
-}
+    .container{
+      max-width:1150px;
+      margin:auto;
+      padding:28px 16px 40px;
+    }
 
-.container{
-max-width:1050px;
-margin:auto;
-padding:28px 16px 40px;
-}
+    .topbar{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:18px;
+    }
 
-.topbar{
-display:flex;
-justify-content:space-between;
-gap:12px;
-margin-bottom:18px;
-}
+    .small-btn{
+      border:none;
+      border-radius:14px;
+      padding:12px 16px;
+      font-size:15px;
+      font-weight:bold;
+      cursor:pointer;
+      background:var(--soft);
+      color:var(--text);
+      transition:.2s ease;
+    }
 
-.small-btn{
-border:none;
-border-radius:14px;
-padding:12px 16px;
-font-size:15px;
-font-weight:bold;
-cursor:pointer;
-background:var(--soft);
-color:var(--text);
-transition:.2s ease;
-}
+    .small-btn:hover{
+      background:var(--soft-dark);
+      transform:translateY(-1px);
+    }
 
-.small-btn:hover{
-background:var(--soft-dark);
-transform:translateY(-1px);
-}
+    .hero{
+      background:var(--cap-bg);
+      border:1px solid var(--line);
+      border-left:8px solid var(--cap-accent);
+      border-radius:28px;
+      padding:30px;
+      margin-bottom:22px;
+      box-shadow:var(--shadow);
+    }
 
-.hero{
-background:var(--cap-bg);
-border:1px solid var(--line);
-border-left:8px solid var(--cap-accent);
-border-radius:28px;
-padding:30px;
-margin-bottom:22px;
-}
+    .eyebrow{
+      display:inline-block;
+      padding:8px 14px;
+      border-radius:999px;
+      background:#fff;
+      font-size:14px;
+      font-weight:bold;
+      margin-bottom:14px;
+      color:#6a5435;
+    }
 
-.eyebrow{
-display:inline-block;
-padding:8px 14px;
-border-radius:999px;
-background:#fff;
-font-size:14px;
-font-weight:bold;
-margin-bottom:14px;
-}
+    h1{
+      margin:0 0 10px 0;
+      font-size:34px;
+      line-height:1.15;
+      color:var(--title);
+    }
 
-h1{
-margin:0 0 10px 0;
-font-size:34px;
-line-height:1.15;
-color:var(--title);
-}
+    .subtitle{
+      margin:0;
+      font-size:20px;
+      line-height:1.8;
+      color:var(--muted);
+    }
 
-.subtitle{
-margin:0;
-font-size:20px;
-line-height:1.8;
-color:var(--muted);
-}
+    .grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:18px;
+      margin-bottom:20px;
+    }
 
-.grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:18px;
-margin-bottom:20px;
-}
+    .card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:24px;
+      padding:22px;
+      box-shadow:var(--shadow);
+    }
 
-.card{
-background:var(--card);
-border:1px solid var(--line);
-border-radius:24px;
-padding:22px;
-}
+    .wide{
+      grid-column:1 / -1;
+    }
 
-.wide{
-grid-column:1 / -1;
-}
+    h2{
+      margin:0 0 14px 0;
+      font-size:28px;
+      color:var(--title);
+    }
 
-h2{
-margin:0 0 14px 0;
-font-size:28px;
-color:var(--title);
-}
+    p{
+      margin:0 0 14px 0;
+      font-size:18px;
+      line-height:1.8;
+    }
 
-label{
-display:block;
-font-weight:bold;
-margin:14px 0 8px;
-}
+    label{
+      display:block;
+      font-weight:bold;
+      margin:14px 0 8px;
+      font-size:16px;
+    }
 
-select{
-width:100%;
-padding:14px;
-border-radius:14px;
-border:1px solid var(--line);
-background:#f7f8fb;
-font-size:16px;
-}
+    select,
+    input[type="text"]{
+      width:100%;
+      padding:14px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background:#f7f8fb;
+      font-size:16px;
+    }
 
-.field{
-margin-top:12px;
-background:#faf8f2;
-border:1px solid var(--line);
-border-radius:16px;
-padding:14px 16px;
-}
+    .field{
+      margin-top:12px;
+      background:#faf8f2;
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:14px 16px;
+    }
 
-.field strong{
-display:block;
-margin-bottom:6px;
-font-size:16px;
-color:#3d352d;
-}
+    .field strong{
+      display:block;
+      margin-bottom:6px;
+      font-size:16px;
+      color:#3d352d;
+    }
 
-.field span{
-display:block;
-font-size:17px;
-color:#000;
-line-height:1.7;
-}
+    .field span{
+      display:block;
+      font-size:17px;
+      color:#000;
+      line-height:1.7;
+    }
 
-.mesario{
-margin-top:14px;
-background:var(--gold-bg);
-border-left:7px solid var(--gold);
-border-radius:18px;
-padding:16px 18px;
-}
+    .preview-wrap{
+      background:#fbf8f1;
+      border:1px solid var(--line);
+      border-radius:22px;
+      padding:22px;
+    }
 
-.actions{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:14px;
-margin-top:18px;
-}
+    .preview-title{
+      font-size:22px;
+      font-weight:bold;
+      color:#6b5b46;
+      margin-bottom:8px;
+    }
 
-.main-btn{
-border:none;
-border-radius:18px;
-padding:18px;
-font-size:18px;
-font-weight:bold;
-cursor:pointer;
-transition:.2s ease;
-}
+    .preview-sub{
+      font-size:16px;
+      color:var(--muted);
+      margin-bottom:20px;
+      line-height:1.7;
+    }
 
-.main-btn:hover{
-transform:translateY(-1px);
-}
+    .book-stage{
+      display:flex;
+      justify-content:center;
+      align-items:flex-end;
+      gap:0;
+      min-height:380px;
+      padding:10px 0 0;
+      flex-wrap:wrap;
+    }
 
-.btn-next{
-background:var(--cap-accent);
-color:#fff;
-}
+    .flap-left,
+    .spine,
+    .cover-front,
+    .back-cover,
+    .flap-right{
+      border:1px solid rgba(0,0,0,.08);
+      box-shadow:0 10px 24px rgba(0,0,0,.10);
+    }
 
-.btn-next:hover{
-background:var(--cap-accent-dark);
-}
+    .flap-left,
+    .flap-right{
+      width:80px;
+      height:270px;
+      background:linear-gradient(180deg,#efe7d5,#ddcfad);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:10px;
+      text-align:center;
+      color:#6a5435;
+      font-size:12px;
+      line-height:1.5;
+    }
 
-.btn-skip{
-background:var(--soft);
-color:var(--text);
-}
+    .back-cover{
+      width:180px;
+      height:300px;
+      background:linear-gradient(180deg,#ece2c9,#dac8a1);
+      position:relative;
+      padding:18px 14px;
+      color:#5a4a33;
+      font-size:12px;
+      line-height:1.6;
+    }
 
-.btn-skip:hover{
-background:var(--soft-dark);
-}
+    .spine{
+      width:28px;
+      height:300px;
+      background:linear-gradient(180deg,#ccb178,#b89042);
+      color:#fff;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      padding:8px 4px;
+      writing-mode:vertical-rl;
+      transform:rotate(180deg);
+      font-size:12px;
+      font-weight:bold;
+      letter-spacing:.5px;
+    }
 
-.hidden{
-display:none !important;
-}
+    .cover-front{
+      width:220px;
+      height:320px;
+      background:linear-gradient(180deg,#f0e1b7,#d4b46c);
+      border-radius:2px;
+      position:relative;
+      overflow:hidden;
+      display:flex;
+      flex-direction:column;
+      justify-content:flex-start;
+      padding:22px 18px 18px;
+      text-align:center;
+    }
 
-@media (max-width:900px){
-.grid,
-.actions,
-.topbar{
-grid-template-columns:1fr;
-display:grid;
-}
+    .cover-art{
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(255,255,255,.35), transparent 35%),
+        radial-gradient(circle at 80% 30%, rgba(255,255,255,.18), transparent 28%),
+        linear-gradient(180deg, rgba(255,255,255,.12), rgba(0,0,0,.06));
+      opacity:.9;
+      pointer-events:none;
+    }
 
-h1{font-size:30px;}
-h2{font-size:25px;}
-}
+    .cover-content{
+      position:relative;
+      z-index:2;
+      display:flex;
+      flex-direction:column;
+      height:100%;
+    }
 
-</style>
+    .title-top{
+      justify-content:flex-start;
+    }
+
+    .title-center{
+      justify-content:center;
+    }
+
+    .title-bottom{
+      justify-content:flex-end;
+    }
+
+    .cover-title{
+      font-size:24px;
+      line-height:1.2;
+      font-weight:800;
+      color:#3f2f12;
+      word-break:break-word;
+      margin-bottom:10px;
+      text-shadow:0 1px 0 rgba(255,255,255,.25);
+    }
+
+    .cover-subtitle{
+      font-size:14px;
+      line-height:1.4;
+      color:#5b4926;
+      margin-bottom:12px;
+      font-weight:600;
+    }
+
+    .cover-author{
+      margin-top:auto;
+      font-size:15px;
+      font-weight:bold;
+      color:#4f3e1d;
+      text-shadow:0 1px 0 rgba(255,255,255,.20);
+    }
+
+    .seal{
+      position:absolute;
+      left:14px;
+      bottom:12px;
+      width:42px;
+      height:42px;
+      border-radius:50%;
+      background:#8a6a43;
+      color:#fff;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:9px;
+      line-height:1.15;
+      text-align:center;
+      font-weight:bold;
+      z-index:3;
+      padding:4px;
+      box-shadow:0 4px 10px rgba(0,0,0,.14);
+    }
+
+    .isbn-box{
+      position:absolute;
+      right:14px;
+      bottom:14px;
+      width:56px;
+      height:36px;
+      border:1px solid rgba(0,0,0,.18);
+      background:rgba(255,255,255,.45);
+      font-size:8px;
+      color:#6b5b46;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      z-index:2;
+      padding:4px;
+    }
+
+    .mesario{
+      margin-top:14px;
+      background:var(--gold-bg);
+      border-left:7px solid var(--gold);
+      border-radius:18px;
+      padding:16px 18px;
+    }
+
+    .actions{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
+      margin-top:18px;
+    }
+
+    .main-btn{
+      border:none;
+      border-radius:18px;
+      padding:18px;
+      font-size:18px;
+      font-weight:bold;
+      cursor:pointer;
+      transition:.2s ease;
+    }
+
+    .main-btn:hover{
+      transform:translateY(-1px);
+    }
+
+    .btn-next{
+      background:var(--cap-accent);
+      color:#fff;
+    }
+
+    .btn-next:hover{
+      background:var(--cap-accent-dark);
+    }
+
+    .btn-skip{
+      background:var(--soft);
+      color:var(--text);
+    }
+
+    .btn-skip:hover{
+      background:var(--soft-dark);
+    }
+
+    .hidden{
+      display:none !important;
+    }
+
+    @media (max-width:980px){
+      .grid,
+      .actions,
+      .topbar{
+        grid-template-columns:1fr;
+        display:grid;
+      }
+
+      .book-stage{
+        transform:scale(.92);
+        transform-origin:center top;
+      }
+
+      h1{font-size:30px;}
+      h2{font-size:25px;}
+    }
+
+    @media (max-width:700px){
+      .book-stage{
+        min-height:320px;
+        transform:scale(.76);
+      }
+    }
+  </style>
 </head>
 <body>
 
 <div class="container">
 
-<div class="topbar">
-<button class="small-btn" onclick="history.back()">← Retornar</button>
-<button class="small-btn" onclick="window.location.href='index.html'">Sair do sistema</button>
-</div>
+  <div class="topbar">
+    <button class="small-btn" onclick="history.back()">← Retornar</button>
+    <button class="small-btn" onclick="window.location.href='index.html'">Sair do sistema</button>
+  </div>
 
-<section class="hero">
-<div class="eyebrow">Lapidar • Módulo 19</div>
-<h1>OKapista</h1>
-<p class="subtitle">
-Aqui damos rosto à sua obra, criando a primeira impressão que acompanhará o leitor antes mesmo da primeira página.
-</p>
-</section>
+  <section class="hero">
+    <div class="eyebrow">Lapidar • Módulo 19</div>
+    <h1>OKapista</h1>
+    <p class="subtitle">
+      Aqui damos rosto à sua obra, criando a primeira impressão que acompanhará o leitor antes mesmo da primeira página.
+    </p>
+  </section>
 
-<div class="grid">
+  <div class="grid">
 
-<section class="card">
-<h2>Dados principais da obra</h2>
+    <section class="card">
+      <h2>Dados principais da obra</h2>
 
-<div class="field">
-<strong>Título da obra</strong>
-<span id="tituloObra">Aguardando identificação da obra</span>
-</div>
+      <div class="field">
+        <strong>Título da obra</strong>
+        <span id="tituloObra">Aguardando identificação da obra</span>
+      </div>
 
-<div class="field">
-<strong>Autor</strong>
-<span id="autorObra">Aguardando identificação do autor</span>
-</div>
+      <div class="field">
+        <strong>Subtítulo</strong>
+        <span id="subtituloObra">Sem subtítulo definido</span>
+      </div>
 
-<div class="field">
-<strong>Idioma base</strong>
-<span id="idiomaObra">Aguardando idioma da obra</span>
-</div>
-</section>
+      <div class="field">
+        <strong>Autor</strong>
+        <span id="autorObra">Aguardando identificação do autor</span>
+      </div>
 
-<section class="card">
-<h2>Estrutura da capa</h2>
+      <div class="field">
+        <strong>Idioma base</strong>
+        <span id="idiomaObra">Aguardando idioma da obra</span>
+      </div>
+    </section>
 
-<label for="tipoCapa">Tipo de capa</label>
-<select id="tipoCapa">
-<option>Capa simples (frente)</option>
-<option>Capa completa (frente + lombada + contracapa)</option>
-<option>Capa completa com orelhas</option>
-<option>Capa física + ePUB</option>
-</select>
+    <section class="card">
+      <h2>Configuração editorial da capa</h2>
 
-<label for="perfilVisual">Perfil visual</label>
-<select id="perfilVisual">
-<option>Nacional</option>
-<option>Internacional</option>
-<option>Híbrido</option>
-<option>Personalizado</option>
-</select>
-</section>
+      <label for="tipoCapa">Tipo de capa</label>
+      <select id="tipoCapa" onchange="atualizarPreview()">
+        <option value="completa">Capa completa (frente + lombada + contracapa)</option>
+        <option value="simples">Capa simples (frente)</option>
+        <option value="orelhas">Capa completa com orelhas</option>
+        <option value="fisicaepub">Capa física + ePUB</option>
+      </select>
 
-<section class="card wide">
-<h2>Encaminhamento editorial da capa</h2>
+      <label for="perfilVisual">Perfil visual</label>
+      <select id="perfilVisual" onchange="atualizarPreview()">
+        <option value="nacional">Nacional</option>
+        <option value="internacional">Internacional</option>
+        <option value="hibrido">Híbrido</option>
+        <option value="personalizado">Personalizado</option>
+      </select>
 
-<label for="objetivoCapa">Objetivo da capa</label>
-<select id="objetivoCapa">
-<option>Publicação impressa</option>
-<option>Publicação digital</option>
-<option>Publicação híbrida</option>
-<option>Preparação promocional</option>
-</select>
+      <label for="posicaoTitulo">Posição do título</label>
+      <select id="posicaoTitulo" onchange="atualizarPreview()">
+        <option value="top">Topo da capa</option>
+        <option value="center">Centro da capa</option>
+        <option value="bottom">Parte inferior da capa</option>
+      </select>
 
-<div class="mesario" id="mesarioSecao">
-<strong>Mesário da seção</strong><br>
-Valor acumulado desta produção de capa.<br><br>
-<strong>CVR sugerida desta seção: R$ 0,00</strong>
-</div>
+      <label for="mostrarSubtitulo">Subtítulo na capa</label>
+      <select id="mostrarSubtitulo" onchange="atualizarPreview()">
+        <option value="sim">Mostrar subtítulo</option>
+        <option value="nao">Não mostrar subtítulo</option>
+      </select>
 
-<div class="actions">
-<button class="main-btn btn-next" onclick="window.location.href='motor_sequencial.html'">
-Concluir esta etapa e seguir
-</button>
+      <label for="mostrarSelo">Selo editorial</label>
+      <select id="mostrarSelo" onchange="atualizarPreview()">
+        <option value="sim">Mostrar selo</option>
+        <option value="nao">Não mostrar selo</option>
+      </select>
+    </section>
 
-<button class="main-btn btn-skip" onclick="window.location.href='motor_sequencial.html'">
-Pular este módulo por agora
-</button>
-</div>
+    <section class="card wide">
+      <h2>Palhinha da capa em formação</h2>
 
-</section>
+      <div class="preview-wrap">
+        <div class="preview-title">Seu livro já começa a ganhar rosto aqui</div>
+        <div class="preview-sub">
+          Esta pré-visualização acompanha suas escolhas para transmitir segurança, emoção e confiança ao autor durante a criação da capa.
+        </div>
 
-</div>
+        <div class="book-stage">
+          <div class="flap-left" id="flapLeft">Orelha dianteira</div>
+
+          <div class="back-cover" id="backCover">
+            <div style="font-weight:bold; margin-bottom:10px;">Contracapa</div>
+            <div id="sinopseMini">
+              Espaço de sinopse e apresentação breve da obra.
+            </div>
+            <div class="seal" id="sealBack">Site<br>das Letras</div>
+            <div class="isbn-box">Área ISBN / placeholder</div>
+          </div>
+
+          <div class="spine" id="spineText">Título da obra</div>
+
+          <div class="cover-front" id="coverFront">
+            <div class="cover-art"></div>
+
+            <div class="cover-content title-top" id="coverContent">
+              <div>
+                <div class="cover-title" id="previewTitle">Título da obra</div>
+                <div class="cover-subtitle" id="previewSubtitle">Subtítulo da obra</div>
+              </div>
+
+              <div class="cover-author" id="previewAuthor">Nome do autor</div>
+            </div>
+
+            <div class="seal" id="sealFront">Site<br>das Letras</div>
+          </div>
+
+          <div class="flap-right" id="flapRight">Orelha traseira</div>
+        </div>
+      </div>
+
+      <div class="mesario" id="mesarioSecao">
+        <strong>Mesário da seção</strong><br>
+        Valor acumulado desta produção de capa.<br><br>
+        <strong>CVR sugerida desta seção: R$ 0,00</strong>
+      </div>
+
+      <div class="actions">
+        <button class="main-btn btn-next" onclick="window.location.href='motor_sequencial.html'">
+          Concluir esta etapa e seguir
+        </button>
+
+        <button class="main-btn btn-skip" onclick="window.location.href='motor_sequencial.html'">
+          Pular este módulo por agora
+        </button>
+      </div>
+    </section>
+
+  </div>
 
 </div>
 
 <script>
+  function preencherDadosDaObra(){
+    const titulo = localStorage.getItem("lapidar_titulo_obra") || "Aguardando identificação da obra";
+    const subtitulo = localStorage.getItem("lapidar_subtitulo_obra") || "";
+    const autor = localStorage.getItem("lapidar_autor_obra") || "Aguardando identificação do autor";
+    const idioma = localStorage.getItem("lapidar_idioma_obra") || "Aguardando idioma da obra";
 
-function preencherDadosDaObra(){
+    document.getElementById("tituloObra").textContent = titulo;
+    document.getElementById("subtituloObra").textContent = subtitulo || "Sem subtítulo definido";
+    document.getElementById("autorObra").textContent = autor;
+    document.getElementById("idiomaObra").textContent = idioma;
+  }
 
-const titulo = localStorage.getItem("lapidar_titulo_obra") || "Aguardando identificação da obra";
-const autor = localStorage.getItem("lapidar_autor_obra") || "Aguardando identificação do autor";
-const idioma = localStorage.getItem("lapidar_idioma_obra") || "Aguardando idioma da obra";
+  function aplicarRegraPerfil(){
+    const perfil = (localStorage.getItem("lapidar_perfil") || "").toLowerCase();
+    if(perfil.includes("cortesia")){
+      document.getElementById("mesarioSecao").classList.add("hidden");
+    }
+  }
 
-document.getElementById("tituloObra").textContent = titulo;
-document.getElementById("autorObra").textContent = autor;
-document.getElementById("idiomaObra").textContent = idioma;
+  function atualizarPreview(){
+    const titulo = localStorage.getItem("lapidar_titulo_obra") || "Título da obra";
+    const subtituloSalvo = localStorage.getItem("lapidar_subtitulo_obra") || "Subtítulo da obra";
+    const autor = localStorage.getItem("lapidar_autor_obra") || "Nome do autor";
 
-}
+    const tipoCapa = document.getElementById("tipoCapa").value;
+    const perfilVisual = document.getElementById("perfilVisual").value;
+    const posicaoTitulo = document.getElementById("posicaoTitulo").value;
+    const mostrarSubtitulo = document.getElementById("mostrarSubtitulo").value;
+    const mostrarSelo = document.getElementById("mostrarSelo").value;
 
-function aplicarRegraPerfil(){
+    const coverFront = document.getElementById("coverFront");
+    const coverContent = document.getElementById("coverContent");
+    const previewTitle = document.getElementById("previewTitle");
+    const previewSubtitle = document.getElementById("previewSubtitle");
+    const previewAuthor = document.getElementById("previewAuthor");
+    const spineText = document.getElementById("spineText");
+    const sealFront = document.getElementById("sealFront");
+    const sealBack = document.getElementById("sealBack");
+    const flapLeft = document.getElementById("flapLeft");
+    const flapRight = document.getElementById("flapRight");
+    const backCover = document.getElementById("backCover");
 
-const perfil=(localStorage.getItem("lapidar_perfil")||"").toLowerCase();
+    previewTitle.textContent = titulo;
+    previewSubtitle.textContent = subtituloSalvo || "Subtítulo da obra";
+    previewAuthor.textContent = autor;
+    spineText.textContent = titulo;
 
-if(perfil.includes("cortesia")){
+    coverContent.classList.remove("title-top","title-center","title-bottom");
+    if(posicaoTitulo === "top"){
+      coverContent.classList.add("title-top");
+    }else if(posicaoTitulo === "center"){
+      coverContent.classList.add("title-center");
+    }else{
+      coverContent.classList.add("title-bottom");
+    }
 
-document.getElementById("mesarioSecao").classList.add("hidden");
+    if(mostrarSubtitulo === "nao" || !subtituloSalvo){
+      previewSubtitle.style.display = "none";
+    }else{
+      previewSubtitle.style.display = "block";
+    }
 
-}
+    if(mostrarSelo === "nao"){
+      sealFront.style.display = "none";
+      sealBack.style.display = "none";
+    }else{
+      sealFront.style.display = "flex";
+      sealBack.style.display = "flex";
+    }
 
-}
+    if(tipoCapa === "simples"){
+      flapLeft.style.display = "none";
+      flapRight.style.display = "none";
+      backCover.style.display = "none";
+      spineText.style.display = "none";
+    }else if(tipoCapa === "completa"){
+      flapLeft.style.display = "none";
+      flapRight.style.display = "none";
+      backCover.style.display = "block";
+      spineText.style.display = "flex";
+    }else{
+      flapLeft.style.display = "flex";
+      flapRight.style.display = "flex";
+      backCover.style.display = "block";
+      spineText.style.display = "flex";
+    }
 
-preencherDadosDaObra();
-aplicarRegraPerfil();
+    if(perfilVisual === "nacional"){
+      coverFront.style.background = "linear-gradient(180deg,#f0e1b7,#d4b46c)";
+      backCover.style.background = "linear-gradient(180deg,#ece2c9,#dac8a1)";
+      spineText.style.background = "linear-gradient(180deg,#ccb178,#b89042)";
+    }
 
+    if(perfilVisual === "internacional"){
+      coverFront.style.background = "linear-gradient(180deg,#e6d7c3,#b79066)";
+      backCover.style.background = "linear-gradient(180deg,#e5d3be,#c29b70)";
+      spineText.style.background = "linear-gradient(180deg,#b98c5b,#8f6438)";
+    }
+
+    if(perfilVisual === "hibrido"){
+      coverFront.style.background = "linear-gradient(180deg,#ece0c7,#c7a45c)";
+      backCover.style.background = "linear-gradient(180deg,#e8dbc0,#d2b274)";
+      spineText.style.background = "linear-gradient(180deg,#d2b274,#a07a32)";
+    }
+
+    if(perfilVisual === "personalizado"){
+      coverFront.style.background = "linear-gradient(180deg,#efe3cf,#c4a173)";
+      backCover.style.background = "linear-gradient(180deg,#eadcc7,#c8a784)";
+      spineText.style.background = "linear-gradient(180deg,#c7a36e,#9b7644)";
+    }
+  }
+
+  preencherDadosDaObra();
+  aplicarRegraPerfil();
+  atualizarPreview();
 </script>
 
 </body>
