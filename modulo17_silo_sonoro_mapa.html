@@ -1,339 +1,381 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lapidar • Módulo 17 — Silo Sonoro</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lapidar • Módulo 17 — Silo Sonoro</title>
+  <style>
+    :root{
+      --bg:#DCCFE8;
+      --card:#ffffff;
+      --line:#c9bbd8;
+      --text:#2f2a24;
+      --muted:#655575;
+      --title:#4f3f62;
+      --accent:#8b72a6;
+      --accent-dark:#6e5987;
+      --mesario-bg:#faf7fd;
+      --mesario-line:#a88bc3;
+      --shadow:0 12px 28px rgba(0,0,0,.10);
+    }
 
-<style>
+    *{ box-sizing:border-box; }
 
-:root{
---bg:#f7f5ef;
---card:#ffffff;
---line:#d8d2c4;
---text:#2f2a24;
---muted:#5f574c;
---title:#6b5b46;
+    body{
+      margin:0;
+      font-family:Arial, Helvetica, sans-serif;
+      background:var(--bg);
+      color:var(--text);
+    }
 
---silo-bg:#f4edf8;
---silo-accent:#8b5fb1;
---silo-accent-dark:#6f4c8e;
+    .container{
+      max-width:1100px;
+      margin:auto;
+      padding:30px 18px 45px;
+    }
 
---soft:#ece7db;
---soft-dark:#e2dccd;
+    .topbar{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:18px;
+    }
 
---gold:#c79a2e;
---gold-bg:#fff7e6;
-}
+    .small-btn{
+      border:none;
+      border-radius:14px;
+      padding:12px 16px;
+      font-weight:bold;
+      cursor:pointer;
+      background:rgba(255,255,255,.82);
+      color:#222;
+    }
 
-*{box-sizing:border-box;}
+    .small-btn:hover{
+      background:#fff;
+    }
 
-body{
-margin:0;
-font-family:Arial, Helvetica, sans-serif;
-background:var(--bg);
-color:var(--text);
-}
+    .hero{
+      background:rgba(255,255,255,.62);
+      border-left:8px solid var(--accent);
+      border-radius:26px;
+      padding:28px;
+      margin-bottom:22px;
+      box-shadow:var(--shadow);
+    }
 
-.container{
-max-width:1050px;
-margin:auto;
-padding:28px 16px 40px;
-}
+    .eyebrow{
+      display:inline-block;
+      background:#fff;
+      padding:8px 14px;
+      border-radius:999px;
+      font-size:14px;
+      font-weight:bold;
+      margin-bottom:14px;
+      color:var(--title);
+    }
 
-.topbar{
-display:flex;
-justify-content:space-between;
-gap:12px;
-margin-bottom:18px;
-}
+    h1{
+      margin:0 0 10px;
+      font-size:34px;
+      color:var(--title);
+    }
 
-.small-btn{
-border:none;
-border-radius:14px;
-padding:12px 16px;
-font-size:15px;
-font-weight:bold;
-cursor:pointer;
-background:var(--soft);
-color:var(--text);
-transition:.2s ease;
-}
+    .subtitle{
+      font-size:20px;
+      line-height:1.8;
+      color:var(--muted);
+    }
 
-.small-btn:hover{
-background:var(--soft-dark);
-transform:translateY(-1px);
-}
+    .grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:18px;
+    }
 
-.hero{
-background:var(--silo-bg);
-border:1px solid var(--line);
-border-left:8px solid var(--silo-accent);
-border-radius:28px;
-padding:30px;
-margin-bottom:22px;
-}
+    .card{
+      background:var(--card);
+      border-radius:24px;
+      padding:22px;
+      border:1px solid var(--line);
+      box-shadow:var(--shadow);
+    }
 
-.eyebrow{
-display:inline-block;
-padding:8px 14px;
-border-radius:999px;
-background:#fff;
-font-size:14px;
-font-weight:bold;
-margin-bottom:14px;
-}
+    .wide{
+      grid-column:1 / -1;
+    }
 
-h1{
-margin:0 0 10px 0;
-font-size:34px;
-line-height:1.15;
-color:var(--title);
-}
+    h2{
+      margin:0 0 12px;
+      font-size:26px;
+      color:var(--title);
+    }
 
-.subtitle{
-margin:0;
-font-size:20px;
-line-height:1.8;
-color:var(--muted);
-}
+    label{
+      display:block;
+      font-weight:bold;
+      margin-top:14px;
+      margin-bottom:6px;
+      color:#000;
+    }
 
-.grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:18px;
-margin-bottom:20px;
-}
+    select{
+      width:100%;
+      padding:14px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background:#fff;
+      font-size:16px;
+      color:#000;
+    }
 
-.card{
-background:var(--card);
-border:1px solid var(--line);
-border-radius:24px;
-padding:22px;
-}
+    .field{
+      background:#fcfafe;
+      border-radius:16px;
+      padding:14px;
+      border:1px solid var(--line);
+      margin-top:10px;
+    }
 
-.wide{
-grid-column:1 / -1;
-}
+    .field strong{
+      display:block;
+      margin-bottom:4px;
+      color:#000;
+    }
 
-h2{
-margin:0 0 14px 0;
-font-size:28px;
-color:var(--title);
-}
+    .field span{
+      color:#000;
+      line-height:1.7;
+    }
 
-label{
-display:block;
-font-weight:bold;
-margin:14px 0 8px;
-}
+    .preview{
+      background:#fcfafe;
+      border-radius:22px;
+      padding:20px;
+      border:1px solid var(--line);
+    }
 
-select{
-width:100%;
-padding:14px;
-border-radius:14px;
-border:1px solid var(--line);
-background:#f7f8fb;
-font-size:16px;
-}
+    .preview-box{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:18px;
+      line-height:1.8;
+      color:#222;
+    }
 
-.field{
-margin-top:12px;
-background:#faf8f2;
-border:1px solid var(--line);
-border-radius:16px;
-padding:14px 16px;
-}
+    .preview-box .preview-title{
+      font-size:20px;
+      font-weight:bold;
+      color:var(--title);
+      margin-bottom:10px;
+    }
 
-.field strong{
-display:block;
-margin-bottom:6px;
-font-size:16px;
-color:#3d352d;
-}
+    .preview-line{
+      margin-bottom:8px;
+    }
 
-.field span{
-display:block;
-font-size:17px;
-color:#000;
-line-height:1.7;
-}
+    .voice-demo{
+      margin-top:14px;
+      padding:14px;
+      border-radius:14px;
+      background:#f3edf8;
+      border:1px solid var(--line);
+      color:#4f3f62;
+      font-style:italic;
+      line-height:1.8;
+    }
 
-.mesario{
-margin-top:14px;
-background:var(--gold-bg);
-border-left:7px solid var(--gold);
-border-radius:18px;
-padding:16px 18px;
-}
+    .mesario{
+      margin-top:16px;
+      background:var(--mesario-bg);
+      border-left:6px solid var(--mesario-line);
+      border-radius:18px;
+      padding:16px;
+    }
 
-.actions{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:14px;
-margin-top:18px;
-}
+    .actions{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
+      margin-top:18px;
+    }
 
-.main-btn{
-border:none;
-border-radius:18px;
-padding:18px;
-font-size:18px;
-font-weight:bold;
-cursor:pointer;
-transition:.2s ease;
-}
+    .main-btn{
+      border:none;
+      border-radius:18px;
+      padding:18px;
+      font-size:18px;
+      font-weight:bold;
+      cursor:pointer;
+    }
 
-.main-btn:hover{
-transform:translateY(-1px);
-}
+    .btn-next{
+      background:var(--accent);
+      color:#fff;
+    }
 
-.btn-next{
-background:var(--silo-accent);
-color:#fff;
-}
+    .btn-next:hover{
+      background:var(--accent-dark);
+    }
 
-.btn-next:hover{
-background:var(--silo-accent-dark);
-}
+    .btn-skip{
+      background:rgba(255,255,255,.82);
+      color:var(--text);
+    }
 
-.btn-skip{
-background:var(--soft);
-color:var(--text);
-}
+    .btn-skip:hover{
+      background:#fff;
+    }
 
-.btn-skip:hover{
-background:var(--soft-dark);
-}
-
-.hidden{
-display:none !important;
-}
-
-@media (max-width:900px){
-.grid,
-.actions,
-.topbar{
-grid-template-columns:1fr;
-display:grid;
-}
-
-h1{font-size:30px;}
-h2{font-size:25px;}
-}
-
-</style>
+    @media(max-width:900px){
+      .grid, .actions, .topbar{
+        grid-template-columns:1fr;
+        display:grid;
+      }
+    }
+  </style>
 </head>
 <body>
 
 <div class="container">
 
-<div class="topbar">
-<button class="small-btn" onclick="history.back()">← Retornar</button>
-<button class="small-btn" onclick="window.location.href='index.html'">Sair do sistema</button>
-</div>
+  <div class="topbar">
+    <button class="small-btn" onclick="history.back()">← Retornar</button>
+    <button class="small-btn" onclick="window.location.href='index.html'">Sair do sistema</button>
+  </div>
 
-<section class="hero">
-<div class="eyebrow">Lapidar • Módulo 17</div>
-<h1>Silo Sonoro</h1>
-<p class="subtitle">
-Aqui a sua obra ganha presença sonora, preparando o caminho para sua escuta além da leitura.
-</p>
-</section>
+  <section class="hero">
+    <div class="eyebrow">📒 Lapidar • Módulo 17</div>
+    <h1>Silo Sonoro</h1>
+    <p class="subtitle">
+      Aqui a sua obra ganha presença sonora, preparando o caminho para sua escuta além da leitura.
+    </p>
+  </section>
 
-<div class="grid">
+  <div class="grid">
 
-<section class="card">
-<h2>Dados principais da obra</h2>
+    <section class="card">
+      <h2>Dados da obra</h2>
 
-<div class="field">
-<strong>Título da obra</strong>
-<span id="tituloObra">Aguardando identificação da obra</span>
-</div>
+      <div class="field">
+        <strong>Título</strong>
+        <span id="tituloObra">Aguardando identificação</span>
+      </div>
 
-<div class="field">
-<strong>Autor</strong>
-<span id="autorObra">Aguardando identificação do autor</span>
-</div>
+      <div class="field">
+        <strong>Autor</strong>
+        <span id="autorObra">Aguardando identificação</span>
+      </div>
 
-<div class="field">
-<strong>Idioma base</strong>
-<span id="idiomaObra">Aguardando idioma da obra</span>
-</div>
-</section>
+      <div class="field">
+        <strong>Idioma base</strong>
+        <span id="idiomaObra">Aguardando idioma</span>
+      </div>
+    </section>
 
-<section class="card">
-<h2>Configuração sonora</h2>
+    <section class="card">
+      <h2>Configuração sonora</h2>
 
-<label for="formatoNarracao">Formato da narração</label>
-<select id="formatoNarracao">
-<option>Audiobook completo</option>
-<option>Narração por capítulos</option>
-<option>Trechos selecionados para divulgação</option>
-<option>Amostra sonora da obra</option>
-</select>
+      <label for="formatoNarracao">Formato da narração</label>
+      <select id="formatoNarracao" onchange="atualizarPreview()">
+        <option>Audiobook completo</option>
+        <option>Narração por capítulos</option>
+        <option>Trechos selecionados para divulgação</option>
+        <option>Amostra sonora da obra</option>
+      </select>
 
-<label for="estiloVoz">Estilo de voz</label>
-<select id="estiloVoz">
-<option>Voz narrativa neutra</option>
-<option>Voz literária expressiva</option>
-<option>Voz documental</option>
-<option>Voz institucional</option>
-</select>
-</section>
+      <label for="estiloVoz">Estilo de voz</label>
+      <select id="estiloVoz" onchange="atualizarPreview()">
+        <option>Voz narrativa neutra</option>
+        <option>Voz literária expressiva</option>
+        <option>Voz documental</option>
+        <option>Voz institucional</option>
+      </select>
+    </section>
 
-<section class="card wide">
-<h2>Encaminhamento da produção sonora</h2>
+    <section class="card wide">
+      <h2>Palhinha da atmosfera sonora</h2>
 
-<label for="objetivoSonoro">Objetivo principal</label>
-<select id="objetivoSonoro">
-<option>Produção completa do audiobook</option>
-<option>Preparação de amostra promocional</option>
-<option>Versão sonora para divulgação editorial</option>
-<option>Conversão institucional da obra em áudio</option>
-</select>
+      <div class="preview">
+        <div class="preview-box">
+          <div class="preview-title" id="previewFormato">Audiobook completo</div>
+          <div class="preview-line"><strong>Obra:</strong> <span id="previewTitulo">Título da obra</span></div>
+          <div class="preview-line"><strong>Autor:</strong> <span id="previewAutor">Autor</span></div>
+          <div class="preview-line"><strong>Estilo de voz:</strong> <span id="previewVoz">Voz narrativa neutra</span></div>
+          <div class="preview-line"><strong>Direção sonora:</strong> A obra será conduzida para a escuta com atmosfera, presença narrativa e identidade autoral preservada.</div>
 
-<div class="mesario" id="mesarioSecao">
-<strong>Mesário da seção</strong><br>
-Valor acumulado desta produção sonora.<br><br>
-<strong>Silo Sonoro: R$ 630,00</strong>
-</div>
+          <div class="voice-demo" id="voiceDemo">
+            “A voz entra no texto com delicadeza, como se a obra respirasse pela primeira vez no ouvido do leitor.”
+          </div>
+        </div>
+      </div>
 
-<div class="actions">
-<button class="main-btn btn-next" onclick="window.location.href='motor_sequencial.html'">
-Concluir esta etapa e seguir
-</button>
+      <div class="mesario" id="mesarioSecao">
+        <strong>Mesário da seção</strong><br>
+        Valor acumulado desta produção sonora.<br><br>
+        <strong>Silo Sonoro: R$ 630,00</strong>
+      </div>
 
-<button class="main-btn btn-skip" onclick="window.location.href='motor_sequencial.html'">
-Pular este módulo por agora
-</button>
-</div>
-</section>
+      <div class="actions">
+        <button class="main-btn btn-next" onclick="window.location.href='motor_sequencial.html'">
+          Concluir esta etapa e seguir
+        </button>
 
-</div>
+        <button class="main-btn btn-skip" onclick="window.location.href='motor_sequencial.html'">
+          Pular este módulo por agora
+        </button>
+      </div>
+    </section>
+
+  </div>
 
 </div>
 
 <script>
-function preencherDadosDaObra(){
-const titulo = localStorage.getItem("lapidar_titulo_obra") || "Aguardando identificação da obra";
-const autor = localStorage.getItem("lapidar_autor_obra") || "Aguardando identificação do autor";
-const idioma = localStorage.getItem("lapidar_idioma_obra") || "Aguardando idioma da obra";
+  function preencherDados(){
+    const titulo = localStorage.getItem("lapidar_titulo_obra") || "Título da obra";
+    const autor = localStorage.getItem("lapidar_autor_obra") || "Autor";
+    const idioma = localStorage.getItem("lapidar_idioma_obra") || "Idioma base";
 
-document.getElementById("tituloObra").textContent = titulo;
-document.getElementById("autorObra").textContent = autor;
-document.getElementById("idiomaObra").textContent = idioma;
-}
+    document.getElementById("tituloObra").textContent = titulo;
+    document.getElementById("autorObra").textContent = autor;
+    document.getElementById("idiomaObra").textContent = idioma;
 
-function aplicarRegraPerfil(){
-const perfil=(localStorage.getItem("lapidar_perfil")||"").toLowerCase();
-if(perfil.includes("cortesia")){
-document.getElementById("mesarioSecao").classList.add("hidden");
-}
-}
+    document.getElementById("previewTitulo").textContent = titulo;
+    document.getElementById("previewAutor").textContent = autor;
+  }
 
-preencherDadosDaObra();
-aplicarRegraPerfil();
+  function atualizarPreview(){
+    const formato = document.getElementById("formatoNarracao").value;
+    const voz = document.getElementById("estiloVoz").value;
+
+    document.getElementById("previewFormato").textContent = formato;
+    document.getElementById("previewVoz").textContent = voz;
+
+    let frase = "“A voz entra no texto com delicadeza, como se a obra respirasse pela primeira vez no ouvido do leitor.”";
+
+    if(voz === "Voz literária expressiva"){
+      frase = "“Cada frase ganha relevo, emoção e presença, como se a narrativa estivesse diante do leitor em carne e voz.”";
+    } else if(voz === "Voz documental"){
+      frase = "“A obra é conduzida com firmeza, clareza e precisão, permitindo que cada informação encontre seu peso exato.”";
+    } else if(voz === "Voz institucional"){
+      frase = "“A leitura assume tom estável, sóbrio e seguro, com dicção limpa e orientação clara de escuta.”";
+    }
+
+    document.getElementById("voiceDemo").textContent = frase;
+  }
+
+  function aplicarPerfil(){
+    const perfil = (localStorage.getItem("lapidar_perfil") || "").toLowerCase();
+    if(perfil.includes("cortesia")){
+      document.getElementById("mesarioSecao").style.display = "none";
+    }
+  }
+
+  preencherDados();
+  atualizarPreview();
+  aplicarPerfil();
 </script>
 
 </body>
