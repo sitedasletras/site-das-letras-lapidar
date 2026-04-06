@@ -6,24 +6,17 @@
   <title>Lapidar • Módulo 11 — Analisador de Obra</title>
   <style>
     :root{
-      --bg:#f7f5ef;
+      --bg:#D8C2C8;
       --card:#ffffff;
-      --line:#d8d2c4;
+      --line:#cbb2b9;
       --text:#2f2a24;
-      --muted:#5f574c;
-      --title:#6b5b46;
-
-      --anal-bg:#ebecef;
-      --anal-accent:#5f6772;
-      --anal-accent-dark:#4c535c;
-
-      --soft:#ece7db;
-      --soft-dark:#e2dccd;
-
-      --gold:#c79a2e;
-      --gold-bg:#fff7e6;
-
-      --shadow:0 12px 28px rgba(67,58,45,.10);
+      --muted:#6b4f57;
+      --title:#5a3942;
+      --accent:#9b6f7b;
+      --accent-dark:#7f5561;
+      --mesario-bg:#fbf5f7;
+      --mesario-line:#b98795;
+      --shadow:0 12px 28px rgba(0,0,0,.10);
     }
 
     *{ box-sizing:border-box; }
@@ -36,9 +29,9 @@
     }
 
     .container{
-      max-width:1050px;
+      max-width:1100px;
       margin:auto;
-      padding:28px 16px 40px;
+      padding:30px 18px 45px;
     }
 
     .topbar{
@@ -52,48 +45,43 @@
       border:none;
       border-radius:14px;
       padding:12px 16px;
-      font-size:15px;
       font-weight:bold;
       cursor:pointer;
-      background:var(--soft);
-      color:var(--text);
-      transition:.2s ease;
+      background:rgba(255,255,255,.82);
+      color:#222;
     }
 
     .small-btn:hover{
-      background:var(--soft-dark);
-      transform:translateY(-1px);
+      background:#fff;
     }
 
     .hero{
-      background:var(--anal-bg);
-      border:1px solid var(--line);
-      border-left:8px solid var(--anal-accent);
-      border-radius:28px;
-      padding:30px;
-      box-shadow:var(--shadow);
+      background:rgba(255,255,255,.6);
+      border-left:8px solid var(--accent);
+      border-radius:26px;
+      padding:28px;
       margin-bottom:22px;
+      box-shadow:var(--shadow);
     }
 
     .eyebrow{
       display:inline-block;
+      background:#fff;
       padding:8px 14px;
       border-radius:999px;
-      background:#fff;
       font-size:14px;
       font-weight:bold;
       margin-bottom:14px;
+      color:var(--title);
     }
 
     h1{
-      margin:0 0 10px 0;
+      margin:0 0 10px;
       font-size:34px;
-      line-height:1.15;
       color:var(--title);
     }
 
     .subtitle{
-      margin:0;
       font-size:20px;
       line-height:1.8;
       color:var(--muted);
@@ -103,14 +91,13 @@
       display:grid;
       grid-template-columns:1fr 1fr;
       gap:18px;
-      margin-bottom:20px;
     }
 
     .card{
       background:var(--card);
-      border:1px solid var(--line);
       border-radius:24px;
       padding:22px;
+      border:1px solid var(--line);
       box-shadow:var(--shadow);
     }
 
@@ -119,15 +106,17 @@
     }
 
     h2{
-      margin:0 0 14px 0;
-      font-size:28px;
+      margin:0 0 12px;
+      font-size:26px;
       color:var(--title);
     }
 
     label{
       display:block;
       font-weight:bold;
-      margin:14px 0 8px;
+      margin-top:14px;
+      margin-bottom:6px;
+      color:#000;
     }
 
     select{
@@ -135,38 +124,63 @@
       padding:14px;
       border-radius:14px;
       border:1px solid var(--line);
-      background:#f7f8fb;
+      background:#fff;
       font-size:16px;
+      color:#000;
     }
 
     .field{
-      margin-top:12px;
-      background:#faf8f2;
-      border:1px solid var(--line);
+      background:#fcf8f9;
       border-radius:16px;
-      padding:14px 16px;
+      padding:14px;
+      border:1px solid var(--line);
+      margin-top:10px;
     }
 
     .field strong{
       display:block;
-      margin-bottom:6px;
-      font-size:16px;
-      color:#3d352d;
+      margin-bottom:4px;
+      color:#000;
     }
 
     .field span{
-      display:block;
-      font-size:17px;
       color:#000;
       line-height:1.7;
     }
 
+    .preview{
+      background:#fcf8f9;
+      border-radius:22px;
+      padding:20px;
+      border:1px solid var(--line);
+    }
+
+    .preview-box{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:18px;
+      line-height:1.8;
+      color:#222;
+    }
+
+    .preview-box .preview-title{
+      font-size:20px;
+      font-weight:bold;
+      color:var(--title);
+      margin-bottom:10px;
+    }
+
+    .preview-line{
+      margin-bottom:8px;
+    }
+
     .mesario{
-      margin-top:14px;
-      background:var(--gold-bg);
-      border-left:7px solid var(--gold);
+      margin-top:16px;
+      background:var(--mesario-bg);
+      border-left:6px solid var(--mesario-line);
       border-radius:18px;
-      padding:16px 18px;
+      padding:16px;
     }
 
     .actions{
@@ -183,159 +197,159 @@
       font-size:18px;
       font-weight:bold;
       cursor:pointer;
-      transition:.2s ease;
-    }
-
-    .main-btn:hover{
-      transform:translateY(-1px);
     }
 
     .btn-next{
-      background:var(--anal-accent);
+      background:var(--accent);
       color:#fff;
     }
 
     .btn-next:hover{
-      background:var(--anal-accent-dark);
+      background:var(--accent-dark);
     }
 
     .btn-skip{
-      background:var(--soft);
+      background:rgba(255,255,255,.82);
       color:var(--text);
     }
 
     .btn-skip:hover{
-      background:var(--soft-dark);
+      background:#fff;
     }
 
-    .hidden{
-      display:none !important;
-    }
-
-    @media (max-width:900px){
-      .grid,
-      .actions,
-      .topbar{
+    @media(max-width:900px){
+      .grid, .actions, .topbar{
         grid-template-columns:1fr;
         display:grid;
       }
-
-      h1{ font-size:30px; }
-      h2{ font-size:25px; }
     }
   </style>
 </head>
 <body>
 
-  <div class="container">
+<div class="container">
 
-    <div class="topbar">
-      <button class="small-btn" onclick="history.back()">← Retornar</button>
-      <button class="small-btn" onclick="window.location.href='index.html'">Sair do sistema</button>
-    </div>
+  <div class="topbar">
+    <button class="small-btn" onclick="history.back()">← Retornar</button>
+    <button class="small-btn" onclick="window.location.href='index.html'">Sair do sistema</button>
+  </div>
 
-    <section class="hero">
-      <div class="eyebrow">Lapidar • Módulo 11</div>
-      <h1>Analisador de Obra</h1>
-      <p class="subtitle">
-        Aqui investigamos a arquitetura interna do texto para compreender seus eixos narrativos e potenciais de desenvolvimento.
-      </p>
+  <section class="hero">
+    <div class="eyebrow">📕 Lapidar • Módulo 11</div>
+    <h1>Analisador de Obra</h1>
+    <p class="subtitle">
+      Aqui investigamos a arquitetura interna do texto para compreender seus eixos narrativos e potenciais de desenvolvimento.
+    </p>
+  </section>
+
+  <div class="grid">
+
+    <section class="card">
+      <h2>Dados da obra</h2>
+
+      <div class="field">
+        <strong>Título</strong>
+        <span id="tituloObra">Aguardando identificação</span>
+      </div>
+
+      <div class="field">
+        <strong>Autor</strong>
+        <span id="autorObra">Aguardando identificação</span>
+      </div>
+
+      <div class="field">
+        <strong>Idioma base</strong>
+        <span id="idiomaObra">Aguardando idioma</span>
+      </div>
     </section>
 
-    <div class="grid">
+    <section class="card">
+      <h2>Configuração da análise</h2>
 
-      <section class="card">
-        <h2>Dados principais da obra</h2>
+      <label for="nivelRelatorio">Nível do relatório</label>
+      <select id="nivelRelatorio" onchange="atualizarPreview()">
+        <option>Relatório técnico essencial — 4 páginas</option>
+        <option>Relatório técnico ampliado — 6 páginas</option>
+        <option>Relatório estruturado completo — 8 páginas</option>
+        <option>Relatório editorial profundo — 11 páginas</option>
+      </select>
 
-        <div class="field">
-          <strong>Título da obra</strong>
-          <span id="tituloObra">Aguardando identificação da obra</span>
+      <label for="objetivoAnalise">Objetivo principal</label>
+      <select id="objetivoAnalise" onchange="atualizarPreview()">
+        <option>Diagnóstico estrutural da obra</option>
+        <option>Preparação editorial</option>
+        <option>Preparação para publicação</option>
+        <option>Preparação para avaliação externa</option>
+      </select>
+    </section>
+
+    <section class="card wide">
+      <h2>Palhinha da leitura estrutural</h2>
+
+      <div class="preview">
+        <div class="preview-box">
+          <div class="preview-title" id="previewRelatorio">Relatório técnico essencial — 4 páginas</div>
+          <div class="preview-line"><strong>Obra:</strong> <span id="previewTitulo">Título da obra</span></div>
+          <div class="preview-line"><strong>Autor:</strong> <span id="previewAutor">Autor</span></div>
+          <div class="preview-line"><strong>Objetivo:</strong> <span id="previewObjetivo">Diagnóstico estrutural da obra</span></div>
+          <div class="preview-line"><strong>Direção técnica:</strong> A obra será observada em sua arquitetura narrativa, organização, coerência e potencial de desenvolvimento.</div>
         </div>
+      </div>
 
-        <div class="field">
-          <strong>Autor</strong>
-          <span id="autorObra">Aguardando identificação do autor</span>
-        </div>
+      <div class="mesario" id="mesarioSecao">
+        <strong>Mesário da seção</strong><br>
+        Valor acumulado desta análise.<br><br>
+        <strong>CVR sugerida desta seção: R$ 0,00</strong>
+      </div>
 
-        <div class="field">
-          <strong>Idioma base</strong>
-          <span id="idiomaObra">Aguardando idioma da obra</span>
-        </div>
-      </section>
+      <div class="actions">
+        <button class="main-btn btn-next" onclick="window.location.href='motor_sequencial.html'">
+          Concluir esta etapa e seguir
+        </button>
 
-      <section class="card">
-        <h2>Tipo de diagnóstico</h2>
-
-        <label for="nivelRelatorio">Nível do relatório</label>
-        <select id="nivelRelatorio">
-          <option>Relatório técnico essencial — 4 páginas</option>
-          <option>Relatório técnico ampliado — 6 páginas</option>
-          <option>Relatório estruturado completo — 8 páginas</option>
-          <option>Relatório editorial profundo — 11 páginas</option>
-        </select>
-
-        <label for="objetivoAnalise">Objetivo principal</label>
-        <select id="objetivoAnalise">
-          <option>Diagnóstico estrutural da obra</option>
-          <option>Preparação editorial</option>
-          <option>Preparação para publicação</option>
-          <option>Preparação para avaliação externa</option>
-        </select>
-      </section>
-
-      <section class="card wide">
-        <h2>Encaminhamento técnico</h2>
-
-        <label for="focoLeitura">Foco da leitura técnica</label>
-        <select id="focoLeitura">
-          <option>Estrutura narrativa</option>
-          <option>Arquitetura editorial</option>
-          <option>Organização de capítulos</option>
-          <option>Posicionamento da obra</option>
-        </select>
-
-        <div class="mesario" id="mesarioSecao">
-          <strong>Mesário da seção</strong><br>
-          Valor acumulado desta análise.<br><br>
-          <strong>CVR sugerida desta seção: R$ 0,00</strong>
-        </div>
-
-        <div class="actions">
-          <button class="main-btn btn-next" onclick="window.location.href='motor_sequencial.html'">
-            Concluir esta etapa e seguir
-          </button>
-
-          <button class="main-btn btn-skip" onclick="window.location.href='motor_sequencial.html'">
-            Pular este módulo por agora
-          </button>
-        </div>
-      </section>
-
-    </div>
+        <button class="main-btn btn-skip" onclick="window.location.href='motor_sequencial.html'">
+          Pular este módulo por agora
+        </button>
+      </div>
+    </section>
 
   </div>
 
-  <script>
-    function preencherDadosDaObra(){
-      const titulo = localStorage.getItem("lapidar_titulo_obra") || "Aguardando identificação da obra";
-      const autor = localStorage.getItem("lapidar_autor_obra") || "Aguardando identificação do autor";
-      const idioma = localStorage.getItem("lapidar_idioma_obra") || "Aguardando idioma da obra";
+</div>
 
-      document.getElementById("tituloObra").textContent = titulo;
-      document.getElementById("autorObra").textContent = autor;
-      document.getElementById("idiomaObra").textContent = idioma;
+<script>
+  function preencherDados(){
+    const titulo = localStorage.getItem("lapidar_titulo_obra") || "Título da obra";
+    const autor = localStorage.getItem("lapidar_autor_obra") || "Autor";
+    const idioma = localStorage.getItem("lapidar_idioma_obra") || "Idioma base";
+
+    document.getElementById("tituloObra").textContent = titulo;
+    document.getElementById("autorObra").textContent = autor;
+    document.getElementById("idiomaObra").textContent = idioma;
+
+    document.getElementById("previewTitulo").textContent = titulo;
+    document.getElementById("previewAutor").textContent = autor;
+  }
+
+  function atualizarPreview(){
+    document.getElementById("previewRelatorio").textContent =
+      document.getElementById("nivelRelatorio").value;
+
+    document.getElementById("previewObjetivo").textContent =
+      document.getElementById("objetivoAnalise").value;
+  }
+
+  function aplicarPerfil(){
+    const perfil = (localStorage.getItem("lapidar_perfil") || "").toLowerCase();
+    if(perfil.includes("cortesia")){
+      document.getElementById("mesarioSecao").style.display = "none";
     }
+  }
 
-    function aplicarRegraPerfil(){
-      const perfil = (localStorage.getItem("lapidar_perfil") || "").toLowerCase();
-      if(perfil.includes("cortesia")){
-        document.getElementById("mesarioSecao").classList.add("hidden");
-      }
-    }
-
-    preencherDadosDaObra();
-    aplicarRegraPerfil();
-  </script>
+  preencherDados();
+  atualizarPreview();
+  aplicarPerfil();
+</script>
 
 </body>
 </html>
