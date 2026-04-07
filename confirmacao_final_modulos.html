@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Confirmação final da obra — Lapidar</title>
+<title>Autorização final do processamento — Lapidar</title>
 
 <style>
 body{
@@ -34,38 +34,73 @@ border-radius:16px;
 box-shadow:0 8px 20px rgba(0,0,0,.08);
 }
 
-.botao{
-width:100%;
-padding:18px;
+.bloco{
+padding:16px;
+border-radius:12px;
 margin-top:14px;
+font-size:18px;
+font-weight:bold;
+}
+
+.azul{
+background:#6b8ec1;
+color:white;
+}
+
+.amarelo{
+background:#c19b2e;
+color:white;
+}
+
+.verde{
+background:#5aa07a;
+color:white;
+}
+
+.vermelho{
+background:#b71c1c;
+color:white;
+border:none;
+width:100%;
+cursor:pointer;
+}
+
+.offwhite{
+background:#f5f1e6;
+color:#2b2b2b;
+border:2px solid #32497d;
+width:100%;
+cursor:pointer;
+}
+
+.preto{
+background:#000000;
+color:white;
+width:100%;
+cursor:pointer;
+}
+
+.botao{
+padding:18px;
+margin-top:16px;
 border:none;
 border-radius:12px;
 font-size:18px;
 font-weight:bold;
-cursor:pointer;
 }
 
-.confirmar{
-background:#2e7d32;
-color:white;
+.oculto{
+display:none;
 }
 
-.voltar{
-background:#607d8b;
-color:white;
-}
-
-.apagar{
-background:#b71c1c;
-color:white;
-}
-
-.lista{
-background:#f7f7f7;
+.status{
+margin-top:20px;
 padding:18px;
 border-radius:12px;
-margin-top:20px;
-line-height:1.8;
+background:#eef5ea;
+color:#1b5e20;
+font-weight:bold;
+display:none;
 }
 
 p{
@@ -76,53 +111,147 @@ color:#4e4e4e;
 <body>
 
 <header>
-<div>Confirmação final da estrutura</div>
+<div>Autorização final do processamento</div>
 <div>Lapidar</div>
 </header>
 
 <div class="container">
 <div class="card">
 
-<h2>Confira antes de continuar</h2>
+<h2>Confira as áreas escolhidas para sua obra</h2>
 
 <p>
-Revise as escolhas feitas para sua obra antes de iniciar o processamento.
+Se estiver tudo certo, autorize o Lapidar a iniciar o processamento.
 </p>
 
-<div class="lista">
-<strong>Você escolheu:</strong><br>
-• Produção editorial<br>
-• Produção audiovisual<br>
-• Produção com voz / música
+<div id="blocoLivro" class="bloco azul oculto">
+Produção editorial selecionada
 </div>
 
-<button class="botao confirmar" onclick="iniciar()">
+<div id="blocoAudiovisual" class="bloco amarelo oculto">
+Produção audiovisual selecionada
+</div>
+
+<div id="blocoMusica" class="bloco verde oculto">
+Produção com voz / música selecionada
+</div>
+
+<button class="botao vermelho" id="btnApagar" onclick="apagarTudo()">
+Apagar todas as escolhas
+</button>
+
+<button class="botao offwhite" id="btnAutorizar" onclick="autorizar()">
 Confirmar e iniciar o trabalho da obra
 </button>
 
-<button class="botao voltar" onclick="voltar()">
-Voltar para ajustar suas escolhas
+<button class="botao preto" id="btnReiniciar" onclick="reiniciar()">
+Voltar ao início do processo
 </button>
 
-<button class="botao apagar" onclick="apagar()">
-Apagar escolhas e recomeçar
-</button>
+<div class="status" id="statusAutorizado">
+Autorização registrada. O Lapidar está preparando o andamento da obra...
+</div>
 
 </div>
 </div>
 
 <script>
-function iniciar(){
-window.location.href="/motor_sequencial.html";
+
+function existeEscolhaLivro(){
+return (
+localStorage.getItem("correcao_recomendada")==="sim" ||
+localStorage.getItem("lapidacao_texto")==="sim" ||
+localStorage.getItem("traducao_livro")==="sim" ||
+localStorage.getItem("diagramacao_livro")==="sim" ||
+localStorage.getItem("capa_livro")==="sim" ||
+localStorage.getItem("estrutura_livro")==="sim" ||
+localStorage.getItem("qualidade_livro")==="sim"
+);
 }
 
-function voltar(){
+function existeEscolhaAudiovisual(){
+return (
+localStorage.getItem("video_historia")==="sim" ||
+localStorage.getItem("video_cena")==="sim" ||
+localStorage.getItem("video_apresentacao")==="sim" ||
+localStorage.getItem("video_redes")==="sim"
+);
+}
+
+function existeEscolhaMusica(){
+return (
+localStorage.getItem("narracao_voz")==="sim" ||
+localStorage.getItem("audiolivro")==="sim" ||
+localStorage.getItem("trilha_sonora")==="sim" ||
+localStorage.getItem("musica_tema")==="sim" ||
+localStorage.getItem("versao_cantada")==="sim" ||
+localStorage.getItem("distribuicao_audio")==="sim"
+);
+}
+
+window.onload=function(){
+
+if(existeEscolhaLivro()){
+document.getElementById("blocoLivro").classList.remove("oculto");
+}
+
+if(existeEscolhaAudiovisual()){
+document.getElementById("blocoAudiovisual").classList.remove("oculto");
+}
+
+if(existeEscolhaMusica()){
+document.getElementById("blocoMusica").classList.remove("oculto");
+}
+
+}
+
+function apagarTudo(){
+
+localStorage.removeItem("correcao_recomendada");
+localStorage.removeItem("lapidacao_texto");
+localStorage.removeItem("traducao_livro");
+localStorage.removeItem("diagramacao_livro");
+localStorage.removeItem("capa_livro");
+localStorage.removeItem("estrutura_livro");
+localStorage.removeItem("qualidade_livro");
+
+localStorage.removeItem("video_historia");
+localStorage.removeItem("video_cena");
+localStorage.removeItem("video_apresentacao");
+localStorage.removeItem("video_redes");
+
+localStorage.removeItem("narracao_voz");
+localStorage.removeItem("audiolivro");
+localStorage.removeItem("trilha_sonora");
+localStorage.removeItem("musica_tema");
+localStorage.removeItem("versao_cantada");
+localStorage.removeItem("distribuicao_audio");
+
 window.location.href="/selecionar_modulos.html";
 }
 
-function apagar(){
+function autorizar(){
+
+document.getElementById("btnApagar").classList.add("oculto");
+document.getElementById("btnReiniciar").classList.add("oculto");
+
+const botao=document.getElementById("btnAutorizar");
+botao.innerText="Autorização registrada ✔";
+botao.disabled=true;
+botao.style.opacity="0.7";
+
+document.getElementById("statusAutorizado").style.display="block";
+
+setTimeout(function(){
+window.location.href="/motor_fluxo_obra.html";
+},1500);
+
+}
+
+function reiniciar(){
 window.location.href="/index.html";
 }
+
 </script>
 
 </body>
