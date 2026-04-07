@@ -1,124 +1,26 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Escolha o tipo de produção — Lapidar</title>
+function continuarFluxo(){
 
-<style>
-body{
-margin:0;
-font-family:Arial,sans-serif;
-background:#f4f1e8;
+const azul = localStorage.getItem("modulo_editorial")==="sim";
+const amarelo = localStorage.getItem("modulo_audiovisual")==="sim";
+const verde = localStorage.getItem("modulo_musica")==="sim";
+
+
+if(azul){
+window.location.href="/modulos_livro.html";
+return;
 }
 
-header{
-background:#32497d;
-color:white;
-padding:18px;
-display:flex;
-justify-content:space-between;
-font-size:18px;
+if(amarelo){
+window.location.href="/modulos_audiovisual.html";
+return;
 }
 
-.container{
-max-width:900px;
-margin:auto;
-padding:30px;
+if(verde){
+window.location.href="/modulos_musica.html";
+return;
 }
 
-.card{
-background:white;
-padding:25px;
-border-radius:16px;
-box-shadow:0 8px 20px rgba(0,0,0,.08);
+
+alert("Escolha pelo menos um tipo de produção antes de continuar.");
+
 }
-
-.botao{
-width:100%;
-padding:18px;
-margin-top:14px;
-border:none;
-border-radius:12px;
-font-size:18px;
-font-weight:bold;
-cursor:pointer;
-}
-
-.livro{
-background:#6b8ec1;
-color:white;
-}
-
-.audiovisual{
-background:#c19b2e;
-color:white;
-}
-
-.voz{
-background:#5aa07a;
-color:white;
-}
-
-.voltar{
-background:#455a64;
-color:white;
-margin-top:22px;
-}
-</style>
-</head>
-<body>
-
-<header>
-<div>Escolha o tipo de produção</div>
-<div>Lapidar</div>
-</header>
-
-<div class="container">
-<div class="card">
-
-<h2>Selecione o caminho da sua obra</h2>
-
-<p>
-Primeiro escolha o tipo principal. Depois você entra só nos módulos daquela área.
-</p>
-
-<button class="botao livro" onclick="irLivro()">
-Produção Editorial (Livro)
-</button>
-
-<button class="botao audiovisual" onclick="irAudiovisual()">
-Produção Audiovisual
-</button>
-
-<button class="botao voz" onclick="irVoz()">
-Produção com Voz / Música
-</button>
-
-<button class="botao voltar" onclick="voltarInicio()">
-Voltar para a tela principal
-</button>
-
-</div>
-</div>
-
-<script>
-function irLivro(){
-window.location.href="modulos_livro.html";
-}
-
-function irAudiovisual(){
-window.location.href="modulos_audiovisual.html";
-}
-
-function irVoz(){
-window.location.href="modulos_musica.html";
-}
-
-function voltarInicio(){
-window.location.href="index.html";
-}
-</script>
-
-</body>
-</html>
