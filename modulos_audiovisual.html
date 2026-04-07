@@ -126,7 +126,7 @@ Criar vídeo de apresentação do livro
 Criar vídeos curtos para Instagram, TikTok e YouTube
 </button>
 
-<button class="botao continuar" onclick="seguir()">
+<button class="botao continuar" onclick="seguirFluxo()">
 Continuar com as escolhas feitas
 </button>
 
@@ -155,8 +155,44 @@ document.getElementById(idBotao).classList.add("ativo");
 
 }
 
-function seguir(){
+function temLivro(){
+return (
+localStorage.getItem("correcao_recomendada")==="sim" ||
+localStorage.getItem("lapidacao_texto")==="sim" ||
+localStorage.getItem("traducao_livro")==="sim" ||
+localStorage.getItem("diagramacao_livro")==="sim" ||
+localStorage.getItem("capa_livro")==="sim" ||
+localStorage.getItem("estrutura_livro")==="sim" ||
+localStorage.getItem("qualidade_livro")==="sim"
+);
+}
+
+function temMusica(){
+return (
+localStorage.getItem("narracao_voz")==="sim" ||
+localStorage.getItem("audiolivro")==="sim" ||
+localStorage.getItem("trilha_sonora")==="sim" ||
+localStorage.getItem("musica_tema")==="sim" ||
+localStorage.getItem("versao_cantada")==="sim" ||
+localStorage.getItem("distribuicao_audio")==="sim"
+);
+}
+
+function seguirFluxo(){
+
+localStorage.setItem("modulo_audiovisual_configurado","sim");
+
+if(!temLivro()){
 window.location.href="/alerta_correcao_antes_audiovisual.html";
+return;
+}
+
+if(temMusica() && localStorage.getItem("modulo_musica_configurado")!=="sim"){
+window.location.href="/modulos_musica.html";
+return;
+}
+
+window.location.href="/confirmacao_final_modulos.html";
 }
 
 function retornar(){
@@ -169,6 +205,7 @@ localStorage.removeItem("video_historia");
 localStorage.removeItem("video_cena");
 localStorage.removeItem("video_apresentacao");
 localStorage.removeItem("video_redes");
+localStorage.removeItem("modulo_audiovisual_configurado");
 
 location.reload();
 }
