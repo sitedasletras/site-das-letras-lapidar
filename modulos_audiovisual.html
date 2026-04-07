@@ -45,6 +45,7 @@ border-radius:12px;
 font-size:18px;
 font-weight:bold;
 cursor:pointer;
+transition:0.2s;
 }
 
 .amarelo1{
@@ -65,6 +66,11 @@ color:#3e2723;
 .amarelo4{
 background:#f9a825;
 color:white;
+}
+
+.ativo{
+outline:4px solid #8d6e00;
+transform:scale(1.01);
 }
 
 .continuar{
@@ -104,19 +110,19 @@ color:#5d4037;
 Você pode escolher um ou vários. Depois o sistema organiza automaticamente.
 </p>
 
-<button class="botao amarelo1">
+<button class="botao amarelo1" id="btnHistoria" onclick="toggleEscolha('video_historia','btnHistoria')">
 Criar vídeo contando a história do livro
 </button>
 
-<button class="botao amarelo2">
+<button class="botao amarelo2" id="btnCena" onclick="toggleEscolha('video_cena','btnCena')">
 Criar uma cena do livro em vídeo
 </button>
 
-<button class="botao amarelo3">
+<button class="botao amarelo3" id="btnApresentacao" onclick="toggleEscolha('video_apresentacao','btnApresentacao')">
 Criar vídeo de apresentação do livro
 </button>
 
-<button class="botao amarelo4">
+<button class="botao amarelo4" id="btnRedes" onclick="toggleEscolha('video_redes','btnRedes')">
 Criar vídeos curtos para Instagram, TikTok e YouTube
 </button>
 
@@ -136,6 +142,19 @@ Apagar escolhas desta tela
 </div>
 
 <script>
+
+function toggleEscolha(chave,idBotao){
+
+if(localStorage.getItem(chave)==="sim"){
+localStorage.removeItem(chave);
+document.getElementById(idBotao).classList.remove("ativo");
+}else{
+localStorage.setItem(chave,"sim");
+document.getElementById(idBotao).classList.add("ativo");
+}
+
+}
+
 function seguir(){
 window.location.href="/alerta_correcao_antes_audiovisual.html";
 }
@@ -145,8 +164,35 @@ window.location.href="/selecionar_modulos.html";
 }
 
 function limpar(){
+
+localStorage.removeItem("video_historia");
+localStorage.removeItem("video_cena");
+localStorage.removeItem("video_apresentacao");
+localStorage.removeItem("video_redes");
+
 location.reload();
 }
+
+window.onload=function(){
+
+if(localStorage.getItem("video_historia")==="sim"){
+document.getElementById("btnHistoria").classList.add("ativo");
+}
+
+if(localStorage.getItem("video_cena")==="sim"){
+document.getElementById("btnCena").classList.add("ativo");
+}
+
+if(localStorage.getItem("video_apresentacao")==="sim"){
+document.getElementById("btnApresentacao").classList.add("ativo");
+}
+
+if(localStorage.getItem("video_redes")==="sim"){
+document.getElementById("btnRedes").classList.add("ativo");
+}
+
+}
+
 </script>
 
 </body>
