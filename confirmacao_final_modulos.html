@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Autorização final do processamento — Lapidar</title>
+<title>Decisão final da obra — Lapidar</title>
 
 <style>
 body{
@@ -35,11 +35,14 @@ box-shadow:0 8px 20px rgba(0,0,0,.08);
 }
 
 .bloco{
-padding:16px;
+width:100%;
+padding:18px;
+margin-top:12px;
+border:none;
 border-radius:12px;
-margin-top:14px;
 font-size:18px;
 font-weight:bold;
+box-sizing:border-box;
 }
 
 .azul{
@@ -57,11 +60,14 @@ background:#5aa07a;
 color:white;
 }
 
-.vermelho{
-background:#b71c1c;
-color:white;
-border:none;
+.botao{
 width:100%;
+padding:18px;
+margin-top:16px;
+border:none;
+border-radius:12px;
+font-size:18px;
+font-weight:bold;
 cursor:pointer;
 }
 
@@ -69,24 +75,16 @@ cursor:pointer;
 background:#f5f1e6;
 color:#2b2b2b;
 border:2px solid #32497d;
-width:100%;
-cursor:pointer;
 }
 
 .preto{
 background:#000000;
 color:white;
-width:100%;
-cursor:pointer;
 }
 
-.botao{
-padding:18px;
-margin-top:16px;
-border:none;
-border-radius:12px;
-font-size:18px;
-font-weight:bold;
+.vermelho{
+background:#b71c1c;
+color:white;
 }
 
 .oculto{
@@ -111,29 +109,29 @@ color:#4e4e4e;
 <body>
 
 <header>
-<div>Autorização final do processamento</div>
+<div>Decisão final da obra</div>
 <div>Lapidar</div>
 </header>
 
 <div class="container">
 <div class="card">
 
-<h2>Confira as áreas escolhidas para sua obra</h2>
+<h2>Confira o que você escolheu para sua obra</h2>
 
 <p>
-Se estiver tudo certo, autorize o Lapidar a iniciar o processamento.
+Se estiver tudo certo, autorize o Lapidar a iniciar o andamento da obra.
 </p>
 
 <div id="blocoLivro" class="bloco azul oculto">
-Produção editorial selecionada
+Produção editorial escolhida
 </div>
 
 <div id="blocoAudiovisual" class="bloco amarelo oculto">
-Produção audiovisual selecionada
+Produção audiovisual escolhida
 </div>
 
 <div id="blocoMusica" class="bloco verde oculto">
-Produção com voz / música selecionada
+Produção com voz / música escolhida
 </div>
 
 <button class="botao vermelho" id="btnApagar" onclick="apagarTudo()">
@@ -148,7 +146,7 @@ Confirmar e iniciar o trabalho da obra
 Voltar ao início do processo
 </button>
 
-<div class="status" id="statusAutorizado">
+<div class="status" id="statusFinal">
 Autorização registrada. O Lapidar está preparando o andamento da obra...
 </div>
 
@@ -156,8 +154,7 @@ Autorização registrada. O Lapidar está preparando o andamento da obra...
 </div>
 
 <script>
-
-function existeEscolhaLivro(){
+function existeLivro(){
 return (
 localStorage.getItem("correcao_recomendada")==="sim" ||
 localStorage.getItem("lapidacao_texto")==="sim" ||
@@ -169,7 +166,7 @@ localStorage.getItem("qualidade_livro")==="sim"
 );
 }
 
-function existeEscolhaAudiovisual(){
+function existeAudiovisual(){
 return (
 localStorage.getItem("video_historia")==="sim" ||
 localStorage.getItem("video_cena")==="sim" ||
@@ -178,10 +175,11 @@ localStorage.getItem("video_redes")==="sim"
 );
 }
 
-function existeEscolhaMusica(){
+function existeMusica(){
 return (
 localStorage.getItem("narracao_voz")==="sim" ||
 localStorage.getItem("audiolivro")==="sim" ||
+localStorage.getItem("leitura_dramatizada")==="sim" ||
 localStorage.getItem("trilha_sonora")==="sim" ||
 localStorage.getItem("musica_tema")==="sim" ||
 localStorage.getItem("versao_cantada")==="sim" ||
@@ -191,15 +189,15 @@ localStorage.getItem("distribuicao_audio")==="sim"
 
 window.onload=function(){
 
-if(existeEscolhaLivro()){
+if(existeLivro()){
 document.getElementById("blocoLivro").classList.remove("oculto");
 }
 
-if(existeEscolhaAudiovisual()){
+if(existeAudiovisual()){
 document.getElementById("blocoAudiovisual").classList.remove("oculto");
 }
 
-if(existeEscolhaMusica()){
+if(existeMusica()){
 document.getElementById("blocoMusica").classList.remove("oculto");
 }
 
@@ -214,18 +212,22 @@ localStorage.removeItem("diagramacao_livro");
 localStorage.removeItem("capa_livro");
 localStorage.removeItem("estrutura_livro");
 localStorage.removeItem("qualidade_livro");
+localStorage.removeItem("modulo_livro_configurado");
 
 localStorage.removeItem("video_historia");
 localStorage.removeItem("video_cena");
 localStorage.removeItem("video_apresentacao");
 localStorage.removeItem("video_redes");
+localStorage.removeItem("modulo_audiovisual_configurado");
 
 localStorage.removeItem("narracao_voz");
 localStorage.removeItem("audiolivro");
+localStorage.removeItem("leitura_dramatizada");
 localStorage.removeItem("trilha_sonora");
 localStorage.removeItem("musica_tema");
 localStorage.removeItem("versao_cantada");
 localStorage.removeItem("distribuicao_audio");
+localStorage.removeItem("modulo_musica_configurado");
 
 window.location.href="/selecionar_modulos.html";
 }
@@ -235,23 +237,21 @@ function autorizar(){
 document.getElementById("btnApagar").classList.add("oculto");
 document.getElementById("btnReiniciar").classList.add("oculto");
 
-const botao=document.getElementById("btnAutorizar");
-botao.innerText="Autorização registrada ✔";
-botao.disabled=true;
-botao.style.opacity="0.7";
+const botao = document.getElementById("btnAutorizar");
+botao.innerText = "Autorização registrada ✔";
+botao.disabled = true;
+botao.style.opacity = "0.75";
 
-document.getElementById("statusAutorizado").style.display="block";
+document.getElementById("statusFinal").style.display = "block";
 
 setTimeout(function(){
 window.location.href="/motor_fluxo_obra.html";
 },1500);
-
 }
 
 function reiniciar(){
 window.location.href="/index.html";
 }
-
 </script>
 
 </body>
