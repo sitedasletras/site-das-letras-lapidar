@@ -3,43 +3,57 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Produção editorial do livro — Lapidar</title>
+<title>Módulos do Livro — Lapidar</title>
 
 <style>
 body{
 margin:0;
 font-family:Arial,sans-serif;
-background:#f4f1e8;
+background:#eef2fa;
+color:#2a2a2a;
 }
 
 header{
-background:#32497d;
+background:#2f4f8f;
 color:white;
-padding:18px;
+padding:16px 20px;
 display:flex;
 justify-content:space-between;
+align-items:center;
 font-size:18px;
 }
 
 .container{
-max-width:900px;
+max-width:960px;
 margin:auto;
-padding:30px;
+padding:28px;
 }
 
 .card{
-background:#eaf1fb;
-padding:25px;
-border-radius:16px;
-margin-bottom:20px;
+background:white;
+border-radius:18px;
+padding:26px;
 box-shadow:0 8px 20px rgba(0,0,0,.08);
-border:1px solid #c5d6f2;
+border:1px solid #dce4f4;
+}
+
+h1{
+margin:0 0 12px 0;
+font-size:32px;
+color:#2f3e55;
+}
+
+p{
+margin:0 0 20px 0;
+font-size:18px;
+line-height:1.6;
+color:#555;
 }
 
 .botao{
 width:100%;
 padding:18px;
-margin-top:12px;
+margin-top:14px;
 border:none;
 border-radius:12px;
 font-size:18px;
@@ -48,154 +62,213 @@ cursor:pointer;
 transition:0.2s;
 }
 
-.azul1{background:#7ea2d6;color:white;}
-.azul2{background:#6f95cc;color:white;}
-.azul3{background:#6188c1;color:white;}
-.azul4{background:#537bb7;color:white;}
-.azul5{background:#456eac;color:white;}
-.azul6{background:#3761a2;color:white;}
-.azul7{background:#295497;color:white;}
+.azul{
+background:#6f95cc;
+color:white;
+}
+
+.azul-escuro{
+background:#32497d;
+color:white;
+}
 
 .ativo{
-outline:4px solid #163d73;
+outline:4px solid rgba(0,0,0,.18);
 transform:scale(1.01);
 }
 
-.continuar{
-background:#2e7d32;
-color:white;
-margin-top:22px;
-}
-
-.retornar{
-background:#607d8b;
-color:white;
-}
-
-.apagar{
-background:#b71c1c;
-color:white;
-}
-
-p{
-color:#2f3e55;
+.info{
+margin-top:20px;
+padding:14px 16px;
+border-radius:12px;
+background:#e9f2ff;
+color:#1a3d7c;
+font-weight:bold;
+display:none;
 }
 </style>
 </head>
 <body>
 
 <header>
-<div>Produção editorial do livro</div>
+<div>Módulos editoriais</div>
 <div>Lapidar</div>
 </header>
 
 <div class="container">
 <div class="card">
 
-<h2>Escolha o que deseja fazer com seu livro</h2>
+<h1>Selecione os módulos do livro</h1>
 
 <p>
-Você pode escolher um ou vários. Depois você entra na configuração editorial.
+Escolha quais etapas editoriais deseja executar agora.  
+Você pode voltar depois e ativar novos módulos se quiser.
 </p>
 
-<button class="botao azul1" id="btnCorrecao" onclick="toggleEscolha('correcao_recomendada','btnCorrecao')">
-Corrigir ortografia e gramática
+<button class="botao azul" id="btnDiagramacao"
+onclick="toggleModuloLivro('modulo_diagramacao','btnDiagramacao','Diagramação selecionada')">
+Assistente de Diagramação do Autor
 </button>
 
-<button class="botao azul2" id="btnLapidacao" onclick="toggleEscolha('lapidacao_texto','btnLapidacao')">
-Melhorar a escrita do texto
+<button class="botao azul" id="btnCapista"
+onclick="toggleModuloLivro('modulo_capista','btnCapista','OKapista selecionado')">
+OKapista — Criação de capa
 </button>
 
-<button class="botao azul3" id="btnTraducao" onclick="toggleEscolha('traducao_livro','btnTraducao')">
-Traduzir o livro para outro idioma
+<button class="botao azul" id="btnSegundaLingua"
+onclick="toggleModuloLivro('modulo_segunda_lingua','btnSegundaLingua','Segunda Língua selecionada')">
+Segunda Língua(s)
 </button>
 
-<button class="botao azul4" id="btnDiagramacao" onclick="toggleEscolha('diagramacao_livro','btnDiagramacao')">
-Preparar o livro para impressão
+<button class="botao azul" id="btnAvaliacao"
+onclick="toggleModuloLivro('modulo_avaliacao','btnAvaliacao','Avaliação Literária selecionada')">
+Avaliação Literária
 </button>
 
-<button class="botao azul5" id="btnCapa" onclick="toggleEscolha('capa_livro','btnCapa')">
-Criar a capa do livro
+<button class="botao azul" id="btnAnalisador"
+onclick="toggleModuloLivro('modulo_analisador','btnAnalisador','Analisador de obra selecionado')">
+Analisador de Obra
 </button>
 
-<button class="botao azul6" id="btnEstrutura" onclick="toggleEscolha('estrutura_livro','btnEstrutura')">
-Ver como a história do seu livro está organizada
+<button class="botao azul" id="btnLapidacao"
+onclick="toggleModuloLivro('modulo_lapidacao','btnLapidacao','Lapidação Literária selecionada')">
+Lapidação Literária
 </button>
 
-<button class="botao azul7" id="btnQualidade" onclick="toggleEscolha('qualidade_livro','btnQualidade')">
-Ver se o seu livro está bom e o que pode melhorar
+<button class="botao azul-escuro"
+onclick="continuarFluxoLivro()">
+Continuar execução editorial
 </button>
 
-<button class="botao continuar" onclick="seguirFluxo()">
-Continuar com as escolhas feitas
-</button>
-
-<button class="botao retornar" onclick="retornar()">
-Voltar para escolher outro tipo de produção
-</button>
-
-<button class="botao apagar" onclick="limpar()">
-Apagar escolhas desta tela
-</button>
+<div class="info" id="statusLivro">
+Seleção registrada. Preparando execução editorial.
+</div>
 
 </div>
 </div>
+
+<script src="/auditoria.js"></script>
 
 <script>
-function toggleEscolha(chave,idBotao){
+
+function marcarVisualInicial(){
+
+const modulos = [
+["modulo_diagramacao","btnDiagramacao"],
+["modulo_capista","btnCapista"],
+["modulo_segunda_lingua","btnSegundaLingua"],
+["modulo_avaliacao","btnAvaliacao"],
+["modulo_analisador","btnAnalisador"],
+["modulo_lapidacao","btnLapidacao"]
+];
+
+modulos.forEach(function(item){
+
+if(localStorage.getItem(item[0])==="sim"){
+
+document.getElementById(item[1]).classList.add("ativo");
+
+}
+
+});
+
+}
+
+function toggleModuloLivro(chave,idBotao,mensagem){
+
+const botao = document.getElementById(idBotao);
+
 if(localStorage.getItem(chave)==="sim"){
+
 localStorage.removeItem(chave);
-document.getElementById(idBotao).classList.remove("ativo");
+
+botao.classList.remove("ativo");
+
+LapidarAuditoria.registrarEvento("Módulo editorial removido",{
+modulo:chave
+});
+
 }else{
+
 localStorage.setItem(chave,"sim");
-document.getElementById(idBotao).classList.add("ativo");
-}
+
+botao.classList.add("ativo");
+
+LapidarAuditoria.registrarEvento(mensagem,{
+modulo:chave
+});
+
 }
 
-function seguirFluxo(){
-localStorage.setItem("modulo_livro_configurado","sim");
-window.location.href="/editorial_livro_configuracao.html";
 }
 
-function retornar(){
-window.location.href="/selecionar_modulos.html";
+function continuarFluxoLivro(){
+
+const selecionados = [
+
+"modulo_diagramacao",
+"modulo_capista",
+"modulo_segunda_lingua",
+"modulo_avaliacao",
+"modulo_analisador",
+"modulo_lapidacao"
+
+];
+
+let algumSelecionado=false;
+
+selecionados.forEach(function(mod){
+
+if(localStorage.getItem(mod)==="sim"){
+
+algumSelecionado=true;
+
 }
 
-function limpar(){
-localStorage.removeItem("correcao_recomendada");
-localStorage.removeItem("lapidacao_texto");
-localStorage.removeItem("traducao_livro");
-localStorage.removeItem("diagramacao_livro");
-localStorage.removeItem("capa_livro");
-localStorage.removeItem("estrutura_livro");
-localStorage.removeItem("qualidade_livro");
-localStorage.removeItem("modulo_livro_configurado");
-location.reload();
+});
+
+if(!algumSelecionado){
+
+alert("Selecione pelo menos um módulo editorial.");
+
+return;
+
+}
+
+document.getElementById("statusLivro").style.display="block";
+
+LapidarAuditoria.registrarEvento("Execução editorial iniciada",{
+
+diagramacao:localStorage.getItem("modulo_diagramacao")||"nao",
+
+capista:localStorage.getItem("modulo_capista")||"nao",
+
+segundaLingua:localStorage.getItem("modulo_segunda_lingua")||"nao",
+
+avaliacao:localStorage.getItem("modulo_avaliacao")||"nao",
+
+analisador:localStorage.getItem("modulo_analisador")||"nao",
+
+lapidacao:localStorage.getItem("modulo_lapidacao")||"nao"
+
+});
+
+setTimeout(function(){
+
+window.location.href="/painel_execucao_obra.html";
+
+},800);
+
 }
 
 window.onload=function(){
-if(localStorage.getItem("correcao_recomendada")==="sim"){
-document.getElementById("btnCorrecao").classList.add("ativo");
-}
-if(localStorage.getItem("lapidacao_texto")==="sim"){
-document.getElementById("btnLapidacao").classList.add("ativo");
-}
-if(localStorage.getItem("traducao_livro")==="sim"){
-document.getElementById("btnTraducao").classList.add("ativo");
-}
-if(localStorage.getItem("diagramacao_livro")==="sim"){
-document.getElementById("btnDiagramacao").classList.add("ativo");
-}
-if(localStorage.getItem("capa_livro")==="sim"){
-document.getElementById("btnCapa").classList.add("ativo");
-}
-if(localStorage.getItem("estrutura_livro")==="sim"){
-document.getElementById("btnEstrutura").classList.add("ativo");
-}
-if(localStorage.getItem("qualidade_livro")==="sim"){
-document.getElementById("btnQualidade").classList.add("ativo");
-}
-}
+
+marcarVisualInicial();
+
+LapidarAuditoria.registrarEvento("Tela de módulos editoriais aberta",{});
+
+};
+
 </script>
 
 </body>
