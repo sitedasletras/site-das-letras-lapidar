@@ -63,6 +63,7 @@ border-radius:12px;
 margin-top:14px;
 font-size:18px;
 font-weight:bold;
+white-space:pre-wrap;
 }
 
 .offwhite{
@@ -121,6 +122,7 @@ background:#eef5ea;
 color:#1b5e20;
 font-weight:bold;
 display:none;
+white-space:pre-wrap;
 }
 
 @media(max-width:800px){
@@ -147,6 +149,7 @@ font-size:28px;
 
 <p>
 Aqui você acompanha o tempo restante do seu plano e o saldo disponível de produção.
+O relógio usado aqui é o tempo institucional do Lapidar.
 </p>
 
 <div class="bloco offwhite" id="blocoPlano">
@@ -183,7 +186,9 @@ Plano atualizado com sucesso.
 <h2>Controle do plano</h2>
 
 <p>
-Você pode iniciar um plano de 30 dias para teste do relógio institucional do Lapidar.
+Você pode iniciar um plano de 30 dias para testar o relógio institucional do Lapidar.
+Ao contratar um novo plano, o prazo passa a contar a partir da data de hoje.
+Unidades avulsas não alteram o prazo do plano atual.
 </p>
 
 <div class="grid">
@@ -223,16 +228,19 @@ const CHAVE_DIAGRAMACAO = "lapidar_plano_saldo_diagramacao";
 const CHAVE_CAPA = "lapidar_plano_saldo_capa";
 const CHAVE_TRADUCAO = "lapidar_plano_saldo_traducao";
 
-function hojeMs(){
-return Date.now();
+function mostrarStatus(texto){
+document.getElementById("statusPlano").style.display = "block";
+document.getElementById("statusPlano").innerText = texto;
 }
 
-function diasPassados(inicioMs){
-const diff = hojeMs() - inicioMs;
+function diasPassadosPorTempoOficial(inicioISO, agoraISO){
+const inicio = new Date(inicioISO).getTime();
+const agora = new Date(agoraISO).getTime();
+const diff = agora - inicio;
 return Math.floor(diff / (1000 * 60 * 60 * 24));
 }
 
-function atualizarPainelPlano(){
+async function atualizarPainelPlano(){
 const inicio = localStorage.getItem(CHAVE_INICIO);
 const diasPlano = parseInt(localStorage.getItem(CHAVE_DIAS) || "0",10);
 const saldoDiagramacao = parseInt(localStorage.getItem(CHAVE_DIAGRAMACAO) || "0",10);
@@ -249,15 +257,15 @@ document.getElementById("blocoAviso").innerText = "Sem avisos no momento.";
 return;
 }
 
-const inicioMs = parseInt(inicio,10);
-const passados = diasPassados(inicioMs);
+const tempo = await LapidarAuditoria.obterTempoOficial();
+const passados = diasPassadosPorTempoOficial(inicio, tempo.horarioISO);
 const restantes = Math.max(diasPlano - passados, 0);
 
-const dataInicio = new Date(inicioMs).toLocaleDateString("pt-BR");
-const dataFim = new Date(inicioMs + diasPlano * 24 * 60 * 60 * 1000).toLocaleDateString("pt-BR");
+const dataInicio = new Date(inicio).toLocaleDateString("pt-BR");
+const dataFim = new Date(new Date(inicio).getTime() + diasPlano * 24 * 60 * 60 * 1000).toLocaleDateString("pt-BR");
 
 document.getElementById("blocoPlano").innerText =
-"Plano ativo.\nInício: " + dataInicio + "\nFim previsto: " + dataFim;
+"Plano ativo.\nInício: " + dataInicio + "\nFim previsto: " + dataFim + "\nTempo-base: institucional do Lapidar";
 
 document.getElementById("blocoDias").innerText =
 "Dias restantes: " + restantes;
@@ -274,7 +282,9 @@ document.getElementById("blocoTraducao").innerText =
 let aviso = "Sem avisos no momento.";
 
 if(restantes === 0){
-aviso = "Seu plano expirou. Você pode adquirir unidades avulsas ou contratar um novo plano a partir de hoje.";
+aviso = "Seu plano expirou. Você pode adquirir unidades avulsas ou contratar um novo plano a partir da data de hoje.";
+}else if(restantes <= 1){
+aviso = "Seu plano vence hoje ou está no último dia útil do período.";
 }else if(restantes <= 3){
 aviso = "Seu plano está perto do fim. Restam " + restantes + " dia(s).";
 }else if(restantes <= 7){
@@ -287,100 +297,112 @@ if(saldoDiagramacao > 0){
 aviso += " Você ainda tem " + saldoDiagramacao + " diagramação(ões) disponível(is).";
 }
 
+if(saldoDiagramacao === 0 && restantes > 0){
+aviso += " Seu saldo de diagramações foi utilizado. Você pode adquirir de forma avulsa ou em novos planos, sendo em novos planos a contar da data de hoje.";
+}
+
 document.getElementById("blocoAviso").innerText = aviso;
 }
 
-function iniciarPlanoTeste(){
-localStorage.setItem(CHAVE_INICIO, String(Date.now()));
+async function iniciarPlanoTeste(){
+const tempo = await LapidarAuditoria.obterTempoOficial();
+
+localStorage.setItem(CHAVE_INICIO, tempo.horarioISO);
 localStorage.setItem(CHAVE_DIAS, "30");
 localStorage.setItem(CHAVE_DIAGRAMACAO, "3");
 localStorage.setItem(CHAVE_CAPA, "2");
 localStorage.setItem(CHAVE_TRADUCAO, "1");
 
-document.getElementById("statusPlano").style.display = "block";
-document.getElementById("statusPlano").innerText = "Plano de 30 dias iniciado a partir de hoje.";
+mostrarStatus("Plano de 30 dias iniciado a partir de hoje.");
 
-LapidarAuditoria.registrarEvento("Plano de teste iniciado", {
+await LapidarAuditoria.registrarEvento("Plano de teste iniciado", {
 dias: 30,
 diagramacoes: 3,
 capas: 2,
-traducoes: 1
+traducoes: 1,
+tempoBase: tempo.horarioISO
 });
 
-atualizarPainelPlano();
+await atualizarPainelPlano();
 }
 
-function usarDiagramacao(){
+async function usarDiagramacao(){
 let saldo = parseInt(localStorage.getItem(CHAVE_DIAGRAMACAO) || "0",10);
+
 if(saldo > 0){
 saldo--;
 localStorage.setItem(CHAVE_DIAGRAMACAO, String(saldo));
-LapidarAuditoria.registrarEvento("Uso de diagramação registrado", {
+
+await LapidarAuditoria.registrarEvento("Uso de diagramação registrado", {
 saldoRestante: saldo
 });
-atualizarPainelPlano();
+
+await atualizarPainelPlano();
 }
 }
 
-function usarCapa(){
+async function usarCapa(){
 let saldo = parseInt(localStorage.getItem(CHAVE_CAPA) || "0",10);
+
 if(saldo > 0){
 saldo--;
 localStorage.setItem(CHAVE_CAPA, String(saldo));
-LapidarAuditoria.registrarEvento("Uso de capa registrado", {
+
+await LapidarAuditoria.registrarEvento("Uso de capa registrado", {
 saldoRestante: saldo
 });
-atualizarPainelPlano();
+
+await atualizarPainelPlano();
 }
 }
 
-function usarTraducao(){
+async function usarTraducao(){
 let saldo = parseInt(localStorage.getItem(CHAVE_TRADUCAO) || "0",10);
+
 if(saldo > 0){
 saldo--;
 localStorage.setItem(CHAVE_TRADUCAO, String(saldo));
-LapidarAuditoria.registrarEvento("Uso de tradução registrado", {
+
+await LapidarAuditoria.registrarEvento("Uso de tradução registrado", {
 saldoRestante: saldo
 });
-atualizarPainelPlano();
+
+await atualizarPainelPlano();
 }
 }
 
-function comprarAvulso(){
+async function comprarAvulso(){
 let saldo = parseInt(localStorage.getItem(CHAVE_DIAGRAMACAO) || "0",10);
 saldo++;
 localStorage.setItem(CHAVE_DIAGRAMACAO, String(saldo));
 
-document.getElementById("statusPlano").style.display = "block";
-document.getElementById("statusPlano").innerText =
-"Unidade avulsa adicionada. O prazo do plano atual não foi alterado.";
+mostrarStatus("Unidade avulsa adicionada. O prazo do plano atual não foi alterado.");
 
-LapidarAuditoria.registrarEvento("Compra avulsa registrada", {
+await LapidarAuditoria.registrarEvento("Compra avulsa registrada", {
 tipo: "diagramacao",
 novoSaldo: saldo
 });
 
-atualizarPainelPlano();
+await atualizarPainelPlano();
 }
 
-function resetarPlano(){
+async function resetarPlano(){
 localStorage.removeItem(CHAVE_INICIO);
 localStorage.removeItem(CHAVE_DIAS);
 localStorage.removeItem(CHAVE_DIAGRAMACAO);
 localStorage.removeItem(CHAVE_CAPA);
 localStorage.removeItem(CHAVE_TRADUCAO);
 
-document.getElementById("statusPlano").style.display = "block";
-document.getElementById("statusPlano").innerText = "Plano de teste resetado.";
+mostrarStatus("Plano de teste resetado.");
 
-LapidarAuditoria.registrarEvento("Plano resetado", {});
+await LapidarAuditoria.registrarEvento("Plano resetado", {});
 
-atualizarPainelPlano();
+await atualizarPainelPlano();
 }
 
-window.onload = function(){
-LapidarAuditoria.registrarEvento("Tela de status do plano aberta", {});
-atualizarPainelPlano();
+window.onload = async function(){
+await LapidarAuditoria.registrarEvento("Tela de status do plano aberta", {});
+await atualizarPainelPlano();
 };
 </script>
 
