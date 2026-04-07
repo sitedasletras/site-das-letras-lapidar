@@ -1,273 +1,387 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Status do Plano — Lapidar</title>
 
 <style>
-
-:root{
---bg:#0d0603;
---card:#140c08;
---card-2:#1b100a;
---text:#ffffff;
---muted:#ffd2b3;
---orange:#f7b22c;
---orange-strong:#ff5a00;
---green:#9cfdb2;
---danger:#ff7070;
---border:rgba(255,123,44,0.18);
---shadow:0 10px 26px rgba(0,0,0,0.28);
-}
-
 body{
 margin:0;
-font-family:Arial;
-background:var(--bg);
+font-family:Arial,sans-serif;
+background:#f5f1e6;
+color:#2b2b2b;
+}
+
+header{
+background:#32497d;
 color:white;
+padding:16px 20px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+font-size:18px;
 }
 
 .container{
-width:min(900px,94%);
+max-width:960px;
 margin:auto;
-padding:40px 0;
-}
-
-.titulo{
-font-size:38px;
-font-weight:bold;
-}
-
-.subtitulo{
-margin-top:6px;
-color:var(--orange);
+padding:28px;
 }
 
 .card{
-margin-top:30px;
-background:var(--card);
-padding:24px;
+background:white;
 border-radius:18px;
-border:1px solid var(--border);
-box-shadow:var(--shadow);
+padding:26px;
+box-shadow:0 8px 20px rgba(0,0,0,.08);
+border:1px solid #e4ddd0;
+margin-bottom:20px;
 }
 
-.status-box{
-margin-top:20px;
+h1{
+margin:0 0 12px 0;
+font-size:32px;
+color:#2f3e55;
+}
+
+h2{
+margin:0 0 12px 0;
+font-size:24px;
+color:#2f3e55;
+}
+
+p{
+margin:0 0 14px 0;
+font-size:18px;
+line-height:1.6;
+color:#5b554a;
+}
+
+.bloco{
 padding:18px;
-border-radius:14px;
-background:rgba(247,178,44,0.12);
-border:1px solid rgba(247,178,44,0.2);
-color:#ffe7b0;
-}
-
-.linha{
-margin-top:12px;
-color:var(--muted);
-}
-
-.rotulo{
-color:var(--orange);
+border-radius:12px;
+margin-top:14px;
+font-size:18px;
 font-weight:bold;
 }
 
-.actions{
-margin-top:24px;
-display:flex;
-flex-wrap:wrap;
-gap:12px;
+.offwhite{
+background:#f5f1e6;
+color:#2b2b2b;
+border:2px solid #32497d;
+}
+
+.azul{
+background:#6f95cc;
+color:white;
+}
+
+.verde{
+background:#5aa07a;
+color:white;
+}
+
+.amarelo{
+background:#c19b2e;
+color:white;
+}
+
+.vermelho{
+background:#b71c1c;
+color:white;
+}
+
+.preto{
+background:#000000;
+color:white;
 }
 
 .botao{
+width:100%;
+padding:18px;
+margin-top:14px;
 border:none;
-padding:14px 18px;
-border-radius:999px;
+border-radius:12px;
+font-size:18px;
 font-weight:bold;
 cursor:pointer;
 }
 
-.botao-laranja{
-background:var(--orange-strong);
-color:white;
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:18px;
 }
 
-.botao-verde{
-background:#174d27;
-color:#dfffe8;
+.info{
+margin-top:18px;
+padding:14px 16px;
+border-radius:12px;
+background:#eef5ea;
+color:#1b5e20;
+font-weight:bold;
+display:none;
 }
 
-.botao-escuro{
-background:#24150f;
-color:white;
+@media(max-width:800px){
+.grid{
+grid-template-columns:1fr;
 }
-
+h1{
+font-size:28px;
+}
+}
 </style>
 </head>
-
 <body>
+
+<header>
+<div>Status do Plano</div>
+<div>Lapidar</div>
+</header>
 
 <div class="container">
 
-<div class="titulo">
-STATUS DO PLANO
+<div class="card">
+<h1>Relógio do plano</h1>
+
+<p>
+Aqui você acompanha o tempo restante do seu plano e o saldo disponível de produção.
+</p>
+
+<div class="bloco offwhite" id="blocoPlano">
+Plano não iniciado ainda.
 </div>
 
-<div class="subtitulo">
-Situação editorial ativa dentro do ambiente Lapidar
+<div class="bloco azul" id="blocoDias">
+Dias restantes: --
 </div>
 
+<div class="bloco verde" id="blocoDiagramacao">
+Saldo de diagramações: --
+</div>
+
+<div class="bloco amarelo" id="blocoCapas">
+Saldo de capas: --
+</div>
+
+<div class="bloco preto" id="blocoTraducao">
+Saldo de traduções: --
+</div>
+
+<div class="bloco vermelho" id="blocoAviso">
+Sem avisos no momento.
+</div>
+
+<div class="info" id="statusPlano">
+Plano atualizado com sucesso.
+</div>
+</div>
 
 
 <div class="card">
+<h2>Controle do plano</h2>
 
-<div id="statusPlano" class="status-box">
-Verificando plano ativo...
-</div>
+<p>
+Você pode iniciar um plano de 30 dias para teste do relógio institucional do Lapidar.
+</p>
 
-<div class="linha">
-<span class="rotulo">Plano:</span>
-<span id="planoAtual">Carregando...</span>
-</div>
-
-<div class="linha">
-<span class="rotulo">Forma de pagamento:</span>
-<span id="formaPagamento">Carregando...</span>
-</div>
-
-<div class="linha">
-<span class="rotulo">Situação:</span>
-<span id="situacaoPlano">Carregando...</span>
-</div>
-
-</div>
-
-
-
-<div class="actions">
-
-<button class="botao botao-laranja" onclick="abrirPlanos()">
-Escolher plano
+<div class="grid">
+<button class="botao offwhite" onclick="iniciarPlanoTeste()">
+Iniciar plano de 30 dias
 </button>
 
-<button class="botao botao-verde" onclick="abrirPagamento()">
-Registrar pagamento
+<button class="botao azul" onclick="usarDiagramacao()">
+Usar 1 diagramação
 </button>
 
-<button class="botao botao-escuro" onclick="voltarIndice()">
-Voltar ao índice
+<button class="botao amarelo" onclick="usarCapa()">
+Usar 1 capa
 </button>
+
+<button class="botao preto" onclick="usarTraducao()">
+Usar 1 tradução
+</button>
+</div>
+
+<button class="botao verde" onclick="comprarAvulso()">
+Adicionar 1 diagramação avulsa
+</button>
+
+<button class="botao vermelho" onclick="resetarPlano()">
+Resetar plano de teste
+</button>
+</div>
 
 </div>
 
-
-
-</div>
-
-
-
+<script src="/auditoria.js"></script>
 <script>
+const CHAVE_INICIO = "lapidar_plano_inicio";
+const CHAVE_DIAS = "lapidar_plano_dias";
+const CHAVE_DIAGRAMACAO = "lapidar_plano_saldo_diagramacao";
+const CHAVE_CAPA = "lapidar_plano_saldo_capa";
+const CHAVE_TRADUCAO = "lapidar_plano_saldo_traducao";
 
-function verificarSessao(){
-
-const sessao=localStorage.getItem("SDL_sessao_ativa")
-
-if(sessao!=="sim"){
-
-window.location.href="login.html"
-
+function hojeMs(){
+return Date.now();
 }
 
+function diasPassados(inicioMs){
+const diff = hojeMs() - inicioMs;
+return Math.floor(diff / (1000 * 60 * 60 * 24));
 }
 
+function atualizarPainelPlano(){
+const inicio = localStorage.getItem(CHAVE_INICIO);
+const diasPlano = parseInt(localStorage.getItem(CHAVE_DIAS) || "0",10);
+const saldoDiagramacao = parseInt(localStorage.getItem(CHAVE_DIAGRAMACAO) || "0",10);
+const saldoCapa = parseInt(localStorage.getItem(CHAVE_CAPA) || "0",10);
+const saldoTraducao = parseInt(localStorage.getItem(CHAVE_TRADUCAO) || "0",10);
 
-
-function carregarStatusPlano(){
-
-let plano="Nenhum plano definido"
-let pagamento="Não registrado"
-let situacao="Plano inativo"
-
-try{
-
-const planoSalvo=localStorage.getItem("SDL_plano")
-const pagamentoSalvo=localStorage.getItem("SDL_pagamento")
-
-if(planoSalvo){
-
-plano=planoSalvo
-situacao="Plano registrado"
-
+if(!inicio || !diasPlano){
+document.getElementById("blocoPlano").innerText = "Plano não iniciado ainda.";
+document.getElementById("blocoDias").innerText = "Dias restantes: --";
+document.getElementById("blocoDiagramacao").innerText = "Saldo de diagramações: --";
+document.getElementById("blocoCapas").innerText = "Saldo de capas: --";
+document.getElementById("blocoTraducao").innerText = "Saldo de traduções: --";
+document.getElementById("blocoAviso").innerText = "Sem avisos no momento.";
+return;
 }
 
-if(pagamentoSalvo){
+const inicioMs = parseInt(inicio,10);
+const passados = diasPassados(inicioMs);
+const restantes = Math.max(diasPlano - passados, 0);
 
-pagamento=pagamentoSalvo
-situacao="Plano ativo"
+const dataInicio = new Date(inicioMs).toLocaleDateString("pt-BR");
+const dataFim = new Date(inicioMs + diasPlano * 24 * 60 * 60 * 1000).toLocaleDateString("pt-BR");
 
-}
+document.getElementById("blocoPlano").innerText =
+"Plano ativo.\nInício: " + dataInicio + "\nFim previsto: " + dataFim;
 
-}catch(e){
+document.getElementById("blocoDias").innerText =
+"Dias restantes: " + restantes;
 
-console.log("Erro ao carregar plano")
+document.getElementById("blocoDiagramacao").innerText =
+"Saldo de diagramações: " + saldoDiagramacao;
 
-}
+document.getElementById("blocoCapas").innerText =
+"Saldo de capas: " + saldoCapa;
 
+document.getElementById("blocoTraducao").innerText =
+"Saldo de traduções: " + saldoTraducao;
 
+let aviso = "Sem avisos no momento.";
 
-document.getElementById("planoAtual").innerHTML=plano
-document.getElementById("formaPagamento").innerHTML=pagamento
-document.getElementById("situacaoPlano").innerHTML=situacao
-
-
-
-const box=document.getElementById("statusPlano")
-
-if(situacao==="Plano ativo"){
-
-box.innerHTML="Plano ativo e liberado para uso editorial."
-box.style.background="rgba(23,77,39,0.28)"
-box.style.border="1px solid rgba(156,253,178,0.18)"
-
+if(restantes === 0){
+aviso = "Seu plano expirou. Você pode adquirir unidades avulsas ou contratar um novo plano a partir de hoje.";
+}else if(restantes <= 3){
+aviso = "Seu plano está perto do fim. Restam " + restantes + " dia(s).";
+}else if(restantes <= 7){
+aviso = "Atenção: faltam " + restantes + " dias para o fim do seu plano.";
 }else{
-
-box.innerHTML="Nenhum plano ativo encontrado. Escolha um plano para liberar os recursos."
-box.style.background="rgba(255,112,112,0.12)"
-box.style.border="1px solid rgba(255,112,112,0.22)"
-
+aviso = "Restam " + restantes + " dias no seu plano.";
 }
 
+if(saldoDiagramacao > 0){
+aviso += " Você ainda tem " + saldoDiagramacao + " diagramação(ões) disponível(is).";
 }
 
-
-
-function abrirPlanos(){
-
-window.location.href="planos_doacoes.html"
-
+document.getElementById("blocoAviso").innerText = aviso;
 }
 
+function iniciarPlanoTeste(){
+localStorage.setItem(CHAVE_INICIO, String(Date.now()));
+localStorage.setItem(CHAVE_DIAS, "30");
+localStorage.setItem(CHAVE_DIAGRAMACAO, "3");
+localStorage.setItem(CHAVE_CAPA, "2");
+localStorage.setItem(CHAVE_TRADUCAO, "1");
 
+document.getElementById("statusPlano").style.display = "block";
+document.getElementById("statusPlano").innerText = "Plano de 30 dias iniciado a partir de hoje.";
 
-function abrirPagamento(){
+LapidarAuditoria.registrarEvento("Plano de teste iniciado", {
+dias: 30,
+diagramacoes: 3,
+capas: 2,
+traducoes: 1
+});
 
-window.location.href="pagamento.html"
-
+atualizarPainelPlano();
 }
 
-
-
-function voltarIndice(){
-
-window.location.href="_Indice.html"
-
+function usarDiagramacao(){
+let saldo = parseInt(localStorage.getItem(CHAVE_DIAGRAMACAO) || "0",10);
+if(saldo > 0){
+saldo--;
+localStorage.setItem(CHAVE_DIAGRAMACAO, String(saldo));
+LapidarAuditoria.registrarEvento("Uso de diagramação registrado", {
+saldoRestante: saldo
+});
+atualizarPainelPlano();
+}
 }
 
+function usarCapa(){
+let saldo = parseInt(localStorage.getItem(CHAVE_CAPA) || "0",10);
+if(saldo > 0){
+saldo--;
+localStorage.setItem(CHAVE_CAPA, String(saldo));
+LapidarAuditoria.registrarEvento("Uso de capa registrado", {
+saldoRestante: saldo
+});
+atualizarPainelPlano();
+}
+}
 
+function usarTraducao(){
+let saldo = parseInt(localStorage.getItem(CHAVE_TRADUCAO) || "0",10);
+if(saldo > 0){
+saldo--;
+localStorage.setItem(CHAVE_TRADUCAO, String(saldo));
+LapidarAuditoria.registrarEvento("Uso de tradução registrado", {
+saldoRestante: saldo
+});
+atualizarPainelPlano();
+}
+}
 
-verificarSessao()
-carregarStatusPlano()
+function comprarAvulso(){
+let saldo = parseInt(localStorage.getItem(CHAVE_DIAGRAMACAO) || "0",10);
+saldo++;
+localStorage.setItem(CHAVE_DIAGRAMACAO, String(saldo));
 
+document.getElementById("statusPlano").style.display = "block";
+document.getElementById("statusPlano").innerText =
+"Unidade avulsa adicionada. O prazo do plano atual não foi alterado.";
+
+LapidarAuditoria.registrarEvento("Compra avulsa registrada", {
+tipo: "diagramacao",
+novoSaldo: saldo
+});
+
+atualizarPainelPlano();
+}
+
+function resetarPlano(){
+localStorage.removeItem(CHAVE_INICIO);
+localStorage.removeItem(CHAVE_DIAS);
+localStorage.removeItem(CHAVE_DIAGRAMACAO);
+localStorage.removeItem(CHAVE_CAPA);
+localStorage.removeItem(CHAVE_TRADUCAO);
+
+document.getElementById("statusPlano").style.display = "block";
+document.getElementById("statusPlano").innerText = "Plano de teste resetado.";
+
+LapidarAuditoria.registrarEvento("Plano resetado", {});
+
+atualizarPainelPlano();
+}
+
+window.onload = function(){
+LapidarAuditoria.registrarEvento("Tela de status do plano aberta", {});
+atualizarPainelPlano();
+};
 </script>
 
 </body>
