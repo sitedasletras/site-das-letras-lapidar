@@ -3,44 +3,57 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Produção com voz e música — Lapidar</title>
+<title>Módulos de Voz e Música — Lapidar</title>
 
 <style>
-
 body{
 margin:0;
 font-family:Arial,sans-serif;
-background:#f4f1e8;
+background:#eef7ef;
+color:#2a2a2a;
 }
 
 header{
-background:#32497d;
+background:#2f7d4f;
 color:white;
-padding:18px;
+padding:16px 20px;
 display:flex;
 justify-content:space-between;
+align-items:center;
 font-size:18px;
 }
 
 .container{
-max-width:900px;
+max-width:960px;
 margin:auto;
-padding:30px;
+padding:28px;
 }
 
 .card{
-background:#e6f4ea;
-padding:25px;
-border-radius:16px;
-margin-bottom:20px;
+background:white;
+border-radius:18px;
+padding:26px;
 box-shadow:0 8px 20px rgba(0,0,0,.08);
-border:1px solid #a5d6a7;
+border:1px solid #cfe6d2;
+}
+
+h1{
+margin:0 0 12px 0;
+font-size:32px;
+color:#24543a;
+}
+
+p{
+margin:0 0 20px 0;
+font-size:18px;
+line-height:1.6;
+color:#4f6657;
 }
 
 .botao{
 width:100%;
 padding:18px;
-margin-top:12px;
+margin-top:14px;
 border:none;
 border-radius:12px;
 font-size:18px;
@@ -49,255 +62,183 @@ cursor:pointer;
 transition:0.2s;
 }
 
-/* família verde */
+.verde{
+background:#5aa07a;
+color:white;
+}
 
-.verde1{background:#81c784;color:white;}
-.verde2{background:#66bb6a;color:white;}
-.verde3{background:#4caf50;color:white;}
-.verde4{background:#43a047;color:white;}
-.verde5{background:#388e3c;color:white;}
-.verde6{background:#2e7d32;color:white;}
+.verde-escuro{
+background:#2f7d4f;
+color:white;
+}
 
 .ativo{
-outline:4px solid #1b5e20;
+outline:4px solid rgba(0,0,0,.18);
 transform:scale(1.01);
 }
 
-/* botões padrão */
-
-.continuar{
-background:#2e7d32;
-color:white;
-margin-top:22px;
+.info{
+margin-top:20px;
+padding:14px 16px;
+border-radius:12px;
+background:#e8f6eb;
+color:#1f5b34;
+font-weight:bold;
+display:none;
 }
-
-.retornar{
-background:#607d8b;
-color:white;
-}
-
-.apagar{
-background:#b71c1c;
-color:white;
-}
-
-p{
-color:#1b5e20;
-}
-
 </style>
 </head>
 <body>
 
 <header>
-<div>Produção com voz e música</div>
+<div>Módulos de voz e música</div>
 <div>Lapidar</div>
 </header>
 
 <div class="container">
 <div class="card">
 
-<h2>Escolha o que deseja criar com áudio ou música</h2>
+<h1>Selecione os módulos de voz e música</h1>
 
 <p>
-Você pode escolher um ou vários recursos. Depois o sistema organiza automaticamente.
+Escolha quais etapas sonoras deseja executar agora.
+Você pode voltar depois e ativar novos módulos se quiser.
 </p>
 
-
-<button class="botao verde1" id="btnNarracao"
-onclick="toggleEscolha('narracao_voz','btnNarracao')">
+<button class="botao verde" id="btnNarracao"
+onclick="toggleModuloMusica('narracao_voz','btnNarracao','Narração com voz selecionada')">
 Transformar o livro em narração com voz
 </button>
 
-
-<button class="botao verde2" id="btnAudiolivro"
-onclick="toggleEscolha('audiolivro','btnAudiolivro')">
+<button class="botao verde" id="btnAudiolivro"
+onclick="toggleModuloMusica('audiolivro','btnAudiolivro','Audiolivro selecionado')">
 Criar audiolivro completo
 </button>
 
-
-<button class="botao verde3" id="btnDramatizada"
-onclick="toggleEscolha('leitura_dramatizada','btnDramatizada')">
+<button class="botao verde" id="btnDramatizada"
+onclick="toggleModuloMusica('leitura_dramatizada','btnDramatizada','Leitura dramatizada selecionada')">
 Criar leitura dramatizada
 </button>
 
-
-<button class="botao verde4" id="btnTrilha"
-onclick="toggleEscolha('trilha_sonora','btnTrilha')">
+<button class="botao verde" id="btnTrilha"
+onclick="toggleModuloMusica('trilha_sonora','btnTrilha','Trilha sonora selecionada')">
 Criar trilha sonora inspirada no livro
 </button>
 
-
-<button class="botao verde5" id="btnTema"
-onclick="toggleEscolha('musica_tema','btnTema')">
+<button class="botao verde" id="btnTema"
+onclick="toggleModuloMusica('musica_tema','btnTema','Música tema selecionada')">
 Criar música tema da obra
 </button>
 
-
-<button class="botao verde6" id="btnCantada"
-onclick="toggleEscolha('versao_cantada','btnCantada')">
+<button class="botao verde" id="btnCantada"
+onclick="toggleModuloMusica('versao_cantada','btnCantada','Versão cantada selecionada')">
 Criar versão cantada de trechos do livro
 </button>
 
-
-<button class="botao verde6" id="btnDistribuicao"
-onclick="toggleEscolha('distribuicao_audio','btnDistribuicao')">
+<button class="botao verde" id="btnDistribuicao"
+onclick="toggleModuloMusica('distribuicao_audio','btnDistribuicao','Distribuição em plataformas de áudio selecionada')">
 Preparar distribuição nas plataformas de áudio
 </button>
 
-
-<button class="botao continuar" onclick="seguirFluxo()">
-Continuar com as escolhas feitas
+<button class="botao verde-escuro" onclick="continuarFluxoMusica()">
+Continuar execução de voz e música
 </button>
 
-
-<button class="botao retornar" onclick="retornar()">
-Voltar para escolher outro tipo de produção
-</button>
-
-
-<button class="botao apagar" onclick="limpar()">
-Apagar escolhas desta tela
-</button>
-
+<div class="info" id="statusMusica">
+Seleção registrada. Preparando execução de voz e música.
+</div>
 
 </div>
 </div>
 
-
+<script src="/auditoria.js"></script>
 <script>
+function marcarVisualInicial(){
+const modulos = [
+["narracao_voz","btnNarracao"],
+["audiolivro","btnAudiolivro"],
+["leitura_dramatizada","btnDramatizada"],
+["trilha_sonora","btnTrilha"],
+["musica_tema","btnTema"],
+["versao_cantada","btnCantada"],
+["distribuicao_audio","btnDistribuicao"]
+];
 
-function toggleEscolha(chave,idBotao){
+modulos.forEach(function(item){
+if(localStorage.getItem(item[0])==="sim"){
+document.getElementById(item[1]).classList.add("ativo");
+}
+});
+}
+
+async function toggleModuloMusica(chave,idBotao,mensagem){
+const botao = document.getElementById(idBotao);
 
 if(localStorage.getItem(chave)==="sim"){
+localStorage.removeItem(chave);
+botao.classList.remove("ativo");
 
-localStorage.removeItem(chave)
-
-document.getElementById(idBotao)
-.classList.remove("ativo")
-
+await LapidarAuditoria.registrarEvento("Módulo de voz/música removido",{
+modulo:chave
+});
 }else{
+localStorage.setItem(chave,"sim");
+botao.classList.add("ativo");
 
-localStorage.setItem(chave,"sim")
-
-document.getElementById(idBotao)
-.classList.add("ativo")
-
+await LapidarAuditoria.registrarEvento(mensagem,{
+modulo:chave
+});
+}
 }
 
+async function continuarFluxoMusica(){
+const selecionados = [
+"narracao_voz",
+"audiolivro",
+"leitura_dramatizada",
+"trilha_sonora",
+"musica_tema",
+"versao_cantada",
+"distribuicao_audio"
+];
+
+let algumSelecionado=false;
+
+selecionados.forEach(function(mod){
+if(localStorage.getItem(mod)==="sim"){
+algumSelecionado=true;
+}
+});
+
+if(!algumSelecionado){
+alert("Selecione pelo menos um módulo de voz ou música.");
+return;
 }
 
+document.getElementById("statusMusica").style.display="block";
 
+await LapidarAuditoria.registrarEvento("Execução de voz e música iniciada",{
+narracao:localStorage.getItem("narracao_voz")||"nao",
+audiolivro:localStorage.getItem("audiolivro")||"nao",
+leituraDramatizada:localStorage.getItem("leitura_dramatizada")||"nao",
+trilhaSonora:localStorage.getItem("trilha_sonora")||"nao",
+musicaTema:localStorage.getItem("musica_tema")||"nao",
+versaoCantada:localStorage.getItem("versao_cantada")||"nao",
+distribuicaoAudio:localStorage.getItem("distribuicao_audio")||"nao"
+});
 
-function temLivro(){
+await LapidarAuditoria.encerrarSessaoModulo("modulos_musica");
 
-return(
-
-localStorage.getItem("correcao_recomendada")==="sim" ||
-
-localStorage.getItem("lapidacao_texto")==="sim" ||
-
-localStorage.getItem("traducao_livro")==="sim" ||
-
-localStorage.getItem("diagramacao_livro")==="sim" ||
-
-localStorage.getItem("capa_livro")==="sim" ||
-
-localStorage.getItem("estrutura_livro")==="sim" ||
-
-localStorage.getItem("qualidade_livro")==="sim"
-
-)
-
+setTimeout(function(){
+window.location.href="/painel_execucao_obra.html";
+},800);
 }
 
-
-
-function seguirFluxo(){
-
-localStorage.setItem(
-"modulo_musica_configurado",
-"sim"
-)
-
-
-
-if(!temLivro()){
-
-window.location.href=
-"/alerta_correcao_antes_audiovisual.html"
-
-return
-
-}
-
-
-
-window.location.href=
-"/confirmacao_final_modulos.html"
-
-}
-
-
-
-function retornar(){
-
-window.location.href=
-"/selecionar_modulos.html"
-
-}
-
-
-
-function limpar(){
-
-localStorage.removeItem("narracao_voz")
-localStorage.removeItem("audiolivro")
-localStorage.removeItem("leitura_dramatizada")
-localStorage.removeItem("trilha_sonora")
-localStorage.removeItem("musica_tema")
-localStorage.removeItem("versao_cantada")
-localStorage.removeItem("distribuicao_audio")
-localStorage.removeItem("modulo_musica_configurado")
-
-location.reload()
-
-}
-
-
-
-window.onload=function(){
-
-if(localStorage.getItem("narracao_voz")==="sim"){
-document.getElementById("btnNarracao").classList.add("ativo")
-}
-
-if(localStorage.getItem("audiolivro")==="sim"){
-document.getElementById("btnAudiolivro").classList.add("ativo")
-}
-
-if(localStorage.getItem("leitura_dramatizada")==="sim"){
-document.getElementById("btnDramatizada").classList.add("ativo")
-}
-
-if(localStorage.getItem("trilha_sonora")==="sim"){
-document.getElementById("btnTrilha").classList.add("ativo")
-}
-
-if(localStorage.getItem("musica_tema")==="sim"){
-document.getElementById("btnTema").classList.add("ativo")
-}
-
-if(localStorage.getItem("versao_cantada")==="sim"){
-document.getElementById("btnCantada").classList.add("ativo")
-}
-
-if(localStorage.getItem("distribuicao_audio")==="sim"){
-document.getElementById("btnDistribuicao").classList.add("ativo")
-}
-
-}
-
+window.onload = async function(){
+await LapidarAuditoria.iniciarSessaoModulo("modulos_musica");
+await LapidarAuditoria.registrarEvento("Tela de módulos de voz e música aberta",{});
+marcarVisualInicial();
+};
 </script>
 
 </body>
