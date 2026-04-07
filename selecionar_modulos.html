@@ -1,10 +1,207 @@
-function continuarFluxo(){
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Escolha o tipo de produção — Lapidar</title>
 
+<style>
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:#f4f1e8;
+color:#2b2b2b;
+}
+
+header{
+background:#32497d;
+color:white;
+padding:16px 18px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+font-size:18px;
+}
+
+.container{
+max-width:900px;
+margin:auto;
+padding:28px;
+}
+
+.card{
+background:#ffffff;
+border-radius:18px;
+padding:26px;
+box-shadow:0 8px 20px rgba(0,0,0,.08);
+border:1px solid #e4ddd0;
+}
+
+h1{
+margin:0 0 12px 0;
+font-size:34px;
+color:#2f3e55;
+}
+
+p{
+margin:0 0 18px 0;
+font-size:18px;
+line-height:1.6;
+color:#5b554a;
+}
+
+.botao{
+width:100%;
+padding:18px;
+margin-top:14px;
+border:none;
+border-radius:12px;
+font-size:18px;
+font-weight:bold;
+cursor:pointer;
+transition:0.2s;
+}
+
+.azul{
+background:#6f95cc;
+color:white;
+}
+
+.amarelo{
+background:#c19b2e;
+color:white;
+}
+
+.verde{
+background:#5aa07a;
+color:white;
+}
+
+.preto{
+background:#000000;
+color:white;
+}
+
+.ativo{
+outline:4px solid rgba(0,0,0,.18);
+transform:scale(1.01);
+}
+
+.info{
+margin-top:20px;
+padding:14px 16px;
+border-radius:12px;
+background:#eef5ea;
+color:#1b5e20;
+font-weight:bold;
+display:none;
+}
+
+@media(max-width:700px){
+.container{
+padding:18px;
+}
+h1{
+font-size:28px;
+}
+p{
+font-size:17px;
+}
+}
+</style>
+</head>
+<body>
+
+<header>
+<div>Escolha o tipo de produção</div>
+<div>Lapidar</div>
+</header>
+
+<div class="container">
+<div class="card">
+
+<h1>Selecione o caminho da sua obra</h1>
+
+<p>
+Primeiro escolha o tipo principal. Depois você entra só nos módulos daquela área.
+</p>
+
+<button class="botao azul" id="btnEditorial" onclick="toggleModulo('modulo_editorial','btnEditorial','Módulo editorial selecionado')">
+Produção Editorial (Livro)
+</button>
+
+<button class="botao amarelo" id="btnAudiovisual" onclick="toggleModulo('modulo_audiovisual','btnAudiovisual','Módulo audiovisual selecionado')">
+Produção Audiovisual
+</button>
+
+<button class="botao verde" id="btnMusica" onclick="toggleModulo('modulo_musica','btnMusica','Módulo voz / música selecionado')">
+Produção com Voz / Música
+</button>
+
+<button class="botao preto" onclick="continuarFluxo()">
+Continuar para os módulos escolhidos
+</button>
+
+<div class="info" id="statusSelecao">
+Escolhas registradas. O Lapidar está preparando o próximo passo.
+</div>
+
+</div>
+</div>
+
+<script src="/auditoria.js"></script>
+<script>
+function marcarVisualInicial(){
+if(localStorage.getItem("modulo_editorial")==="sim"){
+document.getElementById("btnEditorial").classList.add("ativo");
+}
+
+if(localStorage.getItem("modulo_audiovisual")==="sim"){
+document.getElementById("btnAudiovisual").classList.add("ativo");
+}
+
+if(localStorage.getItem("modulo_musica")==="sim"){
+document.getElementById("btnMusica").classList.add("ativo");
+}
+}
+
+function toggleModulo(chave,idBotao,mensagemAuditoria){
+const botao = document.getElementById(idBotao);
+
+if(localStorage.getItem(chave)==="sim"){
+localStorage.removeItem(chave);
+botao.classList.remove("ativo");
+LapidarAuditoria.registrarEvento("Módulo desmarcado", {
+modulo: chave
+});
+}else{
+localStorage.setItem(chave,"sim");
+botao.classList.add("ativo");
+LapidarAuditoria.registrarEvento(mensagemAuditoria, {
+modulo: chave
+});
+}
+}
+
+function continuarFluxo(){
 const azul = localStorage.getItem("modulo_editorial")==="sim";
 const amarelo = localStorage.getItem("modulo_audiovisual")==="sim";
 const verde = localStorage.getItem("modulo_musica")==="sim";
 
+if(!azul && !amarelo && !verde){
+alert("Escolha pelo menos um tipo de produção antes de continuar.");
+return;
+}
 
+document.getElementById("statusSelecao").style.display = "block";
+
+LapidarAuditoria.registrarEvento("Fluxo de módulos iniciado", {
+editorial: azul ? "sim" : "nao",
+audiovisual: amarelo ? "sim" : "nao",
+musica: verde ? "sim" : "nao"
+});
+
+setTimeout(function(){
 if(azul){
 window.location.href="/modulos_livro.html";
 return;
@@ -19,8 +216,14 @@ if(verde){
 window.location.href="/modulos_musica.html";
 return;
 }
-
-
-alert("Escolha pelo menos um tipo de produção antes de continuar.");
-
+}, 700);
 }
+
+window.onload = function(){
+marcarVisualInicial();
+LapidarAuditoria.registrarEvento("Tela de seleção de módulos aberta", {});
+};
+</script>
+
+</body>
+</html>
