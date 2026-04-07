@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bolsão de Execução</title>
+<title>Bolsão de Limpeza Editorial</title>
 
 <script src="https://unpkg.com/mammoth/mammoth.browser.min.js"></script>
 
@@ -32,8 +32,29 @@ body{
   background:#fff;
   padding:20px;
   border:1px solid #ccc;
-  min-height:300px;
+  min-height:250px;
   white-space:pre-wrap;
+}
+
+.mensagem{
+  background:#e8f5e9;
+  border-left:5px solid #4CAF50;
+  padding:15px;
+  border-radius:8px;
+  margin-top:10px;
+}
+
+.analise{
+  background:#fff8e1;
+  border-left:5px solid #f4b400;
+  padding:15px;
+  border-radius:8px;
+}
+
+input{
+  width:100%;
+  padding:10px;
+  margin-bottom:10px;
 }
 
 .btn{
@@ -48,8 +69,8 @@ body{
 .red{background:#c0392b;color:white;}
 .blue{background:#3498db;color:white;}
 </style>
-
 </head>
+
 <body>
 
 <div class="container">
@@ -62,30 +83,38 @@ body{
 </div>
 
 <div class="card">
-<h2>Prévia da Obra</h2>
-<div id="previewTexto" class="preview">
-Seu texto aparecerá aqui.
+<h2>Mensagem do Bolsão</h2>
+<div id="mensagemBolsao" class="mensagem">
+Aguardando leitura da obra...
 </div>
 </div>
 
 <div class="card">
-<h2>Dados da Obra</h2>
-<input type="text" id="titulo" placeholder="Título"><br><br>
-<input type="text" id="autor" placeholder="Autor"><br><br>
-<button class="btn blue" onclick="salvarDados()">Salvar</button>
+<h2>Análise Editorial Automática</h2>
+<div id="analiseBolsao" class="analise">
+Aguardando análise...
+</div>
 </div>
 
 <div class="card">
-<h2>Encaminhamento</h2>
-<button class="btn green" onclick="irModulo('diagramacao.html')">Diagramação</button>
-<button class="btn green" onclick="irModulo('traducao.html')">Tradução</button>
-<button class="btn green" onclick="irModulo('humanizacao.html')">Humanização</button>
+<h2>Prévia do Texto Limpo</h2>
+<div id="previewTexto" class="preview"></div>
+</div>
+
+<div class="card">
+<h2>Ficha de Dados da Obra</h2>
+<input type="text" id="titulo" placeholder="Título">
+<input type="text" id="subtitulo" placeholder="Subtítulo">
+<input type="text" id="autor" placeholder="Autor">
+<input type="text" id="organizador" placeholder="Organizador (se houver)">
+<button class="btn blue" onclick="salvarDados()">Salvar Ficha</button>
 </div>
 
 </div>
 
 <script>
 
+// Upload inteligente
 document.getElementById('uploadTexto').addEventListener('change', function(e) {
 
     const file = e.target.files[0];
@@ -93,75 +122,103 @@ document.getElementById('uploadTexto').addEventListener('change', function(e) {
 
     const nome = file.name.toLowerCase();
 
-    // TXT
     if(nome.endsWith('.txt')){
         const reader = new FileReader();
-
-        reader.onload = function(event){
-            salvarTexto(event.target.result, file.name);
-        };
-
+        reader.onload = e => processarTexto(e.target.result);
         reader.readAsText(file);
     }
 
-    // DOCX
     else if(nome.endsWith('.docx')){
         const reader = new FileReader();
-
         reader.onload = function(event){
-            mammoth.extractRawText({arrayBuffer: event.target.result})
-            .then(function(result){
-                salvarTexto(result.value, file.name);
-            });
+            mammoth.convertToHtml({arrayBuffer: event.target.result})
+            .then(result => processarTexto(result.value));
         };
-
         reader.readAsArrayBuffer(file);
-    }
-
-    else{
-        alert("Formato não suportado. Use .txt ou .docx");
     }
 
 });
 
-function salvarTexto(texto, nomeArquivo){
-    localStorage.setItem("lapidar_texto", texto);
+// PROCESSAMENTO CENTRAL (CORAÇÃO DO SISTEMA)
+function processarTexto(textoBruto){
+
+    let texto = normalizar(textoBruto);
+
+    localStorage.setItem("lapidar_texto_base", texto);
 
     document.getElementById("previewTexto").innerText = texto;
-    document.getElementById("statusUpload").innerText = "Arquivo carregado: " + nomeArquivo;
+
+    mostrarMensagem(texto);
+    analisarTexto(texto);
+    detectarDados(texto);
 }
 
-// carregar ao abrir
-window.onload = function(){
-    const texto = localStorage.getItem("lapidar_texto");
+// NORMALIZAÇÃO
+function normalizar(texto){
+    return texto
+        .replace(/<[^>]*>/g, '')
+        .replace(/\n\s*\n/g, '\n\n')
+        .trim();
+}
 
-    if(texto){
-        document.getElementById("previewTexto").innerText = texto;
-        document.getElementById("statusUpload").innerText = "Obra já carregada";
+// MENSAGEM INTELIGENTE
+function mostrarMensagem(texto){
+
+    let tamanho = texto.length;
+
+    let msg = `
+    Sua obra foi recebida pelo Bolsão Editorial.<br><br>
+    O material foi lido, organizado e preparado como base estrutural.<br><br>
+    Extensão detectada: ${tamanho} caracteres.<br>
+    Pronto para seguir jornada editorial.
+    `;
+
+    document.getElementById("mensagemBolsao").innerHTML = msg;
+}
+
+// ANÁLISE DE ESTILO
+function analisarTexto(texto){
+
+    let palavras = texto.split(" ").length;
+
+    let estilo = "Narrativo";
+
+    if(palavras < 500){
+        estilo = "Poético / Curto";
     }
+    else if(texto.includes("—")){
+        estilo = "Narrativa com diálogos";
+    }
+
+    let analise = `
+    Estilo identificado: <b>${estilo}</b><br>
+    Volume aproximado: ${palavras} palavras<br>
+    Estrutura: Texto contínuo com potencial editorial<br>
+    `;
+
+    document.getElementById("analiseBolsao").innerHTML = analise;
 }
 
-// limpar
-function limparObra(){
-    localStorage.removeItem("lapidar_texto");
-    document.getElementById("previewTexto").innerText = "";
-    document.getElementById("statusUpload").innerText = "Obra removida";
+// DETECÇÃO DE DADOS
+function detectarDados(texto){
+
+    let linhas = texto.split("\n");
+
+    document.getElementById("titulo").value = linhas[0] || "";
+    document.getElementById("autor").value = linhas[1] || "";
 }
 
-// salvar dados
+// SALVAR
 function salvarDados(){
-    const titulo = document.getElementById('titulo').value;
-    const autor = document.getElementById('autor').value;
-
-    localStorage.setItem("lapidar_titulo", titulo);
-    localStorage.setItem("lapidar_autor", autor);
-
-    alert("Dados salvos");
+    localStorage.setItem("titulo", document.getElementById("titulo").value);
+    localStorage.setItem("autor", document.getElementById("autor").value);
+    alert("Ficha salva");
 }
 
-// navegação
-function irModulo(pagina){
-    window.location.href = pagina;
+// LIMPAR
+function limparObra(){
+    localStorage.clear();
+    location.reload();
 }
 
 </script>
