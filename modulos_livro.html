@@ -48,7 +48,6 @@ cursor:pointer;
 transition:0.2s;
 }
 
-/* família azul */
 .azul1{background:#7ea2d6;color:white;}
 .azul2{background:#6f95cc;color:white;}
 .azul3{background:#6188c1;color:white;}
@@ -62,7 +61,6 @@ outline:4px solid #163d73;
 transform:scale(1.01);
 }
 
-/* botões padrão */
 .continuar{
 background:#2e7d32;
 color:white;
@@ -97,7 +95,7 @@ color:#2f3e55;
 <h2>Escolha o que deseja fazer com seu livro</h2>
 
 <p>
-Você pode escolher um ou vários. Depois o sistema organiza automaticamente.
+Você pode escolher um ou vários. Depois você entra na configuração editorial.
 </p>
 
 <button class="botao azul1" id="btnCorrecao" onclick="toggleEscolha('correcao_recomendada','btnCorrecao')">
@@ -144,7 +142,6 @@ Apagar escolhas desta tela
 </div>
 
 <script>
-
 function toggleEscolha(chave,idBotao){
 if(localStorage.getItem(chave)==="sim"){
 localStorage.removeItem(chave);
@@ -155,41 +152,9 @@ document.getElementById(idBotao).classList.add("ativo");
 }
 }
 
-function temAudiovisual(){
-return (
-localStorage.getItem("video_historia")==="sim" ||
-localStorage.getItem("video_cena")==="sim" ||
-localStorage.getItem("video_apresentacao")==="sim" ||
-localStorage.getItem("video_redes")==="sim"
-);
-}
-
-function temMusica(){
-return (
-localStorage.getItem("narracao_voz")==="sim" ||
-localStorage.getItem("audiolivro")==="sim" ||
-localStorage.getItem("trilha_sonora")==="sim" ||
-localStorage.getItem("musica_tema")==="sim" ||
-localStorage.getItem("versao_cantada")==="sim" ||
-localStorage.getItem("distribuicao_audio")==="sim"
-);
-}
-
 function seguirFluxo(){
-
 localStorage.setItem("modulo_livro_configurado","sim");
-
-if(temAudiovisual() && localStorage.getItem("modulo_audiovisual_configurado")!=="sim"){
-window.location.href="/modulos_audiovisual.html";
-return;
-}
-
-if(temMusica() && localStorage.getItem("modulo_musica_configurado")!=="sim"){
-window.location.href="/modulos_musica.html";
-return;
-}
-
-window.location.href="/confirmacao_final_modulos.html";
+window.location.href="/editorial_livro_configuracao.html";
 }
 
 function retornar(){
@@ -209,35 +174,27 @@ location.reload();
 }
 
 window.onload=function(){
-
 if(localStorage.getItem("correcao_recomendada")==="sim"){
 document.getElementById("btnCorrecao").classList.add("ativo");
 }
-
 if(localStorage.getItem("lapidacao_texto")==="sim"){
 document.getElementById("btnLapidacao").classList.add("ativo");
 }
-
 if(localStorage.getItem("traducao_livro")==="sim"){
 document.getElementById("btnTraducao").classList.add("ativo");
 }
-
 if(localStorage.getItem("diagramacao_livro")==="sim"){
 document.getElementById("btnDiagramacao").classList.add("ativo");
 }
-
 if(localStorage.getItem("capa_livro")==="sim"){
 document.getElementById("btnCapa").classList.add("ativo");
 }
-
 if(localStorage.getItem("estrutura_livro")==="sim"){
 document.getElementById("btnEstrutura").classList.add("ativo");
 }
-
 if(localStorage.getItem("qualidade_livro")==="sim"){
 document.getElementById("btnQualidade").classList.add("ativo");
 }
-
 }
 </script>
 
