@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Organização automática do processo editorial — Lapidar</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:#f4f1e8;
+}
+
+header{
+background:#32497d;
+color:white;
+padding:18px;
+display:flex;
+justify-content:space-between;
+font-size:18px;
+}
+
+.container{
+max-width:900px;
+margin:auto;
+padding:30px;
+}
+
+.card{
+background:#eaf1fb;
+padding:25px;
+border-radius:16px;
+box-shadow:0 8px 20px rgba(0,0,0,.08);
+border:1px solid #c5d6f2;
+}
+
+.lista{
+margin-top:15px;
+padding-left:20px;
+}
+
+.item{
+margin:8px 0;
+font-size:18px;
+}
+
+.alerta{
+margin-top:20px;
+padding:18px;
+background:#fff3cd;
+border-radius:12px;
+font-weight:bold;
+color:#856404;
+}
+
+.botao{
+width:100%;
+padding:18px;
+margin-top:18px;
+border:none;
+border-radius:12px;
+font-size:18px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.confirmar{
+background:#2e7d32;
+color:white;
+}
+
+.retornar{
+background:#607d8b;
+color:white;
+}
+
+</style>
+</head>
+<body>
+
+<header>
+<div>Organização automática do processo editorial</div>
+<div>Lapidar</div>
+</header>
+
+<div class="container">
+<div class="card">
+
+<h2>Veja a ordem em que o sistema preparará seu livro</h2>
+
+<div id="listaProcesso" class="lista"></div>
+
+<div id="alertaCorrecao" class="alerta" style="display:none;">
+Recomendamos fazer a correção ortográfica e gramatical antes.
+Essa correção é gratuita e melhora o resultado final do seu livro.
+</div>
+
+<button class="botao confirmar" onclick="confirmarProcesso()">
+Confirmar e iniciar preparação do livro
+</button>
+
+<button class="botao retornar" onclick="voltarEscolhas()">
+Voltar e alterar escolhas
+</button>
+
+</div>
+</div>
+
+<script>
+
+function adicionar(texto){
+
+const div=document.createElement("div");
+div.className="item";
+div.innerText="• "+texto;
+
+document.getElementById("listaProcesso").appendChild(div);
+
+}
+
+window.onload=function(){
+
+let temCorrecao=false;
+
+if(localStorage.getItem("correcao_recomendada")==="sim"){
+adicionar("Correção ortográfica e gramatical (gratuita)");
+temCorrecao=true;
+}
+
+if(localStorage.getItem("lapidacao_texto")==="sim"){
+adicionar("Melhoria da escrita do texto");
+}
+
+if(localStorage.getItem("traducao_livro")==="sim"){
+adicionar("Tradução do livro");
+}
+
+if(localStorage.getItem("diagramacao_livro")==="sim"){
+adicionar("Preparação do livro para impressão");
+}
+
+if(localStorage.getItem("capa_livro")==="sim"){
+adicionar("Criação da capa do livro");
+}
+
+if(localStorage.getItem("estrutura_livro")==="sim"){
+adicionar("Leitura da estrutura da história");
+}
+
+if(localStorage.getItem("qualidade_livro")==="sim"){
+adicionar("Relatório de qualidade do livro");
+}
+
+if(!temCorrecao){
+
+document.getElementById("alertaCorrecao").style.display="block";
+
+}
+
+}
+
+function confirmarProcesso(){
+
+window.location.href="/confirmacao_final_modulos.html";
+
+}
+
+function voltarEscolhas(){
+
+window.location.href="/modulos_livro.html";
+
+}
+
+</script>
+
+</body>
+</html>
