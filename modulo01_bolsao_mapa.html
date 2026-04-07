@@ -1,333 +1,484 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
+<!DOCTYPE html><html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lapidar • Módulo 01 — Mapa do Bolsão</title>
-
-<style>
-
-:root{
---bg:#f7f5ef;
---pergaminho:#f1e8d8;
---tecnico:#e8decc;
---marrom:#c7b299;
---marrom-forte:#a78d72;
---verde:#5f8f86;
---dourado:#a87f4c;
---linha:#c9c1b2;
---texto:#2f2a24;
---muted:#5f574c;
-}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Módulo 01 — Bolsão de Limpeza Editorial</title>
+  <style>
+    :root{
+      --bg:#f5f1e8;
+      --card:#ffffff;
+      --text:#3d342b;
+      --muted:#6e6255;
+      --line:#ddd3c5;
+      --brown:#7b6345;
+      --brown-soft:#efe5d6;
+      --green:#567a5d;
+      --green-soft:#e6f0e7;
+      --blue:#6f94b8;
+      --blue-soft:#eaf2fb;
+      --gold:#d9b15f;
+      --gold-soft:#fff5dc;
+      --shadow:0 10px 24px rgba(57,42,24,.08);
+    }*{box-sizing:border-box}
 
 body{
-margin:0;
-font-family:Arial, Helvetica, sans-serif;
-background:var(--bg);
-color:var(--texto);
+  margin:0;
+  font-family:Arial, Helvetica, sans-serif;
+  background:var(--bg);
+  color:var(--text);
 }
 
-.container{
-max-width:1150px;
-margin:auto;
-padding:25px;
-}
-
-.topbar{
-display:flex;
-justify-content:space-between;
-margin-bottom:18px;
-}
-
-.btn{
-padding:10px 18px;
-border-radius:12px;
-border:none;
-cursor:pointer;
-font-size:15px;
-font-weight:bold;
-transition:0.2s;
-}
-
-.btn-bolsao{
-background:#e9e3d6;
-}
-
-.btn-bolsao:hover{
-background:#ded6c5;
-}
-
-.btn-sistema{
-background:#d7d2c6;
-}
-
-.btn-sistema:hover{
-background:#c9c3b6;
+.page{
+  max-width:1150px;
+  margin:0 auto;
+  padding:22px 14px 36px;
 }
 
 .hero{
-background:var(--pergaminho);
-padding:28px;
-border-radius:24px;
-border:1px solid var(--linha);
-margin-bottom:25px;
+  background:var(--brown);
+  color:#fff;
+  border-radius:22px;
+  padding:24px 22px;
+  box-shadow:var(--shadow);
+  margin-bottom:18px;
 }
 
-.grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:18px;
+.hero h1{
+  margin:0 0 8px;
+  font-size:28px;
+  line-height:1.25;
 }
 
-.card{
-background:white;
-padding:22px;
-border-radius:20px;
-border:1px solid var(--linha);
+.hero p{
+  margin:0;
+  line-height:1.7;
+  font-size:15px;
+  color:rgba(255,255,255,.93);
 }
 
-.pergaminho{
-background:var(--pergaminho);
+.section{
+  background:var(--card);
+  border-radius:20px;
+  padding:20px 18px;
+  box-shadow:var(--shadow);
+  border:1px solid var(--line);
+  margin-bottom:18px;
 }
 
-.tecnico{
-background:var(--tecnico);
+.section h2{
+  margin:0 0 10px;
+  font-size:20px;
+  color:var(--brown);
+  line-height:1.35;
 }
 
-.marrom{
-background:#f4ede3;
-border-left:7px solid var(--marrom-forte);
+.section h3{
+  margin:0 0 10px;
+  font-size:17px;
+  color:var(--brown);
+  line-height:1.35;
 }
 
-.verde{
-background:#f3f8f6;
-border-left:7px solid var(--verde);
+.section p{
+  margin:0;
+  line-height:1.7;
+  color:var(--muted);
+  font-size:14px;
 }
 
-.dourado{
-background:#fbf6ee;
-border-left:7px solid var(--dourado);
+.upload{
+  background:var(--brown-soft);
+  border-left:6px solid var(--brown);
 }
 
-h1{
-margin:0 0 10px 0;
+.mesario{
+  background:var(--green-soft);
+  border-left:6px solid var(--green);
 }
 
-h2{
-margin-top:30px;
-color:var(--verde);
+.info{
+  background:var(--blue-soft);
+  border-left:6px solid var(--blue);
 }
 
-ul{
-margin-top:10px;
+.extras{
+  background:var(--gold-soft);
+  border-left:6px solid var(--gold);
 }
 
-.footer{
-text-align:center;
-margin-top:25px;
-font-size:18px;
-color:var(--muted);
+.grid-2,
+.btn-grid,
+.mini-list{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px;
+  margin-top:14px;
 }
 
-@media(max-width:900px){
-.grid{
-grid-template-columns:1fr;
-}
+.field,
+.status-box,
+.upload-box,
+.mini-item{
+  background:rgba(255,255,255,.9);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:12px;
 }
 
-</style>
+.field strong,
+.status-box strong,
+.upload-box strong{
+  display:block;
+  font-size:12px;
+  margin-bottom:6px;
+  color:#6f6255;
+}
+
+.field input,
+.field select,
+.field textarea{
+  width:100%;
+  border:1px solid #ccbfae;
+  border-radius:10px;
+  padding:10px 12px;
+  font-size:14px;
+  color:var(--text);
+  background:#fffdf9;
+}
+
+.field textarea{
+  resize:vertical;
+  min-height:90px;
+}
+
+.check-group{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  margin-top:12px;
+}
+
+.check-item{
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  background:rgba(255,255,255,.88);
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:12px;
+  font-size:14px;
+  color:var(--text);
+  line-height:1.6;
+}
+
+.check-item input{
+  margin-top:3px;
+  width:18px;
+  height:18px;
+  flex-shrink:0;
+}
+
+.btn{
+  display:block;
+  text-decoration:none;
+  background:var(--brown);
+  color:#fff;
+  padding:14px 16px;
+  border-radius:14px;
+  font-weight:700;
+  font-size:14px;
+  line-height:1.4;
+  text-align:center;
+  transition:.2s ease;
+  box-shadow:0 6px 16px rgba(80,60,35,.12);
+  border:none;
+  cursor:pointer;
+}
+
+.btn:hover{filter:brightness(.95)}
+
+.btn.green{
+  background:var(--green);
+  box-shadow:0 6px 16px rgba(56,112,72,.12);
+}
+
+.btn.blue{
+  background:var(--blue);
+  box-shadow:0 6px 16px rgba(60,109,158,.12);
+}
+
+.btn.gold{
+  background:#b98b34;
+  box-shadow:0 6px 16px rgba(135,103,39,.12);
+}
+
+.note{
+  margin-top:12px;
+  font-size:13px;
+  color:#64594d;
+  line-height:1.7;
+}
+
+.preview-shell{
+  margin-top:14px;
+  background:#eef2f4;
+  border:1px solid #d3dde4;
+  border-radius:16px;
+  padding:16px;
+}
+
+.preview-a4{
+  max-width:420px;
+  min-height:420px;
+  margin:0 auto;
+  background:#fff;
+  border:1px solid #d7d7d7;
+  box-shadow:0 8px 20px rgba(0,0,0,.06);
+  padding:22px 28px;
+  overflow:auto;
+}
+
+.preview-a4 h4{
+  margin:0 0 10px;
+  font-size:18px;
+  color:#222;
+  text-align:center;
+}
+
+.preview-a4 p{
+  margin:0 0 10px;
+  font-size:14px;
+  line-height:1.7;
+  color:#333;
+}
+
+.mini-item{
+  font-size:13px;
+  color:var(--text);
+  line-height:1.6;
+}
+
+@media (max-width:900px){
+  .grid-2,
+  .btn-grid,
+  .mini-list{
+    grid-template-columns:1fr;
+  }
+
+  .hero h1{
+    font-size:23px;
+  }
+
+  .preview-a4{
+    max-width:100%;
+    min-height:340px;
+    padding:18px 18px;
+  }
+}
+
+  </style>
 </head>
-
-<body>
-
-<div class="container">
-
-<div class="topbar">
-
-<button class="btn btn-bolsao"
-onclick="history.back()">
-← Sair do Bolsão
-</button>
-
-<button class="btn btn-sistema"
-onclick="window.location.href='index.html'">
-Encerrar sessão
-</button>
-
-</div>
-
-
-<div class="hero">
-
-<h1>Bolsão de Limpeza Editorial — Mapa Estrutural</h1>
-
-<p>
-Esta página organiza tudo o que pertence oficialmente ao Bolsão antes da execução técnica do módulo.
-</p>
-
-<p>
-O Bolsão recebe a obra, interpreta sua estrutura e prepara o texto-base institucional sem alterar o conteúdo criativo do autor.
-</p>
-
-</div>
-
-
-<h2>1. Entrada universal da obra</h2>
-
-<div class="grid">
-
-<div class="card pergaminho">
-
-<h3>Upload multiformato</h3>
-
-<ul>
-<li>DOC</li>
-<li>DOCX</li>
-<li>PDF</li>
-<li>TXT</li>
-<li>RTF</li>
-<li>ODT</li>
-<li>JPG</li>
-<li>PNG</li>
-<li>ZIP</li>
-</ul>
-
-</div>
-
-
-<div class="card tecnico">
-
-<h3>Conversão interna automática</h3>
-
-<ul>
-<li>Formato interno definido pelo Bolsão</li>
-<li>Base textual convertida automaticamente</li>
-<li>Projetos híbridos mantêm fluxo próprio</li>
-</ul>
-
-</div>
-
-</div>
-
-
-<h2>2. Leitura estrutural automática</h2>
-
-<div class="grid">
-
-<div class="card tecnico">
-
-<h3>Identificações iniciais</h3>
-
-<ul>
-<li>Título</li>
-<li>Autor</li>
-<li>Idioma</li>
-<li>Capítulos</li>
-<li>Partes</li>
-<li>Epígrafes</li>
-</ul>
-
-</div>
-
-
-<div class="card marrom">
-
-<h3>Classificação editorial provável</h3>
-
-<ul>
-<li>Romance</li>
-<li>Conto</li>
-<li>Poesia</li>
-<li>Infantil</li>
-<li>Técnico</li>
-<li>Receitas</li>
-<li>Antologia</li>
-<li>Miscelânea</li>
-</ul>
-
-</div>
-
-</div>
-
-
-<h2>3. Limpeza técnica editorial</h2>
-
-<div class="grid">
-
-<div class="card tecnico">
-
-<h3>Correções estruturais</h3>
-
-<ul>
-<li>Espaços duplicados</li>
-<li>Quebras erradas</li>
-<li>Metadados herdados</li>
-<li>Marcadores invisíveis</li>
-</ul>
-
-</div>
-
-
-<div class="card verde">
-
-<h3>Proteção da autoria</h3>
-
-<ul>
-<li>Não altera estilo</li>
-<li>Não altera narrativa</li>
-<li>Não altera estrutura criativa</li>
-<li>Não executa humanização</li>
-</ul>
-
-</div>
-
-</div>
-
-
-<h2>4. Elementos técnicos detectados</h2>
-
-<div class="grid">
-
-<div class="card marrom">
-
-<h3>Pré-textuais existentes</h3>
-
-<ul>
-<li>Dedicatória</li>
-<li>Prefácio</li>
-<li>Sinopse</li>
-<li>Biografia</li>
-<li>Sumário</li>
-<li>Ficha catalográfica</li>
-</ul>
-
-</div>
-
-
-<div class="card dourado">
-
-<h3>Itens que podem ser gerados</h3>
-
-<ul>
-<li>Sinopse</li>
-<li>Prefácio</li>
-<li>Biografia</li>
-<li>Ficha de dados da obra</li>
-<li>Sumário provisório</li>
-</ul>
-
-</div>
-
-</div>
-
-
-<div class="footer">
-
-O Lapidar trabalha de mãos dadas com o autor. Cada etapa é realizada com sua autorização.
-
-</div>
-
-</div>
-
-</body>
+<body>  <div class="page"><section class="hero">
+  <h1>Módulo 01 — Bolsão de Limpeza Editorial</h1>
+  <p>Entrada universal da obra no Lapidar. Aqui o sistema recebe o material bruto, faz leitura técnica, limpa o texto, identifica metadados, separa elementos editoriais e prepara a base reconhecível que será utilizada pelos demais módulos do Celeiro Literário.</p>
+</section>
+
+<section class="section upload">
+  <h2>Entrada concentrada do material da obra</h2>
+  <p>O Bolsão concentra toda a entrada da obra em um só lugar. Assim, o autor não precisa voltar em várias áreas diferentes para enviar texto, imagens ou materiais audiovisuais.</p>
+
+  <div class="grid-2">
+    <div class="upload-box">
+      <strong>Upload do material textual da obra</strong>
+      <input type="file" multiple>
+      <div class="note">Aceita rascunho, PDF, Word, DOCX e demais arquivos usados como texto-base da obra.</div>
+    </div>
+
+    <div class="upload-box">
+      <strong>Upload de fotografias e imagens para capas e páginas internas</strong>
+      <input type="file" multiple>
+      <div class="note">Use esta área para imagens internas do livro, capa, contracapa, lombada e orelhas.</div>
+    </div>
+
+    <div class="upload-box" style="grid-column:1 / -1;">
+      <strong>Upload de material audiovisual</strong>
+      <input type="file" multiple>
+      <div class="note">Materiais destinados ao Silo Sonoro, ao Silo Sings &amp; Music e ao Silo Indústria Cinematográfica Literária também entram por aqui.</div>
+    </div>
+  </div>
+
+  <div class="check-group">
+    <label class="check-item">
+      <input type="checkbox">
+      <span>Declaro que possuo autorização para uso de todas as imagens enviadas neste projeto.</span>
+    </label>
+    <label class="check-item">
+      <input type="checkbox">
+      <span>Confirmo novamente que a responsabilidade pelo uso das imagens é exclusivamente minha, e que o Lapidar, o Celeiro Literário e o Site das Letras não respondem pelo uso indevido de material sem autorização.</span>
+    </label>
+  </div>
+
+  <div class="note">Ao iniciar novo projeto, todas as áreas do Bolsão devem estar livres de resíduos de obras anteriores. Nenhum material antigo deve permanecer visível ou associado ao novo upload.</div>
+
+  <div class="note">Ajustes estilísticos ou históricos de imagens — como envelhecimento visual, estética templária, tratamento para época específica e adaptação cinematográfica — não pertencem ao Bolsão. Esses serviços pertencem à Diagramação/OKapista e ao módulo cinematográfico, sendo cobrados conforme a tabela correspondente.</div>
+</section>
+
+<section class="section info">
+  <h2>Leitura técnica automática da obra</h2>
+  <p>Após o upload, o Bolsão faz uma leitura estrutural do material para detectar título, subtítulo, autor, organizador, ficha catalográfica, prefácio e demais elementos técnicos eventualmente misturados ao texto bruto.</p>
+
+  <div class="grid-2">
+    <div class="field">
+      <strong>Título da obra</strong>
+      <input type="text" value="Título detectado automaticamente">
+    </div>
+
+    <div class="field">
+      <strong>Subtítulo</strong>
+      <input type="text" value="Subtítulo detectado ou vazio">
+    </div>
+
+    <div class="field">
+      <strong>Autor</strong>
+      <input type="text" value="Autor detectado automaticamente">
+    </div>
+
+    <div class="field">
+      <strong>Organizador (quando aplicável)</strong>
+      <input type="text" value="Organizador para antologia / miscelânea">
+    </div>
+
+    <div class="field">
+      <strong>Tipo de obra</strong>
+      <select>
+        <option>Romance</option>
+        <option>Poesia</option>
+        <option>Conto</option>
+        <option>Antologia</option>
+        <option>Miscelânea</option>
+        <option>Coletânea</option>
+        <option>Outro</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <strong>Ficha catalográfica / Ficha de Dados</strong>
+      <textarea>Se não houver ficha catalográfica oficial, o Bolsão gera Ficha de Dados da Obra com Tabela Cutter e código CDD/CDB.</textarea>
+    </div>
+  </div>
+
+  <div class="note">Todos os campos detectados automaticamente permanecem editáveis. O autor pode alterar título, subtítulo, autor, organizador, pseudônimo e demais dados antes do encaminhamento para os módulos seguintes.</div>
+</section>
+
+<section class="section info">
+  <h2>Separação e limpeza editorial</h2>
+  <p>O Bolsão separa os elementos técnicos e limpa o texto-base da obra, removendo resíduos estruturais e preparando um material compreensível para os demais módulos.</p>
+
+  <div class="mini-list">
+    <div class="mini-item">Prefácio identificado e separado automaticamente</div>
+    <div class="mini-item">Dedicatória identificada ou preparada para geração</div>
+    <div class="mini-item">Biografia identificada ou preparada para geração</div>
+    <div class="mini-item">Ficha técnica identificada ou preparada para organização</div>
+    <div class="mini-item">Correção ortográfica básica aplicada gratuitamente</div>
+    <div class="mini-item">Correção gramatical básica aplicada gratuitamente</div>
+    <div class="mini-item">Hifenização não aplicada nesta etapa</div>
+    <div class="mini-item">Texto-base reconhecível por todos os módulos posteriores</div>
+  </div>
+
+  <div class="note">A hifenização não é realizada no Bolsão. Ela só deve ser aplicada no momento da diagramação, pois depende do formato final da página, da fonte e da mancha gráfica.</div>
+</section>
+
+<section class="section">
+  <h2>Prévia do texto limpo — leitura técnica em padrão A4</h2>
+  <p>O Bolsão apresenta uma amostra do material já limpo em visual de lauda A4 para leitura técnica. Esta prévia serve para conferência estrutural antes do envio à humanização, tradução ou diagramação.</p>
+
+  <div class="preview-shell">
+    <div class="preview-a4">
+      <h4>Título da Obra</h4>
+      <p>Subtítulo da obra, quando houver.</p>
+      <p>Autor da obra.</p>
+      <p>Este espaço apresenta uma amostra do texto já limpo pelo Bolsão, com correção ortográfica e gramatical básica realizada gratuitamente nesta fase. O objetivo é permitir ao autor visualizar a base textual organizada antes que o material siga para os outros módulos do Lapidar.</p>
+      <p>Nesta etapa, o texto aparece em padrão de leitura técnica A4. A hifenização ainda não foi aplicada, pois isso ficará reservado ao processo de diagramação final.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section extras">
+  <h2>Serviços extras gerados no Bolsão</h2>
+  <p>Quando faltarem elementos essenciais, o Bolsão pode gerar automaticamente itens complementares. Cada serviço extra gerado custa <strong>R$ 1</strong>, com exceção do sumário, que não é cobrado.</p>
+
+  <div class="btn-grid">
+    <a class="btn gold" href="#">Gerar prefácio (+R$ 1)</a>
+    <a class="btn gold" href="#">Gerar dedicatória (+R$ 1)</a>
+    <a class="btn gold" href="#">Gerar biografia do autor (+R$ 1)</a>
+    <a class="btn gold" href="#">Gerar Ficha de Dados da Obra (+R$ 1, se aplicável)</a>
+  </div>
+
+  <div class="note">A biografia gerada nesta etapa deve respeitar o limite máximo de 90 palavras. O sumário não é cobrado como serviço extra no Bolsão.</div>
+</section>
+
+<section class="section mesario">
+  <h2>Mesário da Seção — Bolsão de Limpeza Editorial</h2>
+  <p>Este Mesário da Seção acompanha os serviços executados no Bolsão e o total parcial da contribuição voluntária referendada (CVR) gerada nesta etapa.</p>
+
+  <div class="grid-2">
+    <div class="status-box">
+      <strong>Correção ortográfica e gramatical básica</strong>
+      <span>Gratuita</span>
+    </div>
+
+    <div class="status-box">
+      <strong>Extras gerados nesta etapa</strong>
+      <span>R$ 0,00</span>
+    </div>
+
+    <div class="status-box">
+      <strong>Status do texto-base</strong>
+      <span>Em preparação</span>
+    </div>
+
+    <div class="status-box">
+      <strong>CVR parcial do Bolsão</strong>
+      <span>R$ 0,00</span>
+    </div>
+  </div>
+
+  <div class="note">O valor parcial desta etapa será enviado futuramente ao Mesário Mor no Módulo 29, onde ocorrerá a consolidação final da contribuição voluntária referendada da obra.</div>
+</section>
+
+<section class="section info">
+  <h2>Base de busca dos outros módulos</h2>
+  <p>O material produzido no Bolsão não precisa ser baixado e reenviado nos módulos seguintes. Os outros departamentos acessam diretamente a base reconhecida e limpa da obra a partir do próprio sistema.</p>
+
+  <div class="mini-list">
+    <div class="mini-item">Humanização busca o texto-base no Bolsão</div>
+    <div class="mini-item">Tradução busca o texto-base no Bolsão</div>
+    <div class="mini-item">Diagramação busca o texto-base no Bolsão</div>
+    <div class="mini-item">Silos multimídia buscam no Bolsão seus materiais de entrada</div>
+  </div>
+
+  <div class="note">Se a obra passar por tradução, humanização e depois diagramação, o material diagramado passa a ser a nova base de busca para os departamentos que dependem do resultado final dessa etapa.</div>
+</section>
+
+<section class="section">
+  <h2>Encaminhamento do texto-base</h2>
+  <div class="btn-grid">
+    <a class="btn green" href="#">Encaminhar para Lapidação Literária</a>
+    <a class="btn green" href="#">Encaminhar para Segunda Língua(s)</a>
+    <a class="btn green" href="#">Encaminhar para Assistente de Diagramação</a>
+    <a class="btn blue" href="#">Salvar base técnica da obra</a>
+  </div>
+  <div class="note">O encaminhamento não exige novo upload manual. Os módulos seguintes buscam a base já reconhecida pelo Bolsão.</div>
+</section>
+
+<section class="section">
+  <h2>Navegação do sistema</h2>
+  <div class="btn-grid">
+    <button class="btn" type="button" onclick="window.location.href='index.html'">Retornar ao início</button>
+    <button class="btn" type="button" onclick="window.location.href='index.html'">Sair do sistema</button>
+  </div>
+  <div class="note">Estes comandos permitem voltar ao início do fluxo ou encerrar a sessão atual do sistema.</div>
+</section>
+
+  </div></body>
 </html>
