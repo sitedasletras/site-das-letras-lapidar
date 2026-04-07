@@ -6,6 +6,7 @@
 <title>Painel da obra — Lapidar</title>
 
 <style>
+
 body{
 margin:0;
 font-family:Arial,sans-serif;
@@ -99,17 +100,21 @@ border:2px solid #32497d;
 }
 
 .preto{
-background:#000000;
+background:black;
 color:white;
 }
 
 @media(max-width:800px){
+
 .grid{
 grid-template-columns:1fr;
 }
+
 }
+
 </style>
 </head>
+
 <body>
 
 <header>
@@ -117,106 +122,202 @@ grid-template-columns:1fr;
 <div>Lapidar</div>
 </header>
 
+
 <div class="container">
 
 <div class="grid">
 
 <div class="card">
-<div class="titulo">Resumo da obra</div>
-<div class="subtitulo">Visão geral do que foi selecionado para o projeto.</div>
 
-<div id="resumoLivro" class="bloco azul" style="display:none;">
+<div class="titulo">Resumo da obra</div>
+
+<div class="subtitulo">
+Visão geral do que foi selecionado para o projeto.
+</div>
+
+
+<div id="resumoLivro" class="bloco azul" style="display:none">
 Produção editorial selecionada
 </div>
 
-<div id="resumoAudiovisual" class="bloco amarelo" style="display:none;">
+
+<div id="resumoAudiovisual" class="bloco amarelo" style="display:none">
 Produção audiovisual selecionada
 </div>
 
-<div id="resumoMusica" class="bloco verde" style="display:none;">
+
+<div id="resumoMusica" class="bloco verde" style="display:none">
 Produção com voz / música selecionada
 </div>
+
 </div>
 
+
 <div class="card">
+
 <div class="titulo">Estado atual</div>
-<div class="subtitulo">Acompanhamento assistido do andamento da obra.</div>
+
+<div class="subtitulo">
+Acompanhamento assistido do andamento da obra.
+</div>
+
 
 <div class="bloco neutro" id="estadoAtual">
 A obra foi organizada e está pronta para começar a execução dos módulos.
 </div>
 
+
 <button class="botao offwhite" onclick="comecarExecucao()">
 Começar execução da obra
 </button>
 
+
 <button class="botao preto" onclick="voltarInicio()">
 Voltar ao início do processo
 </button>
-</div>
 
 </div>
 
 </div>
+
+</div>
+
+
+<script src="/auditoria.js"></script>
 
 <script>
+
+
 function existeLivro(){
-return (
-localStorage.getItem("correcao_recomendada")==="sim" ||
-localStorage.getItem("lapidacao_texto")==="sim" ||
-localStorage.getItem("traducao_livro")==="sim" ||
-localStorage.getItem("diagramacao_livro")==="sim" ||
-localStorage.getItem("capa_livro")==="sim" ||
-localStorage.getItem("estrutura_livro")==="sim" ||
-localStorage.getItem("qualidade_livro")==="sim"
+
+return(
+
+localStorage.getItem("modulo_diagramacao")==="sim" ||
+
+localStorage.getItem("modulo_capista")==="sim" ||
+
+localStorage.getItem("modulo_segunda_lingua")==="sim" ||
+
+localStorage.getItem("modulo_avaliacao")==="sim" ||
+
+localStorage.getItem("modulo_analisador")==="sim" ||
+
+localStorage.getItem("modulo_lapidacao")==="sim"
+
 );
+
 }
+
 
 function existeAudiovisual(){
-return (
+
+return(
+
 localStorage.getItem("video_historia")==="sim" ||
+
 localStorage.getItem("video_cena")==="sim" ||
+
 localStorage.getItem("video_apresentacao")==="sim" ||
+
 localStorage.getItem("video_redes")==="sim"
+
 );
+
 }
 
+
 function existeMusica(){
-return (
+
+return(
+
 localStorage.getItem("narracao_voz")==="sim" ||
+
 localStorage.getItem("audiolivro")==="sim" ||
+
 localStorage.getItem("leitura_dramatizada")==="sim" ||
+
 localStorage.getItem("trilha_sonora")==="sim" ||
+
 localStorage.getItem("musica_tema")==="sim" ||
+
 localStorage.getItem("versao_cantada")==="sim" ||
+
 localStorage.getItem("distribuicao_audio")==="sim"
+
 );
+
 }
+
 
 window.onload=function(){
 
+LapidarAuditoria.registrarEvento(
+"Painel de execução da obra aberto",
+{}
+);
+
+
 if(existeLivro()){
+
 document.getElementById("resumoLivro").style.display="block";
+
 }
+
 
 if(existeAudiovisual()){
+
 document.getElementById("resumoAudiovisual").style.display="block";
+
 }
+
 
 if(existeMusica()){
+
 document.getElementById("resumoMusica").style.display="block";
-}
 
 }
+
+};
+
+
 
 function comecarExecucao(){
-document.getElementById("estadoAtual").innerText="Execução iniciada. O Lapidar está acompanhando sua obra etapa por etapa.";
+
+document.getElementById("estadoAtual").innerText=
+"Execução iniciada. O Lapidar está acompanhando sua obra etapa por etapa.";
+
+
+LapidarAuditoria.registrarEvento(
+"Execução da obra iniciada pelo autor",
+{}
+);
+
+
+setTimeout(function(){
+
+window.location.href="/projeto_concluido.html";
+
+},1200);
+
 }
 
+
+
 function voltarInicio(){
+
+LapidarAuditoria.registrarEvento(
+"Retorno ao início solicitado pelo autor",
+{}
+);
+
+
 window.location.href="/index.html";
+
 }
+
+
 </script>
+
 
 </body>
 </html>
