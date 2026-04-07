@@ -3,61 +3,79 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Entrada da Obra — Lapidar</title>
+
+<title>Bolsão Inicial da Obra — Lapidar</title>
 
 <style>
 
 body{
 margin:0;
 font-family:Arial, sans-serif;
-background:#0e0604;
+background:#111;
 color:white;
 }
 
 header{
 background:#32497d;
-padding:20px;
+padding:18px;
 display:flex;
 justify-content:space-between;
-align-items:center;
+font-size:18px;
 }
 
 .container{
 max-width:900px;
 margin:auto;
-padding:30px;
+padding:25px;
 }
 
 .card{
-background:#210805;
-border-radius:18px;
-padding:24px;
+border-radius:16px;
+padding:22px;
 margin-bottom:20px;
 }
 
-select,input{
+.azul{
+background:#1e3a5f;
+}
+
+.amarelo{
+background:#6b5200;
+}
+
+.verde{
+background:#1f4a2a;
+}
+
+input{
 width:100%;
 padding:14px;
-border-radius:10px;
 border:none;
+border-radius:10px;
 margin-top:10px;
-margin-bottom:20px;
-background:#3a120c;
-color:white;
+margin-bottom:15px;
 font-size:16px;
 }
 
 button{
-padding:16px 20px;
+padding:15px;
 border:none;
-border-radius:12px;
+border-radius:10px;
 font-weight:bold;
 cursor:pointer;
+font-size:16px;
 }
 
-.botao-verde{
+.leitura{
+background:#c89b00;
+color:black;
+margin-top:10px;
+}
+
+.continuar{
 background:#2e7d32;
 color:white;
+width:100%;
 }
 
 </style>
@@ -65,81 +83,88 @@ color:white;
 
 <body>
 
-<script>
-
-/* BLOQUEIO DE ENTRADA DIRETA — PAGINA INSTITUCIONAL */
-
-const respiracaoConfirmada =
-localStorage.getItem("lapidar_respiracao_ok")
-
-if(!respiracaoConfirmada){
-
-window.location.href =
-"pagina_institucional_lapidar.html"
-
-}
-
-</script>
-
-
 <header>
 
-<div>
-Entrada da Obra
-</div>
+<div>Bolsão inicial da obra</div>
 
-<div>
-Lapidar
-</div>
+<div>Lapidar</div>
 
 </header>
 
 
 <div class="container">
 
-<div class="card">
 
-<h2>Identificação inicial da obra</h2>
+<!-- TEXTO -->
 
-<label>Nome da obra</label>
+<div class="card azul">
 
-<input
-type="text"
-placeholder="Digite o nome da obra"
-/>
+<h2>Upload do texto da obra</h2>
 
-<label>Tipo de material</label>
+<input type="file">
 
-<select>
+<button class="leitura">
 
-<option>Livro</option>
-<option>Áudio</option>
-<option>Vídeo</option>
-<option>Projeto misto</option>
-
-</select>
-
-
-<button
-class="botao-verde"
-onclick="seguirFluxo()"
->
-
-Continuar
+Leitura automática da obra
 
 </button>
 
 </div>
+
+
+<!-- IMAGEM -->
+
+<div class="card amarelo">
+
+<h2>Upload de imagens da obra</h2>
+
+<input type="file">
+
+</div>
+
+
+<!-- AUDIO -->
+
+<div class="card verde">
+
+<h2>Upload da voz do autor</h2>
+
+<input type="file">
+
+</div>
+
+
+<!-- IDENTIFICAÇÃO -->
+
+<div class="card">
+
+<h2>Identificação da obra</h2>
+
+<input placeholder="Título da obra">
+
+<input placeholder="Autor / Organizador">
+
+</div>
+
+
+<button
+class="continuar"
+onclick="seguir()"
+>
+
+Continuar para escolha dos módulos
+
+</button>
+
 
 </div>
 
 
 <script>
 
-function seguirFluxo(){
+function seguir(){
 
-window.location.href =
-"selecionar_modulos.html"
+window.location.href="selecionar_modulos.html"
 
 }
 
