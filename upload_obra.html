@@ -23,7 +23,7 @@ font-size:18px;
 }
 
 .container{
-max-width:900px;
+max-width:950px;
 margin:auto;
 padding:30px;
 }
@@ -79,6 +79,17 @@ border-radius:10px;
 box-sizing:border-box;
 }
 
+.lista-arquivos{
+margin-top:12px;
+padding:14px;
+background:#fcfaf4;
+border:1px solid #e6dfd0;
+border-radius:10px;
+color:#4e4a43;
+min-height:24px;
+white-space:pre-wrap;
+}
+
 .botao{
 width:100%;
 padding:18px;
@@ -101,6 +112,16 @@ background:#000000;
 color:white;
 }
 
+.azul{
+background:#6b8ec1;
+color:white;
+}
+
+.vermelho{
+background:#b71c1c;
+color:white;
+}
+
 .info{
 margin-top:20px;
 padding:16px;
@@ -111,12 +132,41 @@ font-weight:bold;
 display:none;
 }
 
+.audio-box{
+margin-top:14px;
+padding:16px;
+background:#fcfaf4;
+border:1px solid #e6dfd0;
+border-radius:12px;
+}
+
+.audio-status{
+margin-top:10px;
+font-weight:bold;
+color:#2f3e55;
+}
+
+audio{
+width:100%;
+margin-top:14px;
+}
+
+.linha-botoes{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+margin-top:12px;
+}
+
 @media(max-width:700px){
 h1{
 font-size:27px;
 }
 .frase{
 font-size:17px;
+}
+.linha-botoes{
+grid-template-columns:1fr;
 }
 }
 </style>
@@ -143,22 +193,41 @@ Comece pelo que você já tiver pronto. O Lapidar vai receber, organizar e prepa
 Envie aqui o arquivo principal do livro, conto, poema, roteiro ou rascunho.
 </p>
 <input type="file" id="arquivoTexto" accept=".doc,.docx,.pdf,.txt">
+<div class="lista-arquivos" id="listaTexto">Nenhum arquivo de texto enviado ainda.</div>
 </div>
 
 <div class="bloco">
 <h2>Imagens da obra</h2>
 <p>
-Se tiver imagens internas, referências visuais, capa provisória ou materiais de apoio, envie aqui.
+Envie aqui capa, contracapa, lombada, orelhas, imagens internas, referências visuais e outros materiais de apoio.
+Você pode enviar várias imagens de uma vez.
 </p>
 <input type="file" id="arquivoImagem" accept=".jpg,.jpeg,.png,.webp,.pdf" multiple>
+<div class="lista-arquivos" id="listaImagens">Nenhuma imagem enviada ainda.</div>
 </div>
 
 <div class="bloco">
-<h2>Áudio ou voz do autor</h2>
+<h2>Voz do autor</h2>
 <p>
-Se quiser enviar narração, teste de voz, orientação falada ou outro apoio em áudio, envie aqui.
+Esta opção existe para que o Lapidar use a sua própria voz como base de narração da sua obra.
+Ela pode servir para poema narrado, cordel, pantum, ghazal, conto, leitura dramática, audiobook e outros formatos em áudio.
 </p>
+<p>
+Você pode enviar um arquivo de voz já pronto ou gravar aqui mesmo lendo um trecho da sua obra.
+</p>
+
 <input type="file" id="arquivoAudio" accept=".mp3,.wav,.m4a,.ogg" multiple>
+<div class="lista-arquivos" id="listaAudio">Nenhum áudio enviado ainda.</div>
+
+<div class="audio-box">
+<strong>Gravar voz agora</strong>
+<div class="linha-botoes">
+<button class="botao azul" type="button" onclick="iniciarGravacao()">Começar gravação</button>
+<button class="botao vermelho" type="button" onclick="pararGravacao()">Parar gravação</button>
+</div>
+<div class="audio-status" id="statusGravacao">Nenhuma gravação em andamento.</div>
+<audio id="audioGravado" controls style="display:none;"></audio>
+</div>
 </div>
 
 <button class="botao offwhite" onclick="seguirParaLeitura()">
@@ -177,11 +246,75 @@ Material registrado. O Lapidar está preparando a leitura inicial da obra...
 </div>
 
 <script>
-function seguirParaLeitura(){
+let mediaRecorder;
+let audioChunks = [];
+let blobAudio = null;
 
+function nomesArquivos(files){
+if(!files || files.length===0){
+return "Nenhum arquivo enviado ainda.";
+}
+let lista = [];
+for(let i=0;i<files.length;i++){
+lista.push("• " + files[i].name);
+}
+return lista.join("\n");
+}
+
+document.getElementById("arquivoTexto").addEventListener("change", function(){
+document.getElementById("listaTexto").innerText = nomesArquivos(this.files);
+});
+
+document.getElementById("arquivoImagem").addEventListener("change", function(){
+document.getElementById("listaImagens").innerText = nomesArquivos(this.files);
+});
+
+document.getElementById("arquivoAudio").addEventListener("change", function(){
+document.getElementById("listaAudio").innerText = nomesArquivos(this.files);
+});
+
+async function iniciarGravacao(){
+try{
+const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+mediaRecorder = new MediaRecorder(stream);
+audioChunks = [];
+
+mediaRecorder.ondataavailable = function(event){
+if(event.data.size > 0){
+audioChunks.push(event.data);
+}
+};
+
+mediaRecorder.onstop = function(){
+blobAudio = new Blob(audioChunks, { type: "audio/webm" });
+const audioUrl = URL.createObjectURL(blobAudio);
+const audioPlayer = document.getElementById("audioGravado");
+audioPlayer.src = audioUrl;
+audioPlayer.style.display = "block";
+document.getElementById("statusGravacao").innerText = "Gravação concluída. Você pode ouvir sua voz abaixo.";
+localStorage.setItem("gravacao_voz_autor","sim");
+};
+
+mediaRecorder.start();
+document.getElementById("statusGravacao").innerText = "Gravação em andamento... leia um trecho da sua obra.";
+}catch(erro){
+document.getElementById("statusGravacao").innerText = "Não foi possível acessar o microfone neste aparelho ou navegador.";
+}
+}
+
+function pararGravacao(){
+if(mediaRecorder && mediaRecorder.state === "recording"){
+mediaRecorder.stop();
+}else{
+document.getElementById("statusGravacao").innerText = "Nenhuma gravação em andamento.";
+}
+}
+
+function seguirParaLeitura(){
 const texto = document.getElementById("arquivoTexto").files.length;
 const imagem = document.getElementById("arquivoImagem").files.length;
 const audio = document.getElementById("arquivoAudio").files.length;
+const gravacao = localStorage.getItem("gravacao_voz_autor")==="sim";
 
 if(texto > 0){
 localStorage.setItem("upload_texto_obra","sim");
@@ -195,18 +328,17 @@ localStorage.setItem("upload_imagens_obra","sim");
 localStorage.removeItem("upload_imagens_obra");
 }
 
-if(audio > 0){
+if(audio > 0 || gravacao){
 localStorage.setItem("upload_audio_obra","sim");
 }else{
 localStorage.removeItem("upload_audio_obra");
 }
 
-document.getElementById("statusUpload").style.display="block";
+document.getElementById("statusUpload").style.display = "block";
 
 setTimeout(function(){
 window.location.href="/bolsao_execucao.html";
 },1200);
-
 }
 
 function voltarEntrada(){
