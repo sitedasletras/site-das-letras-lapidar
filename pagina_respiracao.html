@@ -1,154 +1,162 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Lapidar — Entrada</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LAPIDAR — Entrada Inicial</title>
 
 <style>
 
 body{
-    margin:0;
-    font-family: Arial, sans-serif;
-    background-color:#f7f6f2; /* off-white definido */
+margin:0;
+font-family:Arial, Helvetica, sans-serif;
+background:#f4f1e8;
+color:#2f2f2f;
+display:flex;
+justify-content:center;
+align-items:center;
+min-height:100vh;
 }
-
-/* CONTAINER CENTRAL */
 
 .container{
-    max-width:700px;
-    margin:auto;
-    padding-top:80px;
-    padding-left:30px;
-    padding-right:30px;
-    text-align:center;
+max-width:620px;
+background:white;
+padding:40px;
+border-radius:20px;
+box-shadow:0px 12px 28px rgba(0,0,0,0.12);
 }
 
-/* TITULO */
-
-.titulo{
-    font-size:42px;
-    letter-spacing:6px;
-    margin-bottom:10px;
+.logo{
+text-align:center;
+font-size:42px;
+font-weight:800;
+letter-spacing:3px;
+margin-bottom:6px;
 }
 
-/* FRASE DE ENTRADA */
-
-.subtitulo{
-    font-size:18px;
-    color:#555;
-    margin-bottom:50px;
+.frase{
+text-align:center;
+font-size:18px;
+margin-bottom:30px;
+color:#666;
 }
 
-/* MANIFESTO */
+.texto{
+font-size:16px;
+line-height:1.6;
+margin-bottom:18px;
+}
 
 .manifesto{
-    font-size:16px;
-    line-height:1.8;
-    color:#333;
-    margin-bottom:35px;
+margin-top:28px;
+padding:18px;
+background:#faf7ef;
+border-left:6px solid #e6d6a5;
+border-radius:10px;
+font-size:15px;
+line-height:1.6;
 }
-
-/* CPF TEXTO */
-
-.cpf-texto{
-    font-size:15px;
-    color:#444;
-    margin-bottom:40px;
-}
-
-/* CHECKBOX */
-
-.checkbox-area{
-    margin-bottom:25px;
-    font-size:15px;
-}
-
-/* BOTAO */
 
 .botao{
-    padding:15px 30px;
-    font-size:16px;
-    background-color:#222;
-    color:white;
-    border:none;
-    border-radius:6px;
-    cursor:pointer;
+margin-top:30px;
+width:100%;
+padding:18px;
+font-size:18px;
+font-weight:bold;
+background:#2e7d32;
+color:white;
+border:none;
+border-radius:12px;
+cursor:pointer;
+transition:0.3s;
 }
 
 .botao:hover{
-    background-color:#000;
+background:#256628;
 }
 
-/* ASSINATURA FINAL */
-
-.assinatura{
-    margin-top:70px;
-    font-size:14px;
-    color:#777;
+.rodape{
+margin-top:25px;
+font-size:13px;
+color:#777;
+text-align:center;
 }
 
 </style>
-
 </head>
 
 <body>
 
 <div class="container">
 
-<div class="titulo">
-- LAPIDAR -
+<div class="logo">
+LAPIDAR
 </div>
 
-<div class="subtitulo">
-Aqui começa a alma de suas ideias.
+<div class="frase">
+Aqui começa a alma das suas ideias.
 </div>
+
+<div class="texto">
+Você está entrando em uma ferramenta criada para acompanhar autores de verdade.
+</div>
+
+<div class="texto">
+Aqui ninguém precisa falar difícil. Aqui a gente resolve problema.
+</div>
+
+<div class="texto">
+O LAPIDAR foi feito principalmente para o escritor independente.
+Para quem escreve sozinho.
+Para quem guardou a obra anos na gaveta.
+Para quem nunca teve leitura técnica de verdade.
+</div>
+
+<div class="texto">
+Aqui você não está sozinho.
+Nós vamos caminhar com você etapa por etapa.
+</div>
+
 
 <div class="manifesto">
 
-O Lapidar não foi criado para impressionar pelo vocabulário.<br>
-Foi criado para resolver problemas reais de escritores reais.<br>
-Problema — ou “pobrema”, quando for assim que o autor chamar.
+<b>Manifesto do Autor Independente (CPF)</b>
+<br><br>
+
+Este sistema prioriza o uso por CPF.
+Isso existe para proteger o autor individual.
+
+Quem tem menos recursos paga menos.
+Quem tem mais estrutura paga mais.
+
+Empresas podem usar o sistema.
+Mas o LAPIDAR nasce para o escritor comum.
+
+Aqui a ferramenta existe para ajudar quem escreve.
+Não para explorar quem sonha.
 
 </div>
 
-<div class="cpf-texto">
 
-O Lapidar prioriza o autor independente e o uso por CPF, para manter a ferramenta acessível a quem realmente precisa dela.<br>
-Quem utiliza o sistema de forma institucional contribui mais, para que o acesso do escritor independente continue possível.
-
-</div>
-
-<div class="checkbox-area">
-
-<input type="checkbox" id="aceite">
-<label for="aceite">Li e estou de acordo com a proposta do Lapidar</label>
-
-</div>
-
-<button class="botao" onclick="entrarSistema()">
-Confirmar e entrar
+<button class="botao" onclick="confirmarRespiracao()">
+Estou de acordo e quero continuar
 </button>
 
-<div class="assinatura">
 
-Lapidar — trabalhando ao lado do autor, desde a primeira letra até o último ponto final. Mas a jornada ainda continua.
-
+<div class="rodape">
+Ao continuar você confirma que compreende a proposta do LAPIDAR.
 </div>
 
 </div>
+
 
 <script>
 
-function entrarSistema(){
+function confirmarRespiracao(){
 
-let aceite = document.getElementById("aceite");
+localStorage.setItem("lapidar_respiracao_ok","true")
 
-if(!aceite.checked){
-alert("Por favor, confirme que está de acordo com a proposta do Lapidar.");
-return;
-}
-
-window.location.href = "hub_bolsao_editorial.html";
+window.location.href="entrada_obra.html"
 
 }
 
