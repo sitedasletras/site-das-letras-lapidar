@@ -101,7 +101,7 @@ display:none;
 <h1>Selecione os módulos do livro</h1>
 
 <p>
-Escolha quais etapas editoriais deseja executar agora.  
+Escolha quais etapas editoriais deseja executar agora.
 Você pode voltar depois e ativar novos módulos se quiser.
 </p>
 
@@ -126,7 +126,7 @@ Avaliação Literária
 </button>
 
 <button class="botao azul" id="btnAnalisador"
-onclick="toggleModuloLivro('modulo_analisador','btnAnalisador','Analisador de obra selecionado')">
+onclick="toggleModuloLivro('modulo_analisador','btnAnalisador','Analisador de Obra selecionado')">
 Analisador de Obra
 </button>
 
@@ -135,8 +135,7 @@ onclick="toggleModuloLivro('modulo_lapidacao','btnLapidacao','Lapidação Liter�
 Lapidação Literária
 </button>
 
-<button class="botao azul-escuro"
-onclick="continuarFluxoLivro()">
+<button class="botao azul-escuro" onclick="continuarFluxoLivro()">
 Continuar execução editorial
 </button>
 
@@ -148,11 +147,8 @@ Seleção registrada. Preparando execução editorial.
 </div>
 
 <script src="/auditoria.js"></script>
-
 <script>
-
 function marcarVisualInicial(){
-
 const modulos = [
 ["modulo_diagramacao","btnDiagramacao"],
 ["modulo_capista","btnCapista"],
@@ -163,112 +159,78 @@ const modulos = [
 ];
 
 modulos.forEach(function(item){
-
 if(localStorage.getItem(item[0])==="sim"){
-
 document.getElementById(item[1]).classList.add("ativo");
-
 }
-
 });
-
 }
 
-function toggleModuloLivro(chave,idBotao,mensagem){
-
+async function toggleModuloLivro(chave,idBotao,mensagem){
 const botao = document.getElementById(idBotao);
 
 if(localStorage.getItem(chave)==="sim"){
-
 localStorage.removeItem(chave);
-
 botao.classList.remove("ativo");
 
-LapidarAuditoria.registrarEvento("Módulo editorial removido",{
+await LapidarAuditoria.registrarEvento("Módulo editorial removido",{
 modulo:chave
 });
-
 }else{
-
 localStorage.setItem(chave,"sim");
-
 botao.classList.add("ativo");
 
-LapidarAuditoria.registrarEvento(mensagem,{
+await LapidarAuditoria.registrarEvento(mensagem,{
 modulo:chave
 });
-
+}
 }
 
-}
-
-function continuarFluxoLivro(){
-
+async function continuarFluxoLivro(){
 const selecionados = [
-
 "modulo_diagramacao",
 "modulo_capista",
 "modulo_segunda_lingua",
 "modulo_avaliacao",
 "modulo_analisador",
 "modulo_lapidacao"
-
 ];
 
 let algumSelecionado=false;
 
 selecionados.forEach(function(mod){
-
 if(localStorage.getItem(mod)==="sim"){
-
 algumSelecionado=true;
-
 }
-
 });
 
 if(!algumSelecionado){
-
 alert("Selecione pelo menos um módulo editorial.");
-
 return;
-
 }
 
 document.getElementById("statusLivro").style.display="block";
 
-LapidarAuditoria.registrarEvento("Execução editorial iniciada",{
-
+await LapidarAuditoria.registrarEvento("Execução editorial iniciada",{
 diagramacao:localStorage.getItem("modulo_diagramacao")||"nao",
-
 capista:localStorage.getItem("modulo_capista")||"nao",
-
 segundaLingua:localStorage.getItem("modulo_segunda_lingua")||"nao",
-
 avaliacao:localStorage.getItem("modulo_avaliacao")||"nao",
-
 analisador:localStorage.getItem("modulo_analisador")||"nao",
-
 lapidacao:localStorage.getItem("modulo_lapidacao")||"nao"
-
 });
 
+await LapidarAuditoria.encerrarSessaoModulo("modulos_livro");
+
 setTimeout(function(){
-
 window.location.href="/painel_execucao_obra.html";
-
 },800);
-
 }
 
-window.onload=function(){
-
+window.onload = async function(){
+await LapidarAuditoria.iniciarSessaoModulo("modulos_livro");
+await LapidarAuditoria.registrarEvento("Tela de módulos editoriais aberta",{});
 marcarVisualInicial();
-
-LapidarAuditoria.registrarEvento("Tela de módulos editoriais aberta",{});
-
 };
-
 </script>
 
 </body>
