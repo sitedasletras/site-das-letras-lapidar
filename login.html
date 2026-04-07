@@ -1,132 +1,94 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Lapidar • Login</title>
 
 <style>
 
-:root{
---bg:#e8d7a4;
---cross:#d7c187;
---card:#ffffff;
---text:#1f2430;
---muted:#70787f;
---blue:#244786;
---blue-dark:#1c3768;
---gold:#d7ad3a;
---gold-dark:#be972d;
---gray:#ececec;
---gray-dark:#dcdcdc;
---shadow:0 18px 40px rgba(0,0,0,.14);
---line:#e6e6e6;
-}
-
-*{box-sizing:border-box}
-
 body{
+
 margin:0;
-min-height:100vh;
 font-family:Arial, Helvetica, sans-serif;
-color:var(--text);
-background:
-linear-gradient(to right,
-transparent 0,
-transparent calc(50% - 56px),
-var(--cross) calc(50% - 56px),
-var(--cross) calc(50% + 56px),
-transparent calc(50% + 56px),
-transparent 100%),
-linear-gradient(to bottom,
-transparent 0,
-transparent calc(50% - 42px),
-var(--cross) calc(50% - 42px),
-var(--cross) calc(50% + 42px),
-transparent calc(50% + 42px),
-transparent 100%),
-var(--bg);
+background:#f4f1e8;
+
 display:flex;
-align-items:flex-start;
 justify-content:center;
-padding:36px 18px;
-}
+align-items:center;
 
-.wrap{
-width:100%;
-max-width:420px;
-text-align:center;
-}
+height:100vh;
 
-.seal{
-width:100px;
-height:100px;
-object-fit:contain;
-display:block;
-margin:0 auto 16px;
-background:#ead6af;
 }
 
 .card{
-background:var(--card);
-border-radius:26px;
-box-shadow:var(--shadow);
-padding:26px 18px 20px;
-text-align:left;
+
+background:white;
+
+padding:40px;
+
+border-radius:22px;
+
+box-shadow:0px 14px 34px rgba(0,0,0,.12);
+
+width:340px;
+
 }
 
 h1{
-margin:0;
-font-size:26px;
-font-weight:800;
-letter-spacing:.4px;
-text-align:center;
-}
 
-.sub{
-margin:6px 0 18px;
-font-size:13px;
-color:var(--muted);
 text-align:center;
-}
 
-label{
-display:block;
-font-size:13px;
-margin:12px 0 4px;
-font-weight:600;
+margin-bottom:26px;
+
+letter-spacing:3px;
+
 }
 
 input{
+
 width:100%;
-padding:12px;
-border-radius:12px;
-border:1px solid var(--line);
-font-size:14px;
+
+padding:14px;
+
+margin-bottom:16px;
+
+border-radius:10px;
+
+border:1px solid #ccc;
+
+font-size:16px;
+
 }
 
 button{
-margin-top:16px;
+
 width:100%;
-border:0;
-border-radius:16px;
-padding:14px;
-font-size:15px;
-font-weight:700;
-cursor:pointer;
-background:var(--blue);
+
+padding:16px;
+
+background:#2e7d32;
+
 color:white;
+
+border:none;
+
+border-radius:12px;
+
+font-weight:bold;
+
+font-size:18px;
+
+cursor:pointer;
+
 }
 
 button:hover{
-background:var(--blue-dark);
-}
 
-.footer{
-margin-top:16px;
-font-size:12px;
-text-align:center;
-color:#666;
+background:#256628;
+
 }
 
 </style>
@@ -135,49 +97,40 @@ color:#666;
 
 <body>
 
-<div class="wrap">
-
-<img src="selo_zeta.png" class="seal">
-
 <div class="card">
 
-<h1>Entrar no Lapidar</h1>
+<h1>LAPIDAR</h1>
 
-<p class="sub">
-Use seu acesso para continuar
-</p>
+<input
+id="usuario"
+placeholder="Usuário"
+/>
 
-<label>Email</label>
-<input type="email" id="email">
+<input
+id="senha"
+type="password"
+placeholder="Senha"
+/>
 
-<label>Senha</label>
-<input type="password" id="senha">
+<button onclick="entrar()">
 
-<button onclick="login()">Entrar</button>
+Entrar
 
-<div class="footer">
-Site das Letras • Sistema Lapidar
-</div>
-
-</div>
+</button>
 
 </div>
 
 <script>
 
-function login(){
+function entrar(){
 
-let email=document.getElementById("email").value;
-let senha=document.getElementById("senha").value;
+localStorage.setItem(
+"lapidar_perfil",
+"usuario"
+)
 
-if(email==="" || senha===""){
-alert("Preencha email e senha.");
-return;
-}
-
-/* Aqui entra validação futura real */
-
-window.location.href="pagina_respiracao.html";
+window.location.href =
+"pagina_institucional_lapidar.html"
 
 }
 
