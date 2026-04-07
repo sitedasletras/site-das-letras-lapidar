@@ -3,10 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Organização automática do processo editorial — Lapidar</title>
+<title>Organização editorial do livro — Lapidar</title>
 
 <style>
-
 body{
 margin:0;
 font-family:Arial,sans-serif;
@@ -36,15 +35,24 @@ box-shadow:0 8px 20px rgba(0,0,0,.08);
 border:1px solid #c5d6f2;
 }
 
-.lista{
-margin-top:15px;
-padding-left:20px;
+.item{
+width:100%;
+padding:18px;
+margin-top:12px;
+border:none;
+border-radius:12px;
+font-size:18px;
+font-weight:bold;
+box-sizing:border-box;
 }
 
-.item{
-margin:8px 0;
-font-size:18px;
-}
+.azul1{background:#7ea2d6;color:white;}
+.azul2{background:#6f95cc;color:white;}
+.azul3{background:#6188c1;color:white;}
+.azul4{background:#537bb7;color:white;}
+.azul5{background:#456eac;color:white;}
+.azul6{background:#3761a2;color:white;}
+.azul7{background:#295497;color:white;}
 
 .alerta{
 margin-top:20px;
@@ -53,6 +61,7 @@ background:#fff3cd;
 border-radius:12px;
 font-weight:bold;
 color:#856404;
+display:none;
 }
 
 .botao{
@@ -66,7 +75,7 @@ font-weight:bold;
 cursor:pointer;
 }
 
-.confirmar{
+.continuar{
 background:#2e7d32;
 color:white;
 }
@@ -76,33 +85,40 @@ background:#607d8b;
 color:white;
 }
 
+p{
+color:#2f3e55;
+}
 </style>
 </head>
 <body>
 
 <header>
-<div>Organização automática do processo editorial</div>
+<div>Organização editorial do livro</div>
 <div>Lapidar</div>
 </header>
 
 <div class="container">
 <div class="card">
 
-<h2>Veja a ordem em que o sistema preparará seu livro</h2>
+<h2>Veja a ordem em que o livro será preparado</h2>
 
-<div id="listaProcesso" class="lista"></div>
+<p>
+O Lapidar organizou automaticamente as escolhas do livro na ordem mais segura.
+</p>
 
-<div id="alertaCorrecao" class="alerta" style="display:none;">
+<div id="listaProcesso"></div>
+
+<div class="alerta" id="alertaCorrecao">
 Recomendamos fazer a correção ortográfica e gramatical antes.
-Essa correção é gratuita e melhora o resultado final do seu livro.
+Essa correção é gratuita e melhora o resultado final do livro.
 </div>
 
-<button class="botao confirmar" onclick="confirmarProcesso()">
-Confirmar e iniciar preparação do livro
+<button class="botao continuar" onclick="seguirFluxo()">
+Continuar com a preparação da obra
 </button>
 
 <button class="botao retornar" onclick="voltarEscolhas()">
-Voltar e alterar escolhas
+Voltar e alterar escolhas do livro
 </button>
 
 </div>
@@ -110,14 +126,32 @@ Voltar e alterar escolhas
 
 <script>
 
-function adicionar(texto){
-
+function adicionar(texto,classe){
 const div=document.createElement("div");
-div.className="item";
-div.innerText="• "+texto;
-
+div.className="item "+classe;
+div.innerText=texto;
 document.getElementById("listaProcesso").appendChild(div);
+}
 
+function temAudiovisual(){
+return (
+localStorage.getItem("video_historia")==="sim" ||
+localStorage.getItem("video_cena")==="sim" ||
+localStorage.getItem("video_apresentacao")==="sim" ||
+localStorage.getItem("video_redes")==="sim"
+);
+}
+
+function temMusica(){
+return (
+localStorage.getItem("narracao_voz")==="sim" ||
+localStorage.getItem("audiolivro")==="sim" ||
+localStorage.getItem("leitura_dramatizada")==="sim" ||
+localStorage.getItem("trilha_sonora")==="sim" ||
+localStorage.getItem("musica_tema")==="sim" ||
+localStorage.getItem("versao_cantada")==="sim" ||
+localStorage.getItem("distribuicao_audio")==="sim"
+);
 }
 
 window.onload=function(){
@@ -125,52 +159,57 @@ window.onload=function(){
 let temCorrecao=false;
 
 if(localStorage.getItem("correcao_recomendada")==="sim"){
-adicionar("Correção ortográfica e gramatical (gratuita)");
+adicionar("Correção ortográfica e gramatical (gratuita)","azul1");
 temCorrecao=true;
 }
 
 if(localStorage.getItem("lapidacao_texto")==="sim"){
-adicionar("Melhoria da escrita do texto");
+adicionar("Melhorar a escrita do texto","azul2");
 }
 
 if(localStorage.getItem("traducao_livro")==="sim"){
-adicionar("Tradução do livro");
-}
-
-if(localStorage.getItem("diagramacao_livro")==="sim"){
-adicionar("Preparação do livro para impressão");
-}
-
-if(localStorage.getItem("capa_livro")==="sim"){
-adicionar("Criação da capa do livro");
+adicionar("Traduzir o livro para outro idioma","azul3");
 }
 
 if(localStorage.getItem("estrutura_livro")==="sim"){
-adicionar("Leitura da estrutura da história");
+adicionar("Ver como a história está organizada","azul4");
 }
 
 if(localStorage.getItem("qualidade_livro")==="sim"){
-adicionar("Relatório de qualidade do livro");
+adicionar("Ver se o livro está bom e o que pode melhorar","azul5");
+}
+
+if(localStorage.getItem("diagramacao_livro")==="sim"){
+adicionar("Preparar o livro para impressão","azul6");
+}
+
+if(localStorage.getItem("capa_livro")==="sim"){
+adicionar("Criar a capa do livro","azul7");
 }
 
 if(!temCorrecao){
-
 document.getElementById("alertaCorrecao").style.display="block";
-
 }
 
 }
 
-function confirmarProcesso(){
+function seguirFluxo(){
+
+if(temAudiovisual() && localStorage.getItem("modulo_audiovisual_configurado")!=="sim"){
+window.location.href="/modulos_audiovisual.html";
+return;
+}
+
+if(temMusica() && localStorage.getItem("modulo_musica_configurado")!=="sim"){
+window.location.href="/modulos_musica.html";
+return;
+}
 
 window.location.href="/confirmacao_final_modulos.html";
-
 }
 
 function voltarEscolhas(){
-
 window.location.href="/modulos_livro.html";
-
 }
 
 </script>
