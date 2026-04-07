@@ -3,290 +3,389 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bolsão de Limpeza Editorial</title>
-
-<script src="https://unpkg.com/mammoth/mammoth.browser.min.js"></script>
+<title>Bolsão de Limpeza Editorial — Lapidar</title>
 
 <style>
 body{
-  font-family: Arial;
-  background:#f5f1e8;
-  margin:0;
-  padding:20px;
+margin:0;
+font-family:Arial,sans-serif;
+background:#f5f1e6;
+color:#2b2b2b;
+}
+
+header{
+background:#32497d;
+color:white;
+padding:18px;
+display:flex;
+justify-content:space-between;
+font-size:18px;
 }
 
 .container{
-  max-width:900px;
-  margin:auto;
+max-width:950px;
+margin:auto;
+padding:30px;
 }
 
 .card{
-  background:white;
-  padding:15px;
-  border-radius:12px;
-  margin-bottom:15px;
-  box-shadow:0 5px 15px rgba(0,0,0,0.05);
+background:#fffdf8;
+padding:28px;
+border-radius:18px;
+box-shadow:0 8px 20px rgba(0,0,0,.08);
+border:1px solid #e3dccf;
+margin-bottom:20px;
+}
+
+h1,h2{
+margin-top:0;
+color:#2f3e55;
+}
+
+.frase{
+font-size:19px;
+line-height:1.6;
+color:#5a5348;
+margin-bottom:20px;
+}
+
+.linha-status{
+display:grid;
+grid-template-columns:1fr;
+gap:12px;
+margin-top:16px;
+}
+
+.status{
+padding:16px;
+border-radius:12px;
+font-weight:bold;
+}
+
+.status.off{
+background:#efebe3;
+color:#6b655c;
+border:1px solid #ddd4c7;
+}
+
+.status.on{
+background:#e8f3e8;
+color:#1b5e20;
+border:1px solid #b8d8ba;
+}
+
+.painel-campos{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:16px;
+margin-top:18px;
+}
+
+.campo{
+background:#f9f5eb;
+border:1px solid #e8e0d0;
+border-radius:12px;
+padding:16px;
+}
+
+.campo label{
+display:block;
+font-weight:bold;
+margin-bottom:8px;
+color:#2f3e55;
+}
+
+.campo input,
+.campo textarea,
+.campo select{
+width:100%;
+padding:12px;
+border:1px solid #d8d1c3;
+border-radius:10px;
+box-sizing:border-box;
+font-size:16px;
+font-family:Arial,sans-serif;
+background:white;
+color:#2b2b2b;
+}
+
+.campo textarea{
+min-height:110px;
+resize:vertical;
 }
 
 .preview{
-  background:#fff;
-  padding:25px;
-  border:1px solid #ccc;
-  min-height:250px;
-  line-height:1.7;
+margin-top:18px;
+background:#fcfaf4;
+border:1px solid #e6dfd0;
+border-radius:12px;
+padding:18px;
+line-height:1.7;
+white-space:pre-wrap;
+color:#4c4944;
+min-height:160px;
 }
 
-h2,h3,h4{
-  text-align:center;
+.info{
+margin-top:16px;
+padding:16px;
+background:#eef5ea;
+border-radius:12px;
+color:#1b5e20;
+font-weight:bold;
+display:none;
 }
 
-.mensagem{
-  background:#e8f5e9;
-  border-left:5px solid #4CAF50;
-  padding:15px;
-  border-radius:8px;
+.alerta{
+margin-top:16px;
+padding:16px;
+background:#fff3cd;
+border-radius:12px;
+color:#856404;
+font-weight:bold;
+display:none;
 }
 
-.progress{
-  height:10px;
-  background:#ddd;
-  border-radius:5px;
-  overflow:hidden;
-  margin-top:10px;
+.botao{
+width:100%;
+padding:18px;
+margin-top:16px;
+border:none;
+border-radius:12px;
+font-size:18px;
+font-weight:bold;
+cursor:pointer;
 }
 
-.progress-bar{
-  height:100%;
-  width:0%;
-  background:#4CAF50;
+.offwhite{
+background:#f5f1e6;
+color:#2b2b2b;
+border:2px solid #32497d;
 }
 
-input{
-  width:100%;
-  padding:10px;
-  margin-bottom:10px;
+.preto{
+background:#000000;
+color:white;
 }
 
-.btn{
-  padding:10px;
-  border:none;
-  border-radius:8px;
-  cursor:pointer;
-  margin-top:10px;
+.azul{
+background:#6b8ec1;
+color:white;
 }
 
-.green{background:#4CAF50;color:white;}
-.red{background:#c0392b;color:white;}
-.blue{background:#3498db;color:white;}
-
-.pagina{
-  margin:40px 0;
-  padding:20px;
-  border:1px dashed #ccc;
-  text-align:center;
+@media(max-width:800px){
+.painel-campos{
+grid-template-columns:1fr;
 }
-
-.ficha{
-  border:1px solid #000;
-  padding:15px;
-  margin:20px 0;
-  font-size:13px;
-  font-family: "Courier New", monospace;
-  text-align:left;
-  line-height:1.5;
 }
 </style>
 </head>
-
 <body>
+
+<header>
+<div>Bolsão de Limpeza Editorial</div>
+<div>Lapidar</div>
+</header>
 
 <div class="container">
 
 <div class="card">
-<h2>Upload da Obra</h2>
-<input type="file" id="uploadTexto" accept=".txt,.docx">
-<p id="statusUpload">Nenhum arquivo carregado</p>
-<button class="btn red" onclick="limparObra()">Limpar obra</button>
+<h1>Leitura inicial e preparação da obra</h1>
+
+<div class="frase">
+O Lapidar está organizando o material enviado para reconhecer a base da sua obra, limpar resíduos e preparar o texto para as próximas etapas.
 </div>
+
+<div class="linha-status">
+<div class="status off" id="statusTexto">Texto da obra: ainda não identificado</div>
+<div class="status off" id="statusImagens">Imagens da obra: ainda não identificadas</div>
+<div class="status off" id="statusAudio">Áudio de apoio: ainda não identificado</div>
+</div>
+
+<button class="botao offwhite" onclick="iniciarLeitura()">
+Iniciar leitura e reconhecimento da obra
+</button>
+
+<div class="info" id="statusLeitura">
+Leitura inicial concluída. Revise os campos abaixo antes de seguir.
+</div>
+
+<div class="alerta" id="statusSemTexto">
+Nenhum texto principal foi identificado. Envie o texto da obra antes de continuar.
+</div>
+</div>
+
 
 <div class="card">
-<h2>Bolsão em ação</h2>
-<div id="mensagemBolsao" class="mensagem">
-Aguardando obra...
+<h2>Identificação inicial da obra</h2>
+
+<div class="painel-campos">
+<div class="campo">
+<label for="tituloObra">Título da obra</label>
+<input type="text" id="tituloObra" placeholder="Digite ou ajuste o título da obra">
 </div>
 
-<div class="progress">
-<div id="barra" class="progress-bar"></div>
+<div class="campo">
+<label for="autorObra">Autor / Organizador</label>
+<input type="text" id="autorObra" placeholder="Digite ou ajuste o nome do autor">
+</div>
+
+<div class="campo">
+<label for="subtituloObra">Subtítulo (opcional)</label>
+<input type="text" id="subtituloObra" placeholder="Digite o subtítulo, se houver">
+</div>
+
+<div class="campo">
+<label for="tipoMaterial">Tipo principal do material</label>
+<select id="tipoMaterial">
+<option value="livro">Livro</option>
+<option value="conto">Conto</option>
+<option value="poesia">Poesia</option>
+<option value="roteiro">Roteiro</option>
+<option value="outro">Outro</option>
+</select>
 </div>
 </div>
+</div>
+
 
 <div class="card">
-<h2>Prévia do Livro</h2>
-<div id="previewTexto" class="preview"></div>
+<h2>Reconhecimento estrutural inicial</h2>
+
+<div class="painel-campos">
+<div class="campo">
+<label for="estruturaDetectada">Estrutura reconhecida</label>
+<textarea id="estruturaDetectada" placeholder="Capítulos, prefácio, dedicatória, partes técnicas..."></textarea>
 </div>
 
+<div class="campo">
+<label for="observacoesTecnicas">Observações técnicas</label>
+<textarea id="observacoesTecnicas" placeholder="Limpeza inicial, separação de elementos, observações do sistema..."></textarea>
+</div>
+</div>
+</div>
+
+
 <div class="card">
-<h2>Ficha da Obra</h2>
-<input type="text" id="titulo" placeholder="Título">
-<input type="text" id="autor" placeholder="Autor">
-<button class="btn blue" onclick="salvarDados()">Salvar</button>
+<h2>Prévia do material limpo</h2>
+
+<div class="preview" id="previewTexto">
+A prévia do texto limpo aparecerá aqui após a leitura inicial da obra.
+</div>
+
+<button class="botao azul" onclick="salvarPreparacao()">
+Salvar preparação inicial da obra
+</button>
+
+<button class="botao offwhite" onclick="seguirParaModulos()">
+Seguir para escolha dos módulos da obra
+</button>
+
+<button class="botao preto" onclick="voltarUpload()">
+Voltar para o envio dos arquivos
+</button>
+
+<div class="info" id="statusSalvar">
+Preparação inicial salva. A obra já pode seguir para os módulos do Lapidar.
+</div>
 </div>
 
 </div>
 
 <script>
+function iniciarLeitura(){
 
-const mensagens = [
-"Varrendo lixo editorial...",
-"Removendo entulho textual...",
-"Lendo sua obra com atenção...",
-"Separando estrutura editorial...",
-"Organizando capítulos...",
-"Lapidando texto..."
-];
+const temTexto = localStorage.getItem("upload_texto_obra")==="sim";
+const temImagens = localStorage.getItem("upload_imagens_obra")==="sim";
+const temAudio = localStorage.getItem("upload_audio_obra")==="sim";
 
-document.getElementById('uploadTexto').addEventListener('change', function(e){
+document.getElementById("statusSemTexto").style.display = temTexto ? "none" : "block";
 
-    const file = e.target.files[0];
-    if(!file) return;
-
-    const nome = file.name.toLowerCase();
-
-    if(nome.endsWith('.txt')){
-        const reader = new FileReader();
-        reader.onload = e => iniciarProcesso(e.target.result, file.name);
-        reader.readAsText(file);
-    }
-
-    else if(nome.endsWith('.docx')){
-        const reader = new FileReader();
-        reader.onload = function(event){
-            mammoth.convertToHtml({arrayBuffer: event.target.result})
-            .then(result => iniciarProcesso(result.value, file.name));
-        };
-        reader.readAsArrayBuffer(file);
-    }
-
-});
-
-function calcularTempo(texto){
-    return 4000;
+if(temTexto){
+document.getElementById("statusTexto").className = "status on";
+document.getElementById("statusTexto").innerText = "Texto da obra: identificado para leitura inicial";
+}else{
+document.getElementById("statusTexto").className = "status off";
+document.getElementById("statusTexto").innerText = "Texto da obra: não encontrado";
 }
 
-async function iniciarProcesso(textoBruto, nomeArquivo){
-
-    let texto = normalizar(textoBruto);
-
-    for(let i=0;i<mensagens.length;i++){
-        document.getElementById("mensagemBolsao").innerText = mensagens[i];
-        atualizarBarra((i+1)/mensagens.length*100);
-        await delay(700);
-    }
-
-    let estrutura = estruturarTexto(texto);
-
-    document.getElementById("previewTexto").innerHTML = estrutura.html;
-    document.getElementById("statusUpload").innerText = "Arquivo carregado: " + nomeArquivo;
-
-    document.getElementById("mensagemBolsao").innerText =
-    "Sua obra foi organizada com sucesso.";
-
-    detectarDados(texto);
+if(temImagens){
+document.getElementById("statusImagens").className = "status on";
+document.getElementById("statusImagens").innerText = "Imagens da obra: identificadas";
+}else{
+document.getElementById("statusImagens").className = "status off";
+document.getElementById("statusImagens").innerText = "Imagens da obra: não enviadas";
 }
 
-function atualizarBarra(valor){
-    document.getElementById("barra").style.width = valor + "%";
+if(temAudio){
+document.getElementById("statusAudio").className = "status on";
+document.getElementById("statusAudio").innerText = "Áudio de apoio: identificado";
+}else{
+document.getElementById("statusAudio").className = "status off";
+document.getElementById("statusAudio").innerText = "Áudio de apoio: não enviado";
 }
 
-function normalizar(texto){
-    return texto
-    .replace(/<[^>]*>/g,'')
-    .replace(/\. /g,'.\n\n')
-    .trim();
+if(temTexto){
+document.getElementById("tituloObra").value = localStorage.getItem("titulo_obra") || "Título reconhecido da obra";
+document.getElementById("autorObra").value = localStorage.getItem("autor_obra") || "Autor reconhecido";
+document.getElementById("subtituloObra").value = localStorage.getItem("subtitulo_obra") || "";
+document.getElementById("estruturaDetectada").value =
+localStorage.getItem("estrutura_detectada") ||
+"Capítulos reconhecidos\nElementos pré-textuais localizados\nSeparação inicial da estrutura da obra";
+document.getElementById("observacoesTecnicas").value =
+localStorage.getItem("observacoes_tecnicas") ||
+"Leitura inicial executada.\nTexto preparado para limpeza editorial.\nMaterial pronto para seguir aos módulos.";
+document.getElementById("previewTexto").innerText =
+localStorage.getItem("preview_texto_limpo") ||
+"Prévia inicial do texto limpo.\n\nAqui aparecerá o trecho reconhecido e preparado pelo Bolsão para validação do autor.";
+document.getElementById("statusLeitura").style.display = "block";
+}
 }
 
-function estruturarTexto(texto){
+function salvarPreparacao(){
+localStorage.setItem("titulo_obra", document.getElementById("tituloObra").value);
+localStorage.setItem("autor_obra", document.getElementById("autorObra").value);
+localStorage.setItem("subtitulo_obra", document.getElementById("subtituloObra").value);
+localStorage.setItem("tipo_material_obra", document.getElementById("tipoMaterial").value);
+localStorage.setItem("estrutura_detectada", document.getElementById("estruturaDetectada").value);
+localStorage.setItem("observacoes_tecnicas", document.getElementById("observacoesTecnicas").value);
+localStorage.setItem("preview_texto_limpo", document.getElementById("previewTexto").innerText);
+localStorage.setItem("bolsao_preparado", "sim");
 
-    let html = "";
-
-    texto = texto
-    .replace(/SELO EDITORIAL/gi, "\n##SELO##\n")
-    .replace(/FOLHA DE ROSTO/gi, "\n##ROSTO##\n")
-    .replace(/FICHA CATALOGRÁFICA/gi, "\n##FICHA##\n");
-
-    let linhas = texto.split("\n").filter(l=>l.trim());
-
-    let dentroFicha = false;
-
-    linhas.forEach((linha,i)=>{
-
-        if(linha.includes("##SELO##")){
-            html += `<div class="pagina"><h3>SELO EDITORIAL</h3></div>`;
-            return;
-        }
-
-        if(linha.includes("##ROSTO##")){
-            html += `<div class="pagina"><h2>FOLHA DE ROSTO</h2></div>`;
-            return;
-        }
-
-        if(linha.includes("##FICHA##")){
-            html += `<div class="ficha"><strong>FICHA CATALOGRÁFICA</strong><br><br>`;
-            dentroFicha = true;
-            return;
-        }
-
-        if(dentroFicha){
-
-            if(linha.length < 3){
-                html += `</div>`;
-                dentroFicha = false;
-                return;
-            }
-
-            html += linha + "<br>";
-            return;
-        }
-
-        if(i===0){
-            html += `<h2>${linha}</h2>`;
-            return;
-        }
-
-        if(i===1){
-            html += `<h3>${linha}</h3>`;
-            return;
-        }
-
-        if(/cap[ií]tulo/i.test(linha)){
-            html += `<h4>${linha}</h4>`;
-            return;
-        }
-
-        html += `<p>${linha}</p>`;
-    });
-
-    return {html};
+document.getElementById("statusSalvar").style.display = "block";
 }
 
-function detectarDados(texto){
-    let linhas = texto.split("\n");
-    document.getElementById("titulo").value = linhas[0] || "";
-    document.getElementById("autor").value = linhas[2] || "";
+function seguirParaModulos(){
+window.location.href="/selecionar_modulos.html";
 }
 
-function salvarDados(){
-    alert("Salvo!");
+function voltarUpload(){
+window.location.href="/upload_obra.html";
 }
 
-function limparObra(){
-    location.reload();
+window.onload=function(){
+if(localStorage.getItem("titulo_obra")){
+document.getElementById("tituloObra").value = localStorage.getItem("titulo_obra");
 }
-
-function delay(ms){
-    return new Promise(r=>setTimeout(r,ms));
+if(localStorage.getItem("autor_obra")){
+document.getElementById("autorObra").value = localStorage.getItem("autor_obra");
 }
-
+if(localStorage.getItem("subtitulo_obra")){
+document.getElementById("subtituloObra").value = localStorage.getItem("subtitulo_obra");
+}
+if(localStorage.getItem("tipo_material_obra")){
+document.getElementById("tipoMaterial").value = localStorage.getItem("tipo_material_obra");
+}
+if(localStorage.getItem("estrutura_detectada")){
+document.getElementById("estruturaDetectada").value = localStorage.getItem("estrutura_detectada");
+}
+if(localStorage.getItem("observacoes_tecnicas")){
+document.getElementById("observacoesTecnicas").value = localStorage.getItem("observacoes_tecnicas");
+}
+if(localStorage.getItem("preview_texto_limpo")){
+document.getElementById("previewTexto").innerText = localStorage.getItem("preview_texto_limpo");
+}
+}
 </script>
 
 </body>
