@@ -8,90 +8,115 @@
 <style>
 body{
 margin:0;
-font-family:Arial, sans-serif;
-background:#0e0604;
-color:white;
+font-family:Arial,sans-serif;
+background:#f5f1e6;
+color:#2b2b2b;
 }
 
 header{
-background:#2f436d;
-padding:18px 20px;
+background:#32497d;
+color:white;
+padding:18px;
 display:flex;
 justify-content:space-between;
-align-items:center;
+font-size:18px;
 }
 
 .container{
-max-width:1000px;
+max-width:900px;
 margin:auto;
-padding:24px 16px 40px;
+padding:30px;
 }
 
 .card{
-background:#1c0e08;
-border-radius:14px;
-padding:20px;
-margin-bottom:18px;
-box-shadow:0 6px 18px rgba(0,0,0,.25);
+background:#fffdf8;
+padding:30px;
+border-radius:18px;
+box-shadow:0 8px 20px rgba(0,0,0,.08);
+border:1px solid #e3dccf;
 }
 
-label{
-display:block;
-margin-top:12px;
-margin-bottom:6px;
-font-weight:bold;
+h1{
+font-size:32px;
+margin-top:0;
+margin-bottom:12px;
+color:#2f3e55;
 }
 
-input[type="text"],
-input[type="file"],
-textarea{
+.frase{
+font-size:19px;
+margin-bottom:24px;
+color:#5a5348;
+line-height:1.6;
+}
+
+.bloco{
+background:#f9f5eb;
+padding:18px;
+border-radius:12px;
+margin-top:16px;
+border:1px solid #e8e0d0;
+}
+
+.bloco h2{
+margin:0 0 12px 0;
+font-size:22px;
+color:#2f3e55;
+}
+
+.bloco p{
+margin:0 0 14px 0;
+line-height:1.6;
+color:#4e4e4e;
+}
+
+input[type="file"]{
 width:100%;
+padding:12px;
+background:white;
+border:1px solid #d8d1c3;
+border-radius:10px;
 box-sizing:border-box;
-padding:12px;
-border:none;
-border-radius:10px;
-background:#2a140c;
-color:white;
 }
 
-textarea{
-min-height:120px;
-resize:vertical;
-}
-
-button{
-padding:12px 16px;
+.botao{
+width:100%;
+padding:18px;
+margin-top:18px;
 border:none;
-border-radius:8px;
-cursor:pointer;
+border-radius:12px;
+font-size:18px;
 font-weight:bold;
-background:#2f436d;
+cursor:pointer;
+}
+
+.offwhite{
+background:#f5f1e6;
+color:#2b2b2b;
+border:2px solid #32497d;
+}
+
+.preto{
+background:#000000;
 color:white;
-margin-top:12px;
-margin-right:10px;
 }
 
-button.alt{
-background:#8a6f3f;
+.info{
+margin-top:20px;
+padding:16px;
+background:#eef5ea;
+border-radius:12px;
+color:#1b5e20;
+font-weight:bold;
+display:none;
 }
 
-.status{
-background:#2a140c;
-padding:12px;
-border-radius:10px;
-margin-top:12px;
-line-height:1.7;
+@media(max-width:700px){
+h1{
+font-size:27px;
 }
-
-.grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:16px;
-}
-
-@media (max-width:700px){
-.grid{
-grid-template-columns:1fr;
+.frase{
+font-size:17px;
 }
 }
 </style>
@@ -99,192 +124,93 @@ grid-template-columns:1fr;
 <body>
 
 <header>
-<h2>Upload da Obra</h2>
-<button onclick="voltar()">Voltar</button>
+<div>Upload da Obra</div>
+<div>Lapidar</div>
 </header>
 
 <div class="container">
-
 <div class="card">
-<h3>Projeto ativo</h3>
-<div id="nomeProjeto">Nenhum projeto ativo selecionado.</div>
+
+<h1>Envie o material da sua obra</h1>
+
+<div class="frase">
+Comece pelo que você já tiver pronto. O Lapidar vai receber, organizar e preparar o material para a próxima etapa.
 </div>
 
-<div class="card">
-<h3>Enviar arquivo da obra</h3>
-
-<label for="arquivoObra">Arquivo da obra</label>
-<input type="file" id="arquivoObra" accept=".txt,.doc,.docx,.pdf">
-
-<label for="textoObra">Ou cole o texto da obra</label>
-<textarea id="textoObra" placeholder="Cole aqui o texto da obra, se preferir."></textarea>
-
-<button onclick="processarObra()">Ler obra</button>
+<div class="bloco">
+<h2>Texto da obra</h2>
+<p>
+Envie aqui o arquivo principal do livro, conto, poema, roteiro ou rascunho.
+</p>
+<input type="file" id="arquivoTexto" accept=".doc,.docx,.pdf,.txt">
 </div>
 
-<div class="card">
-<h3>Sugestão automática</h3>
-
-<div class="grid">
-<div>
-<label for="tituloObra">Título da obra</label>
-<input type="text" id="tituloObra" placeholder="Título sugerido">
+<div class="bloco">
+<h2>Imagens da obra</h2>
+<p>
+Se tiver imagens internas, referências visuais, capa provisória ou materiais de apoio, envie aqui.
+</p>
+<input type="file" id="arquivoImagem" accept=".jpg,.jpeg,.png,.webp,.pdf" multiple>
 </div>
 
-<div>
-<label for="subtituloObra">Subtítulo da obra</label>
-<input type="text" id="subtituloObra" placeholder="Subtítulo sugerido">
-</div>
-</div>
-
-<label for="autorObra">Nome do autor</label>
-<input type="text" id="autorObra" placeholder="Autor sugerido">
-
-<div class="status" id="statusLeitura">
-Nenhuma leitura realizada ainda.
+<div class="bloco">
+<h2>Áudio ou voz do autor</h2>
+<p>
+Se quiser enviar narração, teste de voz, orientação falada ou outro apoio em áudio, envie aqui.
+</p>
+<input type="file" id="arquivoAudio" accept=".mp3,.wav,.m4a,.ogg" multiple>
 </div>
 
-<button onclick="confirmarSugestao()">Confirmar dados</button>
-<button class="alt" onclick="limparCampos()">Limpar</button>
+<button class="botao offwhite" onclick="seguirParaLeitura()">
+Seguir para leitura e reconhecimento da obra
+</button>
+
+<button class="botao preto" onclick="voltarEntrada()">
+Voltar ao início do Bolsão
+</button>
+
+<div class="info" id="statusUpload">
+Material registrado. O Lapidar está preparando a leitura inicial da obra...
 </div>
 
+</div>
 </div>
 
 <script>
-const perfil = localStorage.getItem("lapidar_perfil");
-if(!perfil){
-window.location.href = "index.html";
+function seguirParaLeitura(){
+
+const texto = document.getElementById("arquivoTexto").files.length;
+const imagem = document.getElementById("arquivoImagem").files.length;
+const audio = document.getElementById("arquivoAudio").files.length;
+
+if(texto > 0){
+localStorage.setItem("upload_texto_obra","sim");
+}else{
+localStorage.removeItem("upload_texto_obra");
 }
 
-const projeto = localStorage.getItem("lapidar_projeto_ativo");
-if(projeto){
-document.getElementById("nomeProjeto").innerText = projeto;
+if(imagem > 0){
+localStorage.setItem("upload_imagens_obra","sim");
+}else{
+localStorage.removeItem("upload_imagens_obra");
 }
 
-function processarObra(){
-const arquivo = document.getElementById("arquivoObra").files[0];
-const textoManual = document.getElementById("textoObra").value.trim();
-
-if(arquivo){
-const nome = arquivo.name || "";
-const ext = nome.toLowerCase().split(".").pop();
-
-localStorage.setItem("lapidar_obra_arquivo_nome", nome);
-
-if(ext === "txt"){
-const reader = new FileReader();
-reader.onload = function(e){
-const conteudo = String(e.target.result || "");
-analisarConteudoTexto(conteudo, nome);
-};
-reader.readAsText(arquivo);
-return;
+if(audio > 0){
+localStorage.setItem("upload_audio_obra","sim");
+}else{
+localStorage.removeItem("upload_audio_obra");
 }
 
-if(ext === "pdf" || ext === "doc" || ext === "docx"){
-preencherPorNomeDoArquivo(nome);
-document.getElementById("statusLeitura").innerHTML =
-"Arquivo registrado com sucesso.<br>" +
-"Leitura automática completa ainda não está ativa para " + ext.toUpperCase() + ".<br>" +
-"O sistema usou o nome do arquivo como base inicial.<br>" +
-"Se quiser uma leitura mais fiel agora, cole o texto da obra no campo abaixo.";
-return;
+document.getElementById("statusUpload").style.display="block";
+
+setTimeout(function(){
+window.location.href="/bolsao_execucao.html";
+},1200);
+
 }
 
-preencherPorNomeDoArquivo(nome);
-document.getElementById("statusLeitura").innerHTML =
-"Tipo de arquivo não reconhecido para leitura automática.<br>" +
-"O sistema usou o nome do arquivo como base inicial.";
-return;
-}
-
-if(textoManual){
-analisarConteudoTexto(textoManual, "texto colado");
-return;
-}
-
-document.getElementById("statusLeitura").innerText =
-"Envie um arquivo ou cole o texto da obra antes de ler.";
-}
-
-function preencherPorNomeDoArquivo(nome){
-let base = nome.replace(/\.[^.]+$/, "");
-base = base.replace(/[_-]+/g, " ").trim();
-
-document.getElementById("tituloObra").value = base || "";
-document.getElementById("subtituloObra").value = "";
-document.getElementById("autorObra").value = "";
-
-localStorage.setItem("lapidar_obra_titulo", base || "");
-localStorage.setItem("lapidar_obra_subtitulo", "");
-localStorage.setItem("lapidar_obra_autor", "");
-}
-
-function analisarConteudoTexto(conteudo, origem){
-const linhas = conteudo
-.split(/\r?\n/)
-.map(l => l.trim())
-.filter(l => l.length > 0);
-
-let titulo = "";
-let subtitulo = "";
-let autor = "";
-
-if(linhas.length > 0) titulo = linhas[0];
-if(linhas.length > 1) subtitulo = linhas[1];
-if(linhas.length > 2) autor = linhas[2];
-
-if(!titulo && origem){
-titulo = origem.replace(/\.[^.]+$/, "");
-}
-
-document.getElementById("tituloObra").value = titulo || "";
-document.getElementById("subtituloObra").value = subtitulo || "";
-document.getElementById("autorObra").value = autor || "";
-
-localStorage.setItem("lapidar_obra_texto", conteudo);
-localStorage.setItem("lapidar_obra_titulo", titulo || "");
-localStorage.setItem("lapidar_obra_subtitulo", subtitulo || "");
-localStorage.setItem("lapidar_obra_autor", autor || "");
-
-document.getElementById("statusLeitura").innerHTML =
-"Leitura concluída com sucesso.<br>" +
-"Sugestões preenchidas para confirmação manual.";
-}
-
-function confirmarSugestao(){
-const titulo = document.getElementById("tituloObra").value.trim();
-const subtitulo = document.getElementById("subtituloObra").value.trim();
-const autor = document.getElementById("autorObra").value.trim();
-
-localStorage.setItem("lapidar_obra_titulo", titulo);
-localStorage.setItem("lapidar_obra_subtitulo", subtitulo);
-localStorage.setItem("lapidar_obra_autor", autor);
-
-document.getElementById("statusLeitura").innerHTML =
-"Dados confirmados com sucesso.<br>" +
-"Título: " + (titulo || "-") + "<br>" +
-"Subtítulo: " + (subtitulo || "-") + "<br>" +
-"Autor: " + (autor || "-");
-}
-
-function limparCampos(){
-document.getElementById("arquivoObra").value = "";
-document.getElementById("textoObra").value = "";
-document.getElementById("tituloObra").value = "";
-document.getElementById("subtituloObra").value = "";
-document.getElementById("autorObra").value = "";
-document.getElementById("statusLeitura").innerText = "Campos limpos.";
-
-localStorage.removeItem("lapidar_obra_arquivo_nome");
-localStorage.removeItem("lapidar_obra_texto");
-localStorage.removeItem("lapidar_obra_titulo");
-localStorage.removeItem("lapidar_obra_subtitulo");
-localStorage.removeItem("lapidar_obra_autor");
-}
-
-function voltar(){
-window.location.href = "painel_departamentos.html";
+function voltarEntrada(){
+window.location.href="/entrada_obra.html";
 }
 </script>
 
