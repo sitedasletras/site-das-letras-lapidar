@@ -6,7 +6,6 @@
 <title>Produção com voz e música — Lapidar</title>
 
 <style>
-
 body{
 margin:0;
 font-family:Arial,sans-serif;
@@ -46,10 +45,8 @@ border-radius:12px;
 font-size:18px;
 font-weight:bold;
 cursor:pointer;
+transition:0.2s;
 }
-
-
-/* família verde */
 
 .verde1{background:#81c784;color:white;}
 .verde2{background:#66bb6a;color:white;}
@@ -57,10 +54,11 @@ cursor:pointer;
 .verde4{background:#43a047;color:white;}
 .verde5{background:#388e3c;color:white;}
 .verde6{background:#2e7d32;color:white;}
-.verde7{background:#1b5e20;color:white;}
 
-
-/* padrões institucionais */
+.ativo{
+outline:4px solid #1b5e20;
+transform:scale(1.01);
+}
 
 .continuar{
 background:#2e7d32;
@@ -81,59 +79,45 @@ color:white;
 p{
 color:#2e4a33;
 }
-
 </style>
 </head>
 <body>
 
 <header>
-
 <div>Produção com voz e música</div>
-
 <div>Lapidar</div>
-
 </header>
 
-
 <div class="container">
-
 <div class="card">
 
 <h2>Escolha o que deseja criar com áudio ou música</h2>
 
-<p>
-Você pode escolher um ou vários recursos.
-</p>
+<p>Você pode escolher um ou vários recursos.</p>
 
-
-<button class="botao verde1">
+<button class="botao verde1" id="btnNarracao" onclick="toggleEscolha('narracao_voz','btnNarracao')">
 Transformar o livro em narração com voz
 </button>
 
-<button class="botao verde2">
+<button class="botao verde2" id="btnAudiolivro" onclick="toggleEscolha('audiolivro','btnAudiolivro')">
 Criar audiolivro completo
 </button>
 
-<button class="botao verde3">
-Criar leitura dramatizada
-</button>
-
-<button class="botao verde4">
+<button class="botao verde3" id="btnTrilha" onclick="toggleEscolha('trilha_sonora','btnTrilha')">
 Criar trilha sonora inspirada no livro
 </button>
 
-<button class="botao verde5">
+<button class="botao verde4" id="btnTema" onclick="toggleEscolha('musica_tema','btnTema')">
 Criar música tema da obra
 </button>
 
-<button class="botao verde6">
+<button class="botao verde5" id="btnCantada" onclick="toggleEscolha('versao_cantada','btnCantada')">
 Criar versão cantada de trechos do livro
 </button>
 
-<button class="botao verde7">
+<button class="botao verde6" id="btnDistribuicao" onclick="toggleEscolha('distribuicao_audio','btnDistribuicao')">
 Preparar distribuição nas plataformas de áudio
 </button>
-
 
 <button class="botao continuar" onclick="seguir()">
 Continuar com as escolhas feitas
@@ -147,16 +131,25 @@ Voltar para escolher outro tipo de produção
 Apagar escolhas desta tela
 </button>
 
-
 </div>
-
 </div>
-
 
 <script>
 
+function toggleEscolha(chave,idBotao){
+
+if(localStorage.getItem(chave)==="sim"){
+localStorage.removeItem(chave);
+document.getElementById(idBotao).classList.remove("ativo");
+}else{
+localStorage.setItem(chave,"sim");
+document.getElementById(idBotao).classList.add("ativo");
+}
+
+}
+
 function seguir(){
-window.location.href="/confirmacao_final_modulos.html";
+window.location.href="/confirmacao_geral_da_obra.html";
 }
 
 function retornar(){
@@ -164,7 +157,43 @@ window.location.href="/selecionar_modulos.html";
 }
 
 function limpar(){
+
+localStorage.removeItem("narracao_voz");
+localStorage.removeItem("audiolivro");
+localStorage.removeItem("trilha_sonora");
+localStorage.removeItem("musica_tema");
+localStorage.removeItem("versao_cantada");
+localStorage.removeItem("distribuicao_audio");
+
 location.reload();
+}
+
+window.onload=function(){
+
+if(localStorage.getItem("narracao_voz")==="sim"){
+document.getElementById("btnNarracao").classList.add("ativo");
+}
+
+if(localStorage.getItem("audiolivro")==="sim"){
+document.getElementById("btnAudiolivro").classList.add("ativo");
+}
+
+if(localStorage.getItem("trilha_sonora")==="sim"){
+document.getElementById("btnTrilha").classList.add("ativo");
+}
+
+if(localStorage.getItem("musica_tema")==="sim"){
+document.getElementById("btnTema").classList.add("ativo");
+}
+
+if(localStorage.getItem("versao_cantada")==="sim"){
+document.getElementById("btnCantada").classList.add("ativo");
+}
+
+if(localStorage.getItem("distribuicao_audio")==="sim"){
+document.getElementById("btnDistribuicao").classList.add("ativo");
+}
+
 }
 
 </script>
