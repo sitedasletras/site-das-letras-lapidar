@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Confirmação geral da obra — Lapidar</title>
+
+<style>
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:#f4f1e8;
+}
+
+header{
+background:#32497d;
+color:white;
+padding:18px;
+display:flex;
+justify-content:space-between;
+font-size:18px;
+}
+
+.container{
+max-width:900px;
+margin:auto;
+padding:30px;
+}
+
+.card{
+background:white;
+padding:25px;
+border-radius:16px;
+box-shadow:0 8px 20px rgba(0,0,0,.08);
+}
+
+.botao{
+width:100%;
+padding:18px;
+margin-top:14px;
+border:none;
+border-radius:12px;
+font-size:18px;
+font-weight:bold;
+cursor:pointer;
+transition:0.2s;
+}
+
+.azul{
+background:#6b8ec1;
+color:white;
+}
+
+.amarelo{
+background:#c19b2e;
+color:white;
+}
+
+.verde{
+background:#5aa07a;
+color:white;
+}
+
+.vermelho{
+background:#b71c1c;
+color:white;
+}
+
+.offwhite{
+background:#f5f1e6;
+color:#2b2b2b;
+border:2px solid #32497d;
+}
+
+.preto{
+background:#000000;
+color:white;
+}
+
+.oculto{
+display:none;
+}
+
+.travado{
+opacity:0.65;
+pointer-events:none;
+}
+
+.status{
+margin-top:20px;
+padding:18px;
+border-radius:12px;
+background:#eef5ea;
+color:#1b5e20;
+font-weight:bold;
+display:none;
+}
+
+p{
+color:#4e4e4e;
+}
+</style>
+</head>
+<body>
+
+<header>
+<div>Confirmação geral da obra</div>
+<div>Lapidar</div>
+</header>
+
+<div class="container">
+<div class="card">
+
+<h2>Confira suas escolhas para a obra</h2>
+
+<p>
+Você selecionou as áreas abaixo para trabalhar sua obra.
+Se estiver correto, confirme para iniciar.
+</p>
+
+<button class="botao azul" id="btnAzul">
+Produção editorial selecionada
+</button>
+
+<button class="botao amarelo" id="btnAmarelo">
+Produção audiovisual selecionada
+</button>
+
+<button class="botao verde" id="btnVerde">
+Produção com voz / música selecionada
+</button>
+
+<button class="botao vermelho" id="btnApagar" onclick="apagar()">
+Apagar todas as escolhas
+</button>
+
+<button class="botao offwhite" id="btnConfirmar" onclick="confirmar()">
+Confirmar e iniciar o trabalho da obra
+</button>
+
+<button class="botao preto" id="btnReiniciar" onclick="reiniciar()">
+Voltar ao início do processo
+</button>
+
+<div class="status" id="statusProcessamento">
+Autorização registrada. Preparando o andamento da obra...
+</div>
+
+</div>
+</div>
+
+<script>
+function apagar(){
+window.location.href="/selecionar_modulos.html";
+}
+
+function reiniciar(){
+window.location.href="/index.html";
+}
+
+function confirmar(){
+
+document.getElementById("btnApagar").classList.add("oculto");
+document.getElementById("btnReiniciar").classList.add("oculto");
+
+const confirmarBtn = document.getElementById("btnConfirmar");
+confirmarBtn.innerText = "Autorização registrada ✔";
+confirmarBtn.classList.add("travado");
+
+document.getElementById("btnAzul").classList.add("travado");
+document.getElementById("btnAmarelo").classList.add("travado");
+document.getElementById("btnVerde").classList.add("travado");
+
+document.getElementById("statusProcessamento").style.display = "block";
+
+setTimeout(function(){
+window.location.href="/index.html";
+}, 1800);
+
+}
+</script>
+
+</body>
+</html>
