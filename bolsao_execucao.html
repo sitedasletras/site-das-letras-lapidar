@@ -1,8 +1,13 @@
-<!DOCTYPE html><html lang="pt-BR">
+<!DOCTYPE html>
+<html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bolsão de Limpeza Editorial</title><style>
+<title>Bolsão de Execução</title>
+
+<script src="https://unpkg.com/mammoth/mammoth.browser.min.js"></script>
+
+<style>
 body{
   font-family: Arial;
   background:#f5f1e8;
@@ -21,10 +26,6 @@ body{
   border-radius:12px;
   margin-bottom:15px;
   box-shadow:0 5px 15px rgba(0,0,0,0.05);
-}
-
-h2{
-  margin-top:0;
 }
 
 .preview{
@@ -46,88 +47,124 @@ h2{
 .green{background:#4CAF50;color:white;}
 .red{background:#c0392b;color:white;}
 .blue{background:#3498db;color:white;}
-</style></head>
-<body><div class="container"><div class="card">
-<h2>Upload do material textual da obra</h2>
-<input type="file" id="uploadTexto">
+</style>
+
+</head>
+<body>
+
+<div class="container">
+
+<div class="card">
+<h2>Upload da Obra</h2>
+<input type="file" id="uploadTexto" accept=".txt,.docx">
 <p id="statusUpload">Nenhum arquivo carregado</p>
 <button class="btn red" onclick="limparObra()">Limpar obra</button>
-</div><div class="card">
-<h2>Prévia do texto (simulação A4)</h2>
-<div id="previewTexto" class="preview">
-Seu texto aparecerá aqui após o upload.
 </div>
-</div><div class="card">
-<h2>Dados detectados</h2>
+
+<div class="card">
+<h2>Prévia da Obra</h2>
+<div id="previewTexto" class="preview">
+Seu texto aparecerá aqui.
+</div>
+</div>
+
+<div class="card">
+<h2>Dados da Obra</h2>
 <input type="text" id="titulo" placeholder="Título"><br><br>
 <input type="text" id="autor" placeholder="Autor"><br><br>
-<button class="btn blue" onclick="salvarDados()">Salvar dados</button>
-</div><div class="card">
-<h2>Encaminhamento</h2>
-<button class="btn green" onclick="irModulo('humanizacao.html')">Humanização</button>
-<button class="btn green" onclick="irModulo('traducao.html')">Tradução</button>
-<button class="btn green" onclick="irModulo('diagramacao.html')">Diagramação</button>
-</div></div><script>
+<button class="btn blue" onclick="salvarDados()">Salvar</button>
+</div>
 
-// Upload real
+<div class="card">
+<h2>Encaminhamento</h2>
+<button class="btn green" onclick="irModulo('diagramacao.html')">Diagramação</button>
+<button class="btn green" onclick="irModulo('traducao.html')">Tradução</button>
+<button class="btn green" onclick="irModulo('humanizacao.html')">Humanização</button>
+</div>
+
+</div>
+
+<script>
 
 document.getElementById('uploadTexto').addEventListener('change', function(e) {
 
     const file = e.target.files[0];
     if (!file) return;
 
-    const reader = new FileReader();
+    const nome = file.name.toLowerCase();
 
-    reader.onload = function(event) {
-        const conteudo = event.target.result;
+    // TXT
+    if(nome.endsWith('.txt')){
+        const reader = new FileReader();
 
-        // salva no bolsão
-        localStorage.setItem("lapidar_texto", conteudo);
+        reader.onload = function(event){
+            salvarTexto(event.target.result, file.name);
+        };
 
-        // mostra na tela
-        document.getElementById("previewTexto").innerText = conteudo;
+        reader.readAsText(file);
+    }
 
-        document.getElementById("statusUpload").innerText = "Arquivo carregado: " + file.name;
-    };
+    // DOCX
+    else if(nome.endsWith('.docx')){
+        const reader = new FileReader();
 
-    reader.readAsText(file);
+        reader.onload = function(event){
+            mammoth.extractRawText({arrayBuffer: event.target.result})
+            .then(function(result){
+                salvarTexto(result.value, file.name);
+            });
+        };
+
+        reader.readAsArrayBuffer(file);
+    }
+
+    else{
+        alert("Formato não suportado. Use .txt ou .docx");
+    }
+
 });
 
-// carregar automaticamente ao abrir
+function salvarTexto(texto, nomeArquivo){
+    localStorage.setItem("lapidar_texto", texto);
 
-window.onload = function(){
-  const texto = localStorage.getItem("lapidar_texto");
-  if(texto){
     document.getElementById("previewTexto").innerText = texto;
-    document.getElementById("statusUpload").innerText = "Obra já carregada";
-  }
+    document.getElementById("statusUpload").innerText = "Arquivo carregado: " + nomeArquivo;
 }
 
-// limpar obra
+// carregar ao abrir
+window.onload = function(){
+    const texto = localStorage.getItem("lapidar_texto");
 
+    if(texto){
+        document.getElementById("previewTexto").innerText = texto;
+        document.getElementById("statusUpload").innerText = "Obra já carregada";
+    }
+}
+
+// limpar
 function limparObra(){
-  localStorage.removeItem("lapidar_texto");
-  document.getElementById("previewTexto").innerText = "";
-  document.getElementById("statusUpload").innerText = "Obra removida";
+    localStorage.removeItem("lapidar_texto");
+    document.getElementById("previewTexto").innerText = "";
+    document.getElementById("statusUpload").innerText = "Obra removida";
 }
 
 // salvar dados
-
 function salvarDados(){
-  const titulo = document.getElementById('titulo').value;
-  const autor = document.getElementById('autor').value;
+    const titulo = document.getElementById('titulo').value;
+    const autor = document.getElementById('autor').value;
 
-  localStorage.setItem("lapidar_titulo", titulo);
-  localStorage.setItem("lapidar_autor", autor);
+    localStorage.setItem("lapidar_titulo", titulo);
+    localStorage.setItem("lapidar_autor", autor);
 
-  alert("Dados salvos");
+    alert("Dados salvos");
 }
 
 // navegação
-
 function irModulo(pagina){
-  window.location.href = pagina;
+    window.location.href = pagina;
 }
 
-</script></body>
+</script>
+
+</body>
 </html>
