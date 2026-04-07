@@ -45,10 +45,10 @@ border-radius:12px;
 font-size:18px;
 font-weight:bold;
 cursor:pointer;
+transition:0.2s;
 }
 
 /* família azul */
-
 .azul1{background:#7ea2d6;color:white;}
 .azul2{background:#6f95cc;color:white;}
 .azul3{background:#6188c1;color:white;}
@@ -57,8 +57,12 @@ cursor:pointer;
 .azul6{background:#3761a2;color:white;}
 .azul7{background:#295497;color:white;}
 
-/* institucionais */
+.ativo{
+outline:4px solid #163d73;
+transform:scale(1.01);
+}
 
+/* botões padrão */
 .continuar{
 background:#2e7d32;
 color:white;
@@ -90,42 +94,42 @@ color:#2f3e55;
 <div class="container">
 <div class="card">
 
-<h2>Escolha o que deseja preparar no livro</h2>
+<h2>Escolha o que deseja fazer com seu livro</h2>
 
 <p>
-Selecione um ou vários itens. Depois você poderá configurar cada um deles.
+Você pode escolher um ou vários. Depois o sistema organiza automaticamente.
 </p>
 
-<button class="botao azul1">
+<button class="botao azul1" id="btnCorrecao" onclick="toggleEscolha('correcao_recomendada','btnCorrecao')">
 Corrigir ortografia e gramática
 </button>
 
-<button class="botao azul2">
+<button class="botao azul2" id="btnLapidacao" onclick="toggleEscolha('lapidacao_texto','btnLapidacao')">
 Melhorar a escrita do texto
 </button>
 
-<button class="botao azul3">
+<button class="botao azul3" id="btnTraducao" onclick="toggleEscolha('traducao_livro','btnTraducao')">
 Traduzir o livro para outro idioma
 </button>
 
-<button class="botao azul4">
+<button class="botao azul4" id="btnDiagramacao" onclick="toggleEscolha('diagramacao_livro','btnDiagramacao')">
 Preparar o livro para impressão
 </button>
 
-<button class="botao azul5">
+<button class="botao azul5" id="btnCapa" onclick="toggleEscolha('capa_livro','btnCapa')">
 Criar a capa do livro
 </button>
 
-<button class="botao azul6">
-Ver como a história está organizada
+<button class="botao azul6" id="btnEstrutura" onclick="toggleEscolha('estrutura_livro','btnEstrutura')">
+Ver como a história do seu livro está organizada
 </button>
 
-<button class="botao azul7">
-Ver a qualidade geral do livro
+<button class="botao azul7" id="btnQualidade" onclick="toggleEscolha('qualidade_livro','btnQualidade')">
+Ver se o seu livro está bom e o que pode melhorar
 </button>
 
 <button class="botao continuar" onclick="seguir()">
-Continuar configuração editorial
+Continuar com as escolhas feitas
 </button>
 
 <button class="botao retornar" onclick="retornar()">
@@ -140,6 +144,16 @@ Apagar escolhas desta tela
 </div>
 
 <script>
+function toggleEscolha(chave,idBotao){
+if(localStorage.getItem(chave)==="sim"){
+localStorage.removeItem(chave);
+document.getElementById(idBotao).classList.remove("ativo");
+}else{
+localStorage.setItem(chave,"sim");
+document.getElementById(idBotao).classList.add("ativo");
+}
+}
+
 function seguir(){
 window.location.href="/editorial_livro_configuracao.html";
 }
@@ -149,7 +163,46 @@ window.location.href="/selecionar_modulos.html";
 }
 
 function limpar(){
+localStorage.removeItem("correcao_recomendada");
+localStorage.removeItem("lapidacao_texto");
+localStorage.removeItem("traducao_livro");
+localStorage.removeItem("diagramacao_livro");
+localStorage.removeItem("capa_livro");
+localStorage.removeItem("estrutura_livro");
+localStorage.removeItem("qualidade_livro");
 location.reload();
+}
+
+window.onload=function(){
+
+if(localStorage.getItem("correcao_recomendada")==="sim"){
+document.getElementById("btnCorrecao").classList.add("ativo");
+}
+
+if(localStorage.getItem("lapidacao_texto")==="sim"){
+document.getElementById("btnLapidacao").classList.add("ativo");
+}
+
+if(localStorage.getItem("traducao_livro")==="sim"){
+document.getElementById("btnTraducao").classList.add("ativo");
+}
+
+if(localStorage.getItem("diagramacao_livro")==="sim"){
+document.getElementById("btnDiagramacao").classList.add("ativo");
+}
+
+if(localStorage.getItem("capa_livro")==="sim"){
+document.getElementById("btnCapa").classList.add("ativo");
+}
+
+if(localStorage.getItem("estrutura_livro")==="sim"){
+document.getElementById("btnEstrutura").classList.add("ativo");
+}
+
+if(localStorage.getItem("qualidade_livro")==="sim"){
+document.getElementById("btnQualidade").classList.add("ativo");
+}
+
 }
 </script>
 
