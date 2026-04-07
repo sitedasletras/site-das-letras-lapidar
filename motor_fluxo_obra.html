@@ -3,13 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Preparando fluxo da obra — Lapidar</title>
+<title>Andamento da obra — Lapidar</title>
 
 <style>
-
 body{
 margin:0;
-font-family:Arial;
+font-family:Arial,sans-serif;
 background:#f4f1e8;
 }
 
@@ -19,6 +18,7 @@ color:white;
 padding:18px;
 display:flex;
 justify-content:space-between;
+font-size:18px;
 }
 
 .container{
@@ -35,21 +35,44 @@ box-shadow:0 8px 20px rgba(0,0,0,.08);
 }
 
 .etapa{
-margin-top:14px;
-padding:16px;
+width:100%;
+padding:18px;
+margin-top:12px;
+border:none;
 border-radius:12px;
 font-size:18px;
 font-weight:bold;
+box-sizing:border-box;
 }
 
-.azul{background:#6b8ec1;color:white;}
-.amarelo{background:#c19b2e;color:white;}
-.verde{background:#5aa07a;color:white;}
+.azul{
+background:#6b8ec1;
+color:white;
+}
+
+.amarelo{
+background:#c19b2e;
+color:white;
+}
+
+.verde{
+background:#5aa07a;
+color:white;
+}
+
+.info{
+margin-top:20px;
+padding:18px;
+border-radius:12px;
+background:#eef5ea;
+color:#1b5e20;
+font-weight:bold;
+}
 
 .botao{
 width:100%;
 padding:18px;
-margin-top:25px;
+margin-top:18px;
 border:none;
 border-radius:12px;
 font-size:18px;
@@ -59,24 +82,35 @@ background:#2e7d32;
 color:white;
 }
 
+p{
+color:#4e4e4e;
+}
 </style>
 </head>
 <body>
 
 <header>
-<div>Organizando o andamento da obra</div>
+<div>Andamento da obra</div>
 <div>Lapidar</div>
 </header>
 
 <div class="container">
 <div class="card">
 
-<h2>Sequência automática definida pelo Lapidar</h2>
+<h2>O Lapidar organizou a sequência da sua obra</h2>
+
+<p>
+Esta é a ordem de trabalho que o sistema seguirá automaticamente.
+</p>
 
 <div id="fluxo"></div>
 
-<button class="botao" onclick="iniciarFluxo()">
-Iniciar execução dos módulos selecionados
+<div class="info">
+O Lapidar organiza o caminho técnico da obra na ordem mais segura para evitar retrabalho.
+</div>
+
+<button class="botao" onclick="seguir()">
+Seguir para o painel da obra
 </button>
 
 </div>
@@ -86,100 +120,97 @@ Iniciar execução dos módulos selecionados
 
 function add(texto,classe){
 
-const bloco=document.createElement("div");
-
-bloco.className="etapa "+classe;
-
-bloco.innerText=texto;
-
-document.getElementById("fluxo").appendChild(bloco);
+const div=document.createElement("div");
+div.className="etapa "+classe;
+div.innerText=texto;
+document.getElementById("fluxo").appendChild(div);
 
 }
 
 window.onload=function(){
 
-/* LIVRO */
+/* LIVRO SEMPRE PRIMEIRO */
 
 if(localStorage.getItem("correcao_recomendada")==="sim"){
 add("Correção ortográfica e gramatical (gratuita)","azul");
 }
 
 if(localStorage.getItem("lapidacao_texto")==="sim"){
-add("Melhoria da escrita do texto","azul");
+add("Melhorar a escrita do texto","azul");
 }
 
 if(localStorage.getItem("traducao_livro")==="sim"){
-add("Tradução do livro","azul");
+add("Traduzir o livro para outro idioma","azul");
 }
 
 if(localStorage.getItem("estrutura_livro")==="sim"){
-add("Leitura estrutural da história","azul");
+add("Ver como a história está organizada","azul");
 }
 
 if(localStorage.getItem("qualidade_livro")==="sim"){
-add("Relatório de qualidade da obra","azul");
+add("Ver se o livro está bom e o que pode melhorar","azul");
 }
 
 if(localStorage.getItem("diagramacao_livro")==="sim"){
-add("Preparação do livro para impressão","azul");
+add("Preparar o livro para impressão","azul");
 }
 
 if(localStorage.getItem("capa_livro")==="sim"){
-add("Criação da capa do livro","azul");
+add("Criar a capa do livro","azul");
 }
 
-
-/* AUDIOVISUAL */
+/* AUDIOVISUAL DEPOIS */
 
 if(localStorage.getItem("video_historia")==="sim"){
-add("Vídeo contando a história do livro","amarelo");
+add("Criar vídeo contando a história do livro","amarelo");
 }
 
 if(localStorage.getItem("video_cena")==="sim"){
-add("Cena dramatizada do livro","amarelo");
+add("Criar uma cena do livro em vídeo","amarelo");
 }
 
 if(localStorage.getItem("video_apresentacao")==="sim"){
-add("Vídeo de apresentação do livro","amarelo");
+add("Criar vídeo de apresentação do livro","amarelo");
 }
 
 if(localStorage.getItem("video_redes")==="sim"){
-add("Vídeos curtos para redes sociais","amarelo");
+add("Criar vídeos curtos para Instagram, TikTok e YouTube","amarelo");
 }
 
-
-/* VOZ / MÚSICA */
+/* VOZ E MÚSICA POR ÚLTIMO */
 
 if(localStorage.getItem("narracao_voz")==="sim"){
-add("Narração com voz","verde");
+add("Transformar o livro em narração com voz","verde");
 }
 
 if(localStorage.getItem("audiolivro")==="sim"){
-add("Produção de audiolivro","verde");
+add("Criar audiolivro completo","verde");
+}
+
+if(localStorage.getItem("leitura_dramatizada")==="sim"){
+add("Criar leitura dramatizada","verde");
 }
 
 if(localStorage.getItem("trilha_sonora")==="sim"){
-add("Criação de trilha sonora","verde");
+add("Criar trilha sonora inspirada no livro","verde");
 }
 
 if(localStorage.getItem("musica_tema")==="sim"){
-add("Música tema da obra","verde");
+add("Criar música tema da obra","verde");
 }
 
 if(localStorage.getItem("versao_cantada")==="sim"){
-add("Versão cantada da obra","verde");
+add("Criar versão cantada de trechos do livro","verde");
 }
 
 if(localStorage.getItem("distribuicao_audio")==="sim"){
-add("Distribuição em plataformas de áudio","verde");
+add("Preparar distribuição nas plataformas de áudio","verde");
 }
 
 }
 
-function iniciarFluxo(){
-
+function seguir(){
 window.location.href="/painel_execucao_obra.html";
-
 }
 
 </script>
