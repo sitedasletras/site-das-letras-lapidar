@@ -3,43 +3,57 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Produção em vídeo da obra — Lapidar</title>
+<title>Módulos Audiovisuais — Lapidar</title>
 
 <style>
 body{
 margin:0;
 font-family:Arial,sans-serif;
-background:#f4f1e8;
+background:#f8f1df;
+color:#2a2a2a;
 }
 
 header{
-background:#32497d;
+background:#9a7b13;
 color:white;
-padding:18px;
+padding:16px 20px;
 display:flex;
 justify-content:space-between;
+align-items:center;
 font-size:18px;
 }
 
 .container{
-max-width:900px;
+max-width:960px;
 margin:auto;
-padding:30px;
+padding:28px;
 }
 
 .card{
-background:#fff8e1;
-padding:25px;
-border-radius:16px;
-margin-bottom:20px;
+background:white;
+border-radius:18px;
+padding:26px;
 box-shadow:0 8px 20px rgba(0,0,0,.08);
-border:1px solid #f0d67a;
+border:1px solid #ead9a5;
+}
+
+h1{
+margin:0 0 12px 0;
+font-size:32px;
+color:#5a4600;
+}
+
+p{
+margin:0 0 20px 0;
+font-size:18px;
+line-height:1.6;
+color:#66573a;
 }
 
 .botao{
 width:100%;
 padding:18px;
-margin-top:12px;
+margin-top:14px;
 border:none;
 border-radius:12px;
 font-size:18px;
@@ -48,188 +62,159 @@ cursor:pointer;
 transition:0.2s;
 }
 
-.amarelo1{
-background:#ffd54f;
-color:#3e2723;
+.amarelo{
+background:#c19b2e;
+color:white;
 }
 
-.amarelo2{
-background:#ffca28;
-color:#3e2723;
-}
-
-.amarelo3{
-background:#ffb300;
-color:#3e2723;
-}
-
-.amarelo4{
-background:#f9a825;
+.amarelo-escuro{
+background:#8c6f12;
 color:white;
 }
 
 .ativo{
-outline:4px solid #8d6e00;
+outline:4px solid rgba(0,0,0,.18);
 transform:scale(1.01);
 }
 
-.continuar{
-background:#2e7d32;
-color:white;
-margin-top:22px;
-}
-
-.retornar{
-background:#607d8b;
-color:white;
-}
-
-.apagar{
-background:#b71c1c;
-color:white;
-}
-
-p{
-color:#5d4037;
+.info{
+margin-top:20px;
+padding:14px 16px;
+border-radius:12px;
+background:#fff6d8;
+color:#6a5600;
+font-weight:bold;
+display:none;
 }
 </style>
 </head>
 <body>
 
 <header>
-<div>Produção em vídeo da obra</div>
+<div>Módulos audiovisuais</div>
 <div>Lapidar</div>
 </header>
 
 <div class="container">
 <div class="card">
 
-<h2>Escolha o tipo de vídeo que deseja criar</h2>
+<h1>Selecione os módulos audiovisuais</h1>
 
 <p>
-Você pode escolher um ou vários. Depois o sistema organiza automaticamente.
+Escolha quais etapas audiovisuais deseja executar agora.
+Você pode voltar depois e ativar novos módulos se quiser.
 </p>
 
-<button class="botao amarelo1" id="btnHistoria" onclick="toggleEscolha('video_historia','btnHistoria')">
+<button class="botao amarelo" id="btnHistoria"
+onclick="toggleModuloAudiovisual('video_historia','btnHistoria','Vídeo da história selecionado')">
 Criar vídeo contando a história do livro
 </button>
 
-<button class="botao amarelo2" id="btnCena" onclick="toggleEscolha('video_cena','btnCena')">
+<button class="botao amarelo" id="btnCena"
+onclick="toggleModuloAudiovisual('video_cena','btnCena','Cena dramatizada selecionada')">
 Criar uma cena do livro em vídeo
 </button>
 
-<button class="botao amarelo3" id="btnApresentacao" onclick="toggleEscolha('video_apresentacao','btnApresentacao')">
+<button class="botao amarelo" id="btnApresentacao"
+onclick="toggleModuloAudiovisual('video_apresentacao','btnApresentacao','Vídeo de apresentação selecionado')">
 Criar vídeo de apresentação do livro
 </button>
 
-<button class="botao amarelo4" id="btnRedes" onclick="toggleEscolha('video_redes','btnRedes')">
+<button class="botao amarelo" id="btnRedes"
+onclick="toggleModuloAudiovisual('video_redes','btnRedes','Vídeos curtos para redes sociais selecionados')">
 Criar vídeos curtos para Instagram, TikTok e YouTube
 </button>
 
-<button class="botao continuar" onclick="seguirFluxo()">
-Continuar com as escolhas feitas
+<button class="botao amarelo-escuro" onclick="continuarFluxoAudiovisual()">
+Continuar execução audiovisual
 </button>
 
-<button class="botao retornar" onclick="retornar()">
-Voltar para escolher outro tipo de produção
-</button>
-
-<button class="botao apagar" onclick="limpar()">
-Apagar escolhas desta tela
-</button>
+<div class="info" id="statusAudiovisual">
+Seleção registrada. Preparando execução audiovisual.
+</div>
 
 </div>
 </div>
 
+<script src="/auditoria.js"></script>
 <script>
+function marcarVisualInicial(){
+const modulos = [
+["video_historia","btnHistoria"],
+["video_cena","btnCena"],
+["video_apresentacao","btnApresentacao"],
+["video_redes","btnRedes"]
+];
 
-function toggleEscolha(chave,idBotao){
+modulos.forEach(function(item){
+if(localStorage.getItem(item[0])==="sim"){
+document.getElementById(item[1]).classList.add("ativo");
+}
+});
+}
+
+async function toggleModuloAudiovisual(chave,idBotao,mensagem){
+const botao = document.getElementById(idBotao);
 
 if(localStorage.getItem(chave)==="sim"){
 localStorage.removeItem(chave);
-document.getElementById(idBotao).classList.remove("ativo");
+botao.classList.remove("ativo");
+
+await LapidarAuditoria.registrarEvento("Módulo audiovisual removido",{
+modulo:chave
+});
 }else{
 localStorage.setItem(chave,"sim");
-document.getElementById(idBotao).classList.add("ativo");
+botao.classList.add("ativo");
+
+await LapidarAuditoria.registrarEvento(mensagem,{
+modulo:chave
+});
+}
 }
 
+async function continuarFluxoAudiovisual(){
+const selecionados = [
+"video_historia",
+"video_cena",
+"video_apresentacao",
+"video_redes"
+];
+
+let algumSelecionado=false;
+
+selecionados.forEach(function(mod){
+if(localStorage.getItem(mod)==="sim"){
+algumSelecionado=true;
 }
+});
 
-function temLivro(){
-return (
-localStorage.getItem("correcao_recomendada")==="sim" ||
-localStorage.getItem("lapidacao_texto")==="sim" ||
-localStorage.getItem("traducao_livro")==="sim" ||
-localStorage.getItem("diagramacao_livro")==="sim" ||
-localStorage.getItem("capa_livro")==="sim" ||
-localStorage.getItem("estrutura_livro")==="sim" ||
-localStorage.getItem("qualidade_livro")==="sim"
-);
-}
-
-function temMusica(){
-return (
-localStorage.getItem("narracao_voz")==="sim" ||
-localStorage.getItem("audiolivro")==="sim" ||
-localStorage.getItem("trilha_sonora")==="sim" ||
-localStorage.getItem("musica_tema")==="sim" ||
-localStorage.getItem("versao_cantada")==="sim" ||
-localStorage.getItem("distribuicao_audio")==="sim"
-);
-}
-
-function seguirFluxo(){
-
-localStorage.setItem("modulo_audiovisual_configurado","sim");
-
-if(!temLivro()){
-window.location.href="/alerta_correcao_antes_audiovisual.html";
+if(!algumSelecionado){
+alert("Selecione pelo menos um módulo audiovisual.");
 return;
 }
 
-if(temMusica() && localStorage.getItem("modulo_musica_configurado")!=="sim"){
-window.location.href="/modulos_musica.html";
-return;
+document.getElementById("statusAudiovisual").style.display="block";
+
+await LapidarAuditoria.registrarEvento("Execução audiovisual iniciada",{
+videoHistoria:localStorage.getItem("video_historia")||"nao",
+videoCena:localStorage.getItem("video_cena")||"nao",
+videoApresentacao:localStorage.getItem("video_apresentacao")||"nao",
+videoRedes:localStorage.getItem("video_redes")||"nao"
+});
+
+await LapidarAuditoria.encerrarSessaoModulo("modulos_audiovisual");
+
+setTimeout(function(){
+window.location.href="/painel_execucao_obra.html";
+},800);
 }
 
-window.location.href="/confirmacao_final_modulos.html";
-}
-
-function retornar(){
-window.location.href="/selecionar_modulos.html";
-}
-
-function limpar(){
-
-localStorage.removeItem("video_historia");
-localStorage.removeItem("video_cena");
-localStorage.removeItem("video_apresentacao");
-localStorage.removeItem("video_redes");
-localStorage.removeItem("modulo_audiovisual_configurado");
-
-location.reload();
-}
-
-window.onload=function(){
-
-if(localStorage.getItem("video_historia")==="sim"){
-document.getElementById("btnHistoria").classList.add("ativo");
-}
-
-if(localStorage.getItem("video_cena")==="sim"){
-document.getElementById("btnCena").classList.add("ativo");
-}
-
-if(localStorage.getItem("video_apresentacao")==="sim"){
-document.getElementById("btnApresentacao").classList.add("ativo");
-}
-
-if(localStorage.getItem("video_redes")==="sim"){
-document.getElementById("btnRedes").classList.add("ativo");
-}
-
-}
-
+window.onload = async function(){
+await LapidarAuditoria.iniciarSessaoModulo("modulos_audiovisual");
+await LapidarAuditoria.registrarEvento("Tela de módulos audiovisuais aberta",{});
+marcarVisualInicial();
+};
 </script>
 
 </body>
