@@ -87,10 +87,13 @@ input{
 }
 
 .ficha{
-  border:1px solid #aaa;
+  border:1px solid #000;
   padding:15px;
   margin:20px 0;
-  font-size:14px;
+  font-size:13px;
+  font-family: "Courier New", monospace;
+  text-align:left;
+  line-height:1.5;
 }
 </style>
 </head>
@@ -136,12 +139,10 @@ Aguardando obra...
 const mensagens = [
 "Varrendo lixo editorial...",
 "Removendo entulho textual...",
-"Separando o que é obra do que é ruído...",
 "Lendo sua obra com atenção...",
-"Identificando estrutura editorial...",
-"Separando páginas técnicas...",
+"Separando estrutura editorial...",
 "Organizando capítulos...",
-"Lapidando para os próximos módulos..."
+"Lapidando texto..."
 ];
 
 document.getElementById('uploadTexto').addEventListener('change', function(e){
@@ -169,23 +170,17 @@ document.getElementById('uploadTexto').addEventListener('change', function(e){
 });
 
 function calcularTempo(texto){
-    const palavras = texto.split(/\s+/).length;
-    const paginas = palavras / 250;
-    const tempo = (paginas / 800) * 60000;
-    return Math.min(Math.max(tempo, 4000), 60000);
+    return 4000;
 }
 
 async function iniciarProcesso(textoBruto, nomeArquivo){
 
     let texto = normalizar(textoBruto);
-    let tempoTotal = calcularTempo(texto);
-
-    let intervalo = tempoTotal / mensagens.length;
 
     for(let i=0;i<mensagens.length;i++){
         document.getElementById("mensagemBolsao").innerText = mensagens[i];
         atualizarBarra((i+1)/mensagens.length*100);
-        await delay(intervalo);
+        await delay(700);
     }
 
     let estrutura = estruturarTexto(texto);
@@ -194,11 +189,9 @@ async function iniciarProcesso(textoBruto, nomeArquivo){
     document.getElementById("statusUpload").innerText = "Arquivo carregado: " + nomeArquivo;
 
     document.getElementById("mensagemBolsao").innerText =
-    "Sua obra foi limpa, compreendida e organizada. Seguimos juntos.";
+    "Sua obra foi organizada com sucesso.";
 
     detectarDados(texto);
-
-    localStorage.setItem("lapidar_texto_base", texto);
 }
 
 function atualizarBarra(valor){
@@ -208,8 +201,6 @@ function atualizarBarra(valor){
 function normalizar(texto){
     return texto
     .replace(/<[^>]*>/g,'')
-    .replace(/([a-zà-ú])([A-ZÀ-Ú])/g,'$1 $2')
-    .replace(/\.([A-ZÀ-Ú])/g,'. $1')
     .replace(/\. /g,'.\n\n')
     .trim();
 }
@@ -221,11 +212,11 @@ function estruturarTexto(texto){
     texto = texto
     .replace(/SELO EDITORIAL/gi, "\n##SELO##\n")
     .replace(/FOLHA DE ROSTO/gi, "\n##ROSTO##\n")
-    .replace(/FICHA CATALOGRÁFICA/gi, "\n##FICHA##\n")
-    .replace(/\(página.*?\)/gi, "\n")
-    .replace(/\n{2,}/g,"\n");
+    .replace(/FICHA CATALOGRÁFICA/gi, "\n##FICHA##\n");
 
     let linhas = texto.split("\n").filter(l=>l.trim());
+
+    let dentroFicha = false;
 
     linhas.forEach((linha,i)=>{
 
@@ -240,7 +231,20 @@ function estruturarTexto(texto){
         }
 
         if(linha.includes("##FICHA##")){
-            html += `<div class="ficha"><strong>FICHA CATALOGRÁFICA</strong></div>`;
+            html += `<div class="ficha"><strong>FICHA CATALOGRÁFICA</strong><br><br>`;
+            dentroFicha = true;
+            return;
+        }
+
+        if(dentroFicha){
+
+            if(linha.length < 3){
+                html += `</div>`;
+                dentroFicha = false;
+                return;
+            }
+
+            html += linha + "<br>";
             return;
         }
 
@@ -272,13 +276,10 @@ function detectarDados(texto){
 }
 
 function salvarDados(){
-    localStorage.setItem("titulo", titulo.value);
-    localStorage.setItem("autor", autor.value);
     alert("Salvo!");
 }
 
 function limparObra(){
-    localStorage.clear();
     location.reload();
 }
 
