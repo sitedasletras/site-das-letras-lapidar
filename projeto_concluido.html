@@ -3,263 +3,353 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Projeto Concluído — Lapidar</title>
+<title>Projeto concluído — Lapidar</title>
 
 <style>
 body{
 margin:0;
-font-family:Arial;
-background:linear-gradient(180deg,#0d2c22,#04130d);
+font-family:Arial,sans-serif;
+background:#f5f1e6;
+color:#2b2b2b;
+}
+
+header{
+background:#32497d;
 color:white;
+padding:16px 20px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+font-size:18px;
 }
 
 .container{
 max-width:960px;
 margin:auto;
-padding:24px;
+padding:28px;
 }
 
 .card{
-background:rgba(255,255,255,.07);
+background:white;
 border-radius:18px;
-padding:24px;
+padding:26px;
+box-shadow:0 8px 20px rgba(0,0,0,.08);
+border:1px solid #e4ddd0;
 margin-bottom:20px;
 }
 
-.hero{
-text-align:center;
-padding:32px 24px;
+h1{
+margin:0 0 12px 0;
+font-size:32px;
+color:#2f3e55;
 }
 
-.hero h1{
-margin-top:0;
-font-size:34px;
+h2{
+margin:0 0 12px 0;
+font-size:24px;
+color:#2f3e55;
 }
 
-.hero p{
-color:#d8efe2;
-line-height:1.7;
-max-width:720px;
-margin:auto;
+p{
+margin:0 0 14px 0;
+font-size:18px;
+line-height:1.6;
+color:#5b554a;
 }
 
-.grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-gap:18px;
+.bloco{
+padding:18px;
+border-radius:12px;
+margin-top:14px;
+font-size:18px;
+font-weight:bold;
+white-space:pre-wrap;
+}
+
+.azul{
+background:#6f95cc;
+color:white;
+}
+
+.verde{
+background:#5aa07a;
+color:white;
+}
+
+.offwhite{
+background:#f5f1e6;
+color:#2b2b2b;
+border:2px solid #32497d;
+}
+
+.preto{
+background:#000000;
+color:white;
+}
+
+.vermelho{
+background:#b71c1c;
+color:white;
+}
+
+.botao{
+width:100%;
+padding:18px;
+margin-top:14px;
+border:none;
+border-radius:12px;
+font-size:18px;
+font-weight:bold;
+cursor:pointer;
 }
 
 .info{
-margin-bottom:12px;
-padding:12px;
+margin-top:18px;
+padding:14px 16px;
 border-radius:12px;
-background:rgba(255,255,255,.05);
-}
-
-button{
-border:none;
-border-radius:12px;
-padding:14px 18px;
-font-size:15px;
+background:#eef5ea;
+color:#1b5e20;
 font-weight:bold;
-cursor:pointer;
-margin:6px;
+display:none;
+white-space:pre-wrap;
 }
 
-.btn{
-background:#2ecc71;
-color:#062414;
-}
-
-.btn2{
-background:#dcefe4;
-color:#103222;
-}
-
-.badge{
-display:inline-block;
-padding:10px 16px;
-border-radius:999px;
-background:rgba(46,204,113,.14);
-border:1px solid rgba(46,204,113,.28);
-color:#dbffea;
-font-weight:bold;
-margin-bottom:14px;
-}
-
-.small{
-font-size:14px;
-color:#cfe8da;
-line-height:1.6;
+.oculto{
+display:none;
 }
 </style>
 </head>
-
 <body>
+
+<header>
+<div>Projeto concluído</div>
+<div>Lapidar</div>
+</header>
 
 <div class="container">
 
-<div class="card hero">
-
-<div class="badge">
-Fluxo concluído com sucesso
-</div>
-
-<h1>
-Projeto concluído
-</h1>
+<div class="card">
+<h1>Encerramento da obra</h1>
 
 <p>
-O fluxo editorial atual do Lapidar foi finalizado.
-O pacote editorial já pode ser baixado novamente, revisado ou arquivado.
+A obra foi concluída dentro do fluxo do Lapidar.
+Agora o sistema vai registrar o memorial técnico, liberar os downloads e limpar automaticamente o ambiente para a próxima obra.
 </p>
 
+<div class="bloco azul" id="blocoResumo">
+Preparando resumo final da obra...
 </div>
 
+<div class="bloco verde" id="blocoDownloads">
+Downloads ainda não liberados.
+</div>
 
-<div class="grid">
+<button class="botao offwhite" id="btnEncerrar" onclick="encerrarObra()">
+Registrar, liberar downloads e encerrar obra
+</button>
+
+<button class="botao preto" id="btnVoltar" onclick="voltarPainel()">
+Voltar ao painel da obra
+</button>
+
+<div class="info" id="statusFinal">
+Encerramento em andamento...
+</div>
+</div>
 
 <div class="card">
+<h2>Memorial administrativo</h2>
 
-<h2>Resumo final</h2>
-
-<div class="info">
-<strong>Título:</strong>
-<span id="titulo"></span>
-</div>
-
-<div class="info">
-<strong>Autor:</strong>
-<span id="autor"></span>
-</div>
-
-<div class="info">
-<strong>Módulos:</strong>
-<span id="modulos"></span>
-</div>
-
-<div class="info">
-<strong>Data da exportação:</strong>
-<span id="dataExportacao"></span>
-</div>
-
-</div>
-
-
-<div class="card">
-
-<h2>Próximas ações</h2>
-
-<p class="small">
-Você pode baixar novamente o pacote editorial, abrir o histórico de projetos
-ou iniciar uma nova obra.
+<p>
+O relatório técnico final desta obra será salvo antes da limpeza automática do ambiente.
 </p>
 
-<button class="btn" onclick="baixarNovamente()">
-Baixar novamente
-</button>
-
-<button class="btn2" onclick="abrirHistorico()">
-Abrir histórico
-</button>
-
-<button class="btn2" onclick="novoProjeto()">
-Novo projeto
-</button>
-
+<div class="bloco offwhite" id="blocoMemorial">
+Aguardando encerramento da obra.
+</div>
 </div>
 
 </div>
 
-</div>
-
+<script src="/auditoria.js"></script>
 <script>
-function obterProjeto(){
-return JSON.parse(localStorage.getItem("projeto_lapidar"));
-}
+function resumoDaObra(){
+const titulo = localStorage.getItem("titulo_obra") || "Título não informado";
+const autor = localStorage.getItem("autor_obra") || "Autor não informado";
+const organizador = localStorage.getItem("organizador_obra") || "Não informado";
+const tipo = localStorage.getItem("tipo_material_reconhecido") || "Não reconhecido";
 
-function formatarData(d){
-if(!d) return "Não informado";
-return new Date(d).toLocaleString("pt-BR");
-}
+let areas = [];
+if(existeLivro()) areas.push("Produção editorial");
+if(existeAudiovisual()) areas.push("Produção audiovisual");
+if(existeMusica()) areas.push("Produção com voz / música");
 
-function carregar(){
-let projeto = obterProjeto();
-
-if(!projeto){
-window.location.href = "producao_integrada.html";
-return;
-}
-
-document.getElementById("titulo").innerText = projeto.titulo || "";
-document.getElementById("autor").innerText = projeto.autor || "";
-document.getElementById("modulos").innerText =
-(projeto.modulosSelecionados || []).join(", ") || "Nenhum módulo";
-document.getElementById("dataExportacao").innerText =
-formatarData(projeto.exportadoEm);
-}
-
-function baixarNovamente(){
-let projeto = obterProjeto();
-
-if(!projeto){
-window.location.href = "producao_integrada.html";
-return;
-}
-
-const nomeSeguro = (projeto.titulo || "obra")
-.normalize("NFD")
-.replace(/[\u0300-\u036f]/g, "")
-.replace(/[^a-zA-Z0-9]+/g, "-")
-.replace(/^-+|-+$/g, "")
-.toLowerCase();
-
-const pacote = {
-sistema: "Lapidar",
-etapa: "Projeto Concluído",
-id: projeto.id || null,
-titulo: projeto.titulo || "Sem título",
-autor: projeto.autor || "Sem autor",
-modulosSelecionados: projeto.modulosSelecionados || [],
-textoLapidado: projeto.textoLapidado || "",
-lapidacaoExecutada: !!projeto.lapidacaoExecutada,
-pagamentoConfirmado: !!projeto.pagamentoConfirmado,
-downloadLiberado: !!projeto.downloadLiberado,
-criadoEm: projeto.criadoEm || null,
-ultimaAtualizacao: projeto.ultimaAtualizacao || null,
-dataLapidacao: projeto.dataLapidacao || null,
-dataPagamento: projeto.dataPagamento || null,
-exportadoEm: projeto.exportadoEm || null,
-status: "Pacote editorial exportado com sucesso"
-};
-
-const blob = new Blob(
-[JSON.stringify(pacote, null, 2)],
-{ type: "application/json;charset=utf-8" }
+return (
+"Título: " + titulo + "\n" +
+"Autor: " + autor + "\n" +
+"Organizador: " + organizador + "\n" +
+"Tipo reconhecido: " + tipo + "\n" +
+"Áreas trabalhadas: " + (areas.length ? areas.join(", ") : "Nenhuma registrada")
 );
-
-const link = document.createElement("a");
-link.href = URL.createObjectURL(blob);
-link.download = (nomeSeguro || "obra") + "-pacote-editorial.json";
-
-document.body.appendChild(link);
-link.click();
-document.body.removeChild(link);
 }
 
-function abrirHistorico(){
-window.location.href = "historico_projetos.html";
+function existeLivro(){
+return (
+localStorage.getItem("correcao_recomendada")==="sim" ||
+localStorage.getItem("lapidacao_texto")==="sim" ||
+localStorage.getItem("traducao_livro")==="sim" ||
+localStorage.getItem("diagramacao_livro")==="sim" ||
+localStorage.getItem("capa_livro")==="sim" ||
+localStorage.getItem("estrutura_livro")==="sim" ||
+localStorage.getItem("qualidade_livro")==="sim" ||
+localStorage.getItem("modulo_diagramacao")==="sim" ||
+localStorage.getItem("modulo_capista")==="sim" ||
+localStorage.getItem("modulo_segunda_lingua")==="sim" ||
+localStorage.getItem("modulo_avaliacao")==="sim" ||
+localStorage.getItem("modulo_analisador")==="sim" ||
+localStorage.getItem("modulo_lapidacao")==="sim"
+);
 }
 
-function novoProjeto(){
-localStorage.removeItem("projeto_lapidar");
-window.location.href = "producao_integrada.html";
+function existeAudiovisual(){
+return (
+localStorage.getItem("video_historia")==="sim" ||
+localStorage.getItem("video_cena")==="sim" ||
+localStorage.getItem("video_apresentacao")==="sim" ||
+localStorage.getItem("video_redes")==="sim"
+);
 }
 
-carregar();
+function existeMusica(){
+return (
+localStorage.getItem("narracao_voz")==="sim" ||
+localStorage.getItem("audiolivro")==="sim" ||
+localStorage.getItem("leitura_dramatizada")==="sim" ||
+localStorage.getItem("trilha_sonora")==="sim" ||
+localStorage.getItem("musica_tema")==="sim" ||
+localStorage.getItem("versao_cantada")==="sim" ||
+localStorage.getItem("distribuicao_audio")==="sim"
+);
+}
+
+function liberarDownloadsSimulados(){
+document.getElementById("blocoDownloads").innerText =
+"Downloads liberados:\n• Arquivo provisório da obra\n• Relatório técnico da obra\n• Memorial administrativo";
+}
+
+function limparDadosDaObraConcluida(){
+const chaves = [
+"upload_texto_obra",
+"upload_imagens_obra",
+"upload_audio_obra",
+"gravacao_voz_autor",
+"nome_arquivo_texto",
+"quantidade_imagens_obra",
+"titulo_obra",
+"autor_obra",
+"organizador_obra",
+"subtitulo_obra",
+"tipo_material_reconhecido",
+"estrutura_detectada",
+"observacoes_tecnicas",
+"preview_texto_limpo",
+"bolsao_preparado",
+
+"modulo_editorial",
+"modulo_audiovisual",
+"modulo_musica",
+
+"modulo_livro_configurado",
+"modulo_audiovisual_configurado",
+"modulo_musica_configurado",
+
+"modulo_diagramacao",
+"modulo_capista",
+"modulo_segunda_lingua",
+"modulo_avaliacao",
+"modulo_analisador",
+"modulo_lapidacao",
+
+"video_historia",
+"video_cena",
+"video_apresentacao",
+"video_redes",
+
+"narracao_voz",
+"audiolivro",
+"leitura_dramatizada",
+"trilha_sonora",
+"musica_tema",
+"versao_cantada",
+"distribuicao_audio"
+];
+
+for(let i=0;i<chaves.length;i++){
+localStorage.removeItem(chaves[i]);
+}
+}
+
+function encerrarObra(){
+document.getElementById("btnEncerrar").disabled = true;
+document.getElementById("btnEncerrar").style.opacity = "0.7";
+document.getElementById("btnVoltar").classList.add("oculto");
+document.getElementById("statusFinal").style.display = "block";
+document.getElementById("statusFinal").innerText =
+"Registrando memorial técnico da obra...\nAguarde alguns instantes.";
+
+LapidarAuditoria.registrarEvento("Encerramento final da obra iniciado", {
+titulo: localStorage.getItem("titulo_obra") || "",
+autor: localStorage.getItem("autor_obra") || ""
+});
+
+const relatorio = LapidarAuditoria.exportarRelatorioAdministrativo();
+
+document.getElementById("blocoMemorial").innerText =
+"Memorial administrativo registrado com sucesso.\n" +
+"Obra ID: " + (relatorio.obraId || "não informado") + "\n" +
+"Exportado em: " + new Date().toLocaleString("pt-BR");
+
+setTimeout(function(){
+document.getElementById("statusFinal").innerText =
+"Memorial salvo.\nLiberando downloads da obra...";
+liberarDownloadsSimulados();
+
+LapidarAuditoria.registrarEvento("Downloads finais liberados", {
+downloads: ["arquivo_provisorio","relatorio_tecnico","memorial_administrativo"]
+});
+}, 1200);
+
+setTimeout(function(){
+document.getElementById("statusFinal").innerText =
+"Downloads liberados.\nLimpando automaticamente os resíduos da obra anterior...";
+}, 2200);
+
+setTimeout(function(){
+limparDadosDaObraConcluida();
+
+LapidarAuditoria.registrarEvento("Reset automático da obra concluída executado", {});
+LapidarAuditoria.limparAuditoriaAtual();
+
+document.getElementById("statusFinal").innerText =
+"Obra encerrada com sucesso.\nO ambiente foi limpo e já está pronto para a próxima obra.";
+
+document.getElementById("btnEncerrar").innerText = "Encerramento concluído ✔";
+}, 3400);
+
+setTimeout(function(){
+window.location.href = "/entrada_obra.html";
+}, 5000);
+}
+
+function voltarPainel(){
+window.location.href = "/painel_execucao_obra.html";
+}
+
+window.onload = function(){
+document.getElementById("blocoResumo").innerText = resumoDaObra();
+LapidarAuditoria.registrarEvento("Tela de projeto concluído aberta", {});
+};
 </script>
-
-<script src="session_guard.js"></script>
 
 </body>
 </html>
