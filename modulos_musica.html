@@ -6,6 +6,7 @@
 <title>Produção com voz e música — Lapidar</title>
 
 <style>
+
 body{
 margin:0;
 font-family:Arial,sans-serif;
@@ -28,12 +29,12 @@ padding:30px;
 }
 
 .card{
-background:#e8f5e9;
+background:#e6f4ea;
 padding:25px;
 border-radius:16px;
 margin-bottom:20px;
 box-shadow:0 8px 20px rgba(0,0,0,.08);
-border:1px solid #bfe3c4;
+border:1px solid #a5d6a7;
 }
 
 .botao{
@@ -48,6 +49,8 @@ cursor:pointer;
 transition:0.2s;
 }
 
+/* família verde */
+
 .verde1{background:#81c784;color:white;}
 .verde2{background:#66bb6a;color:white;}
 .verde3{background:#4caf50;color:white;}
@@ -59,6 +62,8 @@ transition:0.2s;
 outline:4px solid #1b5e20;
 transform:scale(1.01);
 }
+
+/* botões padrão */
 
 .continuar{
 background:#2e7d32;
@@ -77,8 +82,9 @@ color:white;
 }
 
 p{
-color:#2e4a33;
+color:#1b5e20;
 }
+
 </style>
 </head>
 <body>
@@ -93,105 +99,201 @@ color:#2e4a33;
 
 <h2>Escolha o que deseja criar com áudio ou música</h2>
 
-<p>Você pode escolher um ou vários recursos.</p>
+<p>
+Você pode escolher um ou vários recursos. Depois o sistema organiza automaticamente.
+</p>
 
-<button class="botao verde1" id="btnNarracao" onclick="toggleEscolha('narracao_voz','btnNarracao')">
+
+<button class="botao verde1" id="btnNarracao"
+onclick="toggleEscolha('narracao_voz','btnNarracao')">
 Transformar o livro em narração com voz
 </button>
 
-<button class="botao verde2" id="btnAudiolivro" onclick="toggleEscolha('audiolivro','btnAudiolivro')">
+
+<button class="botao verde2" id="btnAudiolivro"
+onclick="toggleEscolha('audiolivro','btnAudiolivro')">
 Criar audiolivro completo
 </button>
 
-<button class="botao verde3" id="btnTrilha" onclick="toggleEscolha('trilha_sonora','btnTrilha')">
+
+<button class="botao verde3" id="btnDramatizada"
+onclick="toggleEscolha('leitura_dramatizada','btnDramatizada')">
+Criar leitura dramatizada
+</button>
+
+
+<button class="botao verde4" id="btnTrilha"
+onclick="toggleEscolha('trilha_sonora','btnTrilha')">
 Criar trilha sonora inspirada no livro
 </button>
 
-<button class="botao verde4" id="btnTema" onclick="toggleEscolha('musica_tema','btnTema')">
+
+<button class="botao verde5" id="btnTema"
+onclick="toggleEscolha('musica_tema','btnTema')">
 Criar música tema da obra
 </button>
 
-<button class="botao verde5" id="btnCantada" onclick="toggleEscolha('versao_cantada','btnCantada')">
+
+<button class="botao verde6" id="btnCantada"
+onclick="toggleEscolha('versao_cantada','btnCantada')">
 Criar versão cantada de trechos do livro
 </button>
 
-<button class="botao verde6" id="btnDistribuicao" onclick="toggleEscolha('distribuicao_audio','btnDistribuicao')">
+
+<button class="botao verde6" id="btnDistribuicao"
+onclick="toggleEscolha('distribuicao_audio','btnDistribuicao')">
 Preparar distribuição nas plataformas de áudio
 </button>
 
-<button class="botao continuar" onclick="seguir()">
+
+<button class="botao continuar" onclick="seguirFluxo()">
 Continuar com as escolhas feitas
 </button>
+
 
 <button class="botao retornar" onclick="retornar()">
 Voltar para escolher outro tipo de produção
 </button>
 
+
 <button class="botao apagar" onclick="limpar()">
 Apagar escolhas desta tela
 </button>
 
+
 </div>
 </div>
+
 
 <script>
 
 function toggleEscolha(chave,idBotao){
 
 if(localStorage.getItem(chave)==="sim"){
-localStorage.removeItem(chave);
-document.getElementById(idBotao).classList.remove("ativo");
+
+localStorage.removeItem(chave)
+
+document.getElementById(idBotao)
+.classList.remove("ativo")
+
 }else{
-localStorage.setItem(chave,"sim");
-document.getElementById(idBotao).classList.add("ativo");
-}
+
+localStorage.setItem(chave,"sim")
+
+document.getElementById(idBotao)
+.classList.add("ativo")
 
 }
 
-function seguir(){
-window.location.href="/confirmacao_geral_da_obra.html";
 }
+
+
+
+function temLivro(){
+
+return(
+
+localStorage.getItem("correcao_recomendada")==="sim" ||
+
+localStorage.getItem("lapidacao_texto")==="sim" ||
+
+localStorage.getItem("traducao_livro")==="sim" ||
+
+localStorage.getItem("diagramacao_livro")==="sim" ||
+
+localStorage.getItem("capa_livro")==="sim" ||
+
+localStorage.getItem("estrutura_livro")==="sim" ||
+
+localStorage.getItem("qualidade_livro")==="sim"
+
+)
+
+}
+
+
+
+function seguirFluxo(){
+
+localStorage.setItem(
+"modulo_musica_configurado",
+"sim"
+)
+
+
+
+if(!temLivro()){
+
+window.location.href=
+"/alerta_correcao_antes_audiovisual.html"
+
+return
+
+}
+
+
+
+window.location.href=
+"/confirmacao_final_modulos.html"
+
+}
+
+
 
 function retornar(){
-window.location.href="/selecionar_modulos.html";
+
+window.location.href=
+"/selecionar_modulos.html"
+
 }
+
+
 
 function limpar(){
 
-localStorage.removeItem("narracao_voz");
-localStorage.removeItem("audiolivro");
-localStorage.removeItem("trilha_sonora");
-localStorage.removeItem("musica_tema");
-localStorage.removeItem("versao_cantada");
-localStorage.removeItem("distribuicao_audio");
+localStorage.removeItem("narracao_voz")
+localStorage.removeItem("audiolivro")
+localStorage.removeItem("leitura_dramatizada")
+localStorage.removeItem("trilha_sonora")
+localStorage.removeItem("musica_tema")
+localStorage.removeItem("versao_cantada")
+localStorage.removeItem("distribuicao_audio")
+localStorage.removeItem("modulo_musica_configurado")
 
-location.reload();
+location.reload()
+
 }
+
+
 
 window.onload=function(){
 
 if(localStorage.getItem("narracao_voz")==="sim"){
-document.getElementById("btnNarracao").classList.add("ativo");
+document.getElementById("btnNarracao").classList.add("ativo")
 }
 
 if(localStorage.getItem("audiolivro")==="sim"){
-document.getElementById("btnAudiolivro").classList.add("ativo");
+document.getElementById("btnAudiolivro").classList.add("ativo")
+}
+
+if(localStorage.getItem("leitura_dramatizada")==="sim"){
+document.getElementById("btnDramatizada").classList.add("ativo")
 }
 
 if(localStorage.getItem("trilha_sonora")==="sim"){
-document.getElementById("btnTrilha").classList.add("ativo");
+document.getElementById("btnTrilha").classList.add("ativo")
 }
 
 if(localStorage.getItem("musica_tema")==="sim"){
-document.getElementById("btnTema").classList.add("ativo");
+document.getElementById("btnTema").classList.add("ativo")
 }
 
 if(localStorage.getItem("versao_cantada")==="sim"){
-document.getElementById("btnCantada").classList.add("ativo");
+document.getElementById("btnCantada").classList.add("ativo")
 }
 
 if(localStorage.getItem("distribuicao_audio")==="sim"){
-document.getElementById("btnDistribuicao").classList.add("ativo");
+document.getElementById("btnDistribuicao").classList.add("ativo")
 }
 
 }
