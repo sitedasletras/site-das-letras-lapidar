@@ -23,7 +23,7 @@ font-size:18px;
 }
 
 .container{
-max-width:950px;
+max-width:960px;
 margin:auto;
 padding:30px;
 }
@@ -74,6 +74,12 @@ color:#1b5e20;
 border:1px solid #b8d8ba;
 }
 
+.status.lendo{
+background:#eef3fb;
+color:#23406b;
+border:1px solid #bfd0ec;
+}
+
 .painel-campos{
 display:grid;
 grid-template-columns:1fr 1fr;
@@ -96,8 +102,7 @@ color:#2f3e55;
 }
 
 .campo input,
-.campo textarea,
-.campo select{
+.campo textarea{
 width:100%;
 padding:12px;
 border:1px solid #d8d1c3;
@@ -123,7 +128,7 @@ padding:18px;
 line-height:1.7;
 white-space:pre-wrap;
 color:#4c4944;
-min-height:160px;
+min-height:170px;
 }
 
 .info{
@@ -144,6 +149,42 @@ border-radius:12px;
 color:#856404;
 font-weight:bold;
 display:none;
+}
+
+.progresso-box{
+margin-top:18px;
+background:#f7f3ea;
+border:1px solid #e5dbc8;
+border-radius:12px;
+padding:16px;
+}
+
+.barra{
+width:100%;
+height:18px;
+background:#e7dfd1;
+border-radius:999px;
+overflow:hidden;
+margin-top:12px;
+}
+
+.barra-interna{
+height:100%;
+width:0%;
+background:#6b8ec1;
+transition:width 0.5s ease;
+}
+
+.log-leitura{
+margin-top:16px;
+background:#fcfaf4;
+border:1px solid #e6dfd0;
+border-radius:12px;
+padding:14px;
+min-height:130px;
+white-space:pre-wrap;
+line-height:1.6;
+color:#4e4a43;
 }
 
 .botao{
@@ -173,6 +214,10 @@ background:#6b8ec1;
 color:white;
 }
 
+.oculto{
+display:none;
+}
+
 @media(max-width:800px){
 .painel-campos{
 grid-template-columns:1fr;
@@ -193,7 +238,7 @@ grid-template-columns:1fr;
 <h1>Leitura inicial e preparação da obra</h1>
 
 <div class="frase">
-O Lapidar está organizando o material enviado para reconhecer a base da sua obra, limpar resíduos e preparar o texto para as próximas etapas.
+O Lapidar vai ler, reconhecer e organizar a base da sua obra antes de iniciar os módulos seguintes.
 </div>
 
 <div class="linha-status">
@@ -202,9 +247,21 @@ O Lapidar está organizando o material enviado para reconhecer a base da sua obr
 <div class="status off" id="statusAudio">Áudio de apoio: ainda não identificado</div>
 </div>
 
-<button class="botao offwhite" onclick="iniciarLeitura()">
+<button class="botao offwhite" id="btnLeitura" onclick="iniciarLeitura()">
 Iniciar leitura e reconhecimento da obra
 </button>
+
+<div class="progresso-box oculto" id="boxProgresso">
+<strong id="tituloProgresso">Preparando leitura da obra...</strong>
+
+<div class="barra">
+<div class="barra-interna" id="barraInterna"></div>
+</div>
+
+<div class="log-leitura" id="logLeitura">
+Aguardando início da leitura...
+</div>
+</div>
 
 <div class="info" id="statusLeitura">
 Leitura inicial concluída. Revise os campos abaixo antes de seguir.
@@ -222,28 +279,27 @@ Nenhum texto principal foi identificado. Envie o texto da obra antes de continua
 <div class="painel-campos">
 <div class="campo">
 <label for="tituloObra">Título da obra</label>
-<input type="text" id="tituloObra" placeholder="Digite ou ajuste o título da obra">
+<input type="text" id="tituloObra" placeholder="Preenchimento automático após leitura">
 </div>
 
 <div class="campo">
-<label for="autorObra">Autor / Organizador</label>
-<input type="text" id="autorObra" placeholder="Digite ou ajuste o nome do autor">
+<label for="autorObra">Autor</label>
+<input type="text" id="autorObra" placeholder="Preenchimento automático após leitura">
 </div>
 
 <div class="campo">
-<label for="subtituloObra">Subtítulo (opcional)</label>
-<input type="text" id="subtituloObra" placeholder="Digite o subtítulo, se houver">
+<label for="organizadorObra">Organizador, se houver</label>
+<input type="text" id="organizadorObra" placeholder="Preenchimento automático após leitura">
 </div>
 
 <div class="campo">
-<label for="tipoMaterial">Tipo principal do material</label>
-<select id="tipoMaterial">
-<option value="livro">Livro</option>
-<option value="conto">Conto</option>
-<option value="poesia">Poesia</option>
-<option value="roteiro">Roteiro</option>
-<option value="outro">Outro</option>
-</select>
+<label for="subtituloObra">Subtítulo, se houver</label>
+<input type="text" id="subtituloObra" placeholder="Preenchimento automático após leitura">
+</div>
+
+<div class="campo" style="grid-column:1 / -1;">
+<label for="tipoMaterialReconhecido">Tipo principal do material reconhecido</label>
+<input type="text" id="tipoMaterialReconhecido" placeholder="O Lapidar reconhecerá automaticamente o tipo da obra">
 </div>
 </div>
 </div>
@@ -255,22 +311,22 @@ Nenhum texto principal foi identificado. Envie o texto da obra antes de continua
 <div class="painel-campos">
 <div class="campo">
 <label for="estruturaDetectada">Estrutura reconhecida</label>
-<textarea id="estruturaDetectada" placeholder="Capítulos, prefácio, dedicatória, partes técnicas..."></textarea>
+<textarea id="estruturaDetectada" placeholder="Capítulos, partes técnicas, prefácio, dedicatória, anexos..."></textarea>
 </div>
 
 <div class="campo">
-<label for="observacoesTecnicas">Observações técnicas</label>
-<textarea id="observacoesTecnicas" placeholder="Limpeza inicial, separação de elementos, observações do sistema..."></textarea>
+<label for="observacoesTecnicas">Observações técnicas do Bolsão</label>
+<textarea id="observacoesTecnicas" placeholder="Leitura inicial, separação do material, preparação da obra..."></textarea>
 </div>
 </div>
 </div>
 
 
 <div class="card">
-<h2>Prévia do material limpo</h2>
+<h2>Prévia do texto lido</h2>
 
 <div class="preview" id="previewTexto">
-A prévia do texto limpo aparecerá aqui após a leitura inicial da obra.
+A prévia do texto lido aparecerá aqui após a leitura inicial da obra.
 </div>
 
 <button class="botao azul" onclick="salvarPreparacao()">
@@ -293,13 +349,10 @@ Preparação inicial salva. A obra já pode seguir para os módulos do Lapidar.
 </div>
 
 <script>
-function iniciarLeitura(){
-
+function atualizarStatusUploads(){
 const temTexto = localStorage.getItem("upload_texto_obra")==="sim";
 const temImagens = localStorage.getItem("upload_imagens_obra")==="sim";
 const temAudio = localStorage.getItem("upload_audio_obra")==="sim";
-
-document.getElementById("statusSemTexto").style.display = temTexto ? "none" : "block";
 
 if(temTexto){
 document.getElementById("statusTexto").className = "status on";
@@ -325,28 +378,87 @@ document.getElementById("statusAudio").className = "status off";
 document.getElementById("statusAudio").innerText = "Áudio de apoio: não enviado";
 }
 
-if(temTexto){
-document.getElementById("tituloObra").value = localStorage.getItem("titulo_obra") || "Título reconhecido da obra";
-document.getElementById("autorObra").value = localStorage.getItem("autor_obra") || "Autor reconhecido";
-document.getElementById("subtituloObra").value = localStorage.getItem("subtitulo_obra") || "";
+return temTexto;
+}
+
+function iniciarLeitura(){
+const temTexto = atualizarStatusUploads();
+
+document.getElementById("statusSemTexto").style.display = temTexto ? "none" : "block";
+
+if(!temTexto){
+return;
+}
+
+document.getElementById("btnLeitura").disabled = true;
+document.getElementById("btnLeitura").style.opacity = "0.7";
+document.getElementById("boxProgresso").classList.remove("oculto");
+document.getElementById("tituloProgresso").innerText = "Lendo e reconhecendo a obra...";
+document.getElementById("statusTexto").className = "status lendo";
+document.getElementById("statusTexto").innerText = "Texto da obra: leitura em andamento";
+
+const etapas = [
+{tempo: 0, porcentagem: 8, texto: "Início da leitura técnica da obra..."},
+{tempo: 1200, porcentagem: 18, texto: "Reconhecendo título, autor e estrutura inicial..."},
+{tempo: 2600, porcentagem: 32, texto: "Leitura em andamento... capítulo 1 localizado."},
+{tempo: 4200, porcentagem: 46, texto: "Leitura em andamento... capítulo 3 localizado."},
+{tempo: 6000, porcentagem: 61, texto: "Leitura em andamento... capítulo 6 localizado."},
+{tempo: 7800, porcentagem: 74, texto: "Separando elementos técnicos e corpo principal da obra..."},
+{tempo: 9400, porcentagem: 86, texto: "Reconhecendo tipo do material e preparando prévia limpa..."},
+{tempo: 11000, porcentagem: 100, texto: "Leitura concluída. A obra foi reconhecida pelo Bolsão."}
+];
+
+etapas.forEach(function(etapa){
+setTimeout(function(){
+document.getElementById("barraInterna").style.width = etapa.porcentagem + "%";
+document.getElementById("logLeitura").innerText += "\n" + etapa.texto;
+}, etapa.tempo);
+});
+
+setTimeout(function(){
+document.getElementById("statusTexto").className = "status on";
+document.getElementById("statusTexto").innerText = "Texto da obra: leitura concluída";
+document.getElementById("statusLeitura").style.display = "block";
+
+preencherCamposAutomaticamente();
+}, 11200);
+}
+
+function preencherCamposAutomaticamente(){
+document.getElementById("tituloObra").value =
+localStorage.getItem("titulo_obra") || "Título reconhecido da obra";
+
+document.getElementById("autorObra").value =
+localStorage.getItem("autor_obra") || "Autor reconhecido da obra";
+
+document.getElementById("organizadorObra").value =
+localStorage.getItem("organizador_obra") || "";
+
+document.getElementById("subtituloObra").value =
+localStorage.getItem("subtitulo_obra") || "";
+
+document.getElementById("tipoMaterialReconhecido").value =
+localStorage.getItem("tipo_material_reconhecido") || "Livro reconhecido automaticamente pelo sistema";
+
 document.getElementById("estruturaDetectada").value =
 localStorage.getItem("estrutura_detectada") ||
-"Capítulos reconhecidos\nElementos pré-textuais localizados\nSeparação inicial da estrutura da obra";
+"Capítulos reconhecidos\nPartes técnicas localizadas\nSeparação inicial entre texto principal e elementos editoriais";
+
 document.getElementById("observacoesTecnicas").value =
 localStorage.getItem("observacoes_tecnicas") ||
-"Leitura inicial executada.\nTexto preparado para limpeza editorial.\nMaterial pronto para seguir aos módulos.";
+"Leitura inicial executada.\nMaterial separado e preparado para os módulos seguintes.\nTexto-base pronto para continuidade editorial.";
+
 document.getElementById("previewTexto").innerText =
 localStorage.getItem("preview_texto_limpo") ||
-"Prévia inicial do texto limpo.\n\nAqui aparecerá o trecho reconhecido e preparado pelo Bolsão para validação do autor.";
-document.getElementById("statusLeitura").style.display = "block";
-}
+"Prévia do texto lido:\n\nA obra foi reconhecida pelo Bolsão e o sistema preparou o material inicial para conferência do autor. Esta área exibirá, em ambiente real, trechos limpos do texto-base após a leitura automática.";
 }
 
 function salvarPreparacao(){
 localStorage.setItem("titulo_obra", document.getElementById("tituloObra").value);
 localStorage.setItem("autor_obra", document.getElementById("autorObra").value);
+localStorage.setItem("organizador_obra", document.getElementById("organizadorObra").value);
 localStorage.setItem("subtitulo_obra", document.getElementById("subtituloObra").value);
-localStorage.setItem("tipo_material_obra", document.getElementById("tipoMaterial").value);
+localStorage.setItem("tipo_material_reconhecido", document.getElementById("tipoMaterialReconhecido").value);
 localStorage.setItem("estrutura_detectada", document.getElementById("estruturaDetectada").value);
 localStorage.setItem("observacoes_tecnicas", document.getElementById("observacoesTecnicas").value);
 localStorage.setItem("preview_texto_limpo", document.getElementById("previewTexto").innerText);
@@ -363,18 +475,23 @@ function voltarUpload(){
 window.location.href="/upload_obra.html";
 }
 
-window.onload=function(){
+window.onload = function(){
+atualizarStatusUploads();
+
 if(localStorage.getItem("titulo_obra")){
 document.getElementById("tituloObra").value = localStorage.getItem("titulo_obra");
 }
 if(localStorage.getItem("autor_obra")){
 document.getElementById("autorObra").value = localStorage.getItem("autor_obra");
 }
+if(localStorage.getItem("organizador_obra")){
+document.getElementById("organizadorObra").value = localStorage.getItem("organizador_obra");
+}
 if(localStorage.getItem("subtitulo_obra")){
 document.getElementById("subtituloObra").value = localStorage.getItem("subtitulo_obra");
 }
-if(localStorage.getItem("tipo_material_obra")){
-document.getElementById("tipoMaterial").value = localStorage.getItem("tipo_material_obra");
+if(localStorage.getItem("tipo_material_reconhecido")){
+document.getElementById("tipoMaterialReconhecido").value = localStorage.getItem("tipo_material_reconhecido");
 }
 if(localStorage.getItem("estrutura_detectada")){
 document.getElementById("estruturaDetectada").value = localStorage.getItem("estrutura_detectada");
