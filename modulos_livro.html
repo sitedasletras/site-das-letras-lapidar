@@ -128,7 +128,7 @@ Ver como a história do seu livro está organizada
 Ver se o seu livro está bom e o que pode melhorar
 </button>
 
-<button class="botao continuar" onclick="seguir()">
+<button class="botao continuar" onclick="seguirFluxo()">
 Continuar com as escolhas feitas
 </button>
 
@@ -144,6 +144,7 @@ Apagar escolhas desta tela
 </div>
 
 <script>
+
 function toggleEscolha(chave,idBotao){
 if(localStorage.getItem(chave)==="sim"){
 localStorage.removeItem(chave);
@@ -154,8 +155,41 @@ document.getElementById(idBotao).classList.add("ativo");
 }
 }
 
-function seguir(){
-window.location.href="/editorial_livro_configuracao.html";
+function temAudiovisual(){
+return (
+localStorage.getItem("video_historia")==="sim" ||
+localStorage.getItem("video_cena")==="sim" ||
+localStorage.getItem("video_apresentacao")==="sim" ||
+localStorage.getItem("video_redes")==="sim"
+);
+}
+
+function temMusica(){
+return (
+localStorage.getItem("narracao_voz")==="sim" ||
+localStorage.getItem("audiolivro")==="sim" ||
+localStorage.getItem("trilha_sonora")==="sim" ||
+localStorage.getItem("musica_tema")==="sim" ||
+localStorage.getItem("versao_cantada")==="sim" ||
+localStorage.getItem("distribuicao_audio")==="sim"
+);
+}
+
+function seguirFluxo(){
+
+localStorage.setItem("modulo_livro_configurado","sim");
+
+if(temAudiovisual() && localStorage.getItem("modulo_audiovisual_configurado")!=="sim"){
+window.location.href="/modulos_audiovisual.html";
+return;
+}
+
+if(temMusica() && localStorage.getItem("modulo_musica_configurado")!=="sim"){
+window.location.href="/modulos_musica.html";
+return;
+}
+
+window.location.href="/confirmacao_final_modulos.html";
 }
 
 function retornar(){
@@ -170,6 +204,7 @@ localStorage.removeItem("diagramacao_livro");
 localStorage.removeItem("capa_livro");
 localStorage.removeItem("estrutura_livro");
 localStorage.removeItem("qualidade_livro");
+localStorage.removeItem("modulo_livro_configurado");
 location.reload();
 }
 
