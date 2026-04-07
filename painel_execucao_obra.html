@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Painel da obra — Lapidar</title>
+
+<style>
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:#f4f1e8;
+}
+
+header{
+background:#32497d;
+color:white;
+padding:18px;
+display:flex;
+justify-content:space-between;
+font-size:18px;
+}
+
+.container{
+max-width:1000px;
+margin:auto;
+padding:30px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:20px;
+}
+
+.card{
+background:white;
+padding:25px;
+border-radius:16px;
+box-shadow:0 8px 20px rgba(0,0,0,.08);
+}
+
+.titulo{
+font-size:22px;
+font-weight:bold;
+margin-bottom:12px;
+color:#2f3e55;
+}
+
+.subtitulo{
+font-size:16px;
+color:#666;
+margin-bottom:18px;
+}
+
+.bloco{
+padding:16px;
+border-radius:12px;
+margin-top:12px;
+font-size:17px;
+font-weight:bold;
+}
+
+.azul{
+background:#6b8ec1;
+color:white;
+}
+
+.amarelo{
+background:#c19b2e;
+color:white;
+}
+
+.verde{
+background:#5aa07a;
+color:white;
+}
+
+.neutro{
+background:#eeeeee;
+color:#333;
+}
+
+.botao{
+width:100%;
+padding:18px;
+margin-top:16px;
+border:none;
+border-radius:12px;
+font-size:18px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.offwhite{
+background:#f5f1e6;
+color:#2b2b2b;
+border:2px solid #32497d;
+}
+
+.preto{
+background:#000000;
+color:white;
+}
+
+@media(max-width:800px){
+.grid{
+grid-template-columns:1fr;
+}
+}
+</style>
+</head>
+<body>
+
+<header>
+<div>Painel da obra</div>
+<div>Lapidar</div>
+</header>
+
+<div class="container">
+
+<div class="grid">
+
+<div class="card">
+<div class="titulo">Resumo da obra</div>
+<div class="subtitulo">Visão geral do que foi selecionado para o projeto.</div>
+
+<div id="resumoLivro" class="bloco azul" style="display:none;">
+Produção editorial selecionada
+</div>
+
+<div id="resumoAudiovisual" class="bloco amarelo" style="display:none;">
+Produção audiovisual selecionada
+</div>
+
+<div id="resumoMusica" class="bloco verde" style="display:none;">
+Produção com voz / música selecionada
+</div>
+</div>
+
+<div class="card">
+<div class="titulo">Estado atual</div>
+<div class="subtitulo">Acompanhamento assistido do andamento da obra.</div>
+
+<div class="bloco neutro" id="estadoAtual">
+A obra foi organizada e está pronta para começar a execução dos módulos.
+</div>
+
+<button class="botao offwhite" onclick="comecarExecucao()">
+Começar execução da obra
+</button>
+
+<button class="botao preto" onclick="voltarInicio()">
+Voltar ao início do processo
+</button>
+</div>
+
+</div>
+
+</div>
+
+<script>
+function existeLivro(){
+return (
+localStorage.getItem("correcao_recomendada")==="sim" ||
+localStorage.getItem("lapidacao_texto")==="sim" ||
+localStorage.getItem("traducao_livro")==="sim" ||
+localStorage.getItem("diagramacao_livro")==="sim" ||
+localStorage.getItem("capa_livro")==="sim" ||
+localStorage.getItem("estrutura_livro")==="sim" ||
+localStorage.getItem("qualidade_livro")==="sim"
+);
+}
+
+function existeAudiovisual(){
+return (
+localStorage.getItem("video_historia")==="sim" ||
+localStorage.getItem("video_cena")==="sim" ||
+localStorage.getItem("video_apresentacao")==="sim" ||
+localStorage.getItem("video_redes")==="sim"
+);
+}
+
+function existeMusica(){
+return (
+localStorage.getItem("narracao_voz")==="sim" ||
+localStorage.getItem("audiolivro")==="sim" ||
+localStorage.getItem("leitura_dramatizada")==="sim" ||
+localStorage.getItem("trilha_sonora")==="sim" ||
+localStorage.getItem("musica_tema")==="sim" ||
+localStorage.getItem("versao_cantada")==="sim" ||
+localStorage.getItem("distribuicao_audio")==="sim"
+);
+}
+
+window.onload=function(){
+
+if(existeLivro()){
+document.getElementById("resumoLivro").style.display="block";
+}
+
+if(existeAudiovisual()){
+document.getElementById("resumoAudiovisual").style.display="block";
+}
+
+if(existeMusica()){
+document.getElementById("resumoMusica").style.display="block";
+}
+
+}
+
+function comecarExecucao(){
+document.getElementById("estadoAtual").innerText="Execução iniciada. O Lapidar está acompanhando sua obra etapa por etapa.";
+}
+
+function voltarInicio(){
+window.location.href="/index.html";
+}
+</script>
+
+</body>
+</html>
