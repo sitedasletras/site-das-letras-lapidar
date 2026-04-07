@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Recomendação editorial — Lapidar</title>
+
+<style>
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:#f4f1e8;
+}
+
+header{
+background:#32497d;
+color:white;
+padding:18px;
+display:flex;
+justify-content:space-between;
+font-size:18px;
+}
+
+.container{
+max-width:900px;
+margin:auto;
+padding:30px;
+}
+
+.card{
+background:white;
+padding:30px;
+border-radius:16px;
+box-shadow:0 8px 20px rgba(0,0,0,.08);
+text-align:center;
+}
+
+h2{
+margin-top:0;
+color:#2f3e55;
+}
+
+p{
+color:#4e4e4e;
+font-size:18px;
+line-height:1.6;
+margin-bottom:14px;
+}
+
+.botao{
+width:100%;
+padding:18px;
+margin-top:16px;
+border:none;
+border-radius:12px;
+font-size:18px;
+font-weight:bold;
+cursor:pointer;
+transition:0.2s;
+}
+
+.offwhite{
+background:#f5f1e6;
+color:#2b2b2b;
+border:2px solid #32497d;
+}
+
+.preto{
+background:#000000;
+color:white;
+}
+
+.info{
+margin-top:20px;
+padding:16px;
+background:#eef5ea;
+border-radius:12px;
+color:#1b5e20;
+font-weight:bold;
+display:none;
+}
+</style>
+</head>
+<body>
+
+<header>
+<div>Recomendação editorial</div>
+<div>Lapidar</div>
+</header>
+
+<div class="container">
+<div class="card">
+
+<h2>Antes de seguir para produção audiovisual</h2>
+
+<p>
+Detectamos que sua obra seguirá para produção audiovisual.
+</p>
+
+<p>
+Recomendamos fazer correção ortográfica e gramatical antes.
+Isso evita erros na apresentação pública da obra.
+</p>
+
+<p>
+Essa correção é gratuita nesta etapa do processo.
+</p>
+
+<p>
+Este cuidado faz parte do padrão editorial do Lapidar.
+</p>
+
+<p>
+Deseja ativar essa correção agora?
+</p>
+
+<button class="botao offwhite" id="btnCorrecao" onclick="ativarCorrecao()">
+Sim, ativar correção
+</button>
+
+<button class="botao preto" id="btnSeguir" onclick="seguirMesmoAssim()">
+Continuar mesmo assim
+</button>
+
+<div class="info" id="statusInfo">
+Correção gratuita ativada. Preparando a próxima etapa...
+</div>
+
+</div>
+</div>
+
+<script>
+function ativarCorrecao(){
+
+localStorage.setItem("correcao_recomendada","sim");
+
+document.getElementById("btnCorrecao").disabled = true;
+document.getElementById("btnSeguir").disabled = true;
+document.getElementById("btnCorrecao").style.opacity = "0.7";
+document.getElementById("btnSeguir").style.opacity = "0.7";
+document.getElementById("statusInfo").style.display = "block";
+
+setTimeout(function(){
+window.location.href="/editorial_livro_configuracao.html";
+},1200);
+
+}
+
+function seguirMesmoAssim(){
+
+window.location.href="/modulos_audiovisual.html";
+
+}
+</script>
+
+</body>
+</html>
