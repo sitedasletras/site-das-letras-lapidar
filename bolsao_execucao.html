@@ -34,6 +34,7 @@ body{
   border:1px solid #ccc;
   min-height:250px;
   white-space:pre-wrap;
+  line-height:1.6;
 }
 
 .mensagem{
@@ -41,7 +42,6 @@ body{
   border-left:5px solid #4CAF50;
   padding:15px;
   border-radius:8px;
-  margin-top:10px;
 }
 
 .analise{
@@ -90,93 +90,106 @@ Aguardando leitura da obra...
 </div>
 
 <div class="card">
-<h2>Análise Editorial Automática</h2>
+<h2>Análise Editorial</h2>
 <div id="analiseBolsao" class="analise">
 Aguardando análise...
 </div>
 </div>
 
 <div class="card">
-<h2>Prévia do Texto Limpo</h2>
+<h2>Prévia do Texto (organizado)</h2>
 <div id="previewTexto" class="preview"></div>
 </div>
 
 <div class="card">
-<h2>Ficha de Dados da Obra</h2>
+<h2>Ficha da Obra</h2>
 <input type="text" id="titulo" placeholder="Título">
-<input type="text" id="subtitulo" placeholder="Subtítulo">
 <input type="text" id="autor" placeholder="Autor">
-<input type="text" id="organizador" placeholder="Organizador (se houver)">
-<button class="btn blue" onclick="salvarDados()">Salvar Ficha</button>
+<button class="btn blue" onclick="salvarDados()">Salvar</button>
 </div>
 
 </div>
 
 <script>
 
-// Upload inteligente
-document.getElementById('uploadTexto').addEventListener('change', function(e) {
+// UPLOAD
+document.getElementById('uploadTexto').addEventListener('change', function(e){
 
     const file = e.target.files[0];
-    if (!file) return;
+    if(!file) return;
 
     const nome = file.name.toLowerCase();
 
+    // TXT
     if(nome.endsWith('.txt')){
         const reader = new FileReader();
-        reader.onload = e => processarTexto(e.target.result);
+        reader.onload = e => processarTexto(e.target.result, file.name);
         reader.readAsText(file);
     }
 
+    // DOCX
     else if(nome.endsWith('.docx')){
         const reader = new FileReader();
         reader.onload = function(event){
             mammoth.convertToHtml({arrayBuffer: event.target.result})
-            .then(result => processarTexto(result.value));
+            .then(result => processarTexto(result.value, file.name));
         };
         reader.readAsArrayBuffer(file);
     }
 
+    else{
+        alert("Use .txt ou .docx");
+    }
+
 });
 
-// PROCESSAMENTO CENTRAL (CORAÇÃO DO SISTEMA)
-function processarTexto(textoBruto){
+// PROCESSAMENTO
+function processarTexto(textoBruto, nomeArquivo){
 
     let texto = normalizar(textoBruto);
 
     localStorage.setItem("lapidar_texto_base", texto);
 
     document.getElementById("previewTexto").innerText = texto;
+    document.getElementById("statusUpload").innerText = "Arquivo carregado: " + nomeArquivo;
 
-    mostrarMensagem(texto);
+    mensagemBonita(texto);
     analisarTexto(texto);
     detectarDados(texto);
 }
 
-// NORMALIZAÇÃO
+// NORMALIZAÇÃO (A MÁGICA ACONTECE AQUI)
 function normalizar(texto){
-    return texto
-        .replace(/<[^>]*>/g, '')
-        .replace(/\n\s*\n/g, '\n\n')
-        .trim();
+
+    texto = texto.replace(/<[^>]*>/g, '');
+
+    texto = texto.replace(/([a-zà-ú])([A-ZÀ-Ú])/g, '$1 $2');
+
+    texto = texto.replace(/\.([A-ZÀ-Ú])/g, '. $1');
+
+    texto = texto.replace(/\. /g, '.\n\n');
+
+    texto = texto.replace(/\n{3,}/g, '\n\n');
+
+    return texto.trim();
 }
 
-// MENSAGEM INTELIGENTE
-function mostrarMensagem(texto){
+// MENSAGEM BONITA
+function mensagemBonita(texto){
 
     let tamanho = texto.length;
 
     let msg = `
-    Sua obra foi recebida pelo Bolsão Editorial.<br><br>
-    O material foi lido, organizado e preparado como base estrutural.<br><br>
+    Sua obra foi recebida pelo Bolsão.<br><br>
+    O material foi lido, limpo e organizado.<br><br>
     Extensão detectada: ${tamanho} caracteres.<br>
-    Pronto para seguir jornada editorial.
+    Sua jornada editorial está pronta para começar.
     `;
 
     document.getElementById("mensagemBolsao").innerHTML = msg;
 }
 
-// ANÁLISE DE ESTILO
+// ANÁLISE
 function analisarTexto(texto){
 
     let palavras = texto.split(" ").length;
@@ -184,35 +197,35 @@ function analisarTexto(texto){
     let estilo = "Narrativo";
 
     if(palavras < 500){
-        estilo = "Poético / Curto";
+        estilo = "Texto curto / poético";
     }
     else if(texto.includes("—")){
-        estilo = "Narrativa com diálogos";
+        estilo = "Narrativo com diálogos";
     }
 
     let analise = `
     Estilo identificado: <b>${estilo}</b><br>
-    Volume aproximado: ${palavras} palavras<br>
-    Estrutura: Texto contínuo com potencial editorial<br>
+    Volume: ${palavras} palavras<br>
+    Estrutura: Texto organizado e pronto para edição
     `;
 
     document.getElementById("analiseBolsao").innerHTML = analise;
 }
 
-// DETECÇÃO DE DADOS
+// DETECTAR DADOS
 function detectarDados(texto){
 
     let linhas = texto.split("\n");
 
     document.getElementById("titulo").value = linhas[0] || "";
-    document.getElementById("autor").value = linhas[1] || "";
+    document.getElementById("autor").value = linhas[2] || "";
 }
 
 // SALVAR
 function salvarDados(){
     localStorage.setItem("titulo", document.getElementById("titulo").value);
     localStorage.setItem("autor", document.getElementById("autor").value);
-    alert("Ficha salva");
+    alert("Dados salvos!");
 }
 
 // LIMPAR
