@@ -1,332 +1,489 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lapidar — Workspace da Obra</title>
-  <style>
-    *{
-      box-sizing:border-box;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lapidar — Workspace da Obra</title>
 
-    body{
-      margin:0;
-      font-family:Arial, sans-serif;
-      background:#f3efe6;
-      color:#2f2a24;
-    }
+<style>
+*{
+box-sizing:border-box;
+}
 
-    .topbar{
-      background:#6f5b3e;
-      color:#fff;
-      padding:18px 24px;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:16px;
-      flex-wrap:wrap;
-    }
+body{
+margin:0;
+font-family:Arial, sans-serif;
+background:#f3efe6;
+color:#2f2a24;
+}
 
-    .topbar h1{
-      margin:0;
-      font-size:22px;
-    }
+.topbar{
+background:#6a5a3c;
+color:#fff;
+padding:18px 24px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:12px;
+flex-wrap:wrap;
+}
 
-    .topbar .acoes{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-    }
+.topbar h1{
+margin:0;
+font-size:22px;
+}
 
-    .container{
-      max-width:1200px;
-      margin:24px auto;
-      padding:0 16px 32px;
-    }
+.topbar .acoes{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+}
 
-    .grid{
-      display:grid;
-      grid-template-columns: 1.1fr 0.9fr;
-      gap:18px;
-    }
+.container{
+max-width:1280px;
+margin:24px auto;
+padding:0 16px 32px;
+}
 
-    .card{
-      background:#fff;
-      border-radius:14px;
-      padding:18px;
-      box-shadow:0 4px 14px rgba(0,0,0,0.08);
-    }
+.grid{
+display:grid;
+grid-template-columns:1.15fr 0.85fr;
+gap:18px;
+}
 
-    .card h2{
-      margin:0 0 14px 0;
-      font-size:20px;
-      color:#5b472c;
-    }
+.card{
+background:#fff;
+border-radius:14px;
+padding:18px;
+box-shadow:0 4px 14px rgba(0,0,0,0.08);
+}
 
-    .linha{
-      margin-bottom:12px;
-      padding:10px 12px;
-      background:#f8f5ef;
-      border-radius:10px;
-      border:1px solid #e9dfcf;
-    }
+.card h2{
+margin:0 0 14px 0;
+font-size:20px;
+color:#5d4b2d;
+}
 
-    .rotulo{
-      display:block;
-      font-size:12px;
-      font-weight:bold;
-      color:#7a674b;
-      margin-bottom:5px;
-      text-transform:uppercase;
-      letter-spacing:0.4px;
-    }
+.linha{
+margin-bottom:12px;
+padding:10px 12px;
+background:#f8f5ef;
+border-radius:10px;
+border:1px solid #eadfce;
+}
 
-    .valor{
-      font-size:16px;
-      line-height:1.4;
-      word-break:break-word;
-    }
+.rotulo{
+display:block;
+font-size:12px;
+font-weight:bold;
+color:#7b6749;
+margin-bottom:5px;
+text-transform:uppercase;
+letter-spacing:0.4px;
+}
 
-    .lista{
-      margin:0;
-      padding-left:20px;
-    }
+.valor{
+font-size:16px;
+line-height:1.45;
+word-break:break-word;
+}
 
-    .lista li{
-      margin-bottom:8px;
-      line-height:1.4;
-    }
+.lista{
+margin:0;
+padding-left:18px;
+}
 
-    .preview{
-      background:#fcfbf8;
-      border:1px solid #eadfce;
-      border-radius:10px;
-      padding:14px;
-      min-height:360px;
-      max-height:560px;
-      overflow:auto;
-      white-space:pre-wrap;
-      line-height:1.55;
-      font-size:15px;
-    }
+.lista li{
+margin-bottom:7px;
+line-height:1.4;
+}
 
-    .vazio{
-      color:#8b7f70;
-      font-style:italic;
-    }
+.preview{
+background:#fcfbf8;
+border:1px solid #eadfce;
+border-radius:10px;
+padding:14px;
+min-height:360px;
+max-height:560px;
+overflow:auto;
+white-space:pre-wrap;
+line-height:1.55;
+font-size:15px;
+}
 
-    .acoes-inferiores{
-      margin-top:18px;
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-    }
+.vazio{
+color:#8a7d6d;
+font-style:italic;
+}
 
-    button{
-      border:none;
-      border-radius:10px;
-      padding:12px 18px;
-      font-size:15px;
-      cursor:pointer;
-      transition:0.2s ease;
-    }
+.tag-area{
+display:flex;
+gap:8px;
+flex-wrap:wrap;
+}
 
-    .btn-primario{
-      background:#8b6f46;
-      color:#fff;
-    }
+.tag{
+background:#f1ede5;
+border:1px solid #e1d6c5;
+color:#5d4b2d;
+padding:7px 10px;
+border-radius:999px;
+font-size:13px;
+}
 
-    .btn-primario:hover{
-      background:#755c39;
-    }
+.aviso{
+margin-top:14px;
+background:#fff7e8;
+border:1px solid #ecd7a7;
+border-radius:10px;
+padding:12px 14px;
+color:#6a552a;
+line-height:1.45;
+font-size:14px;
+}
 
-    .btn-secundario{
-      background:#e9dfcf;
-      color:#4d3f2d;
-    }
+.acoes-inferiores{
+margin-top:18px;
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+}
 
-    .btn-secundario:hover{
-      background:#ddd0bb;
-    }
+button{
+border:none;
+border-radius:10px;
+padding:12px 18px;
+font-size:15px;
+cursor:pointer;
+transition:0.2s ease;
+}
 
-    .btn-alerta{
-      background:#9e3e3e;
-      color:#fff;
-    }
+.btn-primario{
+background:#6a5a3c;
+color:#fff;
+}
 
-    .btn-alerta:hover{
-      background:#833232;
-    }
+.btn-primario:hover{
+background:#56492f;
+}
 
-    .bloco-alerta{
-      margin-top:14px;
-      padding:12px 14px;
-      border-radius:10px;
-      background:#fff6e8;
-      border:1px solid #ecd4a7;
-      color:#6a552a;
-      font-size:14px;
-      line-height:1.45;
-    }
+.btn-secundario{
+background:#e9dfcf;
+color:#4b3d2c;
+}
 
-    @media (max-width: 900px){
-      .grid{
-        grid-template-columns:1fr;
-      }
+.btn-secundario:hover{
+background:#dccfbb;
+}
 
-      .preview{
-        min-height:280px;
-      }
-    }
-  </style>
+.btn-alerta{
+background:#9e3e3e;
+color:#fff;
+}
+
+.btn-alerta:hover{
+background:#843232;
+}
+
+.painel-blocos{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+}
+
+.bloco-mini{
+background:#fbfaf7;
+border:1px solid #eadfce;
+border-radius:12px;
+padding:14px;
+}
+
+.bloco-mini strong{
+display:block;
+margin-bottom:6px;
+color:#5d4b2d;
+}
+
+@media (max-width: 980px){
+.grid{
+grid-template-columns:1fr;
+}
+.painel-blocos{
+grid-template-columns:1fr;
+}
+.preview{
+min-height:280px;
+}
+}
+</style>
 </head>
 <body>
 
-  <div class="topbar">
-    <h1>Workspace da Obra</h1>
-    <div class="acoes">
-      <button class="btn-secundario" onclick="voltarParaBolsao()">Retornar ao Bolsão</button>
-      <button class="btn-alerta" onclick="limparObra()">Limpar Obra</button>
-    </div>
-  </div>
+<div class="topbar">
+<h1>Workspace da Obra</h1>
+<div class="acoes">
+<button class="btn-secundario" onclick="voltarParaCofre()">Retornar ao Cofre</button>
+<button class="btn-alerta" onclick="limparObra()">Limpar Obra</button>
+</div>
+</div>
 
-  <div class="container">
-    <div class="grid">
-      <div class="card">
-        <h2>Leitura inicial da obra</h2>
+<div class="container">
+<div class="grid">
 
-        <div class="linha">
-          <span class="rotulo">Arquivo original</span>
-          <div class="valor" id="arquivoOriginal">—</div>
-        </div>
+<div class="card">
+<h2>Estrutura principal da obra</h2>
 
-        <div class="linha">
-          <span class="rotulo">Título detectado</span>
-          <div class="valor" id="tituloDetectado">—</div>
-        </div>
+<div class="linha">
+<span class="rotulo">Arquivo original</span>
+<div class="valor" id="arquivoOriginal">—</div>
+</div>
 
-        <div class="linha">
-          <span class="rotulo">Autor detectado</span>
-          <div class="valor" id="autorDetectado">—</div>
-        </div>
+<div class="linha">
+<span class="rotulo">Título detectado</span>
+<div class="valor" id="tituloDetectado">—</div>
+</div>
 
-        <div class="linha">
-          <span class="rotulo">Início narrativo detectado</span>
-          <div class="valor" id="inicioNarrativo">—</div>
-        </div>
+<div class="linha">
+<span class="rotulo">Subtítulo detectado</span>
+<div class="valor" id="subtituloDetectado">—</div>
+</div>
 
-        <div class="linha">
-          <span class="rotulo">Capítulos detectados</span>
-          <div class="valor">
-            <ul class="lista" id="listaCapitulos"></ul>
-            <div class="vazio" id="semCapitulos" style="display:none;">Nenhum capítulo foi detectado até agora.</div>
-          </div>
-        </div>
+<div class="linha">
+<span class="rotulo">Autor detectado</span>
+<div class="valor" id="autorDetectado">—</div>
+</div>
 
-        <div class="bloco-alerta" id="alertaLeitura">
-          O Bolsão fez uma leitura inicial automática. Se algum item estiver errado, isso será refinado nas próximas etapas.
-        </div>
+<div class="linha">
+<span class="rotulo">Tipo de obra</span>
+<div class="valor" id="tipoObra">—</div>
+</div>
 
-        <div class="acoes-inferiores">
-          <button class="btn-primario" onclick="seguirParaExecutor()">Seguir para Executor de Módulos</button>
-          <button class="btn-secundario" onclick="recarregarWorkspace()">Recarregar Workspace</button>
-        </div>
-      </div>
+<div class="linha">
+<span class="rotulo">CDD provável</span>
+<div class="valor" id="cddProvavel">—</div>
+</div>
 
-      <div class="card">
-        <h2>Prévia do texto extraído</h2>
-        <div class="preview" id="previewTexto"></div>
-      </div>
-    </div>
-  </div>
+<div class="linha">
+<span class="rotulo">Capítulos detectados</span>
+<div class="valor">
+<ul class="lista" id="listaCapitulos"></ul>
+<div class="vazio" id="semCapitulos" style="display:none;">Nenhum capítulo foi detectado até agora.</div>
+</div>
+</div>
 
-  <script>
-    function obterObraAtual(){
-      const obraSalva = localStorage.getItem("obraAtual");
-      if(!obraSalva){
-        return null;
-      }
+<div class="aviso">
+O Cofre Editorial do Autor realizou a leitura inicial da sua obra. Este Workspace mostra, de forma organizada, o que já foi reconhecido pelo Lapidar.
+</div>
 
-      try{
-        return JSON.parse(obraSalva);
-      }catch(erro){
-        return null;
-      }
-    }
+<div class="acoes-inferiores">
+<button class="btn-primario" onclick="seguirParaExecutor()">Seguir para Executor de Módulos</button>
+<button class="btn-secundario" onclick="recarregarWorkspace()">Recarregar Workspace</button>
+</div>
+</div>
 
-    function preencherWorkspace(){
-      const obra = obterObraAtual();
+<div class="card">
+<h2>Diagnóstico editorial do Cofre</h2>
 
-      if(!obra){
-        document.getElementById("arquivoOriginal").innerText = "Nenhuma obra carregada";
-        document.getElementById("tituloDetectado").innerText = "Nenhuma obra carregada";
-        document.getElementById("autorDetectado").innerText = "Nenhuma obra carregada";
-        document.getElementById("inicioNarrativo").innerText = "Nenhuma obra carregada";
-        document.getElementById("previewTexto").innerHTML = '<span class="vazio">Nenhum texto foi carregado ainda. Volte ao Bolsão e envie uma obra.</span>';
-        document.getElementById("semCapitulos").style.display = "block";
-        document.getElementById("alertaLeitura").innerText = "Nenhuma obra ativa foi encontrada no sistema.";
-        return;
-      }
+<div class="painel-blocos">
+<div class="bloco-mini">
+<strong>Personagens recorrentes</strong>
+<div id="personagensDetectados" class="valor">—</div>
+</div>
 
-      document.getElementById("arquivoOriginal").innerText = obra.arquivoOriginal || "Não detectado";
-      document.getElementById("tituloDetectado").innerText = obra.titulo || "Não detectado";
-      document.getElementById("autorDetectado").innerText = obra.autor || "Não detectado";
-      document.getElementById("inicioNarrativo").innerText = obra.inicioNarrativa || "Não detectado";
+<div class="bloco-mini">
+<strong>Tipo de narrador</strong>
+<div id="narradorDetectado" class="valor">—</div>
+</div>
 
-      const preview = obra.textoExtraido
-        ? obra.textoExtraido.substring(0, 5000)
-        : "";
+<div class="bloco-mini">
+<strong>Clima narrativo</strong>
+<div id="climaDetectado" class="valor">—</div>
+</div>
 
-      document.getElementById("previewTexto").innerText = preview || "Sem texto extraído.";
+<div class="bloco-mini">
+<strong>Gênero refinado</strong>
+<div id="generoDetectado" class="valor">—</div>
+</div>
+</div>
 
-      const listaCapitulos = document.getElementById("listaCapitulos");
-      listaCapitulos.innerHTML = "";
+<div class="aviso" style="margin-top:16px;">
+Este painel existe para provar ao autor que o Lapidar não apenas recebeu o arquivo, mas também iniciou sua leitura estrutural e narrativa.
+</div>
+</div>
 
-      if(Array.isArray(obra.capitulos) && obra.capitulos.length){
-        document.getElementById("semCapitulos").style.display = "none";
+</div>
 
-        obra.capitulos.forEach(function(capitulo){
-          const item = document.createElement("li");
-          item.innerText = capitulo;
-          listaCapitulos.appendChild(item);
-        });
-      }else{
-        document.getElementById("semCapitulos").style.display = "block";
-      }
-    }
+<div class="grid" style="margin-top:18px;">
 
-    function voltarParaBolsao(){
-      window.location.href = "modulo_01_bolsao.html";
-    }
+<div class="card">
+<h2>Lacunas editoriais e complementos</h2>
 
-    function seguirParaExecutor(){
-      const obra = obterObraAtual();
+<div class="linha">
+<span class="rotulo">Biografia</span>
+<div class="valor" id="lacunaBiografia">—</div>
+</div>
 
-      if(!obra){
-        alert("Nenhuma obra foi carregada ainda.");
-        return;
-      }
+<div class="linha">
+<span class="rotulo">Prefácio</span>
+<div class="valor" id="lacunaPrefacio">—</div>
+</div>
 
-      window.location.href = "modulo_executor.html";
-    }
+<div class="linha">
+<span class="rotulo">Ficha catalográfica</span>
+<div class="valor" id="lacunaFicha">—</div>
+</div>
 
-    function limparObra(){
-      const confirmar = confirm("Deseja realmente limpar a obra atual?");
-      if(!confirmar){
-        return;
-      }
+<div class="linha">
+<span class="rotulo">Dedicatória</span>
+<div class="valor" id="lacunaDedicatoria">—</div>
+</div>
 
-      localStorage.removeItem("obraAtual");
-      alert("Obra atual removida com sucesso.");
-      window.location.href = "modulo_01_bolsao.html";
-    }
+<div class="aviso">
+Se algum desses elementos estiver ausente, ele poderá ser enviado ou gerado nas próximas etapas do fluxo editorial.
+</div>
 
-    function recarregarWorkspace(){
-      preencherWorkspace();
-    }
+<h2 style="margin-top:22px;">Ativos da obra</h2>
 
-    preencherWorkspace();
-  </script>
+<div class="linha">
+<span class="rotulo">Imagens salvas</span>
+<div class="valor" id="resumoImagens">—</div>
+</div>
+
+<div class="linha">
+<span class="rotulo">Vozes vinculadas ao autor</span>
+<div class="valor" id="resumoVozes">—</div>
+</div>
+</div>
+
+<div class="card">
+<h2>Prévia do texto extraído</h2>
+<div class="preview" id="previewTexto"></div>
+</div>
+
+</div>
+</div>
+
+<script>
+function obterObraAtual(){
+const obraSalva = localStorage.getItem("obraAtual");
+if(!obraSalva){
+return null;
+}
+
+try{
+return JSON.parse(obraSalva);
+}catch(erro){
+return null;
+}
+}
+
+function formatarLacuna(valor){
+return valor ? "Enviado" : "Não encontrado";
+}
+
+function preencherWorkspace(){
+const obra = obterObraAtual();
+
+if(!obra){
+document.getElementById("arquivoOriginal").innerText = "Nenhuma obra carregada";
+document.getElementById("tituloDetectado").innerText = "Nenhuma obra carregada";
+document.getElementById("subtituloDetectado").innerText = "Nenhuma obra carregada";
+document.getElementById("autorDetectado").innerText = "Nenhuma obra carregada";
+document.getElementById("tipoObra").innerText = "Nenhuma obra carregada";
+document.getElementById("cddProvavel").innerText = "Nenhuma obra carregada";
+document.getElementById("personagensDetectados").innerText = "Nenhuma obra carregada";
+document.getElementById("narradorDetectado").innerText = "Nenhuma obra carregada";
+document.getElementById("climaDetectado").innerText = "Nenhuma obra carregada";
+document.getElementById("generoDetectado").innerText = "Nenhuma obra carregada";
+document.getElementById("lacunaBiografia").innerText = "Não disponível";
+document.getElementById("lacunaPrefacio").innerText = "Não disponível";
+document.getElementById("lacunaFicha").innerText = "Não disponível";
+document.getElementById("lacunaDedicatoria").innerText = "Não disponível";
+document.getElementById("resumoImagens").innerText = "Não disponível";
+document.getElementById("resumoVozes").innerText = "Não disponível";
+document.getElementById("previewTexto").innerHTML = '<span class="vazio">Nenhum texto foi carregado ainda. Volte ao Cofre e envie uma obra.</span>';
+document.getElementById("semCapitulos").style.display = "block";
+return;
+}
+
+document.getElementById("arquivoOriginal").innerText = obra.arquivoOriginal || "Arquivo não identificado";
+document.getElementById("tituloDetectado").innerText = obra?.estrutura?.titulo || "Não identificado";
+document.getElementById("subtituloDetectado").innerText = obra?.estrutura?.subtitulo || "Não identificado";
+document.getElementById("autorDetectado").innerText = obra?.estrutura?.autor || "Não identificado";
+document.getElementById("tipoObra").innerText = obra.tipo || "Não identificado";
+document.getElementById("cddProvavel").innerText = obra.cdd || "Não identificado";
+
+document.getElementById("personagensDetectados").innerText =
+Array.isArray(obra.personagens) && obra.personagens.length
+? obra.personagens.join(", ")
+: "Não identificados";
+
+document.getElementById("narradorDetectado").innerText = obra.narrador || "Não identificado";
+document.getElementById("climaDetectado").innerText = obra.clima || "Não identificado";
+document.getElementById("generoDetectado").innerText = obra.genero || "Não identificado";
+
+document.getElementById("lacunaBiografia").innerText = formatarLacuna(obra?.lacunas?.biografia);
+document.getElementById("lacunaPrefacio").innerText = formatarLacuna(obra?.lacunas?.prefacio);
+document.getElementById("lacunaFicha").innerText = formatarLacuna(obra?.lacunas?.fichaCatalografica);
+document.getElementById("lacunaDedicatoria").innerText = formatarLacuna(obra?.lacunas?.dedicatoria);
+
+const imagensSalvas = obra?.imagensSalvas || 0;
+document.getElementById("resumoImagens").innerText = imagensSalvas + " imagem(ns) registrada(s)";
+
+const vozesAutor = JSON.parse(localStorage.getItem("vozesAutor")) || [];
+document.getElementById("resumoVozes").innerText = vozesAutor.length + " voz(es) vinculada(s)";
+
+const preview = obra.textoExtraido ? obra.textoExtraido.substring(0, 6000) : "";
+document.getElementById("previewTexto").innerText = preview || "Sem texto extraído.";
+
+const listaCapitulos = document.getElementById("listaCapitulos");
+listaCapitulos.innerHTML = "";
+
+if(Array.isArray(obra?.estrutura?.capitulos) && obra.estrutura.capitulos.length){
+document.getElementById("semCapitulos").style.display = "none";
+
+obra.estrutura.capitulos.forEach(function(capitulo){
+const item = document.createElement("li");
+item.innerText = capitulo;
+listaCapitulos.appendChild(item);
+});
+}else{
+document.getElementById("semCapitulos").style.display = "block";
+}
+}
+
+function voltarParaCofre(){
+window.location.href = "modulo_01_bolsao.html";
+}
+
+function seguirParaExecutor(){
+const obra = obterObraAtual();
+
+if(!obra){
+alert("Nenhuma obra foi carregada ainda.");
+return;
+}
+
+window.location.href = "modulo_executor.html";
+}
+
+function limparObra(){
+const confirmar = confirm("Deseja realmente limpar a obra atual?");
+if(!confirmar){
+return;
+}
+
+localStorage.removeItem("obraAtual");
+alert("Obra atual removida com sucesso.");
+window.location.href = "modulo_01_bolsao.html";
+}
+
+function recarregarWorkspace(){
+preencherWorkspace();
+}
+
+preencherWorkspace();
+</script>
 
 </body>
 </html>
