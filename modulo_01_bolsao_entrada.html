@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lapidar — Entrada do Bolsão</title>
+
+  <style>
+    *{box-sizing:border-box}
+
+    body{
+      margin:0;
+      font-family:Arial,sans-serif;
+      background:#f7f3ea;
+      color:#2d2a26;
+    }
+
+    .topo{
+      background:#5d4037;
+      color:#fff;
+      padding:26px 18px;
+      text-align:center;
+    }
+
+    .topo h1{
+      margin:0;
+      font-size:28px;
+    }
+
+    .topo p{
+      margin:8px 0 0 0;
+      font-size:14px;
+      opacity:.95;
+    }
+
+    .container{
+      max-width:1100px;
+      margin:0 auto;
+      padding:24px 16px 40px 16px;
+    }
+
+    .card{
+      background:#fff;
+      border-radius:14px;
+      padding:20px;
+      margin-bottom:20px;
+      box-shadow:0 4px 14px rgba(0,0,0,.08);
+      border:1px solid #eadfce;
+    }
+
+    .card h2{
+      margin-top:0;
+      color:#5d4037;
+      font-size:22px;
+    }
+
+    .card h3{
+      margin-top:0;
+      color:#6d4c41;
+      font-size:18px;
+    }
+
+    .aviso{
+      background:#fff8e8;
+      border:1px solid #ecd7a7;
+      border-radius:10px;
+      padding:12px 14px;
+      color:#6a552a;
+      line-height:1.5;
+      font-size:14px;
+      margin-top:12px;
+    }
+
+    .grid-2{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:16px;
+    }
+
+    .campo{
+      margin-bottom:14px;
+    }
+
+    .campo label{
+      display:block;
+      font-weight:bold;
+      margin-bottom:6px;
+      color:#6d4c41;
+      font-size:14px;
+    }
+
+    .campo input[type="text"],
+    .campo textarea,
+    .campo select{
+      width:100%;
+      padding:11px 12px;
+      border:1px solid #d7cbbc;
+      border-radius:10px;
+      font-size:14px;
+      background:#fff;
+    }
+
+    .campo textarea{
+      min-height:90px;
+      resize:vertical;
+    }
+
+    .opcoes{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:8px;
+    }
+
+    .opcao{
+      background:#fbfaf7;
+      border:1px solid #eadfce;
+      border-radius:12px;
+      padding:12px;
+      flex:1;
+      min-width:240px;
+    }
+
+    .opcao strong{
+      display:block;
+      margin-bottom:6px;
+      color:#5d4b2d;
+    }
+
+    .linha-check{
+      display:flex;
+      align-items:flex-start;
+      gap:10px;
+      margin:10px 0;
+    }
+
+    .linha-check input{
+      margin-top:2px;
+    }
+
+    .botoes{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      margin-top:18px;
+    }
+
+    button{
+      border:none;
+      border-radius:10px;
+      padding:12px 18px;
+      font-size:15px;
+      cursor:pointer;
+    }
+
+    .btn-principal{
+      background:#5d4037;
+      color:#fff;
+    }
+
+    .btn-principal:hover{
+      background:#4b322b;
+    }
+
+    .btn-secundario{
+      background:#e9dfcf;
+      color:#473721;
+    }
+
+    .btn-secundario:hover{
+      background:#dbcdb7;
+    }
+
+    .resumo{
+      background:#f7fbfa;
+      border:1px solid #d8e7e5;
+      border-radius:12px;
+      padding:14px;
+      line-height:1.6;
+    }
+
+    .rodape{
+      text-align:center;
+      color:#6c6258;
+      font-size:13px;
+      margin-top:10px;
+    }
+
+    .hidden{
+      display:none;
+    }
+
+    @media (max-width:900px){
+      .grid-2{
+        grid-template-columns:1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="topo">
+    <h1>Entrada do Bolsão Editorial</h1>
+    <p>Primeira etapa do Lapidar — simples, guiada e sem complicação.</p>
+  </div>
+
+  <div class="container">
+
+    <div class="card">
+      <h2>Antes de começar</h2>
+      <div class="aviso">
+        Antes de qualquer leitura estrutural, prepare um rascunho-base contendo apenas:
+        <br>• título da obra
+        <br>• subtítulo, se houver
+        <br>• nome do autor
+        <br><br>
+        Evite misturar nesse primeiro arquivo:
+        prefácio, dedicatória, ficha catalográfica, sinopse, observações técnicas, recados para IA, lembretes de construção e quinquilharia editorial.
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Como deseja iniciar?</h2>
+
+      <div class="opcoes">
+        <div class="opcao">
+          <strong>Quero subir minha obra</strong>
+          <div class="linha-check">
+            <input type="radio" name="modo_obra" id="modo_upload" checked onchange="alternarModoObra()">
+            <label for="modo_upload">Já tenho um arquivo inicial e quero fazer upload.</label>
+          </div>
+        </div>
+
+        <div class="opcao">
+          <strong>Quero criar minha obra do zero</strong>
+          <div class="linha-check">
+            <input type="radio" name="modo_obra" id="modo_criar" onchange="alternarModoObra()">
+            <label for="modo_criar">Ainda não tenho arquivo e quero montar a estrutura inicial aqui.</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" id="blocoUploadObra">
+      <h2>Upload do rascunho-base</h2>
+      <div class="campo">
+        <label for="arquivoObra">Enviar arquivo inicial da obra</label>
+        <input type="file" id="arquivoObra" accept=".docx,.txt,.doc,.pdf">
+      </div>
+
+      <div class="campo">
+        <label for="observacaoUpload">Observação opcional</label>
+        <textarea id="observacaoUpload" placeholder="Escreva aqui apenas se quiser deixar alguma observação rápida sobre esse envio."></textarea>
+      </div>
+    </div>
+
+    <div class="card hidden" id="blocoCriacaoObra">
+      <h2>Criar estrutura inicial da obra</h2>
+
+      <div class="grid-2">
+        <div class="campo">
+          <label for="tituloBase">Título da obra</label>
+          <input type="text" id="tituloBase" placeholder="Digite o título principal">
+        </div>
+
+        <div class="campo">
+          <label for="subtituloBase">Subtítulo</label>
+          <input type="text" id="subtituloBase" placeholder="Digite o subtítulo, se houver">
+        </div>
+
+        <div class="campo">
+          <label for="autorBase">Autor</label>
+          <input type="text" id="autorBase" placeholder="Digite o nome do autor">
+        </div>
+
+        <div class="campo">
+          <label for="tipoBase">Tipo inicial</label>
+          <select id="tipoBase">
+            <option value="">Selecione</option>
+            <option>Romance</option>
+            <option>Conto</option>
+            <option>Poesia</option>
+            <option>Crônica</option>
+            <option>Antologia</option>
+            <option>Coletânea</option>
+            <option>Livro institucional</option>
+            <option>Infantil</option>
+            <option>Outro</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Estrutura editorial principal</h2>
+
+      <div class="grid-2">
+        <div class="campo">
+          <label for="colecao">Coleção</label>
+          <input type="text" id="colecao" placeholder="Opcional">
+        </div>
+
+        <div class="campo">
+          <label for="serie">Série / Saga / Trilogia / Quadrilogia / Ciclo</label>
+          <input type="text" id="serie" placeholder="Opcional">
+        </div>
+
+        <div class="campo">
+          <label for="volume">Volume / Livro</label>
+          <input type="text" id="volume" placeholder="Ex.: Livro 1, Volume II">
+        </div>
+
+        <div class="campo">
+          <label for="organizacao">Organização</label>
+          <input type="text" id="organizacao" placeholder="Opcional">
+        </div>
+
+        <div class="campo">
+          <label for="direcao">Direção editorial</label>
+          <input type="text" id="direcao" placeholder="Opcional">
+        </div>
+
+        <div class="campo">
+          <label for="editora">Editora / selo editorial</label>
+          <input type="text" id="editora" placeholder="Opcional">
+        </div>
+
+        <div class="campo">
+          <label for="biografia">Biografia do autor</label>
+          <input type="file" id="biografia" accept=".docx,.txt,.pdf">
+        </div>
+
+        <div class="campo">
+          <label for="bibliografia">Bibliografia</label>
+          <input type="file" id="bibliografia" accept=".docx,.txt,.pdf">
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Elementos pré-textuais</h2>
+
+      <div class="grid-2">
+        <div class="campo">
+          <label for="sinopse">Upload da sinopse</label>
+          <input type="file" id="sinopse" accept=".docx,.txt,.pdf">
+        </div>
+
+        <div class="campo">
+          <label for="prefacio">Upload do prefácio</label>
+          <input type="file" id="prefacio" accept=".docx,.txt,.pdf">
+        </div>
+
+        <div class="campo">
+          <label for="dedicatoria">Upload da dedicatória</label>
+          <input type="file" id="dedicatoria" accept=".docx,.txt,.pdf">
+        </div>
+
+        <div class="campo">
+          <label for="fichaCatalografica">Upload da ficha catalográfica</label>
+          <input type="file" id="fichaCatalografica" accept=".pdf,.jpg,.jpeg,.png,.docx,.txt">
+        </div>
+      </div>
+
+      <div class="aviso">
+        Se o autor não enviar:
+        <br>• sinopse → o Lapidar gera gratuitamente em PDF separado
+        <br>• prefácio → o Lapidar pode gerar gratuitamente
+        <br>• dedicatória → o Lapidar pode gerar gratuitamente
+        <br>• ficha catalográfica → se não houver oficial, o sistema gera a Ficha de Dados da Obra
+        <br>• biografia → o sistema pode gerar gratuitamente
+        <br>• bibliografia → não será gerada automaticamente
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Imagens da obra</h2>
+
+      <div class="campo">
+        <label>Deseja imagens internas no livro?</label>
+        <div class="opcoes">
+          <div class="opcao">
+            <div class="linha-check">
+              <input type="radio" name="imagens_internas" id="imgNao" checked onchange="alternarImagensInternas()">
+              <label for="imgNao">Não quero imagens internas</label>
+            </div>
+          </div>
+
+          <div class="opcao">
+            <div class="linha-check">
+              <input type="radio" name="imagens_internas" id="imgSimEnviar" onchange="alternarImagensInternas()">
+              <label for="imgSimEnviar">Quero imagens internas e vou enviar</label>
+            </div>
+          </div>
+
+          <div class="opcao">
+            <div class="linha-check">
+              <input type="radio" name="imagens_internas" id="imgSimCriar" onchange="alternarImagensInternas()">
+              <label for="imgSimCriar">Quero imagens internas e o Lapidar vai criar</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="blocoEnviarImagens" class="hidden">
+        <div class="campo">
+          <label for="uploadImagensInternas">Enviar imagens internas</label>
+          <input type="file" id="uploadImagensInternas" multiple accept=".jpg,.jpeg,.png,.webp">
+        </div>
+      </div>
+
+      <div id="blocoCriarImagens" class="hidden">
+        <div class="grid-2">
+          <div class="campo">
+            <label for="tipoImagemCriada">Estilo de criação</label>
+            <select id="tipoImagemCriada">
+              <option value="">Selecione</option>
+              <option>Nanquim preto e branco</option>
+              <option>Cinematográfico</option>
+            </select>
+          </div>
+
+          <div class="campo">
+            <label for="valorImagemInfo">Informação de valor</label>
+            <input type="text" id="valorImagemInfo" value="Nanquim = valor X | Cinematográfico = valor Y" readonly>
+          </div>
+        </div>
+      </div>
+
+      <div class="campo">
+        <label for="imagensCapa">Imagens de capa / contracapa / lombada / orelhas</label>
+        <input type="file" id="imagensCapa" multiple accept=".jpg,.jpeg,.png,.webp">
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Preparação para voz</h2>
+
+      <div class="opcoes">
+        <div class="opcao">
+          <div class="linha-check">
+            <input type="radio" name="voz" id="vozNao" checked>
+            <label for="vozNao">Não quero preparar voz agora</label>
+          </div>
+        </div>
+
+        <div class="opcao">
+          <div class="linha-check">
+            <input type="radio" name="voz" id="vozDepois">
+            <label for="vozDepois">Quero deixar preparado para depois</label>
+          </div>
+        </div>
+
+        <div class="opcao">
+          <div class="linha-check">
+            <input type="radio" name="voz" id="vozSim">
+            <label for="vozSim">Quero já deixar pronto para voz / audiobook</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Limpeza editorial automática</h2>
+      <div class="resumo">
+        O Bolsão remove automaticamente:
+        <br>• notas de construção
+        <br>• comentários de IA
+        <br>• placeholders
+        <br>• instruções técnicas
+        <br>• recados internos de escrita
+        <br>• quinquilharia editorial que não pertence ao leitor
+      </div>
+
+      <div class="linha-check">
+        <input type="checkbox" id="assinaturaLapidar" checked>
+        <label for="assinaturaLapidar">
+          Inserir assinatura editorial Lapidar nesta obra
+        </label>
+      </div>
+
+      <div class="aviso">
+        Texto institucional padrão:
+        <br><br>
+        Esta obra contou com o apoio da ferramenta Lapidar — trabalhando ao lado do autor, desde a primeira letra até o último ponto final.
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Resumo antes de seguir</h2>
+      <div class="resumo">
+        Depois desta etapa, o Lapidar seguirá para o Cofre técnico, onde fará:
+        <br>• leitura estrutural
+        <br>• limpeza automática
+        <br>• diagnóstico editorial
+        <br>• identificação narrativa
+        <br>• preparação para capa, ficha e módulos seguintes
+      </div>
+
+      <div class="botoes">
+        <button class="btn-principal" onclick="salvarEntradaEBolsao()">Salvar e seguir para o Cofre técnico</button>
+        <button class="btn-secundario" onclick="location.href='painel_setores.html'">Voltar ao Painel</button>
+        <button class="btn-secundario" onclick="location.href='login.html'">Sair do sistema</button>
+      </div>
+    </div>
+
+    <div class="rodape">
+      Lapidar — trabalhando ao lado do autor, desde a primeira letra até o último ponto final.
+    </div>
+  </div>
+
+  <script>
+    function alternarModoObra(){
+      const upload = document.getElementById("modo_upload").checked;
+      document.getElementById("blocoUploadObra").classList.toggle("hidden", !upload);
+      document.getElementById("blocoCriacaoObra").classList.toggle("hidden", upload);
+    }
+
+    function alternarImagensInternas(){
+      const enviar = document.getElementById("imgSimEnviar").checked;
+      const criar = document.getElementById("imgSimCriar").checked;
+
+      document.getElementById("blocoEnviarImagens").classList.toggle("hidden", !enviar);
+      document.getElementById("blocoCriarImagens").classList.toggle("hidden", !criar);
+    }
+
+    function nomeArquivo(id){
+      const el = document.getElementById(id);
+      if(!el || !el.files || !el.files.length) return "";
+      return el.files[0].name;
+    }
+
+    function salvarEntradaEBolsao(){
+      const dados = {
+        modoObra: document.getElementById("modo_upload").checked ? "upload" : "criar",
+        arquivoObra: nomeArquivo("arquivoObra"),
+        observacaoUpload: document.getElementById("observacaoUpload").value || "",
+        tituloBase: document.getElementById("tituloBase").value || "",
+        subtituloBase: document.getElementById("subtituloBase").value || "",
+        autorBase: document.getElementById("autorBase").value || "",
+        tipoBase: document.getElementById("tipoBase").value || "",
+
+        colecao: document.getElementById("colecao").value || "",
+        serie: document.getElementById("serie").value || "",
+        volume: document.getElementById("volume").value || "",
+        organizacao: document.getElementById("organizacao").value || "",
+        direcao: document.getElementById("direcao").value || "",
+        editora: document.getElementById("editora").value || "",
+
+        biografiaArquivo: nomeArquivo("biografia"),
+        bibliografiaArquivo: nomeArquivo("bibliografia"),
+        sinopseArquivo: nomeArquivo("sinopse"),
+        prefacioArquivo: nomeArquivo("prefacio"),
+        dedicatoriaArquivo: nomeArquivo("dedicatoria"),
+        fichaCatalograficaArquivo: nomeArquivo("fichaCatalografica"),
+
+        imagensInternasModo:
+          document.getElementById("imgNao").checked ? "nao" :
+          document.getElementById("imgSimEnviar").checked ? "enviar" : "criar",
+
+        uploadImagensInternas: document.getElementById("uploadImagensInternas").files.length,
+        tipoImagemCriada: document.getElementById("tipoImagemCriada").value || "",
+        imagensCapa: document.getElementById("imagensCapa").files.length,
+
+        voz:
+          document.getElementById("vozNao").checked ? "nao" :
+          document.getElementById("vozDepois").checked ? "depois" : "sim",
+
+        assinaturaLapidar: document.getElementById("assinaturaLapidar").checked
+      };
+
+      localStorage.setItem("lapidar_entrada_bolsao", JSON.stringify(dados));
+      alert("Entrada do Bolsão salva com sucesso.");
+      location.href = "modulo01_bolsao_mapa.html";
+    }
+
+    alternarModoObra();
+    alternarImagensInternas();
+  </script>
+
+</body>
+</html>
