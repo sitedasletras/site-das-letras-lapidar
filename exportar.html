@@ -3,297 +3,558 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Lapidar — Exportação Final</title>
+<title>Lapidar — Exportação Institucional</title>
 
 <style>
+*{
+box-sizing:border-box;
+}
 
 body{
-font-family:Arial;
-background:#f4efe6;
 margin:0;
-padding:0;
+font-family:Arial, sans-serif;
+background:#f4efe6;
+color:#2f2a24;
 }
 
 .topbar{
 background:#2f4f4f;
-color:white;
-padding:20px;
+color:#fff;
+padding:18px 24px;
 display:flex;
 justify-content:space-between;
 align-items:center;
+gap:12px;
+flex-wrap:wrap;
+}
+
+.topbar h1{
+margin:0;
+font-size:22px;
+}
+
+.topbar .acoes{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
 }
 
 .container{
-max-width:1000px;
-margin:auto;
-padding:30px;
+max-width:1280px;
+margin:24px auto;
+padding:0 16px 32px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:18px;
 }
 
 .card{
-background:white;
-padding:20px;
-border-radius:12px;
-margin-bottom:20px;
-box-shadow:0 3px 10px rgba(0,0,0,0.08);
+background:#fff;
+border-radius:14px;
+padding:18px;
+box-shadow:0 4px 14px rgba(0,0,0,0.08);
 }
 
-h2{
-margin-top:0;
+.card h2{
+margin:0 0 14px 0;
+font-size:20px;
+color:#2f4f4f;
 }
 
 .linha{
-margin-bottom:10px;
+background:#f7fbfb;
+border:1px solid #d6e3e3;
+border-radius:10px;
+padding:12px 14px;
+margin-bottom:12px;
 }
 
 .rotulo{
+display:block;
 font-size:12px;
-color:#617287;
+font-weight:bold;
 text-transform:uppercase;
+letter-spacing:0.4px;
+color:#4e6f6f;
+margin-bottom:6px;
 }
 
 .valor{
-font-size:16px;
+font-size:15px;
+line-height:1.45;
+word-break:break-word;
+}
+
+.valor-destaque{
+font-size:22px;
+font-weight:bold;
+color:#2f4f4f;
+}
+
+.tag-area{
+display:flex;
+gap:8px;
+flex-wrap:wrap;
+margin-top:10px;
+}
+
+.tag{
+background:#eef7f7;
+border:1px solid #d3e4e4;
+color:#2f4f4f;
+padding:7px 10px;
+border-radius:999px;
+font-size:13px;
+}
+
+.painel-mini{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+margin-top:12px;
+}
+
+.mini-box{
+background:#fbfcfc;
+border:1px solid #d9e6e6;
+border-radius:12px;
+padding:14px;
+}
+
+.mini-box strong{
+display:block;
+margin-bottom:6px;
+color:#2f4f4f;
+}
+
+.acoes-centrais{
+margin-top:16px;
+display:flex;
+gap:10px;
+flex-wrap:wrap;
 }
 
 button{
-padding:12px 20px;
-margin:8px;
 border:none;
-background:#2f4f4f;
-color:white;
-border-radius:6px;
+border-radius:10px;
+padding:12px 18px;
+font-size:15px;
 cursor:pointer;
+transition:0.2s ease;
 }
 
-button:hover{
-background:#243b3b;
+.btn-primario{
+background:#2f4f4f;
+color:#fff;
 }
 
+.btn-primario:hover{
+background:#253f3f;
+}
+
+.btn-secundario{
+background:#e8dfcf;
+color:#433726;
+}
+
+.btn-secundario:hover{
+background:#dbcdb7;
+}
+
+.btn-alerta{
+background:#9b2c2c;
+color:#fff;
+}
+
+.btn-alerta:hover{
+background:#7f2323;
+}
+
+.aviso{
+margin-top:14px;
+background:#eef7f7;
+border:1px solid #d5e8e8;
+border-radius:10px;
+padding:12px 14px;
+color:#385757;
+line-height:1.45;
+font-size:14px;
+}
+
+@media (max-width: 980px){
+.grid{
+grid-template-columns:1fr;
+}
+
+.painel-mini{
+grid-template-columns:1fr;
+}
+}
 </style>
-
 </head>
-
-
 <body>
 
 <div class="topbar">
-
-<div>Exportação Institucional da Obra</div>
-
-<div>
-
-<button onclick="voltarPainel()">Painel</button>
-
-<button onclick="reiniciarFluxo()">Nova Obra</button>
-
+<h1>Exportação Institucional</h1>
+<div class="acoes">
+<button class="btn-secundario" onclick="voltarPainel()">Voltar ao Painel</button>
+<button class="btn-alerta" onclick="reiniciarFluxo()">Nova Obra</button>
 </div>
-
 </div>
-
 
 <div class="container">
 
-
+<div class="grid">
 <div class="card">
-
-<h2>Resumo Final da Obra</h2>
-
-<div class="linha">
-<span class="rotulo">Arquivo</span>
-<div class="valor" id="arquivo"></div>
-</div>
+<h2>Resumo final da obra</h2>
 
 <div class="linha">
 <span class="rotulo">Título</span>
-<div class="valor" id="titulo"></div>
+<div class="valor" id="tituloObra">—</div>
 </div>
 
 <div class="linha">
 <span class="rotulo">Autor</span>
-<div class="valor" id="autor"></div>
+<div class="valor" id="autorObra">—</div>
+</div>
+
+<div class="linha">
+<span class="rotulo">Tipo de obra</span>
+<div class="valor" id="tipoObra">—</div>
+</div>
+
+<div class="linha">
+<span class="rotulo">CDD provável</span>
+<div class="valor" id="cddObra">—</div>
 </div>
 
 <div class="linha">
 <span class="rotulo">Status institucional</span>
-<div class="valor" id="status"></div>
+<div class="valor" id="statusObra">—</div>
 </div>
 
 <div class="linha">
-<span class="rotulo">Tempo institucional ativo</span>
-<div class="valor" id="tempo"></div>
+<span class="rotulo">Seção processada por último</span>
+<div class="valor" id="secaoAtual">—</div>
 </div>
 
-</div>
+<div class="tag-area" id="tagsNarrativas"></div>
 
+<div class="aviso">
+A exportação institucional fecha oficialmente o ciclo da obra dentro do Lapidar e gera os primeiros artefatos formais de preservação e continuidade.
+</div>
+</div>
 
 <div class="card">
+<h2>Tempo e sinais finais</h2>
 
-<h2>Exportação de Arquivos</h2>
-
-<button onclick="exportarJSON()">Baixar JSON institucional</button>
-
-<button onclick="exportarTXT()">Baixar TXT do texto limpo</button>
-
+<div class="linha">
+<span class="rotulo">Tempo institucional ativo</span>
+<div class="valor-destaque" id="tempoAtivo">—</div>
 </div>
 
-
+<div class="painel-mini">
+<div class="mini-box">
+<strong>Capítulos detectados</strong>
+<div id="resCapitulos">—</div>
 </div>
 
+<div class="mini-box">
+<strong>Personagens recorrentes</strong>
+<div id="resPersonagens">—</div>
+</div>
+
+<div class="mini-box">
+<strong>Lacunas editoriais</strong>
+<div id="resLacunas">—</div>
+</div>
+
+<div class="mini-box">
+<strong>Ativos da obra</strong>
+<div id="resAtivos">—</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="grid" style="margin-top:18px;">
+<div class="card">
+<h2>Arquivos de exportação</h2>
+
+<div class="acoes-centrais">
+<button class="btn-primario" onclick="exportarJSON()">Baixar JSON institucional</button>
+<button class="btn-primario" onclick="exportarTXT()">Baixar TXT do texto extraído</button>
+</div>
+
+<div class="aviso">
+O JSON institucional preserva o estado editorial da obra. O TXT preserva o texto extraído pelo Cofre Editorial do Autor para continuidade futura do processamento.
+</div>
+</div>
+
+<div class="card">
+<h2>Fechamento do ciclo</h2>
+
+<div class="linha">
+<span class="rotulo">Confirmação</span>
+<div class="valor">
+A obra será marcada como exportada e registrada no histórico institucional.
+</div>
+</div>
+
+<div class="acoes-centrais">
+<button class="btn-primario" onclick="registrarExportacaoFinal()">Registrar exportação final</button>
+</div>
+
+<div class="aviso">
+Depois da exportação, você pode voltar ao Painel ou iniciar uma nova obra. As vozes do autor permanecem vinculadas ao perfil; a obra atual pode ser reiniciada conforme a política do sistema.
+</div>
+</div>
+</div>
+
+</div>
 
 <script>
+const nomesModulos = {
+diagramacao: "Assistente de Diagramação do Autor",
+okapista: "OKapista",
+segundaLinguas: "Segunda Língua(s)",
+avaliacaoLiteraria: "Avaliação Literária",
+analisadorObra: "Analisador de Obra",
+lapidacaoLiteraria: "Lapidação Literária",
+siloSonoro: "Silo Sonoro",
+portalIntegracoes: "Portal de Integrações"
+};
 
-
-function carregarObra(){
-
-let obra = JSON.parse(localStorage.getItem("obraAtual"));
-
-if(!obra){
-
-alert("Nenhuma obra encontrada.");
-
+function obterObraAtual(){
+const obraSalva = localStorage.getItem("obraAtual");
+if(!obraSalva){
 return null;
-
 }
 
-return obra;
-
+try{
+return JSON.parse(obraSalva);
+}catch(erro){
+return null;
 }
-
-
+}
 
 function salvarObra(obra){
-
-localStorage.setItem("obraAtual",JSON.stringify(obra));
-
+localStorage.setItem("obraAtual", JSON.stringify(obra));
 }
 
-
-
-function preencherResumo(){
-
-let obra = carregarObra();
-
-if(!obra)return;
-
-obra.status="exportada";
-
-salvarObra(obra);
-
-document.getElementById("arquivo").innerText=obra.arquivoOriginal;
-
-document.getElementById("titulo").innerText=obra.titulo;
-
-document.getElementById("autor").innerText=obra.autor;
-
-document.getElementById("status").innerText=obra.status;
-
-
-let tempoTotal=
-
-(Date.now()-obra.lapidarClock.inicioSessao)/60000;
-
-document.getElementById("tempo").innerText=
-
-Math.floor(tempoTotal)+" minutos";
-
-
-registrarEvento("Obra exportada institucionalmente");
-
+function nomeModulo(chave){
+return nomesModulos[chave] || chave || "Não definido";
 }
 
+function formatarLacuna(valor){
+return valor ? "enviado" : "ausente";
+}
 
+function preencherTagsNarrativas(obra){
+const area = document.getElementById("tagsNarrativas");
+area.innerHTML = "";
 
-function registrarEvento(texto){
+const tags = [
+obra.narrador,
+obra.clima,
+obra.genero
+].filter(Boolean);
 
-let obra=carregarObra();
+if(!tags.length){
+const span = document.createElement("span");
+span.className = "tag";
+span.innerText = "Sem sinais narrativos detectados";
+area.appendChild(span);
+return;
+}
 
-obra.auditoria.push({
+tags.forEach(function(tagTexto){
+const span = document.createElement("span");
+span.className = "tag";
+span.innerText = tagTexto;
+area.appendChild(span);
+});
+}
 
-texto:texto,
+function calcularTempoAtivo(obra){
+if(!obra || !obra.lapidarClock || !obra.lapidarClock.inicioSessao){
+return "Não disponível";
+}
 
-hora:new Date().toLocaleString("pt-BR")
+const inicio = obra.lapidarClock.inicioSessao;
+const agora = Date.now();
+const tempo = agora - inicio;
 
+const minutos = Math.floor(tempo / 60000);
+const horas = Math.floor(minutos / 60);
+const restoMinutos = minutos % 60;
+
+return horas > 0 ? (horas + "h " + restoMinutos + "min") : (minutos + " min");
+}
+
+function registrarEventoExportacao(obra, titulo, texto){
+if(!Array.isArray(obra.auditoria)){
+obra.auditoria = [];
+}
+
+const chaveBase = titulo.toLowerCase().replace(/\s+/g, "_") + "_" + Date.now();
+
+const existeMesmoTitulo = obra.auditoria.some(function(item){
+return item.titulo === titulo && item.texto === texto;
 });
 
-salvarObra(obra);
-
+if(!existeMesmoTitulo){
+obra.auditoria.push({
+chave: chaveBase,
+titulo: titulo,
+texto: texto,
+data: new Date().toLocaleString("pt-BR"),
+tipo: "sistema"
+});
+}
 }
 
+function preencherResumoFinal(){
+const obra = obterObraAtual();
 
+if(!obra){
+document.getElementById("tituloObra").innerText = "Nenhuma obra carregada";
+document.getElementById("autorObra").innerText = "Nenhuma obra carregada";
+document.getElementById("tipoObra").innerText = "Nenhuma obra carregada";
+document.getElementById("cddObra").innerText = "Nenhuma obra carregada";
+document.getElementById("statusObra").innerText = "Nenhuma obra carregada";
+document.getElementById("secaoAtual").innerText = "Nenhuma obra carregada";
+document.getElementById("tempoAtivo").innerText = "Não disponível";
+document.getElementById("resCapitulos").innerText = "Não disponível";
+document.getElementById("resPersonagens").innerText = "Não disponível";
+document.getElementById("resLacunas").innerText = "Não disponível";
+document.getElementById("resAtivos").innerText = "Não disponível";
+document.getElementById("tagsNarrativas").innerHTML = "";
+return;
+}
+
+if(obra.status !== "exportada"){
+obra.status = "exportada";
+registrarEventoExportacao(
+obra,
+"Obra marcada como exportada",
+"A obra teve seu status institucional alterado para exportada na etapa final do fluxo."
+);
+salvarObra(obra);
+}
+
+document.getElementById("tituloObra").innerText = obra?.estrutura?.titulo || "Não identificado";
+document.getElementById("autorObra").innerText = obra?.estrutura?.autor || "Não identificado";
+document.getElementById("tipoObra").innerText = obra.tipo || "Não identificado";
+document.getElementById("cddObra").innerText = obra.cdd || "Não identificado";
+document.getElementById("statusObra").innerText = obra.status || "Não identificado";
+document.getElementById("secaoAtual").innerText =
+nomeModulo(obra?.mesario?.secaoAtual || obra.moduloAtivo || "");
+
+document.getElementById("tempoAtivo").innerText = calcularTempoAtivo(obra);
+
+document.getElementById("resCapitulos").innerText =
+Array.isArray(obra?.estrutura?.capitulos) ? obra.estrutura.capitulos.length : 0;
+
+document.getElementById("resPersonagens").innerText =
+Array.isArray(obra.personagens) && obra.personagens.length
+? obra.personagens.join(", ")
+: "Não identificados";
+
+const lacunas = [
+"Biografia: " + formatarLacuna(obra?.lacunas?.biografia),
+"Prefácio: " + formatarLacuna(obra?.lacunas?.prefacio),
+"Ficha catalográfica: " + formatarLacuna(obra?.lacunas?.fichaCatalografica),
+"Dedicatória: " + formatarLacuna(obra?.lacunas?.dedicatoria)
+];
+document.getElementById("resLacunas").innerHTML = lacunas.join("<br>");
+
+const vozesAutor = JSON.parse(localStorage.getItem("vozesAutor")) || [];
+const imagens = obra.imagensSalvas || 0;
+document.getElementById("resAtivos").innerHTML =
+imagens + " imagem(ns) registrada(s)<br>" +
+vozesAutor.length + " voz(es) vinculada(s)";
+
+preencherTagsNarrativas(obra);
+}
 
 function exportarJSON(){
+const obra = obterObraAtual();
 
-let obra=carregarObra();
-
-let blob=new Blob(
-
-[JSON.stringify(obra,null,2)],
-
-{type:"application/json"}
-
-);
-
-let link=document.createElement("a");
-
-link.href=URL.createObjectURL(blob);
-
-link.download="lapidar_obra.json";
-
-link.click();
-
+if(!obra){
+alert("Nenhuma obra foi carregada.");
+return;
 }
 
+const blob = new Blob(
+[JSON.stringify(obra, null, 2)],
+{type:"application/json"}
+);
 
+const link = document.createElement("a");
+link.href = URL.createObjectURL(blob);
+link.download = "lapidar_obra_institucional.json";
+link.click();
+}
 
 function exportarTXT(){
+const obra = obterObraAtual();
 
-let obra=carregarObra();
+if(!obra){
+alert("Nenhuma obra foi carregada.");
+return;
+}
 
-let blob=new Blob(
+const texto = obra.textoExtraido || "";
 
-[obra.textoExtraido],
-
-{type:"text/plain"}
-
+const blob = new Blob(
+[texto],
+{type:"text/plain;charset=utf-8"}
 );
 
-let link=document.createElement("a");
-
-link.href=URL.createObjectURL(blob);
-
-link.download="texto_lapidar.txt";
-
+const link = document.createElement("a");
+link.href = URL.createObjectURL(blob);
+link.download = "lapidar_texto_extraido.txt";
 link.click();
-
 }
 
+function registrarExportacaoFinal(){
+const obra = obterObraAtual();
 
+if(!obra){
+alert("Nenhuma obra foi carregada.");
+return;
+}
+
+registrarEventoExportacao(
+obra,
+"Exportação final registrada",
+"A exportação institucional final da obra foi confirmada dentro do Lapidar."
+);
+
+salvarObra(obra);
+alert("Exportação final registrada com sucesso.");
+}
 
 function voltarPainel(){
-
-window.location.href="painel_setores.html";
-
+window.location.href = "painel_setores.html";
 }
-
-
 
 function reiniciarFluxo(){
-
-localStorage.removeItem("obraAtual");
-
-window.location.href="modulo_01_bolsao.html";
-
+const confirmar = confirm("Deseja iniciar uma nova obra? A obra atual será removida do fluxo ativo.");
+if(!confirmar){
+return;
 }
 
+localStorage.removeItem("obraAtual");
+window.location.href = "modulo_01_bolsao.html";
+}
 
-
-preencherResumo();
-
-
+preencherResumoFinal();
 </script>
 
-
 </body>
-
 </html>
