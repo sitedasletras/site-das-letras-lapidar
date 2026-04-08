@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lapidar — Mesário</title>
+  <title>Lapidar — Mesário Oficial</title>
   <style>
     *{
       box-sizing:border-box;
@@ -39,14 +39,14 @@
     }
 
     .container{
-      max-width:1180px;
+      max-width:1280px;
       margin:24px auto;
       padding:0 16px 32px;
     }
 
     .grid{
       display:grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns:1fr 1fr;
       gap:18px;
     }
 
@@ -91,6 +91,22 @@
       font-size:22px;
       font-weight:bold;
       color:#6b4f2d;
+    }
+
+    .tag-area{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-top:10px;
+    }
+
+    .tag{
+      background:#f5eee2;
+      border:1px solid #e7d7bc;
+      color:#654b23;
+      padding:7px 10px;
+      border-radius:999px;
+      font-size:13px;
     }
 
     .bloco-mesario{
@@ -188,8 +204,32 @@
       line-height:1.45;
     }
 
-    @media (max-width: 900px){
+    .painel-mini{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+      margin-top:12px;
+    }
+
+    .mini-box{
+      background:#fbfaf7;
+      border:1px solid #eadfce;
+      border-radius:12px;
+      padding:14px;
+    }
+
+    .mini-box strong{
+      display:block;
+      margin-bottom:6px;
+      color:#6b4f2d;
+    }
+
+    @media (max-width: 980px){
       .grid{
+        grid-template-columns:1fr;
+      }
+
+      .painel-mini{
         grid-template-columns:1fr;
       }
     }
@@ -206,15 +246,10 @@
   </div>
 
   <div class="container">
+
     <div class="grid">
-
       <div class="card">
-        <h2>Resumo da obra</h2>
-
-        <div class="linha">
-          <span class="rotulo">Arquivo</span>
-          <div class="valor" id="arquivoObra">—</div>
-        </div>
+        <h2>Resumo editorial da obra</h2>
 
         <div class="linha">
           <span class="rotulo">Título</span>
@@ -227,20 +262,62 @@
         </div>
 
         <div class="linha">
+          <span class="rotulo">Tipo de obra</span>
+          <div class="valor" id="tipoObra">—</div>
+        </div>
+
+        <div class="linha">
+          <span class="rotulo">CDD provável</span>
+          <div class="valor" id="cddObra">—</div>
+        </div>
+
+        <div class="linha">
           <span class="rotulo">Seção atual</span>
           <div class="valor" id="secaoAtual">—</div>
         </div>
 
-        <div class="linha">
-          <span class="rotulo">Status das confirmações</span>
-          <div class="valor" id="statusConfirmacoes">Aguardando confirmações</div>
-        </div>
+        <div class="tag-area" id="tagsNarrativas"></div>
 
         <div class="aviso">
-          O Mesário é o ponto oficial de conferência e aceite antes do avanço da obra para a próxima etapa.
+          O Mesário é a mesa oficial de decisão editorial do autor dentro do Lapidar. Aqui a obra deixa de ser apenas uma seleção de módulos e passa a ter confirmação consciente antes do avanço.
         </div>
       </div>
 
+      <div class="card">
+        <h2>Lacunas e ativos da obra</h2>
+
+        <div class="painel-mini">
+          <div class="mini-box">
+            <strong>Lacunas editoriais</strong>
+            <div id="resLacunas">—</div>
+          </div>
+
+          <div class="mini-box">
+            <strong>Ativos da obra</strong>
+            <div id="resAtivos">—</div>
+          </div>
+        </div>
+
+        <div class="painel-mini">
+          <div class="mini-box">
+            <strong>Capítulos detectados</strong>
+            <div id="resCapitulos">—</div>
+          </div>
+
+          <div class="mini-box">
+            <strong>Personagens recorrentes</strong>
+            <div id="resPersonagens">—</div>
+          </div>
+        </div>
+
+        <div class="linha" style="margin-top:12px;">
+          <span class="rotulo">Status das confirmações</span>
+          <div class="valor" id="statusConfirmacoes">Aguardando confirmações</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid" style="margin-top:18px;">
       <div class="card">
         <h2>Mesário da seção</h2>
 
@@ -248,7 +325,7 @@
           <h3>Valor acumulado da seção</h3>
           <div class="valor-destaque" id="valorSecao">R$ 0,00</div>
           <div class="aviso" style="margin-top:12px;">
-            Nesta versão estrutural, o valor ainda está simplificado. O importante agora é travar o fluxo, a lógica e a dupla confirmação.
+            Nesta fase estrutural, o valor permanece simplificado. O objetivo principal é consolidar o fluxo, a consciência da escolha e a dupla confirmação oficial da etapa.
           </div>
         </div>
 
@@ -271,15 +348,15 @@
         </div>
       </div>
 
-    </div>
-
-    <div class="card" style="margin-top:18px;">
-      <h2>Histórico do Mesário</h2>
-      <ul class="historico" id="historicoMesario"></ul>
-      <div class="aviso" id="mensagemSemHistorico" style="display:none;">
-        Ainda não há histórico registrado no Mesário desta obra.
+      <div class="card">
+        <h2>Histórico do Mesário</h2>
+        <ul class="historico" id="historicoMesario"></ul>
+        <div class="aviso" id="mensagemSemHistorico" style="display:none;">
+          Ainda não há histórico registrado no Mesário desta obra.
+        </div>
       </div>
     </div>
+
   </div>
 
   <script>
@@ -291,7 +368,7 @@
       analisadorObra: "Analisador de Obra",
       lapidacaoLiteraria: "Lapidação Literária",
       siloSonoro: "Silo Sonoro",
-      cinematologico: "Cinematológico"
+      portalIntegracoes: "Portal de Integrações"
     };
 
     function obterObraAtual(){
@@ -315,15 +392,23 @@
       return nomesModulos[chave] || chave || "Seção não definida";
     }
 
+    function formatarLacuna(valor){
+      return valor ? "enviado" : "ausente";
+    }
+
     function preencherMesario(){
       const obra = obterObraAtual();
 
       if(!obra){
-        document.getElementById("arquivoObra").innerText = "Nenhuma obra carregada";
         document.getElementById("tituloObra").innerText = "Nenhuma obra carregada";
         document.getElementById("autorObra").innerText = "Nenhuma obra carregada";
+        document.getElementById("tipoObra").innerText = "Nenhuma obra carregada";
+        document.getElementById("cddObra").innerText = "Nenhuma obra carregada";
         document.getElementById("secaoAtual").innerText = "Nenhuma seção ativa";
-        document.getElementById("statusConfirmacoes").innerText = "Sem obra ativa";
+        document.getElementById("resLacunas").innerText = "Sem obra ativa";
+        document.getElementById("resAtivos").innerText = "Sem obra ativa";
+        document.getElementById("resCapitulos").innerText = "Sem obra ativa";
+        document.getElementById("resPersonagens").innerText = "Sem obra ativa";
         document.getElementById("mensagemSemHistorico").style.display = "block";
         return;
       }
@@ -338,16 +423,66 @@
         salvarObra(obra);
       }
 
-      document.getElementById("arquivoObra").innerText = obra.arquivoOriginal || "Não detectado";
-      document.getElementById("tituloObra").innerText = obra.titulo || "Não detectado";
-      document.getElementById("autorObra").innerText = obra.autor || "Não detectado";
+      document.getElementById("tituloObra").innerText = obra?.estrutura?.titulo || "Não identificado";
+      document.getElementById("autorObra").innerText = obra?.estrutura?.autor || "Não identificado";
+      document.getElementById("tipoObra").innerText = obra.tipo || "Não identificado";
+      document.getElementById("cddObra").innerText = obra.cdd || "Não identificado";
       document.getElementById("secaoAtual").innerText = formatarNomeSecao(obra.mesario.secaoAtual || obra.moduloAtivo);
+
+      const lacunas = [
+        "Biografia: " + formatarLacuna(obra?.lacunas?.biografia),
+        "Prefácio: " + formatarLacuna(obra?.lacunas?.prefacio),
+        "Ficha catalográfica: " + formatarLacuna(obra?.lacunas?.fichaCatalografica),
+        "Dedicatória: " + formatarLacuna(obra?.lacunas?.dedicatoria)
+      ];
+      document.getElementById("resLacunas").innerHTML = lacunas.join("<br>");
+
+      const vozesAutor = JSON.parse(localStorage.getItem("vozesAutor")) || [];
+      const imagens = obra.imagensSalvas || 0;
+      document.getElementById("resAtivos").innerHTML =
+        imagens + " imagem(ns) registrada(s)<br>" +
+        vozesAutor.length + " voz(es) vinculada(s)";
+
+      document.getElementById("resCapitulos").innerText =
+        Array.isArray(obra?.estrutura?.capitulos) ? obra.estrutura.capitulos.length : 0;
+
+      document.getElementById("resPersonagens").innerText =
+        Array.isArray(obra.personagens) && obra.personagens.length
+        ? obra.personagens.join(", ")
+        : "Não identificados";
 
       document.getElementById("confirmacaoSetor").checked = !!obra.mesario.confirmacaoSetor;
       document.getElementById("confirmacaoFinal").checked = !!obra.mesario.confirmacaoFinal;
 
+      preencherTagsNarrativas(obra);
       atualizarStatusConfirmacoes();
       renderizarHistorico();
+    }
+
+    function preencherTagsNarrativas(obra){
+      const area = document.getElementById("tagsNarrativas");
+      area.innerHTML = "";
+
+      const tags = [
+        obra.narrador,
+        obra.clima,
+        obra.genero
+      ].filter(Boolean);
+
+      if(!tags.length){
+        const span = document.createElement("span");
+        span.className = "tag";
+        span.innerText = "Sem sinais narrativos detectados";
+        area.appendChild(span);
+        return;
+      }
+
+      tags.forEach(function(tagTexto){
+        const span = document.createElement("span");
+        span.className = "tag";
+        span.innerText = tagTexto;
+        area.appendChild(span);
+      });
     }
 
     function atualizarStatusConfirmacoes(){
