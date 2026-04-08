@@ -1,261 +1,510 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mesário Mor — Lapidar</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lapidar — Mesário</title>
+  <style>
+    *{
+      box-sizing:border-box;
+    }
 
-<style>
-body{
-margin:0;
-font-family:Arial, sans-serif;
-background:#0e0604;
-color:white;
-}
+    body{
+      margin:0;
+      font-family:Arial, sans-serif;
+      background:#f4efe6;
+      color:#2f2a24;
+    }
 
-header{
-background:#2f436d;
-padding:18px 20px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-}
+    .topbar{
+      background:#6b4f2d;
+      color:#fff;
+      padding:18px 24px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      flex-wrap:wrap;
+    }
 
-.container{
-max-width:1000px;
-margin:auto;
-padding:24px 16px 40px;
-}
+    .topbar h1{
+      margin:0;
+      font-size:22px;
+    }
 
-.card{
-background:#1c0e08;
-border-radius:14px;
-padding:20px;
-margin-bottom:18px;
-box-shadow:0 6px 18px rgba(0,0,0,.25);
-}
+    .topbar .acoes{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
 
-.status{
-background:#2a140c;
-padding:12px;
-border-radius:10px;
-margin-top:10px;
-line-height:1.6;
-}
+    .container{
+      max-width:1180px;
+      margin:24px auto;
+      padding:0 16px 32px;
+    }
 
-button{
-padding:12px 16px;
-border:none;
-border-radius:8px;
-cursor:pointer;
-font-weight:bold;
-background:#2f436d;
-color:white;
-margin-top:12px;
-margin-right:10px;
-}
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:18px;
+    }
 
-button.alt{
-background:#8a6f3f;
-}
+    .card{
+      background:#fff;
+      border-radius:14px;
+      padding:18px;
+      box-shadow:0 4px 14px rgba(0,0,0,0.08);
+    }
 
-button.sec{
-background:#6c757d;
-}
+    .card h2{
+      margin:0 0 14px 0;
+      color:#6a4b25;
+      font-size:20px;
+    }
 
-button.ok{
-background:#1f6b36;
-}
+    .linha{
+      background:#f9f6f1;
+      border:1px solid #eadfce;
+      border-radius:10px;
+      padding:12px 14px;
+      margin-bottom:12px;
+    }
 
-button.no{
-background:#7a1f1f;
-}
+    .rotulo{
+      display:block;
+      font-size:12px;
+      font-weight:bold;
+      text-transform:uppercase;
+      letter-spacing:0.4px;
+      color:#8a6a3c;
+      margin-bottom:6px;
+    }
 
-textarea{
-width:100%;
-box-sizing:border-box;
-min-height:120px;
-padding:12px;
-border:none;
-border-radius:10px;
-background:#2a140c;
-color:white;
-margin-top:10px;
-resize:vertical;
-}
+    .valor{
+      font-size:15px;
+      line-height:1.45;
+      word-break:break-word;
+    }
 
-.badge{
-display:inline-block;
-padding:8px 12px;
-border-radius:999px;
-font-size:13px;
-font-weight:bold;
-margin-top:10px;
-}
+    .valor-destaque{
+      font-size:22px;
+      font-weight:bold;
+      color:#6b4f2d;
+    }
 
-.badge.pendente{
-background:#5a2d00;
-}
+    .bloco-mesario{
+      background:#fff8eb;
+      border:1px solid #ecd5a4;
+      border-radius:12px;
+      padding:16px;
+      margin-top:12px;
+    }
 
-.badge.confirmado{
-background:#1f6b36;
-}
+    .bloco-mesario h3{
+      margin:0 0 10px 0;
+      color:#755728;
+      font-size:18px;
+    }
 
-.badge.bloqueado{
-background:#7a1f1f;
-}
+    .checklist{
+      display:grid;
+      gap:10px;
+      margin-top:12px;
+    }
 
-.grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:16px;
-}
+    .checklist label{
+      display:flex;
+      align-items:flex-start;
+      gap:10px;
+      background:#fbfaf7;
+      border:1px solid #eadfce;
+      border-radius:10px;
+      padding:12px;
+      line-height:1.45;
+    }
 
-@media (max-width:700px){
-.grid{
-grid-template-columns:1fr;
-}
-}
-</style>
+    .acoes-centrais{
+      margin-top:18px;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    button{
+      border:none;
+      border-radius:10px;
+      padding:12px 18px;
+      font-size:15px;
+      cursor:pointer;
+      transition:0.2s ease;
+    }
+
+    .btn-primario{
+      background:#6b4f2d;
+      color:#fff;
+    }
+
+    .btn-primario:hover{
+      background:#583f22;
+    }
+
+    .btn-secundario{
+      background:#e9dfcf;
+      color:#473721;
+    }
+
+    .btn-secundario:hover{
+      background:#daccb8;
+    }
+
+    .btn-alerta{
+      background:#9b2c2c;
+      color:#fff;
+    }
+
+    .btn-alerta:hover{
+      background:#7d2323;
+    }
+
+    .aviso{
+      margin-top:14px;
+      background:#fff8e8;
+      border:1px solid #ecd7a7;
+      border-radius:10px;
+      padding:12px 14px;
+      color:#6a552a;
+      line-height:1.45;
+      font-size:14px;
+    }
+
+    .historico{
+      margin:0;
+      padding-left:18px;
+    }
+
+    .historico li{
+      margin-bottom:8px;
+      line-height:1.45;
+    }
+
+    @media (max-width: 900px){
+      .grid{
+        grid-template-columns:1fr;
+      }
+    }
+  </style>
 </head>
 <body>
 
-<header>
-<h2>Mesário Mor</h2>
-<button onclick="voltar()">Voltar</button>
-</header>
+  <div class="topbar">
+    <h1>Mesário Oficial</h1>
+    <div class="acoes">
+      <button class="btn-secundario" onclick="voltarExecutor()">Retornar ao Executor</button>
+      <button class="btn-primario" onclick="seguirAuditoria()">Ir para Auditoria</button>
+    </div>
+  </div>
 
-<div class="container">
+  <div class="container">
+    <div class="grid">
 
-<div class="card">
-<h3>Projeto ativo</h3>
-<div id="nomeProjeto">Nenhum projeto ativo selecionado.</div>
-</div>
+      <div class="card">
+        <h2>Resumo da obra</h2>
 
-<div class="card">
-<h3>Status do pagamento / Hotmart</h3>
+        <div class="linha">
+          <span class="rotulo">Arquivo</span>
+          <div class="valor" id="arquivoObra">—</div>
+        </div>
 
-<div class="grid">
-<div class="status">
-<strong>Sinal da Hotmart</strong><br>
-<span id="hotmartStatus">Aguardando confirmação.</span><br>
-<span id="hotmartBadge" class="badge pendente">Pendente</span>
-</div>
+        <div class="linha">
+          <span class="rotulo">Título</span>
+          <div class="valor" id="tituloObra">—</div>
+        </div>
 
-<div class="status">
-<strong>Status da expedição</strong><br>
-<span id="expedicaoStatus">Expedição bloqueada.</span><br>
-<span id="expedicaoBadge" class="badge bloqueado">Bloqueada</span>
-</div>
-</div>
+        <div class="linha">
+          <span class="rotulo">Autor</span>
+          <div class="valor" id="autorObra">—</div>
+        </div>
 
-<button class="ok" onclick="confirmarPagamento()">Confirmar pagamento</button>
-<button class="no" onclick="bloquearExpedicao()">Bloquear expedição</button>
-</div>
+        <div class="linha">
+          <span class="rotulo">Seção atual</span>
+          <div class="valor" id="secaoAtual">—</div>
+        </div>
 
-<div class="card">
-<h3>Observações do Mesário Mor</h3>
-<textarea id="observacoesMesario" placeholder="Registrar observações, validação da contribuição, confirmação manual da Hotmart, pendências ou liberação final..."></textarea>
-<button onclick="salvarObservacoes()">Salvar observações</button>
-</div>
+        <div class="linha">
+          <span class="rotulo">Status das confirmações</span>
+          <div class="valor" id="statusConfirmacoes">Aguardando confirmações</div>
+        </div>
 
-<div class="card">
-<h3>Ações rápidas</h3>
-<button onclick="abrirExpedicao()">Abrir expedição da obra</button>
-<button class="alt" onclick="abrirProjetos()">Projetos</button>
-<button class="sec" onclick="abrirRelatorios()">Relatórios</button>
-</div>
+        <div class="aviso">
+          O Mesário é o ponto oficial de conferência e aceite antes do avanço da obra para a próxima etapa.
+        </div>
+      </div>
 
-</div>
+      <div class="card">
+        <h2>Mesário da seção</h2>
 
-<script>
-const perfil = localStorage.getItem("lapidar_perfil");
+        <div class="bloco-mesario">
+          <h3>Valor acumulado da seção</h3>
+          <div class="valor-destaque" id="valorSecao">R$ 0,00</div>
+          <div class="aviso" style="margin-top:12px;">
+            Nesta versão estrutural, o valor ainda está simplificado. O importante agora é travar o fluxo, a lógica e a dupla confirmação.
+          </div>
+        </div>
 
-if(!perfil){
-window.location.href = "index.html";
-}
+        <div class="checklist">
+          <label>
+            <input type="checkbox" id="confirmacaoSetor">
+            <span>Estou de acordo com a conferência desta seção e autorizo o registro desta etapa no Mesário.</span>
+          </label>
 
-const projeto = localStorage.getItem("lapidar_projeto_ativo");
-if(projeto){
-document.getElementById("nomeProjeto").innerText = projeto;
-}
+          <label>
+            <input type="checkbox" id="confirmacaoFinal">
+            <span>Confirmo no Mesário Oficial que esta etapa pode avançar para a Auditoria e permanecer registrada no fluxo da obra.</span>
+          </label>
+        </div>
 
-const chavePagamento = "lapidar_pagamento_confirmado";
-const chaveExpedicao = "lapidar_expedicao_liberada";
-const chaveObs = "lapidar_mesario_mor_obs";
+        <div class="acoes-centrais">
+          <button class="btn-primario" onclick="salvarConfirmacoes()">Salvar confirmações</button>
+          <button class="btn-secundario" onclick="seguirAuditoria()">Salvar e seguir para Auditoria</button>
+          <button class="btn-alerta" onclick="resetarConfirmacoes()">Resetar confirmações</button>
+        </div>
+      </div>
 
-function carregarStatus(){
-const pagamento = localStorage.getItem(chavePagamento) === "true";
-const expedicao = localStorage.getItem(chaveExpedicao) === "true";
+    </div>
 
-document.getElementById("hotmartStatus").innerText =
-pagamento ? "Pagamento confirmado / sinal recebido." : "Aguardando confirmação.";
+    <div class="card" style="margin-top:18px;">
+      <h2>Histórico do Mesário</h2>
+      <ul class="historico" id="historicoMesario"></ul>
+      <div class="aviso" id="mensagemSemHistorico" style="display:none;">
+        Ainda não há histórico registrado no Mesário desta obra.
+      </div>
+    </div>
+  </div>
 
-document.getElementById("hotmartBadge").innerText =
-pagamento ? "Confirmado" : "Pendente";
+  <script>
+    const nomesModulos = {
+      diagramacao: "Assistente de Diagramação do Autor",
+      okapista: "OKapista",
+      segundaLinguas: "Segunda Língua(s)",
+      avaliacaoLiteraria: "Avaliação Literária",
+      analisadorObra: "Analisador de Obra",
+      lapidacaoLiteraria: "Lapidação Literária",
+      siloSonoro: "Silo Sonoro",
+      cinematologico: "Cinematológico"
+    };
 
-document.getElementById("hotmartBadge").className =
-pagamento ? "badge confirmado" : "badge pendente";
+    function obterObraAtual(){
+      const obraSalva = localStorage.getItem("obraAtual");
+      if(!obraSalva){
+        return null;
+      }
 
-document.getElementById("expedicaoStatus").innerText =
-expedicao ? "Expedição liberada para download." : "Expedição bloqueada.";
+      try{
+        return JSON.parse(obraSalva);
+      }catch(erro){
+        return null;
+      }
+    }
 
-document.getElementById("expedicaoBadge").innerText =
-expedicao ? "Liberada" : "Bloqueada";
+    function salvarObra(obra){
+      localStorage.setItem("obraAtual", JSON.stringify(obra));
+    }
 
-document.getElementById("expedicaoBadge").className =
-expedicao ? "badge confirmado" : "badge bloqueado";
+    function formatarNomeSecao(chave){
+      return nomesModulos[chave] || chave || "Seção não definida";
+    }
 
-const obs = localStorage.getItem(chaveObs) || "";
-document.getElementById("observacoesMesario").value = obs;
-}
+    function preencherMesario(){
+      const obra = obterObraAtual();
 
-function registrarAuditoria(evento){
-let logs = JSON.parse(localStorage.getItem("lapidar_auditoria_logs") || "[]");
-logs.push(evento + " em " + new Date().toLocaleString("pt-BR"));
-localStorage.setItem("lapidar_auditoria_logs", JSON.stringify(logs));
-}
+      if(!obra){
+        document.getElementById("arquivoObra").innerText = "Nenhuma obra carregada";
+        document.getElementById("tituloObra").innerText = "Nenhuma obra carregada";
+        document.getElementById("autorObra").innerText = "Nenhuma obra carregada";
+        document.getElementById("secaoAtual").innerText = "Nenhuma seção ativa";
+        document.getElementById("statusConfirmacoes").innerText = "Sem obra ativa";
+        document.getElementById("mensagemSemHistorico").style.display = "block";
+        return;
+      }
 
-function confirmarPagamento(){
-localStorage.setItem(chavePagamento, "true");
-localStorage.setItem(chaveExpedicao, "true");
-registrarAuditoria("Mesário Mor confirmou pagamento e liberou expedição");
-carregarStatus();
-alert("Pagamento confirmado e expedição liberada.");
-}
+      if(!obra.mesario){
+        obra.mesario = {
+          secaoAtual: obra.moduloAtivo || "",
+          historico: [],
+          confirmacaoSetor: false,
+          confirmacaoFinal: false
+        };
+        salvarObra(obra);
+      }
 
-function bloquearExpedicao(){
-localStorage.setItem(chaveExpedicao, "false");
-registrarAuditoria("Mesário Mor bloqueou a expedição");
-carregarStatus();
-alert("Expedição bloqueada.");
-}
+      document.getElementById("arquivoObra").innerText = obra.arquivoOriginal || "Não detectado";
+      document.getElementById("tituloObra").innerText = obra.titulo || "Não detectado";
+      document.getElementById("autorObra").innerText = obra.autor || "Não detectado";
+      document.getElementById("secaoAtual").innerText = formatarNomeSecao(obra.mesario.secaoAtual || obra.moduloAtivo);
 
-function salvarObservacoes(){
-const texto = document.getElementById("observacoesMesario").value;
-localStorage.setItem(chaveObs, texto);
-registrarAuditoria("Mesário Mor salvou observações");
-alert("Observações salvas com sucesso.");
-}
+      document.getElementById("confirmacaoSetor").checked = !!obra.mesario.confirmacaoSetor;
+      document.getElementById("confirmacaoFinal").checked = !!obra.mesario.confirmacaoFinal;
 
-function abrirExpedicao(){
-window.location.href = "expedicao_material.html";
-}
+      atualizarStatusConfirmacoes();
+      renderizarHistorico();
+    }
 
-function abrirProjetos(){
-window.location.href = "projetos.html";
-}
+    function atualizarStatusConfirmacoes(){
+      const obra = obterObraAtual();
 
-function abrirRelatorios(){
-window.location.href = "hub_relatorios.html";
-}
+      if(!obra || !obra.mesario){
+        document.getElementById("statusConfirmacoes").innerText = "Sem dados";
+        return;
+      }
 
-function voltar(){
-window.location.href = "admin_painel.html";
-}
+      const setor = !!obra.mesario.confirmacaoSetor;
+      const final = !!obra.mesario.confirmacaoFinal;
 
-carregarStatus();
-</script>
+      if(setor && final){
+        document.getElementById("statusConfirmacoes").innerText = "Dupla confirmação concluída";
+      }else if(setor || final){
+        document.getElementById("statusConfirmacoes").innerText = "Confirmação parcial";
+      }else{
+        document.getElementById("statusConfirmacoes").innerText = "Aguardando confirmações";
+      }
+    }
+
+    function registrarHistoricoMesario(obra, mensagem){
+      if(!obra.mesario){
+        obra.mesario = {};
+      }
+
+      if(!Array.isArray(obra.mesario.historico)){
+        obra.mesario.historico = [];
+      }
+
+      obra.mesario.historico.unshift({
+        data: new Date().toLocaleString("pt-BR"),
+        mensagem: mensagem
+      });
+    }
+
+    function salvarConfirmacoes(){
+      const obra = obterObraAtual();
+
+      if(!obra){
+        alert("Nenhuma obra carregada.");
+        return;
+      }
+
+      if(!obra.mesario){
+        obra.mesario = {};
+      }
+
+      obra.mesario.confirmacaoSetor = document.getElementById("confirmacaoSetor").checked;
+      obra.mesario.confirmacaoFinal = document.getElementById("confirmacaoFinal").checked;
+      obra.mesario.secaoAtual = obra.mesario.secaoAtual || obra.moduloAtivo || "";
+
+      registrarHistoricoMesario(
+        obra,
+        "Confirmações salvas para a seção " + formatarNomeSecao(obra.mesario.secaoAtual) + "."
+      );
+
+      salvarObra(obra);
+      atualizarStatusConfirmacoes();
+      renderizarHistorico();
+
+      alert("Confirmações registradas no Mesário.");
+    }
+
+    function resetarConfirmacoes(){
+      const obra = obterObraAtual();
+
+      if(!obra){
+        alert("Nenhuma obra carregada.");
+        return;
+      }
+
+      const confirmar = confirm("Deseja resetar as confirmações desta seção?");
+      if(!confirmar){
+        return;
+      }
+
+      if(!obra.mesario){
+        obra.mesario = {};
+      }
+
+      obra.mesario.confirmacaoSetor = false;
+      obra.mesario.confirmacaoFinal = false;
+
+      document.getElementById("confirmacaoSetor").checked = false;
+      document.getElementById("confirmacaoFinal").checked = false;
+
+      registrarHistoricoMesario(
+        obra,
+        "Confirmações resetadas para a seção " + formatarNomeSecao(obra.mesario.secaoAtual || obra.moduloAtivo) + "."
+      );
+
+      salvarObra(obra);
+      atualizarStatusConfirmacoes();
+      renderizarHistorico();
+    }
+
+    function renderizarHistorico(){
+      const obra = obterObraAtual();
+      const lista = document.getElementById("historicoMesario");
+      const aviso = document.getElementById("mensagemSemHistorico");
+
+      lista.innerHTML = "";
+
+      if(!obra || !obra.mesario || !Array.isArray(obra.mesario.historico) || !obra.mesario.historico.length){
+        aviso.style.display = "block";
+        return;
+      }
+
+      aviso.style.display = "none";
+
+      obra.mesario.historico.forEach(function(item){
+        const li = document.createElement("li");
+        li.innerText = item.data + " — " + item.mensagem;
+        lista.appendChild(li);
+      });
+    }
+
+    function voltarExecutor(){
+      window.location.href = "modulo_executor.html";
+    }
+
+    function seguirAuditoria(){
+      const obra = obterObraAtual();
+
+      if(!obra){
+        alert("Nenhuma obra carregada.");
+        return;
+      }
+
+      if(!obra.mesario){
+        obra.mesario = {};
+      }
+
+      obra.mesario.confirmacaoSetor = document.getElementById("confirmacaoSetor").checked;
+      obra.mesario.confirmacaoFinal = document.getElementById("confirmacaoFinal").checked;
+      obra.mesario.secaoAtual = obra.mesario.secaoAtual || obra.moduloAtivo || "";
+
+      if(!obra.mesario.confirmacaoSetor || !obra.mesario.confirmacaoFinal){
+        const seguirMesmoAssim = confirm("As duas confirmações ainda não foram marcadas. Deseja seguir para a Auditoria mesmo assim?");
+        if(!seguirMesmoAssim){
+          return;
+        }
+      }
+
+      registrarHistoricoMesario(
+        obra,
+        "Etapa encaminhada para Auditoria a partir da seção " + formatarNomeSecao(obra.mesario.secaoAtual) + "."
+      );
+
+      salvarObra(obra);
+      window.location.href = "auditoria.html";
+    }
+
+    preencherMesario();
+  </script>
 
 </body>
 </html>
