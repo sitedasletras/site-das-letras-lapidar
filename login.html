@@ -1,174 +1,148 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Acesso ao Lapidar</title>
-  <style>
-    *{
-      box-sizing:border-box;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    body{
-      margin:0;
-      font-family:Arial, sans-serif;
-      background:#f7f4ec;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      min-height:100vh;
-      color:#2f2a24;
-      padding:24px;
-    }
+<title>Lapidar — Login</title>
 
-    .card{
-      background:#ffffff;
-      padding:32px 28px;
-      border-radius:16px;
-      box-shadow:0 8px 24px rgba(0,0,0,0.10);
-      width:100%;
-      max-width:360px;
-      text-align:center;
-      border:1px solid #e9e2d3;
-    }
+<style>
 
-    h2{
-      margin:0 0 10px 0;
-      color:#4f3f25;
-      font-size:28px;
-    }
+body{
+margin:0;
+font-family:Arial;
+background:#efe7d6;
+height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+}
 
-    .sub{
-      margin:0 0 22px 0;
-      font-size:14px;
-      color:#7a6a50;
-      line-height:1.5;
-    }
+.container{
+background:white;
+padding:40px;
+border-radius:12px;
+box-shadow:0 4px 18px rgba(0,0,0,.12);
+width:320px;
+text-align:center;
+}
 
-    input{
-      width:100%;
-      padding:13px 14px;
-      margin:8px 0;
-      border-radius:10px;
-      border:1px solid #d8cfbf;
-      font-size:15px;
-      background:#fcfbf8;
-      outline:none;
-    }
+h1{
+margin-top:0;
+color:#5d4037;
+}
 
-    input:focus{
-      border-color:#8c7751;
-      background:#fffefb;
-    }
+input{
+width:100%;
+padding:10px;
+margin:10px 0;
+border-radius:6px;
+border:1px solid #ccc;
+}
 
-    button{
-      width:100%;
-      padding:13px;
-      margin-top:12px;
-      background:#2f5a57;
-      border:none;
-      color:white;
-      font-size:16px;
-      border-radius:10px;
-      cursor:pointer;
-      transition:0.2s ease;
-    }
+button{
+width:100%;
+padding:12px;
+margin-top:10px;
+border:none;
+border-radius:8px;
+background:#5d4037;
+color:white;
+font-size:16px;
+cursor:pointer;
+}
 
-    button:hover{
-      background:#244745;
-    }
+button:hover{
+background:#4b322b;
+}
 
-    .aviso{
-      margin-top:14px;
-      font-size:13px;
-      color:#8a7a60;
-      line-height:1.45;
-    }
+.footer{
+margin-top:20px;
+font-size:12px;
+color:#777;
+}
 
-    .erro{
-      margin-top:10px;
-      font-size:13px;
-      color:#9b2c2c;
-      min-height:18px;
-    }
-  </style>
+</style>
+
 </head>
+
 <body>
 
-  <div class="card">
-    <h2>Acesso ao Lapidar</h2>
-    <p class="sub">
-      Entrada oficial do sistema editorial.
-    </p>
+<div class="container">
 
-    <input id="usuario" placeholder="Usuário">
-    <input id="senha" type="password" placeholder="Senha">
+<h1>Lapidar</h1>
 
-    <button onclick="entrar()">Entrar</button>
+<input
+type="email"
+id="email"
+placeholder="Seu e-mail"
+/>
 
-    <div class="erro" id="erro"></div>
+<input
+type="password"
+id="senha"
+placeholder="Senha"
+/>
 
-    <div class="aviso">
-      O acesso válido prepara a sessão e encaminha para a página de respiro institucional antes do painel.
-    </div>
-  </div>
+<button onclick="entrarSistema()">
+Entrar
+</button>
 
-  <script>
-    function limparErro(){
-      document.getElementById("erro").innerText = "";
-    }
+<div class="footer">
+Site das Letras — Edições Literárias, Sonoras & Cinematográficas
+</div>
 
-    function definirPerfil(usuario){
-      const u = (usuario || "").trim().toLowerCase();
+</div>
 
-      if(
-        u.includes("admin") ||
-        u.includes("administrador") ||
-        u.includes("site") ||
-        u.includes("sitedasletras")
-      ){
-        return "admin";
-      }
+<script>
 
-      if(
-        u.includes("heteronimo") ||
-        u.includes("heterônimo") ||
-        u.includes("heter") ||
-        u.includes("pseudonimo") ||
-        u.includes("pseudônimo")
-      ){
-        return "heteronimo";
-      }
+function entrarSistema(){
 
-      return "usuario";
-    }
+const email =
+document.getElementById("email").value.toLowerCase()
 
-    function entrar(){
-      limparErro();
+let perfil = "usuario"
 
-      const usuario = document.getElementById("usuario").value.trim();
-      const senha = document.getElementById("senha").value.trim();
+// regras simples de perfil inicial
 
-      if(usuario === ""){
-        document.getElementById("erro").innerText = "Informe o usuário.";
-        return;
-      }
+if(email.includes("admin")){
 
-      if(senha === ""){
-        document.getElementById("erro").innerText = "Informe a senha.";
-        return;
-      }
+perfil="admin"
 
-      const perfil = definirPerfil(usuario);
+}
 
-      localStorage.setItem("usuarioLogado", usuario);
-      localStorage.setItem("perfilAtivo", perfil);
-      localStorage.setItem("sessaoLapidarAtiva", "true");
-      localStorage.setItem("entradaLapidarEm", new Date().toISOString());
+else if(email.includes("heteronimo")){
 
-      window.location.href = "/pagina_respiro.html";
-    }
-  </script>
+perfil="heteronimo"
+
+}
+
+else if(email.includes("planaswagner")){
+
+perfil="heteronimo"
+
+}
+
+// salva sessão
+
+localStorage.setItem(
+"lapidar_usuario_logado",
+"true"
+)
+
+localStorage.setItem(
+"lapidar_perfil",
+perfil
+)
+
+// redireciona corretamente
+
+location.href =
+"pagina_respiro.html"
+
+}
+
+</script>
 
 </body>
 </html>
