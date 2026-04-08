@@ -1,56 +1,83 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Login Lapidar</title>
+
+<title>Acesso ao Lapidar</title>
 
 <style>
+
 body{
 margin:0;
-height:100vh;
+font-family:Arial, sans-serif;
+background:#f4efe6;
 display:flex;
-align-items:center;
 justify-content:center;
-background:#efece2;
-font-family:Arial;
+align-items:center;
+height:100vh;
 }
 
 .card{
+
 background:white;
-padding:40px;
-border-radius:18px;
-box-shadow:0 10px 40px rgba(0,0,0,0.12);
+padding:30px;
+border-radius:12px;
+box-shadow:0px 4px 14px rgba(0,0,0,0.15);
 width:320px;
 text-align:center;
+
+}
+
+h2{
+
+margin-bottom:20px;
+
 }
 
 input{
+
 width:100%;
 padding:12px;
-margin-top:12px;
-border-radius:10px;
-border:1px solid #ddd;
-font-size:16px;
+margin:8px 0;
+border-radius:8px;
+border:1px solid #ccc;
+font-size:15px;
+
 }
 
 button{
-margin-top:18px;
+
 width:100%;
-padding:14px;
-background:#2f8a36;
+padding:12px;
+margin-top:10px;
+background:#2e7d32;
 border:none;
 color:white;
-font-weight:bold;
 font-size:16px;
-border-radius:12px;
+border-radius:8px;
 cursor:pointer;
+
 }
 
 button:hover{
-background:#256f2b;
+
+background:#256528;
+
 }
+
+.aviso{
+
+margin-top:10px;
+font-size:13px;
+color:#888;
+
+}
+
 </style>
+
 </head>
 
 <body>
@@ -61,96 +88,52 @@ background:#256f2b;
 
 <input id="usuario" placeholder="Usuário">
 
-<input id="senha" placeholder="Senha" type="password">
+<input id="senha" type="password" placeholder="Senha">
 
-<button onclick="login()">Entrar</button>
+<button onclick="entrar()">Entrar</button>
+
+<div class="aviso">
+
+Área interna do sistema editorial. O acesso depende de autenticação válida.
+
+</div>
 
 </div>
 
 <script>
 
-function login(){
+function entrar(){
 
-let usuario=document.getElementById("usuario").value.trim().toLowerCase()
+const usuario = document.getElementById("usuario").value.trim();
+const senha = document.getElementById("senha").value.trim();
 
-if(usuario===""){
+if(usuario === ""){
+alert("Informe o usuário.");
+return;
+}
 
-alert("Digite o usuário")
-return
-
+if(senha === ""){
+alert("Informe a senha.");
+return;
 }
 
 /*
-DEFINIÇÃO AUTOMÁTICA DE PERFIL
-sem cadastro manual
+Aqui salvamos sessão válida
 */
 
-let perfil="producao"
-
+localStorage.setItem("usuarioLogado", usuario);
+localStorage.setItem("perfilAtivo", "admin");
 
 /*
-ADMIN PRINCIPAL
-adicione aqui seus logins administrativos
+Redirecionamento oficial da espinha dorsal
 */
 
-if(
-usuario.includes("sigmal") ||
-usuario.includes("lapidar") ||
-usuario.includes("site") ||
-usuario.includes("admin")
-){
-
-perfil="admin"
-
-}
-
-
-/*
-HETERÔNIMO
-*/
-
-if(
-usuario.includes("heteronimo") ||
-usuario.includes("heterônimo")
-){
-
-perfil="heteronimo"
-
-}
-
-
-/*
-CORTESIA
-*/
-
-if(
-usuario.includes("cortesia") ||
-usuario.includes("autor")
-){
-
-perfil="cortesia"
-
-}
-
-
-/*
-GRAVA SESSÃO
-*/
-
-localStorage.setItem("lapidar_sessao_ativa","true")
-localStorage.setItem("lapidar_usuario",usuario)
-localStorage.setItem("lapidar_perfil",perfil)
-
-
-/*
-ENVIA PARA ENTRADA OFICIAL
-*/
-
-window.location.href="/index.html"
+window.location.href = "painel_setores.html";
 
 }
 
 </script>
 
 </body>
+
 </html>
