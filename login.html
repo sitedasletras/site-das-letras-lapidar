@@ -1,93 +1,62 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Lapidar • Login</title>
+<title>Acesso ao Lapidar</title>
 
 <style>
 
 body{
-
 margin:0;
-font-family:Arial, Helvetica, sans-serif;
-background:#f4f1e8;
-
+height:100vh;
 display:flex;
 justify-content:center;
 align-items:center;
-
-height:100vh;
-
+background:#efece2;
+font-family:Arial;
 }
 
 .card{
 
 background:white;
-
 padding:40px;
-
-border-radius:22px;
-
-box-shadow:0px 14px 34px rgba(0,0,0,.12);
-
-width:340px;
-
-}
-
-h1{
-
+border-radius:18px;
+box-shadow:0 10px 40px rgba(0,0,0,0.12);
+width:320px;
 text-align:center;
-
-margin-bottom:26px;
-
-letter-spacing:3px;
 
 }
 
 input{
 
 width:100%;
-
-padding:14px;
-
-margin-bottom:16px;
-
+padding:12px;
+margin-top:12px;
 border-radius:10px;
-
-border:1px solid #ccc;
-
+border:1px solid #ddd;
 font-size:16px;
 
 }
 
 button{
 
+margin-top:18px;
 width:100%;
-
-padding:16px;
-
-background:#2e7d32;
-
-color:white;
-
+padding:14px;
+background:#2f8a36;
 border:none;
-
-border-radius:12px;
-
+color:white;
 font-weight:bold;
-
-font-size:18px;
-
+font-size:16px;
+border-radius:12px;
 cursor:pointer;
 
 }
 
 button:hover{
 
-background:#256628;
+background:#256f2b;
 
 }
 
@@ -99,42 +68,40 @@ background:#256628;
 
 <div class="card">
 
-<h1>LAPIDAR</h1>
+<h2>Acesso ao Lapidar</h2>
 
-<input
-id="usuario"
-placeholder="Usuário"
-/>
+<input id="usuario" placeholder="Usuário">
 
-<input
-id="senha"
-type="password"
-placeholder="Senha"
-/>
+<input id="senha" placeholder="Senha" type="password">
 
-<button onclick="entrar()">
-
-Entrar
-
-</button>
+<button onclick="login()">Entrar</button>
 
 </div>
 
+
 <script>
 
-function entrar(){
+function login(){
 
-localStorage.setItem(
-"lapidar_perfil",
-"usuario"
-)
+let usuario=document.getElementById("usuario").value.trim().toLowerCase()
+let senha=document.getElementById("senha").value.trim()
 
-window.location.href =
-"pagina_institucional_lapidar.html"
+if(usuario=="" || senha==""){
+
+alert("Preencha usuário e senha")
+return
 
 }
 
-</script>
 
-</body>
-</html>
+/*
+PERFIS PADRÃO
+Você pode alterar depois
+*/
+
+let perfil="cortesia"
+
+if(usuario=="admin") perfil="admin"
+if(usuario=="producao") perfil="producao"
+if(usuario=="veterano") perfil="veterano"
+if(usuario=="heteronimo
