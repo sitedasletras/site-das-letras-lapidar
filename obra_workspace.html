@@ -6,12 +6,10 @@
 <title>Workspace da Obra — Lapidar</title>
 
 <style>
-*{
-box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 body{
-font-family:Arial, sans-serif;
+font-family:Arial,sans-serif;
 background:#f7f5ef;
 margin:0;
 color:#2f2a24;
@@ -26,7 +24,8 @@ font-size:22px;
 }
 
 .container{
-width:88%;
+width:90%;
+max-width:1380px;
 margin:auto;
 margin-top:30px;
 margin-bottom:40px;
@@ -36,8 +35,8 @@ margin-bottom:40px;
 background:white;
 padding:20px;
 margin-bottom:20px;
-border-radius:10px;
-box-shadow:0px 2px 8px rgba(0,0,0,0.15);
+border-radius:12px;
+box-shadow:0 2px 8px rgba(0,0,0,.15);
 }
 
 h2{
@@ -84,7 +83,7 @@ margin-top:10px;
 margin-right:8px;
 padding:10px 15px;
 border:none;
-border-radius:6px;
+border-radius:8px;
 cursor:pointer;
 background:#457b9d;
 color:white;
@@ -116,15 +115,23 @@ grid-template-columns:1fr 1fr;
 gap:20px;
 }
 
+.preview-wrap{
+background:#e8e1d5;
+padding:18px;
+border-radius:12px;
+border:1px solid #d8ccb8;
+}
+
 .preview{
 background:#fff;
 border:1px solid #ddd;
-padding:18px;
+padding:24px;
 border-radius:8px;
-max-height:500px;
+max-height:700px;
 overflow:auto;
 white-space:pre-wrap;
 line-height:1.7;
+min-height:500px;
 }
 
 .tag{
@@ -146,11 +153,60 @@ font-size:13px;
 color:#555;
 }
 
-@media (max-width: 900px){
-.container{
-width:94%;
+.estrutura-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
 }
-.grid{
+
+.estrutura-box{
+background:#fbfaf7;
+border:1px solid #eadfce;
+border-radius:12px;
+padding:14px;
+}
+
+.estrutura-box strong{
+display:block;
+margin-bottom:6px;
+color:#5d4b2d;
+}
+
+.subgrid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+}
+
+.linha{
+background:#f9f6f1;
+border:1px solid #eadfce;
+border-radius:10px;
+padding:12px 14px;
+margin-bottom:12px;
+}
+
+.rotulo{
+display:block;
+font-size:12px;
+font-weight:bold;
+text-transform:uppercase;
+letter-spacing:.4px;
+color:#8a6a3c;
+margin-bottom:6px;
+}
+
+.valor{
+font-size:15px;
+line-height:1.45;
+word-break:break-word;
+}
+
+@media (max-width: 960px){
+.container{
+width:95%;
+}
+.grid,.estrutura-grid,.subgrid{
 grid-template-columns:1fr;
 }
 button{
@@ -207,7 +263,23 @@ Nenhuma leitura narrativa concluída ainda.
 
 <div>
   <div class="card">
-    <h2>Leitura Narrativa Real</h2>
+    <h2>Estrutura editorial da obra</h2>
+    <div class="estrutura-grid">
+      <div class="estrutura-box"><strong>Coleção</strong><div id="colecaoObra">—</div></div>
+      <div class="estrutura-box"><strong>Série / saga / trilogia</strong><div id="serieObra">—</div></div>
+      <div class="estrutura-box"><strong>Volume</strong><div id="volumeObra">—</div></div>
+      <div class="estrutura-box"><strong>Subtítulo</strong><div id="subtituloObra">—</div></div>
+      <div class="estrutura-box"><strong>Organização</strong><div id="organizacaoObra">—</div></div>
+      <div class="estrutura-box"><strong>Direção editorial</strong><div id="direcaoObra">—</div></div>
+      <div class="estrutura-box"><strong>Editora / selo</strong><div id="editoraObra">—</div></div>
+      <div class="estrutura-box"><strong>Prefaciador</strong><div id="prefaciadorObra">—</div></div>
+      <div class="estrutura-box"><strong>Apresentador</strong><div id="apresentadorObra">—</div></div>
+      <div class="estrutura-box"><strong>Identificador institucional</strong><div id="identificadorObra">—</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Leitura narrativa real</h2>
 
     <div class="info">
     Gênero literário:
@@ -243,97 +315,121 @@ Nenhuma leitura narrativa concluída ainda.
   </div>
 
   <div class="card">
-    <h2>Elementos Pré-Textuais</h2>
+    <h2>Pré-textuais e apoio técnico</h2>
 
-    <div class="info">
-    Prefácio:
-    <span id="prefacioStatus" class="status-alert">Não encontrado</span>
+    <div class="linha">
+      <span class="rotulo">Sinopse</span>
+      <div class="valor" id="sinopseStatus">—</div>
     </div>
 
-    <div class="info">
-    Biografia do autor:
-    <span id="biografiaStatus" class="status-alert">Não encontrada</span>
+    <div class="linha">
+      <span class="rotulo">Prefácio</span>
+      <div class="valor" id="prefacioStatus">—</div>
     </div>
 
-    <div class="info">
-    Ficha catalográfica:
-    <span id="fichaStatus" class="status-alert">Não encontrada</span>
+    <div class="linha">
+      <span class="rotulo">Dedicatória</span>
+      <div class="valor" id="dedicatoriaStatus">—</div>
     </div>
 
-    <div class="info">
-    Dedicatória:
-    <span id="dedicatoriaStatus" class="status-alert">Não encontrada</span>
+    <div class="linha">
+      <span class="rotulo">Ficha catalográfica</span>
+      <div class="valor" id="fichaStatus">—</div>
     </div>
 
-    <button onclick="location.href='modulo01_bolsao_mapa.html'">Voltar ao Cofre para completar</button>
+    <div class="linha">
+      <span class="rotulo">Biografia</span>
+      <div class="valor" id="biografiaStatus">—</div>
+    </div>
+
+    <div class="linha">
+      <span class="rotulo">Bibliografia</span>
+      <div class="valor" id="bibliografiaStatus">—</div>
+    </div>
+
+    <button onclick="location.href='modulo_01_bolsao_entrada.html'">Voltar à Entrada do Bolsão</button>
   </div>
 
   <div class="card">
-    <h2>Tradução e Avaliação</h2>
+    <h2>Imagens, voz e assinatura institucional</h2>
 
     <div class="info">
-    1 tradução textual automática por obra:
-    <span class="status-free">Grátis</span>
+    Imagens internas:
+    <span id="imagensInternasStatus" class="status-note">—</span>
     </div>
 
     <div class="info">
-    1 avaliação literária da obra traduzida:
-    <span class="status-free">Grátis</span>
+    Imagens de capa:
+    <span id="imagensCapaStatus" class="status-note">—</span>
     </div>
 
     <div class="info">
-    Traduções adicionais:
-    <span class="status-alert">Pagas</span>
+    Preparação para voz:
+    <span id="vozStatus" class="status-note">—</span>
     </div>
 
     <div class="info">
-    Novas avaliações:
-    <span class="status-alert">Pagas</span>
+    Assinatura Lapidar:
+    <span id="assinaturaStatus" class="status-note">—</span>
     </div>
 
     <div class="resumo-box">
-      A regra do plano Livro 699 está ativa para esta obra: uma tradução gratuita e uma avaliação gratuita vinculada à primeira obra traduzida.
+      A assinatura institucional e os dados de apoio técnico são preparados nesta etapa, mas o posicionamento final dentro do livro pertence ao módulo de Diagramação.
     </div>
-
-    <button>Traduzir Obra</button>
-    <button>Gerar Avaliação da Tradução</button>
   </div>
 </div>
 
 <div>
   <div class="card">
-    <h2>Prévia da Obra</h2>
-    <div class="preview" id="textoPreview">Nenhuma obra carregada.</div>
+    <h2>Texto limpo integral da obra</h2>
+    <div class="preview-wrap">
+      <div class="preview" id="textoPreview">Nenhuma obra carregada.</div>
+    </div>
   </div>
 
   <div class="card">
-    <h2>Ativos da Obra</h2>
+    <h2>Fluxo técnico da obra</h2>
 
-    <div class="info">
-    Imagens salvas:
-    <span id="imagensSalvas" class="status-ok">0</span>
+    <div class="subgrid">
+      <div class="estrutura-box">
+        <strong>Modo da obra</strong>
+        <div id="modoObraStatus">—</div>
+      </div>
+      <div class="estrutura-box">
+        <strong>Idioma da edição</strong>
+        <div id="idiomaStatus">—</div>
+      </div>
+      <div class="estrutura-box">
+        <strong>Tipo de operação</strong>
+        <div id="perfilEdicaoStatus">—</div>
+      </div>
+      <div class="estrutura-box">
+        <strong>ISBN informado</strong>
+        <div id="isbnStatus">—</div>
+      </div>
+      <div class="estrutura-box">
+        <strong>Cutter informado</strong>
+        <div id="cutterStatus">—</div>
+      </div>
+      <div class="estrutura-box">
+        <strong>Data de referência</strong>
+        <div id="mesRefStatus">—</div>
+      </div>
     </div>
 
-    <div class="info">
-    Autoimagem pelo OKapista:
-    <span id="autoImagem" class="status-note">Não verificado</span>
+    <div class="resumo-box">
+      O Workspace consolida a entrada guiada do Bolsão e a leitura limpa do Cofre técnico para preparar a obra para os módulos seguintes.
     </div>
-
-    <div class="info">
-    Fluxo atual:
-    <span class="status-ok">Parte Livro</span>
-    </div>
-
-    <button class="botao-final" onclick="location.href='modulo_executor.html'">Abrir Executor de Módulos</button>
-    <button class="botao-sec" onclick="location.href='mesario.html'">Abrir Mesário da Obra</button>
-    <button class="botao-sec" onclick="location.href='exportar.html'">Ir para Exportação</button>
   </div>
 
   <div class="card">
     <h2>Navegação</h2>
 
+    <button class="botao-final" onclick="location.href='modulo_executor.html'">Abrir Executor de Módulos</button>
+    <button class="botao-sec" onclick="location.href='mesario.html'">Abrir Mesário da Obra</button>
+    <button class="botao-sec" onclick="location.href='exportar.html'">Ir para Exportação</button>
+    <button class="botao-sec" onclick="location.href='modulo01_bolsao_mapa.html'">Retornar ao Cofre técnico</button>
     <button class="botao-sec" onclick="location.href='painel_setores.html'">Voltar ao Painel de Setores</button>
-    <button class="botao-sec" onclick="location.href='modulo01_bolsao_mapa.html'">Retornar ao Cofre Editorial</button>
     <button onclick="location.href='login.html'">Sair do Sistema</button>
   </div>
 </div>
@@ -348,43 +444,54 @@ Mas a jornada ainda continua.
 </div>
 
 <script>
-function carregarObraAtual(){
-  const obraSalva = localStorage.getItem("obraAtual");
-
-  if(!obraSalva){
-    return null;
-  }
-
+function carregarJSON(chave){
+  const salvo = localStorage.getItem(chave);
+  if(!salvo) return null;
   try{
-    return JSON.parse(obraSalva);
-  }catch(erro){
+    return JSON.parse(salvo);
+  }catch(e){
     return null;
   }
 }
 
-function marcarStatus(id, valor, encontradoTexto, naoTexto){
-  const el = document.getElementById(id);
-  if(valor){
-    el.innerText = encontradoTexto;
-    el.className = "status-ok";
-  }else{
-    el.innerText = naoTexto;
-    el.className = "status-alert";
-  }
+function textoOuTraco(v){
+  if(Array.isArray(v)) return v.length ? v.join(", ") : "—";
+  return v && String(v).trim() ? v : "—";
+}
+
+function textoArquivoOuGerado(v, fallback){
+  if(Array.isArray(v)) return v.length ? "Enviado: " + v.join(", ") : fallback;
+  return v ? "Enviado: " + v : fallback;
 }
 
 function preencherWorkspace(){
-  const obra = carregarObraAtual();
+  const obra = carregarJSON("obraAtual");
+  const entrada = carregarJSON("lapidar_entrada_bolsao");
 
-  if(!obra){
+  if(!obra && !entrada){
     return;
   }
 
-  document.getElementById("tituloObra").innerText = obra?.estrutura?.titulo || "Não identificado";
-  document.getElementById("autorObra").innerText = obra?.estrutura?.autor || "Não identificado";
-  document.getElementById("arquivoObra").innerText = obra?.arquivoOriginal || "Não disponível";
-  document.getElementById("tipoObra").innerText = obra?.tipo || "Não identificado";
+  const titulo = entrada?.tituloManual || entrada?.tituloBase || obra?.estrutura?.titulo || "Não identificado";
+  const subtitulo = entrada?.subtituloManual || entrada?.subtituloBase || "—";
+  const autor = entrada?.autoresManual || entrada?.autorBase || obra?.estrutura?.autor || "Não identificado";
+
+  document.getElementById("tituloObra").innerText = titulo;
+  document.getElementById("autorObra").innerText = autor;
+  document.getElementById("arquivoObra").innerText = obra?.arquivoOriginal || entrada?.arquivoObra || "Não disponível";
+  document.getElementById("tipoObra").innerText = obra?.tipo || entrada?.tipoBase || "Não identificado";
   document.getElementById("capitulosObra").innerText = Array.isArray(obra?.estrutura?.capitulos) ? obra.estrutura.capitulos.length : 0;
+
+  document.getElementById("colecaoObra").innerText = textoOuTraco(entrada?.colecao);
+  document.getElementById("serieObra").innerText = textoOuTraco(entrada?.serie);
+  document.getElementById("volumeObra").innerText = textoOuTraco(entrada?.volume);
+  document.getElementById("subtituloObra").innerText = textoOuTraco(subtitulo);
+  document.getElementById("organizacaoObra").innerText = textoOuTraco(entrada?.organizacao);
+  document.getElementById("direcaoObra").innerText = textoOuTraco(entrada?.direcao);
+  document.getElementById("editoraObra").innerText = textoOuTraco(entrada?.editora);
+  document.getElementById("prefaciadorObra").innerText = textoOuTraco(entrada?.prefaciadorManual);
+  document.getElementById("apresentadorObra").innerText = textoOuTraco(entrada?.apresentadorManual);
+  document.getElementById("identificadorObra").innerText = textoOuTraco(entrada?.identificadorPreview);
 
   document.getElementById("generoObra").innerText = obra?.genero || "Não identificado";
   document.getElementById("estiloObra").innerText = obra?.estilo || "Não identificado";
@@ -396,25 +503,36 @@ function preencherWorkspace(){
     : "Não identificados";
 
   document.getElementById("personagensObra").innerText = personagens;
-
-  const conflito = obra?.leituraDramatica?.conflitoCentral || "Não conclusivo";
-  document.getElementById("conflitoObra").innerText = conflito;
+  document.getElementById("conflitoObra").innerText = obra?.leituraDramatica?.conflitoCentral || "Não conclusivo";
 
   document.getElementById("resumoNarrativo").innerText =
-    "O Lapidar leu a obra e identificou um eixo narrativo principal. Este workspace confirma ao autor o que foi reconhecido antes da passagem para os módulos editoriais.";
+    "O Lapidar consolidou a entrada técnica do Bolsão e a leitura limpa do Cofre. Este workspace mostra como a obra foi reconhecida antes da passagem para os módulos editoriais.";
 
-  document.getElementById("textoPreview").innerText =
-    (obra?.textoExtraido || "Nenhuma obra carregada.").substring(0, 12000);
+  document.getElementById("sinopseStatus").innerText = textoArquivoOuGerado(entrada?.sinopseArquivo, "Será gerada gratuitamente em PDF separado, se necessário");
+  document.getElementById("prefacioStatus").innerText = textoArquivoOuGerado(entrada?.prefacioArquivo, "Poderá ser gerado gratuitamente");
+  document.getElementById("dedicatoriaStatus").innerText = textoArquivoOuGerado(entrada?.dedicatoriaArquivo, "Poderá ser gerada gratuitamente");
+  document.getElementById("fichaStatus").innerText = textoArquivoOuGerado(entrada?.fichaCatalograficaArquivo, "Se não houver oficial, poderá ser usada a Ficha de Dados da Obra");
+  document.getElementById("biografiaStatus").innerText = textoArquivoOuGerado(entrada?.biografiaArquivo, "Poderá ser gerada gratuitamente");
+  document.getElementById("bibliografiaStatus").innerText = textoArquivoOuGerado(entrada?.bibliografiaArquivo, "Não será gerada automaticamente");
 
-  document.getElementById("imagensSalvas").innerText = obra?.imagensSalvas || obra?.imagens || 0;
-  document.getElementById("autoImagem").innerText = obra?.autoGerarCapa
-    ? "Ativado: o OKapista deverá gerar imagens-base automaticamente."
-    : "Desativado: há imagens enviadas para a obra.";
+  let imagensInternas = "Não definidas";
+  if(entrada?.imagensInternasModo === "nao") imagensInternas = "Não deseja imagens internas";
+  if(entrada?.imagensInternasModo === "enviar") imagensInternas = entrada?.uploadImagensInternas ? "Serão enviadas: " + textoOuTraco(entrada.uploadImagensInternas) : "Imagens internas serão enviadas";
+  if(entrada?.imagensInternasModo === "criar") imagensInternas = "Criação automática: " + textoOuTraco(entrada?.tipoImagemCriada);
 
-  marcarStatus("prefacioStatus", obra?.lacunas?.prefacio, "Enviado", "Não encontrado");
-  marcarStatus("biografiaStatus", obra?.lacunas?.biografia, "Enviada", "Não encontrada");
-  marcarStatus("fichaStatus", obra?.lacunas?.fichaCatalografica, "Enviada", "Não encontrada");
-  marcarStatus("dedicatoriaStatus", obra?.lacunas?.dedicatoria, "Enviada", "Não encontrada");
+  document.getElementById("imagensInternasStatus").innerText = imagensInternas;
+  document.getElementById("imagensCapaStatus").innerText = entrada?.imagensCapa ? textoOuTraco(entrada.imagensCapa) : "Não enviadas";
+  document.getElementById("vozStatus").innerText = textoOuTraco(entrada?.voz);
+  document.getElementById("assinaturaStatus").innerText = entrada?.assinaturaLapidar ? "Ativada" : "Desativada";
+
+  document.getElementById("textoPreview").innerText = obra?.textoExtraido || "Nenhuma obra carregada.";
+
+  document.getElementById("modoObraStatus").innerText = textoOuTraco(entrada?.modoObra);
+  document.getElementById("idiomaStatus").innerText = entrada?.idiomaObra === "en-US" ? "Inglês / edição internacional" : "Português / edição lusófona";
+  document.getElementById("perfilEdicaoStatus").innerText = textoOuTraco(entrada?.perfilEdicao);
+  document.getElementById("isbnStatus").innerText = textoOuTraco(entrada?.isbnInformado);
+  document.getElementById("cutterStatus").innerText = textoOuTraco(entrada?.cutterManual);
+  document.getElementById("mesRefStatus").innerText = textoOuTraco(entrada?.mesRef);
 
   const tags = document.getElementById("tagsObra");
   tags.innerHTML = "";
