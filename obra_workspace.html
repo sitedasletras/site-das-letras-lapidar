@@ -2,429 +2,197 @@
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lapidar — Workspace da Obra</title>
+<title>Workspace da Obra — Lapidar</title>
 
 <style>
-*{
-box-sizing:border-box;
-}
 
 body{
+font-family:Arial;
+background:#f7f5ef;
 margin:0;
-font-family:Arial, sans-serif;
-background:#f3efe6;
-color:#2f2a24;
 }
 
-.topbar{
-background:#6a5a3c;
-color:#fff;
-padding:18px 24px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-gap:12px;
-flex-wrap:wrap;
-}
-
-.topbar h1{
-margin:0;
+header{
+background:#264653;
+color:white;
+padding:18px;
+text-align:center;
 font-size:22px;
 }
 
-.topbar .acoes{
-display:flex;
-gap:10px;
-flex-wrap:wrap;
-}
-
 .container{
-max-width:1280px;
-margin:24px auto;
-padding:0 16px 32px;
-}
-
-.grid{
-display:grid;
-grid-template-columns:1.1fr 0.9fr;
-gap:18px;
+width:85%;
+margin:auto;
+margin-top:30px;
 }
 
 .card{
-background:#fff;
-border-radius:14px;
-padding:18px;
-box-shadow:0 4px 14px rgba(0,0,0,0.08);
-}
-
-.card h2{
-margin:0 0 14px 0;
-font-size:20px;
-color:#5d4b2d;
-}
-
-.linha{
-margin-bottom:12px;
-padding:10px 12px;
-background:#f8f5ef;
+background:white;
+padding:20px;
+margin-bottom:20px;
 border-radius:10px;
-border:1px solid #eadfce;
+box-shadow:0px 2px 8px rgba(0,0,0,0.15);
 }
 
-.rotulo{
-display:block;
-font-size:12px;
+h2{
+color:#264653;
+}
+
+.status-ok{
+color:green;
 font-weight:bold;
-color:#7b6749;
-margin-bottom:5px;
-text-transform:uppercase;
-letter-spacing:0.4px;
 }
 
-.valor{
-font-size:16px;
-line-height:1.45;
-word-break:break-word;
+.status-alert{
+color:#e76f51;
+font-weight:bold;
 }
 
-.preview{
-background:#fcfbf8;
-border:1px solid #eadfce;
-border-radius:10px;
-padding:14px;
-min-height:360px;
-max-height:560px;
-overflow:auto;
-white-space:pre-wrap;
-line-height:1.55;
-font-size:15px;
-}
-
-.vazio{
-color:#8a7d6d;
-font-style:italic;
-}
-
-.tag-area{
-display:flex;
-gap:8px;
-flex-wrap:wrap;
-}
-
-.tag{
-background:#f1ede5;
-border:1px solid #e1d6c5;
-color:#5d4b2d;
-padding:7px 10px;
-border-radius:999px;
-font-size:13px;
-}
-
-.aviso{
-margin-top:14px;
-background:#fff7e8;
-border:1px solid #ecd7a7;
-border-radius:10px;
-padding:12px 14px;
-color:#6a552a;
-line-height:1.45;
-font-size:14px;
-}
-
-.acoes-inferiores{
-margin-top:18px;
-display:flex;
-gap:10px;
-flex-wrap:wrap;
+.status-free{
+color:#2a9d8f;
+font-weight:bold;
 }
 
 button{
+margin-top:10px;
+padding:10px 15px;
 border:none;
-border-radius:10px;
-padding:12px 18px;
-font-size:15px;
+border-radius:6px;
 cursor:pointer;
-transition:0.2s ease;
+background:#457b9d;
+color:white;
 }
 
-.btn-primario{
-background:#6a5a3c;
-color:#fff;
+button:hover{
+background:#1d3557;
 }
 
-.btn-primario:hover{
-background:#56492f;
+.footer{
+text-align:center;
+margin-top:40px;
+padding:15px;
+font-size:13px;
+color:#555;
 }
 
-.btn-secundario{
-background:#e9dfcf;
-color:#4b3d2c;
-}
-
-.btn-secundario:hover{
-background:#dccfbb;
-}
-
-.btn-alerta{
-background:#9e3e3e;
-color:#fff;
-}
-
-.btn-alerta:hover{
-background:#843232;
-}
-
-.painel-blocos{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:12px;
-}
-
-.bloco-mini{
-background:#fbfaf7;
-border:1px solid #eadfce;
-border-radius:12px;
-padding:14px;
-}
-
-.bloco-mini strong{
-display:block;
-margin-bottom:6px;
-color:#5d4b2d;
-}
-
-@media (max-width: 980px){
-.grid{
-grid-template-columns:1fr;
-}
-.painel-blocos{
-grid-template-columns:1fr;
-}
-.preview{
-min-height:280px;
-}
-}
 </style>
 </head>
+
+
 <body>
 
-<div class="topbar">
-<h1>Workspace da Obra</h1>
-<div class="acoes">
-<button class="btn-secundario" onclick="voltarParaCofre()">Retornar ao Cofre</button>
-<button class="btn-alerta" onclick="limparObra()">Limpar Obra</button>
-</div>
-</div>
+<header>
+Workspace da Obra — Lapidar
+</header>
+
 
 <div class="container">
 
-<div class="grid">
-<div class="card">
-<h2>Estrutura principal da obra</h2>
-
-<div class="linha">
-<span class="rotulo">Arquivo original</span>
-<div class="valor" id="arquivoOriginal">—</div>
-</div>
-
-<div class="linha">
-<span class="rotulo">Título detectado</span>
-<div class="valor" id="tituloDetectado">—</div>
-</div>
-
-<div class="linha">
-<span class="rotulo">Autor detectado</span>
-<div class="valor" id="autorDetectado">—</div>
-</div>
-
-<div class="linha">
-<span class="rotulo">Tipo da obra</span>
-<div class="valor" id="tipoObra">—</div>
-</div>
-
-<div class="linha">
-<span class="rotulo">Capítulos detectados</span>
-<div class="valor" id="capitulosObra">—</div>
-</div>
-
-<div class="linha">
-<span class="rotulo">Personagens recorrentes</span>
-<div class="valor" id="personagensDetectados">—</div>
-</div>
-
-<div class="aviso">
-O Workspace confirma para o autor o que o Cofre leu e como o Lapidar está compreendendo a obra antes de avançar para os módulos.
-</div>
-
-<div class="acoes-inferiores">
-<button class="btn-primario" onclick="seguirParaExecutor()">Seguir para Executor de Módulos</button>
-<button class="btn-secundario" onclick="recarregarWorkspace()">Recarregar Workspace</button>
-</div>
-</div>
 
 <div class="card">
-<h2>Classificação literária e narrativa</h2>
 
-<div class="painel-blocos">
-<div class="bloco-mini">
-<strong>Gênero literário</strong>
-<div id="generoDetectado">—</div>
-</div>
+<h2>Status da Leitura do Cofre Editorial</h2>
 
-<div class="bloco-mini">
-<strong>Estilo dominante</strong>
-<div id="estiloDetectado">—</div>
-</div>
+Título detectado:
+<span class="status-ok">Confirmado</span><br>
 
-<div class="bloco-mini">
-<strong>Narrador</strong>
-<div id="narradorDetectado">—</div>
-</div>
+Autor detectado:
+<span class="status-ok">Confirmado</span><br>
 
-<div class="bloco-mini">
-<strong>Clima narrativo</strong>
-<div id="climaDetectado">—</div>
-</div>
+Narrador identificado:
+<span class="status-ok">Confirmado</span><br>
+
+Gênero literário identificado:
+<span class="status-ok">Confirmado</span><br>
+
+Personagens principais detectados:
+<span class="status-ok">Confirmado</span>
+
 </div>
 
-<div class="tag-area" id="tagsResumo"></div>
-
-<div class="aviso">
-Se a classificação aparecer como mista ou não conclusiva, isso significa que o Lapidar preferiu ser honesto em vez de inventar uma resposta com falsa segurança.
-</div>
-</div>
-</div>
-
-<div class="grid" style="margin-top:18px;">
-<div class="card">
-<h2>Leitura visual do texto</h2>
-<div class="preview" id="previewTexto"></div>
-</div>
 
 <div class="card">
-<h2>Ativos e complementos</h2>
 
-<div class="linha">
-<span class="rotulo">Imagens salvas</span>
-<div class="valor" id="resumoImagens">—</div>
-</div>
+<h2>Elementos Pré-Textuais</h2>
 
-<div class="linha">
-<span class="rotulo">Autoimagem pelo OKapista</span>
-<div class="valor" id="autoImagem">—</div>
-</div>
+Prefácio:
+<span class="status-alert">Não encontrado</span><br>
 
-<div class="linha">
-<span class="rotulo">Lacunas editoriais</span>
-<div class="valor" id="resumoLacunas">—</div>
-</div>
-</div>
-</div>
+Biografia do autor:
+<span class="status-alert">Não encontrada</span><br>
+
+Ficha catalográfica:
+<span class="status-alert">Não encontrada</span><br>
+
+<button>Adicionar Elementos Pré-Textuais</button>
 
 </div>
 
-<script>
-function obterObraAtual(){
-  const obraSalva = localStorage.getItem("obraAtual");
-  if(!obraSalva) return null;
 
-  try{
-    return JSON.parse(obraSalva);
-  }catch(erro){
-    return null;
-  }
-}
+<div class="card">
 
-function preencherWorkspace(){
-  const obra = obterObraAtual();
+<h2>Tradução e Avaliação</h2>
 
-  if(!obra){
-    document.getElementById("arquivoOriginal").innerText = "Nenhuma obra carregada";
-    document.getElementById("tituloDetectado").innerText = "Nenhuma obra carregada";
-    document.getElementById("autorDetectado").innerText = "Nenhuma obra carregada";
-    document.getElementById("tipoObra").innerText = "Nenhuma obra carregada";
-    document.getElementById("capitulosObra").innerText = "Nenhuma obra carregada";
-    document.getElementById("personagensDetectados").innerText = "Nenhuma obra carregada";
-    document.getElementById("generoDetectado").innerText = "Nenhuma obra carregada";
-    document.getElementById("estiloDetectado").innerText = "Nenhuma obra carregada";
-    document.getElementById("narradorDetectado").innerText = "Nenhuma obra carregada";
-    document.getElementById("climaDetectado").innerText = "Nenhuma obra carregada";
-    document.getElementById("previewTexto").innerHTML = '<span class="vazio">Nenhuma obra foi lida ainda.</span>';
-    document.getElementById("resumoImagens").innerText = "Não disponível";
-    document.getElementById("autoImagem").innerText = "Não disponível";
-    document.getElementById("resumoLacunas").innerText = "Não disponível";
-    return;
-  }
+Tradução automática disponível:
+<span class="status-free">1 idioma gratuito disponível</span><br>
 
-  document.getElementById("arquivoOriginal").innerText = obra.arquivoOriginal || "Arquivo não identificado";
-  document.getElementById("tituloDetectado").innerText = obra?.estrutura?.titulo || "Não identificado";
-  document.getElementById("autorDetectado").innerText = obra?.estrutura?.autor || "Não identificado";
-  document.getElementById("tipoObra").innerText = obra.tipo || "Não identificado";
-  document.getElementById("capitulosObra").innerText =
-    Array.isArray(obra?.estrutura?.capitulos) ? obra.estrutura.capitulos.length : 0;
+Avaliação literária vinculada à tradução:
+<span class="status-free">Disponível gratuitamente</span><br>
 
-  document.getElementById("personagensDetectados").innerText =
-    Array.isArray(obra.personagens) && obra.personagens.length
-    ? obra.personagens.join(", ")
-    : "Não identificados";
+<button>Traduzir Obra</button>
+<button>Gerar Avaliação da Tradução</button>
 
-  document.getElementById("generoDetectado").innerText = obra.genero || "Não identificado";
-  document.getElementById("estiloDetectado").innerText = obra.estilo || "Não identificado";
-  document.getElementById("narradorDetectado").innerText = obra.narrador || "Não identificado";
-  document.getElementById("climaDetectado").innerText = obra.clima || "Não identificado";
+</div>
 
-  document.getElementById("previewTexto").innerText =
-    obra.textoExtraido ? obra.textoExtraido.substring(0, 12000) : "Sem texto extraído.";
 
-  document.getElementById("resumoImagens").innerText =
-    (obra.imagensSalvas || 0) + " imagem(ns) registrada(s)";
+<div class="card">
 
-  document.getElementById("autoImagem").innerText =
-    obra.autoGerarCapa ? "Ativado: OKapista deverá gerar imagens-base automaticamente." : "Desativado: há imagens enviadas pelo autor.";
+<h2>Fluxo Editorial</h2>
 
-  const lacunas = [
-    "Biografia: " + (obra?.lacunas?.biografia ? "enviada" : "ausente"),
-    "Prefácio: " + (obra?.lacunas?.prefacio ? "enviado" : "ausente"),
-    "Ficha catalográfica: " + (obra?.lacunas?.fichaCatalografica ? "enviada" : "ausente"),
-    "Dedicatória: " + (obra?.lacunas?.dedicatoria ? "enviada" : "ausente")
-  ];
-  document.getElementById("resumoLacunas").innerHTML = lacunas.join("<br>");
+<button onclick="location.href='modulo_executor.html'">
+Abrir Executor de Módulos
+</button>
 
-  const tagsArea = document.getElementById("tagsResumo");
-  tagsArea.innerHTML = "";
+<button onclick="location.href='mesario.html'">
+Abrir Mesário da Obra
+</button>
 
-  [obra.tipo, obra.genero, obra.estilo, obra.narrador, obra.clima]
-    .filter(Boolean)
-    .forEach(tagTexto=>{
-      const span = document.createElement("span");
-      span.className = "tag";
-      span.innerText = tagTexto;
-      tagsArea.appendChild(span);
-    });
-}
+<button onclick="location.href='exportar.html'">
+Exportar Arquivos
+</button>
 
-function voltarParaCofre(){
-  window.location.href = "modulo01_bolsao_mapa.html";
-}
+</div>
 
-function seguirParaExecutor(){
-  window.location.href = "modulo_executor.html";
-}
 
-function limparObra(){
-  const confirmar = confirm("Deseja realmente limpar a obra atual?");
-  if(!confirmar) return;
-  localStorage.removeItem("obraAtual");
-  window.location.href = "modulo01_bolsao_mapa.html";
-}
+<div class="card">
 
-function recarregarWorkspace(){
-  preencherWorkspace();
-}
+<h2>Navegação</h2>
 
-preencherWorkspace();
-</script>
+<button onclick="location.href='modulo_01_bolsao.html'">
+Retornar ao Cofre Editorial
+</button>
+
+<button onclick="location.href='painel_setores.html'">
+Voltar ao Painel de Setores
+</button>
+
+<button onclick="location.href='login.html'">
+Sair do Sistema
+</button>
+
+</div>
+
+
+</div>
+
+
+<div class="footer">
+
+Lapidar — trabalhando ao lado do autor, desde a primeira letra até o último ponto final.<br>
+Mas a jornada ainda continua.
+
+</div>
+
 
 </body>
 </html>
