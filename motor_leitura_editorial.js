@@ -28,7 +28,7 @@
     "Contracapa", "Orelha", "Livro", "Tipo", "Narrador", "Clima", "Gênero", "Estilo",
     "Ele", "Ela", "Eles", "Elas", "Mas", "Uma", "Um", "Uns", "Umas", "Como", "Apenas",
     "Boa", "Boas", "Algumas", "Alguns", "Esta", "Este", "Essa", "Esse", "Aquilo", "Nada",
-    "Tudo", "Todos", "Todas", "Foi", "Era", "Seria", "Havia", "Tinha", "Chicago"
+    "Tudo", "Todos", "Todas", "Foi", "Era", "Seria", "Havia", "Tinha"
   ]);
 
   const PALAVRAS_FUNCIONAIS = new Set([
@@ -39,6 +39,40 @@
     "algumas","muito","muita","muitos","muitas","pouco","pouca","poucos","poucas","boa","bom",
     "boas","bons","me","te","se","lhe","lhes","eu","tu","nós","vos"
   ]);
+
+  const TERMOS_LITURGICOS_OU_CENARIO = new Set([
+    "santa", "igreja", "quaresma", "cemitério", "praça", "cidade", "portão", "sepultura",
+    "velas", "passos", "neblina", "terra", "sino", "rua", "ruas", "noite", "casas", "porta",
+    "janelas", "torre", "sacristia"
+  ]);
+
+  const VERBOS_DE_ACAO = [
+    "andou","andaram","anda","andar","caminhou","caminharam","caminha","caminhar",
+    "voou","voaram","voa","voar","falou","falaram","fala","falar","observou","observaram",
+    "observa","observar","decidiu","decidiram","decide","decidir","abriu","abriram","abre","abrir",
+    "fechou","fecharam","fecha","fechar","seguiu","seguiram","segue","seguir","ergueu","ergueram",
+    "ergue","erguer","sorriu","sorriram","sorri","sorrir","gritou","gritaram","grita","gritar",
+    "chorou","choraram","chora","chorar","olhou","olharam","olha","olhar","tocou","tocaram","toca",
+    "tocar","apareceu","apareceram","aparece","aparecer","desapareceu","desapareceram","desaparece",
+    "desaparecer","rasgou","rasgaram","rasga","rasgar","arranhou","arranharam","arranha","arranhar",
+    "subiu","subiram","sobe","subir","saiu","saíram","sai","sair","retornou","retornaram","retorna",
+    "retornar","levantou","levantaram","levanta","levantar","apontou","apontaram","aponta","apontar",
+    "carregava","carregavam","carrega","carregar","guiava","guiavam","guia","guiar","impedia","impediam",
+    "impede","impedir","tentou","tentaram","tenta","tentar","aceitou","aceitaram","aceita","aceitar",
+    "respirava","respiravam","respira","respirar"
+  ];
+
+  const VERBOS_DE_PERCEPCAO = [
+    "viu","viram","vê","ver","sentiu","sentiram","sente","sentir","ouviu","ouviram","ouve","ouvir",
+    "pensou","pensaram","pensa","pensar","lembrava","lembravam","lembra","lembrar","sabia","sabiam",
+    "sabe","saber","entendeu","entenderam","entende","entender","percebeu","perceberam","percebe","perceber",
+    "observava","observavam","observa","observar"
+  ];
+
+  const TERMOS_CRIATURAS = [
+    "gárgula","gargula","vampiro","zumbi","demônio","demonio","anjo","fantasma","alma",
+    "criatura","monstro","guardião","guardiao","lobisomem","dragão","dragao","duende"
+  ];
 
   function normalizarTexto(texto) {
     return (texto || "")
@@ -213,20 +247,94 @@
     return false;
   }
 
-  function detectarPersonagens(texto) {
+  function contarEntidadeAtiva(texto, token) {
+    const tokenEsc = token.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    let pontos = 0;
+
+    for (const verbo of VERBOS_DE_ACAO) {
+      const regex = new RegExp("\\b" + tokenEsc + "\\b[^\\n\\.!\\?]{0,40}\\b" + verbo + "\\b", "gi");
+      const m = texto.match(regex);
+      if (m) pontos += m.length * 3;
+    }
+
+    for (const verbo of VERBOS_DE_PERCEPCAO) {
+      const regex = new RegExp("\\b" + tokenEsc + "\\b[^\\n\\.!\\?]{0,40}\\b" + verbo + "\\b", "gi");
+      const m = texto.match(regex);
+      if (m) pontos += m.length * 2;
+    }
+
+    return pontos;
+  }
+
+  function classificarEntidade(token, texto) {
+    const lower = token.toLowerCase();
+    const acao = contarEntidadeAtiva(texto, token);
+    const ocorrencias = (texto.match(new RegExp("\\b" + token.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "\\b", "gi")) || []).length;
+
+    const ehCriatura = TERMOS_CRIATURAS.includes(lower);
+    const ehCenarioLiturgico = TERMOS_LITURGICOS_OU_CENARIO.has(lower);
+
+    if (acao >= 6) {
+      if (ehCriatura) return { tipo: "personagem sobrenatural", score: acao + ocorrencias };
+      if (ehCenarioLiturgico) return { tipo: "entidade narrativa ativa", score: acao + ocorrencias };
+      return { tipo: "personagem pleno", score: acao + ocorrencias };
+    }
+
+    if (acao >= 3) {
+      if (ehCriatura) return { tipo: "entidade sobrenatural ativa", score: acao + ocorrencias };
+      if (ehCenarioLiturgico) return { tipo: "objeto ou símbolo ativo", score: acao + ocorrencias };
+      return { tipo: "entidade narrativa", score: acao + ocorrencias };
+    }
+
+    if (ocorrencias >= 3) {
+      if (ehCriatura) return { tipo: "entidade sobrenatural recorrente", score: ocorrencias };
+      if (ehCenarioLiturgico) return { tipo: "cenário ou símbolo recorrente", score: ocorrencias };
+      return { tipo: "figura recorrente", score: ocorrencias };
+    }
+
+    if (ehCenarioLiturgico) {
+      return { tipo: "objeto ou cenário passivo", score: 0 };
+    }
+
+    return { tipo: "indeterminado", score: ocorrencias };
+  }
+
+  function detectarEntidadesNarrativas(texto) {
     const candidatos = texto.match(/\b[A-ZÁÀÂÃÉÈÊÍÌÎÓÒÔÕÚÙÛÇ][a-záàâãéèêíìîóòôõúùûç]{2,}\b/g) || [];
-    const contagem = {};
+    const unicos = [...new Set(candidatos)];
+    const entidades = [];
 
-    candidatos.forEach(token => {
-      if (tokenEhRuido(token)) return;
-      contagem[token] = (contagem[token] || 0) + 1;
-    });
+    for (const token of unicos) {
+      if (tokenEhRuido(token)) continue;
 
-    return Object.entries(contagem)
-      .filter(item => item[1] >= 2)
-      .sort((a, b) => b[1] - a[1])
-      .slice(0, 8)
-      .map(item => item[0]);
+      const ocorrencias = (texto.match(new RegExp("\\b" + token.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "\\b", "gi")) || []).length;
+      if (ocorrencias < 2) continue;
+
+      const classificacao = classificarEntidade(token, texto);
+
+      if (
+        classificacao.tipo === "personagem pleno" ||
+        classificacao.tipo === "personagem sobrenatural" ||
+        classificacao.tipo === "entidade sobrenatural ativa" ||
+        classificacao.tipo === "entidade narrativa" ||
+        classificacao.tipo === "entidade narrativa ativa" ||
+        classificacao.tipo === "figura recorrente"
+      ) {
+        entidades.push({
+          nome: token,
+          ocorrencias,
+          tipo: classificacao.tipo,
+          score: classificacao.score
+        });
+      }
+    }
+
+    entidades.sort((a, b) => b.score - a.score);
+    return entidades.slice(0, 12);
+  }
+
+  function detectarPersonagens(texto) {
+    return detectarEntidadesNarrativas(texto).map(e => e.nome);
   }
 
   function removerDialogos(texto) {
@@ -443,7 +551,9 @@
         { regex: /\bsombra\b/gi, peso: 3, rotulo: "sombra" },
         { regex: /\bmaldi[cç][aã]o\b/gi, peso: 4, rotulo: "maldição" },
         { regex: /\bhorror\b/gi, peso: 4, rotulo: "horror" },
-        { regex: /\bmonstro\b/gi, peso: 3, rotulo: "monstro" }
+        { regex: /\bmonstro\b/gi, peso: 3, rotulo: "monstro" },
+        { regex: /\binferno\b/gi, peso: 4, rotulo: "inferno" },
+        { regex: /\bsepultura\b/gi, peso: 2, rotulo: "sepultura" }
       ],
       "Épico histórico": [
         { regex: /\bguerra\b/gi, peso: 3, rotulo: "guerra" },
@@ -502,6 +612,26 @@
         { regex: /\bconquista\b/gi, peso: 2, rotulo: "conquista" },
         { regex: /\breino\b/gi, peso: 2, rotulo: "reino" },
         { regex: /\bgl[oó]ria\b/gi, peso: 2, rotulo: "glória" }
+      ],
+      "Gótico": [
+        { regex: /\bneblina\b/gi, peso: 2, rotulo: "neblina" },
+        { regex: /\bvela\b/gi, peso: 2, rotulo: "vela" },
+        { regex: /\bvelas\b/gi, peso: 2, rotulo: "velas" },
+        { regex: /\bcemit[eé]rio\b/gi, peso: 3, rotulo: "cemitério" },
+        { regex: /\bigreja\b/gi, peso: 2, rotulo: "igreja" },
+        { regex: /\bsepultura\b/gi, peso: 3, rotulo: "sepultura" },
+        { regex: /\bprociss[aã]o\b/gi, peso: 3, rotulo: "procissão" },
+        { regex: /\btrevas\b/gi, peso: 2, rotulo: "trevas" },
+        { regex: /\bcapuz\b/gi, peso: 2, rotulo: "capuz" }
+      ],
+      "Teológico simbólico": [
+        { regex: /\bpenit[eê]ncia\b/gi, peso: 3, rotulo: "penitência" },
+        { regex: /\bpecado\b/gi, peso: 3, rotulo: "pecado" },
+        { regex: /\balmas\b/gi, peso: 2, rotulo: "almas" },
+        { regex: /\binferno\b/gi, peso: 4, rotulo: "inferno" },
+        { regex: /\bquaresma\b/gi, peso: 3, rotulo: "quaresma" },
+        { regex: /\bpadre\b/gi, peso: 2, rotulo: "padre" },
+        { regex: /\bdiocese\b/gi, peso: 2, rotulo: "diocese" }
       ]
     };
 
@@ -550,18 +680,14 @@
       .map(p => p.trim())
       .filter(Boolean);
 
-    if (paragrafos.length > 2) {
-      return paragrafos;
-    }
+    if (paragrafos.length > 2) return paragrafos;
 
     const linhas = original
       .split("\n")
       .map(l => l.trim())
       .filter(Boolean);
 
-    if (linhas.length > 4) {
-      return linhas;
-    }
+    if (linhas.length > 4) return linhas;
 
     const frases = original
       .split(/(?<=[\.\!\?])\s+(?=[A-ZÁÀÂÃÉÈÊÍÌÎÓÒÔÕÚÙÛÇ“"—])/)
@@ -582,7 +708,7 @@
     };
   }
 
-  function extrairLeituraDramatica(texto, personagens) {
+  function extrairLeituraDramatica(texto, entidades) {
     const t = texto.toLowerCase();
 
     let conflitoCentral = "Não conclusivo";
@@ -590,12 +716,21 @@
       conflitoCentral = "Investigação de um ambiente ameaçador ou criminoso.";
     } else if (/roça|s[ií]tio|curral|vergonha|deboche|riso|influenciador/.test(t)) {
       conflitoCentral = "Choque entre mundos sociais com humilhação cômica e transformação.";
+    } else if (/prociss[aã]o|quaresma|penit[eê]ncia|cemit[eé]rio|inferno/.test(t)) {
+      conflitoCentral = "Confronto espiritual e sobrenatural ligado à penitência e à fronteira entre vivos e mortos.";
     } else if (/amor|paix[aã]o|saudade/.test(t)) {
       conflitoCentral = "Tensão afetiva ou amorosa dominando a narrativa.";
     }
 
-    const protagonistas = personagens.slice(0, 2);
-    const secundarios = personagens.slice(2, 6);
+    const protagonistas = entidades
+      .filter(e => e.tipo === "personagem pleno" || e.tipo === "personagem sobrenatural")
+      .slice(0, 2)
+      .map(e => e.nome);
+
+    const secundarios = entidades
+      .filter(e => e.tipo !== "objeto ou cenário passivo")
+      .slice(2, 6)
+      .map(e => e.nome);
 
     return {
       protagonistas,
@@ -615,20 +750,22 @@
       capitulos: detectarCapitulos(textoLimpo)
     };
 
-    const personagens = detectarPersonagens(textoLimpo);
+    const entidades = detectarEntidadesNarrativas(textoLimpo);
+    const personagens = entidades.map(e => e.nome);
     const tipo = detectarTipoObra(textoLimpo);
     const genero = detectarGenero(textoLimpo);
     const estilo = detectarEstilo(textoLimpo);
     const clima = detectarClima(textoLimpo);
     const narrador = detectarNarrador(textoLimpo);
     const blocos = montarBlocosSemanticos(textoLimpo);
-    const leituraDramatica = extrairLeituraDramatica(textoLimpo, personagens);
+    const leituraDramatica = extrairLeituraDramatica(textoLimpo, entidades);
 
     return {
       textoBruto,
       textoLimpo,
       estrutura,
       personagens,
+      entidadesNarrativas: entidades,
       classificacao: {
         tipo,
         genero,
