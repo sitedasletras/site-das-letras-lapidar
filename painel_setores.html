@@ -1,183 +1,383 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lapidar — Painel de Setores</title>
+  <style>
+    *{
+      box-sizing:border-box;
+    }
 
-<title>Setores do Lapidar</title>
+    body{
+      margin:0;
+      font-family:Arial, sans-serif;
+      background:#f4efe6;
+      color:#2f2a24;
+    }
 
-<style>
+    .topo{
+      background:#5d4b2d;
+      color:#fff;
+      padding:22px 24px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      flex-wrap:wrap;
+    }
 
-body{
-font-family: Arial, sans-serif;
-background:#FAF7F0;
-margin:0;
-padding:0;
-}
+    .topo h1{
+      margin:0;
+      font-size:24px;
+    }
 
-.topo{
+    .topo .sub{
+      font-size:14px;
+      opacity:0.9;
+      margin-top:4px;
+    }
 
-background:white;
-padding:25px;
+    .topo .acoes{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
 
-font-size:28px;
+    .container{
+      max-width:1280px;
+      margin:24px auto;
+      padding:0 16px 32px;
+    }
 
-text-align:center;
+    .card{
+      background:#fff;
+      border-radius:14px;
+      padding:18px;
+      box-shadow:0 4px 14px rgba(0,0,0,0.08);
+      margin-bottom:18px;
+    }
 
-font-weight:bold;
+    .card h2{
+      margin:0 0 14px 0;
+      color:#5d4b2d;
+      font-size:20px;
+    }
 
-border-bottom:2px solid #eee;
+    .linha{
+      background:#f9f6f1;
+      border:1px solid #eadfce;
+      border-radius:10px;
+      padding:12px 14px;
+      margin-bottom:12px;
+    }
 
-}
+    .rotulo{
+      display:block;
+      font-size:12px;
+      font-weight:bold;
+      text-transform:uppercase;
+      letter-spacing:0.4px;
+      color:#8a6a3c;
+      margin-bottom:6px;
+    }
 
-.container{
+    .valor{
+      font-size:15px;
+      line-height:1.45;
+      word-break:break-word;
+    }
 
-display:flex;
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:16px;
+    }
 
-flex-direction:column;
+    .setor{
+      background:#fff;
+      border-radius:14px;
+      padding:18px;
+      box-shadow:0 4px 14px rgba(0,0,0,0.08);
+      border:1px solid #eee4d6;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+      min-height:220px;
+    }
 
-gap:20px;
+    .setor h3{
+      margin:0 0 10px 0;
+      font-size:19px;
+    }
 
-padding:25px;
+    .setor p{
+      margin:0 0 12px 0;
+      line-height:1.5;
+      font-size:14px;
+    }
 
-}
+    .setor .tag{
+      display:inline-block;
+      padding:7px 10px;
+      border-radius:999px;
+      font-size:12px;
+      margin-bottom:12px;
+      border:1px solid rgba(0,0,0,0.08);
+      background:#f5f1e8;
+      color:#5d4b2d;
+    }
 
-.card{
+    .setor .acoes{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:8px;
+    }
 
-border-radius:18px;
+    button{
+      border:none;
+      border-radius:10px;
+      padding:12px 18px;
+      font-size:15px;
+      cursor:pointer;
+      transition:0.2s ease;
+    }
 
-padding:30px;
+    .btn-primario{
+      background:#5d4b2d;
+      color:#fff;
+    }
 
-font-size:22px;
+    .btn-primario:hover{
+      background:#4a3b23;
+    }
 
-font-weight:bold;
+    .btn-secundario{
+      background:#e9dfcf;
+      color:#473721;
+    }
 
-cursor:pointer;
+    .btn-secundario:hover{
+      background:#dacdb8;
+    }
 
-transition:0.3s;
+    .aviso{
+      margin-top:14px;
+      background:#fff8e8;
+      border:1px solid #ecd7a7;
+      border-radius:10px;
+      padding:12px 14px;
+      color:#6a552a;
+      line-height:1.45;
+      font-size:14px;
+    }
 
-box-shadow:0 4px 10px rgba(0,0,0,0.08);
+    .marrom h3{ color:#5d4b2d; }
+    .azul h3{ color:#2457c5; }
+    .dourado h3{ color:#9a6f00; }
+    .verde h3{ color:#15803d; }
+    .roxo h3{ color:#7c3aed; }
+    .vermelho h3{ color:#be123c; }
 
-}
+    @media (max-width: 1050px){
+      .grid{
+        grid-template-columns:repeat(2, 1fr);
+      }
+    }
 
-.card:hover{
-
-transform:scale(1.02);
-
-}
-
-.diagramador{
-
-background:#e8f1ff;
-
-border-left:10px solid #3b82f6;
-
-}
-
-.capista{
-
-background:#fff8d6;
-
-border-left:10px solid #facc15;
-
-}
-
-.tradutor{
-
-background:#e7f9ef;
-
-border-left:10px solid #22c55e;
-
-}
-
-.avaliador{
-
-background:#f4f6f1;
-
-border-left:10px solid #9ca3af;
-
-}
-
-.analisador{
-
-background:#f8e9ee;
-
-border-left:10px solid #7f1d1d;
-
-}
-
-.lapidacao{
-
-background:#fdecec;
-
-border-left:10px solid #dc2626;
-
-}
-
-.silo{
-
-background:#ffe4ef;
-
-border-left:10px solid #ec4899;
-
-}
-
-</style>
+    @media (max-width: 700px){
+      .grid{
+        grid-template-columns:1fr;
+      }
+    }
+  </style>
 </head>
-
 <body>
 
-<div class="topo">
+  <div class="topo">
+    <div>
+      <h1>Painel de Setores</h1>
+      <div class="sub">Espinha dorsal oficial do Lapidar</div>
+    </div>
+    <div class="acoes">
+      <button class="btn-secundario" onclick="irParaCofre()">Entrar no Cofre</button>
+      <button class="btn-secundario" onclick="sairSistema()">Sair do sistema</button>
+    </div>
+  </div>
 
-Escolha o setor editorial
+  <div class="container">
 
-</div>
+    <div class="card">
+      <h2>Resumo do fluxo oficial</h2>
 
-<div class="container">
+      <div class="linha">
+        <span class="rotulo">Espinha dorsal congelada</span>
+        <div class="valor">
+          Login → Painel de Setores → Cofre Editorial do Autor → Workspace da Obra → Executor de Módulos → Mesário → Auditoria → Exportação
+        </div>
+      </div>
 
-<div class="card diagramador" onclick="location.href='diagramador.html'">
+      <div class="linha">
+        <span class="rotulo">Obra ativa</span>
+        <div class="valor" id="resumoObraAtiva">Nenhuma obra carregada no momento.</div>
+      </div>
 
-Assistente de Diagramação do Autor
+      <div class="aviso">
+        Este é o painel oficial da espinha dorsal do Lapidar. A partir daqui o sistema deve seguir apenas o fluxo congelado.
+      </div>
+    </div>
 
-</div>
+    <div class="grid">
 
-<div class="card capista" onclick="location.href='capista.html'">
+      <div class="setor marrom">
+        <div>
+          <span class="tag">Entrada oficial</span>
+          <h3>Cofre Editorial do Autor</h3>
+          <p>
+            Ponto de entrada da obra. Aqui o Lapidar lê o manuscrito, identifica estrutura,
+            detecta lacunas editoriais, registra imagens e preserva vozes do autor.
+          </p>
+        </div>
+        <div class="acoes">
+          <button class="btn-primario" onclick="irParaCofre()">Abrir Cofre</button>
+        </div>
+      </div>
 
-OKapista
+      <div class="setor azul">
+        <div>
+          <span class="tag">Confirmação da leitura</span>
+          <h3>Workspace da Obra</h3>
+          <p>
+            Mostra ao autor o que o Cofre leu: título, autor, capítulos, personagens,
+            clima, gênero e lacunas identificadas.
+          </p>
+        </div>
+        <div class="acoes">
+          <button class="btn-primario" onclick="irParaWorkspace()">Abrir Workspace</button>
+        </div>
+      </div>
 
-</div>
+      <div class="setor dourado">
+        <div>
+          <span class="tag">Ação editorial</span>
+          <h3>Executor de Módulos</h3>
+          <p>
+            Tronco operacional do Lapidar. É aqui que a obra passa por Diagramação,
+            OKapista, Avaliação, Lapidação, Silo Sonoro e integrações.
+          </p>
+        </div>
+        <div class="acoes">
+          <button class="btn-primario" onclick="irParaExecutor()">Abrir Executor</button>
+        </div>
+      </div>
 
-<div class="card tradutor" onclick="location.href='segunda_linguas.html'">
+      <div class="setor verde">
+        <div>
+          <span class="tag">Decisão consciente</span>
+          <h3>Mesário Oficial</h3>
+          <p>
+            Mesa de decisão do autor. Consolida a seção atual, registra confirmações
+            e formaliza a passagem da obra para auditoria.
+          </p>
+        </div>
+        <div class="acoes">
+          <button class="btn-primario" onclick="irParaMesario()">Abrir Mesário</button>
+        </div>
+      </div>
 
-Segunda Língua(s)
+      <div class="setor roxo">
+        <div>
+          <span class="tag">Rastro institucional</span>
+          <h3>Auditoria</h3>
+          <p>
+            Registra a trilha oficial da obra, o LapidarClock, observações técnicas
+            e o histórico do caminho percorrido.
+          </p>
+        </div>
+        <div class="acoes">
+          <button class="btn-primario" onclick="irParaAuditoria()">Abrir Auditoria</button>
+        </div>
+      </div>
 
-</div>
+      <div class="setor vermelho">
+        <div>
+          <span class="tag">Fechamento do ciclo</span>
+          <h3>Exportação</h3>
+          <p>
+            Fecha a jornada institucional da obra, marca status exportada e gera
+            os primeiros artefatos formais de continuidade.
+          </p>
+        </div>
+        <div class="acoes">
+          <button class="btn-primario" onclick="irParaExportacao()">Abrir Exportação</button>
+        </div>
+      </div>
 
-<div class="card avaliador" onclick="location.href='avaliacao_literaria.html'">
+    </div>
 
-Avaliação Literária
+  </div>
 
-</div>
+  <script>
+    function obterObraAtual(){
+      const obraSalva = localStorage.getItem("obraAtual");
+      if(!obraSalva){
+        return null;
+      }
 
-<div class="card analisador" onclick="location.href='analisador.html'">
+      try{
+        return JSON.parse(obraSalva);
+      }catch(erro){
+        return null;
+      }
+    }
 
-Analisador de Obra
+    function preencherResumoObra(){
+      const obra = obterObraAtual();
+      const alvo = document.getElementById("resumoObraAtiva");
 
-</div>
+      if(!obra){
+        alvo.innerText = "Nenhuma obra carregada no momento.";
+        return;
+      }
 
-<div class="card lapidacao" onclick="location.href='lapidacao_literaria.html'">
+      const titulo = obra?.estrutura?.titulo || "Título não identificado";
+      const autor = obra?.estrutura?.autor || "Autor não identificado";
+      const tipo = obra?.tipo || "Tipo não identificado";
 
-Lapidação Literária
+      alvo.innerText = `${titulo} — ${autor} — ${tipo}`;
+    }
 
-</div>
+    function irParaCofre(){
+      window.location.href = "modulo_01_bolsao.html";
+    }
 
-<div class="card silo" onclick="location.href='silo_sonoro.html'">
+    function irParaWorkspace(){
+      window.location.href = "obra_workspace.html";
+    }
 
-Silo Sonoro
+    function irParaExecutor(){
+      window.location.href = "modulo_executor.html";
+    }
 
-</div>
+    function irParaMesario(){
+      window.location.href = "mesario.html";
+    }
 
-</div>
+    function irParaAuditoria(){
+      window.location.href = "auditoria.html";
+    }
+
+    function irParaExportacao(){
+      window.location.href = "exportar.html";
+    }
+
+    function sairSistema(){
+      window.location.href = "login.html";
+    }
+
+    preencherResumoObra();
+  </script>
 
 </body>
 </html>
