@@ -1,122 +1,290 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Entrada oficial do Lapidar</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      min-height: 100%;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #efede3;
+      color: #1f1f1f;
+    }
 
-<title>Lapidar • Entrada oficial</title>
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 24px;
+    }
 
-<style>
+    .card {
+      width: 100%;
+      max-width: 420px;
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 32px 24px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.10);
+      text-align: center;
+    }
 
-body{
+    .logo-area {
+      margin-bottom: 14px;
+    }
 
-margin:0;
-font-family:Arial, sans-serif;
-background:#f4f1e8;
+    .logo-area .marca {
+      display: inline-block;
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #6d6d6d;
+      margin-bottom: 12px;
+    }
 
-display:flex;
-justify-content:center;
-align-items:center;
+    h1 {
+      margin: 0 0 12px;
+      font-size: 1.75rem;
+      line-height: 1.2;
+      color: #1f1f1f;
+    }
 
-height:100vh;
+    .subtexto {
+      margin: 0 0 18px;
+      font-size: 1rem;
+      line-height: 1.55;
+      color: #5d5d5d;
+    }
 
-}
+    .status {
+      margin: 0 0 24px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      background: #f7f7f7;
+      color: #3d3d3d;
+      font-size: 0.95rem;
+      line-height: 1.45;
+      border: 1px solid #ececec;
+    }
 
-.card{
+    .status strong {
+      color: #1d1d1d;
+    }
 
-background:white;
+    .buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
 
-padding:40px;
+    button {
+      width: 100%;
+      border: none;
+      border-radius: 12px;
+      padding: 14px 16px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.12s ease, opacity 0.12s ease, background 0.12s ease;
+    }
 
-border-radius:20px;
+    button:hover {
+      transform: translateY(-1px);
+    }
 
-box-shadow:0px 12px 32px rgba(0,0,0,0.12);
+    button:active {
+      transform: translateY(0);
+    }
 
-text-align:center;
+    .btn-principal {
+      background: #2f8a36;
+      color: #ffffff;
+    }
 
-width:360px;
+    .btn-principal:hover {
+      background: #28762e;
+    }
 
-}
+    .btn-secundario {
+      background: #f1f1f1;
+      color: #222222;
+      border: 1px solid #dddddd;
+    }
 
-button{
+    .btn-secundario:hover {
+      background: #e9e9e9;
+    }
 
-margin-top:25px;
+    .rodape {
+      margin-top: 22px;
+      font-size: 0.85rem;
+      color: #7b7b7b;
+      line-height: 1.5;
+    }
 
-padding:16px 28px;
+    .oculto {
+      display: none !important;
+    }
 
-border:none;
+    @media (max-width: 480px) {
+      .card {
+        padding: 28px 18px;
+        border-radius: 16px;
+      }
 
-border-radius:12px;
+      h1 {
+        font-size: 1.5rem;
+      }
 
-font-size:18px;
-
-background:#2e7d32;
-
-color:white;
-
-cursor:pointer;
-
-}
-
-</style>
-
+      .subtexto {
+        font-size: 0.96rem;
+      }
+    }
+  </style>
 </head>
-
 <body>
+  <main class="card" id="cardEntrada">
+    <div class="logo-area">
+      <div class="marca">Lapidar</div>
+    </div>
 
-<div class="card">
+    <h1>Entrada oficial do Lapidar</h1>
+    <p class="subtexto">Preparando ambiente de acesso seguro ao sistema.</p>
 
-<h2>Entrada oficial do Lapidar</h2>
+    <div class="status" id="statusAcesso">
+      Verificando sessão ativa...
+    </div>
 
-<p>Preparando ambiente de acesso...</p>
+    <div class="buttons">
+      <button class="btn-principal" id="btnContinuar" type="button" onclick="continuarEntrada()" disabled>
+        Continuar
+      </button>
 
-<button onclick="entrarSistema()">
+      <button class="btn-secundario" id="btnSair" type="button" onclick="encerrarSessao()" disabled>
+        Sair da sessão
+      </button>
+    </div>
 
-Continuar
+    <div class="rodape">
+      Área interna do sistema editorial. O acesso depende de autenticação válida.
+    </div>
+  </main>
 
-</button>
+  <script>
+    (function verificarEntradaProtegida() {
+      const sessaoAtiva = localStorage.getItem("lapidar_sessao_ativa");
+      const usuario = localStorage.getItem("lapidar_usuario");
+      const perfil = localStorage.getItem("lapidar_perfil");
 
-</div>
+      const status = document.getElementById("statusAcesso");
+      const btnContinuar = document.getElementById("btnContinuar");
+      const btnSair = document.getElementById("btnSair");
 
+      const sessaoValida =
+        sessaoAtiva === "true" &&
+        usuario &&
+        usuario.trim() !== "" &&
+        perfil &&
+        perfil.trim() !== "";
 
-<script>
+      if (!sessaoValida) {
+        window.location.replace("login.html");
+        return;
+      }
 
-/* VERIFICA PERFIL */
+      status.innerHTML =
+        "<strong>Sessão validada.</strong><br>Usuário reconhecido: " +
+        escaparHtml(usuario) +
+        "<br>Perfil ativo: " +
+        escaparHtml(perfil);
 
-const perfil = localStorage.getItem("lapidar_perfil")
+      btnContinuar.disabled = false;
+      btnSair.disabled = false;
+    })();
 
-if(!perfil){
+    function continuarEntrada() {
+      const sessaoAtiva = localStorage.getItem("lapidar_sessao_ativa");
+      const usuario = localStorage.getItem("lapidar_usuario");
+      const perfil = localStorage.getItem("lapidar_perfil");
 
-window.location.href = "login.html"
+      if (
+        sessaoAtiva !== "true" ||
+        !usuario ||
+        usuario.trim() === "" ||
+        !perfil ||
+        perfil.trim() === ""
+      ) {
+        window.location.replace("login.html");
+        return;
+      }
 
-}
+      const perfilNormalizado = perfil.trim().toLowerCase();
 
+      if (perfilNormalizado === "admin") {
+        window.location.href = "admin_panel.html";
+        return;
+      }
 
-/* VERIFICA PRIMEIRO ACESSO */
+      if (
+        perfilNormalizado === "producao" ||
+        perfilNormalizado === "produção" ||
+        perfilNormalizado === "veterano"
+      ) {
+        window.location.href = "painel_setores.html";
+        return;
+      }
 
-const respiracaoConfirmada =
-localStorage.getItem("lapidar_respiracao_ok")
+      if (perfilNormalizado === "cortesia") {
+        window.location.href = "cortesias_painel.html";
+        return;
+      }
 
-if(!respiracaoConfirmada){
+      if (perfilNormalizado === "heteronimo" || perfilNormalizado === "heterônimo") {
+        window.location.href = "painel_departamentos.html";
+        return;
+      }
 
-window.location.href =
-"pagina_institucional_lapidar.html"
+      window.location.replace("login.html");
+    }
 
-}
+    function encerrarSessao() {
+      localStorage.removeItem("lapidar_sessao_ativa");
+      localStorage.removeItem("lapidar_usuario");
+      localStorage.removeItem("lapidar_perfil");
+      localStorage.removeItem("lapidar_nome");
+      localStorage.removeItem("lapidar_email");
+      localStorage.removeItem("lapidar_token");
+      localStorage.removeItem("lapidar_auth");
+      localStorage.removeItem("lapidar_ultimo_acesso");
 
+      sessionStorage.removeItem("lapidar_sessao_ativa");
+      sessionStorage.removeItem("lapidar_usuario");
+      sessionStorage.removeItem("lapidar_perfil");
+      sessionStorage.removeItem("lapidar_nome");
+      sessionStorage.removeItem("lapidar_email");
+      sessionStorage.removeItem("lapidar_token");
+      sessionStorage.removeItem("lapidar_auth");
+      sessionStorage.removeItem("lapidar_ultimo_acesso");
 
-/* FLUXO NORMAL */
+      window.location.replace("login.html");
+    }
 
-function entrarSistema(){
-
-window.location.href =
-"entrada_obra.html"
-
-}
-
-</script>
-
-
+    function escaparHtml(texto) {
+      return String(texto)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+  </script>
 </body>
 </html>
