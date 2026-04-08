@@ -1,645 +1,296 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lapidar — Mesário Oficial</title>
-  <style>
-    *{
-      box-sizing:border-box;
-    }
+<meta charset="UTF-8">
+<title>Mesário da Obra — Lapidar</title>
 
-    body{
-      margin:0;
-      font-family:Arial, sans-serif;
-      background:#f4efe6;
-      color:#2f2a24;
-    }
+<style>
 
-    .topbar{
-      background:#6b4f2d;
-      color:#fff;
-      padding:18px 24px;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:12px;
-      flex-wrap:wrap;
-    }
+body{
+font-family:Arial, sans-serif;
+background:#f7f5ef;
+margin:0;
+color:#2f2a24;
+}
 
-    .topbar h1{
-      margin:0;
-      font-size:22px;
-    }
+header{
+background:#6a4c93;
+color:white;
+padding:18px;
+text-align:center;
+font-size:22px;
+}
 
-    .topbar .acoes{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-    }
+.container{
+width:85%;
+margin:auto;
+margin-top:30px;
+}
 
-    .container{
-      max-width:1280px;
-      margin:24px auto;
-      padding:0 16px 32px;
-    }
+.card{
+background:white;
+padding:20px;
+margin-bottom:20px;
+border-radius:10px;
+box-shadow:0px 2px 8px rgba(0,0,0,0.15);
+}
 
-    .grid{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:18px;
-    }
+h2{
+color:#6a4c93;
+margin-top:0;
+}
 
-    .card{
-      background:#fff;
-      border-radius:14px;
-      padding:18px;
-      box-shadow:0 4px 14px rgba(0,0,0,0.08);
-    }
+.info{
+margin-bottom:10px;
+line-height:1.6;
+}
 
-    .card h2{
-      margin:0 0 14px 0;
-      color:#6a4b25;
-      font-size:20px;
-    }
+.status-ok{
+color:green;
+font-weight:bold;
+}
 
-    .linha{
-      background:#f9f6f1;
-      border:1px solid #eadfce;
-      border-radius:10px;
-      padding:12px 14px;
-      margin-bottom:12px;
-    }
+.status-free{
+color:#2a9d8f;
+font-weight:bold;
+}
 
-    .rotulo{
-      display:block;
-      font-size:12px;
-      font-weight:bold;
-      text-transform:uppercase;
-      letter-spacing:0.4px;
-      color:#8a6a3c;
-      margin-bottom:6px;
-    }
+.status-paid{
+color:#e76f51;
+font-weight:bold;
+}
 
-    .valor{
-      font-size:15px;
-      line-height:1.45;
-      word-break:break-word;
-    }
+.status-note{
+color:#555;
+font-style:italic;
+}
 
-    .valor-destaque{
-      font-size:22px;
-      font-weight:bold;
-      color:#6b4f2d;
-    }
+.resumo-box{
+background:#f8f6fb;
+padding:15px;
+border-radius:8px;
+margin-top:10px;
+border:1px solid #ddd;
+}
 
-    .tag-area{
-      display:flex;
-      gap:8px;
-      flex-wrap:wrap;
-      margin-top:10px;
-    }
+button{
+margin-top:10px;
+padding:10px 15px;
+border:none;
+border-radius:6px;
+cursor:pointer;
+background:#457b9d;
+color:white;
+}
 
-    .tag{
-      background:#f5eee2;
-      border:1px solid #e7d7bc;
-      color:#654b23;
-      padding:7px 10px;
-      border-radius:999px;
-      font-size:13px;
-    }
+button:hover{
+background:#1d3557;
+}
 
-    .bloco-mesario{
-      background:#fff8eb;
-      border:1px solid #ecd5a4;
-      border-radius:12px;
-      padding:16px;
-      margin-top:12px;
-    }
+.botao-sec{
+background:#8d99ae;
+}
 
-    .bloco-mesario h3{
-      margin:0 0 10px 0;
-      color:#755728;
-      font-size:18px;
-    }
+.botao-sec:hover{
+background:#5c677d;
+}
 
-    .checklist{
-      display:grid;
-      gap:10px;
-      margin-top:12px;
-    }
+.botao-final{
+background:#2a9d8f;
+}
 
-    .checklist label{
-      display:flex;
-      align-items:flex-start;
-      gap:10px;
-      background:#fbfaf7;
-      border:1px solid #eadfce;
-      border-radius:10px;
-      padding:12px;
-      line-height:1.45;
-    }
+.botao-final:hover{
+background:#1f776a;
+}
 
-    .acoes-centrais{
-      margin-top:18px;
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-    }
+.footer{
+text-align:center;
+margin-top:40px;
+padding:15px;
+font-size:13px;
+color:#555;
+}
 
-    button{
-      border:none;
-      border-radius:10px;
-      padding:12px 18px;
-      font-size:15px;
-      cursor:pointer;
-      transition:0.2s ease;
-    }
+.check-item{
+margin:8px 0;
+padding:8px 0;
+border-bottom:1px solid #eee;
+}
 
-    .btn-primario{
-      background:#6b4f2d;
-      color:#fff;
-    }
+@media (max-width: 900px){
+.container{
+width:92%;
+}
+}
 
-    .btn-primario:hover{
-      background:#583f22;
-    }
-
-    .btn-secundario{
-      background:#e9dfcf;
-      color:#473721;
-    }
-
-    .btn-secundario:hover{
-      background:#daccb8;
-    }
-
-    .btn-alerta{
-      background:#9b2c2c;
-      color:#fff;
-    }
-
-    .btn-alerta:hover{
-      background:#7d2323;
-    }
-
-    .aviso{
-      margin-top:14px;
-      background:#fff8e8;
-      border:1px solid #ecd7a7;
-      border-radius:10px;
-      padding:12px 14px;
-      color:#6a552a;
-      line-height:1.45;
-      font-size:14px;
-    }
-
-    .historico{
-      margin:0;
-      padding-left:18px;
-    }
-
-    .historico li{
-      margin-bottom:8px;
-      line-height:1.45;
-    }
-
-    .painel-mini{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:12px;
-      margin-top:12px;
-    }
-
-    .mini-box{
-      background:#fbfaf7;
-      border:1px solid #eadfce;
-      border-radius:12px;
-      padding:14px;
-    }
-
-    .mini-box strong{
-      display:block;
-      margin-bottom:6px;
-      color:#6b4f2d;
-    }
-
-    @media (max-width: 980px){
-      .grid{
-        grid-template-columns:1fr;
-      }
-
-      .painel-mini{
-        grid-template-columns:1fr;
-      }
-    }
-  </style>
+</style>
 </head>
+
 <body>
 
-  <div class="topbar">
-    <h1>Mesário Oficial</h1>
-    <div class="acoes">
-      <button class="btn-secundario" onclick="voltarExecutor()">Retornar ao Executor</button>
-      <button class="btn-primario" onclick="seguirAuditoria()">Ir para Auditoria</button>
-    </div>
-  </div>
-
-  <div class="container">
-
-    <div class="grid">
-      <div class="card">
-        <h2>Resumo editorial da obra</h2>
-
-        <div class="linha">
-          <span class="rotulo">Título</span>
-          <div class="valor" id="tituloObra">—</div>
-        </div>
-
-        <div class="linha">
-          <span class="rotulo">Autor</span>
-          <div class="valor" id="autorObra">—</div>
-        </div>
-
-        <div class="linha">
-          <span class="rotulo">Tipo de obra</span>
-          <div class="valor" id="tipoObra">—</div>
-        </div>
-
-        <div class="linha">
-          <span class="rotulo">CDD provável</span>
-          <div class="valor" id="cddObra">—</div>
-        </div>
-
-        <div class="linha">
-          <span class="rotulo">Seção atual</span>
-          <div class="valor" id="secaoAtual">—</div>
-        </div>
-
-        <div class="tag-area" id="tagsNarrativas"></div>
-
-        <div class="aviso">
-          O Mesário é a mesa oficial de decisão editorial do autor dentro do Lapidar. Aqui a obra deixa de ser apenas uma seleção de módulos e passa a ter confirmação consciente antes do avanço.
-        </div>
-      </div>
-
-      <div class="card">
-        <h2>Lacunas e ativos da obra</h2>
-
-        <div class="painel-mini">
-          <div class="mini-box">
-            <strong>Lacunas editoriais</strong>
-            <div id="resLacunas">—</div>
-          </div>
-
-          <div class="mini-box">
-            <strong>Ativos da obra</strong>
-            <div id="resAtivos">—</div>
-          </div>
-        </div>
-
-        <div class="painel-mini">
-          <div class="mini-box">
-            <strong>Capítulos detectados</strong>
-            <div id="resCapitulos">—</div>
-          </div>
-
-          <div class="mini-box">
-            <strong>Personagens recorrentes</strong>
-            <div id="resPersonagens">—</div>
-          </div>
-        </div>
-
-        <div class="linha" style="margin-top:12px;">
-          <span class="rotulo">Status das confirmações</span>
-          <div class="valor" id="statusConfirmacoes">Aguardando confirmações</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="grid" style="margin-top:18px;">
-      <div class="card">
-        <h2>Mesário da seção</h2>
-
-        <div class="bloco-mesario">
-          <h3>Valor acumulado da seção</h3>
-          <div class="valor-destaque" id="valorSecao">R$ 0,00</div>
-          <div class="aviso" style="margin-top:12px;">
-            Nesta fase estrutural, o valor permanece simplificado. O objetivo principal é consolidar o fluxo, a consciência da escolha e a dupla confirmação oficial da etapa.
-          </div>
-        </div>
-
-        <div class="checklist">
-          <label>
-            <input type="checkbox" id="confirmacaoSetor">
-            <span>Estou de acordo com a conferência desta seção e autorizo o registro desta etapa no Mesário.</span>
-          </label>
-
-          <label>
-            <input type="checkbox" id="confirmacaoFinal">
-            <span>Confirmo no Mesário Oficial que esta etapa pode avançar para a Auditoria e permanecer registrada no fluxo da obra.</span>
-          </label>
-        </div>
-
-        <div class="acoes-centrais">
-          <button class="btn-primario" onclick="salvarConfirmacoes()">Salvar confirmações</button>
-          <button class="btn-secundario" onclick="seguirAuditoria()">Salvar e seguir para Auditoria</button>
-          <button class="btn-alerta" onclick="resetarConfirmacoes()">Resetar confirmações</button>
-        </div>
-      </div>
-
-      <div class="card">
-        <h2>Histórico do Mesário</h2>
-        <ul class="historico" id="historicoMesario"></ul>
-        <div class="aviso" id="mensagemSemHistorico" style="display:none;">
-          Ainda não há histórico registrado no Mesário desta obra.
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-  <script>
-    const nomesModulos = {
-      diagramacao: "Assistente de Diagramação do Autor",
-      okapista: "OKapista",
-      segundaLinguas: "Segunda Língua(s)",
-      avaliacaoLiteraria: "Avaliação Literária",
-      analisadorObra: "Analisador de Obra",
-      lapidacaoLiteraria: "Lapidação Literária",
-      siloSonoro: "Silo Sonoro",
-      portalIntegracoes: "Portal de Integrações"
-    };
-
-    function obterObraAtual(){
-      const obraSalva = localStorage.getItem("obraAtual");
-      if(!obraSalva){
-        return null;
-      }
-
-      try{
-        return JSON.parse(obraSalva);
-      }catch(erro){
-        return null;
-      }
-    }
-
-    function salvarObra(obra){
-      localStorage.setItem("obraAtual", JSON.stringify(obra));
-    }
-
-    function formatarNomeSecao(chave){
-      return nomesModulos[chave] || chave || "Seção não definida";
-    }
-
-    function formatarLacuna(valor){
-      return valor ? "enviado" : "ausente";
-    }
-
-    function preencherMesario(){
-      const obra = obterObraAtual();
-
-      if(!obra){
-        document.getElementById("tituloObra").innerText = "Nenhuma obra carregada";
-        document.getElementById("autorObra").innerText = "Nenhuma obra carregada";
-        document.getElementById("tipoObra").innerText = "Nenhuma obra carregada";
-        document.getElementById("cddObra").innerText = "Nenhuma obra carregada";
-        document.getElementById("secaoAtual").innerText = "Nenhuma seção ativa";
-        document.getElementById("resLacunas").innerText = "Sem obra ativa";
-        document.getElementById("resAtivos").innerText = "Sem obra ativa";
-        document.getElementById("resCapitulos").innerText = "Sem obra ativa";
-        document.getElementById("resPersonagens").innerText = "Sem obra ativa";
-        document.getElementById("mensagemSemHistorico").style.display = "block";
-        return;
-      }
-
-      if(!obra.mesario){
-        obra.mesario = {
-          secaoAtual: obra.moduloAtivo || "",
-          historico: [],
-          confirmacaoSetor: false,
-          confirmacaoFinal: false
-        };
-        salvarObra(obra);
-      }
-
-      document.getElementById("tituloObra").innerText = obra?.estrutura?.titulo || "Não identificado";
-      document.getElementById("autorObra").innerText = obra?.estrutura?.autor || "Não identificado";
-      document.getElementById("tipoObra").innerText = obra.tipo || "Não identificado";
-      document.getElementById("cddObra").innerText = obra.cdd || "Não identificado";
-      document.getElementById("secaoAtual").innerText = formatarNomeSecao(obra.mesario.secaoAtual || obra.moduloAtivo);
-
-      const lacunas = [
-        "Biografia: " + formatarLacuna(obra?.lacunas?.biografia),
-        "Prefácio: " + formatarLacuna(obra?.lacunas?.prefacio),
-        "Ficha catalográfica: " + formatarLacuna(obra?.lacunas?.fichaCatalografica),
-        "Dedicatória: " + formatarLacuna(obra?.lacunas?.dedicatoria)
-      ];
-      document.getElementById("resLacunas").innerHTML = lacunas.join("<br>");
-
-      const vozesAutor = JSON.parse(localStorage.getItem("vozesAutor")) || [];
-      const imagens = obra.imagensSalvas || 0;
-      document.getElementById("resAtivos").innerHTML =
-        imagens + " imagem(ns) registrada(s)<br>" +
-        vozesAutor.length + " voz(es) vinculada(s)";
-
-      document.getElementById("resCapitulos").innerText =
-        Array.isArray(obra?.estrutura?.capitulos) ? obra.estrutura.capitulos.length : 0;
-
-      document.getElementById("resPersonagens").innerText =
-        Array.isArray(obra.personagens) && obra.personagens.length
-        ? obra.personagens.join(", ")
-        : "Não identificados";
-
-      document.getElementById("confirmacaoSetor").checked = !!obra.mesario.confirmacaoSetor;
-      document.getElementById("confirmacaoFinal").checked = !!obra.mesario.confirmacaoFinal;
-
-      preencherTagsNarrativas(obra);
-      atualizarStatusConfirmacoes();
-      renderizarHistorico();
-    }
-
-    function preencherTagsNarrativas(obra){
-      const area = document.getElementById("tagsNarrativas");
-      area.innerHTML = "";
-
-      const tags = [
-        obra.narrador,
-        obra.clima,
-        obra.genero
-      ].filter(Boolean);
-
-      if(!tags.length){
-        const span = document.createElement("span");
-        span.className = "tag";
-        span.innerText = "Sem sinais narrativos detectados";
-        area.appendChild(span);
-        return;
-      }
-
-      tags.forEach(function(tagTexto){
-        const span = document.createElement("span");
-        span.className = "tag";
-        span.innerText = tagTexto;
-        area.appendChild(span);
-      });
-    }
-
-    function atualizarStatusConfirmacoes(){
-      const obra = obterObraAtual();
-
-      if(!obra || !obra.mesario){
-        document.getElementById("statusConfirmacoes").innerText = "Sem dados";
-        return;
-      }
-
-      const setor = !!obra.mesario.confirmacaoSetor;
-      const final = !!obra.mesario.confirmacaoFinal;
-
-      if(setor && final){
-        document.getElementById("statusConfirmacoes").innerText = "Dupla confirmação concluída";
-      }else if(setor || final){
-        document.getElementById("statusConfirmacoes").innerText = "Confirmação parcial";
-      }else{
-        document.getElementById("statusConfirmacoes").innerText = "Aguardando confirmações";
-      }
-    }
-
-    function registrarHistoricoMesario(obra, mensagem){
-      if(!obra.mesario){
-        obra.mesario = {};
-      }
-
-      if(!Array.isArray(obra.mesario.historico)){
-        obra.mesario.historico = [];
-      }
-
-      obra.mesario.historico.unshift({
-        data: new Date().toLocaleString("pt-BR"),
-        mensagem: mensagem
-      });
-    }
-
-    function salvarConfirmacoes(){
-      const obra = obterObraAtual();
-
-      if(!obra){
-        alert("Nenhuma obra carregada.");
-        return;
-      }
-
-      if(!obra.mesario){
-        obra.mesario = {};
-      }
-
-      obra.mesario.confirmacaoSetor = document.getElementById("confirmacaoSetor").checked;
-      obra.mesario.confirmacaoFinal = document.getElementById("confirmacaoFinal").checked;
-      obra.mesario.secaoAtual = obra.mesario.secaoAtual || obra.moduloAtivo || "";
-
-      registrarHistoricoMesario(
-        obra,
-        "Confirmações salvas para a seção " + formatarNomeSecao(obra.mesario.secaoAtual) + "."
-      );
-
-      salvarObra(obra);
-      atualizarStatusConfirmacoes();
-      renderizarHistorico();
-
-      alert("Confirmações registradas no Mesário.");
-    }
-
-    function resetarConfirmacoes(){
-      const obra = obterObraAtual();
-
-      if(!obra){
-        alert("Nenhuma obra carregada.");
-        return;
-      }
-
-      const confirmar = confirm("Deseja resetar as confirmações desta seção?");
-      if(!confirmar){
-        return;
-      }
-
-      if(!obra.mesario){
-        obra.mesario = {};
-      }
-
-      obra.mesario.confirmacaoSetor = false;
-      obra.mesario.confirmacaoFinal = false;
-
-      document.getElementById("confirmacaoSetor").checked = false;
-      document.getElementById("confirmacaoFinal").checked = false;
-
-      registrarHistoricoMesario(
-        obra,
-        "Confirmações resetadas para a seção " + formatarNomeSecao(obra.mesario.secaoAtual || obra.moduloAtivo) + "."
-      );
-
-      salvarObra(obra);
-      atualizarStatusConfirmacoes();
-      renderizarHistorico();
-    }
-
-    function renderizarHistorico(){
-      const obra = obterObraAtual();
-      const lista = document.getElementById("historicoMesario");
-      const aviso = document.getElementById("mensagemSemHistorico");
-
-      lista.innerHTML = "";
-
-      if(!obra || !obra.mesario || !Array.isArray(obra.mesario.historico) || !obra.mesario.historico.length){
-        aviso.style.display = "block";
-        return;
-      }
-
-      aviso.style.display = "none";
-
-      obra.mesario.historico.forEach(function(item){
-        const li = document.createElement("li");
-        li.innerText = item.data + " — " + item.mensagem;
-        lista.appendChild(li);
-      });
-    }
-
-    function voltarExecutor(){
-      window.location.href = "modulo_executor.html";
-    }
-
-    function seguirAuditoria(){
-      const obra = obterObraAtual();
-
-      if(!obra){
-        alert("Nenhuma obra carregada.");
-        return;
-      }
-
-      if(!obra.mesario){
-        obra.mesario = {};
-      }
-
-      obra.mesario.confirmacaoSetor = document.getElementById("confirmacaoSetor").checked;
-      obra.mesario.confirmacaoFinal = document.getElementById("confirmacaoFinal").checked;
-      obra.mesario.secaoAtual = obra.mesario.secaoAtual || obra.moduloAtivo || "";
-
-      if(!obra.mesario.confirmacaoSetor || !obra.mesario.confirmacaoFinal){
-        const seguirMesmoAssim = confirm("As duas confirmações ainda não foram marcadas. Deseja seguir para a Auditoria mesmo assim?");
-        if(!seguirMesmoAssim){
-          return;
-        }
-      }
-
-      registrarHistoricoMesario(
-        obra,
-        "Etapa encaminhada para Auditoria a partir da seção " + formatarNomeSecao(obra.mesario.secaoAtual) + "."
-      );
-
-      salvarObra(obra);
-      window.location.href = "auditoria.html";
-    }
-
-    preencherMesario();
-  </script>
+<header>
+Mesário da Obra — Lapidar
+</header>
+
+<div class="container">
+
+<div class="card">
+<h2>Resumo Editorial da Obra</h2>
+
+<div class="info">
+Título da obra:
+<span class="status-ok">Detectado</span>
+</div>
+
+<div class="info">
+Autor:
+<span class="status-ok">Detectado</span>
+</div>
+
+<div class="info">
+Fluxo ativo:
+<span class="status-ok">Parte Livro</span>
+</div>
+
+<div class="info">
+Licença atual:
+<span class="status-ok">Licença Editorial Completa do Autor — Livro (R$ 699)</span>
+</div>
+
+<div class="resumo-box">
+A obra está dentro do fluxo editorial principal do Lapidar, com leitura, organização, tradução gratuita vinculada e avaliação gratuita da obra traduzida.
+</div>
+</div>
+
+
+<div class="card">
+<h2>Inclusões do Plano Livro</h2>
+
+<div class="check-item">
+Cofre Editorial do Autor
+<span class="status-ok">Incluído</span>
+</div>
+
+<div class="check-item">
+Leitura estrutural da obra
+<span class="status-ok">Incluído</span>
+</div>
+
+<div class="check-item">
+Analisador narrativo da obra
+<span class="status-ok">Incluído</span>
+</div>
+
+<div class="check-item">
+OKapista base
+<span class="status-ok">Incluído</span>
+</div>
+
+<div class="check-item">
+Diagramação livre da parte livro
+<span class="status-ok">Incluído</span>
+</div>
+
+<div class="check-item">
+Escolhas tipográficas e de layout
+<span class="status-ok">Incluído</span>
+</div>
+
+<div class="check-item">
+Exportação editorial
+<span class="status-ok">Incluído</span>
+</div>
+
+</div>
+
+
+<div class="card">
+<h2>Tradução e Avaliação Vinculada</h2>
+
+<div class="check-item">
+1 tradução textual automática por obra
+<span class="status-free">Grátis</span>
+</div>
+
+<div class="check-item">
+1 avaliação literária da obra traduzida
+<span class="status-free">Grátis</span>
+</div>
+
+<div class="check-item">
+Segunda tradução
+<span class="status-paid">Paga</span>
+</div>
+
+<div class="check-item">
+Nova avaliação adicional
+<span class="status-paid">Paga</span>
+</div>
+
+<div class="resumo-box">
+Regra ativa: a primeira tradução é gratuita e gera direito a uma avaliação gratuita da obra traduzida. Traduções e avaliações posteriores são cobradas separadamente.
+</div>
+</div>
+
+
+<div class="card">
+<h2>Módulos Premium Fora do Plano Livro</h2>
+
+<div class="check-item">
+Audiobook nacional
+<span class="status-paid">R$ 500</span>
+</div>
+
+<div class="check-item">
+Audiobook internacional
+<span class="status-paid">R$ 1.300</span>
+</div>
+
+<div class="check-item">
+Módulo cinematográfico
+<span class="status-paid">Pago à parte</span>
+</div>
+
+<div class="check-item">
+Lapidação literária profunda
+<span class="status-paid">Pago à parte</span>
+</div>
+
+<div class="check-item">
+Portal de integrações avançadas
+<span class="status-note">Disponível conforme uso</span>
+</div>
+
+</div>
+
+
+<div class="card">
+<h2>Confirmação de Prosseguimento</h2>
+
+<div class="resumo-box">
+Ao confirmar abaixo, a obra segue para a próxima etapa editorial dentro do Lapidar, com o fluxo da parte livro mantido como base principal.
+</div>
+
+<button class="botao-final" onclick="location.href='exportar.html'">
+Confirmar e seguir para Exportação
+</button>
+
+<button class="botao-sec" onclick="location.href='modulo_executor.html'">
+Voltar ao Executor de Módulos
+</button>
+
+<button class="botao-sec" onclick="location.href='obra_workspace.html'">
+Voltar ao Workspace da Obra
+</button>
+
+</div>
+
+</div>
+
+<div class="footer">
+Lapidar — trabalhando ao lado do autor, desde a primeira letra até o último ponto final.<br>
+Mas a jornada ainda continua.
+</div>
 
 </body>
 </html>
