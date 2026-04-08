@@ -3,201 +3,147 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lapidar — Porta de Entrada</title>
+
+<title>Declaração de Apoio ao Autor Independente</title>
 
 <style>
 
 body{
 margin:0;
-font-family:Arial;
-background:#f6f0e6;
-color:#2f2a24;
-}
-
-.topo{
-background:#5d4037;
-color:white;
-text-align:center;
-padding:28px;
+font-family:Arial, sans-serif;
+background:#f4efe6;
+display:flex;
+align-items:center;
+justify-content:center;
+height:100vh;
 }
 
 .container{
-max-width:900px;
-margin:auto;
-padding:30px 18px;
-}
 
-.card{
+max-width:650px;
 background:white;
-padding:24px;
+padding:30px;
 border-radius:12px;
-box-shadow:0 4px 14px rgba(0,0,0,.08);
-margin-bottom:20px;
+box-shadow:0px 4px 12px rgba(0,0,0,0.12);
+
 }
 
-.card h2{
-margin-top:0;
-color:#5d4037;
+h1{
+
+color:#2f5a57;
+font-size:24px;
+margin-bottom:20px;
+
+}
+
+p{
+
+font-size:16px;
+line-height:1.6;
+color:#444;
+
 }
 
 button{
-padding:12px 18px;
+
+margin-top:25px;
+padding:12px 28px;
 font-size:16px;
-border:none;
-border-radius:10px;
-cursor:pointer;
-}
-
-.btn-principal{
-background:#5d4037;
+background:#2f5a57;
 color:white;
+border:none;
+border-radius:6px;
+cursor:pointer;
+
 }
 
-.btn-principal:disabled{
-background:#b9a79d;
-cursor:not-allowed;
+button:hover{
+
+background:#244846;
+
 }
 
-.btn-secundario{
-background:#e9dfcf;
-margin-left:10px;
-}
+.status{
 
-.timer{
-margin-top:12px;
+margin-top:15px;
 font-size:14px;
-color:#7a6a5f;
+color:#888;
+
 }
 
 </style>
+
 </head>
 
 <body>
 
-<div class="topo">
-<h1>Lapidar — Porta de Entrada</h1>
-<p>Preparando o ambiente editorial…</p>
-</div>
-
 <div class="container">
 
-<div class="card">
-
-<h2>Manifesto de apoio ao autor</h2>
+<h1>Manifesto de Apoio ao Autor Independente</h1>
 
 <p>
-O Lapidar foi criado para acompanhar o autor desde a leitura estrutural da obra
-até a preparação editorial final.
+O Lapidar é uma ferramenta de apoio ao escritor independente,
+permitindo organizar, estruturar e qualificar sua obra antes da
+produção editorial final.
 </p>
 
 <p>
-Esta página funciona como pausa técnica e confirmação institucional do fluxo.
+Autores que utilizam CPF ou CNPJ possuem caminhos diferentes dentro
+do processo editorial. Esta etapa garante transparência e preparo
+do material antes da entrada no Cofre Editorial.
 </p>
 
-<div id="primeira_vez">
+<p>
+Esta página funciona como um momento de respiro técnico enquanto
+o sistema prepara o ambiente de leitura estrutural da obra.
+</p>
 
-<label>
-<input type="checkbox" id="check_manifesto">
-Confirmo que compreendi o funcionamento inicial do Lapidar
-</label>
-
-<br><br>
-
-</div>
-
-<button id="btnContinuar" class="btn-principal" disabled>
-Preparando ambiente...
+<button id="botaoContinuar" onclick="aceitarRespiroManual()">
+Aceitar e continuar
 </button>
 
-<button class="btn-secundario"
-onclick="location.href='login.html'">
-Voltar
-</button>
-
-<div class="timer" id="timerTexto">
-Aguarde 5 segundos...
+<div class="status" id="statusMensagem">
+Preparando ambiente editorial...
 </div>
 
 </div>
-
-</div>
-
 
 <script>
 
-const tempoRespiro = 5
-let contador = tempoRespiro
+const tempoRespiro = 5000;
 
-const btn = document.getElementById("btnContinuar")
-const timerTexto = document.getElementById("timerTexto")
+function aceitarRespiroManual(){
 
-const manifestoJaAceito =
-localStorage.getItem("lapidar_manifesto_confirmado")
+localStorage.setItem("respiro_confirmado","sim");
 
-// Se já aceitou antes
-if(manifestoJaAceito === "true"){
+document.getElementById("botaoContinuar").innerText =
+"Preparando entrada no Bolsão...";
 
-document.getElementById("primeira_vez").style.display="none"
-
-timerAutomatico()
+setTimeout(irParaBolsao, tempoRespiro);
 
 }
 
-// Primeira vez
-else{
+function irParaBolsao(){
 
-document
-.getElementById("check_manifesto")
-.addEventListener("change", ()=>{
-
-if(
-document.getElementById("check_manifesto").checked
-){
-timerAutomatico()
-}
-
-})
+window.location.href = "modulo_01_bolsao_entrada.html";
 
 }
 
+window.onload = function(){
 
+const jaConfirmou =
+localStorage.getItem("respiro_confirmado");
 
-function timerAutomatico(){
+if(jaConfirmou === "sim"){
 
-const intervalo = setInterval(()=>{
+document.getElementById("botaoContinuar").innerText =
+"Preparando entrada no Bolsão...";
 
-contador--
-
-timerTexto.innerHTML =
-"Aguarde "+contador+" segundos..."
-
-if(contador <= 0){
-
-clearInterval(intervalo)
-
-btn.disabled=false
-
-btn.innerHTML="Continuar"
-
-btn.onclick = ()=>{
-
-localStorage.setItem(
-"lapidar_manifesto_confirmado",
-"true"
-)
-
-location.href =
-"modulo_01_bolsao_entrada.html"
+setTimeout(irParaBolsao, tempoRespiro);
 
 }
 
-timerTexto.innerHTML="Ambiente pronto."
-
-}
-
-},1000)
-
-}
+};
 
 </script>
 
