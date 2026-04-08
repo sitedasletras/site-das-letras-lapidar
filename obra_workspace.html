@@ -47,7 +47,7 @@ padding:0 16px 32px;
 
 .grid{
 display:grid;
-grid-template-columns:1.15fr 0.85fr;
+grid-template-columns:1.1fr 0.9fr;
 gap:18px;
 }
 
@@ -86,16 +86,6 @@ letter-spacing:0.4px;
 font-size:16px;
 line-height:1.45;
 word-break:break-word;
-}
-
-.lista{
-margin:0;
-padding-left:18px;
-}
-
-.lista li{
-margin-bottom:7px;
-line-height:1.4;
 }
 
 .preview{
@@ -228,8 +218,8 @@ min-height:280px;
 </div>
 
 <div class="container">
-<div class="grid">
 
+<div class="grid">
 <div class="card">
 <h2>Estrutura principal da obra</h2>
 
@@ -244,35 +234,27 @@ min-height:280px;
 </div>
 
 <div class="linha">
-<span class="rotulo">Subtítulo detectado</span>
-<div class="valor" id="subtituloDetectado">—</div>
-</div>
-
-<div class="linha">
 <span class="rotulo">Autor detectado</span>
 <div class="valor" id="autorDetectado">—</div>
 </div>
 
 <div class="linha">
-<span class="rotulo">Tipo de obra</span>
+<span class="rotulo">Tipo da obra</span>
 <div class="valor" id="tipoObra">—</div>
 </div>
 
 <div class="linha">
-<span class="rotulo">CDD provável</span>
-<div class="valor" id="cddProvavel">—</div>
+<span class="rotulo">Capítulos detectados</span>
+<div class="valor" id="capitulosObra">—</div>
 </div>
 
 <div class="linha">
-<span class="rotulo">Capítulos detectados</span>
-<div class="valor">
-<ul class="lista" id="listaCapitulos"></ul>
-<div class="vazio" id="semCapitulos" style="display:none;">Nenhum capítulo foi detectado até agora.</div>
-</div>
+<span class="rotulo">Personagens recorrentes</span>
+<div class="valor" id="personagensDetectados">—</div>
 </div>
 
 <div class="aviso">
-O Cofre Editorial do Autor realizou a leitura inicial da sua obra. Este Workspace mostra, de forma organizada, o que já foi reconhecido pelo Lapidar.
+O Workspace confirma para o autor o que o Cofre leu e como o Lapidar está compreendendo a obra antes de avançar para os módulos.
 </div>
 
 <div class="acoes-inferiores">
@@ -282,67 +264,46 @@ O Cofre Editorial do Autor realizou a leitura inicial da sua obra. Este Workspac
 </div>
 
 <div class="card">
-<h2>Diagnóstico editorial do Cofre</h2>
+<h2>Classificação literária e narrativa</h2>
 
 <div class="painel-blocos">
 <div class="bloco-mini">
-<strong>Personagens recorrentes</strong>
-<div id="personagensDetectados" class="valor">—</div>
+<strong>Gênero literário</strong>
+<div id="generoDetectado">—</div>
 </div>
 
 <div class="bloco-mini">
-<strong>Tipo de narrador</strong>
-<div id="narradorDetectado" class="valor">—</div>
+<strong>Estilo dominante</strong>
+<div id="estiloDetectado">—</div>
+</div>
+
+<div class="bloco-mini">
+<strong>Narrador</strong>
+<div id="narradorDetectado">—</div>
 </div>
 
 <div class="bloco-mini">
 <strong>Clima narrativo</strong>
-<div id="climaDetectado" class="valor">—</div>
-</div>
-
-<div class="bloco-mini">
-<strong>Gênero refinado</strong>
-<div id="generoDetectado" class="valor">—</div>
+<div id="climaDetectado">—</div>
 </div>
 </div>
 
-<div class="aviso" style="margin-top:16px;">
-Este painel existe para provar ao autor que o Lapidar não apenas recebeu o arquivo, mas também iniciou sua leitura estrutural e narrativa.
-</div>
-</div>
+<div class="tag-area" id="tagsResumo"></div>
 
+<div class="aviso">
+Se a classificação aparecer como mista ou não conclusiva, isso significa que o Lapidar preferiu ser honesto em vez de inventar uma resposta com falsa segurança.
+</div>
+</div>
 </div>
 
 <div class="grid" style="margin-top:18px;">
+<div class="card">
+<h2>Leitura visual do texto</h2>
+<div class="preview" id="previewTexto"></div>
+</div>
 
 <div class="card">
-<h2>Lacunas editoriais e complementos</h2>
-
-<div class="linha">
-<span class="rotulo">Biografia</span>
-<div class="valor" id="lacunaBiografia">—</div>
-</div>
-
-<div class="linha">
-<span class="rotulo">Prefácio</span>
-<div class="valor" id="lacunaPrefacio">—</div>
-</div>
-
-<div class="linha">
-<span class="rotulo">Ficha catalográfica</span>
-<div class="valor" id="lacunaFicha">—</div>
-</div>
-
-<div class="linha">
-<span class="rotulo">Dedicatória</span>
-<div class="valor" id="lacunaDedicatoria">—</div>
-</div>
-
-<div class="aviso">
-Se algum desses elementos estiver ausente, ele poderá ser enviado ou gerado nas próximas etapas do fluxo editorial.
-</div>
-
-<h2 style="margin-top:22px;">Ativos da obra</h2>
+<h2>Ativos e complementos</h2>
 
 <div class="linha">
 <span class="rotulo">Imagens salvas</span>
@@ -350,136 +311,116 @@ Se algum desses elementos estiver ausente, ele poderá ser enviado ou gerado nas
 </div>
 
 <div class="linha">
-<span class="rotulo">Vozes vinculadas ao autor</span>
-<div class="valor" id="resumoVozes">—</div>
+<span class="rotulo">Autoimagem pelo OKapista</span>
+<div class="valor" id="autoImagem">—</div>
+</div>
+
+<div class="linha">
+<span class="rotulo">Lacunas editoriais</span>
+<div class="valor" id="resumoLacunas">—</div>
+</div>
 </div>
 </div>
 
-<div class="card">
-<h2>Prévia do texto extraído</h2>
-<div class="preview" id="previewTexto"></div>
-</div>
-
-</div>
 </div>
 
 <script>
 function obterObraAtual(){
-const obraSalva = localStorage.getItem("obraAtual");
-if(!obraSalva){
-return null;
-}
+  const obraSalva = localStorage.getItem("obraAtual");
+  if(!obraSalva) return null;
 
-try{
-return JSON.parse(obraSalva);
-}catch(erro){
-return null;
-}
-}
-
-function formatarLacuna(valor){
-return valor ? "Enviado" : "Não encontrado";
+  try{
+    return JSON.parse(obraSalva);
+  }catch(erro){
+    return null;
+  }
 }
 
 function preencherWorkspace(){
-const obra = obterObraAtual();
+  const obra = obterObraAtual();
 
-if(!obra){
-document.getElementById("arquivoOriginal").innerText = "Nenhuma obra carregada";
-document.getElementById("tituloDetectado").innerText = "Nenhuma obra carregada";
-document.getElementById("subtituloDetectado").innerText = "Nenhuma obra carregada";
-document.getElementById("autorDetectado").innerText = "Nenhuma obra carregada";
-document.getElementById("tipoObra").innerText = "Nenhuma obra carregada";
-document.getElementById("cddProvavel").innerText = "Nenhuma obra carregada";
-document.getElementById("personagensDetectados").innerText = "Nenhuma obra carregada";
-document.getElementById("narradorDetectado").innerText = "Nenhuma obra carregada";
-document.getElementById("climaDetectado").innerText = "Nenhuma obra carregada";
-document.getElementById("generoDetectado").innerText = "Nenhuma obra carregada";
-document.getElementById("lacunaBiografia").innerText = "Não disponível";
-document.getElementById("lacunaPrefacio").innerText = "Não disponível";
-document.getElementById("lacunaFicha").innerText = "Não disponível";
-document.getElementById("lacunaDedicatoria").innerText = "Não disponível";
-document.getElementById("resumoImagens").innerText = "Não disponível";
-document.getElementById("resumoVozes").innerText = "Não disponível";
-document.getElementById("previewTexto").innerHTML = '<span class="vazio">Nenhum texto foi carregado ainda. Volte ao Cofre e envie uma obra.</span>';
-document.getElementById("semCapitulos").style.display = "block";
-return;
-}
+  if(!obra){
+    document.getElementById("arquivoOriginal").innerText = "Nenhuma obra carregada";
+    document.getElementById("tituloDetectado").innerText = "Nenhuma obra carregada";
+    document.getElementById("autorDetectado").innerText = "Nenhuma obra carregada";
+    document.getElementById("tipoObra").innerText = "Nenhuma obra carregada";
+    document.getElementById("capitulosObra").innerText = "Nenhuma obra carregada";
+    document.getElementById("personagensDetectados").innerText = "Nenhuma obra carregada";
+    document.getElementById("generoDetectado").innerText = "Nenhuma obra carregada";
+    document.getElementById("estiloDetectado").innerText = "Nenhuma obra carregada";
+    document.getElementById("narradorDetectado").innerText = "Nenhuma obra carregada";
+    document.getElementById("climaDetectado").innerText = "Nenhuma obra carregada";
+    document.getElementById("previewTexto").innerHTML = '<span class="vazio">Nenhuma obra foi lida ainda.</span>';
+    document.getElementById("resumoImagens").innerText = "Não disponível";
+    document.getElementById("autoImagem").innerText = "Não disponível";
+    document.getElementById("resumoLacunas").innerText = "Não disponível";
+    return;
+  }
 
-document.getElementById("arquivoOriginal").innerText = obra.arquivoOriginal || "Arquivo não identificado";
-document.getElementById("tituloDetectado").innerText = obra?.estrutura?.titulo || "Não identificado";
-document.getElementById("subtituloDetectado").innerText = obra?.estrutura?.subtitulo || "Não identificado";
-document.getElementById("autorDetectado").innerText = obra?.estrutura?.autor || "Não identificado";
-document.getElementById("tipoObra").innerText = obra.tipo || "Não identificado";
-document.getElementById("cddProvavel").innerText = obra.cdd || "Não identificado";
+  document.getElementById("arquivoOriginal").innerText = obra.arquivoOriginal || "Arquivo não identificado";
+  document.getElementById("tituloDetectado").innerText = obra?.estrutura?.titulo || "Não identificado";
+  document.getElementById("autorDetectado").innerText = obra?.estrutura?.autor || "Não identificado";
+  document.getElementById("tipoObra").innerText = obra.tipo || "Não identificado";
+  document.getElementById("capitulosObra").innerText =
+    Array.isArray(obra?.estrutura?.capitulos) ? obra.estrutura.capitulos.length : 0;
 
-document.getElementById("personagensDetectados").innerText =
-Array.isArray(obra.personagens) && obra.personagens.length
-? obra.personagens.join(", ")
-: "Não identificados";
+  document.getElementById("personagensDetectados").innerText =
+    Array.isArray(obra.personagens) && obra.personagens.length
+    ? obra.personagens.join(", ")
+    : "Não identificados";
 
-document.getElementById("narradorDetectado").innerText = obra.narrador || "Não identificado";
-document.getElementById("climaDetectado").innerText = obra.clima || "Não identificado";
-document.getElementById("generoDetectado").innerText = obra.genero || "Não identificado";
+  document.getElementById("generoDetectado").innerText = obra.genero || "Não identificado";
+  document.getElementById("estiloDetectado").innerText = obra.estilo || "Não identificado";
+  document.getElementById("narradorDetectado").innerText = obra.narrador || "Não identificado";
+  document.getElementById("climaDetectado").innerText = obra.clima || "Não identificado";
 
-document.getElementById("lacunaBiografia").innerText = formatarLacuna(obra?.lacunas?.biografia);
-document.getElementById("lacunaPrefacio").innerText = formatarLacuna(obra?.lacunas?.prefacio);
-document.getElementById("lacunaFicha").innerText = formatarLacuna(obra?.lacunas?.fichaCatalografica);
-document.getElementById("lacunaDedicatoria").innerText = formatarLacuna(obra?.lacunas?.dedicatoria);
+  document.getElementById("previewTexto").innerText =
+    obra.textoExtraido ? obra.textoExtraido.substring(0, 12000) : "Sem texto extraído.";
 
-const imagensSalvas = obra?.imagensSalvas || 0;
-document.getElementById("resumoImagens").innerText = imagensSalvas + " imagem(ns) registrada(s)";
+  document.getElementById("resumoImagens").innerText =
+    (obra.imagensSalvas || 0) + " imagem(ns) registrada(s)";
 
-const vozesAutor = JSON.parse(localStorage.getItem("vozesAutor")) || [];
-document.getElementById("resumoVozes").innerText = vozesAutor.length + " voz(es) vinculada(s)";
+  document.getElementById("autoImagem").innerText =
+    obra.autoGerarCapa ? "Ativado: OKapista deverá gerar imagens-base automaticamente." : "Desativado: há imagens enviadas pelo autor.";
 
-const preview = obra.textoExtraido ? obra.textoExtraido.substring(0, 6000) : "";
-document.getElementById("previewTexto").innerText = preview || "Sem texto extraído.";
+  const lacunas = [
+    "Biografia: " + (obra?.lacunas?.biografia ? "enviada" : "ausente"),
+    "Prefácio: " + (obra?.lacunas?.prefacio ? "enviado" : "ausente"),
+    "Ficha catalográfica: " + (obra?.lacunas?.fichaCatalografica ? "enviada" : "ausente"),
+    "Dedicatória: " + (obra?.lacunas?.dedicatoria ? "enviada" : "ausente")
+  ];
+  document.getElementById("resumoLacunas").innerHTML = lacunas.join("<br>");
 
-const listaCapitulos = document.getElementById("listaCapitulos");
-listaCapitulos.innerHTML = "";
+  const tagsArea = document.getElementById("tagsResumo");
+  tagsArea.innerHTML = "";
 
-if(Array.isArray(obra?.estrutura?.capitulos) && obra.estrutura.capitulos.length){
-document.getElementById("semCapitulos").style.display = "none";
-
-obra.estrutura.capitulos.forEach(function(capitulo){
-const item = document.createElement("li");
-item.innerText = capitulo;
-listaCapitulos.appendChild(item);
-});
-}else{
-document.getElementById("semCapitulos").style.display = "block";
-}
+  [obra.tipo, obra.genero, obra.estilo, obra.narrador, obra.clima]
+    .filter(Boolean)
+    .forEach(tagTexto=>{
+      const span = document.createElement("span");
+      span.className = "tag";
+      span.innerText = tagTexto;
+      tagsArea.appendChild(span);
+    });
 }
 
 function voltarParaCofre(){
-window.location.href = "modulo_01_bolsao.html";
+  window.location.href = "modulo01_bolsao_mapa.html";
 }
 
 function seguirParaExecutor(){
-const obra = obterObraAtual();
-
-if(!obra){
-alert("Nenhuma obra foi carregada ainda.");
-return;
-}
-
-window.location.href = "modulo_executor.html";
+  window.location.href = "modulo_executor.html";
 }
 
 function limparObra(){
-const confirmar = confirm("Deseja realmente limpar a obra atual?");
-if(!confirmar){
-return;
-}
-
-localStorage.removeItem("obraAtual");
-alert("Obra atual removida com sucesso.");
-window.location.href = "modulo_01_bolsao.html";
+  const confirmar = confirm("Deseja realmente limpar a obra atual?");
+  if(!confirmar) return;
+  localStorage.removeItem("obraAtual");
+  window.location.href = "modulo01_bolsao_mapa.html";
 }
 
 function recarregarWorkspace(){
-preencherWorkspace();
+  preencherWorkspace();
 }
 
 preencherWorkspace();
