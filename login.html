@@ -6,7 +6,6 @@
 <title>Login Lapidar</title>
 
 <style>
-
 body{
 margin:0;
 height:100vh;
@@ -51,7 +50,6 @@ cursor:pointer;
 button:hover{
 background:#256f2b;
 }
-
 </style>
 </head>
 
@@ -69,7 +67,6 @@ background:#256f2b;
 
 </div>
 
-
 <script>
 
 function login(){
@@ -78,57 +75,60 @@ let usuario=document.getElementById("usuario").value.trim().toLowerCase()
 
 if(usuario===""){
 
-alert("Informe o usuário")
+alert("Digite o usuário")
 return
+
+}
+
+/*
+DEFINIÇÃO AUTOMÁTICA DE PERFIL
+sem cadastro manual
+*/
+
+let perfil="producao"
+
+
+/*
+ADMIN PRINCIPAL
+adicione aqui seus logins administrativos
+*/
+
+if(
+usuario.includes("sigmal") ||
+usuario.includes("lapidar") ||
+usuario.includes("site") ||
+usuario.includes("admin")
+){
+
+perfil="admin"
 
 }
 
 
 /*
-MAPA OFICIAL DE PERFIS DO LAPIDAR
-AJUSTE AQUI APENAS SE PRECISAR
+HETERÔNIMO
 */
 
-const mapaPerfis = {
+if(
+usuario.includes("heteronimo") ||
+usuario.includes("heterônimo")
+){
 
-admin:"admin",
-
-sigmal:"admin",
-
-siteletras:"admin",
-
-diagramador:"producao",
-
-capista:"producao",
-
-avaliador:"producao",
-
-tradutor:"producao",
-
-producao:"producao",
-
-heteronimo:"heteronimo",
-
-heterônimo:"heteronimo",
-
-autor:"cortesia",
-
-cortesia:"cortesia"
+perfil="heteronimo"
 
 }
 
 
 /*
-DETECTA PERFIL
+CORTESIA
 */
 
-let perfil = mapaPerfis[usuario]
+if(
+usuario.includes("cortesia") ||
+usuario.includes("autor")
+){
 
-
-if(!perfil){
-
-alert("Usuário não reconhecido.\nCadastre no login.html")
-return
+perfil="cortesia"
 
 }
 
