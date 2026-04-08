@@ -23,8 +23,7 @@ text-align:center;
 
 .subtitulo{
 font-size:15px;
-opacity:0.85;
-margin-top:5px;
+opacity:0.9;
 }
 
 .container{
@@ -39,10 +38,6 @@ padding:25px;
 border-radius:12px;
 margin-bottom:20px;
 box-shadow:0 4px 12px rgba(0,0,0,0.08);
-}
-
-h2{
-margin-top:0;
 }
 
 .upload-area{
@@ -79,51 +74,44 @@ overflow:hidden;
 height:100%;
 width:0%;
 background:#2f4f4f;
-text-align:center;
 color:white;
+text-align:center;
 line-height:22px;
 }
 
 .status{
-margin-top:12px;
+margin-top:10px;
 font-size:15px;
 }
 
-textarea{
-width:100%;
-height:100px;
-margin-top:10px;
+.lacuna{
+margin-top:8px;
 }
 
 </style>
-
 </head>
 
 
 <body>
 
 <div class="topo">
-
 <h1>Cofre Editorial do Autor</h1>
-
 <div class="subtitulo">
 Melhoria da Qualidade Narrativa da sua obra
 </div>
-
 </div>
 
 
 <div class="container">
 
+<!-- Upload manuscrito -->
 
 <div class="card">
 
 <h2>Enviar manuscrito</h2>
 
 <div class="upload-area" onclick="arquivoInput.click()">
-
 Clique aqui para enviar sua obra
-
 </div>
 
 <input
@@ -133,38 +121,61 @@ accept=".doc,.docx,.txt,.pdf"
 style="display:none"
 >
 
-<button onclick="lerObra()">Iniciar leitura estrutural</button>
+<button onclick="lerObra()">
+Iniciar leitura estrutural
+</button>
 
 <div class="progress-bar">
-
 <div class="progress" id="barra">
-
 0%
-
 </div>
-
 </div>
 
 <div class="status" id="status">
-
 Aguardando envio da obra
-
 </div>
 
 </div>
 
 
+<!-- Diagnóstico -->
 
 <div class="card">
 
-<h2>Enviar imagens da obra</h2>
+<h2>Diagnóstico editorial automático</h2>
+
+<div id="diagnostico">
+Nenhuma obra analisada ainda
+</div>
+
+</div>
+
+
+<!-- Lacunas detectadas -->
+
+<div class="card">
+
+<h2>Elementos pré-textuais da obra</h2>
+
+<div id="lacunasPainel">
+
+Aguardando leitura estrutural
+
+</div>
+
+</div>
+
+
+<!-- Upload imagens -->
+
+<div class="card">
+
+<h2>Imagens da obra</h2>
 
 <input type="file" id="imagensInput" multiple>
 
 <button onclick="salvarImagens()">
-
-Salvar imagens no cofre
-
+Salvar imagens no Cofre
 </button>
 
 <div id="listaImagens"></div>
@@ -172,24 +183,21 @@ Salvar imagens no cofre
 </div>
 
 
+<!-- Banco de vozes -->
 
 <div class="card">
 
 <h2>Banco de vozes do autor</h2>
 
 <p>
-
-Você pode gravar sua voz ou enviar arquivos de áudio.
-Estas vozes permanecerão vinculadas ao seu perfil.
-
+Estas vozes permanecem vinculadas ao seu perfil e poderão ser usadas
+em audiobooks e recursos narrativos.
 </p>
 
 <input type="file" id="vozInput" accept="audio/*">
 
 <button onclick="salvarVoz()">
-
 Salvar voz
-
 </button>
 
 <div id="listaVozes"></div>
@@ -197,30 +205,12 @@ Salvar voz
 </div>
 
 
-
-<div class="card">
-
-<h2>Diagnóstico editorial automático</h2>
-
-<div id="diagnostico">
-
-Nenhuma obra analisada ainda
-
-</div>
-
-</div>
-
-
-
 <button onclick="abrirWorkspace()">
-
 Ir para Workspace da Obra
-
 </button>
 
 
 </div>
-
 
 
 <script>
@@ -243,23 +233,14 @@ status.innerText=texto
 
 function detectarTipoObra(texto){
 
-if(texto.includes("ingredientes")){
-
+if(texto.includes("ingredientes"))
 return "Livro gastronômico"
 
-}
-
-if(texto.match(/cap[ií]tulo/gi)){
-
+if(texto.match(/cap[ií]tulo/gi))
 return "Narrativa estruturada em capítulos"
 
-}
-
-if(texto.match(/\n[A-Z][a-z]+\,?\n/g)){
-
+if(texto.match(/\n[A-Z][a-z]+\,?\n/g))
 return "Possível livro de poemas"
-
-}
 
 return "Tipo não identificado"
 
@@ -272,18 +253,72 @@ function detectarCDD(tipo){
 switch(tipo){
 
 case "Livro gastronômico":
-
 return "CDD provável: 641"
 
 case "Possível livro de poemas":
-
 return "CDD provável: 869.91"
 
 default:
-
 return "CDD provável: 869.93"
 
 }
+
+}
+
+
+
+function detectarLacunas(){
+
+obraAtual.lacunas={
+biografia:false,
+prefacio:false,
+fichaCatalografica:false,
+dedicatoria:false
+}
+
+localStorage.setItem(
+"obraAtual",
+JSON.stringify(obraAtual)
+)
+
+renderizarPainelLacunas()
+
+}
+
+
+
+function renderizarPainelLacunas(){
+
+lacunasPainel.innerHTML=`
+
+Biografia: não encontrada
+<input type="file" onchange="uploadElemento('biografia')"><br>
+
+Prefácio: não encontrado
+<input type="file" onchange="uploadElemento('prefacio')"><br>
+
+Ficha catalográfica: não encontrada
+<input type="file" onchange="uploadElemento('fichaCatalografica')"><br>
+
+Dedicatória: não encontrada
+<input type="file" onchange="uploadElemento('dedicatoria')"><br>
+
+`
+
+}
+
+
+
+function uploadElemento(tipo){
+
+obraAtual.lacunas[tipo]=true
+
+localStorage.setItem(
+"obraAtual",
+JSON.stringify(obraAtual)
+)
+
+alert(tipo+" enviado com sucesso!")
 
 }
 
@@ -316,17 +351,12 @@ obraAtual.tipo=detectarTipoObra(texto)
 obraAtual.cdd=detectarCDD(obraAtual.tipo)
 
 obraAtual.lapidarClock={
-
 inicioSessao:Date.now()
-
 }
 
 localStorage.setItem(
-
 "obraAtual",
-
 JSON.stringify(obraAtual)
-
 )
 
 simularLeitura()
@@ -344,23 +374,15 @@ function simularLeitura(){
 let etapas=[
 
 "Removendo resíduos técnicos...",
-
 "Separando título...",
-
 "Separando autor...",
-
 "Detectando capítulos...",
-
-"Detectando personagens...",
-
 "Detectando tipo de obra...",
-
 "Preparando diagnóstico editorial..."
 
 ]
 
 let progresso=0
-
 let i=0
 
 let intervalo=setInterval(()=>{
@@ -370,6 +392,7 @@ if(i>=etapas.length){
 clearInterval(intervalo)
 
 mostrarDiagnostico()
+detectarLacunas()
 
 return
 
@@ -378,11 +401,8 @@ return
 progresso+=15
 
 atualizarBarra(
-
 progresso,
-
 etapas[i]
-
 )
 
 i++
@@ -395,13 +415,11 @@ i++
 
 function mostrarDiagnostico(){
 
-let obra=JSON.parse(localStorage.getItem("obraAtual"))
-
 diagnostico.innerHTML=`
 
-✔ Classificação detectada: ${obra.tipo}
+✔ Classificação detectada: ${obraAtual.tipo}<br>
 
-✔ ${obra.cdd}
+✔ ${obraAtual.cdd}<br>
 
 ✔ Texto preparado para módulos seguintes
 
@@ -416,7 +434,6 @@ function salvarImagens(){
 let arquivos=imagensInput.files
 
 listaImagens.innerText=
-
 arquivos.length+" imagens armazenadas"
 
 }
@@ -436,23 +453,17 @@ return
 }
 
 let vozes=JSON.parse(
-
 localStorage.getItem("vozesAutor")
-
 )||[]
 
 vozes.push(voz.name)
 
 localStorage.setItem(
-
 "vozesAutor",
-
 JSON.stringify(vozes)
-
 )
 
 listaVozes.innerText=
-
 vozes.length+" vozes armazenadas"
 
 }
@@ -462,11 +473,9 @@ vozes.length+" vozes armazenadas"
 function abrirWorkspace(){
 
 window.location.href=
-
 "obra_workspace.html"
 
 }
-
 
 
 </script>
