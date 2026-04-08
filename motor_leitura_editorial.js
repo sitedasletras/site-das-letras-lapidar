@@ -25,7 +25,19 @@
     "Observei", "Durante", "Essa", "Aquela", "Aquele", "Nessa", "Nisso", "Agora", "Depois",
     "Quando", "Então", "Levantei", "Olhou", "Capítulo", "Autor", "Prefácio", "Dedicatória",
     "Sumário", "Prólogo", "Epílogo", "Selo", "Editorial", "Imagem", "Capa", "Contra",
-    "Contracapa", "Orelha", "Livro", "Tipo", "Narrador", "Clima", "Gênero", "Estilo"
+    "Contracapa", "Orelha", "Livro", "Tipo", "Narrador", "Clima", "Gênero", "Estilo",
+    "Ele", "Ela", "Eles", "Elas", "Mas", "Uma", "Um", "Uns", "Umas", "Como", "Apenas",
+    "Boa", "Boas", "Algumas", "Alguns", "Esta", "Este", "Essa", "Esse", "Aquilo", "Nada",
+    "Tudo", "Todos", "Todas", "Foi", "Era", "Seria", "Havia", "Tinha", "Chicago"
+  ]);
+
+  const PALAVRAS_FUNCIONAIS = new Set([
+    "a","o","as","os","um","uma","uns","umas","de","da","do","das","dos","e","ou","mas","por",
+    "para","com","sem","sob","sobre","entre","até","após","antes","depois","quando","então",
+    "como","porque","que","se","em","no","na","nos","nas","ao","aos","à","às","ele","ela",
+    "eles","elas","essa","esse","esta","este","isso","isto","aquilo","algum","alguma","alguns",
+    "algumas","muito","muita","muitos","muitas","pouco","pouca","poucos","poucas","boa","bom",
+    "boas","bons","me","te","se","lhe","lhes","eu","tu","nós","vos"
   ]);
 
   function normalizarTexto(texto) {
@@ -108,8 +120,24 @@
     return normalizarTexto(limpas.join("\n"));
   }
 
+  function quebrarTituloAutorNaMesmaLinha(texto) {
+    return texto.replace(
+      /^(.+?)\s+(Conto de|Romance de|Poema de)\s+(.+)$/gim,
+      function (_, titulo, marcador, autor) {
+        return titulo.trim() + "\n" + marcador.trim() + " " + autor.trim();
+      }
+    );
+  }
+
+  function prepararTextoParaLeitura(texto) {
+    let t = normalizarTexto(texto || "");
+    t = quebrarTituloAutorNaMesmaLinha(t);
+    return t;
+  }
+
   function detectarTitulo(texto) {
-    const linhas = texto.split("\n").map(l => l.trim()).filter(Boolean);
+    const textoPreparado = prepararTextoParaLeitura(texto);
+    const linhas = textoPreparado.split("\n").map(l => l.trim()).filter(Boolean);
 
     for (const linha of linhas) {
       if (linhaPlaceholder(linha)) continue;
@@ -117,9 +145,7 @@
       if (linha.length < 3) continue;
       if (linha.length > 120) continue;
       if (/^autor:/i.test(linha)) continue;
-      if (/^conto de /i.test(linha)) continue;
-      if (/^romance de /i.test(linha)) continue;
-      if (/^poema de /i.test(linha)) continue;
+      if (/^(conto|romance|poema)\s+de\s+/i.test(linha)) continue;
       if (/^cap[ií]tulo\s+[ivxlcdm\d]+/i.test(linha)) continue;
       if (/^pref[aá]cio/i.test(linha)) continue;
       if (/^dedicat[oó]ria/i.test(linha)) continue;
@@ -131,7 +157,8 @@
   }
 
   function detectarAutor(texto) {
-    const linhas = texto.split("\n").map(l => l.trim()).filter(Boolean);
+    const textoPreparado = prepararTextoParaLeitura(texto);
+    const linhas = textoPreparado.split("\n").map(l => l.trim()).filter(Boolean);
 
     for (const linha of linhas) {
       const lower = linha.toLowerCase();
@@ -149,7 +176,7 @@
       }
     }
 
-    const titulo = detectarTitulo(texto);
+    const titulo = detectarTitulo(textoPreparado);
     const idx = linhas.findIndex(l => l === titulo);
 
     if (idx >= 0) {
@@ -176,14 +203,23 @@
     return achados.map(item => item.trim());
   }
 
+  function tokenEhRuido(token) {
+    if (!token) return true;
+    if (TERMOS_RUIDO_PERSONAGEM.has(token)) return true;
+    if (PALAVRAS_FUNCIONAIS.has(token.toLowerCase())) return true;
+    if (/^\d+$/.test(token)) return true;
+    if (token.length < 3) return true;
+    if (/^(Segunda|Terceira|Primeira|Sombrio|Neutro|Romance|Fantasia|Comédia|Suspense|Dramático|Intimista)$/i.test(token)) return true;
+    return false;
+  }
+
   function detectarPersonagens(texto) {
-    const palavras = texto.match(/\b[A-ZÁÀÂÃÉÈÊÍÌÎÓÒÔÕÚÙÛÇ][a-záàâãéèêíìîóòôõúùûç]{2,}\b/g) || [];
+    const candidatos = texto.match(/\b[A-ZÁÀÂÃÉÈÊÍÌÎÓÒÔÕÚÙÛÇ][a-záàâãéèêíìîóòôõúùûç]{2,}\b/g) || [];
     const contagem = {};
 
-    palavras.forEach(p => {
-      if (TERMOS_RUIDO_PERSONAGEM.has(p)) return;
-      if (/^(Segunda|Terceira|Primeira|Sombrio|Neutro|Romance|Fantasia|Comédia|Suspense|Dramático|Intimista)$/i.test(p)) return;
-      contagem[p] = (contagem[p] || 0) + 1;
+    candidatos.forEach(token => {
+      if (tokenEhRuido(token)) return;
+      contagem[token] = (contagem[token] || 0) + 1;
     });
 
     return Object.entries(contagem)
@@ -328,8 +364,8 @@
       ],
       "Conto ou narrativa curta": [
         { regex: /\bconto\b/gi, peso: 4, rotulo: "conto" },
-        { regex: /\bfinal da tarde\b/gi, peso: 1, rotulo: "marcador narrativo" },
-        { regex: /\bdepois\b/gi, peso: 1, rotulo: "progressão curta" }
+        { regex: /\bdepois\b/gi, peso: 1, rotulo: "progressão curta" },
+        { regex: /\baté começar a investigar\b/gi, peso: 3, rotulo: "estrutura curta" }
       ],
       "Livro técnico ou didático": [
         { regex: /\bobjetivo\b/gi, peso: 2, rotulo: "objetivo" },
@@ -507,11 +543,36 @@
     return decidirCategoria(scores, evidencias, 2, 2);
   }
 
-  function montarBlocosSemanticos(texto) {
-    const paragrafos = texto
+  function reconstruirParagrafos(texto) {
+    const original = normalizarTexto(texto || "");
+    let paragrafos = original
       .split(/\n\s*\n/)
       .map(p => p.trim())
       .filter(Boolean);
+
+    if (paragrafos.length > 2) {
+      return paragrafos;
+    }
+
+    const linhas = original
+      .split("\n")
+      .map(l => l.trim())
+      .filter(Boolean);
+
+    if (linhas.length > 4) {
+      return linhas;
+    }
+
+    const frases = original
+      .split(/(?<=[\.\!\?])\s+(?=[A-ZÁÀÂÃÉÈÊÍÌÎÓÒÔÕÚÙÛÇ“"—])/)
+      .map(f => f.trim())
+      .filter(Boolean);
+
+    return frases.length ? frases : [original];
+  }
+
+  function montarBlocosSemanticos(texto) {
+    const paragrafos = reconstruirParagrafos(texto);
 
     return {
       abertura: paragrafos.slice(0, 4).join("\n\n"),
@@ -545,7 +606,8 @@
 
   function analisarObra(textoOriginal) {
     const textoBruto = normalizarTexto(textoOriginal || "");
-    const textoLimpo = limparEstruturaEditorial(textoBruto);
+    const textoLimpoInicial = limparEstruturaEditorial(textoBruto);
+    const textoLimpo = prepararTextoParaLeitura(textoLimpoInicial);
 
     const estrutura = {
       titulo: detectarTitulo(textoLimpo),
