@@ -1,120 +1,774 @@
-<!DOCTYPE html><html lang="pt-br">
+<!DOCTYPE html>
+<html lang="pt-br">
 <head>
 <meta charset="UTF-8">
-<title>Lapidar — Bolsão de Limpeza Editorial</title><style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cofre Editorial do Autor</title>
+
+<script src="https://unpkg.com/mammoth@1.8.0/mammoth.browser.min.js"></script>
+<script src="motor_leitura_editorial.js"></script>
+
+<style>
+*{
+box-sizing:border-box;
+}
+
 body{
-font-family:Georgia,serif;
-background:#f7f6f2;
-margin:40px;
-color:#222;
+font-family:Arial, sans-serif;
+background:#f4efe6;
+margin:0;
+color:#2f2a24;
 }
 
-h1{
+.topo{
+background:#2f5a57;
+color:white;
+padding:25px;
 text-align:center;
-margin-bottom:30px;
 }
 
-textarea{
-width:100%;
-height:300px;
-font-size:16px;
-padding:15px;
+.topo h1{
+margin:0;
+font-size:28px;
+}
+
+.subtitulo{
+margin-top:6px;
+font-size:14px;
+opacity:0.95;
+}
+
+.container{
+max-width:1320px;
+margin:auto;
+padding:20px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:18px;
+}
+
+.card{
+background:white;
+padding:20px;
+margin-bottom:20px;
+border-radius:12px;
+box-shadow:0px 4px 14px rgba(0,0,0,0.08);
+}
+
+.card h2{
+margin-top:0;
+color:#2f5a57;
+}
+
+.upload-area{
+border:2px dashed #ccc;
+padding:25px;
+text-align:center;
+cursor:pointer;
+border-radius:10px;
+background:#fcfcfb;
+}
+
+.upload-area:hover{
+background:#f7f5f1;
 }
 
 button{
-padding:12px 22px;
-font-size:16px;
-background:#2e5f4f;
+padding:12px 18px;
+background:#2f5a57;
 color:white;
 border:none;
-margin-top:15px;
+border-radius:10px;
 cursor:pointer;
+margin-top:10px;
+font-size:15px;
 }
 
-.resultado{
-margin-top:40px;
+button:hover{
+background:#234542;
+}
+
+.btn-secundario{
+background:#e9dfcf;
+color:#473721;
+}
+
+.btn-secundario:hover{
+background:#dbcdb7;
+}
+
+.progress-bar{
+height:22px;
+background:#ddd;
+border-radius:20px;
+margin-top:15px;
+overflow:hidden;
+}
+
+.progress{
+height:100%;
+width:0%;
+background:#2f5a57;
+color:white;
+text-align:center;
+font-size:13px;
+line-height:22px;
+font-weight:bold;
+}
+
+.status{
+margin-top:10px;
+font-size:15px;
+}
+
+.a4{
 background:white;
-padding:25px;
-border-radius:8px;
-box-shadow:0px 0px 8px rgba(0,0,0,0.08);
+padding:40px;
+min-height:600px;
+border:1px solid #ddd;
+box-shadow:0px 6px 18px rgba(0,0,0,0.12);
+white-space:pre-wrap;
+line-height:1.7;
+}
+
+.tag{
+background:#eef3f8;
+padding:6px 10px;
+border-radius:999px;
+margin-right:5px;
+display:inline-block;
+margin-top:10px;
+font-size:13px;
+border:1px solid #d8e0ea;
+}
+
+.aviso{
+margin-top:12px;
+background:#fff8e8;
+border:1px solid #ecd7a7;
+border-radius:10px;
+padding:12px 14px;
+color:#6a552a;
+line-height:1.45;
+font-size:14px;
 }
 
 .linha{
+background:#f9f6f1;
+border:1px solid #eadfce;
+border-radius:10px;
+padding:12px 14px;
+margin-bottom:12px;
+}
+
+.rotulo{
+display:block;
+font-size:12px;
+font-weight:bold;
+text-transform:uppercase;
+letter-spacing:0.4px;
+color:#8a6a3c;
+margin-bottom:6px;
+}
+
+.valor{
+font-size:15px;
+line-height:1.45;
+word-break:break-word;
+}
+
+.mini-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+}
+
+.mini-box{
+background:#fbfaf7;
+border:1px solid #eadfce;
+border-radius:12px;
+padding:14px;
+}
+
+.mini-box strong{
+display:block;
+margin-bottom:6px;
+color:#5d4b2d;
+}
+
+.acoes{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+margin-top:14px;
+}
+
+.etapas-grid{
+display:grid;
+grid-template-columns:1fr 1fr 1fr;
+gap:12px;
+margin-top:14px;
+}
+
+.etapa{
+background:#fbfaf7;
+border:1px solid #eadfce;
+border-radius:12px;
+padding:14px;
+min-height:120px;
+}
+
+.etapa h3{
+margin:0 0 8px 0;
+font-size:16px;
+color:#5d4b2d;
+}
+
+.etapa p{
+margin:0;
+line-height:1.55;
+font-size:14px;
+}
+
+.conf-box{
+background:#f7fbfa;
+border:1px solid #d8e7e5;
+border-radius:12px;
+padding:14px;
+margin-top:12px;
+}
+
+.conf-linha{
 margin-bottom:10px;
 }
-</style></head><body><h1>Bolsão de Limpeza Editorial</h1><textarea id="textoEntrada" placeholder="Cole aqui o texto da obra..."></textarea><br><button onclick="analisarTexto()">Executar leitura editorial</button>
 
-<div class="resultado" id="saida"></div><script>
-
-function detectarNarrador(texto){
-
-let primeiraPessoa = (texto.match(/\beu\b/gi)||[]).length
-let terceiraPessoa = (texto.match(/\bele\b|\bela\b/gi)||[]).length
-
-if(primeiraPessoa > terceiraPessoa)
-return ["1ª pessoa","uso recorrente de 'eu'"]
-else if(terceiraPessoa > primeiraPessoa)
-return ["3ª pessoa","uso recorrente de 'ele/ela'"]
-else
-return ["narrador misto","equilíbrio entre referências pessoais"]
-
+.conf-linha:last-child{
+margin-bottom:0;
 }
 
-function detectarGenero(texto){
-
-if(texto.match(/hotel|vizinho|situação absurda|ironia|engraçado/i))
-return ["comédia narrativa","contraste situacional + observação cotidiana"]
-
-if(texto.match(/dragão|espada|reino/i))
-return ["fantasia","vocabulário épico"]
-
-if(texto.match(/detetive|crime|investigação/i))
-return ["policial","estrutura investigativa"]
-
-if(texto.match(/amor|relacionamento/i))
-return ["romance literário","estrutura emocional"]
-
-return ["narrativa literária geral","ausência de marcadores rígidos de gênero"]
-
+.badge{
+display:inline-block;
+padding:5px 9px;
+border-radius:999px;
+font-size:12px;
+margin-left:8px;
+background:#eef3f8;
+border:1px solid #d8e0ea;
+color:#456;
 }
 
-function limparTitulo(texto){
-
-let linhas = texto.split("\n")
-
-for(let linha of linhas){
-
-linha = linha.trim()
-
-if(
-linha.length>4 &&
-!linha.match(/aqui vai|inserir|placeholder|selo/i)
-)
-return linha
-
+.lista-evidencias{
+margin:8px 0 0 18px;
+padding:0;
 }
 
-return "Título não identificado com segurança"
-
+.lista-evidencias li{
+margin-bottom:6px;
+line-height:1.5;
 }
 
-function analisarTexto(){
-
-let texto = document.getElementById("textoEntrada").value
-
-let narrador = detectarNarrador(texto)
-let genero = detectarGenero(texto)
-let titulo = limparTitulo(texto)
-
-document.getElementById("saida").innerHTML =
-
-"<div class='linha'><b>Título provável:</b> "+titulo+"</div>"+
-"<div class='linha'><b>Narrador detectado:</b> "+narrador[0]+"</div>"+
-"<div class='linha'><b>Evidência:</b> "+narrador[1]+"</div>"+
-"<div class='linha'><b>Gênero dominante:</b> "+genero[0]+"</div>"+
-"<div class='linha'><b>Evidência:</b> "+genero[1]+"</div>"
-
+@media (max-width:1100px){
+.grid{
+grid-template-columns:1fr;
+}
+.etapas-grid{
+grid-template-columns:1fr;
+}
 }
 
-</script></body>
+@media (max-width:980px){
+.mini-grid{
+grid-template-columns:1fr;
+}
+.a4{
+min-height:unset;
+padding:22px;
+}
+}
+</style>
+</head>
+
+<body>
+
+<div class="topo">
+<h1>Cofre Editorial do Autor</h1>
+<div class="subtitulo">Leitura semântica humanizada da obra</div>
+</div>
+
+<div class="container">
+
+<div class="grid">
+
+<div>
+  <div class="card">
+    <h2>Enviar manuscrito</h2>
+
+    <div class="upload-area" onclick="document.getElementById('arquivoInput').click()">
+      Clique aqui para enviar sua obra
+    </div>
+
+    <input
+      type="file"
+      id="arquivoInput"
+      accept=".docx,.txt"
+      style="display:none"
+    >
+
+    <div class="acoes">
+      <button onclick="lerObra()">Iniciar leitura estrutural</button>
+      <button class="btn-secundario" onclick="abrirWorkspace()">Ir para Workspace da Obra</button>
+    </div>
+
+    <div class="progress-bar">
+      <div class="progress" id="barra">0%</div>
+    </div>
+
+    <div class="status" id="status">Aguardando envio da obra</div>
+
+    <div class="etapas-grid">
+      <div class="etapa">
+        <h3>1. Limpeza estrutural</h3>
+        <p id="etapaLimpeza">Aguardando manuscrito.</p>
+      </div>
+      <div class="etapa">
+        <h3>2. Leitura por blocos</h3>
+        <p id="etapaBlocos">Aguardando manuscrito.</p>
+      </div>
+      <div class="etapa">
+        <h3>3. Diagnóstico explicável</h3>
+        <p id="etapaDiagnostico">Aguardando manuscrito.</p>
+      </div>
+    </div>
+
+    <div class="aviso">
+      O Cofre usa agora o motor editorial central do Lapidar para limpar, interpretar e explicar a leitura da obra.
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Diagnóstico editorial automático</h2>
+    <div id="diagnostico">Nenhuma obra analisada ainda.</div>
+  </div>
+
+  <div class="card">
+    <h2>Leitura dramática da obra</h2>
+    <div id="leituraDramatica">Nenhuma leitura dramática concluída ainda.</div>
+  </div>
+
+  <div class="card">
+    <h2>Confiança e evidências da leitura</h2>
+    <div id="confiancaPainel">Nenhuma leitura concluída ainda.</div>
+  </div>
+
+  <div class="card">
+    <h2>Elementos pré-textuais da obra</h2>
+    <div id="lacunasPainel">Aguardando leitura estrutural.</div>
+  </div>
+
+  <div class="card">
+    <h2>Imagens da obra</h2>
+    <input type="file" id="imagens" multiple>
+    <div class="acoes">
+      <button onclick="salvarImagens()">Salvar imagens</button>
+    </div>
+    <p id="statusImagens"></p>
+    <div class="aviso">
+      Se nenhuma imagem for enviada, o sistema marcará a obra para geração automática de imagens-base no OKapista.
+    </div>
+  </div>
+</div>
+
+<div>
+  <div class="card">
+    <h2>Leitura visual da obra</h2>
+
+    <div class="mini-grid">
+      <div class="mini-box">
+        <strong>Título detectado</strong>
+        <div id="tituloLeitura">—</div>
+      </div>
+      <div class="mini-box">
+        <strong>Autor detectado</strong>
+        <div id="autorLeitura">—</div>
+      </div>
+      <div class="mini-box">
+        <strong>Tipo da obra</strong>
+        <div id="tipoLeitura">—</div>
+      </div>
+      <div class="mini-box">
+        <strong>Capítulos detectados</strong>
+        <div id="capitulosLeitura">—</div>
+      </div>
+      <div class="mini-box">
+        <strong>Gênero literário</strong>
+        <div id="generoLeitura">—</div>
+      </div>
+      <div class="mini-box">
+        <strong>Estilo dominante</strong>
+        <div id="estiloLeitura">—</div>
+      </div>
+      <div class="mini-box">
+        <strong>Narrador</strong>
+        <div id="narradorLeitura">—</div>
+      </div>
+      <div class="mini-box">
+        <strong>Clima narrativo</strong>
+        <div id="climaLeitura">—</div>
+      </div>
+    </div>
+
+    <div id="tags"></div>
+
+    <br>
+
+    <div class="a4" id="a4">
+Nenhuma obra carregada ainda.
+    </div>
+  </div>
+</div>
+
+</div>
+
+</div>
+
+<script>
+let obraAtual = null;
+
+function barra(valor,msg){
+  document.getElementById("barra").style.width = valor + "%";
+  document.getElementById("barra").innerText = valor + "%";
+  document.getElementById("status").innerText = msg;
+}
+
+function atualizarEtapa(id, texto){
+  document.getElementById(id).innerText = texto;
+}
+
+async function extrairTextoDoArquivo(arquivo){
+  const nome = arquivo.name.toLowerCase();
+
+  if(nome.endsWith(".docx")){
+    const buffer = await arquivo.arrayBuffer();
+    const result = await mammoth.extractRawText({ arrayBuffer: buffer });
+    return result.value || "";
+  }
+
+  return await arquivo.text();
+}
+
+function renderizarDiagnostico(analise){
+  const tipo = analise.classificacao.tipo;
+  const genero = analise.classificacao.genero;
+  const estilo = analise.classificacao.estilo;
+  const clima = analise.classificacao.clima;
+
+  document.getElementById("diagnostico").innerHTML = `
+    <div class="linha">
+      <span class="rotulo">Título detectado</span>
+      <div class="valor">${analise.estrutura.titulo}</div>
+    </div>
+
+    <div class="linha">
+      <span class="rotulo">Autor detectado</span>
+      <div class="valor">${analise.estrutura.autor}</div>
+    </div>
+
+    <div class="linha">
+      <span class="rotulo">Tipo da obra</span>
+      <div class="valor">${tipo.valor} — ${tipo.detalhe}</div>
+    </div>
+
+    <div class="linha">
+      <span class="rotulo">Gênero literário</span>
+      <div class="valor">${genero.valor} — ${genero.detalhe}</div>
+    </div>
+
+    <div class="linha">
+      <span class="rotulo">Estilo dominante</span>
+      <div class="valor">${estilo.valor} — ${estilo.detalhe}</div>
+    </div>
+
+    <div class="linha">
+      <span class="rotulo">Narrador</span>
+      <div class="valor">${analise.classificacao.narrador.valor}</div>
+    </div>
+
+    <div class="linha">
+      <span class="rotulo">Clima narrativo</span>
+      <div class="valor">${clima.valor} — ${clima.detalhe}</div>
+    </div>
+
+    <div class="linha">
+      <span class="rotulo">Capítulos detectados</span>
+      <div class="valor">${analise.estrutura.capitulos.length}</div>
+    </div>
+
+    <div class="linha">
+      <span class="rotulo">Personagens recorrentes</span>
+      <div class="valor">${analise.personagens.length ? analise.personagens.join(", ") : "Não identificados"}</div>
+    </div>
+  `;
+}
+
+function renderizarLeituraDramatica(analise){
+  const ld = analise.leituraDramatica;
+  document.getElementById("leituraDramatica").innerHTML = `
+    <div class="linha">
+      <span class="rotulo">Protagonistas prováveis</span>
+      <div class="valor">${ld.protagonistas && ld.protagonistas.length ? ld.protagonistas.join(", ") : "Não conclusivo"}</div>
+    </div>
+
+    <div class="linha">
+      <span class="rotulo">Figuras secundárias</span>
+      <div class="valor">${ld.secundarios && ld.secundarios.length ? ld.secundarios.join(", ") : "Não conclusivo"}</div>
+    </div>
+
+    <div class="linha">
+      <span class="rotulo">Conflito central</span>
+      <div class="valor">${ld.conflitoCentral || "Não conclusivo"}</div>
+    </div>
+  `;
+}
+
+function listaHTML(itens){
+  if(!itens || !itens.length) return "<em>Sem evidências fortes listadas.</em>";
+  return "<ul class='lista-evidencias'>" + itens.map(i => "<li>" + i + "</li>").join("") + "</ul>";
+}
+
+function renderizarConfianca(analise){
+  const tipo = analise.classificacao.tipo;
+  const genero = analise.classificacao.genero;
+  const estilo = analise.classificacao.estilo;
+  const clima = analise.classificacao.clima;
+  const narrador = analise.classificacao.narrador;
+  const blocos = analise.blocos;
+
+  document.getElementById("confiancaPainel").innerHTML = `
+    <div class="conf-box">
+      <div class="conf-linha">
+        <strong>Tipo da obra</strong>
+        <span class="badge">Confiança: ${tipo.score}</span>
+        ${listaHTML(tipo.evidencias)}
+      </div>
+
+      <div class="conf-linha">
+        <strong>Gênero literário</strong>
+        <span class="badge">Confiança: ${genero.score}</span>
+        ${listaHTML(genero.evidencias)}
+      </div>
+
+      <div class="conf-linha">
+        <strong>Estilo dominante</strong>
+        <span class="badge">Confiança: ${estilo.score}</span>
+        ${listaHTML(estilo.evidencias)}
+      </div>
+
+      <div class="conf-linha">
+        <strong>Clima narrativo</strong>
+        <span class="badge">Confiança: ${clima.score}</span>
+        ${listaHTML(clima.evidencias)}
+      </div>
+
+      <div class="conf-linha">
+        <strong>Narrador</strong>
+        <span class="badge">Confiança: ${narrador.score}</span>
+        <div class="aviso" style="margin-top:8px;">O narrador é inferido a partir da narração, tentando ignorar diálogos diretos.</div>
+      </div>
+
+      <div class="conf-linha">
+        <strong>Leitura por blocos</strong>
+        <div class="aviso" style="margin-top:8px;">
+          Abertura: ${blocos?.abertura ? "lida" : "não disponível"} |
+          Miolo: ${blocos?.miolo ? "lido" : "não disponível"} |
+          Encerramento: ${blocos?.encerramento ? "lido" : "não disponível"} |
+          Parágrafos detectados: ${blocos?.totalParagrafos || 0}
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function renderizarPainelLacunas(){
+  document.getElementById("lacunasPainel").innerHTML = `
+    Biografia não encontrada
+    <input type="file" onchange="uploadElemento('biografia')"><br><br>
+    Prefácio não encontrado
+    <input type="file" onchange="uploadElemento('prefacio')"><br><br>
+    Ficha catalográfica não encontrada
+    <input type="file" onchange="uploadElemento('fichaCatalografica')"><br><br>
+    Dedicatória não encontrada
+    <input type="file" onchange="uploadElemento('dedicatoria')"><br>
+  `;
+}
+
+function atualizarLeituraVisual(analise){
+  document.getElementById("tituloLeitura").innerText = analise?.estrutura?.titulo || "—";
+  document.getElementById("autorLeitura").innerText = analise?.estrutura?.autor || "—";
+  document.getElementById("tipoLeitura").innerText = analise?.classificacao?.tipo?.valor || "Não conclusivo";
+  document.getElementById("capitulosLeitura").innerText = Array.isArray(analise?.estrutura?.capitulos) ? analise.estrutura.capitulos.length : 0;
+  document.getElementById("generoLeitura").innerText = analise?.classificacao?.genero?.valor || "Não conclusivo";
+  document.getElementById("estiloLeitura").innerText = analise?.classificacao?.estilo?.valor || "Não conclusivo";
+  document.getElementById("narradorLeitura").innerText = analise?.classificacao?.narrador?.valor || "Não identificado";
+  document.getElementById("climaLeitura").innerText = analise?.classificacao?.clima?.valor || "Não conclusivo";
+
+  const area = document.getElementById("tags");
+  area.innerHTML = "";
+
+  [
+    analise?.classificacao?.tipo?.valor,
+    analise?.classificacao?.genero?.valor,
+    analise?.classificacao?.estilo?.valor,
+    analise?.classificacao?.clima?.valor,
+    analise?.classificacao?.narrador?.valor
+  ]
+  .filter(Boolean)
+  .forEach(tagTexto=>{
+    const span = document.createElement("span");
+    span.className = "tag";
+    span.innerText = tagTexto;
+    area.appendChild(span);
+  });
+
+  document.getElementById("a4").innerText = (analise?.textoLimpo || "").substring(0, 18000) || "Nenhuma obra carregada ainda.";
+}
+
+function montarObraAtual(arquivoNome, analise){
+  return {
+    arquivoOriginal: arquivoNome,
+    textoExtraido: analise.textoLimpo,
+    textoBruto: analise.textoBruto,
+    estrutura: analise.estrutura,
+    personagens: analise.personagens,
+    blocos: analise.blocos,
+    leituraDramatica: analise.leituraDramatica,
+    classificacao: analise.classificacao,
+    tipo: analise.classificacao.tipo.valor,
+    genero: analise.classificacao.genero.valor,
+    estilo: analise.classificacao.estilo.valor,
+    clima: analise.classificacao.clima.valor,
+    narrador: analise.classificacao.narrador.valor,
+    lapidarClock: {
+      inicioSessao: Date.now()
+    },
+    lacunas: {
+      biografia:false,
+      prefacio:false,
+      fichaCatalografica:false,
+      dedicatoria:false
+    }
+  };
+}
+
+async function lerObra(){
+  const file = document.getElementById("arquivoInput").files[0];
+
+  if(!file){
+    alert("Envie um arquivo");
+    return;
+  }
+
+  atualizarEtapa("etapaLimpeza", "Recebendo manuscrito.");
+  atualizarEtapa("etapaBlocos", "Aguardando limpeza inicial.");
+  atualizarEtapa("etapaDiagnostico", "Aguardando leitura semântica.");
+
+  barra(10,"Recebendo manuscrito...");
+
+  let texto = "";
+  try{
+    texto = await extrairTextoDoArquivo(file);
+  }catch(erro){
+    alert("Não foi possível ler este arquivo corretamente.");
+    return;
+  }
+
+  if(!window.LapidarLeituraEditorial || !window.LapidarLeituraEditorial.analisarObra){
+    alert("O motor editorial não foi carregado.");
+    return;
+  }
+
+  const analise = window.LapidarLeituraEditorial.analisarObra(texto);
+  obraAtual = montarObraAtual(file.name, analise);
+
+  localStorage.setItem("obraAtual", JSON.stringify(obraAtual));
+  simular(analise);
+}
+
+function simular(analise){
+  const etapas = [
+    {p:18, s:"Limpando resíduos técnicos...", l:"Separando placeholders, notas e entulho estrutural."},
+    {p:30, s:"Separando estrutura editorial...", l:"Consolidando texto limpo para leitura real da obra."},
+    {p:42, s:"Lendo abertura, miolo e encerramento...", b:"Amostrando blocos narrativos para leitura semântica."},
+    {p:55, s:"Identificando personagens e foco narrativo...", b:"Buscando recorrência nominal e eixo dramático."},
+    {p:68, s:"Classificando tipo, gênero e estilo...", d:"Pontuando hipóteses editoriais por evidência."},
+    {p:82, s:"Refinando clima e narrador...", d:"Consolidando tom e voz narrativa da obra."},
+    {p:96, s:"Montando diagnóstico editorial...", d:"Preparando explicação legível do resultado."}
+  ];
+
+  let i = 0;
+
+  const intervalo = setInterval(()=>{
+    if(i >= etapas.length){
+      clearInterval(intervalo);
+      barra(100,"Leitura concluída");
+      atualizarEtapa("etapaLimpeza", "Limpeza estrutural concluída.");
+      atualizarEtapa("etapaBlocos", "Leitura por blocos concluída.");
+      atualizarEtapa("etapaDiagnostico", "Diagnóstico explicável concluído.");
+      renderizarDiagnostico(analise);
+      renderizarLeituraDramatica(analise);
+      renderizarConfianca(analise);
+      renderizarPainelLacunas();
+      atualizarLeituraVisual(analise);
+      return;
+    }
+
+    const etapa = etapas[i];
+    barra(etapa.p, etapa.s);
+    if(etapa.l) atualizarEtapa("etapaLimpeza", etapa.l);
+    if(etapa.b) atualizarEtapa("etapaBlocos", etapa.b);
+    if(etapa.d) atualizarEtapa("etapaDiagnostico", etapa.d);
+    i++;
+  }, 500);
+}
+
+function uploadElemento(tipo){
+  obraAtual = JSON.parse(localStorage.getItem("obraAtual")) || {};
+  if(!obraAtual.lacunas){
+    obraAtual.lacunas = {
+      biografia:false,
+      prefacio:false,
+      fichaCatalografica:false,
+      dedicatoria:false
+    };
+  }
+  obraAtual.lacunas[tipo] = true;
+  localStorage.setItem("obraAtual", JSON.stringify(obraAtual));
+  alert(tipo + " enviado com sucesso!");
+}
+
+function salvarImagens(){
+  const total = document.getElementById("imagens").files.length;
+
+  obraAtual = JSON.parse(localStorage.getItem("obraAtual")) || {};
+  obraAtual.imagens = total;
+  obraAtual.imagensSalvas = total;
+  obraAtual.autoGerarCapa = (total === 0);
+
+  localStorage.setItem("obraAtual", JSON.stringify(obraAtual));
+
+  if(total === 0){
+    document.getElementById("statusImagens").innerText = "OKapista irá gerar imagens automaticamente.";
+  }else{
+    document.getElementById("statusImagens").innerText = total + " imagens salvas.";
+  }
+}
+
+function abrirWorkspace(){
+  window.location.href = "obra_workspace.html";
+}
+</script>
+
+</body>
 </html>
