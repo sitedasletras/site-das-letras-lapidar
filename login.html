@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Acesso ao Lapidar</title>
+<title>Login Lapidar</title>
 
 <style>
 
@@ -11,36 +11,31 @@ body{
 margin:0;
 height:100vh;
 display:flex;
-justify-content:center;
 align-items:center;
+justify-content:center;
 background:#efece2;
 font-family:Arial;
 }
 
 .card{
-
 background:white;
 padding:40px;
 border-radius:18px;
 box-shadow:0 10px 40px rgba(0,0,0,0.12);
 width:320px;
 text-align:center;
-
 }
 
 input{
-
 width:100%;
 padding:12px;
 margin-top:12px;
 border-radius:10px;
 border:1px solid #ddd;
 font-size:16px;
-
 }
 
 button{
-
 margin-top:18px;
 width:100%;
 padding:14px;
@@ -51,17 +46,13 @@ font-weight:bold;
 font-size:16px;
 border-radius:12px;
 cursor:pointer;
-
 }
 
 button:hover{
-
 background:#256f2b;
-
 }
 
 </style>
-
 </head>
 
 <body>
@@ -95,8 +86,8 @@ return
 
 
 /*
-PERFIS PADRÃO
-Você pode alterar depois
+DEFINE PERFIL AUTOMÁTICO
+ajuste depois se quiser
 */
 
 let perfil="cortesia"
@@ -104,4 +95,27 @@ let perfil="cortesia"
 if(usuario=="admin") perfil="admin"
 if(usuario=="producao") perfil="producao"
 if(usuario=="veterano") perfil="veterano"
-if(usuario=="heteronimo
+if(usuario=="heteronimo") perfil="heteronimo"
+
+
+/*
+GRAVA SESSÃO CORRETA DO LAPIDAR
+*/
+
+localStorage.setItem("lapidar_sessao_ativa","true")
+localStorage.setItem("lapidar_usuario",usuario)
+localStorage.setItem("lapidar_perfil",perfil)
+
+
+/*
+REDIRECIONA PARA A ENTRADA OFICIAL
+*/
+
+window.location.href="/index.html"
+
+}
+
+</script>
+
+</body>
+</html>
