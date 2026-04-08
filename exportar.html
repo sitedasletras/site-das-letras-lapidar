@@ -2,11 +2,12 @@
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Exportação Final — Lapidar</title>
 
 <style>
 body{
-font-family:Arial, sans-serif;
+font-family:Arial,sans-serif;
 background:#f7f5ef;
 margin:0;
 color:#2f2a24;
@@ -21,17 +22,19 @@ font-size:22px;
 }
 
 .container{
-width:85%;
+width:90%;
+max-width:1380px;
 margin:auto;
 margin-top:30px;
+margin-bottom:40px;
 }
 
 .card{
 background:white;
 padding:20px;
 margin-bottom:20px;
-border-radius:10px;
-box-shadow:0px 2px 8px rgba(0,0,0,0.15);
+border-radius:12px;
+box-shadow:0 2px 8px rgba(0,0,0,.15);
 }
 
 h2{
@@ -86,7 +89,7 @@ margin-top:10px;
 margin-right:8px;
 padding:10px 15px;
 border:none;
-border-radius:6px;
+border-radius:8px;
 cursor:pointer;
 background:#457b9d;
 color:white;
@@ -134,9 +137,72 @@ padding:8px 0;
 border-bottom:1px solid #eee;
 }
 
-@media (max-width: 900px){
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:20px;
+}
+
+.grid-3{
+display:grid;
+grid-template-columns:1fr 1fr 1fr;
+gap:14px;
+}
+
+.box{
+background:#fbfaf7;
+border:1px solid #eadfce;
+border-radius:12px;
+padding:14px;
+}
+
+.box strong{
+display:block;
+margin-bottom:6px;
+color:#5d4b2d;
+}
+
+.linha{
+background:#f9f6f1;
+border:1px solid #eadfce;
+border-radius:10px;
+padding:12px 14px;
+margin-bottom:12px;
+}
+
+.rotulo{
+display:block;
+font-size:12px;
+font-weight:bold;
+text-transform:uppercase;
+letter-spacing:.4px;
+color:#8a6a3c;
+margin-bottom:6px;
+}
+
+.valor{
+font-size:15px;
+line-height:1.45;
+word-break:break-word;
+}
+
+.tag{
+display:inline-block;
+padding:6px 10px;
+background:#eef3f8;
+border:1px solid #d8e0ea;
+border-radius:999px;
+font-size:13px;
+margin-right:6px;
+margin-top:8px;
+}
+
+@media (max-width: 980px){
 .container{
-width:92%;
+width:95%;
+}
+.grid,.grid-3{
+grid-template-columns:1fr;
 }
 button{
 display:block;
@@ -144,7 +210,6 @@ width:100%;
 margin-right:0;
 }
 }
-
 </style>
 </head>
 
@@ -157,154 +222,189 @@ Exportação Final — Lapidar
 <div class="container">
 
 <div class="card">
-<h2>Status da Obra</h2>
+  <h2>Obra pronta para expedição editorial</h2>
 
-<div class="info">
-Fluxo editorial:
-<span class="status-ok">Concluído na Parte Livro</span>
+  <div class="info">
+    Título:
+    <span id="tituloObra" class="status-ok">Nenhuma obra carregada</span>
+  </div>
+
+  <div class="info">
+    Autor(es):
+    <span id="autorObra" class="status-ok">Não identificado</span>
+  </div>
+
+  <div class="info">
+    Identificador institucional:
+    <span id="identificadorObra" class="status-ok">—</span>
+  </div>
+
+  <div class="info">
+    Tipo de operação:
+    <span id="operacaoObra" class="status-ok">—</span>
+  </div>
+
+  <div class="info">
+    Idioma / edição:
+    <span id="idiomaObra" class="status-ok">—</span>
+  </div>
+
+  <div id="tagsObra"></div>
+
+  <div class="resumo-box" id="resumoExportacao">
+    Aguardando consolidação dos dados da obra para exportação.
+  </div>
 </div>
 
-<div class="info">
-Plano ativo:
-<span class="status-ok">Licença Editorial Completa do Autor — Livro (R$ 699)</span>
-</div>
+<div class="grid">
 
-<div class="info">
-Preparação do miolo:
-<span class="status-ok">Concluída</span>
-</div>
+  <div>
+    <div class="card">
+      <h2>Dados técnicos da exportação</h2>
 
-<div class="info">
-Preparação editorial da obra:
-<span class="status-ok">Concluída</span>
-</div>
+      <div class="linha">
+        <span class="rotulo">Subtítulo</span>
+        <div class="valor" id="subtituloObra">—</div>
+      </div>
 
-<div class="resumo-box">
-A obra chegou ao ponto de expedição editorial dentro do Lapidar. A partir daqui, o autor pode baixar sua estrutura, seguir para distribuição e iniciar um novo ciclo quando desejar.
-</div>
-</div>
+      <div class="linha">
+        <span class="rotulo">Coleção / série / volume</span>
+        <div class="valor" id="serieVolumeObra">—</div>
+      </div>
 
+      <div class="linha">
+        <span class="rotulo">Editora / selo</span>
+        <div class="valor" id="editoraObra">—</div>
+      </div>
+
+      <div class="linha">
+        <span class="rotulo">ISBN informado</span>
+        <div class="valor" id="isbnObra">—</div>
+      </div>
+
+      <div class="linha">
+        <span class="rotulo">Tabela Cutter</span>
+        <div class="valor" id="cutterObra">—</div>
+      </div>
+
+      <div class="linha">
+        <span class="rotulo">Assinatura Lapidar</span>
+        <div class="valor" id="assinaturaObra">—</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Pré-textuais e geração complementar</h2>
+
+      <div class="check-item">
+        Sinopse:
+        <span id="sinopseStatus" class="status-note">—</span>
+      </div>
+
+      <div class="check-item">
+        Prefácio:
+        <span id="prefacioStatus" class="status-note">—</span>
+      </div>
+
+      <div class="check-item">
+        Dedicatória:
+        <span id="dedicatoriaStatus" class="status-note">—</span>
+      </div>
+
+      <div class="check-item">
+        Ficha catalográfica / Ficha de Dados:
+        <span id="fichaStatus" class="status-note">—</span>
+      </div>
+
+      <div class="check-item">
+        Biografia:
+        <span id="biografiaStatus" class="status-note">—</span>
+      </div>
+
+      <div class="check-item">
+        Bibliografia:
+        <span id="bibliografiaStatus" class="status-note">—</span>
+      </div>
+
+      <div class="resumo-box">
+        O que não foi enviado pode ser gerado ou tratado conforme as regras do Bolsão. A posição final desses elementos dentro do livro pertence ao módulo de Diagramação.
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <div class="card">
+      <h2>Preparação multimodal e visual</h2>
+
+      <div class="check-item">
+        Imagens internas:
+        <span id="imagensInternasStatus" class="status-note">—</span>
+      </div>
+
+      <div class="check-item">
+        Imagens de capa:
+        <span id="imagensCapaStatus" class="status-note">—</span>
+      </div>
+
+      <div class="check-item">
+        Preparação para voz:
+        <span id="vozStatus" class="status-note">—</span>
+      </div>
+
+      <div class="check-item">
+        Tradução / edição internacional:
+        <span id="traducaoStatus" class="status-note">—</span>
+      </div>
+
+      <div class="check-item">
+        Estado do Mesário:
+        <span id="mesarioStatus" class="status-note">—</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Checklist de exportação</h2>
+
+      <div class="grid-3">
+        <div class="box">
+          <strong>Estrutura editorial</strong>
+          <div id="checkEstrutura" class="status status-note">—</div>
+        </div>
+
+        <div class="box">
+          <strong>Pré-textuais</strong>
+          <div id="checkPreTextuais" class="status status-note">—</div>
+        </div>
+
+        <div class="box">
+          <strong>Módulos do fluxo</strong>
+          <div id="checkModulos" class="status status-note">—</div>
+        </div>
+      </div>
+
+      <div class="download-box">
+        <button class="botao-final">Baixar estrutura editorial</button>
+        <button>Baixar pacote técnico da obra</button>
+        <button>Baixar versão para Diagramação</button>
+      </div>
+
+      <div class="download-box">
+        <button class="botao-sec" onclick="location.href='mesario.html'">Voltar ao Mesário</button>
+        <button class="botao-sec" onclick="location.href='modulo_executor.html'">Voltar ao Executor</button>
+        <button class="botao-sec" onclick="location.href='obra_workspace.html'">Voltar ao Workspace</button>
+        <button class="botao-sec" onclick="location.href='painel_setores.html'">Voltar ao Painel</button>
+        <button class="botao-alerta" onclick="location.href='login.html'">Sair do Lapidar</button>
+      </div>
+    </div>
+  </div>
+
+</div>
 
 <div class="card">
-<h2>Resumo do que foi incluído</h2>
-
-<div class="check-item">
-Cofre Editorial do Autor
-<span class="status-ok">Incluído</span>
-</div>
-
-<div class="check-item">
-Leitura estrutural da obra
-<span class="status-ok">Incluído</span>
-</div>
-
-<div class="check-item">
-Analisador narrativo da obra
-<span class="status-ok">Incluído</span>
-</div>
-
-<div class="check-item">
-OKapista base
-<span class="status-ok">Incluído</span>
-</div>
-
-<div class="check-item">
-Diagramação livre da parte livro
-<span class="status-ok">Incluído</span>
-</div>
-
-<div class="check-item">
-Layouts e tipografias
-<span class="status-ok">Incluído</span>
-</div>
-
-<div class="check-item">
-Exportação editorial
-<span class="status-ok">Incluído</span>
-</div>
-</div>
-
-
-<div class="card">
-<h2>Tradução e Avaliação</h2>
-
-<div class="check-item">
-1 tradução textual automática por obra
-<span class="status-free">Grátis</span>
-</div>
-
-<div class="check-item">
-1 avaliação literária da obra traduzida
-<span class="status-free">Grátis</span>
-</div>
-
-<div class="check-item">
-Traduções adicionais
-<span class="status-paid">Pagas</span>
-</div>
-
-<div class="check-item">
-Avaliações adicionais
-<span class="status-paid">Pagas</span>
-</div>
-
-<div class="resumo-box">
-A política do plano Livro permanece ativa: uma tradução gratuita por obra e uma avaliação gratuita vinculada à obra traduzida.
-</div>
-</div>
-
-
-<div class="card">
-<h2>Módulos premium não incluídos nesta exportação</h2>
-
-<div class="check-item">
-Audiobook nacional
-<span class="status-paid">R$ 500</span>
-</div>
-
-<div class="check-item">
-Audiobook internacional
-<span class="status-paid">R$ 1.300</span>
-</div>
-
-<div class="check-item">
-Módulo cinematográfico
-<span class="status-paid">Pago à parte</span>
-</div>
-
-<div class="check-item">
-Lapidação literária profunda
-<span class="status-paid">Pago à parte</span>
-</div>
-</div>
-
-
-<div class="card">
-<h2>Downloads e Saída</h2>
-
-<div class="download-box">
-<button class="botao-final">Baixar estrutura editorial</button>
-<button>Baixar versão para gráfica</button>
-<button>Baixar versão digital</button>
-</div>
-
-<div class="download-box">
-<button class="botao-sec" onclick="location.href='painel_setores.html'">
-Voltar ao Painel de Setores
-</button>
-
-<button class="botao-sec" onclick="location.href='obra_workspace.html'">
-Voltar ao Workspace
-</button>
-
-<button class="botao-sec" onclick="location.href='modulo01_bolsao_mapa.html'">
-Abrir nova obra no Cofre
-</button>
-
-<button class="botao-alerta" onclick="location.href='login.html'">
-Sair do Lapidar
-</button>
-</div>
+  <h2>Observação final da expedição</h2>
+  <div class="resumo-box" id="observacaoFinal">
+    A exportação editorial reúne a estrutura técnica da obra. A diagramação final, o posicionamento definitivo da parte técnica no livro e os acabamentos visuais finais pertencem ao módulo de Diagramação.
+  </div>
 </div>
 
 </div>
@@ -313,6 +413,153 @@ Sair do Lapidar
 Lapidar — trabalhando ao lado do autor, desde a primeira letra até o último ponto final.<br>
 Mas a jornada ainda continua.
 </div>
+
+<script>
+function carregarJSON(chave){
+  const salvo = localStorage.getItem(chave);
+  if(!salvo) return null;
+  try{
+    return JSON.parse(salvo);
+  }catch(e){
+    return null;
+  }
+}
+
+function textoOuTraco(v){
+  if(Array.isArray(v)) return v.length ? v.join(", ") : "—";
+  return v && String(v).trim() ? v : "—";
+}
+
+function textoArquivoOuGerado(v, fallback){
+  if(Array.isArray(v)) return v.length ? "Enviado: " + v.join(", ") : fallback;
+  return v ? "Enviado: " + v : fallback;
+}
+
+function definirStatus(id, classe, texto){
+  const el = document.getElementById(id);
+  el.className = classe;
+  el.innerText = texto;
+}
+
+function preencherExportacao(){
+  const obra = carregarJSON("obraAtual");
+  const entrada = carregarJSON("lapidar_entrada_bolsao");
+  const mesario = carregarJSON("mesario_obra");
+
+  const titulo = entrada?.tituloManual || entrada?.tituloBase || obra?.estrutura?.titulo || "Não identificado";
+  const autor = entrada?.autoresManual || entrada?.autorBase || obra?.estrutura?.autor || "Não identificado";
+  const subtitulo = entrada?.subtituloManual || entrada?.subtituloBase || "—";
+
+  document.getElementById("tituloObra").innerText = titulo;
+  document.getElementById("autorObra").innerText = autor;
+  document.getElementById("identificadorObra").innerText = textoOuTraco(entrada?.identificadorPreview);
+  document.getElementById("operacaoObra").innerText = textoOuTraco(entrada?.perfilEdicao).toUpperCase();
+  document.getElementById("idiomaObra").innerText = entrada?.idiomaObra === "en-US" ? "Inglês / edição internacional" : "Português / edição lusófona";
+
+  document.getElementById("subtituloObra").innerText = textoOuTraco(subtitulo);
+
+  let serieVolume = [];
+  if(entrada?.colecao) serieVolume.push("Coleção: " + entrada.colecao);
+  if(entrada?.serie) serieVolume.push("Série: " + entrada.serie);
+  if(entrada?.volume) serieVolume.push("Volume: " + entrada.volume);
+  document.getElementById("serieVolumeObra").innerText = serieVolume.length ? serieVolume.join(" | ") : "—";
+
+  document.getElementById("editoraObra").innerText = textoOuTraco(entrada?.editora);
+  document.getElementById("isbnObra").innerText = textoOuTraco(entrada?.isbnInformado);
+  document.getElementById("cutterObra").innerText = textoOuTraco(entrada?.cutterManual);
+  document.getElementById("assinaturaObra").innerText = entrada?.assinaturaLapidar ? "Ativada" : "Desativada";
+
+  document.getElementById("sinopseStatus").innerText = textoArquivoOuGerado(entrada?.sinopseArquivo, "Poderá ser gerada gratuitamente em PDF separado");
+  document.getElementById("prefacioStatus").innerText = textoArquivoOuGerado(entrada?.prefacioArquivo, "Poderá ser gerado gratuitamente");
+  document.getElementById("dedicatoriaStatus").innerText = textoArquivoOuGerado(entrada?.dedicatoriaArquivo, "Poderá ser gerada gratuitamente");
+  document.getElementById("fichaStatus").innerText = textoArquivoOuGerado(entrada?.fichaCatalograficaArquivo, "Se não houver oficial, poderá ser usada Ficha de Dados da Obra");
+  document.getElementById("biografiaStatus").innerText = textoArquivoOuGerado(entrada?.biografiaArquivo, "Poderá ser gerada gratuitamente");
+  document.getElementById("bibliografiaStatus").innerText = textoArquivoOuGerado(entrada?.bibliografiaArquivo, "Não será gerada automaticamente");
+
+  let imagensInternas = "Não deseja imagens internas";
+  if(entrada?.imagensInternasModo === "enviar"){
+    imagensInternas = entrada?.uploadImagensInternas ? "Imagens internas enviadas: " + textoOuTraco(entrada.uploadImagensInternas) : "Imagens internas serão enviadas";
+  }
+  if(entrada?.imagensInternasModo === "criar"){
+    imagensInternas = "Criação automática de imagens internas: " + textoOuTraco(entrada?.tipoImagemCriada);
+  }
+
+  document.getElementById("imagensInternasStatus").innerText = imagensInternas;
+  document.getElementById("imagensCapaStatus").innerText = entrada?.imagensCapa ? textoOuTraco(entrada.imagensCapa) : "Não enviadas";
+  document.getElementById("vozStatus").innerText = textoOuTraco(entrada?.voz);
+  document.getElementById("traducaoStatus").innerText = entrada?.idiomaObra === "en-US" ? "Ativada / edição internacional" : "Opcional neste momento";
+
+  const mesarioOk = mesario?.confEstrutura && mesario?.confPreTextuais && mesario?.confModulos;
+  document.getElementById("mesarioStatus").innerText = mesarioOk ? "Conferência principal salva" : "Conferência parcial ou pendente";
+
+  definirStatus(
+    "checkEstrutura",
+    mesario?.confEstrutura ? "status status-ok" : "status status-alert",
+    mesario?.confEstrutura ? "Conferida" : "Pendente"
+  );
+
+  definirStatus(
+    "checkPreTextuais",
+    mesario?.confPreTextuais ? "status status-ok" : "status status-alert",
+    mesario?.confPreTextuais ? "Conferidos" : "Pendentes"
+  );
+
+  definirStatus(
+    "checkModulos",
+    mesario?.confModulos ? "status status-ok" : "status status-alert",
+    mesario?.confModulos ? "Conferidos" : "Pendentes"
+  );
+
+  const tags = document.getElementById("tagsObra");
+  tags.innerHTML = "";
+
+  [
+    obra?.tipo,
+    obra?.genero,
+    obra?.estilo,
+    obra?.narrador,
+    obra?.clima,
+    entrada?.serie,
+    entrada?.volume
+  ].filter(Boolean).forEach(tagTexto=>{
+    const span = document.createElement("span");
+    span.className = "tag";
+    span.innerText = tagTexto;
+    tags.appendChild(span);
+  });
+
+  let resumo = `A obra "${titulo}" está preparada para expedição editorial com identificador ${textoOuTraco(entrada?.identificadorPreview)}. `;
+  resumo += `A operação está em modo ${textoOuTraco(entrada?.perfilEdicao).toUpperCase()} e a edição atual é ${entrada?.idiomaObra === "en-US" ? "internacional" : "lusófona"}. `;
+
+  if(entrada?.serie){
+    resumo += `Ela pertence a "${entrada.serie}". `;
+  }
+  if(entrada?.volume){
+    resumo += `O volume indicado é "${entrada.volume}". `;
+  }
+  if(entrada?.isbnInformado){
+    resumo += `Há ISBN informado para integração interna e uso posterior na diagramação e contracapa. `;
+  }else{
+    resumo += `Não há ISBN informado neste momento. `;
+  }
+  if(entrada?.assinaturaLapidar){
+    resumo += `A assinatura institucional Lapidar está ativada para esta obra. `;
+  }
+
+  document.getElementById("resumoExportacao").innerText = resumo;
+
+  let obs = `A exportação final do Lapidar consolida a estrutura técnica da obra, os pré-textuais enviados ou previstos, o identificador institucional e os encaminhamentos multimodais. `;
+  obs += `A diagramação continua responsável por inserir a parte técnica no lugar correto dentro do livro, posicionar biografia no final, organizar os elementos iniciais e aplicar o acabamento visual final.`;
+
+  if(mesario?.observacaoMesario){
+    obs += ` Observação registrada no Mesário: ${mesario.observacaoMesario}`;
+  }
+
+  document.getElementById("observacaoFinal").innerText = obs;
+}
+
+preencherExportacao();
+</script>
 
 </body>
 </html>
