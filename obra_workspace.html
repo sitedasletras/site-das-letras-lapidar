@@ -2,14 +2,19 @@
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Workspace da Obra — Lapidar</title>
 
 <style>
+*{
+box-sizing:border-box;
+}
 
 body{
-font-family:Arial;
+font-family:Arial, sans-serif;
 background:#f7f5ef;
 margin:0;
+color:#2f2a24;
 }
 
 header{
@@ -21,9 +26,10 @@ font-size:22px;
 }
 
 .container{
-width:85%;
+width:88%;
 margin:auto;
 margin-top:30px;
+margin-bottom:40px;
 }
 
 .card{
@@ -36,6 +42,12 @@ box-shadow:0px 2px 8px rgba(0,0,0,0.15);
 
 h2{
 color:#264653;
+margin-top:0;
+}
+
+.info{
+margin-bottom:10px;
+line-height:1.6;
 }
 
 .status-ok{
@@ -53,8 +65,23 @@ color:#2a9d8f;
 font-weight:bold;
 }
 
+.status-note{
+color:#555;
+font-style:italic;
+}
+
+.resumo-box{
+background:#f4f8f9;
+padding:15px;
+border-radius:8px;
+margin-top:10px;
+border:1px solid #d9e4e6;
+line-height:1.6;
+}
+
 button{
 margin-top:10px;
+margin-right:8px;
 padding:10px 15px;
 border:none;
 border-radius:6px;
@@ -67,6 +94,50 @@ button:hover{
 background:#1d3557;
 }
 
+.botao-sec{
+background:#8d99ae;
+}
+
+.botao-sec:hover{
+background:#5c677d;
+}
+
+.botao-final{
+background:#2a9d8f;
+}
+
+.botao-final:hover{
+background:#1f776a;
+}
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:20px;
+}
+
+.preview{
+background:#fff;
+border:1px solid #ddd;
+padding:18px;
+border-radius:8px;
+max-height:500px;
+overflow:auto;
+white-space:pre-wrap;
+line-height:1.7;
+}
+
+.tag{
+display:inline-block;
+padding:6px 10px;
+background:#eef3f8;
+border:1px solid #d8e0ea;
+border-radius:999px;
+font-size:13px;
+margin-right:6px;
+margin-top:8px;
+}
+
 .footer{
 text-align:center;
 margin-top:40px;
@@ -75,9 +146,21 @@ font-size:13px;
 color:#555;
 }
 
+@media (max-width: 900px){
+.container{
+width:94%;
+}
+.grid{
+grid-template-columns:1fr;
+}
+button{
+display:block;
+width:100%;
+margin-right:0;
+}
+}
 </style>
 </head>
-
 
 <body>
 
@@ -85,114 +168,275 @@ color:#555;
 Workspace da Obra — Lapidar
 </header>
 
-
 <div class="container">
 
-
 <div class="card">
+<h2>Resumo da Obra Ativa</h2>
 
-<h2>Status da Leitura do Cofre Editorial</h2>
+<div class="info">
+Título:
+<span id="tituloObra" class="status-ok">Nenhuma obra carregada</span>
+</div>
 
-Título detectado:
-<span class="status-ok">Confirmado</span><br>
+<div class="info">
+Autor:
+<span id="autorObra" class="status-ok">Não identificado</span>
+</div>
 
-Autor detectado:
-<span class="status-ok">Confirmado</span><br>
+<div class="info">
+Arquivo original:
+<span id="arquivoObra" class="status-note">Não disponível</span>
+</div>
 
-Narrador identificado:
-<span class="status-ok">Confirmado</span><br>
+<div class="info">
+Tipo da obra:
+<span id="tipoObra" class="status-ok">Não identificado</span>
+</div>
 
-Gênero literário identificado:
-<span class="status-ok">Confirmado</span><br>
+<div class="info">
+Capítulos detectados:
+<span id="capitulosObra" class="status-ok">0</span>
+</div>
 
-Personagens principais detectados:
-<span class="status-ok">Confirmado</span>
+<div class="resumo-box" id="resumoNarrativo">
+Nenhuma leitura narrativa concluída ainda.
+</div>
+</div>
+
+<div class="grid">
+
+<div>
+  <div class="card">
+    <h2>Leitura Narrativa Real</h2>
+
+    <div class="info">
+    Gênero literário:
+    <span id="generoObra" class="status-ok">Não identificado</span>
+    </div>
+
+    <div class="info">
+    Estilo dominante:
+    <span id="estiloObra" class="status-ok">Não identificado</span>
+    </div>
+
+    <div class="info">
+    Narrador:
+    <span id="narradorObra" class="status-ok">Não identificado</span>
+    </div>
+
+    <div class="info">
+    Clima narrativo:
+    <span id="climaObra" class="status-ok">Não identificado</span>
+    </div>
+
+    <div class="info">
+    Personagens recorrentes:
+    <span id="personagensObra" class="status-ok">Não identificados</span>
+    </div>
+
+    <div class="info">
+    Conflito central:
+    <span id="conflitoObra" class="status-ok">Não conclusivo</span>
+    </div>
+
+    <div id="tagsObra"></div>
+  </div>
+
+  <div class="card">
+    <h2>Elementos Pré-Textuais</h2>
+
+    <div class="info">
+    Prefácio:
+    <span id="prefacioStatus" class="status-alert">Não encontrado</span>
+    </div>
+
+    <div class="info">
+    Biografia do autor:
+    <span id="biografiaStatus" class="status-alert">Não encontrada</span>
+    </div>
+
+    <div class="info">
+    Ficha catalográfica:
+    <span id="fichaStatus" class="status-alert">Não encontrada</span>
+    </div>
+
+    <div class="info">
+    Dedicatória:
+    <span id="dedicatoriaStatus" class="status-alert">Não encontrada</span>
+    </div>
+
+    <button onclick="location.href='modulo01_bolsao_mapa.html'">Voltar ao Cofre para completar</button>
+  </div>
+
+  <div class="card">
+    <h2>Tradução e Avaliação</h2>
+
+    <div class="info">
+    1 tradução textual automática por obra:
+    <span class="status-free">Grátis</span>
+    </div>
+
+    <div class="info">
+    1 avaliação literária da obra traduzida:
+    <span class="status-free">Grátis</span>
+    </div>
+
+    <div class="info">
+    Traduções adicionais:
+    <span class="status-alert">Pagas</span>
+    </div>
+
+    <div class="info">
+    Novas avaliações:
+    <span class="status-alert">Pagas</span>
+    </div>
+
+    <div class="resumo-box">
+      A regra do plano Livro 699 está ativa para esta obra: uma tradução gratuita e uma avaliação gratuita vinculada à primeira obra traduzida.
+    </div>
+
+    <button>Traduzir Obra</button>
+    <button>Gerar Avaliação da Tradução</button>
+  </div>
+</div>
+
+<div>
+  <div class="card">
+    <h2>Prévia da Obra</h2>
+    <div class="preview" id="textoPreview">Nenhuma obra carregada.</div>
+  </div>
+
+  <div class="card">
+    <h2>Ativos da Obra</h2>
+
+    <div class="info">
+    Imagens salvas:
+    <span id="imagensSalvas" class="status-ok">0</span>
+    </div>
+
+    <div class="info">
+    Autoimagem pelo OKapista:
+    <span id="autoImagem" class="status-note">Não verificado</span>
+    </div>
+
+    <div class="info">
+    Fluxo atual:
+    <span class="status-ok">Parte Livro</span>
+    </div>
+
+    <button class="botao-final" onclick="location.href='modulo_executor.html'">Abrir Executor de Módulos</button>
+    <button class="botao-sec" onclick="location.href='mesario.html'">Abrir Mesário da Obra</button>
+    <button class="botao-sec" onclick="location.href='exportar.html'">Ir para Exportação</button>
+  </div>
+
+  <div class="card">
+    <h2>Navegação</h2>
+
+    <button class="botao-sec" onclick="location.href='painel_setores.html'">Voltar ao Painel de Setores</button>
+    <button class="botao-sec" onclick="location.href='modulo01_bolsao_mapa.html'">Retornar ao Cofre Editorial</button>
+    <button onclick="location.href='login.html'">Sair do Sistema</button>
+  </div>
+</div>
 
 </div>
 
-
-<div class="card">
-
-<h2>Elementos Pré-Textuais</h2>
-
-Prefácio:
-<span class="status-alert">Não encontrado</span><br>
-
-Biografia do autor:
-<span class="status-alert">Não encontrada</span><br>
-
-Ficha catalográfica:
-<span class="status-alert">Não encontrada</span><br>
-
-<button>Adicionar Elementos Pré-Textuais</button>
-
 </div>
-
-
-<div class="card">
-
-<h2>Tradução e Avaliação</h2>
-
-Tradução automática disponível:
-<span class="status-free">1 idioma gratuito disponível</span><br>
-
-Avaliação literária vinculada à tradução:
-<span class="status-free">Disponível gratuitamente</span><br>
-
-<button>Traduzir Obra</button>
-<button>Gerar Avaliação da Tradução</button>
-
-</div>
-
-
-<div class="card">
-
-<h2>Fluxo Editorial</h2>
-
-<button onclick="location.href='modulo_executor.html'">
-Abrir Executor de Módulos
-</button>
-
-<button onclick="location.href='mesario.html'">
-Abrir Mesário da Obra
-</button>
-
-<button onclick="location.href='exportar.html'">
-Exportar Arquivos
-</button>
-
-</div>
-
-
-<div class="card">
-
-<h2>Navegação</h2>
-
-<button onclick="location.href='modulo_01_bolsao.html'">
-Retornar ao Cofre Editorial
-</button>
-
-<button onclick="location.href='painel_setores.html'">
-Voltar ao Painel de Setores
-</button>
-
-<button onclick="location.href='login.html'">
-Sair do Sistema
-</button>
-
-</div>
-
-
-</div>
-
 
 <div class="footer">
-
 Lapidar — trabalhando ao lado do autor, desde a primeira letra até o último ponto final.<br>
 Mas a jornada ainda continua.
-
 </div>
 
+<script>
+function carregarObraAtual(){
+  const obraSalva = localStorage.getItem("obraAtual");
+
+  if(!obraSalva){
+    return null;
+  }
+
+  try{
+    return JSON.parse(obraSalva);
+  }catch(erro){
+    return null;
+  }
+}
+
+function marcarStatus(id, valor, encontradoTexto, naoTexto){
+  const el = document.getElementById(id);
+  if(valor){
+    el.innerText = encontradoTexto;
+    el.className = "status-ok";
+  }else{
+    el.innerText = naoTexto;
+    el.className = "status-alert";
+  }
+}
+
+function preencherWorkspace(){
+  const obra = carregarObraAtual();
+
+  if(!obra){
+    return;
+  }
+
+  document.getElementById("tituloObra").innerText = obra?.estrutura?.titulo || "Não identificado";
+  document.getElementById("autorObra").innerText = obra?.estrutura?.autor || "Não identificado";
+  document.getElementById("arquivoObra").innerText = obra?.arquivoOriginal || "Não disponível";
+  document.getElementById("tipoObra").innerText = obra?.tipo || "Não identificado";
+  document.getElementById("capitulosObra").innerText = Array.isArray(obra?.estrutura?.capitulos) ? obra.estrutura.capitulos.length : 0;
+
+  document.getElementById("generoObra").innerText = obra?.genero || "Não identificado";
+  document.getElementById("estiloObra").innerText = obra?.estilo || "Não identificado";
+  document.getElementById("narradorObra").innerText = obra?.narrador || "Não identificado";
+  document.getElementById("climaObra").innerText = obra?.clima || "Não identificado";
+
+  const personagens = Array.isArray(obra?.personagens) && obra.personagens.length
+    ? obra.personagens.join(", ")
+    : "Não identificados";
+
+  document.getElementById("personagensObra").innerText = personagens;
+
+  const conflito = obra?.leituraDramatica?.conflitoCentral || "Não conclusivo";
+  document.getElementById("conflitoObra").innerText = conflito;
+
+  document.getElementById("resumoNarrativo").innerText =
+    "O Lapidar leu a obra e identificou um eixo narrativo principal. Este workspace confirma ao autor o que foi reconhecido antes da passagem para os módulos editoriais.";
+
+  document.getElementById("textoPreview").innerText =
+    (obra?.textoExtraido || "Nenhuma obra carregada.").substring(0, 12000);
+
+  document.getElementById("imagensSalvas").innerText = obra?.imagensSalvas || obra?.imagens || 0;
+  document.getElementById("autoImagem").innerText = obra?.autoGerarCapa
+    ? "Ativado: o OKapista deverá gerar imagens-base automaticamente."
+    : "Desativado: há imagens enviadas para a obra.";
+
+  marcarStatus("prefacioStatus", obra?.lacunas?.prefacio, "Enviado", "Não encontrado");
+  marcarStatus("biografiaStatus", obra?.lacunas?.biografia, "Enviada", "Não encontrada");
+  marcarStatus("fichaStatus", obra?.lacunas?.fichaCatalografica, "Enviada", "Não encontrada");
+  marcarStatus("dedicatoriaStatus", obra?.lacunas?.dedicatoria, "Enviada", "Não encontrada");
+
+  const tags = document.getElementById("tagsObra");
+  tags.innerHTML = "";
+
+  const listaTags = [
+    obra?.tipo,
+    obra?.genero,
+    obra?.estilo,
+    obra?.narrador,
+    obra?.clima
+  ].filter(Boolean);
+
+  listaTags.forEach(tagTexto=>{
+    const span = document.createElement("span");
+    span.className = "tag";
+    span.innerText = tagTexto;
+    tags.appendChild(span);
+  });
+}
+
+preencherWorkspace();
+</script>
 
 </body>
 </html>
