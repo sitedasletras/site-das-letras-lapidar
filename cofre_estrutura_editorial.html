@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Cofre Editorial do Autor — Estrutura Detectada</title>
+
+<style>
+
+body{
+background:#f7f6f2;
+font-family:Arial;
+padding:40px;
+}
+
+.container{
+max-width:900px;
+margin:auto;
+background:white;
+padding:30px;
+border-radius:10px;
+box-shadow:0px 0px 8px rgba(0,0,0,0.08);
+}
+
+h1{
+text-align:center;
+color:#222;
+}
+
+.section{
+margin-top:25px;
+}
+
+label{
+font-weight:bold;
+display:block;
+margin-top:12px;
+}
+
+input{
+width:100%;
+padding:8px;
+margin-top:5px;
+border-radius:6px;
+border:1px solid #ccc;
+}
+
+button{
+margin-top:10px;
+padding:8px 14px;
+border:none;
+border-radius:6px;
+cursor:pointer;
+}
+
+.confirmar{
+background:#2e7d32;
+color:white;
+font-weight:bold;
+}
+
+.limpar{
+background:#999;
+color:white;
+}
+
+.restaurar{
+background:#1976d2;
+color:white;
+}
+
+.footer{
+margin-top:30px;
+text-align:center;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Estrutura Editorial Detectada Automaticamente</h1>
+
+<p style="text-align:center">
+O Lapidar analisou sua obra e identificou os elementos abaixo.<br>
+Você pode editar livremente antes de confirmar.
+</p>
+
+
+<div class="section">
+
+<label>Coleção</label>
+<input id="colecao" value="—">
+
+<button class="limpar" onclick="limpar('colecao')">Limpar</button>
+
+</div>
+
+
+<div class="section">
+
+<label>Série</label>
+<input id="serie" value="Sacada e Sabugo">
+
+<button class="restaurar" onclick="restaurar('serie','Sacada e Sabugo')">Restaurar sugestão</button>
+
+</div>
+
+
+<div class="section">
+
+<label>Trilogia / Saga / Ciclo</label>
+<input id="trilogia" value="Trilogia Sacada e Sabugo">
+
+<button class="restaurar" onclick="restaurar('trilogia','Trilogia Sacada e Sabugo')">Restaurar sugestão</button>
+
+</div>
+
+
+<div class="section">
+
+<label>Volume / Livro</label>
+<input id="volume" value="Livro 1">
+
+<button class="restaurar" onclick="restaurar('volume','Livro 1')">Restaurar sugestão</button>
+
+</div>
+
+
+<div class="section">
+
+<label>Título principal</label>
+<input id="titulo" value="Do Sabugo para a Sacada">
+
+<button class="restaurar" onclick="restaurar('titulo','Do Sabugo para a Sacada')">Restaurar sugestão</button>
+
+</div>
+
+
+<div class="section">
+
+<label>Subtítulo</label>
+<input id="subtitulo" value="Uma Odisseia no Concreto">
+
+<button class="restaurar" onclick="restaurar('subtitulo','Uma Odisseia no Concreto')">Restaurar sugestão</button>
+
+</div>
+
+
+<div class="section">
+
+<label>Autor</label>
+<input id="autor" value="Darius Ninus Vamus">
+
+<button class="restaurar" onclick="restaurar('autor','Darius Ninus Vamus')">Restaurar sugestão</button>
+
+</div>
+
+
+<div class="section">
+
+<label>Organizador</label>
+<input id="organizador" value="—">
+
+<button class="limpar" onclick="limpar('organizador')">Limpar</button>
+
+</div>
+
+
+<div class="section">
+
+<label>Prefaciador</label>
+<input id="prefaciador" value="Wagner Planas">
+
+<button class="restaurar" onclick="restaurar('prefaciador','Wagner Planas')">Restaurar sugestão</button>
+
+</div>
+
+
+<div class="section">
+
+<label>Apresentador</label>
+<input id="apresentador" value="—">
+
+<button class="limpar" onclick="limpar('apresentador')">Limpar</button>
+
+</div>
+
+
+<div class="section">
+
+<label>Tradutor</label>
+<input id="tradutor" value="—">
+
+<button class="limpar" onclick="limpar('tradutor')">Limpar</button>
+
+</div>
+
+
+<div class="section">
+
+<label>Ilustrador</label>
+<input id="ilustrador" value="—">
+
+<button class="limpar" onclick="limpar('ilustrador')">Limpar</button>
+
+</div>
+
+
+<div class="section">
+
+<label>Editor responsável</label>
+<input id="editor" value="—">
+
+<button class="limpar" onclick="limpar('editor')">Limpar</button>
+
+</div>
+
+
+<div class="section">
+
+<label>Selo editorial</label>
+<input id="selo" value="Site das Letras Edições Literárias">
+
+<button class="restaurar" onclick="restaurar('selo','Site das Letras Edições Literárias')">Restaurar sugestão</button>
+
+</div>
+
+
+<div class="section">
+
+<label>Instituição vinculada</label>
+<input id="instituicao" value="—">
+
+<button class="limpar" onclick="limpar('instituicao')">Limpar</button>
+
+</div>
+
+
+<div class="footer">
+
+<button class="confirmar" onclick="confirmarEstrutura()">
+Confirmar Estrutura Editorial
+</button>
+
+</div>
+
+</div>
+
+
+<script>
+
+function limpar(id){
+document.getElementById(id).value="";
+}
+
+function restaurar(id,valor){
+document.getElementById(id).value=valor;
+}
+
+function confirmarEstrutura(){
+
+localStorage.setItem("estrutura_confirmada", JSON.stringify({
+
+colecao:colecao.value,
+serie:serie.value,
+trilogia:trilogia.value,
+volume:volume.value,
+titulo:titulo.value,
+subtitulo:subtitulo.value,
+autor:autor.value,
+organizador:organizador.value,
+prefaciador:prefaciador.value,
+apresentador:apresentador.value,
+tradutor:tradutor.value,
+ilustrador:ilustrador.value,
+editor:editor.value,
+selo:selo.value,
+instituicao:instituicao.value
+
+}));
+
+alert("Estrutura editorial confirmada com sucesso.");
+
+}
+
+</script>
+
+</body>
+</html>
