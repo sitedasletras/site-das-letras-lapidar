@@ -1,21 +1,13 @@
-// SESSION GUARD • LAPIDAR
+(function () {
 
-(function(){
+const sessao = localStorage.getItem("lapidar_sessao_ativa");
+const usuario = localStorage.getItem("lapidar_usuario");
+const perfil = localStorage.getItem("lapidar_perfil");
 
-const perfil = localStorage.getItem("lapidar_perfil")
+if(sessao !== "true" || !usuario || !perfil){
 
-if(!perfil){
-
-window.location.href="index.html"
-return
+window.location.replace("login.html");
 
 }
-
-/* presença online */
-
-localStorage.setItem(
-"lapidar_online_timestamp",
-Date.now()
-)
 
 })();
