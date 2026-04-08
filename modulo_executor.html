@@ -1,875 +1,246 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lapidar — Executor de Módulos</title>
-  <style>
-    *{box-sizing:border-box;}
-    body{
-      margin:0;
-      font-family:Arial, sans-serif;
-      background:#f4efe5;
-      color:#2f2a24;
-    }
-    .topbar{
-      background:#4e5b6b;
-      color:#fff;
-      padding:18px 24px;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:12px;
-      flex-wrap:wrap;
-    }
-    .topbar h1{
-      margin:0;
-      font-size:22px;
-    }
-    .topbar .acoes{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-    }
-    .container{
-      max-width:1320px;
-      margin:24px auto;
-      padding:0 16px 32px;
-    }
-    .resumo-geral,
-    .card,
-    .sidebar,
-    .painel{
-      background:#fff;
-      border-radius:14px;
-      padding:18px;
-      box-shadow:0 4px 14px rgba(0,0,0,0.08);
-    }
-    .resumo-geral{
-      margin-bottom:18px;
-    }
-    .resumo-geral h2,
-    .card h2,
-    .sidebar h2,
-    .painel h2{
-      margin:0 0 14px 0;
-      color:#405064;
-      font-size:20px;
-    }
-    .resumo-grid{
-      display:grid;
-      grid-template-columns:repeat(4, 1fr);
-      gap:12px;
-    }
-    .info-box{
-      background:#f8fafc;
-      border:1px solid #dde5ee;
-      border-radius:10px;
-      padding:12px;
-    }
-    .info-box .rotulo{
-      display:block;
-      font-size:12px;
-      font-weight:bold;
-      text-transform:uppercase;
-      letter-spacing:0.4px;
-      color:#617287;
-      margin-bottom:6px;
-    }
-    .info-box .valor{
-      font-size:15px;
-      line-height:1.4;
-      word-break:break-word;
-    }
-    .blocos-secundarios{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:18px;
-      margin-bottom:18px;
-    }
-    .linha{
-      margin-bottom:10px;
-      padding:10px 12px;
-      background:#f8fafc;
-      border:1px solid #dde5ee;
-      border-radius:10px;
-    }
-    .linha strong{
-      display:block;
-      margin-bottom:5px;
-      color:#51657e;
-      font-size:12px;
-      text-transform:uppercase;
-      letter-spacing:0.4px;
-    }
-    .tag-area{
-      display:flex;
-      gap:8px;
-      flex-wrap:wrap;
-      margin-top:8px;
-    }
-    .tag{
-      background:#eef3f8;
-      border:1px solid #d8e0ea;
-      color:#456;
-      padding:7px 10px;
-      border-radius:999px;
-      font-size:13px;
-    }
-    .executor-grid{
-      display:grid;
-      grid-template-columns:340px 1fr;
-      gap:18px;
-    }
-    .modulo-btn{
-      width:100%;
-      text-align:left;
-      border:none;
-      border-radius:12px;
-      padding:14px 14px;
-      margin-bottom:10px;
-      cursor:pointer;
-      font-size:15px;
-      line-height:1.35;
-      transition:0.2s ease;
-      color:#fff;
-    }
-    .modulo-btn small{
-      display:block;
-      opacity:0.92;
-      font-size:12px;
-      margin-top:4px;
-    }
-    .modulo-btn:hover{
-      transform:translateY(-1px);
-      filter:brightness(0.97);
-    }
-    .modulo-btn.ativo{
-      outline:3px solid rgba(0,0,0,0.12);
-      transform:translateY(-1px);
-    }
-    .mod-diagramacao{ background:#2457c5; }
-    .mod-okapista{ background:#b8860b; }
-    .mod-segunda-linguas{ background:#0f766e; }
-    .mod-avaliacao{ background:#7c3aed; }
-    .mod-analisador{ background:#be123c; }
-    .mod-lapidacao{ background:#15803d; }
-    .mod-silo{ background:#92400e; }
-    .mod-integracoes{ background:#374151; }
-    .painel{
-      min-height:560px;
-    }
-    .painel h3{
-      margin:20px 0 10px 0;
-      font-size:17px;
-      color:#435b79;
-    }
-    .painel p{
-      margin:0 0 10px 0;
-      line-height:1.55;
-    }
-    .caixa{
-      background:#f9fafb;
-      border:1px solid #e5e7eb;
-      border-radius:12px;
-      padding:14px;
-      margin-top:12px;
-    }
-    .checklist{
-      display:grid;
-      gap:10px;
-      margin-top:10px;
-    }
-    .checklist label{
-      display:flex;
-      gap:10px;
-      align-items:flex-start;
-      background:#faf8f4;
-      border:1px solid #e8dfd0;
-      border-radius:10px;
-      padding:10px 12px;
-      line-height:1.45;
-    }
-    .linha-selecao{
-      display:grid;
-      grid-template-columns:repeat(2, 1fr);
-      gap:12px;
-      margin-top:12px;
-    }
-    .select-card{
-      background:#fbfaf7;
-      border:1px solid #eadfce;
-      border-radius:12px;
-      padding:14px;
-    }
-    .select-card strong{
-      display:block;
-      margin-bottom:6px;
-    }
-    .painel-acoes{
-      margin-top:22px;
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-    }
-    button{
-      border:none;
-      border-radius:10px;
-      padding:12px 18px;
-      font-size:15px;
-      cursor:pointer;
-      transition:0.2s ease;
-    }
-    .btn-primario{
-      background:#4e5b6b;
-      color:#fff;
-    }
-    .btn-primario:hover{
-      background:#3f4b5a;
-    }
-    .btn-secundario{
-      background:#e8dfcf;
-      color:#433726;
-    }
-    .btn-secundario:hover{
-      background:#dbcdb7;
-    }
-    .aviso{
-      margin-top:14px;
-      background:#fff8e8;
-      border:1px solid #ecd7a7;
-      border-radius:10px;
-      padding:12px 14px;
-      color:#6a552a;
-      line-height:1.45;
-      font-size:14px;
-    }
-    .erro-box{
-      background:#fff4f4;
-      border:1px solid #efc4c4;
-      color:#7f2323;
-      border-radius:12px;
-      padding:16px;
-      line-height:1.55;
-    }
+<meta charset="UTF-8">
+<title>Executor de Módulos — Lapidar</title>
 
-    @media (max-width: 1100px){
-      .executor-grid{ grid-template-columns:1fr; }
-      .resumo-grid{ grid-template-columns:repeat(2, 1fr); }
-      .blocos-secundarios{ grid-template-columns:1fr; }
-    }
-    @media (max-width: 680px){
-      .resumo-grid,
-      .linha-selecao{ grid-template-columns:1fr; }
-    }
-  </style>
+<style>
+
+body{
+font-family:Arial;
+background:#f7f5ef;
+margin:0;
+}
+
+header{
+background:#1d3557;
+color:white;
+padding:18px;
+text-align:center;
+font-size:22px;
+}
+
+.section{
+margin:25px auto;
+width:85%;
+background:white;
+border-radius:10px;
+padding:25px;
+box-shadow:0px 2px 8px rgba(0,0,0,0.15);
+}
+
+h2{
+color:#1d3557;
+}
+
+.module{
+border-bottom:1px solid #ddd;
+padding:15px 0;
+}
+
+.included{
+color:green;
+font-weight:bold;
+}
+
+.free{
+color:#2a9d8f;
+font-weight:bold;
+}
+
+.paid{
+color:#e76f51;
+font-weight:bold;
+}
+
+button{
+margin-top:10px;
+padding:8px 15px;
+border:none;
+border-radius:6px;
+cursor:pointer;
+background:#457b9d;
+color:white;
+}
+
+button:hover{
+background:#1d3557;
+}
+
+footer{
+text-align:center;
+margin-top:40px;
+padding:15px;
+font-size:13px;
+color:#555;
+}
+
+</style>
 </head>
+
+
 <body>
 
-  <div class="topbar">
-    <h1>Executor de Módulos</h1>
-    <div class="acoes">
-      <button class="btn-secundario" onclick="voltarWorkspace()">Retornar ao Workspace</button>
-      <button class="btn-primario" onclick="seguirMesario()">Ir para o Mesário</button>
-    </div>
-  </div>
-
-  <div class="container">
-
-    <div id="avisoCorrompido" class="erro-box" style="display:none; margin-bottom:18px;">
-      Foi detectada uma obra ativa com leitura corrompida antiga. Volte ao Cofre atualizado, reenviar o manuscrito em .docx e refaça a leitura antes de continuar.
-    </div>
-
-    <div class="resumo-geral">
-      <h2>Resumo editorial da obra</h2>
-      <div class="resumo-grid">
-        <div class="info-box">
-          <span class="rotulo">Título</span>
-          <div class="valor" id="resTitulo">—</div>
-        </div>
-        <div class="info-box">
-          <span class="rotulo">Autor</span>
-          <div class="valor" id="resAutor">—</div>
-        </div>
-        <div class="info-box">
-          <span class="rotulo">Tipo de obra</span>
-          <div class="valor" id="resTipoObra">—</div>
-        </div>
-        <div class="info-box">
-          <span class="rotulo">CDD provável</span>
-          <div class="valor" id="resCDD">—</div>
-        </div>
-        <div class="info-box">
-          <span class="rotulo">Capítulos detectados</span>
-          <div class="valor" id="resCapitulos">—</div>
-        </div>
-        <div class="info-box">
-          <span class="rotulo">Narrador</span>
-          <div class="valor" id="resNarrador">—</div>
-        </div>
-        <div class="info-box">
-          <span class="rotulo">Clima narrativo</span>
-          <div class="valor" id="resClima">—</div>
-        </div>
-        <div class="info-box">
-          <span class="rotulo">Gênero refinado</span>
-          <div class="valor" id="resGenero">—</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="blocos-secundarios">
-      <div class="card">
-        <h2>Lacunas editoriais detectadas</h2>
-
-        <div class="linha">
-          <strong>Biografia</strong>
-          <div id="lacunaBiografia">—</div>
-        </div>
-
-        <div class="linha">
-          <strong>Prefácio</strong>
-          <div id="lacunaPrefacio">—</div>
-        </div>
-
-        <div class="linha">
-          <strong>Ficha catalográfica</strong>
-          <div id="lacunaFicha">—</div>
-        </div>
-
-        <div class="linha">
-          <strong>Dedicatória</strong>
-          <div id="lacunaDedicatoria">—</div>
-        </div>
-
-        <div class="aviso">
-          Estas lacunas vieram da leitura realizada no Cofre Editorial do Autor e devem orientar as próximas decisões dentro dos módulos.
-        </div>
-      </div>
-
-      <div class="card">
-        <h2>Ativos da obra e sinais narrativos</h2>
-
-        <div class="linha">
-          <strong>Personagens recorrentes</strong>
-          <div id="resPersonagens">—</div>
-        </div>
-
-        <div class="linha">
-          <strong>Imagens salvas</strong>
-          <div id="resImagens">—</div>
-        </div>
-
-        <div class="linha">
-          <strong>Vozes vinculadas</strong>
-          <div id="resVozes">—</div>
-        </div>
-
-        <div class="tag-area" id="tagsSinais"></div>
-
-        <div class="aviso">
-          O Executor usa esses dados para orientar melhor Diagramação, Avaliação, Silo Sonoro e integrações futuras.
-        </div>
-      </div>
-    </div>
-
-    <div class="executor-grid">
-      <aside class="sidebar">
-        <h2>Módulos oficiais</h2>
-
-        <button class="modulo-btn mod-diagramacao" data-modulo="diagramacao" onclick="selecionarModulo('diagramacao', this)">
-          01. Assistente de Diagramação do Autor
-          <small>Miolo, paginação, tipografia, sumário e preparação editorial</small>
-        </button>
-
-        <button class="modulo-btn mod-okapista" data-modulo="okapista" onclick="selecionarModulo('okapista', this)">
-          03. OKapista
-          <small>Capa, contracapa, lombada, orelhas e ajustes visuais</small>
-        </button>
-
-        <button class="modulo-btn mod-segunda-linguas" data-modulo="segundaLinguas" onclick="selecionarModulo('segundaLinguas', this)">
-          05. Segunda Língua(s)
-          <small>Tradução, direção linguística e adaptação editorial</small>
-        </button>
-
-        <button class="modulo-btn mod-avaliacao" data-modulo="avaliacaoLiteraria" onclick="selecionarModulo('avaliacaoLiteraria', this)">
-          07. Avaliação Literária
-          <small>Parecer, leitura crítica e devolutiva técnica</small>
-        </button>
-
-        <button class="modulo-btn mod-analisador" data-modulo="analisadorObra" onclick="selecionarModulo('analisadorObra', this)">
-          11. Analisador de Obra
-          <small>Estrutura, progressão, personagens e lógica interna</small>
-        </button>
-
-        <button class="modulo-btn mod-lapidacao" data-modulo="lapidacaoLiteraria" onclick="selecionarModulo('lapidacaoLiteraria', this)">
-          13. Lapidação Literária
-          <small>Humanização, ritmo, diálogos e preservação de estilo</small>
-        </button>
-
-        <button class="modulo-btn mod-silo" data-modulo="siloSonoro" onclick="selecionarModulo('siloSonoro', this)">
-          17. Silo Sonoro
-          <small>Narração editorial, vozes e preparação sonora</small>
-        </button>
-
-        <button class="modulo-btn mod-integracoes" data-modulo="portalIntegracoes" onclick="selecionarModulo('portalIntegracoes', this)">
-          Portal de Integrações
-          <small>ISBN, gráficas, tradução externa, distribuição e conexões futuras</small>
-        </button>
-      </aside>
-
-      <main class="painel" id="painelModulo">
-        <h2>Nenhum módulo selecionado</h2>
-        <p>Escolha um módulo à esquerda para iniciar o processamento editorial da obra atual.</p>
-        <div class="aviso">
-          O Executor de Módulos é o tronco operacional do Lapidar. É aqui que a obra, já compreendida pelo Cofre, passa a ser tratada pelos setores editoriais.
-        </div>
-      </main>
-    </div>
-
-  </div>
-
-  <script>
-    const definicoesModulos = {
-      diagramacao: {
-        html: `
-          <h2>Assistente de Diagramação do Autor</h2>
-          <p>Este módulo organiza o interior da obra com base na leitura feita pelo Cofre e confirmada no Workspace.</p>
-          <div class="tag-area">
-            <span class="tag">Miolo</span>
-            <span class="tag">Tipografia</span>
-            <span class="tag">Paginação</span>
-            <span class="tag">Sumário</span>
-            <span class="tag">Estrutura</span>
-          </div>
-          <div class="linha-selecao">
-            <div class="select-card">
-              <strong>Modo automático</strong>
-              Boa qualidade com escolhas equilibradas e leitura limpa.
-            </div>
-            <div class="select-card">
-              <strong>Modo open</strong>
-              Acabamento mais sofisticado e visual mais forte.
-            </div>
-          </div>
-          <h3>Checklist rápido</h3>
-          <div class="checklist">
-            <label><input type="checkbox"> Aplicar estrutura de capítulos detectada pelo Cofre</label>
-            <label><input type="checkbox"> Sinalizar lacunas para inclusão gratuita pelo autor</label>
-            <label><input type="checkbox"> Iniciar numeração no corpo literário</label>
-            <label><input type="checkbox"> Preparar saída física e digital</label>
-          </div>
-          <div class="caixa">
-            Este módulo deve aproveitar lacunas detectadas, tipo de obra, capítulos e sinais narrativos para orientar melhor a diagramação.
-          </div>
-        `
-      },
-      okapista: {
-        html: `
-          <h2>OKapista</h2>
-          <p>Este módulo centraliza capa, contracapa, lombada, orelhas e o reaproveitamento das imagens salvas no Cofre.</p>
-          <div class="tag-area">
-            <span class="tag">Capa</span>
-            <span class="tag">Contracapa</span>
-            <span class="tag">Lombada</span>
-            <span class="tag">Orelhas</span>
-            <span class="tag">Imagens do autor</span>
-          </div>
-          <div class="checklist">
-            <label><input type="checkbox"> Usar imagens já armazenadas no Cofre</label>
-            <label><input type="checkbox"> Reservar área de ISBN se ainda não houver número</label>
-            <label><input type="checkbox"> Preparar par capa física + e-pub</label>
-            <label><input type="checkbox"> Criar orelhas a partir de biografia e sinopse</label>
-          </div>
-          <div class="caixa">
-            Se não houver imagens enviadas, o OKapista deve gerar imagens-base automaticamente.
-          </div>
-        `
-      },
-      segundaLinguas: {
-        html: `
-          <h2>Segunda Língua(s)</h2>
-          <p>Este módulo cuida da tradução editorial da obra e deve respeitar a estrutura reconhecida no Cofre.</p>
-          <div class="tag-area">
-            <span class="tag">Idioma</span>
-            <span class="tag">Tradução</span>
-            <span class="tag">Versão internacional</span>
-            <span class="tag">Adaptação editorial</span>
-          </div>
-          <div class="linha-selecao">
-            <div class="select-card">
-              <strong>Brasil → exterior</strong>
-              Tradução saindo do português para outro idioma.
-            </div>
-            <div class="select-card">
-              <strong>Exterior → Brasil</strong>
-              Tradução entrando para o português.
-            </div>
-          </div>
-          <div class="checklist">
-            <label><input type="checkbox"> Traduzir corpo narrativo</label>
-            <label><input type="checkbox"> Traduzir também partes técnicas</label>
-            <label><input type="checkbox"> Preservar nomes próprios e marcas editoriais</label>
-          </div>
-        `
-      },
-      avaliacaoLiteraria: {
-        html: `
-          <h2>Avaliação Literária</h2>
-          <p>Este módulo executa leitura crítica, parecer e devolutiva técnica com base no diagnóstico já levantado pelo Cofre.</p>
-          <div class="tag-area">
-            <span class="tag">Parecer</span>
-            <span class="tag">Relatório</span>
-            <span class="tag">Leitura crítica</span>
-            <span class="tag">Raio-X</span>
-          </div>
-          <div class="checklist">
-            <label><input type="checkbox"> Parecer simples em PDF</label>
-            <label><input type="checkbox"> Parecer intermediário com aprofundamento</label>
-            <label><input type="checkbox"> Adicionar Raio-X de Progressão da Obra</label>
-            <label><input type="checkbox"> Consolidar ganchos, vacâncias e potencial de série</label>
-          </div>
-          <div class="caixa">
-            O Mactan — Estilos Narrativos pertence conceitualmente a esta área de avaliação.
-          </div>
-        `
-      },
-      analisadorObra: {
-        html: `
-          <h2>Analisador de Obra</h2>
-          <p>Este módulo aprofunda o que o Cofre detectou, organizando personagens, narrador, clima, relações e progressão estrutural.</p>
-          <div class="tag-area">
-            <span class="tag">Personagens</span>
-            <span class="tag">Narrador</span>
-            <span class="tag">Tom</span>
-            <span class="tag">Conflitos</span>
-            <span class="tag">Arcos</span>
-          </div>
-          <div class="checklist">
-            <label><input type="checkbox"> Listar protagonista, antagonista e secundários</label>
-            <label><input type="checkbox"> Mapear relações e tensões narrativas</label>
-            <label><input type="checkbox"> Identificar coerência estrutural</label>
-            <label><input type="checkbox"> Repassar sinais dramáticos aos módulos seguintes</label>
-          </div>
-        `
-      },
-      lapidacaoLiteraria: {
-        html: `
-          <h2>Lapidação Literária</h2>
-          <p>Este módulo trabalha o acabamento textual da obra, refinando ritmo, coerência, diálogos e preservação de estilo.</p>
-          <div class="tag-area">
-            <span class="tag">Humanização</span>
-            <span class="tag">Ritmo</span>
-            <span class="tag">Coerência</span>
-            <span class="tag">Diálogos</span>
-            <span class="tag">Estilo</span>
-          </div>
-          <div class="checklist">
-            <label><input type="checkbox"> Revisão de diálogos</label>
-            <label><input type="checkbox"> Ajuste de coerência narrativa</label>
-            <label><input type="checkbox"> Ajuste de ritmo textual</label>
-            <label><input type="checkbox"> Preservação de estilo autoral</label>
-          </div>
-        `
-      },
-      siloSonoro: {
-        html: `
-          <h2>Silo Sonoro</h2>
-          <p>Este módulo usa as vozes vinculadas ao autor e os sinais narrativos detectados para preparar a obra para narração.</p>
-          <div class="tag-area">
-            <span class="tag">Audiobook</span>
-            <span class="tag">Narrador</span>
-            <span class="tag">Personagens</span>
-            <span class="tag">Vozes</span>
-            <span class="tag">Interpretação</span>
-          </div>
-          <div class="checklist">
-            <label><input type="checkbox"> Selecionar voz principal da narrativa</label>
-            <label><input type="checkbox"> Associar vozes a funções dramáticas</label>
-            <label><input type="checkbox"> Preparar texto para leitura sonora</label>
-            <label><input type="checkbox"> Marcar trechos de interpretação especial</label>
-          </div>
-        `
-      },
-      portalIntegracoes: {
-        html: `
-          <h2>Portal de Integrações</h2>
-          <p>Este portal vive integrado ao Lapidar e organiza conexões institucionais externas, mantendo a obra pronta para circular em outros ecossistemas.</p>
-          <div class="tag-area">
-            <span class="tag">ISBN</span>
-            <span class="tag">Gráficas</span>
-            <span class="tag">Distribuição</span>
-            <span class="tag">Tradução externa</span>
-            <span class="tag">APIs futuras</span>
-          </div>
-          <div class="checklist">
-            <label><input type="checkbox"> Preparar integração com ISBN</label>
-            <label><input type="checkbox"> Preparar envio a gráficas sob demanda</label>
-            <label><input type="checkbox"> Preparar distribuição externa</label>
-            <label><input type="checkbox"> Preparar futura comunicação por API / webhook</label>
-          </div>
-          <div class="caixa">
-            Este portal tem espinha dorsal própria, mas trabalha em conexão direta com o Lapidar.
-          </div>
-        `
-      }
-    };
-
-    function obraCorrompida(obra){
-      if(!obra) return false;
-      const titulo = (obra?.estrutura?.titulo || obra?.titulo || "").toString();
-      const texto = (obra?.textoExtraido || obra?.texto || "").toString();
-
-      if(titulo.startsWith("PK")) return true;
-      if(titulo.includes("word/numbering.xml")) return true;
-      if(texto.includes("word/numbering.xml")) return true;
-      if(texto.startsWith("PK")) return true;
-
-      return false;
-    }
-
-    function obterObraAtual(){
-      const obraSalva = localStorage.getItem("obraAtual");
-      if(!obraSalva) return null;
-
-      try{
-        return JSON.parse(obraSalva);
-      }catch(erro){
-        return null;
-      }
-    }
-
-    function salvarObraAtualizada(obra){
-      localStorage.setItem("obraAtual", JSON.stringify(obra));
-    }
-
-    function formatarLacuna(valor){
-      return valor ? "Enviado" : "Não encontrado";
-    }
-
-    function preencherResumo(){
-      const obra = obterObraAtual();
-
-      if(!obra){
-        document.getElementById("resTitulo").innerText = "Nenhuma obra carregada";
-        document.getElementById("resAutor").innerText = "Nenhuma obra carregada";
-        document.getElementById("resTipoObra").innerText = "Nenhuma obra carregada";
-        document.getElementById("resCDD").innerText = "Nenhuma obra carregada";
-        document.getElementById("resCapitulos").innerText = "Nenhuma obra carregada";
-        document.getElementById("resNarrador").innerText = "Nenhuma obra carregada";
-        document.getElementById("resClima").innerText = "Nenhuma obra carregada";
-        document.getElementById("resGenero").innerText = "Nenhuma obra carregada";
-        document.getElementById("lacunaBiografia").innerText = "Não disponível";
-        document.getElementById("lacunaPrefacio").innerText = "Não disponível";
-        document.getElementById("lacunaFicha").innerText = "Não disponível";
-        document.getElementById("lacunaDedicatoria").innerText = "Não disponível";
-        document.getElementById("resPersonagens").innerText = "Não disponível";
-        document.getElementById("resImagens").innerText = "Não disponível";
-        document.getElementById("resVozes").innerText = "Não disponível";
-        document.getElementById("tagsSinais").innerHTML = "";
-        return;
-      }
-
-      if(obraCorrompida(obra)){
-        document.getElementById("avisoCorrompido").style.display = "block";
-        document.getElementById("resTitulo").innerText = "Obra corrompida detectada";
-        document.getElementById("resAutor").innerText = "Reenvie no Cofre atualizado";
-        document.getElementById("resTipoObra").innerText = "Leitura inválida";
-        document.getElementById("resCDD").innerText = "Indisponível";
-        document.getElementById("resCapitulos").innerText = "Indisponível";
-        document.getElementById("resNarrador").innerText = "Indisponível";
-        document.getElementById("resClima").innerText = "Indisponível";
-        document.getElementById("resGenero").innerText = "Indisponível";
-        document.getElementById("lacunaBiografia").innerText = "Indisponível";
-        document.getElementById("lacunaPrefacio").innerText = "Indisponível";
-        document.getElementById("lacunaFicha").innerText = "Indisponível";
-        document.getElementById("lacunaDedicatoria").innerText = "Indisponível";
-        document.getElementById("resPersonagens").innerText = "Indisponível";
-        document.getElementById("resImagens").innerText = "Indisponível";
-        document.getElementById("resVozes").innerText = "Indisponível";
-        document.getElementById("tagsSinais").innerHTML = "";
-        return;
-      }
-
-      document.getElementById("avisoCorrompido").style.display = "none";
-
-      document.getElementById("resTitulo").innerText = obra?.estrutura?.titulo || obra?.titulo || "Não identificado";
-      document.getElementById("resAutor").innerText = obra?.estrutura?.autor || "Não identificado";
-      document.getElementById("resTipoObra").innerText = obra.tipo || "Não identificado";
-      document.getElementById("resCDD").innerText = obra.cdd || "Não identificado";
-      document.getElementById("resCapitulos").innerText =
-        Array.isArray(obra?.estrutura?.capitulos) ? obra.estrutura.capitulos.length : 0;
-      document.getElementById("resNarrador").innerText = obra.narrador || "Não identificado";
-      document.getElementById("resClima").innerText = obra.clima || "Não identificado";
-      document.getElementById("resGenero").innerText = obra.genero || "Não identificado";
-
-      document.getElementById("lacunaBiografia").innerText = formatarLacuna(obra?.lacunas?.biografia);
-      document.getElementById("lacunaPrefacio").innerText = formatarLacuna(obra?.lacunas?.prefacio);
-      document.getElementById("lacunaFicha").innerText = formatarLacuna(obra?.lacunas?.fichaCatalografica);
-      document.getElementById("lacunaDedicatoria").innerText = formatarLacuna(obra?.lacunas?.dedicatoria);
-
-      document.getElementById("resPersonagens").innerText =
-        Array.isArray(obra.personagens) && obra.personagens.length
-        ? obra.personagens.join(", ")
-        : "Não identificados";
-
-      document.getElementById("resImagens").innerText = (obra.imagensSalvas || obra.imagens || 0) + " imagem(ns) registrada(s)";
-      const vozesAutor = JSON.parse(localStorage.getItem("vozesAutor")) || [];
-      document.getElementById("resVozes").innerText = vozesAutor.length + " voz(es) vinculada(s)";
-
-      const tagsSinais = document.getElementById("tagsSinais");
-      tagsSinais.innerHTML = "";
-
-      const sinais = [
-        obra.tipo,
-        obra.genero,
-        obra.clima,
-        obra.narrador,
-        obra.estilo
-      ].filter(Boolean);
-
-      sinais.forEach(function(sinal){
-        const span = document.createElement("span");
-        span.className = "tag";
-        span.innerText = sinal;
-        tagsSinais.appendChild(span);
-      });
-    }
-
-    function selecionarModulo(chave, botao){
-      const obra = obterObraAtual();
-
-      if(!obra){
-        alert("Nenhuma obra foi carregada. Volte ao Workspace.");
-        return;
-      }
-
-      if(obraCorrompida(obra)){
-        alert("A obra ativa está corrompida. Volte ao Cofre atualizado e reenviar o manuscrito.");
-        return;
-      }
-
-      if(!obra.modulos){
-        obra.modulos = {};
-      }
-
-      if(!obra.modulos[chave]){
-        obra.modulos[chave] = {
-          selecionado: true,
-          ultimaAbertura: new Date().toISOString()
-        };
-      }else{
-        obra.modulos[chave].selecionado = true;
-        obra.modulos[chave].ultimaAbertura = new Date().toISOString();
-      }
-
-      obra.moduloAtivo = chave;
-      salvarObraAtualizada(obra);
-
-      document.querySelectorAll(".modulo-btn").forEach(function(btn){
-        btn.classList.remove("ativo");
-      });
-
-      if(botao){
-        botao.classList.add("ativo");
-      }
-
-      renderizarPainel(chave);
-    }
-
-    function renderizarPainel(chave){
-      const painel = document.getElementById("painelModulo");
-      const modulo = definicoesModulos[chave];
-
-      if(!modulo){
-        painel.innerHTML = `
-          <h2>Módulo não encontrado</h2>
-          <p>Não foi possível carregar este módulo.</p>
-        `;
-        return;
-      }
-
-      painel.innerHTML = `
-        ${modulo.html}
-        <div class="painel-acoes">
-          <button class="btn-primario" onclick="registrarModuloNoMesario('${chave}')">Registrar este módulo e seguir ao Mesário</button>
-          <button class="btn-secundario" onclick="voltarWorkspace()">Voltar ao Workspace</button>
-        </div>
-        <div class="aviso">
-          O Executor reaproveita a leitura do Cofre e a confirmação do Workspace para que a obra seja tratada de forma mais inteligente em cada setor.
-        </div>
-      `;
-    }
-
-    function registrarModuloNoMesario(chave){
-      const obra = obterObraAtual();
-
-      if(!obra){
-        alert("Nenhuma obra foi carregada.");
-        return;
-      }
-
-      if(obraCorrompida(obra)){
-        alert("A obra ativa está corrompida. Volte ao Cofre atualizado e reenviar o manuscrito.");
-        return;
-      }
-
-      if(!obra.mesario){
-        obra.mesario = {};
-      }
-
-      obra.mesario.secaoAtual = chave;
-      obra.ultimoModuloParaMesario = chave;
-
-      salvarObraAtualizada(obra);
-      window.location.href = "mesario.html";
-    }
-
-    function voltarWorkspace(){
-      window.location.href = "obra_workspace.html";
-    }
-
-    function seguirMesario(){
-      const obra = obterObraAtual();
-
-      if(!obra){
-        alert("Nenhuma obra foi carregada.");
-        return;
-      }
-
-      if(obraCorrompida(obra)){
-        alert("A obra ativa está corrompida. Volte ao Cofre atualizado e reenviar o manuscrito.");
-        return;
-      }
-
-      if(!obra.mesario){
-        obra.mesario = {};
-      }
-
-      if(!obra.mesario.secaoAtual){
-        obra.mesario.secaoAtual = obra.moduloAtivo || "diagramacao";
-      }
-
-      salvarObraAtualizada(obra);
-      window.location.href = "mesario.html";
-    }
-
-    function carregarModuloAtivoSeExistir(){
-      const obra = obterObraAtual();
-
-      if(!obra || !obra.moduloAtivo || obraCorrompida(obra)){
-        return;
-      }
-
-      const botao = document.querySelector('[data-modulo="' + obra.moduloAtivo + '"]');
-      if(botao){
-        selecionarModulo(obra.moduloAtivo, botao);
-      }
-    }
-
-    preencherResumo();
-    carregarModuloAtivoSeExistir();
-  </script>
+<header>
+Executor de Módulos — Lapidar
+</header>
+
+
+<div class="section">
+
+<h2>Licença Editorial Completa do Autor — Parte Livro (R$ 699)</h2>
+
+<div class="module">
+Cofre Editorial do Autor  
+<span class="included">Incluso</span><br>
+<button>Acessar Cofre</button>
+</div>
+
+<div class="module">
+Leitura Estrutural da Obra  
+<span class="included">Incluso</span>
+</div>
+
+<div class="module">
+Analisador Narrativo da Obra  
+<span class="included">Incluso</span>
+</div>
+
+<div class="module">
+OKapista — preparação editorial base  
+<span class="included">Incluso</span>
+</div>
+
+<div class="module">
+Escolha tipográfica livre  
+<span class="included">Incluso</span>
+</div>
+
+<div class="module">
+Layouts editoriais completos  
+<span class="included">Incluso</span>
+</div>
+
+<div class="module">
+Exportação gráfica e digital  
+<span class="included">Incluso</span>
+</div>
+
+</div>
+
+
+<div class="section">
+
+<h2>Tradução e Avaliação Literária</h2>
+
+<div class="module">
+1 Tradução textual automática da obra  
+<span class="free">Grátis (1 idioma por obra)</span><br>
+<button>Traduzir Obra</button>
+</div>
+
+<div class="module">
+Avaliação literária da obra traduzida  
+<span class="free">Grátis (1 avaliação vinculada)</span><br>
+<button>Gerar Avaliação</button>
+</div>
+
+<div class="module">
+Tradução adicional  
+<span class="paid">Pago</span>
+</div>
+
+<div class="module">
+Nova avaliação literária  
+<span class="paid">Pago</span>
+</div>
+
+</div>
+
+
+<div class="section">
+
+<h2>Lapidação Literária Avançada</h2>
+
+<div class="module">
+Lapidação narrativa profunda  
+<span class="paid">Pago</span><br>
+Ritmo · coerência · diálogos · estilo autoral
+</div>
+
+</div>
+
+
+<div class="section">
+
+<h2>Silo Sonoro</h2>
+
+<div class="module">
+Audiobook nacional  
+<span class="paid">R$ 500</span><br>
+<button>Gerar Audiobook Nacional</button>
+</div>
+
+<div class="module">
+Audiobook internacional  
+<span class="paid">R$ 1.300</span><br>
+<button>Gerar Audiobook Internacional</button>
+</div>
+
+</div>
+
+
+<div class="section">
+
+<h2>Módulo Cinematográfico</h2>
+
+<div class="module">
+Trailer narrativo da obra  
+<span class="paid">Pago</span>
+</div>
+
+<div class="module">
+Exportação para Reels / Shorts / TikTok  
+<span class="paid">Pago</span>
+</div>
+
+<div class="module">
+Preset visual cinematográfico  
+<span class="paid">Pago</span>
+</div>
+
+</div>
+
+
+<div class="section">
+
+<h2>Portal de Integrações do Office Literário</h2>
+
+<div class="module">
+Integração ISBN  
+<span class="included">Disponível</span>
+</div>
+
+<div class="module">
+Exportação para gráfica sob demanda  
+<span class="included">Disponível</span>
+</div>
+
+<div class="module">
+Distribuição futura automatizada  
+<span class="included">Disponível</span>
+</div>
+
+</div>
+
+
+<footer>
+
+Lapidar — trabalhando ao lado do autor, desde a primeira letra até o último ponto final.<br>
+Mas a jornada ainda continua.
+
+</footer>
+
 
 </body>
 </html>
