@@ -1,152 +1,410 @@
-(function () {
-  const CHAVE_LOG = "lapidar_auditoria_obra";
-  const CHAVE_OBRA_ID = "lapidar_obra_id";
-  const CHAVE_OBRA_INICIO = "lapidar_obra_inicio";
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  function agoraISO() {
-    return new Date().toISOString();
-  }
+<title>Lapidar — Auditoria Institucional</title>
 
-  function agoraBR() {
-    return new Date().toLocaleString("pt-BR");
-  }
+<style>
 
-  function gerarObraId() {
-    return "obra_" + Date.now() + "_" + Math.floor(Math.random() * 100000);
-  }
+body{
+font-family:Arial;
+background:#f3efe6;
+margin:0;
+padding:0;
+}
 
-  function garantirObraAtiva() {
-    let obraId = localStorage.getItem(CHAVE_OBRA_ID);
-    if (!obraId) {
-      obraId = gerarObraId();
-      localStorage.setItem(CHAVE_OBRA_ID, obraId);
-      localStorage.setItem(CHAVE_OBRA_INICIO, agoraISO());
-    }
-    return obraId;
-  }
+.topbar{
+background:#3d4a5c;
+color:white;
+padding:20px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
 
-  function lerLog() {
-    try {
-      return JSON.parse(localStorage.getItem(CHAVE_LOG)) || [];
-    } catch (e) {
-      return [];
-    }
-  }
+.container{
+max-width:1100px;
+margin:auto;
+padding:30px;
+}
 
-  function salvarLog(log) {
-    localStorage.setItem(CHAVE_LOG, JSON.stringify(log));
-  }
+.card{
+background:white;
+padding:20px;
+margin-bottom:20px;
+border-radius:12px;
+box-shadow:0 3px 10px rgba(0,0,0,0.08);
+}
 
-  function dadosBasicosDaObra() {
-    return {
-      obraId: localStorage.getItem(CHAVE_OBRA_ID) || "",
-      iniciadoEm: localStorage.getItem(CHAVE_OBRA_INICIO) || "",
-      titulo: localStorage.getItem("titulo_obra") || "",
-      autor: localStorage.getItem("autor_obra") || "",
-      organizador: localStorage.getItem("organizador_obra") || "",
-      subtitulo: localStorage.getItem("subtitulo_obra") || "",
-      tipoReconhecido: localStorage.getItem("tipo_material_reconhecido") || "",
-      nomeArquivoTexto: localStorage.getItem("nome_arquivo_texto") || "",
-      quantidadeImagens: localStorage.getItem("quantidade_imagens_obra") || "0",
-      uploadTexto: localStorage.getItem("upload_texto_obra") || "nao",
-      uploadImagens: localStorage.getItem("upload_imagens_obra") || "nao",
-      uploadAudio: localStorage.getItem("upload_audio_obra") || "nao",
-      gravacaoVoz: localStorage.getItem("gravacao_voz_autor") || "nao"
-    };
-  }
+h2{
+margin-top:0;
+color:#3d4a5c;
+}
 
-  function registrarEvento(acao, detalhes) {
-    garantirObraAtiva();
+.linha{
+margin-bottom:12px;
+}
 
-    const log = lerLog();
+.rotulo{
+font-size:12px;
+color:#617287;
+text-transform:uppercase;
+}
 
-    log.push({
-      obraId: localStorage.getItem(CHAVE_OBRA_ID),
-      horarioISO: agoraISO(),
-      horarioBR: agoraBR(),
-      acao: acao || "Ação não informada",
-      detalhes: detalhes || {},
-      obra: dadosBasicosDaObra(),
-      paginaAtual: window.location.pathname || ""
-    });
+.valor{
+font-size:16px;
+}
 
-    salvarLog(log);
-  }
+.relogio-box{
+background:#eef4fb;
+padding:15px;
+border-radius:10px;
+margin-top:10px;
+}
 
-  function iniciarNovaObraAuditoria() {
-    localStorage.setItem(CHAVE_OBRA_ID, gerarObraId());
-    localStorage.setItem(CHAVE_OBRA_INICIO, agoraISO());
+button{
+padding:12px 20px;
+border:none;
+background:#3d4a5c;
+color:white;
+border-radius:6px;
+cursor:pointer;
+margin-right:10px;
+}
 
-    const log = lerLog();
-    log.push({
-      obraId: localStorage.getItem(CHAVE_OBRA_ID),
-      horarioISO: agoraISO(),
-      horarioBR: agoraBR(),
-      acao: "Nova obra iniciada no Lapidar",
-      detalhes: {
-        origem: "entrada_obra.html"
-      },
-      obra: dadosBasicosDaObra(),
-      paginaAtual: window.location.pathname || ""
-    });
-    salvarLog(log);
-  }
+button:hover{
+background:#2e3947;
+}
 
-  function obterAuditoriaAtual() {
-    return lerLog();
-  }
+.timeline{
+margin-top:20px;
+}
 
-  function limparAuditoriaAtual() {
-    localStorage.removeItem(CHAVE_LOG);
-    localStorage.removeItem(CHAVE_OBRA_ID);
-    localStorage.removeItem(CHAVE_OBRA_INICIO);
-  }
+.evento{
+background:#fbfcfe;
+padding:12px;
+margin-bottom:10px;
+border-radius:8px;
+}
 
-  function exportarRelatorioAdministrativo() {
-    const log = lerLog();
+</style>
+</head>
 
-    const relatorio = {
-      obraId: localStorage.getItem(CHAVE_OBRA_ID) || "",
-      iniciadoEm: localStorage.getItem(CHAVE_OBRA_INICIO) || "",
-      exportadoEm: agoraISO(),
-      dadosFinaisDaObra: {
-        titulo: localStorage.getItem("titulo_obra") || "",
-        autor: localStorage.getItem("autor_obra") || "",
-        organizador: localStorage.getItem("organizador_obra") || "",
-        subtitulo: localStorage.getItem("subtitulo_obra") || "",
-        tipoReconhecido: localStorage.getItem("tipo_material_reconhecido") || "",
-        estruturaDetectada: localStorage.getItem("estrutura_detectada") || "",
-        observacoesTecnicas: localStorage.getItem("observacoes_tecnicas") || "",
-        previewTexto: localStorage.getItem("preview_texto_limpo") || ""
-      },
-      materiais: {
-        texto: localStorage.getItem("upload_texto_obra") || "nao",
-        imagens: localStorage.getItem("upload_imagens_obra") || "nao",
-        quantidadeImagens: localStorage.getItem("quantidade_imagens_obra") || "0",
-        audio: localStorage.getItem("upload_audio_obra") || "nao",
-        gravacaoVoz: localStorage.getItem("gravacao_voz_autor") || "nao",
-        nomeArquivoTexto: localStorage.getItem("nome_arquivo_texto") || ""
-      },
-      modulos: {
-        editorial: localStorage.getItem("modulo_editorial") || "nao",
-        audiovisual: localStorage.getItem("modulo_audiovisual") || "nao",
-        musica: localStorage.getItem("modulo_musica") || "nao",
-        livroConfigurado: localStorage.getItem("modulo_livro_configurado") || "nao",
-        audiovisualConfigurado: localStorage.getItem("modulo_audiovisual_configurado") || "nao",
-        musicaConfigurado: localStorage.getItem("modulo_musica_configurado") || "nao"
-      },
-      eventos: log
-    };
 
-    localStorage.setItem("lapidar_relatorio_administrativo", JSON.stringify(relatorio));
-    return relatorio;
-  }
+<body>
 
-  window.LapidarAuditoria = {
-    registrarEvento,
-    iniciarNovaObraAuditoria,
-    obterAuditoriaAtual,
-    limparAuditoriaAtual,
-    exportarRelatorioAdministrativo
-  };
-})();
+<div class="topbar">
+
+<div>Auditoria Institucional da Obra</div>
+
+<div>
+
+<button onclick="voltarMesario()">Retornar</button>
+
+<button onclick="irExportacao()">Exportar</button>
+
+</div>
+
+</div>
+
+
+<div class="container">
+
+
+<div class="card">
+
+<h2>LapidarClock institucional</h2>
+
+<div class="relogio-box">
+
+<div class="linha">
+
+<span class="rotulo">Sessão iniciada em</span>
+
+<div class="valor" id="inicioSessao"></div>
+
+</div>
+
+<div class="linha">
+
+<span class="rotulo">Tempo ativo no fluxo</span>
+
+<div class="valor" id="tempoSessao"></div>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<div class="card">
+
+<h2>Contador de tarefas do departamento</h2>
+
+<div class="relogio-box">
+
+<div class="linha">
+
+<span class="rotulo">Total de tarefas</span>
+
+<div class="valor" id="totalTarefas"></div>
+
+</div>
+
+<div class="linha">
+
+<span class="rotulo">Executadas</span>
+
+<div class="valor" id="tarefasExecutadas"></div>
+
+</div>
+
+<div class="linha">
+
+<span class="rotulo">Restantes</span>
+
+<div class="valor" id="tarefasRestantes"></div>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<div class="card">
+
+<h2>Validade do plano institucional</h2>
+
+<div class="relogio-box">
+
+<div class="linha">
+
+<span class="rotulo">Dias restantes</span>
+
+<div class="valor" id="diasPlano"></div>
+
+</div>
+
+<div class="linha">
+
+<span class="rotulo">Ações restantes</span>
+
+<div class="valor" id="acoesPlano"></div>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<div class="card">
+
+<h2>Linha do tempo institucional</h2>
+
+<div id="timeline"></div>
+
+</div>
+
+
+</div>
+
+
+
+<script>
+
+
+function carregarObra(){
+
+let obra = JSON.parse(localStorage.getItem("obraAtual"));
+
+if(!obra){
+
+obra = {
+
+lapidarClock:{
+
+inicioSessao:Date.now(),
+
+tempoAcumulado:0
+
+},
+
+tarefas:{
+
+total:7,
+
+executadas:2
+
+},
+
+plano:{
+
+diasRestantes:20,
+
+acoesRestantes:3
+
+},
+
+auditoria:[]
+
+};
+
+localStorage.setItem("obraAtual",JSON.stringify(obra));
+
+}
+
+return obra;
+
+}
+
+
+
+function atualizarClock(){
+
+let obra = carregarObra();
+
+let agora = Date.now();
+
+let inicio = obra.lapidarClock.inicioSessao;
+
+let tempo = agora - inicio;
+
+let minutos = Math.floor(tempo/60000);
+
+document.getElementById("inicioSessao").innerText =
+
+new Date(inicio).toLocaleString("pt-BR");
+
+document.getElementById("tempoSessao").innerText =
+
+minutos + " minutos ativos";
+
+}
+
+
+
+function atualizarTarefas(){
+
+let obra = carregarObra();
+
+document.getElementById("totalTarefas").innerText =
+
+obra.tarefas.total;
+
+document.getElementById("tarefasExecutadas").innerText =
+
+obra.tarefas.executadas;
+
+document.getElementById("tarefasRestantes").innerText =
+
+obra.tarefas.total - obra.tarefas.executadas;
+
+}
+
+
+
+function atualizarPlano(){
+
+let obra = carregarObra();
+
+document.getElementById("diasPlano").innerText =
+
+obra.plano.diasRestantes;
+
+document.getElementById("acoesPlano").innerText =
+
+obra.plano.acoesRestantes;
+
+}
+
+
+
+function registrarEvento(texto){
+
+let obra = carregarObra();
+
+obra.auditoria.push({
+
+texto:texto,
+
+hora:new Date().toLocaleString("pt-BR")
+
+});
+
+localStorage.setItem("obraAtual",JSON.stringify(obra));
+
+renderTimeline();
+
+}
+
+
+
+function renderTimeline(){
+
+let obra = carregarObra();
+
+let area = document.getElementById("timeline");
+
+area.innerHTML="";
+
+obra.auditoria.reverse().forEach(ev=>{
+
+let div=document.createElement("div");
+
+div.className="evento";
+
+div.innerHTML=ev.texto+"<br><small>"+ev.hora+"</small>";
+
+area.appendChild(div);
+
+});
+
+}
+
+
+
+function voltarMesario(){
+
+registrarEvento("Retorno ao Mesário");
+
+window.location.href="mesario.html";
+
+}
+
+
+
+function irExportacao(){
+
+registrarEvento("Encaminhado para Exportação");
+
+window.location.href="exportar.html";
+
+}
+
+
+
+setInterval(atualizarClock,1000);
+
+atualizarClock();
+
+atualizarTarefas();
+
+atualizarPlano();
+
+renderTimeline();
+
+
+</script>
+
+
+</body>
+
+</html>
