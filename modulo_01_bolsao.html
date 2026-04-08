@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Lapidar — Cofre Editorial do Autor</title>
+
+<style>
+
+body{
+font-family:Arial;
+background:#f4efe6;
+margin:0;
+}
+
+.topo{
+background:#2f4f4f;
+color:white;
+padding:25px;
+text-align:center;
+}
+
+.subtitulo{
+font-size:15px;
+opacity:0.9;
+}
+
+.container{
+max-width:1000px;
+margin:auto;
+padding:30px;
+}
+
+.card{
+background:white;
+padding:25px;
+border-radius:12px;
+margin-bottom:20px;
+box-shadow:0 4px 12px rgba(0,0,0,0.08);
+}
+
+.upload-area{
+border:2px dashed #ccc;
+padding:30px;
+text-align:center;
+cursor:pointer;
+border-radius:10px;
+}
+
+button{
+padding:12px 20px;
+margin-top:10px;
+border:none;
+background:#2f4f4f;
+color:white;
+border-radius:6px;
+cursor:pointer;
+}
+
+button:hover{
+background:#203636;
+}
+
+.progress-bar{
+height:22px;
+background:#ddd;
+border-radius:12px;
+margin-top:15px;
+overflow:hidden;
+}
+
+.progress{
+height:100%;
+width:0%;
+background:#2f4f4f;
+color:white;
+text-align:center;
+line-height:22px;
+}
+
+.status{
+margin-top:10px;
+font-size:15px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="topo">
+<h1>Cofre Editorial do Autor</h1>
+<div class="subtitulo">
+Melhoria da Qualidade Narrativa da sua obra
+</div>
+</div>
+
+<div class="container">
+
+<div class="card">
+
+<h2>Enviar manuscrito</h2>
+
+<div class="upload-area" onclick="arquivoInput.click()">
+Clique aqui para enviar sua obra
+</div>
+
+<input
+type="file"
+id="arquivoInput"
+accept=".doc,.docx,.txt,.pdf"
+style="display:none"
+>
+
+<button onclick="lerObra()">
+Iniciar leitura estrutural
+</button>
+
+<div class="progress-bar">
+<div class="progress" id="barra">
+0%
+</div>
+</div>
+
+<div class="status" id="status">
+Aguardando envio da obra
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>Diagnóstico editorial automático</h2>
+
+<div id="diagnostico">
+Nenhuma obra analisada ainda
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>Elementos pré-textuais da obra</h2>
+
+<div id="lacunasPainel">
+
+Aguardando leitura estrutural
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>Imagens da obra</h2>
+
+<input type="file" id="imagensInput" multiple>
+
+<button onclick="salvarImagens()">
+Salvar imagens no Cofre
+</button>
+
+<div id="listaImagens"></div>
+
+</div>
+
+<div class="card">
+
+<h2>Banco de vozes do autor</h2>
+
+<p>
+Estas vozes permanecem vinculadas ao seu perfil
+e poderão ser usadas em audiobooks.
+</p>
+
+<input type="file" id="vozInput" accept="audio/*">
+
+<button onclick="salvarVoz()">
+Salvar voz
+</button>
+
+<div id="listaVozes"></div>
+
+</div>
+
+<button onclick="abrirWorkspace()">
+Ir para Workspace da Obra
+</button>
+
+</div>
+
+<script>
+
+let obraAtual=null
+
+function atualizarBarra(valor,texto){
+
+barra.style.width=valor+"%"
+barra.innerText=valor+"%"
+status.innerText=texto
+
+}
+
+function detectarTitulo(texto){
+
+return texto.split("\n")[0] || "Não identificado"
+
+}
+
+function detectarSubtitulo(texto){
+
+return texto.split("\n")[1] || "Não identificado"
+
+}
+
+function detectarAutor(texto){
+
+let linhas=texto.split("\n")
+
+for(let linha of linhas){
+
+if(linha.toLowerCase().includes("autor"))
+
+return linha.replace("Autor:","").trim()
+
+}
+
+return "Não identificado"
+
+}
+
+function detectarCapitulos(texto){
+
+return texto.match(/cap[ií]tulo\s+\d+/gi) || []
+
+}
+
+function detectarPersonagens(texto){
+
+let palavras=texto.match(/\b[A-Z][a-z]{3,}\b/g) || []
+
+let contagem={}
+
+palavras.forEach(p=>{
+
+contagem[p]=(contagem[p]||0)+1
+
+})
+
+return Object.entries(contagem)
+.sort((a,b)=>b[1]-a[1])
+.slice(0,6)
+.map(p=>p[0])
+
+}
+
+function detectarNarrador(texto){
+
+if(texto.includes("eu "))
+
+return "Narrador em primeira pessoa"
+
+if(texto.includes("ele ") || texto.includes("ela "))
+
+return "Narrador em terceira pessoa"
+
+return "Narrador não identificado"
+
+}
+
+function detectarClima(texto){
+
+if(texto.match(/medo|sombra|segredo|noite|silêncio/i))
+
+return "Clima sombrio"
+
+if(texto.match(/amor|saudade|coração/i))
+
+return "Clima emocional"
+
+if(texto.match(/guerra|batalha|espada/i))
+
+return "Clima épico"
+
+return "Clima neutro"
+
+}
+
+function detectarGenero(texto){
+
+if(texto.match(/dragão|reino|castelo/i))
+
+return "Fantasia"
+
+if(texto.match(/robô|IA|futuro/i))
+
+return "Ficção científica"
+
+if(texto.match(/amor|casamento/i))
+
+return "Romance"
+
+if(texto.match(/crime|investigação/i))
+
+return "Suspense policial"
+
+return "Não identificado"
+
+}
+
+function detectarTipoObra(texto){
+
+if(texto.includes("ingredientes"))
+
+return "Livro gastronômico"
+
+if(texto.match(/cap[ií]tulo/gi))
+
+return "Narrativa em capítulos"
+
+if(texto.match(/\n[A-Z][a-z]+\,?\n/g))
+
+return "Possível livro de poemas"
+
+return "Tipo não identificado"
+
+}
+
+function detectarCDD(tipo){
+
+switch(tipo){
+
+case "Livro gastronômico":
+
+return "CDD provável: 641"
+
+case "Possível livro de poemas":
+
+return "CDD provável: 869.91"
+
+default:
+
+return "CDD provável: 869.93"
+
+}
+
+}
+
+function detectarEstrutura(texto){
+
+obraAtual.estrutura={
+
+titulo:detectarTitulo(texto),
+
+subtitulo:detectarSubtitulo(texto),
+
+autor:detectarAutor(texto),
+
+capitulos:detectarCapitulos(texto)
+
+}
+
+}
+
+function detectarLacunas(){
+
+obraAtual.lacunas={
+
+biografia:false,
+
+prefacio:false,
+
+fichaCatalografica:false,
+
+dedicatoria:false
+
+}
+
+}
+
+function lerObra(){
+
+let arquivo=arquivoInput.files[0]
+
+if(!arquivo){
+
+alert("Envie um arquivo primeiro")
+
+return
+
+}
+
+let reader=new FileReader()
+
+reader.onload=function(e){
+
+let texto=e.target.result
+
+obraAtual={}
+
+obraAtual.textoExtraido=texto
+
+obraAtual.tipo=detectarTipoObra(texto)
+
+obraAtual.cdd=detectarCDD(obraAtual.tipo)
+
+obraAtual.personagens=detectarPersonagens(texto)
+
+obraAtual.narrador=detectarNarrador(texto)
+
+obraAtual.clima=detectarClima(texto)
+
+obraAtual.genero=detectarGenero(texto)
+
+obraAtual.lapidarClock={
+
+inicioSessao:Date.now()
+
+}
+
+detectarEstrutura(texto)
+
+detectarLacunas()
+
+localStorage.setItem(
+
+"obraAtual",
+
+JSON.stringify(obraAtual)
+
+)
+
+simularLeitura()
+
+}
+
+reader.readAsText(arquivo)
+
+}
+
+function simularLeitura(){
+
+let etapas=[
+
+"Removendo resíduos técnicos...",
+
+"Detectando estrutura...",
+
+"Identificando personagens...",
+
+"Detectando narrador...",
+
+"Detectando clima narrativo...",
+
+"Refinando gênero literário...",
+
+"Preparando diagnóstico editorial..."
+
+]
+
+let progresso=0
+
+let i=0
+
+let intervalo=setInterval(()=>{
+
+if(i>=etapas.length){
+
+clearInterval(intervalo)
+
+mostrarDiagnostico()
+
+renderizarPainelLacunas()
+
+return
+
+}
+
+progresso+=14
+
+atualizarBarra(progresso,etapas[i])
+
+i++
+
+},700)
+
+}
+
+function mostrarDiagnostico(){
+
+diagnostico.innerHTML=`
+
+✔ Classificação detectada: ${obraAtual.tipo}<br>
+
+✔ ${obraAtual.cdd}<br>
+
+✔ Título detectado: ${obraAtual.estrutura.titulo}<br>
+
+✔ Subtítulo detectado: ${obraAtual.estrutura.subtitulo}<br>
+
+✔ Autor detectado: ${obraAtual.estrutura.autor}<br>
+
+✔ Capítulos detectados: ${obraAtual.estrutura.capitulos.length}<br>
+
+✔ Personagens recorrentes: ${obraAtual.personagens.join(", ")}<br>
+
+✔ Tipo de narrador: ${obraAtual.narrador}<br>
+
+✔ Clima narrativo: ${obraAtual.clima}<br>
+
+✔ Gênero refinado: ${obraAtual.genero}
+
+`
+
+}
+
+function renderizarPainelLacunas(){
+
+lacunasPainel.innerHTML=`
+
+Biografia não encontrada
+<input type="file" onchange="uploadElemento('biografia')"><br>
+
+Prefácio não encontrado
+<input type="file" onchange="uploadElemento('prefacio')"><br>
+
+Ficha catalográfica não encontrada
+<input type="file" onchange="uploadElemento('fichaCatalografica')"><br>
+
+Dedicatória não encontrada
+<input type="file" onchange="uploadElemento('dedicatoria')"><br>
+
+`
+
+}
+
+function uploadElemento(tipo){
+
+obraAtual.lacunas[tipo]=true
+
+localStorage.setItem(
+
+"obraAtual",
+
+JSON.stringify(obraAtual)
+
+)
+
+alert(tipo+" enviado com sucesso!")
+
+}
+
+function salvarImagens(){
+
+listaImagens.innerText=
+
+imagensInput.files.length+" imagens armazenadas"
+
+}
+
+function salvarVoz(){
+
+let voz=vozInput.files[0]
+
+if(!voz){
+
+alert("Envie um áudio")
+
+return
+
+}
+
+let vozes=JSON.parse(
+
+localStorage.getItem("vozesAutor")
+
+)||[]
+
+vozes.push(voz.name)
+
+localStorage.setItem(
+
+"vozesAutor",
+
+JSON.stringify(vozes)
+
+)
+
+listaVozes.innerText=
+
+vozes.length+" vozes armazenadas"
+
+}
+
+function abrirWorkspace(){
+
+window.location.href="obra_workspace.html"
+
+}
+
+</script>
+
+</body>
+</html>
