@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lapidar — Workspace da Obra</title>
+  <style>
+    *{
+      box-sizing:border-box;
+    }
+
+    body{
+      margin:0;
+      font-family:Arial, sans-serif;
+      background:#f3efe6;
+      color:#2f2a24;
+    }
+
+    .topbar{
+      background:#6f5b3e;
+      color:#fff;
+      padding:18px 24px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:16px;
+      flex-wrap:wrap;
+    }
+
+    .topbar h1{
+      margin:0;
+      font-size:22px;
+    }
+
+    .topbar .acoes{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    .container{
+      max-width:1200px;
+      margin:24px auto;
+      padding:0 16px 32px;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap:18px;
+    }
+
+    .card{
+      background:#fff;
+      border-radius:14px;
+      padding:18px;
+      box-shadow:0 4px 14px rgba(0,0,0,0.08);
+    }
+
+    .card h2{
+      margin:0 0 14px 0;
+      font-size:20px;
+      color:#5b472c;
+    }
+
+    .linha{
+      margin-bottom:12px;
+      padding:10px 12px;
+      background:#f8f5ef;
+      border-radius:10px;
+      border:1px solid #e9dfcf;
+    }
+
+    .rotulo{
+      display:block;
+      font-size:12px;
+      font-weight:bold;
+      color:#7a674b;
+      margin-bottom:5px;
+      text-transform:uppercase;
+      letter-spacing:0.4px;
+    }
+
+    .valor{
+      font-size:16px;
+      line-height:1.4;
+      word-break:break-word;
+    }
+
+    .lista{
+      margin:0;
+      padding-left:20px;
+    }
+
+    .lista li{
+      margin-bottom:8px;
+      line-height:1.4;
+    }
+
+    .preview{
+      background:#fcfbf8;
+      border:1px solid #eadfce;
+      border-radius:10px;
+      padding:14px;
+      min-height:360px;
+      max-height:560px;
+      overflow:auto;
+      white-space:pre-wrap;
+      line-height:1.55;
+      font-size:15px;
+    }
+
+    .vazio{
+      color:#8b7f70;
+      font-style:italic;
+    }
+
+    .acoes-inferiores{
+      margin-top:18px;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    button{
+      border:none;
+      border-radius:10px;
+      padding:12px 18px;
+      font-size:15px;
+      cursor:pointer;
+      transition:0.2s ease;
+    }
+
+    .btn-primario{
+      background:#8b6f46;
+      color:#fff;
+    }
+
+    .btn-primario:hover{
+      background:#755c39;
+    }
+
+    .btn-secundario{
+      background:#e9dfcf;
+      color:#4d3f2d;
+    }
+
+    .btn-secundario:hover{
+      background:#ddd0bb;
+    }
+
+    .btn-alerta{
+      background:#9e3e3e;
+      color:#fff;
+    }
+
+    .btn-alerta:hover{
+      background:#833232;
+    }
+
+    .bloco-alerta{
+      margin-top:14px;
+      padding:12px 14px;
+      border-radius:10px;
+      background:#fff6e8;
+      border:1px solid #ecd4a7;
+      color:#6a552a;
+      font-size:14px;
+      line-height:1.45;
+    }
+
+    @media (max-width: 900px){
+      .grid{
+        grid-template-columns:1fr;
+      }
+
+      .preview{
+        min-height:280px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="topbar">
+    <h1>Workspace da Obra</h1>
+    <div class="acoes">
+      <button class="btn-secundario" onclick="voltarParaBolsao()">Retornar ao Bolsão</button>
+      <button class="btn-alerta" onclick="limparObra()">Limpar Obra</button>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="grid">
+      <div class="card">
+        <h2>Leitura inicial da obra</h2>
+
+        <div class="linha">
+          <span class="rotulo">Arquivo original</span>
+          <div class="valor" id="arquivoOriginal">—</div>
+        </div>
+
+        <div class="linha">
+          <span class="rotulo">Título detectado</span>
+          <div class="valor" id="tituloDetectado">—</div>
+        </div>
+
+        <div class="linha">
+          <span class="rotulo">Autor detectado</span>
+          <div class="valor" id="autorDetectado">—</div>
+        </div>
+
+        <div class="linha">
+          <span class="rotulo">Início narrativo detectado</span>
+          <div class="valor" id="inicioNarrativo">—</div>
+        </div>
+
+        <div class="linha">
+          <span class="rotulo">Capítulos detectados</span>
+          <div class="valor">
+            <ul class="lista" id="listaCapitulos"></ul>
+            <div class="vazio" id="semCapitulos" style="display:none;">Nenhum capítulo foi detectado até agora.</div>
+          </div>
+        </div>
+
+        <div class="bloco-alerta" id="alertaLeitura">
+          O Bolsão fez uma leitura inicial automática. Se algum item estiver errado, isso será refinado nas próximas etapas.
+        </div>
+
+        <div class="acoes-inferiores">
+          <button class="btn-primario" onclick="seguirParaExecutor()">Seguir para Executor de Módulos</button>
+          <button class="btn-secundario" onclick="recarregarWorkspace()">Recarregar Workspace</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Prévia do texto extraído</h2>
+        <div class="preview" id="previewTexto"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function obterObraAtual(){
+      const obraSalva = localStorage.getItem("obraAtual");
+      if(!obraSalva){
+        return null;
+      }
+
+      try{
+        return JSON.parse(obraSalva);
+      }catch(erro){
+        return null;
+      }
+    }
+
+    function preencherWorkspace(){
+      const obra = obterObraAtual();
+
+      if(!obra){
+        document.getElementById("arquivoOriginal").innerText = "Nenhuma obra carregada";
+        document.getElementById("tituloDetectado").innerText = "Nenhuma obra carregada";
+        document.getElementById("autorDetectado").innerText = "Nenhuma obra carregada";
+        document.getElementById("inicioNarrativo").innerText = "Nenhuma obra carregada";
+        document.getElementById("previewTexto").innerHTML = '<span class="vazio">Nenhum texto foi carregado ainda. Volte ao Bolsão e envie uma obra.</span>';
+        document.getElementById("semCapitulos").style.display = "block";
+        document.getElementById("alertaLeitura").innerText = "Nenhuma obra ativa foi encontrada no sistema.";
+        return;
+      }
+
+      document.getElementById("arquivoOriginal").innerText = obra.arquivoOriginal || "Não detectado";
+      document.getElementById("tituloDetectado").innerText = obra.titulo || "Não detectado";
+      document.getElementById("autorDetectado").innerText = obra.autor || "Não detectado";
+      document.getElementById("inicioNarrativo").innerText = obra.inicioNarrativa || "Não detectado";
+
+      const preview = obra.textoExtraido
+        ? obra.textoExtraido.substring(0, 5000)
+        : "";
+
+      document.getElementById("previewTexto").innerText = preview || "Sem texto extraído.";
+
+      const listaCapitulos = document.getElementById("listaCapitulos");
+      listaCapitulos.innerHTML = "";
+
+      if(Array.isArray(obra.capitulos) && obra.capitulos.length){
+        document.getElementById("semCapitulos").style.display = "none";
+
+        obra.capitulos.forEach(function(capitulo){
+          const item = document.createElement("li");
+          item.innerText = capitulo;
+          listaCapitulos.appendChild(item);
+        });
+      }else{
+        document.getElementById("semCapitulos").style.display = "block";
+      }
+    }
+
+    function voltarParaBolsao(){
+      window.location.href = "modulo_01_bolsao.html";
+    }
+
+    function seguirParaExecutor(){
+      const obra = obterObraAtual();
+
+      if(!obra){
+        alert("Nenhuma obra foi carregada ainda.");
+        return;
+      }
+
+      window.location.href = "modulo_executor.html";
+    }
+
+    function limparObra(){
+      const confirmar = confirm("Deseja realmente limpar a obra atual?");
+      if(!confirmar){
+        return;
+      }
+
+      localStorage.removeItem("obraAtual");
+      alert("Obra atual removida com sucesso.");
+      window.location.href = "modulo_01_bolsao.html";
+    }
+
+    function recarregarWorkspace(){
+      preencherWorkspace();
+    }
+
+    preencherWorkspace();
+  </script>
+
+</body>
+</html>
