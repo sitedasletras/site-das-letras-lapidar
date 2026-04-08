@@ -2,62 +2,144 @@
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Executor de Módulos — Lapidar</title>
 
 <style>
+*{box-sizing:border-box}
 
 body{
-font-family:Arial;
-background:#f7f5ef;
+font-family:Arial,sans-serif;
+background:#f6f2ea;
 margin:0;
+color:#2f2a24;
 }
 
 header{
-background:#1d3557;
+background:#355c57;
 color:white;
 padding:18px;
 text-align:center;
 font-size:22px;
 }
 
-.section{
-margin:25px auto;
-width:85%;
+.container{
+width:92%;
+max-width:1400px;
+margin:auto;
+margin-top:28px;
+margin-bottom:40px;
+}
+
+.card{
 background:white;
-border-radius:10px;
-padding:25px;
-box-shadow:0px 2px 8px rgba(0,0,0,0.15);
+padding:20px;
+margin-bottom:20px;
+border-radius:12px;
+box-shadow:0 2px 8px rgba(0,0,0,.14);
 }
 
 h2{
-color:#1d3557;
+color:#355c57;
+margin-top:0;
 }
 
-.module{
-border-bottom:1px solid #ddd;
-padding:15px 0;
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:20px;
 }
 
-.included{
-color:green;
+.grid-3{
+display:grid;
+grid-template-columns:1fr 1fr 1fr;
+gap:14px;
+}
+
+.modulo{
+background:#fbfaf7;
+border:1px solid #eadfce;
+border-radius:12px;
+padding:16px;
+}
+
+.modulo h3{
+margin:0 0 8px 0;
+font-size:18px;
+color:#5d4b2d;
+}
+
+.modulo p{
+margin:0 0 10px 0;
+line-height:1.55;
+font-size:14px;
+}
+
+.status{
+display:inline-block;
+padding:6px 10px;
+border-radius:999px;
+font-size:12px;
 font-weight:bold;
+margin-top:4px;
 }
 
-.free{
-color:#2a9d8f;
-font-weight:bold;
+.status-ok{
+background:#e8f6ee;
+color:#1d6b43;
+border:1px solid #b9e2c7;
 }
 
-.paid{
-color:#e76f51;
+.status-alert{
+background:#fff4e8;
+color:#a85b19;
+border:1px solid #efcfab;
+}
+
+.status-note{
+background:#eef3f8;
+color:#3f5872;
+border:1px solid #d8e0ea;
+}
+
+.resumo-box{
+background:#f4f8f9;
+padding:15px;
+border-radius:8px;
+border:1px solid #d9e4e6;
+line-height:1.6;
+}
+
+.linha{
+background:#f9f6f1;
+border:1px solid #eadfce;
+border-radius:10px;
+padding:12px 14px;
+margin-bottom:12px;
+}
+
+.rotulo{
+display:block;
+font-size:12px;
 font-weight:bold;
+text-transform:uppercase;
+letter-spacing:.4px;
+color:#8a6a3c;
+margin-bottom:6px;
+}
+
+.valor{
+font-size:15px;
+line-height:1.45;
+word-break:break-word;
 }
 
 button{
 margin-top:10px;
-padding:8px 15px;
+margin-right:8px;
+padding:10px 15px;
 border:none;
-border-radius:6px;
+border-radius:8px;
 cursor:pointer;
 background:#457b9d;
 color:white;
@@ -67,7 +149,34 @@ button:hover{
 background:#1d3557;
 }
 
-footer{
+.botao-sec{
+background:#8d99ae;
+}
+
+.botao-sec:hover{
+background:#5c677d;
+}
+
+.botao-final{
+background:#2a9d8f;
+}
+
+.botao-final:hover{
+background:#1f776a;
+}
+
+.tag{
+display:inline-block;
+padding:6px 10px;
+background:#eef3f8;
+border:1px solid #d8e0ea;
+border-radius:999px;
+font-size:13px;
+margin-right:6px;
+margin-top:8px;
+}
+
+.footer{
 text-align:center;
 margin-top:40px;
 padding:15px;
@@ -75,9 +184,21 @@ font-size:13px;
 color:#555;
 }
 
+@media (max-width: 980px){
+.container{
+width:95%;
+}
+.grid,.grid-3{
+grid-template-columns:1fr;
+}
+button{
+display:block;
+width:100%;
+margin-right:0;
+}
+}
 </style>
 </head>
-
 
 <body>
 
@@ -85,162 +206,334 @@ color:#555;
 Executor de Módulos — Lapidar
 </header>
 
+<div class="container">
 
-<div class="section">
+<div class="card">
+  <h2>Obra em execução</h2>
 
-<h2>Licença Editorial Completa do Autor — Parte Livro (R$ 699)</h2>
+  <div class="linha">
+    <span class="rotulo">Título principal</span>
+    <div class="valor" id="tituloObra">—</div>
+  </div>
 
-<div class="module">
-Cofre Editorial do Autor  
-<span class="included">Incluso</span><br>
-<button>Acessar Cofre</button>
+  <div class="linha">
+    <span class="rotulo">Autor(es)</span>
+    <div class="valor" id="autorObra">—</div>
+  </div>
+
+  <div class="linha">
+    <span class="rotulo">Identificador institucional</span>
+    <div class="valor" id="identificadorObra">—</div>
+  </div>
+
+  <div class="linha">
+    <span class="rotulo">Idioma / operação</span>
+    <div class="valor" id="idiomaOperacao">—</div>
+  </div>
+
+  <div id="tagsObra"></div>
 </div>
 
-<div class="module">
-Leitura Estrutural da Obra  
-<span class="included">Incluso</span>
+<div class="grid">
+
+  <div>
+    <div class="card">
+      <h2>Módulos editoriais acionáveis</h2>
+
+      <div class="grid-3">
+
+        <div class="modulo">
+          <h3>Módulo 03 — OKapista</h3>
+          <p>Cuida de capa, contracapa, lombada, orelhas e coerência visual da obra.</p>
+          <div id="statusCapista" class="status status-note">Aguardando análise</div>
+        </div>
+
+        <div class="modulo">
+          <h3>Módulo 05 — Segunda Língua(s)</h3>
+          <p>Prepara tradução e edição multilíngue conforme idioma e mercado escolhidos.</p>
+          <div id="statusTraducao" class="status status-note">Aguardando análise</div>
+        </div>
+
+        <div class="modulo">
+          <h3>Módulo 07 — Avaliação Literária</h3>
+          <p>Executa parecer técnico e leitura crítica estruturada da obra.</p>
+          <div id="statusAvaliacao" class="status status-note">Aguardando análise</div>
+        </div>
+
+        <div class="modulo">
+          <h3>Módulo 11 — Analisador de Obra</h3>
+          <p>Consolida leitura estrutural, eixo narrativo, potencial de série e progressão.</p>
+          <div id="statusAnalisador" class="status status-note">Aguardando análise</div>
+        </div>
+
+        <div class="modulo">
+          <h3>Módulo 13 — Lapidação Literária</h3>
+          <p>Refina diálogos, coerência, ritmo, estilo e força narrativa.</p>
+          <div id="statusLapidacao" class="status status-note">Aguardando análise</div>
+        </div>
+
+        <div class="modulo">
+          <h3>Módulo 17 — Silo Sonoro</h3>
+          <p>Prepara narração, voz e futura adaptação para audiobook.</p>
+          <div id="statusSonoro" class="status status-note">Aguardando análise</div>
+        </div>
+
+      </div>
+
+      <div class="resumo-box" style="margin-top:14px;">
+        O Executor de Módulos não substitui a Diagramação. Ele apenas organiza quais módulos fazem sentido para esta obra com base na entrada do Bolsão e na leitura do Cofre técnico.
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Pré-textuais e arquivos da obra</h2>
+
+      <div class="linha">
+        <span class="rotulo">Sinopse</span>
+        <div class="valor" id="sinopseStatus">—</div>
+      </div>
+
+      <div class="linha">
+        <span class="rotulo">Prefácio</span>
+        <div class="valor" id="prefacioStatus">—</div>
+      </div>
+
+      <div class="linha">
+        <span class="rotulo">Dedicatória</span>
+        <div class="valor" id="dedicatoriaStatus">—</div>
+      </div>
+
+      <div class="linha">
+        <span class="rotulo">Ficha catalográfica / ficha de dados</span>
+        <div class="valor" id="fichaStatus">—</div>
+      </div>
+
+      <div class="linha">
+        <span class="rotulo">Biografia</span>
+        <div class="valor" id="biografiaStatus">—</div>
+      </div>
+
+      <div class="linha">
+        <span class="rotulo">Bibliografia</span>
+        <div class="valor" id="bibliografiaStatus">—</div>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <div class="card">
+      <h2>Preparação multimodal</h2>
+
+      <div class="linha">
+        <span class="rotulo">Imagens internas</span>
+        <div class="valor" id="imagensInternasStatus">—</div>
+      </div>
+
+      <div class="linha">
+        <span class="rotulo">Imagens de capa</span>
+        <div class="valor" id="imagensCapaStatus">—</div>
+      </div>
+
+      <div class="linha">
+        <span class="rotulo">Preparação para voz</span>
+        <div class="valor" id="vozStatus">—</div>
+      </div>
+
+      <div class="linha">
+        <span class="rotulo">Assinatura Lapidar</span>
+        <div class="valor" id="assinaturaStatus">—</div>
+      </div>
+
+      <div class="linha">
+        <span class="rotulo">ISBN informado</span>
+        <div class="valor" id="isbnStatus">—</div>
+      </div>
+
+      <div class="linha">
+        <span class="rotulo">Tabela Cutter</span>
+        <div class="valor" id="cutterStatus">—</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Encaminhamento técnico</h2>
+
+      <div class="resumo-box" id="encaminhamentoResumo">
+        Aguardando consolidação da obra para decidir os encaminhamentos.
+      </div>
+
+      <button class="botao-final" onclick="location.href='mesario.html'">Prosseguir para o Mesário</button>
+      <button class="botao-sec" onclick="location.href='obra_workspace.html'">Voltar ao Workspace</button>
+      <button class="botao-sec" onclick="location.href='modulo01_bolsao_mapa.html'">Voltar ao Cofre técnico</button>
+      <button class="botao-sec" onclick="location.href='modulo_01_bolsao_entrada.html'">Voltar à Entrada do Bolsão</button>
+      <button class="botao-sec" onclick="location.href='exportar.html'">Ir para Exportação</button>
+    </div>
+  </div>
+
 </div>
 
-<div class="module">
-Analisador Narrativo da Obra  
-<span class="included">Incluso</span>
 </div>
 
-<div class="module">
-OKapista — preparação editorial base  
-<span class="included">Incluso</span>
-</div>
-
-<div class="module">
-Escolha tipográfica livre  
-<span class="included">Incluso</span>
-</div>
-
-<div class="module">
-Layouts editoriais completos  
-<span class="included">Incluso</span>
-</div>
-
-<div class="module">
-Exportação gráfica e digital  
-<span class="included">Incluso</span>
-</div>
-
-</div>
-
-
-<div class="section">
-
-<h2>Tradução e Avaliação Literária</h2>
-
-<div class="module">
-1 Tradução textual automática da obra  
-<span class="free">Grátis (1 idioma por obra)</span><br>
-<button>Traduzir Obra</button>
-</div>
-
-<div class="module">
-Avaliação literária da obra traduzida  
-<span class="free">Grátis (1 avaliação vinculada)</span><br>
-<button>Gerar Avaliação</button>
-</div>
-
-<div class="module">
-Tradução adicional  
-<span class="paid">Pago</span>
-</div>
-
-<div class="module">
-Nova avaliação literária  
-<span class="paid">Pago</span>
-</div>
-
-</div>
-
-
-<div class="section">
-
-<h2>Lapidação Literária Avançada</h2>
-
-<div class="module">
-Lapidação narrativa profunda  
-<span class="paid">Pago</span><br>
-Ritmo · coerência · diálogos · estilo autoral
-</div>
-
-</div>
-
-
-<div class="section">
-
-<h2>Silo Sonoro</h2>
-
-<div class="module">
-Audiobook nacional  
-<span class="paid">R$ 500</span><br>
-<button>Gerar Audiobook Nacional</button>
-</div>
-
-<div class="module">
-Audiobook internacional  
-<span class="paid">R$ 1.300</span><br>
-<button>Gerar Audiobook Internacional</button>
-</div>
-
-</div>
-
-
-<div class="section">
-
-<h2>Módulo Cinematográfico</h2>
-
-<div class="module">
-Trailer narrativo da obra  
-<span class="paid">Pago</span>
-</div>
-
-<div class="module">
-Exportação para Reels / Shorts / TikTok  
-<span class="paid">Pago</span>
-</div>
-
-<div class="module">
-Preset visual cinematográfico  
-<span class="paid">Pago</span>
-</div>
-
-</div>
-
-
-<div class="section">
-
-<h2>Portal de Integrações do Office Literário</h2>
-
-<div class="module">
-Integração ISBN  
-<span class="included">Disponível</span>
-</div>
-
-<div class="module">
-Exportação para gráfica sob demanda  
-<span class="included">Disponível</span>
-</div>
-
-<div class="module">
-Distribuição futura automatizada  
-<span class="included">Disponível</span>
-</div>
-
-</div>
-
-
-<footer>
-
+<div class="footer">
 Lapidar — trabalhando ao lado do autor, desde a primeira letra até o último ponto final.<br>
 Mas a jornada ainda continua.
+</div>
 
-</footer>
+<script>
+function carregarJSON(chave){
+  const salvo = localStorage.getItem(chave);
+  if(!salvo) return null;
+  try{
+    return JSON.parse(salvo);
+  }catch(e){
+    return null;
+  }
+}
 
+function textoOuTraco(v){
+  if(Array.isArray(v)) return v.length ? v.join(", ") : "—";
+  return v && String(v).trim() ? v : "—";
+}
+
+function textoArquivoOuGerado(v, fallback){
+  if(Array.isArray(v)) return v.length ? "Enviado: " + v.join(", ") : fallback;
+  return v ? "Enviado: " + v : fallback;
+}
+
+function definirStatus(id, tipo, texto){
+  const el = document.getElementById(id);
+  el.className = "status " + tipo;
+  el.innerText = texto;
+}
+
+function preencherExecutor(){
+  const obra = carregarJSON("obraAtual");
+  const entrada = carregarJSON("lapidar_entrada_bolsao");
+
+  const titulo = entrada?.tituloManual || entrada?.tituloBase || obra?.estrutura?.titulo || "Não identificado";
+  const autor = entrada?.autoresManual || entrada?.autorBase || obra?.estrutura?.autor || "Não identificado";
+  const identificador = entrada?.identificadorPreview || "—";
+
+  document.getElementById("tituloObra").innerText = titulo;
+  document.getElementById("autorObra").innerText = autor;
+  document.getElementById("identificadorObra").innerText = identificador;
+
+  const idioma = entrada?.idiomaObra === "en-US" ? "Inglês / edição internacional" : "Português / edição lusófona";
+  const operacao = entrada?.perfilEdicao ? " | operação " + entrada.perfilEdicao.toUpperCase() : "";
+  document.getElementById("idiomaOperacao").innerText = idioma + operacao;
+
+  document.getElementById("sinopseStatus").innerText = textoArquivoOuGerado(entrada?.sinopseArquivo, "Será gerada gratuitamente em PDF separado, se necessário");
+  document.getElementById("prefacioStatus").innerText = textoArquivoOuGerado(entrada?.prefacioArquivo, "Poderá ser gerado gratuitamente");
+  document.getElementById("dedicatoriaStatus").innerText = textoArquivoOuGerado(entrada?.dedicatoriaArquivo, "Poderá ser gerada gratuitamente");
+  document.getElementById("fichaStatus").innerText = textoArquivoOuGerado(entrada?.fichaCatalograficaArquivo, "Se não houver oficial, poderá ser usada Ficha de Dados da Obra");
+  document.getElementById("biografiaStatus").innerText = textoArquivoOuGerado(entrada?.biografiaArquivo, "Poderá ser gerada gratuitamente");
+  document.getElementById("bibliografiaStatus").innerText = textoArquivoOuGerado(entrada?.bibliografiaArquivo, "Não será gerada automaticamente");
+
+  let imagensInternas = "Não deseja imagens internas";
+  if(entrada?.imagensInternasModo === "enviar"){
+    imagensInternas = entrada?.uploadImagensInternas ? "Imagens internas enviadas: " + textoOuTraco(entrada.uploadImagensInternas) : "Imagens internas serão enviadas";
+  }
+  if(entrada?.imagensInternasModo === "criar"){
+    imagensInternas = "Criação automática de imagens internas: " + textoOuTraco(entrada?.tipoImagemCriada);
+  }
+
+  document.getElementById("imagensInternasStatus").innerText = imagensInternas;
+  document.getElementById("imagensCapaStatus").innerText = entrada?.imagensCapa ? textoOuTraco(entrada.imagensCapa) : "Não enviadas";
+  document.getElementById("vozStatus").innerText = textoOuTraco(entrada?.voz);
+  document.getElementById("assinaturaStatus").innerText = entrada?.assinaturaLapidar ? "Ativada" : "Desativada";
+  document.getElementById("isbnStatus").innerText = textoOuTraco(entrada?.isbnInformado);
+  document.getElementById("cutterStatus").innerText = textoOuTraco(entrada?.cutterManual);
+
+  const tags = document.getElementById("tagsObra");
+  tags.innerHTML = "";
+
+  [
+    obra?.tipo,
+    obra?.genero,
+    obra?.estilo,
+    obra?.narrador,
+    obra?.clima,
+    entrada?.serie,
+    entrada?.volume
+  ].filter(Boolean).forEach(tagTexto=>{
+    const span = document.createElement("span");
+    span.className = "tag";
+    span.innerText = tagTexto;
+    tags.appendChild(span);
+  });
+
+  const temTexto = !!obra?.textoExtraido;
+  const temSinopse = !!entrada?.sinopseArquivo;
+  const temPrefacio = !!entrada?.prefacioArquivo;
+  const temDedic = !!entrada?.dedicatoriaArquivo;
+  const querVoz = entrada?.voz === "sim" || entrada?.voz === "depois";
+  const querTraducao = entrada?.idiomaObra === "en-US";
+  const querImagemCriada = entrada?.imagensInternasModo === "criar";
+  const temImagemEnviada = entrada?.imagensInternasModo === "enviar" || (Array.isArray(entrada?.imagensCapa) ? entrada.imagensCapa.length > 0 : !!entrada?.imagensCapa);
+
+  definirStatus("statusCapista",
+    (temImagemEnviada || querImagemCriada) ? "status-ok" : "status-alert",
+    (temImagemEnviada || querImagemCriada) ? "Pronto para o OKapista" : "Capa dependerá de definição visual"
+  );
+
+  definirStatus("statusTraducao",
+    querTraducao ? "status-ok" : "status-note",
+    querTraducao ? "Edição internacional detectada" : "Tradução opcional neste momento"
+  );
+
+  definirStatus("statusAvaliacao",
+    temTexto ? "status-ok" : "status-alert",
+    temTexto ? "Obra pronta para avaliação" : "Texto da obra ainda não consolidado"
+  );
+
+  definirStatus("statusAnalisador",
+    obra?.genero ? "status-ok" : "status-alert",
+    obra?.genero ? "Leitura estrutural consolidada" : "Aguardando leitura da obra"
+  );
+
+  definirStatus("statusLapidacao",
+    temTexto ? "status-ok" : "status-alert",
+    temTexto ? "Pode seguir para lapidação literária" : "Texto limpo ainda indisponível"
+  );
+
+  definirStatus("statusSonoro",
+    querVoz ? "status-ok" : "status-note",
+    querVoz ? "Preparação sonora ativada" : "Silo Sonoro opcional neste momento"
+  );
+
+  let resumo = `A obra "${titulo}" foi consolidada no Executor com base na entrada do Bolsão e na leitura do Cofre técnico. `;
+  if(entrada?.serie){
+    resumo += `Ela pertence a "${entrada.serie}". `;
+  }
+  if(entrada?.volume){
+    resumo += `O volume informado é "${entrada.volume}". `;
+  }
+  if(querTraducao){
+    resumo += `Como a edição está em modo internacional, o módulo de tradução ganha prioridade. `;
+  }
+  if(querVoz){
+    resumo += `Há preparação para voz, então o Silo Sonoro já pode ser considerado no fluxo. `;
+  }
+  if(querImagemCriada){
+    resumo += `As imagens internas deverão ser criadas automaticamente. `;
+  } else if(entrada?.imagensInternasModo === "enviar"){
+    resumo += `As imagens internas virão por envio do autor. `;
+  }
+  if(!temSinopse){
+    resumo += `A sinopse poderá ser gerada gratuitamente em PDF separado. `;
+  }
+  if(!temPrefacio){
+    resumo += `O prefácio poderá ser gerado gratuitamente, se necessário. `;
+  }
+  if(!temDedic){
+    resumo += `A dedicatória poderá ser gerada gratuitamente, se necessário. `;
+  }
+
+  document.getElementById("encaminhamentoResumo").innerText = resumo;
+}
+
+preencherExecutor();
+</script>
 
 </body>
 </html>
