@@ -4,231 +4,473 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Lapidar — Módulo 01 Bolsão</title>
+<title>Lapidar — Cofre Editorial do Autor</title>
 
 <style>
 
 body{
 font-family:Arial;
-background:#f5f1e8;
+background:#f4efe6;
 margin:0;
-padding:40px;
+}
+
+.topo{
+background:#2f4f4f;
+color:white;
+padding:25px;
+text-align:center;
+}
+
+.subtitulo{
+font-size:15px;
+opacity:0.85;
+margin-top:5px;
 }
 
 .container{
-max-width:700px;
+max-width:1000px;
 margin:auto;
-background:white;
-padding:40px;
-border-radius:12px;
-box-shadow:0 0 10px rgba(0,0,0,0.1);
+padding:30px;
 }
 
-h1{
-text-align:center;
-margin-bottom:30px;
+.card{
+background:white;
+padding:25px;
+border-radius:12px;
+margin-bottom:20px;
+box-shadow:0 4px 12px rgba(0,0,0,0.08);
+}
+
+h2{
+margin-top:0;
 }
 
 .upload-area{
-border:2px dashed #c9b78a;
-padding:40px;
+border:2px dashed #ccc;
+padding:30px;
 text-align:center;
 cursor:pointer;
 border-radius:10px;
 }
 
 button{
-margin-top:20px;
-padding:14px 25px;
+padding:12px 20px;
+margin-top:10px;
 border:none;
-background:#c9b78a;
+background:#2f4f4f;
 color:white;
-font-size:16px;
-cursor:pointer;
 border-radius:6px;
+cursor:pointer;
 }
 
 button:hover{
-background:#b29e70;
+background:#203636;
+}
+
+.progress-bar{
+height:22px;
+background:#ddd;
+border-radius:12px;
+margin-top:15px;
+overflow:hidden;
+}
+
+.progress{
+height:100%;
+width:0%;
+background:#2f4f4f;
+text-align:center;
+color:white;
+line-height:22px;
 }
 
 .status{
-margin-top:20px;
-color:green;
+margin-top:12px;
+font-size:15px;
+}
+
+textarea{
+width:100%;
+height:100px;
+margin-top:10px;
 }
 
 </style>
+
 </head>
+
 
 <body>
 
+<div class="topo">
+
+<h1>Cofre Editorial do Autor</h1>
+
+<div class="subtitulo">
+Melhoria da Qualidade Narrativa da sua obra
+</div>
+
+</div>
+
+
 <div class="container">
 
-<h1>Bolsão de Limpeza Editorial</h1>
 
-<div class="upload-area" onclick="document.getElementById('fileInput').click()">
+<div class="card">
+
+<h2>Enviar manuscrito</h2>
+
+<div class="upload-area" onclick="arquivoInput.click()">
+
 Clique aqui para enviar sua obra
+
 </div>
 
-<input type="file" id="fileInput"
+<input
+type="file"
+id="arquivoInput"
 accept=".doc,.docx,.txt,.pdf"
-style="display:none">
+style="display:none"
+>
 
-<div class="status" id="status"></div>
+<button onclick="lerObra()">Iniciar leitura estrutural</button>
 
-<button onclick="processarArquivo()">Ler Obra</button>
+<div class="progress-bar">
+
+<div class="progress" id="barra">
+
+0%
 
 </div>
+
+</div>
+
+<div class="status" id="status">
+
+Aguardando envio da obra
+
+</div>
+
+</div>
+
+
+
+<div class="card">
+
+<h2>Enviar imagens da obra</h2>
+
+<input type="file" id="imagensInput" multiple>
+
+<button onclick="salvarImagens()">
+
+Salvar imagens no cofre
+
+</button>
+
+<div id="listaImagens"></div>
+
+</div>
+
+
+
+<div class="card">
+
+<h2>Banco de vozes do autor</h2>
+
+<p>
+
+Você pode gravar sua voz ou enviar arquivos de áudio.
+Estas vozes permanecerão vinculadas ao seu perfil.
+
+</p>
+
+<input type="file" id="vozInput" accept="audio/*">
+
+<button onclick="salvarVoz()">
+
+Salvar voz
+
+</button>
+
+<div id="listaVozes"></div>
+
+</div>
+
+
+
+<div class="card">
+
+<h2>Diagnóstico editorial automático</h2>
+
+<div id="diagnostico">
+
+Nenhuma obra analisada ainda
+
+</div>
+
+</div>
+
+
+
+<button onclick="abrirWorkspace()">
+
+Ir para Workspace da Obra
+
+</button>
+
+
+</div>
+
 
 
 <script>
 
-
-function limparSessaoAnterior(){
-
-localStorage.removeItem("obraAtual");
-
-}
+let obraAtual=null
 
 
 
-function detectarTitulo(texto){
+function atualizarBarra(valor,texto){
 
-let linhas = texto.split("\n");
+barra.style.width=valor+"%"
 
-for(let linha of linhas){
+barra.innerText=valor+"%"
 
-linha = linha.trim();
-
-if(linha.length > 3 && linha.length < 80 && !linha.includes(".")){
-
-return linha;
-
-}
-
-}
-
-return "Título não detectado";
+status.innerText=texto
 
 }
 
 
 
-function detectarAutor(texto){
+function detectarTipoObra(texto){
 
-let linhas = texto.split("\n");
+if(texto.includes("ingredientes")){
 
-for(let linha of linhas){
-
-linha = linha.trim().toLowerCase();
-
-if(linha.startsWith("autor") || linha.startsWith("por")){
-
-return linha.replace("autor:", "").replace("por:", "").trim();
+return "Livro gastronômico"
 
 }
 
+if(texto.match(/cap[ií]tulo/gi)){
+
+return "Narrativa estruturada em capítulos"
+
 }
 
-return "Autor não detectado";
+if(texto.match(/\n[A-Z][a-z]+\,?\n/g)){
+
+return "Possível livro de poemas"
 
 }
 
-
-
-function detectarCapitulos(texto){
-
-let regex = /(capítulo\s\d+|capitulo\s\d+|chapter\s\d+|prólogo|prefácio)/gi;
-
-let encontrados = texto.match(regex);
-
-return encontrados ? encontrados : [];
+return "Tipo não identificado"
 
 }
 
 
 
-function detectarInicioNarrativa(texto){
+function detectarCDD(tipo){
 
-let partes = texto.split("\n");
+switch(tipo){
 
-for(let parte of partes){
+case "Livro gastronômico":
 
-if(parte.length > 200){
+return "CDD provável: 641"
 
-return parte.substring(0,150) + "...";
+case "Possível livro de poemas":
 
-}
+return "CDD provável: 869.91"
 
-}
+default:
 
-return "Início narrativo não detectado";
-
-}
-
-
-
-function processarArquivo(){
-
-const input = document.getElementById("fileInput");
-
-if(!input.files.length){
-
-alert("Envie um arquivo primeiro.");
-
-return;
+return "CDD provável: 869.93"
 
 }
 
-const arquivo = input.files[0];
-
-limparSessaoAnterior();
-
-const reader = new FileReader();
+}
 
 
-reader.onload = function(e){
 
-const texto = e.target.result;
+function lerObra(){
 
-const obra = {
+let arquivo=arquivoInput.files[0]
 
-arquivoOriginal: arquivo.name,
+if(!arquivo){
 
-titulo: detectarTitulo(texto),
+alert("Envie um arquivo primeiro")
 
-autor: detectarAutor(texto),
-
-capitulos: detectarCapitulos(texto),
-
-inicioNarrativa: detectarInicioNarrativa(texto),
-
-textoExtraido: texto
-
-};
-
-
-localStorage.setItem("obraAtual", JSON.stringify(obra));
-
-document.getElementById("status").innerText =
-"Obra lida com sucesso. Redirecionando para Workspace...";
-
-
-setTimeout(() => {
-
-window.location.href = "obra_workspace.html";
-
-},1500);
-
-};
-
-
-reader.readAsText(arquivo);
+return
 
 }
+
+let reader=new FileReader()
+
+reader.onload=function(e){
+
+let texto=e.target.result
+
+obraAtual={}
+
+obraAtual.textoExtraido=texto
+
+obraAtual.tipo=detectarTipoObra(texto)
+
+obraAtual.cdd=detectarCDD(obraAtual.tipo)
+
+obraAtual.lapidarClock={
+
+inicioSessao:Date.now()
+
+}
+
+localStorage.setItem(
+
+"obraAtual",
+
+JSON.stringify(obraAtual)
+
+)
+
+simularLeitura()
+
+}
+
+reader.readAsText(arquivo)
+
+}
+
+
+
+function simularLeitura(){
+
+let etapas=[
+
+"Removendo resíduos técnicos...",
+
+"Separando título...",
+
+"Separando autor...",
+
+"Detectando capítulos...",
+
+"Detectando personagens...",
+
+"Detectando tipo de obra...",
+
+"Preparando diagnóstico editorial..."
+
+]
+
+let progresso=0
+
+let i=0
+
+let intervalo=setInterval(()=>{
+
+if(i>=etapas.length){
+
+clearInterval(intervalo)
+
+mostrarDiagnostico()
+
+return
+
+}
+
+progresso+=15
+
+atualizarBarra(
+
+progresso,
+
+etapas[i]
+
+)
+
+i++
+
+},700)
+
+}
+
+
+
+function mostrarDiagnostico(){
+
+let obra=JSON.parse(localStorage.getItem("obraAtual"))
+
+diagnostico.innerHTML=`
+
+✔ Classificação detectada: ${obra.tipo}
+
+✔ ${obra.cdd}
+
+✔ Texto preparado para módulos seguintes
+
+`
+
+}
+
+
+
+function salvarImagens(){
+
+let arquivos=imagensInput.files
+
+listaImagens.innerText=
+
+arquivos.length+" imagens armazenadas"
+
+}
+
+
+
+function salvarVoz(){
+
+let voz=vozInput.files[0]
+
+if(!voz){
+
+alert("Envie um áudio")
+
+return
+
+}
+
+let vozes=JSON.parse(
+
+localStorage.getItem("vozesAutor")
+
+)||[]
+
+vozes.push(voz.name)
+
+localStorage.setItem(
+
+"vozesAutor",
+
+JSON.stringify(vozes)
+
+)
+
+listaVozes.innerText=
+
+vozes.length+" vozes armazenadas"
+
+}
+
+
+
+function abrirWorkspace(){
+
+window.location.href=
+
+"obra_workspace.html"
+
+}
+
 
 
 </script>
+
 
 </body>
 </html>
