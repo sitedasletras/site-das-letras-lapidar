@@ -1,133 +1,234 @@
-<!DOCTYPE html><html lang="pt-BR">
+<!DOCTYPE html>
+<html lang="pt-br">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bolsão de Limpeza Editorial</title><style>
+
+<title>Lapidar — Módulo 01 Bolsão</title>
+
+<style>
+
 body{
-  font-family: Arial;
-  background:#f5f1e8;
-  margin:0;
-  padding:20px;
+font-family:Arial;
+background:#f5f1e8;
+margin:0;
+padding:40px;
 }
 
 .container{
-  max-width:900px;
-  margin:auto;
+max-width:700px;
+margin:auto;
+background:white;
+padding:40px;
+border-radius:12px;
+box-shadow:0 0 10px rgba(0,0,0,0.1);
 }
 
-.card{
-  background:white;
-  padding:15px;
-  border-radius:12px;
-  margin-bottom:15px;
-  box-shadow:0 5px 15px rgba(0,0,0,0.05);
+h1{
+text-align:center;
+margin-bottom:30px;
 }
 
-h2{
-  margin-top:0;
+.upload-area{
+border:2px dashed #c9b78a;
+padding:40px;
+text-align:center;
+cursor:pointer;
+border-radius:10px;
 }
 
-.preview{
-  background:#fff;
-  padding:20px;
-  border:1px solid #ccc;
-  min-height:300px;
-  white-space:pre-wrap;
+button{
+margin-top:20px;
+padding:14px 25px;
+border:none;
+background:#c9b78a;
+color:white;
+font-size:16px;
+cursor:pointer;
+border-radius:6px;
 }
 
-.btn{
-  padding:10px;
-  border:none;
-  border-radius:8px;
-  cursor:pointer;
-  margin-top:10px;
+button:hover{
+background:#b29e70;
 }
 
-.green{background:#4CAF50;color:white;}
-.red{background:#c0392b;color:white;}
-.blue{background:#3498db;color:white;}
-</style></head>
-<body><div class="container"><div class="card">
-<h2>Upload do material textual da obra</h2>
-<input type="file" id="uploadTexto">
-<p id="statusUpload">Nenhum arquivo carregado</p>
-<button class="btn red" onclick="limparObra()">Limpar obra</button>
-</div><div class="card">
-<h2>Prévia do texto (simulação A4)</h2>
-<div id="previewTexto" class="preview">
-Seu texto aparecerá aqui após o upload.
+.status{
+margin-top:20px;
+color:green;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Bolsão de Limpeza Editorial</h1>
+
+<div class="upload-area" onclick="document.getElementById('fileInput').click()">
+Clique aqui para enviar sua obra
 </div>
-</div><div class="card">
-<h2>Dados detectados</h2>
-<input type="text" id="titulo" placeholder="Título"><br><br>
-<input type="text" id="autor" placeholder="Autor"><br><br>
-<button class="btn blue" onclick="salvarDados()">Salvar dados</button>
-</div><div class="card">
-<h2>Encaminhamento</h2>
-<button class="btn green" onclick="irModulo('humanizacao.html')">Humanização</button>
-<button class="btn green" onclick="irModulo('traducao.html')">Tradução</button>
-<button class="btn green" onclick="irModulo('diagramacao.html')">Diagramação</button>
-</div></div><script>
 
-// Upload real
+<input type="file" id="fileInput"
+accept=".doc,.docx,.txt,.pdf"
+style="display:none">
 
-document.getElementById('uploadTexto').addEventListener('change', function(e) {
+<div class="status" id="status"></div>
 
-    const file = e.target.files[0];
-    if (!file) return;
+<button onclick="processarArquivo()">Ler Obra</button>
 
-    const reader = new FileReader();
+</div>
 
-    reader.onload = function(event) {
-        const conteudo = event.target.result;
 
-        // salva no bolsão
-        localStorage.setItem("lapidar_texto", conteudo);
+<script>
 
-        // mostra na tela
-        document.getElementById("previewTexto").innerText = conteudo;
 
-        document.getElementById("statusUpload").innerText = "Arquivo carregado: " + file.name;
-    };
+function limparSessaoAnterior(){
 
-    reader.readAsText(file);
-});
+localStorage.removeItem("obraAtual");
 
-// carregar automaticamente ao abrir
-
-window.onload = function(){
-  const texto = localStorage.getItem("lapidar_texto");
-  if(texto){
-    document.getElementById("previewTexto").innerText = texto;
-    document.getElementById("statusUpload").innerText = "Obra já carregada";
-  }
 }
 
-// limpar obra
 
-function limparObra(){
-  localStorage.removeItem("lapidar_texto");
-  document.getElementById("previewTexto").innerText = "";
-  document.getElementById("statusUpload").innerText = "Obra removida";
+
+function detectarTitulo(texto){
+
+let linhas = texto.split("\n");
+
+for(let linha of linhas){
+
+linha = linha.trim();
+
+if(linha.length > 3 && linha.length < 80 && !linha.includes(".")){
+
+return linha;
+
 }
 
-// salvar dados
-
-function salvarDados(){
-  const titulo = document.getElementById('titulo').value;
-  const autor = document.getElementById('autor').value;
-
-  localStorage.setItem("lapidar_titulo", titulo);
-  localStorage.setItem("lapidar_autor", autor);
-
-  alert("Dados salvos");
 }
 
-// navegação
+return "Título não detectado";
 
-function irModulo(pagina){
-  window.location.href = pagina;
 }
 
-</script></body>
+
+
+function detectarAutor(texto){
+
+let linhas = texto.split("\n");
+
+for(let linha of linhas){
+
+linha = linha.trim().toLowerCase();
+
+if(linha.startsWith("autor") || linha.startsWith("por")){
+
+return linha.replace("autor:", "").replace("por:", "").trim();
+
+}
+
+}
+
+return "Autor não detectado";
+
+}
+
+
+
+function detectarCapitulos(texto){
+
+let regex = /(capítulo\s\d+|capitulo\s\d+|chapter\s\d+|prólogo|prefácio)/gi;
+
+let encontrados = texto.match(regex);
+
+return encontrados ? encontrados : [];
+
+}
+
+
+
+function detectarInicioNarrativa(texto){
+
+let partes = texto.split("\n");
+
+for(let parte of partes){
+
+if(parte.length > 200){
+
+return parte.substring(0,150) + "...";
+
+}
+
+}
+
+return "Início narrativo não detectado";
+
+}
+
+
+
+function processarArquivo(){
+
+const input = document.getElementById("fileInput");
+
+if(!input.files.length){
+
+alert("Envie um arquivo primeiro.");
+
+return;
+
+}
+
+const arquivo = input.files[0];
+
+limparSessaoAnterior();
+
+const reader = new FileReader();
+
+
+reader.onload = function(e){
+
+const texto = e.target.result;
+
+const obra = {
+
+arquivoOriginal: arquivo.name,
+
+titulo: detectarTitulo(texto),
+
+autor: detectarAutor(texto),
+
+capitulos: detectarCapitulos(texto),
+
+inicioNarrativa: detectarInicioNarrativa(texto),
+
+textoExtraido: texto
+
+};
+
+
+localStorage.setItem("obraAtual", JSON.stringify(obra));
+
+document.getElementById("status").innerText =
+"Obra lida com sucesso. Redirecionando para Workspace...";
+
+
+setTimeout(() => {
+
+window.location.href = "obra_workspace.html";
+
+},1500);
+
+};
+
+
+reader.readAsText(arquivo);
+
+}
+
+
+</script>
+
+</body>
 </html>
