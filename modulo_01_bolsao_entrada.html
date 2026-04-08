@@ -34,7 +34,7 @@
     }
 
     .container{
-      max-width:1100px;
+      max-width:1180px;
       margin:0 auto;
       padding:24px 16px 40px 16px;
     }
@@ -71,9 +71,23 @@
       margin-top:12px;
     }
 
+    .resumo{
+      background:#f7fbfa;
+      border:1px solid #d8e7e5;
+      border-radius:12px;
+      padding:14px;
+      line-height:1.6;
+    }
+
     .grid-2{
       display:grid;
       grid-template-columns:1fr 1fr;
+      gap:16px;
+    }
+
+    .grid-3{
+      display:grid;
+      grid-template-columns:1fr 1fr 1fr;
       gap:16px;
     }
 
@@ -90,6 +104,8 @@
     }
 
     .campo input[type="text"],
+    .campo input[type="email"],
+    .campo input[type="month"],
     .campo textarea,
     .campo select{
       width:100%;
@@ -171,12 +187,30 @@
       background:#dbcdb7;
     }
 
-    .resumo{
-      background:#f7fbfa;
-      border:1px solid #d8e7e5;
+    .pill{
+      display:inline-block;
+      padding:6px 10px;
+      background:#eef3f8;
+      border:1px solid #d8e0ea;
+      border-radius:999px;
+      font-size:12px;
+      margin-right:6px;
+      margin-top:6px;
+    }
+
+    .identificador-box{
+      background:#f9f6f1;
+      border:1px solid #eadfce;
       border-radius:12px;
-      padding:14px;
-      line-height:1.6;
+      padding:16px;
+      font-family:monospace;
+      font-size:18px;
+      word-break:break-all;
+      color:#4e372a;
+    }
+
+    .hidden{
+      display:none;
     }
 
     .rodape{
@@ -186,12 +220,8 @@
       margin-top:10px;
     }
 
-    .hidden{
-      display:none;
-    }
-
-    @media (max-width:900px){
-      .grid-2{
+    @media (max-width:980px){
+      .grid-2,.grid-3{
         grid-template-columns:1fr;
       }
     }
@@ -201,7 +231,7 @@
 
   <div class="topo">
     <h1>Entrada do Bolsão Editorial</h1>
-    <p>Primeira etapa do Lapidar — simples, guiada e sem complicação.</p>
+    <p>Primeira etapa do Lapidar — organização técnica antes da leitura e limpeza.</p>
   </div>
 
   <div class="container">
@@ -209,13 +239,13 @@
     <div class="card">
       <h2>Antes de começar</h2>
       <div class="aviso">
-        Antes de qualquer leitura estrutural, prepare um rascunho-base contendo apenas:
+        Antes da leitura estrutural, envie de preferência um rascunho-base contendo apenas:
         <br>• título da obra
         <br>• subtítulo, se houver
         <br>• nome do autor
         <br><br>
         Evite misturar nesse primeiro arquivo:
-        prefácio, dedicatória, ficha catalográfica, sinopse, observações técnicas, recados para IA, lembretes de construção e quinquilharia editorial.
+        prefácio, dedicatória, sinopse, ficha catalográfica, comentários de IA, recados de construção, instruções técnicas e quinquilharia editorial.
       </div>
     </div>
 
@@ -227,15 +257,15 @@
           <strong>Quero subir minha obra</strong>
           <div class="linha-check">
             <input type="radio" name="modo_obra" id="modo_upload" checked onchange="alternarModoObra()">
-            <label for="modo_upload">Já tenho um arquivo inicial e quero fazer upload.</label>
+            <label for="modo_upload">Já tenho um arquivo inicial e vou enviar agora.</label>
           </div>
         </div>
 
         <div class="opcao">
-          <strong>Quero criar minha obra do zero</strong>
+          <strong>Quero criar a base da obra aqui</strong>
           <div class="linha-check">
             <input type="radio" name="modo_obra" id="modo_criar" onchange="alternarModoObra()">
-            <label for="modo_criar">Ainda não tenho arquivo e quero montar a estrutura inicial aqui.</label>
+            <label for="modo_criar">Ainda não tenho arquivo e quero montar a estrutura inicial agora.</label>
           </div>
         </div>
       </div>
@@ -243,14 +273,25 @@
 
     <div class="card" id="blocoUploadObra">
       <h2>Upload do rascunho-base</h2>
-      <div class="campo">
-        <label for="arquivoObra">Enviar arquivo inicial da obra</label>
-        <input type="file" id="arquivoObra" accept=".docx,.txt,.doc,.pdf">
+
+      <div class="grid-2">
+        <div class="campo">
+          <label for="arquivoObra">Arquivo principal da obra</label>
+          <input type="file" id="arquivoObra" accept=".docx,.txt,.doc,.pdf">
+        </div>
+
+        <div class="campo">
+          <label for="idiomaObra">Idioma principal da edição</label>
+          <select id="idiomaObra" onchange="atualizarIdentificador()">
+            <option value="pt-BR" selected>Português / edição lusófona</option>
+            <option value="en-US">Inglês / edição internacional</option>
+          </select>
+        </div>
       </div>
 
       <div class="campo">
         <label for="observacaoUpload">Observação opcional</label>
-        <textarea id="observacaoUpload" placeholder="Escreva aqui apenas se quiser deixar alguma observação rápida sobre esse envio."></textarea>
+        <textarea id="observacaoUpload" placeholder="Escreva algo apenas se quiser deixar observação rápida sobre esse envio."></textarea>
       </div>
     </div>
 
@@ -260,17 +301,17 @@
       <div class="grid-2">
         <div class="campo">
           <label for="tituloBase">Título da obra</label>
-          <input type="text" id="tituloBase" placeholder="Digite o título principal">
+          <input type="text" id="tituloBase" placeholder="Digite o título principal" oninput="atualizarResumo()">
         </div>
 
         <div class="campo">
           <label for="subtituloBase">Subtítulo</label>
-          <input type="text" id="subtituloBase" placeholder="Digite o subtítulo, se houver">
+          <input type="text" id="subtituloBase" placeholder="Digite o subtítulo, se houver" oninput="atualizarResumo()">
         </div>
 
         <div class="campo">
           <label for="autorBase">Autor</label>
-          <input type="text" id="autorBase" placeholder="Digite o nome do autor">
+          <input type="text" id="autorBase" placeholder="Digite o nome do autor" oninput="atualizarResumo()">
         </div>
 
         <div class="campo">
@@ -284,6 +325,7 @@
             <option>Antologia</option>
             <option>Coletânea</option>
             <option>Livro institucional</option>
+            <option>Livro de turma</option>
             <option>Infantil</option>
             <option>Outro</option>
           </select>
@@ -292,55 +334,75 @@
     </div>
 
     <div class="card">
-      <h2>Estrutura editorial principal</h2>
+      <h2>Estrutura editorial mestre da obra</h2>
 
-      <div class="grid-2">
+      <div class="grid-3">
         <div class="campo">
           <label for="colecao">Coleção</label>
-          <input type="text" id="colecao" placeholder="Opcional">
+          <input type="text" id="colecao" placeholder="Opcional" oninput="atualizarResumo()">
         </div>
 
         <div class="campo">
           <label for="serie">Série / Saga / Trilogia / Quadrilogia / Ciclo</label>
-          <input type="text" id="serie" placeholder="Opcional">
+          <input type="text" id="serie" placeholder="Opcional" oninput="atualizarResumo()">
         </div>
 
         <div class="campo">
           <label for="volume">Volume / Livro</label>
-          <input type="text" id="volume" placeholder="Ex.: Livro 1, Volume II">
+          <input type="text" id="volume" placeholder="Ex.: Livro 2, Volume I" oninput="atualizarResumo()">
+        </div>
+
+        <div class="campo">
+          <label for="tituloManual">Título principal</label>
+          <input type="text" id="tituloManual" placeholder="Preencha se quiser já fixar o título" oninput="atualizarResumo()">
+        </div>
+
+        <div class="campo">
+          <label for="subtituloManual">Subtítulo</label>
+          <input type="text" id="subtituloManual" placeholder="Opcional" oninput="atualizarResumo()">
+        </div>
+
+        <div class="campo">
+          <label for="autoresManual">Autor ou autores</label>
+          <input type="text" id="autoresManual" placeholder="Preencha se quiser já fixar autor(es)" oninput="atualizarResumo()">
         </div>
 
         <div class="campo">
           <label for="organizacao">Organização</label>
-          <input type="text" id="organizacao" placeholder="Opcional">
+          <input type="text" id="organizacao" placeholder="Opcional" oninput="atualizarResumo()">
         </div>
 
         <div class="campo">
           <label for="direcao">Direção editorial</label>
-          <input type="text" id="direcao" placeholder="Opcional">
+          <input type="text" id="direcao" placeholder="Opcional" oninput="atualizarResumo()">
         </div>
 
         <div class="campo">
           <label for="editora">Editora / selo editorial</label>
-          <input type="text" id="editora" placeholder="Opcional">
+          <input type="text" id="editora" placeholder="Opcional" oninput="atualizarResumo()">
         </div>
 
         <div class="campo">
-          <label for="biografia">Biografia do autor</label>
-          <input type="file" id="biografia" accept=".docx,.txt,.pdf">
+          <label for="prefaciadorManual">Prefaciador</label>
+          <input type="text" id="prefaciadorManual" placeholder="Opcional" oninput="atualizarResumo()">
         </div>
 
         <div class="campo">
-          <label for="bibliografia">Bibliografia</label>
-          <input type="file" id="bibliografia" accept=".docx,.txt,.pdf">
+          <label for="apresentadorManual">Apresentador</label>
+          <input type="text" id="apresentadorManual" placeholder="Opcional" oninput="atualizarResumo()">
+        </div>
+
+        <div class="campo">
+          <label for="cutterManual">Tabela Cutter</label>
+          <input type="text" id="cutterManual" placeholder="Ex.: A793" oninput="atualizarIdentificador()">
         </div>
       </div>
     </div>
 
     <div class="card">
-      <h2>Elementos pré-textuais</h2>
+      <h2>Elementos pré-textuais e arquivos técnicos</h2>
 
-      <div class="grid-2">
+      <div class="grid-3">
         <div class="campo">
           <label for="sinopse">Upload da sinopse</label>
           <input type="file" id="sinopse" accept=".docx,.txt,.pdf">
@@ -360,6 +422,16 @@
           <label for="fichaCatalografica">Upload da ficha catalográfica</label>
           <input type="file" id="fichaCatalografica" accept=".pdf,.jpg,.jpeg,.png,.docx,.txt">
         </div>
+
+        <div class="campo">
+          <label for="biografia">Upload da biografia do autor</label>
+          <input type="file" id="biografia" accept=".docx,.txt,.pdf">
+        </div>
+
+        <div class="campo">
+          <label for="bibliografia">Upload da bibliografia</label>
+          <input type="file" id="bibliografia" accept=".docx,.txt,.pdf">
+        </div>
       </div>
 
       <div class="aviso">
@@ -378,6 +450,7 @@
 
       <div class="campo">
         <label>Deseja imagens internas no livro?</label>
+
         <div class="opcoes">
           <div class="opcao">
             <div class="linha-check">
@@ -461,14 +534,57 @@
     </div>
 
     <div class="card">
+      <h2>Identificação institucional da obra</h2>
+
+      <div class="grid-3">
+        <div class="campo">
+          <label for="mesRef">Mês de referência</label>
+          <input type="month" id="mesRef" oninput="atualizarIdentificador()">
+        </div>
+
+        <div class="campo">
+          <label for="perfilEdicao">Tipo de operação</label>
+          <select id="perfilEdicao" onchange="atualizarResumo()">
+            <option value="cpf" selected>CPF</option>
+            <option value="cnpj">CNPJ</option>
+          </select>
+        </div>
+
+        <div class="campo">
+          <label for="isbnInformado">ISBN informado (se houver)</label>
+          <input type="text" id="isbnInformado" placeholder="Opcional">
+        </div>
+      </div>
+
+      <div class="campo">
+        <label>Prévia do identificador institucional</label>
+        <div class="identificador-box" id="identificadorPreview">
+          2026-04-SLELS&C-CEL-LPD-XXXX
+        </div>
+      </div>
+
+      <div class="aviso">
+        Português / edição lusófona:
+        <span class="pill">SLELS&C</span>
+        <br>
+        Inglês / edição internacional:
+        <span class="pill">HOLLA&CE</span>
+        <br><br>
+        Formato:
+        ANO-MÊS-SIGLA-CEL-LPD-CUTTER
+      </div>
+    </div>
+
+    <div class="card">
       <h2>Limpeza editorial automática</h2>
+
       <div class="resumo">
         O Bolsão remove automaticamente:
         <br>• notas de construção
         <br>• comentários de IA
         <br>• placeholders
-        <br>• instruções técnicas
-        <br>• recados internos de escrita
+        <br>• recados técnicos
+        <br>• instruções provisórias
         <br>• quinquilharia editorial que não pertence ao leitor
       </div>
 
@@ -480,7 +596,7 @@
       </div>
 
       <div class="aviso">
-        Texto institucional padrão:
+        Texto padrão:
         <br><br>
         Esta obra contou com o apoio da ferramenta Lapidar — trabalhando ao lado do autor, desde a primeira letra até o último ponto final.
       </div>
@@ -488,13 +604,9 @@
 
     <div class="card">
       <h2>Resumo antes de seguir</h2>
-      <div class="resumo">
-        Depois desta etapa, o Lapidar seguirá para o Cofre técnico, onde fará:
-        <br>• leitura estrutural
-        <br>• limpeza automática
-        <br>• diagnóstico editorial
-        <br>• identificação narrativa
-        <br>• preparação para capa, ficha e módulos seguintes
+
+      <div class="resumo" id="resumoDinamico">
+        O Lapidar seguirá para o Cofre técnico para fazer leitura estrutural, limpeza, diagnóstico editorial e preparação da obra.
       </div>
 
       <div class="botoes">
@@ -514,6 +626,7 @@
       const upload = document.getElementById("modo_upload").checked;
       document.getElementById("blocoUploadObra").classList.toggle("hidden", !upload);
       document.getElementById("blocoCriacaoObra").classList.toggle("hidden", upload);
+      atualizarResumo();
     }
 
     function alternarImagensInternas(){
@@ -522,12 +635,70 @@
 
       document.getElementById("blocoEnviarImagens").classList.toggle("hidden", !enviar);
       document.getElementById("blocoCriarImagens").classList.toggle("hidden", !criar);
+      atualizarResumo();
     }
 
     function nomeArquivo(id){
       const el = document.getElementById(id);
       if(!el || !el.files || !el.files.length) return "";
+      if(el.multiple){
+        return Array.from(el.files).map(f => f.name);
+      }
       return el.files[0].name;
+    }
+
+    function siglaIdioma(){
+      return document.getElementById("idiomaObra").value === "en-US" ? "HOLLA&CE" : "SLELS&C";
+    }
+
+    function atualizarIdentificador(){
+      const mesRef = document.getElementById("mesRef").value;
+      const cutter = (document.getElementById("cutterManual").value || "XXXX").trim().toUpperCase();
+      let ano = "2026";
+      let mes = "04";
+
+      if(mesRef && mesRef.includes("-")){
+        const partes = mesRef.split("-");
+        ano = partes[0] || ano;
+        mes = partes[1] || mes;
+      }
+
+      const codigo = `${ano}-${mes}-${siglaIdioma()}-CEL-LPD-${cutter || "XXXX"}`;
+      document.getElementById("identificadorPreview").innerText = codigo;
+    }
+
+    function atualizarResumo(){
+      const titulo = document.getElementById("tituloManual").value || document.getElementById("tituloBase").value || "título ainda não definido";
+      const subtitulo = document.getElementById("subtituloManual").value || document.getElementById("subtituloBase").value || "";
+      const autor = document.getElementById("autoresManual").value || document.getElementById("autorBase").value || "autor ainda não definido";
+      const serie = document.getElementById("serie").value || "";
+      const volume = document.getElementById("volume").value || "";
+      const modo = document.getElementById("modo_upload").checked ? "upload de obra" : "criação de base";
+      const voz = document.getElementById("vozSim").checked ? "sim" : document.getElementById("vozDepois").checked ? "preparo posterior" : "não";
+      const idioma = document.getElementById("idiomaObra").value === "en-US" ? "edição internacional" : "edição lusófona";
+
+      let texto = `Modo escolhido: ${modo}.<br>`;
+      texto += `Edição: ${idioma}.<br>`;
+      texto += `Título: ${titulo}.<br>`;
+
+      if(subtitulo){
+        texto += `Subtítulo: ${subtitulo}.<br>`;
+      }
+
+      texto += `Autor(es): ${autor}.<br>`;
+
+      if(serie){
+        texto += `Série / saga / trilogia: ${serie}.<br>`;
+      }
+
+      if(volume){
+        texto += `Volume: ${volume}.<br>`;
+      }
+
+      texto += `Preparação para voz: ${voz}.<br>`;
+      texto += `Identificador institucional: ${document.getElementById("identificadorPreview").innerText}.`;
+
+      document.getElementById("resumoDinamico").innerHTML = texto;
     }
 
     function salvarEntradaEBolsao(){
@@ -535,6 +706,7 @@
         modoObra: document.getElementById("modo_upload").checked ? "upload" : "criar",
         arquivoObra: nomeArquivo("arquivoObra"),
         observacaoUpload: document.getElementById("observacaoUpload").value || "",
+
         tituloBase: document.getElementById("tituloBase").value || "",
         subtituloBase: document.getElementById("subtituloBase").value || "",
         autorBase: document.getElementById("autorBase").value || "",
@@ -543,9 +715,21 @@
         colecao: document.getElementById("colecao").value || "",
         serie: document.getElementById("serie").value || "",
         volume: document.getElementById("volume").value || "",
+        tituloManual: document.getElementById("tituloManual").value || "",
+        subtituloManual: document.getElementById("subtituloManual").value || "",
+        autoresManual: document.getElementById("autoresManual").value || "",
         organizacao: document.getElementById("organizacao").value || "",
         direcao: document.getElementById("direcao").value || "",
         editora: document.getElementById("editora").value || "",
+        prefaciadorManual: document.getElementById("prefaciadorManual").value || "",
+        apresentadorManual: document.getElementById("apresentadorManual").value || "",
+
+        cutterManual: document.getElementById("cutterManual").value || "",
+        idiomaObra: document.getElementById("idiomaObra").value || "pt-BR",
+        mesRef: document.getElementById("mesRef").value || "",
+        perfilEdicao: document.getElementById("perfilEdicao").value || "cpf",
+        isbnInformado: document.getElementById("isbnInformado").value || "",
+        identificadorPreview: document.getElementById("identificadorPreview").innerText || "",
 
         biografiaArquivo: nomeArquivo("biografia"),
         bibliografiaArquivo: nomeArquivo("bibliografia"),
@@ -558,9 +742,9 @@
           document.getElementById("imgNao").checked ? "nao" :
           document.getElementById("imgSimEnviar").checked ? "enviar" : "criar",
 
-        uploadImagensInternas: document.getElementById("uploadImagensInternas").files.length,
+        uploadImagensInternas: nomeArquivo("uploadImagensInternas"),
         tipoImagemCriada: document.getElementById("tipoImagemCriada").value || "",
-        imagensCapa: document.getElementById("imagensCapa").files.length,
+        imagensCapa: nomeArquivo("imagensCapa"),
 
         voz:
           document.getElementById("vozNao").checked ? "nao" :
@@ -574,8 +758,11 @@
       location.href = "modulo01_bolsao_mapa.html";
     }
 
+    document.getElementById("mesRef").value = "2026-04";
     alternarModoObra();
     alternarImagensInternas();
+    atualizarIdentificador();
+    atualizarResumo();
   </script>
 
 </body>
