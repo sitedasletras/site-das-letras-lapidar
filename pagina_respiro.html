@@ -266,8 +266,7 @@
       </div>
 
       <div class="status">
-        O sistema está usando esta página como área de respiro e preparação da sessão.
-        Mesmo após a confirmação, ela permanece por alguns segundos para dar tempo de estabilizar permissões, rotas e ambiente do perfil.
+        O sistema está usando esta página como área de respiro e preparação da sessão. Mesmo após a confirmação, ela permanece por alguns segundos para dar tempo de estabilizar permissões, rotas e ambiente do perfil.
         <br><br>
         Tempo estimado para continuidade automática:
         <span class="contador" id="contador">5</span> segundo(s).
@@ -300,7 +299,21 @@
       return "Utilizador";
     }
 
+    function validarSessao(){
+      const sessaoAtiva = localStorage.getItem("sessaoLapidarAtiva");
+      const usuario = localStorage.getItem("usuarioLogado");
+
+      if(sessaoAtiva !== "true" || !usuario){
+        window.location.href = "login.html";
+        return false;
+      }
+
+      return true;
+    }
+
     function carregarSessao(){
+      if(!validarSessao()) return;
+
       const usuario = localStorage.getItem("usuarioLogado") || "Não identificado";
       const perfil = localStorage.getItem("perfilAtivo") || "usuario";
 
@@ -313,6 +326,7 @@
     }
 
     function confirmarEContinuar(){
+      if(!validarSessao()) return;
       if(redirecionamentoAtivo) return;
 
       redirecionamentoAtivo = true;
@@ -335,6 +349,8 @@
 
     function voltarLogin(){
       localStorage.removeItem("sessaoLapidarAtiva");
+      localStorage.removeItem("usuarioLogado");
+      localStorage.removeItem("perfilAtivo");
       window.location.href = "login.html";
     }
 
