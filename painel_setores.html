@@ -12,7 +12,7 @@
     body{
       margin:0;
       font-family:Arial, sans-serif;
-      background:#f4efe6;
+      background:#f7f4ec;
       color:#2f2a24;
     }
 
@@ -34,8 +34,9 @@
 
     .topo .sub{
       font-size:14px;
-      opacity:0.9;
+      opacity:0.92;
       margin-top:4px;
+      line-height:1.4;
     }
 
     .topo .acoes{
@@ -45,7 +46,7 @@
     }
 
     .container{
-      max-width:1280px;
+      max-width:1320px;
       margin:24px auto;
       padding:0 16px 32px;
     }
@@ -56,6 +57,7 @@
       padding:18px;
       box-shadow:0 4px 14px rgba(0,0,0,0.08);
       margin-bottom:18px;
+      border:1px solid #ece2d3;
     }
 
     .card h2{
@@ -103,7 +105,7 @@
       display:flex;
       flex-direction:column;
       justify-content:space-between;
-      min-height:220px;
+      min-height:235px;
     }
 
     .setor h3{
@@ -179,6 +181,12 @@
     .verde h3{ color:#15803d; }
     .roxo h3{ color:#7c3aed; }
     .vermelho h3{ color:#be123c; }
+    .cinza h3{ color:#374151; }
+    .vinho h3{ color:#8b1e3f; }
+
+    .oculto{
+      display:none !important;
+    }
 
     @media (max-width: 1050px){
       .grid{
@@ -209,13 +217,16 @@
   <div class="container">
 
     <div class="card">
-      <h2>Resumo do fluxo oficial</h2>
+      <h2>Resumo do ambiente ativo</h2>
 
       <div class="linha">
-        <span class="rotulo">Espinha dorsal congelada</span>
-        <div class="valor">
-          Login → Painel de Setores → Cofre Editorial do Autor → Workspace da Obra → Executor de Módulos → Mesário → Auditoria → Exportação
-        </div>
+        <span class="rotulo">Usuário logado</span>
+        <div class="valor" id="usuarioAtivo">Carregando...</div>
+      </div>
+
+      <div class="linha">
+        <span class="rotulo">Perfil ativo</span>
+        <div class="valor" id="perfilAtivo">Carregando...</div>
       </div>
 
       <div class="linha">
@@ -223,20 +234,19 @@
         <div class="valor" id="resumoObraAtiva">Nenhuma obra carregada no momento.</div>
       </div>
 
-      <div class="aviso">
-        Este é o painel oficial da espinha dorsal do Lapidar. A partir daqui o sistema deve seguir apenas o fluxo congelado.
+      <div class="aviso" id="avisoPerfil">
+        O painel está sendo ajustado conforme o perfil ativo.
       </div>
     </div>
 
     <div class="grid">
 
-      <div class="setor marrom">
+      <div class="setor marrom" id="setorCofre">
         <div>
           <span class="tag">Entrada oficial</span>
           <h3>Cofre Editorial do Autor</h3>
           <p>
-            Ponto de entrada da obra. Aqui o Lapidar lê o manuscrito, identifica estrutura,
-            detecta lacunas editoriais, registra imagens e preserva vozes do autor.
+            Ponto de entrada da obra. Aqui o Lapidar lê o manuscrito, identifica estrutura, detecta lacunas editoriais, registra imagens e preserva vozes do autor.
           </p>
         </div>
         <div class="acoes">
@@ -244,13 +254,12 @@
         </div>
       </div>
 
-      <div class="setor azul">
+      <div class="setor azul" id="setorWorkspace">
         <div>
           <span class="tag">Confirmação da leitura</span>
           <h3>Workspace da Obra</h3>
           <p>
-            Mostra ao autor o que o Cofre leu: título, autor, capítulos, personagens,
-            clima, gênero e lacunas identificadas.
+            Mostra ao autor o que o Cofre leu: título, autor, capítulos, personagens, clima, gênero e lacunas identificadas.
           </p>
         </div>
         <div class="acoes">
@@ -258,13 +267,12 @@
         </div>
       </div>
 
-      <div class="setor dourado">
+      <div class="setor dourado" id="setorExecutor">
         <div>
           <span class="tag">Ação editorial</span>
           <h3>Executor de Módulos</h3>
           <p>
-            Tronco operacional do Lapidar. É aqui que a obra passa por Diagramação,
-            OKapista, Avaliação, Lapidação, Silo Sonoro e integrações.
+            Tronco operacional do Lapidar. É aqui que a obra passa por Diagramação, OKapista, Avaliação, Lapidação, Silo Sonoro e integrações.
           </p>
         </div>
         <div class="acoes">
@@ -272,13 +280,12 @@
         </div>
       </div>
 
-      <div class="setor verde">
+      <div class="setor verde" id="setorMesario">
         <div>
           <span class="tag">Decisão consciente</span>
           <h3>Mesário Oficial</h3>
           <p>
-            Mesa de decisão do autor. Consolida a seção atual, registra confirmações
-            e formaliza a passagem da obra para auditoria.
+            Mesa de decisão do autor. Consolida a seção atual, registra confirmações e formaliza a passagem da obra para a próxima etapa.
           </p>
         </div>
         <div class="acoes">
@@ -286,13 +293,25 @@
         </div>
       </div>
 
-      <div class="setor roxo">
+      <div class="setor cinza" id="setorExpedicao">
+        <div>
+          <span class="tag">Saída editorial</span>
+          <h3>Expedição / Exportação</h3>
+          <p>
+            Fecha a jornada institucional da obra, gera os primeiros artefatos formais e permite iniciar um novo ciclo.
+          </p>
+        </div>
+        <div class="acoes">
+          <button class="btn-primario" onclick="irParaExportacao()">Abrir Expedição</button>
+        </div>
+      </div>
+
+      <div class="setor roxo" id="setorAuditoria">
         <div>
           <span class="tag">Rastro institucional</span>
           <h3>Auditoria</h3>
           <p>
-            Registra a trilha oficial da obra, o LapidarClock, observações técnicas
-            e o histórico do caminho percorrido.
+            Registra a trilha oficial da obra, o LapidarClock, observações técnicas e o histórico institucional do fluxo.
           </p>
         </div>
         <div class="acoes">
@@ -300,17 +319,42 @@
         </div>
       </div>
 
-      <div class="setor vermelho">
+      <div class="setor vinho" id="setorCortesias">
         <div>
-          <span class="tag">Fechamento do ciclo</span>
-          <h3>Exportação</h3>
+          <span class="tag">Liberações especiais</span>
+          <h3>Cortesias</h3>
           <p>
-            Fecha a jornada institucional da obra, marca status exportada e gera
-            os primeiros artefatos formais de continuidade.
+            Área reservada para liberações de cortesia e decisões especiais permitidas aos perfis institucionais autorizados.
           </p>
         </div>
         <div class="acoes">
-          <button class="btn-primario" onclick="irParaExportacao()">Abrir Exportação</button>
+          <button class="btn-primario" onclick="abrirPlaceholder('Cortesias')">Abrir Cortesias</button>
+        </div>
+      </div>
+
+      <div class="setor vermelho" id="setorJoiaRara">
+        <div>
+          <span class="tag">Área especial</span>
+          <h3>Joia Rara</h3>
+          <p>
+            Espaço especial reservado aos perfis autorizados para materiais e decisões de valor excepcional dentro do sistema.
+          </p>
+        </div>
+        <div class="acoes">
+          <button class="btn-primario" onclick="abrirPlaceholder('Joia Rara')">Abrir Joia Rara</button>
+        </div>
+      </div>
+
+      <div class="setor cinza" id="setorAdministracao">
+        <div>
+          <span class="tag">Controle total</span>
+          <h3>Administração</h3>
+          <p>
+            Área de administração completa do sistema, com acesso reservado exclusivamente ao perfil Admin.
+          </p>
+        </div>
+        <div class="acoes">
+          <button class="btn-primario" onclick="abrirPlaceholder('Administração')">Abrir Administração</button>
         </div>
       </div>
 
@@ -332,6 +376,16 @@
       }
     }
 
+    function obterPerfil(){
+      return localStorage.getItem("perfilAtivo") || "usuario";
+    }
+
+    function obterPerfilLabel(perfil){
+      if(perfil === "admin") return "Admin";
+      if(perfil === "heteronimo") return "Heterônimo";
+      return "Utilizador";
+    }
+
     function preencherResumoObra(){
       const obra = obterObraAtual();
       const alvo = document.getElementById("resumoObraAtiva");
@@ -346,6 +400,52 @@
       const tipo = obra?.tipo || "Tipo não identificado";
 
       alvo.innerText = `${titulo} — ${autor} — ${tipo}`;
+    }
+
+    function preencherUsuarioEPerfil(){
+      const usuario = localStorage.getItem("usuarioLogado") || "Não identificado";
+      const perfil = obterPerfil();
+
+      document.getElementById("usuarioAtivo").innerText = usuario;
+      document.getElementById("perfilAtivo").innerText = obterPerfilLabel(perfil);
+    }
+
+    function aplicarPermissoes(){
+      const perfil = obterPerfil();
+
+      const setorAuditoria = document.getElementById("setorAuditoria");
+      const setorCortesias = document.getElementById("setorCortesias");
+      const setorJoiaRara = document.getElementById("setorJoiaRara");
+      const setorAdministracao = document.getElementById("setorAdministracao");
+      const aviso = document.getElementById("avisoPerfil");
+
+      setorAuditoria.classList.remove("oculto");
+      setorCortesias.classList.remove("oculto");
+      setorJoiaRara.classList.remove("oculto");
+      setorAdministracao.classList.remove("oculto");
+
+      if(perfil === "usuario"){
+        setorAuditoria.classList.add("oculto");
+        setorCortesias.classList.add("oculto");
+        setorJoiaRara.classList.add("oculto");
+        setorAdministracao.classList.add("oculto");
+
+        aviso.innerText = "Perfil Utilizador ativo: acesso liberado somente ao fluxo da obra, do Cofre até a Expedição.";
+        return;
+      }
+
+      if(perfil === "heteronimo"){
+        setorAuditoria.classList.add("oculto");
+        setorAdministracao.classList.add("oculto");
+
+        aviso.innerText = "Perfil Heterônimo ativo: acesso à produção, Cortesias e Joia Rara. Auditoria e Administração permanecem bloqueadas.";
+        return;
+      }
+
+      if(perfil === "admin"){
+        aviso.innerText = "Perfil Admin ativo: acesso total ao ecossistema operacional do Lapidar.";
+        return;
+      }
     }
 
     function irParaCofre(){
@@ -372,11 +472,20 @@
       window.location.href = "exportar.html";
     }
 
+    function abrirPlaceholder(nome){
+      alert(nome + " ainda será consolidado dentro da espinha dorsal correspondente.");
+    }
+
     function sairSistema(){
+      localStorage.removeItem("sessaoLapidarAtiva");
+      localStorage.removeItem("usuarioLogado");
+      localStorage.removeItem("perfilAtivo");
       window.location.href = "login.html";
     }
 
+    preencherUsuarioEPerfil();
     preencherResumoObra();
+    aplicarPermissoes();
   </script>
 
 </body>
