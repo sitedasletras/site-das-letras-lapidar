@@ -75,31 +75,66 @@ background:#256f2b;
 function login(){
 
 let usuario=document.getElementById("usuario").value.trim().toLowerCase()
-let senha=document.getElementById("senha").value.trim()
 
-if(usuario=="" || senha==""){
+if(usuario===""){
 
-alert("Preencha usuário e senha")
+alert("Informe o usuário")
 return
 
 }
 
 
 /*
-DEFINE PERFIL AUTOMÁTICO
-ajuste depois se quiser
+MAPA OFICIAL DE PERFIS DO LAPIDAR
+AJUSTE AQUI APENAS SE PRECISAR
 */
 
-let perfil="cortesia"
+const mapaPerfis = {
 
-if(usuario=="admin") perfil="admin"
-if(usuario=="producao") perfil="producao"
-if(usuario=="veterano") perfil="veterano"
-if(usuario=="heteronimo") perfil="heteronimo"
+admin:"admin",
+
+sigmal:"admin",
+
+siteletras:"admin",
+
+diagramador:"producao",
+
+capista:"producao",
+
+avaliador:"producao",
+
+tradutor:"producao",
+
+producao:"producao",
+
+heteronimo:"heteronimo",
+
+heterônimo:"heteronimo",
+
+autor:"cortesia",
+
+cortesia:"cortesia"
+
+}
 
 
 /*
-GRAVA SESSÃO CORRETA DO LAPIDAR
+DETECTA PERFIL
+*/
+
+let perfil = mapaPerfis[usuario]
+
+
+if(!perfil){
+
+alert("Usuário não reconhecido.\nCadastre no login.html")
+return
+
+}
+
+
+/*
+GRAVA SESSÃO
 */
 
 localStorage.setItem("lapidar_sessao_ativa","true")
@@ -108,7 +143,7 @@ localStorage.setItem("lapidar_perfil",perfil)
 
 
 /*
-REDIRECIONA PARA A ENTRADA OFICIAL
+ENVIA PARA ENTRADA OFICIAL
 */
 
 window.location.href="/index.html"
