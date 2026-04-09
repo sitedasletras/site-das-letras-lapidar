@@ -1,8 +1,9 @@
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Mesário da Obra — Lapidar</title>
 
 <style>
@@ -13,212 +14,187 @@ font-family:Arial;
 background:#efe8dc;
 }
 
-.topo{
-background:#7b5e57;
+header{
+background:#3c4f6b;
 color:white;
 padding:18px;
 text-align:center;
-font-size:22px;
+font-size:26px;
+font-weight:bold;
 }
 
 .container{
-max-width:1000px;
+max-width:900px;
 margin:auto;
-padding:20px;
-}
-
-.card{
 background:white;
-border-radius:14px;
-padding:18px;
-margin-bottom:16px;
-box-shadow:0 3px 8px rgba(0,0,0,.08);
+padding:30px;
+margin-top:30px;
+border-radius:12px;
+box-shadow:0 0 12px rgba(0,0,0,.15);
 }
 
-.modulo{
-margin:10px 0;
-padding:12px;
-border-radius:10px;
-background:#f5f5f5;
+h2{
+margin-top:0;
+color:#3c4f6b;
+}
+
+.linha{
 display:flex;
 justify-content:space-between;
-align-items:center;
+padding:12px;
+border-bottom:1px solid #ddd;
+font-size:18px;
 }
 
-.status{
-padding:4px 10px;
-border-radius:8px;
-font-size:14px;
+.total{
+font-weight:bold;
+font-size:22px;
+margin-top:20px;
+text-align:right;
 }
 
-.ok{
-background:#d4edda;
-color:#155724;
+.botao{
+margin-top:30px;
+width:100%;
+padding:18px;
+border:none;
+border-radius:10px;
+font-size:18px;
+font-weight:bold;
+cursor:pointer;
 }
 
-.pendente{
-background:#ffe5b4;
-color:#7a4f00;
+.voltar{
+background:#888;
+color:white;
 }
 
-.opcional{
-background:#d6e4ff;
-color:#1a3b7a;
+.voltar:hover{
+background:#666;
 }
 
 </style>
 </head>
 
-
 <body>
 
-
-<div class="topo">
-
+<header>
 Mesário da Obra — Lapidar
-
-</div>
-
+</header>
 
 <div class="container">
 
+<h2>Resumo das contribuições editoriais</h2>
 
-<div class="card">
-
-<h3>Seções e módulos envolvidos</h3>
-
-
-<div class="modulo">
-
-Módulo 01 — Bolsão
-
-<span class="status ok">
-
-Leitura e limpeza concluídas
-
-</span>
-
+<div class="linha">
+<span>Assistente de Diagramação</span>
+<span id="valorDiagramacao">0</span>
 </div>
 
-
-
-<div class="modulo">
-
-Módulo 03 — OKapista
-
-<span id="status_okapista" class="status pendente">
-
-Falta definição visual
-
-</span>
-
+<div class="linha">
+<span>OKapista</span>
+<span id="valorCapista">0</span>
 </div>
 
-
-
-<div class="modulo">
-
-Módulo 05 — Segunda Língua(s)
-
-<span class="status opcional">
-
-Tradução opcional
-
-</span>
-
+<div class="linha">
+<span>Segunda Língua(s)</span>
+<span id="valorTraducao">0</span>
 </div>
 
-
-
-<div class="modulo">
-
-Módulo 07 — Avaliação Literária
-
-<span class="status ok">
-
-Pode seguir para avaliação
-
-</span>
-
+<div class="linha">
+<span>Avaliação Literária</span>
+<span id="valorAvaliacao">0</span>
 </div>
 
-
-
-<div class="modulo">
-
-Módulo 11 — Analisador
-
-<span class="status ok">
-
-Leitura estrutural consolidada
-
-</span>
-
+<div class="linha">
+<span>Lapidação Literária</span>
+<span id="valorHumanizacao">0</span>
 </div>
 
-
-
-<div class="modulo">
-
-Módulo 13 — Lapidação
-
-<span class="status ok">
-
-Pode seguir para lapidação
-
-</span>
-
+<div class="linha">
+<span>Silo Sonoro</span>
+<span id="valorAudio">0</span>
 </div>
 
-
-
-<div class="modulo">
-
-Módulo 17 — Silo Sonoro
-
-<span class="status opcional">
-
-Silo Sonoro opcional
-
-</span>
-
+<div class="linha">
+<span>Módulo Cinematológico</span>
+<span id="valorCinema">0</span>
 </div>
 
-
+<div class="total">
+Total acumulado: R$ <span id="valorTotal">0</span>
 </div>
 
+<button class="botao voltar" onclick="voltarWorkspace()">
+Retornar ao Workspace da Obra
+</button>
 
 </div>
-
-
 
 <script>
 
+function numero(valor){
+if(!valor) return 0;
+return Number(valor);
+}
 
-function verificarStatusOKapista(){
+function carregarValores(){
 
-const okapista = localStorage.getItem("okapista_concluido")
+const diagramacao =
+numero(localStorage.getItem("mesario_diagramacao_valor"));
 
-if(okapista === "sim"){
+const capista =
+numero(localStorage.getItem("mesario_capista_valor"));
 
-const campo = document.getElementById("status_okapista")
+const traducao =
+numero(localStorage.getItem("mesario_segunda_lingua_valor"));
 
-campo.innerText = "Definição visual concluída"
+const avaliacao =
+numero(localStorage.getItem("mesario_avaliacao_valor"));
 
-campo.classList.remove("pendente")
+const humanizacao =
+numero(localStorage.getItem("mesario_humanizacao_valor"));
 
-campo.classList.add("ok")
+const audio =
+numero(localStorage.getItem("mesario_audio_valor"));
+
+const cinema =
+numero(localStorage.getItem("mesario_cinema_valor"));
+
+document.getElementById("valorDiagramacao").innerText = diagramacao;
+
+document.getElementById("valorCapista").innerText = capista;
+
+document.getElementById("valorTraducao").innerText = traducao;
+
+document.getElementById("valorAvaliacao").innerText = avaliacao;
+
+document.getElementById("valorHumanizacao").innerText = humanizacao;
+
+document.getElementById("valorAudio").innerText = audio;
+
+document.getElementById("valorCinema").innerText = cinema;
+
+const total =
+diagramacao +
+capista +
+traducao +
+avaliacao +
+humanizacao +
+audio +
+cinema;
+
+document.getElementById("valorTotal").innerText = total;
 
 }
 
+function voltarWorkspace(){
+location.href="obra_workspace.html";
 }
 
-
-verificarStatusOKapista()
-
+carregarValores();
 
 </script>
-
 
 </body>
 </html>
