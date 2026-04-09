@@ -2,19 +2,20 @@
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lapidar — Segunda Língua(s)</title>
 
 <style>
-
 body{
-font-family:Arial, sans-serif;
-background:#f5f5f5;
+font-family:Arial,sans-serif;
+background:#f1f5fb;
 margin:0;
 padding:0;
+color:#1f2d3d;
 }
 
 header{
-background:#1b4f72;
+background:#355f93;
 color:white;
 padding:18px;
 text-align:center;
@@ -23,81 +24,119 @@ font-weight:bold;
 }
 
 .container{
-max-width:900px;
+max-width:960px;
 margin:auto;
 background:white;
-padding:40px;
-margin-top:30px;
-border-radius:10px;
-box-shadow:0px 0px 12px rgba(0,0,0,0.15);
+padding:36px;
+margin-top:28px;
+border-radius:14px;
+box-shadow:0 0 14px rgba(0,0,0,.12);
 }
 
 h2{
 text-align:center;
-margin-bottom:25px;
+margin-bottom:24px;
+color:#355f93;
 }
 
 .modulo{
-border:2px solid #ddd;
-border-radius:10px;
-padding:25px;
-margin-bottom:20px;
-transition:0.3s;
+border:2px solid #d8e0ea;
+border-radius:12px;
+padding:24px;
+margin-bottom:18px;
+transition:.3s;
+background:#fbfdff;
+cursor:pointer;
 }
 
 .modulo:hover{
-border-color:#1b4f72;
+border-color:#355f93;
+background:#f4f8fc;
+}
+
+.modulo.selecionado{
+border-color:#355f93;
+background:#eaf1fb;
 }
 
 .titulo{
 font-size:22px;
 font-weight:bold;
 margin-bottom:10px;
+color:#24476f;
 }
 
 .descricao{
-margin-bottom:10px;
+margin-bottom:12px;
+line-height:1.6;
 }
 
 .valor{
 font-weight:bold;
 font-size:18px;
-color:#1b4f72;
+color:#355f93;
 margin-bottom:10px;
 }
 
 .obs{
 font-size:14px;
 color:#555;
+line-height:1.6;
+}
+
+.linha-resumo{
+background:#f4f8fc;
+border:1px solid #d8e0ea;
+border-radius:10px;
+padding:16px;
+margin-top:26px;
+line-height:1.7;
+}
+
+.botoes{
+display:flex;
+flex-direction:column;
+gap:12px;
+margin-top:30px;
 }
 
 .botao{
 display:block;
 width:100%;
 padding:18px;
-margin-top:40px;
-font-size:20px;
-background:#f1c40f;
-color:black;
+font-size:18px;
 border:none;
-border-radius:8px;
+border-radius:10px;
 cursor:pointer;
-transition:0.3s;
+transition:.3s;
+font-weight:bold;
 }
 
-.botao:hover{
-background:#d4ac0d;
-}
-
-.voltar{
-margin-top:15px;
-background:#bbb;
-}
-
-.sair{
-margin-top:10px;
-background:#e74c3c;
+.botao-principal{
+background:#1faa47;
 color:white;
+}
+
+.botao-principal:hover{
+background:#17863a;
+}
+
+.botao-voltar{
+background:#a4acb7;
+color:white;
+}
+
+.botao-voltar:hover{
+background:#848d99;
+}
+
+.botao-sair{
+background:#b22222;
+color:white;
+}
+
+.botao-sair:hover{
+background:#8f1b1b;
 }
 
 .footer{
@@ -105,12 +144,17 @@ text-align:center;
 margin-top:20px;
 font-size:14px;
 color:#666;
+line-height:1.6;
 }
 
+@media(max-width:700px){
+.container{
+margin:14px;
+padding:22px;
+}
+}
 </style>
-
 </head>
-
 <body>
 
 <header>
@@ -121,102 +165,142 @@ Módulo 05 — Segunda Língua(s)
 
 <h2>Escolha o nível de tradução da sua obra</h2>
 
-<div class="modulo">
+<div class="modulo" onclick="selecionarNivel('basica',25)">
+  <div class="titulo">
+    Tradução de leitura rápida
+  </div>
 
-<div class="titulo">
-Tradução de leitura rápida
+  <div class="descricao">
+    Indicado para compreensão geral da obra em outro idioma.
+    Mantém o conteúdo acessível para leitura e referência.
+  </div>
+
+  <div class="valor">
+    Valor base: R$ 25 ou US$ 25
+  </div>
+
+  <div class="obs">
+    Valores variam conforme o tipo de licença da conta e o país de registro.
+    Não indicado para publicação internacional.
+  </div>
 </div>
 
-<div class="descricao">
-Indicado para compreensão geral da obra em outro idioma.
-Mantém o conteúdo acessível para leitura e referência.
+<div class="modulo" onclick="selecionarNivel('editorial',150)">
+  <div class="titulo">
+    Tradução editorial recomendada
+  </div>
+
+  <div class="descricao">
+    Preserva coerência narrativa, nomes próprios, símbolos e estrutura literária.
+    Indicado para circulação editorial e preparação internacional.
+  </div>
+
+  <div class="valor">
+    Valor base: R$ 150 ou US$ 150
+  </div>
+
+  <div class="obs">
+    Recomendado para autores que desejam consistência literária multilíngue.
+  </div>
 </div>
 
-<div class="valor">
-Valor base: R$ 25 ou US$ 25
+<div class="modulo" onclick="selecionarNivel('internacional',250)">
+  <div class="titulo">
+    Tradução internacional publicável
+  </div>
+
+  <div class="descricao">
+    Tradução interpretativa com preservação estilística completa.
+    Indicada para publicação internacional e submissão editorial.
+  </div>
+
+  <div class="valor">
+    Valor base: R$ 250 ou US$ 250
+  </div>
+
+  <div class="obs">
+    Integra análise narrativa e memória terminológica da obra.
+  </div>
 </div>
 
-<div class="obs">
-Valores variam conforme o tipo de licença da conta e país de registro.
-Não indicado para publicação internacional.
+<div class="linha-resumo" id="resumoEscolha">
+Nenhum nível de tradução foi selecionado ainda.
 </div>
 
-<input type="radio" name="traducao">
+<div class="botoes">
 
-</div>
-
-
-<div class="modulo">
-
-<div class="titulo">
-Tradução editorial recomendada
-</div>
-
-<div class="descricao">
-Preserva coerência narrativa, nomes próprios, símbolos e estrutura literária.
-Indicado para circulação editorial e preparação internacional.
-</div>
-
-<div class="valor">
-Valor base: R$ 150 ou US$ 150
-</div>
-
-<div class="obs">
-Recomendado para autores que desejam consistência literária multilíngue.
-</div>
-
-<input type="radio" name="traducao">
-
-</div>
-
-
-<div class="modulo">
-
-<div class="titulo">
-Tradução internacional publicável
-</div>
-
-<div class="descricao">
-Tradução interpretativa com preservação estilística completa.
-Indicada para publicação internacional e submissão editorial.
-</div>
-
-<div class="valor">
-Valor base: R$ 250 ou US$ 250
-</div>
-
-<div class="obs">
-Integra análise narrativa e memória terminológica da obra.
-</div>
-
-<input type="radio" name="traducao">
-
-</div>
-
-
-<button class="botao">
+<button class="botao botao-principal" onclick="confirmarNivel()">
 Confirmar nível de tradução escolhido
 </button>
 
-
-<button class="botao voltar">
-Retornar ao Workspace da Obra
+<button class="botao botao-voltar" onclick="location.href='ponte_tradutor.html'">
+Retornar à ponte do tradutor
 </button>
 
-
-<button class="botao sair">
+<button class="botao botao-sair" onclick="location.href='index.html'">
 Sair do sistema
 </button>
 
+</div>
 
 <div class="footer">
-
-Valores institucionais podem variar conforme tipo de licença editorial da conta.<br>
+Valores institucionais podem variar conforme o tipo de licença editorial da conta.<br>
 Lapidar — trabalhando ao lado do autor, desde a primeira letra até o último ponto final.
-
 </div>
 
 </div>
+
+<script>
+let nivelSelecionado = "";
+let valorSelecionado = 0;
+
+function selecionarNivel(nivel, valor){
+  nivelSelecionado = nivel;
+  valorSelecionado = valor;
+
+  document.querySelectorAll(".modulo").forEach(el=>{
+    el.classList.remove("selecionado");
+  });
+
+  event.currentTarget.classList.add("selecionado");
+
+  let texto = "";
+
+  if(nivel === "basica"){
+    texto = "Nível selecionado: Tradução de leitura rápida. Valor base registrado: R$ 25 ou US$ 25.";
+  }
+
+  if(nivel === "editorial"){
+    texto = "Nível selecionado: Tradução editorial recomendada. Valor base registrado: R$ 150 ou US$ 150.";
+  }
+
+  if(nivel === "internacional"){
+    texto = "Nível selecionado: Tradução internacional publicável. Valor base registrado: R$ 250 ou US$ 250.";
+  }
+
+  document.getElementById("resumoEscolha").innerText = texto;
+}
+
+function confirmarNivel(){
+  if(!nivelSelecionado){
+    alert("Escolha um nível de tradução antes de continuar.");
+    return;
+  }
+
+  localStorage.setItem("segunda_lingua_nivel", nivelSelecionado);
+  localStorage.setItem("mesario_segunda_lingua_valor", String(valorSelecionado));
+
+  const dados = {
+    nivel: nivelSelecionado,
+    valorBase: valorSelecionado,
+    dataRegistro: new Date().toISOString()
+  };
+
+  localStorage.setItem("segunda_lingua_config", JSON.stringify(dados));
+
+  location.href = "idioma_obra.html";
+}
+</script>
 
 </body>
 </html>
