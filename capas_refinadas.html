@@ -1,214 +1,453 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Gerador de capa externa — Lapidar</title>
+<title>Lapidar — Capas Refinadas</title>
 
 <style>
-
 body{
 margin:0;
-background:#0c0603;
-font-family:Arial;
+font-family:Arial,sans-serif;
+background:#7f0000;
 color:white;
-display:flex;
-justify-content:center;
 }
 
 .container{
-max-width:720px;
-width:92%;
-padding:40px 0 60px 0;
+max-width:1100px;
+margin:auto;
+padding:40px 20px;
 }
 
-.titulo{
-font-size:34px;
+h1{
 text-align:center;
-font-weight:bold;
+margin-bottom:10px;
 }
 
-.subtitulo{
+.sub{
 text-align:center;
-color:#ff7b2c;
-margin-top:10px;
-margin-bottom:28px;
+margin-bottom:30px;
+opacity:.92;
 }
 
 .card{
-background:#140c08;
+background:white;
+color:black;
+padding:30px;
 border-radius:14px;
-padding:26px;
-margin-top:20px;
-line-height:1.7;
+box-shadow:0 5px 15px rgba(0,0,0,.3);
+margin-bottom:20px;
 }
 
-.opcao{
-margin-top:16px;
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:20px;
+}
+
+.grid-3{
+display:grid;
+grid-template-columns:1fr 1fr 1fr;
+gap:18px;
+}
+
+.preview{
+min-height:220px;
+padding:18px;
+background:#f3f3f3;
+border-radius:10px;
+border:1px solid #ddd;
+line-height:1.6;
+white-space:pre-wrap;
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+}
+
+.linha{
+background:#f6f6f6;
+border:1px solid #ddd;
+border-radius:10px;
+padding:12px 14px;
+margin-bottom:12px;
+}
+
+.rotulo{
+display:block;
+font-size:12px;
+font-weight:bold;
+text-transform:uppercase;
+letter-spacing:.4px;
+color:#7a0000;
+margin-bottom:6px;
+}
+
+.valor{
+font-size:15px;
+line-height:1.55;
+word-break:break-word;
+}
+
+.campo{
+margin-bottom:18px;
+}
+
+label{
+display:block;
+font-weight:bold;
+margin-bottom:8px;
+}
+
+textarea, input[type="text"], select{
+width:100%;
+padding:12px;
+border-radius:8px;
+border:1px solid #ccc;
+font-size:15px;
+box-sizing:border-box;
+}
+
+textarea{
+min-height:110px;
+resize:vertical;
+}
+
+.status{
+display:inline-block;
+padding:6px 10px;
+border-radius:999px;
+font-size:12px;
+font-weight:bold;
+margin-top:6px;
+}
+
+.status-note{
+background:#eef3f8;
+color:#3f5872;
+border:1px solid #d8e0ea;
+}
+
+.status-ok{
+background:#e8f6ee;
+color:#1d6b43;
+border:1px solid #b9e2c7;
+}
+
+.botoes{
+margin-top:25px;
+display:flex;
+flex-direction:column;
+gap:14px;
 }
 
 .botao{
-
 width:100%;
 padding:18px;
-margin-top:20px;
-border:none;
-border-radius:40px;
-background:#ff5a00;
-color:white;
 font-size:18px;
-font-weight:bold;
+border:none;
+border-radius:10px;
 cursor:pointer;
-
 }
 
-.alerta{
-margin-top:14px;
-font-size:14px;
-color:#ffcfaa;
+.botao-gerar{
+background:#28a745;
+color:white;
 }
 
+.botao-continuar{
+background:#1565c0;
+color:white;
+}
+
+.botao-voltar{
+background:#ffc107;
+color:black;
+}
+
+.botao-sair{
+background:#dc3545;
+color:white;
+}
+
+.botao:hover{
+opacity:.92;
+}
+
+@media(max-width:900px){
+.grid,.grid-3{
+grid-template-columns:1fr;
+}
+}
 </style>
-
 </head>
-
 <body>
 
 <div class="container">
+<h1>Capas Refinadas</h1>
+<div class="sub">Conferência refinada dos elementos visuais antes de concluir o módulo OKapista.</div>
 
-<div class="titulo">
+<div class="card">
 
-Gerador de capa externa
+<div class="grid-3">
 
+<div>
+<div class="linha">
+<span class="rotulo">Título</span>
+<div class="valor" id="tituloObra">—</div>
 </div>
 
-<div class="subtitulo">
+<div class="linha">
+<span class="rotulo">Autor</span>
+<div class="valor" id="autorObra">—</div>
+</div>
 
-A capa básica já está incluída no seu pacote de diagramação
+<div class="linha">
+<span class="rotulo">Plano</span>
+<div class="valor" id="planoObra">—</div>
+</div>
+
+<div class="linha">
+<span class="rotulo">Idioma</span>
+<div class="valor" id="idiomaObra">—</div>
+</div>
+</div>
+
+<div>
+<div class="linha">
+<span class="rotulo">Estilo visual</span>
+<div class="valor" id="estiloObra">—</div>
+</div>
+
+<div class="linha">
+<span class="rotulo">Paleta</span>
+<div class="valor" id="paletaObra">—</div>
+</div>
+
+<div class="linha">
+<span class="rotulo">Tipografia</span>
+<div class="valor" id="tipografiaObra">—</div>
+</div>
+
+<div class="linha">
+<span class="rotulo">Identificador institucional</span>
+<div class="valor" id="identificadorObra">—</div>
+</div>
+</div>
+
+<div>
+<div class="linha">
+<span class="rotulo">Sinopse</span>
+<div class="valor" id="sinopseStatus">—</div>
+</div>
+
+<div class="linha">
+<span class="rotulo">Biografia</span>
+<div class="valor" id="biografiaStatus">—</div>
+</div>
+
+<div class="linha">
+<span class="rotulo">ISBN</span>
+<div class="valor" id="isbnObra">—</div>
+</div>
+
+<div class="linha">
+<span class="rotulo">Estado do refinamento</span>
+<div class="valor"><span id="statusRefino" class="status status-note">Aguardando refinamento final</span></div>
+</div>
+</div>
+
+</div>
 
 </div>
 
 <div class="card">
 
-<strong>Escolha o tipo de capa desejado</strong>
+<div class="grid">
 
-<div class="opcao">
+<div>
+<h2>Prévia textual da capa refinada</h2>
+<div class="preview" id="previewCapaRefinada">
+Prévia da capa refinada aparecerá aqui.
+</div>
+</div>
 
-<input type="radio" name="capaTipo" value="inclusa" checked>
+<div>
+<h2>Ajustes finais do OKapista</h2>
 
-Usar a capa já incluída no seu pacote
+<div class="campo">
+<label for="nivelRefino">Nível de refinamento</label>
+<select id="nivelRefino">
+<option value="leve">Leve</option>
+<option value="medio" selected>Médio</option>
+<option value="alto">Alto</option>
+</select>
+</div>
+
+<div class="campo">
+<label for="focoRefino">Foco principal do refinamento</label>
+<select id="focoRefino">
+<option value="titulo">Título</option>
+<option value="contraste">Contraste visual</option>
+<option value="tipografia">Tipografia</option>
+<option value="elementos">Elementos visuais</option>
+<option value="equilibrio" selected>Equilíbrio geral</option>
+</select>
+</div>
+
+<div class="campo">
+<label for="observacoesRefino">Observações do refinamento</label>
+<textarea id="observacoesRefino" placeholder="Ex.: destacar mais o título, reduzir excesso de elementos, reforçar contraste"></textarea>
+</div>
+
+<div class="campo">
+<label for="assinaturaVisual">Assinatura visual complementar</label>
+<input type="text" id="assinaturaVisual" placeholder="Opcional">
+</div>
+</div>
 
 </div>
 
-<div class="opcao">
-
-<input type="radio" name="capaTipo" value="refinada">
-
-Capa refinada para livro físico — R$ 18
-
-</div>
-
-<div class="opcao">
-
-<input type="radio" name="capaTipo" value="magistral">
-
-Capa magistral para livro físico — R$ 48
-
-</div>
-
-<hr style="margin:20px 0">
-
-<strong>Capa para versão digital (EPUB)</strong>
-
-<div class="opcao">
-
-<input type="radio" name="capaEpub" value="epub_inclusa" checked>
-
-Usar capa simples EPUB
-
-</div>
-
-<div class="opcao">
-
-<input type="radio" name="capaEpub" value="epub_refinada">
-
-Capa refinada EPUB — R$ 10
-
-</div>
-
-<div class="opcao">
-
-<input type="radio" name="capaEpub" value="epub_magistral">
-
-Capa magistral EPUB — R$ 40
-
-</div>
-
-<div class="alerta">
-
-Se escolher uma capa refinada ou magistral, a capa automática do pacote será substituída após confirmação.
-
-</div>
-
-<button class="botao"
-
-onclick="confirmarEscolha()">
-
-Continuar com esta escolha
-
+<div class="botoes">
+<button class="botao botao-gerar" onclick="refinarCapas()">
+Aplicar refinamento final
 </button>
 
-<button class="botao"
-
-onclick="window.location.href='_Indice.html'">
-
-Voltar para casa do original
-
+<button class="botao botao-continuar" onclick="concluirOKapista()">
+Concluir OKapista e seguir fluxo editorial
 </button>
+
+<button class="botao botao-voltar" onclick="window.location.href='capista_gerar_capa.html'">
+Voltar para geração da capa
+</button>
+
+<button class="botao botao-sair" onclick="window.location.href='departamentos.html'">
+Sair do sistema
+</button>
+</div>
 
 </div>
 
 </div>
 
 <script>
-
-function confirmarEscolha(){
-
-const tipoFisico =
-document.querySelector('input[name="capaTipo"]:checked').value;
-
-const tipoEpub =
-document.querySelector('input[name="capaEpub"]:checked').value;
-
-localStorage.setItem("SDL_tipo_capa_fisica", tipoFisico);
-
-localStorage.setItem("SDL_tipo_capa_epub", tipoEpub);
-
-if(tipoFisico !== "inclusa"){
-
-const confirmar = confirm(
-
-"Você escolheu uma capa externa refinada.\n\nIsso substituirá a capa automática do pacote.\n\nDeseja continuar?"
-
-);
-
-if(!confirmar){
-
-return;
-
+function carregarJSON(chave){
+const salvo = localStorage.getItem(chave);
+if(!salvo) return null;
+try{
+return JSON.parse(salvo);
+}catch(e){
+return null;
+}
 }
 
+function textoOuTraco(v){
+if(Array.isArray(v)) return v.length ? v.join(", ") : "—";
+return v && String(v).trim() ? v : "—";
 }
 
-window.location.href = "upload_imagens_capa.html";
+function preencherDados(){
+const entrada = carregarJSON("lapidar_entrada_bolsao") || {};
+const obra = carregarJSON("obraAtual") || {};
+const config = carregarJSON("okapista_configuracao") || {};
+const idioma = carregarJSON("okapista_idioma") || {};
+const plano = carregarJSON("okapista_plano") || {};
+const refino = carregarJSON("okapista_refino") || {};
 
+const titulo = config.titulo || entrada.tituloManual || entrada.tituloBase || obra?.estrutura?.titulo || "Não identificado";
+const autor = config.autor || entrada.autoresManual || entrada.autorBase || obra?.estrutura?.autor || "Não identificado";
+
+document.getElementById("tituloObra").innerText = titulo;
+document.getElementById("autorObra").innerText = autor;
+document.getElementById("planoObra").innerText = textoOuTraco(plano.plano);
+document.getElementById("idiomaObra").innerText = textoOuTraco(idioma.idiomaCapa || entrada.idiomaObra);
+document.getElementById("estiloObra").innerText = textoOuTraco(config.estilo);
+document.getElementById("paletaObra").innerText = textoOuTraco(config.paleta);
+document.getElementById("tipografiaObra").innerText = textoOuTraco(config.tipografia);
+document.getElementById("identificadorObra").innerText = textoOuTraco(entrada.identificadorPreview);
+document.getElementById("sinopseStatus").innerText = entrada.sinopseArquivo ? "Sinopse enviada" : "Sinopse poderá ser gerada";
+document.getElementById("biografiaStatus").innerText = entrada.biografiaArquivo ? "Biografia enviada" : "Biografia poderá ser gerada";
+document.getElementById("isbnObra").innerText = textoOuTraco(entrada.isbnInformado);
+
+document.getElementById("nivelRefino").value = refino.nivelRefino || "medio";
+document.getElementById("focoRefino").value = refino.focoRefino || "equilibrio";
+document.getElementById("observacoesRefino").value = refino.observacoesRefino || "";
+document.getElementById("assinaturaVisual").value = refino.assinaturaVisual || "";
+
+atualizarPreview();
 }
 
+function atualizarPreview(){
+const entrada = carregarJSON("lapidar_entrada_bolsao") || {};
+const config = carregarJSON("okapista_configuracao") || {};
+const idioma = carregarJSON("okapista_idioma") || {};
+const plano = carregarJSON("okapista_plano") || {};
+
+const titulo = config.titulo || entrada.tituloManual || entrada.tituloBase || "Sem título";
+const subtitulo = config.subtitulo || entrada.subtituloManual || entrada.subtituloBase || "Sem subtítulo";
+const autor = config.autor || entrada.autoresManual || entrada.autorBase || "Sem autor";
+
+const nivelRefino = document.getElementById("nivelRefino").value || "medio";
+const focoRefino = document.getElementById("focoRefino").value || "equilibrio";
+const observacoesRefino = document.getElementById("observacoesRefino").value || "sem observações";
+const assinaturaVisual = document.getElementById("assinaturaVisual").value || "sem assinatura complementar";
+
+document.getElementById("previewCapaRefinada").innerText =
+"Título: " + titulo + "\n" +
+"Subtítulo: " + subtitulo + "\n" +
+"Autor: " + autor + "\n" +
+"Plano: " + textoOuTraco(plano.plano) + "\n" +
+"Idioma: " + textoOuTraco(idioma.idiomaCapa || entrada.idiomaObra) + "\n" +
+"Estilo: " + textoOuTraco(config.estilo) + "\n" +
+"Paleta: " + textoOuTraco(config.paleta) + "\n" +
+"Tipografia: " + textoOuTraco(config.tipografia) + "\n" +
+"Nível de refinamento: " + nivelRefino + "\n" +
+"Foco do refinamento: " + focoRefino + "\n" +
+"Observações: " + observacoesRefino + "\n" +
+"Assinatura visual: " + assinaturaVisual;
+}
+
+function refinarCapas(){
+const dados = {
+nivelRefino: document.getElementById("nivelRefino").value || "",
+focoRefino: document.getElementById("focoRefino").value || "",
+observacoesRefino: document.getElementById("observacoesRefino").value || "",
+assinaturaVisual: document.getElementById("assinaturaVisual").value || "",
+refinado: true,
+data: new Date().toISOString()
+};
+
+localStorage.setItem("okapista_refino", JSON.stringify(dados));
+
+const status = document.getElementById("statusRefino");
+status.className = "status status-ok";
+status.innerText = "Refinamento final aplicado com sucesso.";
+
+atualizarPreview();
+}
+
+function concluirOKapista(){
+localStorage.setItem("okapista_concluido", "true");
+window.location.href = "confirmacao_final_modulos.html";
+}
+
+[
+"nivelRefino",
+"focoRefino",
+"observacoesRefino",
+"assinaturaVisual"
+].forEach(id=>{
+window.addEventListener("load", ()=>{
+const el = document.getElementById(id);
+if(el){
+el.addEventListener("input", atualizarPreview);
+el.addEventListener("change", atualizarPreview);
+}
+});
+});
+
+window.addEventListener("load", preencherDados);
 </script>
 
 </body>
-
 </html>
