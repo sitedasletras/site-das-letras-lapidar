@@ -1,281 +1,317 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Idioma da capa — Projeto Capista</title>
+<title>Lapidar — Idioma da Capa</title>
 
 <style>
-
 body{
 margin:0;
-font-family:Arial, sans-serif;
-background:#0d0603;
+font-family:Arial,sans-serif;
+background:#6b0000;
 color:white;
-display:flex;
-justify-content:center;
 }
 
 .container{
-max-width:720px;
-width:92%;
-padding:40px 0 60px 0;
+max-width:960px;
+margin:auto;
+padding:40px 20px;
 }
 
-.titulo{
-font-size:34px;
+h1{
 text-align:center;
-font-weight:bold;
+margin-bottom:10px;
 }
 
-.subtitulo{
+.sub{
 text-align:center;
-color:#ff7b2c;
-margin-top:10px;
-margin-bottom:28px;
+margin-bottom:30px;
+opacity:.92;
 }
 
 .card{
-background:#140c08;
+background:white;
+color:black;
+padding:30px;
 border-radius:14px;
-padding:22px;
-margin-top:18px;
+box-shadow:0 5px 15px rgba(0,0,0,.3);
+}
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:20px;
+}
+
+.campo{
+margin-bottom:18px;
 }
 
 label{
 display:block;
-margin-bottom:6px;
 font-weight:bold;
-color:#ffd2b3;
+margin-bottom:8px;
 }
 
-select{
+select, input, textarea{
 width:100%;
 padding:12px;
+border-radius:8px;
+border:1px solid #ccc;
+font-size:15px;
+box-sizing:border-box;
+}
+
+textarea{
+min-height:110px;
+resize:vertical;
+}
+
+.preview{
+margin-top:25px;
+padding:18px;
+background:#f3f3f3;
 border-radius:10px;
-border:none;
-margin-bottom:20px;
+border:1px solid #ddd;
+line-height:1.6;
+white-space:pre-wrap;
+}
+
+.botoes{
+margin-top:25px;
+display:flex;
+flex-direction:column;
+gap:14px;
 }
 
 .botao{
 width:100%;
 padding:18px;
-margin-top:18px;
-border:none;
-border-radius:40px;
-background:#ff5a00;
-color:white;
 font-size:18px;
-font-weight:bold;
+border:none;
+border-radius:10px;
 cursor:pointer;
 }
 
+.botao-continuar{
+background:#28a745;
+color:white;
+}
+
+.botao-voltar{
+background:#ffc107;
+color:black;
+}
+
+.botao-sair{
+background:#dc3545;
+color:white;
+}
+
 .botao:hover{
-background:#ff6f1a;
+opacity:.92;
 }
 
-.botaoCinza{
-background:#444;
+@media(max-width:800px){
+.grid{
+grid-template-columns:1fr;
 }
-
-.botaoCinza:hover{
-background:#666;
 }
-
-.info{
-margin-top:20px;
-line-height:1.7;
-color:#ffd2b3;
-}
-
-.alerta{
-margin-top:15px;
-color:#9cffb2;
-font-weight:bold;
-}
-
 </style>
 </head>
-
 <body>
 
 <div class="container">
-
-<div class="titulo">
-Idioma editorial da capa
-</div>
-
-<div class="subtitulo">
-Escolha o idioma do texto enviado e o idioma final da capa
-</div>
+<h1>Idioma da Capa</h1>
+<div class="sub">Defina o idioma visual e textual da capa antes de seguir para os planos do OKapista.</div>
 
 <div class="card">
 
-<label>
-Idioma principal do autor
-</label>
+<div class="grid">
 
-<select id="idiomaAutor">
-<option value="pt">Português</option>
-<option value="en">English</option>
-<option value="es">Español</option>
-<option value="it">Italiano</option>
-<option value="fr">Français</option>
-<option value="de">Deutsch</option>
+<div>
+<div class="campo">
+<label for="idiomaCapa">Idioma principal da capa</label>
+<select id="idiomaCapa">
+<option value="pt-BR">Português / edição lusófona</option>
+<option value="en-US">Inglês / edição internacional</option>
+<option value="bilingue">Bilíngue</option>
 </select>
+</div>
 
-
-<label>
-Idioma do texto enviado (sinopse / biografia / título)
-</label>
-
-<select id="idiomaEntrada">
-<option value="pt">Português</option>
-<option value="en">English</option>
-<option value="es">Español</option>
-<option value="it">Italiano</option>
-<option value="fr">Français</option>
-<option value="de">Deutsch</option>
+<div class="campo">
+<label for="tomComunicacao">Tom da comunicação visual</label>
+<select id="tomComunicacao">
+<option value="literario">Literário</option>
+<option value="comercial">Comercial</option>
+<option value="institucional">Institucional</option>
+<option value="poetico">Poético</option>
+<option value="dramatico">Dramático</option>
 </select>
+</div>
 
-
-<label>
-Idioma final da capa
-</label>
-
-<select id="idiomaSaida">
-<option value="pt">Português</option>
-<option value="en">English</option>
-<option value="es">Español</option>
-<option value="it">Italiano</option>
-<option value="fr">Français</option>
-<option value="de">Deutsch</option>
+<div class="campo">
+<label for="traduzirTitulo">Tratamento do título</label>
+<select id="traduzirTitulo">
+<option value="manter">Manter título original</option>
+<option value="traduzir">Traduzir título</option>
+<option value="duplo">Mostrar título original + traduzido</option>
 </select>
+</div>
 
+<div class="campo">
+<label for="traduzirSubtitulo">Tratamento do subtítulo</label>
+<select id="traduzirSubtitulo">
+<option value="manter">Manter subtítulo original</option>
+<option value="traduzir">Traduzir subtítulo</option>
+<option value="duplo">Mostrar subtítulo original + traduzido</option>
+</select>
+</div>
+</div>
 
-<div class="info">
+<div>
+<div class="campo">
+<label for="fraseCapa">Frase complementar da capa</label>
+<input type="text" id="fraseCapa" placeholder="Opcional">
+</div>
 
-O sistema pode receber texto em um idioma e gerar a capa final em outro idioma automaticamente.
+<div class="campo">
+<label for="sinopseIdioma">Sinopse para contracapa</label>
+<select id="sinopseIdioma">
+<option value="original">Usar idioma original</option>
+<option value="traduzida">Usar versão traduzida</option>
+<option value="dupla">Exibir versão dupla</option>
+</select>
+</div>
 
-Nos planos multilíngue, até 20% das capas podem ser produzidas em idioma diferente do idioma principal do autor.
+<div class="campo">
+<label for="bioIdioma">Biografia do autor</label>
+<select id="bioIdioma">
+<option value="original">Usar idioma original</option>
+<option value="traduzida">Usar versão traduzida</option>
+<option value="dupla">Exibir versão dupla</option>
+</select>
+</div>
+
+<div class="campo">
+<label for="observacoesIdioma">Observações de idioma</label>
+<textarea id="observacoesIdioma" placeholder="Ex.: manter nome da coleção em português, traduzir apenas a sinopse"></textarea>
+</div>
+</div>
 
 </div>
 
-<div id="statusIdioma" class="alerta"></div>
+<div class="preview" id="previewIdioma">
+Prévia textual da configuração de idioma da capa aparecerá aqui.
+</div>
 
-<button class="botao" onclick="salvarIdiomasCapista()">
-Salvar idioma da capa
+<div class="botoes">
+<button class="botao botao-continuar" onclick="salvarEContinuar()">
+Salvar idioma e seguir para os planos do OKapista
 </button>
 
-<button class="botao botaoCinza" onclick="window.location.href='capista_planos.html'">
-Voltar para planos
+<button class="botao botao-voltar" onclick="window.location.href='capista_configuracao.html'">
+Voltar à configuração da capa
 </button>
 
+<button class="botao botao-sair" onclick="window.location.href='departamentos.html'">
+Sair do sistema
+</button>
 </div>
 
 </div>
-
+</div>
 
 <script>
-
-function salvarIdiomasCapista(){
-
-const idiomaAutor =
-document.getElementById("idiomaAutor").value;
-
-const idiomaEntrada =
-document.getElementById("idiomaEntrada").value;
-
-const idiomaSaida =
-document.getElementById("idiomaSaida").value;
-
-
-localStorage.setItem(
-"CAPISTA_idioma_autor",
-idiomaAutor
-);
-
-localStorage.setItem(
-"CAPISTA_idioma_texto",
-idiomaEntrada
-);
-
-localStorage.setItem(
-"CAPISTA_idioma_saida",
-idiomaSaida
-);
-
-
-verificarLimiteMultilingue(
-idiomaAutor,
-idiomaSaida
-);
-
-
-alert(
-"Idiomas registrados com sucesso."
-);
-
-window.location.href =
-"capista_upload_textos.html";
-
+function carregarJSON(chave){
+const salvo = localStorage.getItem(chave);
+if(!salvo) return null;
+try{
+return JSON.parse(salvo);
+}catch(e){
+return null;
+}
 }
 
+function preencherCampos(){
+const entrada = carregarJSON("lapidar_entrada_bolsao") || {};
+const idiomaSalvo = carregarJSON("okapista_idioma") || {};
 
-
-function verificarLimiteMultilingue(
-idiomaAutor,
-idiomaSaida
-){
-
-const plano =
-localStorage.getItem(
-"CAPISTA_plano"
-);
-
-const limiteOutroIdioma =
-localStorage.getItem(
-"CAPISTA_limite_outro_idioma"
-);
-
-let usados =
-Number(
-localStorage.getItem(
-"CAPISTA_capas_usadas_outro_idioma"
-)
-) || 0;
-
-
-
-if(
-idiomaAutor !== idiomaSaida &&
-limiteOutroIdioma !== "ilimitado"
-){
-
-if(usados >= limiteOutroIdioma){
-
-alert(
-"Limite de capas multilíngue atingido neste plano."
-);
-
-return;
-
+let idiomaPadrao = "pt-BR";
+if(entrada?.idiomaObra === "en-US"){
+idiomaPadrao = "en-US";
 }
 
+document.getElementById("idiomaCapa").value = idiomaSalvo.idiomaCapa || idiomaPadrao;
+document.getElementById("tomComunicacao").value = idiomaSalvo.tomComunicacao || "literario";
+document.getElementById("traduzirTitulo").value = idiomaSalvo.traduzirTitulo || "manter";
+document.getElementById("traduzirSubtitulo").value = idiomaSalvo.traduzirSubtitulo || "manter";
+document.getElementById("fraseCapa").value = idiomaSalvo.fraseCapa || "";
+document.getElementById("sinopseIdioma").value = idiomaSalvo.sinopseIdioma || "original";
+document.getElementById("bioIdioma").value = idiomaSalvo.bioIdioma || "original";
+document.getElementById("observacoesIdioma").value = idiomaSalvo.observacoesIdioma || "";
 
-usados++;
-
-localStorage.setItem(
-"CAPISTA_capas_usadas_outro_idioma",
-usados
-);
-
+atualizarPreview();
 }
 
+function atualizarPreview(){
+const idiomaCapa = document.getElementById("idiomaCapa").value;
+const tomComunicacao = document.getElementById("tomComunicacao").value;
+const traduzirTitulo = document.getElementById("traduzirTitulo").value;
+const traduzirSubtitulo = document.getElementById("traduzirSubtitulo").value;
+const fraseCapa = document.getElementById("fraseCapa").value || "sem frase complementar";
+const sinopseIdioma = document.getElementById("sinopseIdioma").value;
+const bioIdioma = document.getElementById("bioIdioma").value;
+const observacoesIdioma = document.getElementById("observacoesIdioma").value || "sem observações adicionais";
 
+document.getElementById("previewIdioma").innerText =
+"Idioma principal da capa: " + idiomaCapa + "\n" +
+"Tom da comunicação: " + tomComunicacao + "\n" +
+"Título: " + traduzirTitulo + "\n" +
+"Subtítulo: " + traduzirSubtitulo + "\n" +
+"Frase complementar: " + fraseCapa + "\n" +
+"Sinopse: " + sinopseIdioma + "\n" +
+"Biografia: " + bioIdioma + "\n" +
+"Observações: " + observacoesIdioma;
 }
 
+function salvarEContinuar(){
+const dados = {
+idiomaCapa: document.getElementById("idiomaCapa").value || "",
+tomComunicacao: document.getElementById("tomComunicacao").value || "",
+traduzirTitulo: document.getElementById("traduzirTitulo").value || "",
+traduzirSubtitulo: document.getElementById("traduzirSubtitulo").value || "",
+fraseCapa: document.getElementById("fraseCapa").value || "",
+sinopseIdioma: document.getElementById("sinopseIdioma").value || "",
+bioIdioma: document.getElementById("bioIdioma").value || "",
+observacoesIdioma: document.getElementById("observacoesIdioma").value || ""
+};
+
+localStorage.setItem("okapista_idioma", JSON.stringify(dados));
+window.location.href = "capista_planos.html";
+}
+
+[
+"idiomaCapa",
+"tomComunicacao",
+"traduzirTitulo",
+"traduzirSubtitulo",
+"fraseCapa",
+"sinopseIdioma",
+"bioIdioma",
+"observacoesIdioma"
+].forEach(id=>{
+window.addEventListener("load", ()=>{
+const el = document.getElementById(id);
+if(el){
+el.addEventListener("input", atualizarPreview);
+el.addEventListener("change", atualizarPreview);
+}
+});
+});
+
+window.addEventListener("load", preencherCampos);
 </script>
 
 </body>
