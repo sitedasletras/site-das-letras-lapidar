@@ -133,7 +133,7 @@
       setTexto("status", "Redirecionando o fluxo editorial.");
       setTimeout(()=>{
         window.location.href = destino;
-      }, 1000);
+      }, 900);
     }
 
     function normalizar(txt){
@@ -168,37 +168,27 @@
       const moduloSolicitado = getParametro("modulo") || "";
       const entrada = carregarJSON("lapidar_entrada_bolsao") || {};
       const obra = carregarJSON("obraAtual") || {};
-      const capista = carregarJSON("okapista_obra") || {};
-      const mesario = carregarJSON("mesario_obra") || {};
 
       setTexto("moduloSolicitado", moduloSolicitado || "não informado");
 
       /*
-        IMPORTANTE:
-        Se algum nome de arquivo no seu projeto estiver diferente,
-        altere apenas aqui.
+        MAPA REAL DOS SEUS ARQUIVOS
       */
       const MAPA_MODULOS = {
         "02": "diagramador_inicio.html",
         "03": "capista_inicio.html",
-        "05": "segunda_lingua_inicio.html",
+        "05": "segunda_lingua.html",
         "07": "avaliacao_inicio.html",
-        "11": "analisador_inicio.html",
-        "13": "lapidacao_inicio.html",
-        "17": "silo_sonoro_inicio.html"
+        "11": "modulo11_analisador_de_obra.html",
+        "13": "lapidacao_literaria.html",
+        "17": "hub_silo_sonoro.html"
       };
 
       const tipoObra = detectarTipoObra(obra, entrada);
       const objetivo = detectarObjetivo(entrada);
-
       const temTexto = !!obra?.textoExtraido;
       const mioloDiagramado = localStorage.getItem("mioloDiagramado") === "true";
 
-      /*
-        EXCEÇÃO INTELIGENTE:
-        poesia + objetivo de áudio
-        pode ir direto ao Silo Sonoro após limpeza/correção básica
-      */
       if(
         moduloSolicitado === "17" &&
         tipoObra.includes("poesia") &&
@@ -211,10 +201,6 @@
         return;
       }
 
-      /*
-        ORDEM PADRÃO:
-        se pedir OKapista antes de diagramação, vai para Diagramação primeiro
-      */
       if(moduloSolicitado === "03"){
         if(!temTexto){
           abrir(
