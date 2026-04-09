@@ -1,249 +1,297 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Configuração da capa — Projeto Capista</title>
+<title>Lapidar — Configuração da Capa</title>
 
 <style>
-
 body{
 margin:0;
-background:#0c0603;
-font-family:Arial;
+font-family:Arial,sans-serif;
+background:#5a0000;
 color:white;
-display:flex;
-justify-content:center;
 }
 
 .container{
-max-width:760px;
-width:92%;
-padding:40px 0 60px 0;
+max-width:960px;
+margin:auto;
+padding:40px 20px;
 }
 
-.titulo{
-font-size:34px;
+h1{
 text-align:center;
-font-weight:bold;
+margin-bottom:10px;
 }
 
-.subtitulo{
+.sub{
 text-align:center;
-color:#ff7b2c;
-margin-top:10px;
-margin-bottom:28px;
+margin-bottom:30px;
+opacity:.9;
 }
 
 .card{
-background:#140c08;
+background:white;
+color:black;
+padding:30px;
 border-radius:14px;
-padding:26px;
-margin-top:20px;
+box-shadow:0 5px 15px rgba(0,0,0,.3);
+}
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:20px;
+}
+
+.campo{
+margin-bottom:18px;
 }
 
 label{
 display:block;
-margin-top:16px;
-color:#ffd2b3;
+font-weight:bold;
+margin-bottom:8px;
 }
 
-select{
+input, select, textarea{
 width:100%;
 padding:12px;
-margin-top:6px;
 border-radius:8px;
-border:none;
+border:1px solid #ccc;
+font-size:15px;
+box-sizing:border-box;
+}
+
+textarea{
+min-height:100px;
+resize:vertical;
+}
+
+.preview{
+margin-top:25px;
+padding:18px;
+background:#f3f3f3;
+border-radius:10px;
+border:1px solid #ddd;
+line-height:1.6;
+}
+
+.botoes{
+margin-top:25px;
+display:flex;
+flex-direction:column;
+gap:14px;
 }
 
 .botao{
 width:100%;
 padding:18px;
-margin-top:24px;
-border:none;
-border-radius:40px;
-background:#ff5a00;
-color:white;
 font-size:18px;
-font-weight:bold;
+border:none;
+border-radius:10px;
 cursor:pointer;
 }
 
-.botaoCinza{
-background:#444;
+.botao-continuar{
+background:#28a745;
+color:white;
 }
 
+.botao-voltar{
+background:#ffc107;
+color:black;
+}
+
+.botao-sair{
+background:#dc3545;
+color:white;
+}
+
+.botao:hover{
+opacity:.92;
+}
+
+@media(max-width:800px){
+.grid{
+grid-template-columns:1fr;
+}
+}
 </style>
-
 </head>
-
 <body>
 
 <div class="container">
-
-<div class="titulo">
-Projeto Capista
-</div>
-
-<div class="subtitulo">
-Configure sua nova capa externa
-</div>
-
+<h1>Configuração da Capa</h1>
+<div class="sub">Defina os parâmetros visuais principais antes de seguir para idioma, planos e geração.</div>
 
 <div class="card">
 
-<label>
-Tipo de capa desejada
-</label>
+<div class="grid">
 
-<select id="tipoCapa">
+<div>
+<div class="campo">
+<label for="titulo">Título da obra</label>
+<input type="text" id="titulo">
+</div>
 
-<option value="simples">
-Capa simples (gerador interno)
-</option>
+<div class="campo">
+<label for="subtitulo">Subtítulo</label>
+<input type="text" id="subtitulo">
+</div>
 
-<option value="refinada">
-Capa refinada Lapidar
-</option>
+<div class="campo">
+<label for="autor">Autor</label>
+<input type="text" id="autor">
+</div>
 
-<option value="magistral">
-Capa magistral premium
-</option>
+<div class="campo">
+<label for="serie">Série / trilogia / volume</label>
+<input type="text" id="serie">
+</div>
 
+<div class="campo">
+<label for="estilo">Estilo visual</label>
+<select id="estilo">
+<option value="classico">Clássico</option>
+<option value="moderno">Moderno</option>
+<option value="dramatico">Dramático</option>
+<option value="gotico">Gótico</option>
+<option value="minimalista">Minimalista</option>
+<option value="institucional">Institucional</option>
 </select>
+</div>
+</div>
 
+<div>
+<div class="campo">
+<label for="paleta">Paleta principal</label>
+<input type="text" id="paleta" placeholder="Ex.: verde escuro, dourado, preto">
+</div>
 
-<label>
-Destino da capa
-</label>
+<div class="campo">
+<label for="tipografia">Tipografia de destaque</label>
+<input type="text" id="tipografia" placeholder="Ex.: serifada clássica">
+</div>
 
-<select id="destinoCapa">
+<div class="campo">
+<label for="elementos">Elementos visuais desejados</label>
+<textarea id="elementos" placeholder="Ex.: igreja antiga, procissão, névoa, velas, sombra"></textarea>
+</div>
 
-<option value="fisico">
-Livro físico
-</option>
-
-<option value="epub">
-EPUB
-</option>
-
-<option value="ambos">
-Livro físico + EPUB
-</option>
-
-</select>
-
-
-<label>
-Idioma da capa
-</label>
-
-<select id="idiomaCapa">
-
-<option value="pt">
-Português
-</option>
-
-<option value="en">
-English
-</option>
-
-<option value="es">
-Español
-</option>
-
-<option value="it">
-Italiano
-</option>
-
-<option value="fr">
-Français
-</option>
-
-<option value="de">
-Deutsch
-</option>
-
-</select>
-
-
-<button
-class="botao"
-onclick="salvarConfigCapa()">
-
-Salvar configuração da capa
-
-</button>
-
-
-<button
-class="botao"
-onclick="seguirUploadTextos()">
-
-Seguir para textos da capa
-
-</button>
-
-
-<button
-class="botao botaoCinza"
-onclick="window.location.href='_Indice.html'">
-
-Voltar para casa do original
-
-</button>
-
-
+<div class="campo">
+<label for="observacoes">Observações do capista</label>
+<textarea id="observacoes" placeholder="Detalhes importantes para a composição da capa"></textarea>
+</div>
 </div>
 
 </div>
 
+<div class="preview" id="previewCapa">
+Prévia textual da configuração da capa aparecerá aqui.
+</div>
+
+<div class="botoes">
+<button class="botao botao-continuar" onclick="salvarEContinuar()">
+Salvar configuração e seguir para idioma da capa
+</button>
+
+<button class="botao botao-voltar" onclick="window.location.href='capista_upload_tecnica.html'">
+Voltar ao upload técnico
+</button>
+
+<button class="botao botao-sair" onclick="window.location.href='departamentos.html'">
+Sair do sistema
+</button>
+</div>
+
+</div>
+</div>
 
 <script>
-
-function salvarConfigCapa(){
-
-const tipo =
-document.getElementById("tipoCapa").value;
-
-const destino =
-document.getElementById("destinoCapa").value;
-
-const idioma =
-document.getElementById("idiomaCapa").value;
-
-
-localStorage.setItem(
-"CAPISTA_tipo_capa",
-tipo
-);
-
-localStorage.setItem(
-"CAPISTA_destino_capa",
-destino
-);
-
-localStorage.setItem(
-"CAPISTA_idioma_capa",
-idioma
-);
-
-alert(
-"Configuração da capa salva."
-);
-
+function carregarJSON(chave){
+const salvo = localStorage.getItem(chave);
+if(!salvo) return null;
+try{
+return JSON.parse(salvo);
+}catch(e){
+return null;
+}
 }
 
+function preencherCampos(){
+const entrada = carregarJSON("lapidar_entrada_bolsao") || {};
+const obra = carregarJSON("obraAtual") || {};
+const capista = carregarJSON("okapista_obra") || {};
 
-function seguirUploadTextos(){
+const titulo = entrada.tituloManual || entrada.tituloBase || obra?.estrutura?.titulo || "";
+const subtitulo = entrada.subtituloManual || entrada.subtituloBase || "";
+const autor = entrada.autoresManual || entrada.autorBase || obra?.estrutura?.autor || "";
+const serie = [entrada.colecao, entrada.serie, entrada.volume].filter(Boolean).join(" | ");
 
-const tipo =
-localStorage.getItem(
-"CAPISTA_tipo_capa"
-);
+document.getElementById("titulo").value = capista.titulo || titulo;
+document.getElementById("subtitulo").value = capista.subtitulo || subtitulo;
+document.getElementById("autor").value = capista.autor || autor;
+document.getElementById("serie").value = capista.serie || serie;
+document.getElementById("estilo").value = capista.estilo || "classico";
+document.getElementById("paleta").value = capista.paleta || "";
+document.getElementById("tipografia").value = capista.tipografia || "";
+document.getElementById("elementos").value = capista.elementos || "";
+document.getElementById("observacoes").value = capista.observacoes || "";
 
-if(!tipo){
+atualizarPreview();
+}
 
-alert(
-"Sal
+function atualizarPreview(){
+const titulo = document.getElementById("titulo").value || "Sem título";
+const subtitulo = document.getElementById("subtitulo").value || "Sem subtítulo";
+const autor = document.getElementById("autor").value || "Sem autor";
+const serie = document.getElementById("serie").value || "Sem série";
+const estilo = document.getElementById("estilo").value || "sem estilo";
+const paleta = document.getElementById("paleta").value || "sem paleta";
+const tipografia = document.getElementById("tipografia").value || "sem tipografia";
+const elementos = document.getElementById("elementos").value || "sem elementos visuais definidos";
+
+document.getElementById("previewCapa").innerText =
+"Título: " + titulo + "\n" +
+"Subtítulo: " + subtitulo + "\n" +
+"Autor: " + autor + "\n" +
+"Série/volume: " + serie + "\n" +
+"Estilo: " + estilo + "\n" +
+"Paleta: " + paleta + "\n" +
+"Tipografia: " + tipografia + "\n" +
+"Elementos: " + elementos;
+}
+
+function salvarEContinuar(){
+const dados = {
+titulo: document.getElementById("titulo").value || "",
+subtitulo: document.getElementById("subtitulo").value || "",
+autor: document.getElementById("autor").value || "",
+serie: document.getElementById("serie").value || "",
+estilo: document.getElementById("estilo").value || "",
+paleta: document.getElementById("paleta").value || "",
+tipografia: document.getElementById("tipografia").value || "",
+elementos: document.getElementById("elementos").value || "",
+observacoes: document.getElementById("observacoes").value || ""
+};
+
+localStorage.setItem("okapista_configuracao", JSON.stringify(dados));
+window.location.href = "capista_idioma.html";
+}
+
+[
+"titulo","subtitulo","autor","serie","estilo","paleta","tipografia","elementos","observacoes"
+].forEach(id=>{
+window.addEventListener("load", ()=>{
+const el = document.getElementById(id);
+if(el) el.addEventListener("input", atualizarPreview);
+if(el && el.tagName === "SELECT") el.addEventListener("change", atualizarPreview);
+});
+});
+
+window.addEventListener("load", preencherCampos);
+</script>
+
+</body>
+</html>
