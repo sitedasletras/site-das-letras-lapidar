@@ -2,296 +2,116 @@
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Capista — Upload de Textos</title>
+<title>Lapidar — Upload Técnico da Capa</title>
 
 <style>
-:root{
---bg:#0d0603;
---card:#140c08;
---card2:#1b100a;
---text:#ffffff;
---orange:#f7b22c;
---border:rgba(255,123,44,0.18);
---shadow:0 10px 26px rgba(0,0,0,0.28);
-}
 
 body{
 margin:0;
-font-family:Arial, sans-serif;
-background:var(--bg);
-color:var(--text);
+font-family:Arial;
+background:#6a0000;
+color:white;
 }
 
 .container{
-width:min(1100px,95%);
+max-width:900px;
 margin:auto;
-padding:40px 0 60px;
+padding:40px;
 }
 
-.titulo{
-font-size:36px;
-font-weight:bold;
-}
-
-.subtitulo{
-margin-top:6px;
-color:var(--orange);
-}
-
-.status{
-margin-top:20px;
-padding:16px;
-border-radius:12px;
-background:rgba(247,178,44,0.12);
-border:1px solid rgba(247,178,44,0.25);
-color:#ffe7b0;
+h1{
+text-align:center;
 }
 
 .card{
-margin-top:24px;
-background:var(--card);
-border:1px solid var(--border);
-border-radius:18px;
-padding:22px;
-box-shadow:var(--shadow);
-}
-
-.grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:18px;
-}
-
-label{
-display:block;
-margin-bottom:6px;
-color:var(--orange);
-font-weight:bold;
-}
-
-textarea, input{
-width:100%;
-padding:14px;
-border:none;
+background:white;
+color:black;
+padding:30px;
 border-radius:12px;
-background:#1b0e07;
-color:#fff;
-box-sizing:border-box;
+margin-top:30px;
+box-shadow:0px 5px 15px rgba(0,0,0,0.3);
 }
 
-textarea{
-min-height:150px;
-resize:vertical;
+input{
+width:100%;
+padding:10px;
+margin-top:10px;
+margin-bottom:20px;
 }
 
-.preview{
-margin-top:18px;
+.botao{
+display:block;
+width:100%;
 padding:18px;
-border-radius:14px;
-background:var(--card2);
-line-height:1.8;
-}
-
-.actions{
-margin-top:24px;
-display:flex;
-flex-wrap:wrap;
-gap:12px;
-}
-
-button{
+margin-top:20px;
+font-size:18px;
 border:none;
-padding:14px 18px;
-border-radius:999px;
+border-radius:8px;
 cursor:pointer;
-font-weight:bold;
 }
 
-.btnSalvar{
-background:#174d27;
-color:#fff;
+.botao-continuar{
+background:#28a745;
+color:white;
 }
 
-.btnGerar{
-background:#5a2c00;
-color:#fff;
+.botao-voltar{
+background:#ffc107;
+color:black;
 }
 
-.btnIndice{
-background:#24150f;
-color:#fff;
+.botao-sair{
+background:#dc3545;
+color:white;
 }
 
-@media(max-width:900px){
-.grid{
-grid-template-columns:1fr;
+.botao:hover{
+opacity:0.9;
 }
-}
+
 </style>
+
 </head>
 
 <body>
 
 <div class="container">
 
-<div class="titulo">Textos da Capa</div>
-<div class="subtitulo">Sinopse, biografia, orelhas e conteúdos da apresentação visual</div>
-
-<div id="statusTextos" class="status">
-Verificando projeto ativo...
-</div>
+<h1>Upload Técnico da Obra</h1>
 
 <div class="card">
-  <div class="grid">
-    <div>
-      <label for="sinopseCapa">Sinopse / Contra-capa</label>
-      <textarea id="sinopseCapa" placeholder="Digite a sinopse da obra"></textarea>
-    </div>
 
-    <div>
-      <label for="biografiaAutor">Biografia do autor</label>
-      <textarea id="biografiaAutor" placeholder="Digite a biografia que vai na orelha traseira ou onde desejar"></textarea>
-    </div>
+<p>
+Envie os elementos técnicos necessários para gerar a capa:
+</p>
 
-    <div>
-      <label for="orelhaDianteira">Texto da orelha dianteira</label>
-      <textarea id="orelhaDianteira" placeholder="Frases, dedicatória, chamada ou texto institucional"></textarea>
-    </div>
+<ul>
+<li>arquivo da obra diagramada</li>
+<li>tamanho do livro</li>
+<li>número de páginas</li>
+<li>papel utilizado</li>
+</ul>
 
-    <div>
-      <label for="orelhaTraseira">Texto da orelha traseira</label>
-      <textarea id="orelhaTraseira" placeholder="Texto complementar, bio resumida ou apresentação"></textarea>
-    </div>
-  </div>
+<input type="file">
 
-  <div style="margin-top:18px;">
-    <label for="textoExtraCapa">Texto extra da capa</label>
-    <textarea id="textoExtraCapa" placeholder="Use para observações textuais adicionais"></textarea>
-  </div>
+<button class="botao botao-continuar"
+onclick="window.location.href='capista_configuracao.html'">
+Continuar para configuração da capa
+</button>
 
-  <div class="actions">
-    <button class="btnSalvar" onclick="salvarTextosCapa()">Salvar textos</button>
-    <button class="btnGerar" onclick="abrirGeradorCapa()">Abrir gerador de capa</button>
-    <button class="btnIndice" onclick="voltarIndice()">Voltar ao índice</button>
-  </div>
+<button class="botao botao-voltar"
+onclick="window.location.href='capista_inicio.html'">
+Voltar ao início do OKapista
+</button>
 
-  <div id="previewTextos" class="preview">
-    A prévia dos textos da capa aparecerá aqui.
-  </div>
-</div>
+<button class="botao botao-sair"
+onclick="window.location.href='departamentos.html'">
+Sair do sistema
+</button>
 
 </div>
 
-<script src="auditoria.js"></script>
-
-<script>
-function verificarSessao(){
-  if(localStorage.getItem("SDL_sessao_ativa") !== "sim"){
-    window.location.href = "login.html";
-  }
-}
-
-function obterProjetoAtivo(){
-  try{
-    const lista = JSON.parse(localStorage.getItem("SDL_projetos_lista") || "[]");
-    const ativo = localStorage.getItem("SDL_projeto_ativo");
-    return lista.find(p => p.id === ativo) || null;
-  }catch{
-    return null;
-  }
-}
-
-function carregarTextosSalvos(){
-  const projeto = obterProjetoAtivo();
-
-  if(!projeto){
-    document.getElementById("statusTextos").innerHTML =
-      "Nenhum projeto ativo selecionado.";
-    return;
-  }
-
-  document.getElementById("statusTextos").innerHTML =
-    "Projeto ativo para textos da capa: <strong>" + (projeto.titulo || "Sem título") + "</strong>";
-  document.getElementById("statusTextos").style.background =
-    "rgba(23,77,39,0.28)";
-
-  try{
-    const textos = JSON.parse(localStorage.getItem("SDL_textos_capa_ativos") || "null");
-
-    if(!textos || textos.projetoID !== projeto.id){
-      return;
-    }
-
-    document.getElementById("sinopseCapa").value = textos.sinopse || "";
-    document.getElementById("biografiaAutor").value = textos.biografia || "";
-    document.getElementById("orelhaDianteira").value = textos.orelhaDianteira || "";
-    document.getElementById("orelhaTraseira").value = textos.orelhaTraseira || "";
-    document.getElementById("textoExtraCapa").value = textos.textoExtra || "";
-
-    renderizarPreview(textos);
-  }catch(e){}
-}
-
-function montarObjetoTextos(){
-  const projeto = obterProjetoAtivo();
-
-  if(!projeto){
-    return null;
-  }
-
-  return {
-    projetoID: projeto.id,
-    tituloProjeto: projeto.titulo || "",
-    sinopse: document.getElementById("sinopseCapa").value.trim(),
-    biografia: document.getElementById("biografiaAutor").value.trim(),
-    orelhaDianteira: document.getElementById("orelhaDianteira").value.trim(),
-    orelhaTraseira: document.getElementById("orelhaTraseira").value.trim(),
-    textoExtra: document.getElementById("textoExtraCapa").value.trim(),
-    dataRegistro: new Date().toISOString()
-  };
-}
-
-function salvarTextosCapa(){
-  const textos = montarObjetoTextos();
-
-  if(!textos){
-    alert("Nenhum projeto ativo selecionado.");
-    return;
-  }
-
-  localStorage.setItem("SDL_textos_capa_ativos", JSON.stringify(textos));
-
-  try{
-    SDL_registrarAuditoria("Textos da capa salvos", "capista_upload_textos");
-  }catch(e){}
-
-  renderizarPreview(textos);
-  alert("Textos da capa salvos com sucesso.");
-}
-
-function renderizarPreview(textos){
-  let html = "";
-  html += "<strong>Sinopse:</strong><br>" + (textos.sinopse || "—") + "<br><br>";
-  html += "<strong>Biografia:</strong><br>" + (textos.biografia || "—") + "<br><br>";
-  html += "<strong>Orelha dianteira:</strong><br>" + (textos.orelhaDianteira || "—") + "<br><br>";
-  html += "<strong>Orelha traseira:</strong><br>" + (textos.orelhaTraseira || "—") + "<br><br>";
-  html += "<strong>Texto extra:</strong><br>" + (textos.textoExtra || "—");
-
-  document.getElementById("previewTextos").innerHTML = html;
-}
-
-function abrirGeradorCapa(){
-  window.location.href = "capista_gerar_capa.html";
-}
-
-function voltarIndice(){
-  window.location.href = "_Indice.html";
-}
-
-verificarSessao();
-carregarTextosSalvos();
-</script>
+</div>
 
 </body>
 </html>
