@@ -3,336 +3,377 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Capista — Gerar Capa</title>
+<title>Lapidar — Gerar Capa</title>
 
 <style>
-:root{
---bg:#0d0603;
---card:#140c08;
---card2:#1b100a;
---text:#ffffff;
---muted:#ffd2b3;
---orange:#f7b22c;
---border:rgba(255,123,44,0.18);
---shadow:0 10px 26px rgba(0,0,0,0.28);
-}
-
 body{
 margin:0;
-font-family:Arial, sans-serif;
-background:var(--bg);
-color:var(--text);
+font-family:Arial,sans-serif;
+background:#7a0000;
+color:white;
 }
 
 .container{
-width:min(1100px,95%);
+max-width:1000px;
 margin:auto;
-padding:40px 0 60px;
+padding:40px 20px;
 }
 
-.titulo{
-font-size:36px;
-font-weight:bold;
+h1{
+text-align:center;
+margin-bottom:10px;
 }
 
-.subtitulo{
-margin-top:6px;
-color:var(--orange);
+.sub{
+text-align:center;
+margin-bottom:30px;
+opacity:.92;
 }
 
 .card{
-margin-top:24px;
-background:var(--card);
-border:1px solid var(--border);
-border-radius:18px;
-padding:22px;
-box-shadow:var(--shadow);
-}
-
-.status{
-margin-top:18px;
-padding:16px;
-border-radius:12px;
-background:rgba(247,178,44,0.12);
-border:1px solid rgba(247,178,44,0.25);
-color:#ffe7b0;
+background:white;
+color:black;
+padding:30px;
+border-radius:14px;
+box-shadow:0 5px 15px rgba(0,0,0,.3);
 }
 
 .grid{
 display:grid;
 grid-template-columns:1fr 1fr;
-gap:18px;
-margin-top:18px;
+gap:20px;
 }
 
-.box{
-padding:18px;
-border-radius:14px;
-background:var(--card2);
-line-height:1.8;
-}
-
-.canvasTecnico{
-margin-top:18px;
-padding:18px;
-border-radius:14px;
-background:#120b07;
-border:1px dashed rgba(255,123,44,0.28);
-}
-
-.faixa{
-display:flex;
-height:180px;
-border:1px solid rgba(255,255,255,0.08);
-overflow:hidden;
+.linha{
+background:#f6f6f6;
+border:1px solid #ddd;
 border-radius:10px;
+padding:12px 14px;
+margin-bottom:12px;
 }
 
-.coluna{
-display:flex;
-align-items:center;
-justify-content:center;
-text-align:center;
-padding:10px;
+.rotulo{
+display:block;
+font-size:12px;
 font-weight:bold;
-font-size:14px;
-line-height:1.5;
+text-transform:uppercase;
+letter-spacing:.4px;
+color:#7a0000;
+margin-bottom:6px;
 }
 
-.frente{
-background:#1d130d;
+.valor{
+font-size:15px;
+line-height:1.55;
+word-break:break-word;
 }
 
-.lombada{
-background:#2a160d;
-}
-
-.contra{
-background:#1a110b;
-}
-
-.blocoTexto{
-margin-top:18px;
+.preview{
+margin-top:20px;
 padding:18px;
-border-radius:14px;
-background:var(--card2);
-line-height:1.8;
-white-space:pre-line;
+background:#f3f3f3;
+border-radius:10px;
+border:1px solid #ddd;
+line-height:1.6;
+white-space:pre-wrap;
+min-height:180px;
 }
 
-.actions{
+.painel-geracao{
 margin-top:24px;
-display:flex;
-flex-wrap:wrap;
-gap:12px;
+padding:20px;
+background:#f9f9f9;
+border:1px solid #ddd;
+border-radius:12px;
 }
 
-button{
-border:none;
-padding:14px 18px;
+.status{
+display:inline-block;
+padding:6px 10px;
 border-radius:999px;
-cursor:pointer;
+font-size:12px;
 font-weight:bold;
+margin-top:6px;
 }
 
-.btnVoltar{
-background:#24150f;
-color:#fff;
+.status-note{
+background:#eef3f8;
+color:#3f5872;
+border:1px solid #d8e0ea;
 }
 
-.btnConfig{
-background:#5a2c00;
-color:#fff;
+.status-ok{
+background:#e8f6ee;
+color:#1d6b43;
+border:1px solid #b9e2c7;
 }
 
-.btnTextos{
-background:#7a3b00;
-color:#fff;
+.barra{
+margin-top:14px;
+width:100%;
+height:22px;
+background:#ddd;
+border-radius:999px;
+overflow:hidden;
 }
 
-.btnPrint{
-background:#174d27;
-color:#fff;
+.progresso{
+height:100%;
+width:0%;
+background:#28a745;
+color:white;
+font-size:12px;
+font-weight:bold;
+line-height:22px;
+text-align:center;
+transition:width .3s ease;
 }
 
-@media(max-width:900px){
+.botoes{
+margin-top:25px;
+display:flex;
+flex-direction:column;
+gap:14px;
+}
+
+.botao{
+width:100%;
+padding:18px;
+font-size:18px;
+border:none;
+border-radius:10px;
+cursor:pointer;
+}
+
+.botao-gerar{
+background:#28a745;
+color:white;
+}
+
+.botao-continuar{
+background:#1565c0;
+color:white;
+}
+
+.botao-voltar{
+background:#ffc107;
+color:black;
+}
+
+.botao-sair{
+background:#dc3545;
+color:white;
+}
+
+.botao:hover{
+opacity:.92;
+}
+
+@media(max-width:850px){
 .grid{
 grid-template-columns:1fr;
 }
 }
 </style>
 </head>
-
 <body>
 
 <div class="container">
+<h1>Geração da Capa</h1>
+<div class="sub">Conferência final da configuração antes de seguir para o refinamento visual.</div>
 
-<div class="titulo">Gerador Técnico da Capa</div>
-<div class="subtitulo">Prévia estrutural baseada na configuração e nos textos salvos</div>
-
-<div id="statusGerador" class="status">
-Carregando configuração da capa...
-</div>
+<div class="card">
 
 <div class="grid">
-  <div class="card">
-    <div id="dadosTecnicos" class="box">
-      Nenhuma configuração carregada.
-    </div>
-  </div>
 
-  <div class="card">
-    <div id="dadosTextuais" class="box">
-      Nenhum conteúdo carregado.
-    </div>
-  </div>
+<div>
+<div class="linha">
+<span class="rotulo">Título</span>
+<div class="valor" id="tituloObra">—</div>
 </div>
 
-<div class="card">
-  <div class="canvasTecnico">
-    <div id="faixaTecnica" class="faixa">
-      <div class="coluna contra" style="width:40%;">Contra-capa</div>
-      <div class="coluna lombada" style="width:20%;">Lombada</div>
-      <div class="coluna frente" style="width:40%;">Frente</div>
-    </div>
-  </div>
+<div class="linha">
+<span class="rotulo">Subtítulo</span>
+<div class="valor" id="subtituloObra">—</div>
 </div>
 
-<div class="card">
-  <div id="blocoSinopse" class="blocoTexto"><strong>Sinopse:</strong><br>—</div>
-  <div id="blocoBiografia" class="blocoTexto"><strong>Biografia:</strong><br>—</div>
-  <div id="blocoOrelhas" class="blocoTexto"><strong>Orelhas:</strong><br>—</div>
+<div class="linha">
+<span class="rotulo">Autor</span>
+<div class="valor" id="autorObra">—</div>
 </div>
 
-<div class="actions">
-  <button class="btnConfig" onclick="abrirConfiguracao()">Voltar à configuração técnica</button>
-  <button class="btnTextos" onclick="abrirTextos()">Abrir textos da capa</button>
-  <button class="btnPrint" onclick="window.print()">Exportar PDF técnico</button>
-  <button class="btnVoltar" onclick="voltarIndice()">Voltar ao índice</button>
+<div class="linha">
+<span class="rotulo">Série / volume</span>
+<div class="valor" id="serieObra">—</div>
+</div>
+
+<div class="linha">
+<span class="rotulo">Plano escolhido</span>
+<div class="valor" id="planoObra">—</div>
+</div>
+
+<div class="linha">
+<span class="rotulo">Idioma da capa</span>
+<div class="valor" id="idiomaCapa">—</div>
+</div>
+</div>
+
+<div>
+<div class="linha">
+<span class="rotulo">Estilo visual</span>
+<div class="valor" id="estiloObra">—</div>
+</div>
+
+<div class="linha">
+<span class="rotulo">Paleta</span>
+<div class="valor" id="paletaObra">—</div>
+</div>
+
+<div class="linha">
+<span class="rotulo">Tipografia</span>
+<div class="valor" id="tipografiaObra">—</div>
+</div>
+
+<div class="linha">
+<span class="rotulo">Elementos visuais</span>
+<div class="valor" id="elementosObra">—</div>
+</div>
+
+<div class="linha">
+<span class="rotulo">Frase complementar</span>
+<div class="valor" id="fraseObra">—</div>
+</div>
+
+<div class="linha">
+<span class="rotulo">Identificador institucional</span>
+<div class="valor" id="identificadorObra">—</div>
+</div>
 </div>
 
 </div>
 
-<script src="auditoria.js"></script>
+<div class="preview" id="previewGeral">
+Prévia textual consolidada da capa aparecerá aqui.
+</div>
+
+<div class="painel-geracao">
+<div><strong>Status da geração</strong></div>
+<div id="statusGeracao" class="status status-note">Aguardando comando de geração</div>
+
+<div class="barra">
+<div class="progresso" id="barraProgresso">0%</div>
+</div>
+</div>
+
+<div class="botoes">
+<button class="botao botao-gerar" onclick="gerarCapa()">
+Gerar estrutura inicial da capa
+</button>
+
+<button class="botao botao-continuar" onclick="seguirRefino()">
+Seguir para capas refinadas
+</button>
+
+<button class="botao botao-voltar" onclick="window.location.href='capista_planos.html'">
+Voltar aos planos do OKapista
+</button>
+
+<button class="botao botao-sair" onclick="window.location.href='departamentos.html'">
+Sair do sistema
+</button>
+</div>
+
+</div>
+</div>
 
 <script>
-function verificarSessao(){
-  if(localStorage.getItem("SDL_sessao_ativa") !== "sim"){
-    window.location.href = "login.html";
-  }
+function carregarJSON(chave){
+const salvo = localStorage.getItem(chave);
+if(!salvo) return null;
+try{
+return JSON.parse(salvo);
+}catch(e){
+return null;
+}
 }
 
-function obterProjetoAtivo(){
-  try{
-    const lista = JSON.parse(localStorage.getItem("SDL_projetos_lista") || "[]");
-    const ativo = localStorage.getItem("SDL_projeto_ativo");
-    return lista.find(p => p.id === ativo) || null;
-  }catch{
-    return null;
-  }
+function textoOuTraco(v){
+if(Array.isArray(v)) return v.length ? v.join(", ") : "—";
+return v && String(v).trim() ? v : "—";
 }
 
-function carregarGerador(){
-  const projeto = obterProjetoAtivo();
-  const status = document.getElementById("statusGerador");
+function preencherDados(){
+const entrada = carregarJSON("lapidar_entrada_bolsao") || {};
+const obra = carregarJSON("obraAtual") || {};
+const config = carregarJSON("okapista_configuracao") || {};
+const idioma = carregarJSON("okapista_idioma") || {};
+const plano = carregarJSON("okapista_plano") || {};
 
-  if(!projeto){
-    status.innerHTML = "Nenhum projeto ativo selecionado.";
-    return;
-  }
+const titulo = config.titulo || entrada.tituloManual || entrada.tituloBase || obra?.estrutura?.titulo || "Não identificado";
+const subtitulo = config.subtitulo || entrada.subtituloManual || entrada.subtituloBase || "—";
+const autor = config.autor || entrada.autoresManual || entrada.autorBase || obra?.estrutura?.autor || "Não identificado";
+const serie = config.serie || [entrada.colecao, entrada.serie, entrada.volume].filter(Boolean).join(" | ") || "—";
+const planoTxt = plano.plano || "não definido";
+const idiomaTxt = idioma.idiomaCapa || entrada.idiomaObra || "pt-BR";
 
-  let cfg = null;
-  let textos = null;
+document.getElementById("tituloObra").innerText = titulo;
+document.getElementById("subtituloObra").innerText = textoOuTraco(subtitulo);
+document.getElementById("autorObra").innerText = autor;
+document.getElementById("serieObra").innerText = textoOuTraco(serie);
+document.getElementById("planoObra").innerText = textoOuTraco(planoTxt);
+document.getElementById("idiomaCapa").innerText = textoOuTraco(idiomaTxt);
+document.getElementById("estiloObra").innerText = textoOuTraco(config.estilo);
+document.getElementById("paletaObra").innerText = textoOuTraco(config.paleta);
+document.getElementById("tipografiaObra").innerText = textoOuTraco(config.tipografia);
+document.getElementById("elementosObra").innerText = textoOuTraco(config.elementos);
+document.getElementById("fraseObra").innerText = textoOuTraco(idioma.fraseCapa);
+document.getElementById("identificadorObra").innerText = textoOuTraco(entrada.identificadorPreview);
 
-  try{
-    cfg = JSON.parse(localStorage.getItem("SDL_configuracao_capa_ativa") || "null");
-  }catch(e){}
-
-  try{
-    textos = JSON.parse(localStorage.getItem("SDL_textos_capa_ativos") || "null");
-  }catch(e){}
-
-  if(!cfg || cfg.projetoID !== projeto.id){
-    status.innerHTML = "Nenhuma configuração técnica salva para este projeto.";
-    return;
-  }
-
-  status.innerHTML = "Gerador carregado para: <strong>" + (cfg.titulo || projeto.titulo || "Sem título") + "</strong>";
-  status.style.background = "rgba(23,77,39,0.28)";
-
-  document.getElementById("dadosTecnicos").innerHTML =
-    "<strong>Formato:</strong> " + (cfg.formato || "—") + "<br>" +
-    "<strong>Dimensão da capa:</strong> " + (cfg.largura || "—") + " x " + (cfg.altura || "—") + " mm<br>" +
-    "<strong>Páginas:</strong> " + (cfg.paginas || "—") + "<br>" +
-    "<strong>Papel:</strong> " + (cfg.papelNome || "—") + "<br>" +
-    "<strong>Gramatura:</strong> " + (cfg.gramatura || "—") + "<br>" +
-    "<strong>Lombada:</strong> " + (cfg.lombada || "—") + " mm<br>" +
-    "<strong>Largura aberta:</strong> " + (cfg.larguraAberta || "—") + " mm<br>" +
-    "<strong>Selo:</strong> " + (cfg.selo || "—");
-
-  document.getElementById("dadosTextuais").innerHTML =
-    "<strong>Título:</strong> " + (cfg.titulo || "—") + "<br>" +
-    "<strong>Subtítulo:</strong> " + (cfg.subtitulo || "—") + "<br>" +
-    "<strong>Autor:</strong> " + (cfg.autor || "—") + "<br><br>" +
-    "<strong>Observações técnicas:</strong><br>" + (cfg.observacoes || "Sem observações");
-
-  renderizarFaixa(cfg);
-  renderizarTextos(textos, projeto.id);
-
-  try{
-    SDL_registrarAuditoria("Gerador técnico da capa aberto", "capista_gerar_capa");
-  }catch(e){}
+document.getElementById("previewGeral").innerText =
+"Título: " + titulo + "\n" +
+"Subtítulo: " + textoOuTraco(subtitulo) + "\n" +
+"Autor: " + autor + "\n" +
+"Série/volume: " + textoOuTraco(serie) + "\n" +
+"Plano: " + textoOuTraco(planoTxt) + "\n" +
+"Idioma: " + textoOuTraco(idiomaTxt) + "\n" +
+"Estilo: " + textoOuTraco(config.estilo) + "\n" +
+"Paleta: " + textoOuTraco(config.paleta) + "\n" +
+"Tipografia: " + textoOuTraco(config.tipografia) + "\n" +
+"Elementos: " + textoOuTraco(config.elementos) + "\n" +
+"Frase complementar: " + textoOuTraco(idioma.fraseCapa);
 }
 
-function renderizarFaixa(cfg){
-  const largura = Number(cfg.largura) || 148;
-  const lombada = Number(cfg.lombada) || 10;
-  const total = largura * 2 + lombada;
+function gerarCapa(){
+const barra = document.getElementById("barraProgresso");
+const status = document.getElementById("statusGeracao");
 
-  const contraPct = ((largura / total) * 100).toFixed(2);
-  const lombadaPct = ((lombada / total) * 100).toFixed(2);
-  const frentePct = ((largura / total) * 100).toFixed(2);
+status.className = "status status-note";
+status.innerText = "Gerando estrutura inicial da capa...";
 
-  document.getElementById("faixaTecnica").innerHTML =
-    '<div class="coluna contra" style="width:' + contraPct + '%;">Contra-capa<br>' + largura + ' mm</div>' +
-    '<div class="coluna lombada" style="width:' + lombadaPct + '%;">Lombada<br>' + lombada + ' mm</div>' +
-    '<div class="coluna frente" style="width:' + frentePct + '%;">Frente<br>' + largura + ' mm</div>';
+let progresso = 0;
+
+const intervalo = setInterval(()=>{
+progresso += 20;
+barra.style.width = progresso + "%";
+barra.innerText = progresso + "%";
+
+if(progresso >= 100){
+clearInterval(intervalo);
+status.className = "status status-ok";
+status.innerText = "Estrutura inicial da capa preparada com sucesso.";
+localStorage.setItem("okapista_geracao", JSON.stringify({
+gerado: true,
+data: new Date().toISOString()
+}));
+}
+}, 300);
 }
 
-function renderizarTextos(textos, projetoID){
-  if(!textos || textos.projetoID !== projetoID){
-    document.getElementById("blocoSinopse").innerHTML = "<strong>Sinopse:</strong><br>—";
-    document.getElementById("blocoBiografia").innerHTML = "<strong>Biografia:</strong><br>—";
-    document.getElementById("blocoOrelhas").innerHTML = "<strong>Orelhas:</strong><br>—";
-    return;
-  }
-
-  document.getElementById("blocoSinopse").innerHTML =
-    "<strong>Sinopse / Contra-capa:</strong><br>" + (textos.sinopse || "—");
-
-  document.getElementById("blocoBiografia").innerHTML =
-    "<strong>Biografia do autor:</strong><br>" + (textos.biografia || "—");
-
-  document.getElementById("blocoOrelhas").innerHTML =
-    "<strong>Orelha dianteira:</strong><br>" + (textos.orelhaDianteira || "—") +
-    "<br><br><strong>Orelha traseira:</strong><br>" + (textos.orelhaTraseira || "—") +
-    "<br><br><strong>Texto extra:</strong><br>" + (textos.textoExtra || "—");
+function seguirRefino(){
+window.location.href = "capas_refinadas.html";
 }
 
-function abrirConfiguracao(){
-  window.location.href = "capista_configurar_capa.html";
-}
-
-function abrirTextos(){
-  window.location.href = "capista_upload_textos.html";
-}
-
-function voltarIndice(){
-  window.location.href = "_Indice.html";
-}
-
-verificarSessao();
-carregarGerador();
+window.addEventListener("load", preencherDados);
 </script>
 
 </body>
