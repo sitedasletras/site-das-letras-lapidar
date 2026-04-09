@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ponte do Tradutor — Lapidar</title>
+
+<style>
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:#f3ece2;
+color:#2f2a24;
+}
+
+.topo{
+background:#2e4066;
+color:#fff;
+padding:18px 16px;
+text-align:center;
+font-size:24px;
+font-weight:bold;
+}
+
+.container{
+max-width:900px;
+margin:0 auto;
+padding:26px 16px 40px 16px;
+}
+
+.card{
+background:#ffffff;
+border:1px solid #d8c8b2;
+border-radius:16px;
+padding:22px;
+margin-bottom:18px;
+box-shadow:0 6px 16px rgba(0,0,0,.08);
+}
+
+.card h2{
+margin:0 0 12px 0;
+font-size:24px;
+color:#2e4066;
+}
+
+.card p{
+margin:0;
+line-height:1.7;
+}
+
+.status{
+margin-top:14px;
+display:inline-block;
+padding:8px 12px;
+border-radius:999px;
+font-size:13px;
+font-weight:bold;
+}
+
+.status-info{
+background:#eef3fb;
+color:#2e4066;
+border:1px solid #cfdaee;
+}
+
+.status-ok{
+background:#e7f6ea;
+color:#196b3a;
+border:1px solid #bde0c6;
+}
+
+.status-alert{
+background:#fff3df;
+color:#8a5a14;
+border:1px solid #efd2a3;
+}
+
+.botoes{
+margin-top:24px;
+display:flex;
+flex-direction:column;
+gap:12px;
+}
+
+.botao{
+width:100%;
+padding:18px;
+font-size:18px;
+font-weight:bold;
+border:none;
+border-radius:12px;
+cursor:pointer;
+}
+
+.botao-verde{
+background:#1faa47;
+color:#fff;
+}
+
+.botao-verde:hover{
+background:#17863a;
+}
+
+.botao-azul{
+background:#355f93;
+color:#fff;
+}
+
+.botao-azul:hover{
+background:#294a73;
+}
+
+.botao-amarelo{
+background:#f1c40f;
+color:#2a2206;
+}
+
+.botao-amarelo:hover{
+background:#d7af0d;
+}
+
+.botao-cinza{
+background:#a4acb7;
+color:#fff;
+}
+
+.botao-cinza:hover{
+background:#848d99;
+}
+
+.lista{
+margin-top:16px;
+padding-left:18px;
+line-height:1.8;
+}
+
+.linha{
+background:#f8f5f0;
+border:1px solid #e2d8c8;
+border-radius:12px;
+padding:14px 16px;
+margin-top:12px;
+}
+
+.rotulo{
+display:block;
+font-size:12px;
+font-weight:bold;
+text-transform:uppercase;
+letter-spacing:.4px;
+margin-bottom:6px;
+color:#6d655d;
+}
+
+.valor{
+font-size:15px;
+line-height:1.6;
+word-break:break-word;
+}
+
+@media(max-width:700px){
+.topo{
+font-size:22px;
+}
+}
+</style>
+</head>
+<body>
+
+<div class="topo">
+Ponte do Tradutor — Lapidar
+</div>
+
+<div class="container">
+
+<div class="card">
+<h2>Entrada oficial do módulo Segunda Língua(s)</h2>
+<p>
+Esta ponte organiza a entrada do tradutor editorial do Lapidar. Ela verifica a situação atual da obra e encaminha o autor primeiro para a escolha do nível de tradução e, depois, para o planejamento multilíngue.
+</p>
+<div id="statusPonte" class="status status-info">Verificando estado do módulo...</div>
+</div>
+
+<div class="card">
+<h2>Resumo da obra ativa</h2>
+
+<div class="linha">
+<span class="rotulo">Título da obra</span>
+<div class="valor" id="tituloObra">—</div>
+</div>
+
+<div class="linha">
+<span class="rotulo">Autor(es)</span>
+<div class="valor" id="autorObra">—</div>
+</div>
+
+<div class="linha">
+<span class="rotulo">Identificador institucional</span>
+<div class="valor" id="identificadorObra">—</div>
+</div>
+
+<div class="linha">
+<span class="rotulo">Situação da tradução</span>
+<div class="valor" id="situacaoTraducao">Nenhum nível selecionado ainda.</div>
+</div>
+</div>
+
+<div class="card">
+<h2>Fluxo inteligente do tradutor</h2>
+<ul class="lista">
+<li>Escolher nível de tradução</li>
+<li>Configurar idioma(s) e estratégia editorial</li>
+<li>Registrar o módulo no fluxo da obra</li>
+<li>Encaminhar ao Mesário e à Auditoria quando necessário</li>
+</ul>
+
+<div class="botoes">
+<button class="botao botao-verde" onclick="irParaMapa()">
+Escolher nível de tradução
+</button>
+
+<button class="botao botao-azul" onclick="irParaExecutor()">
+Voltar ao Executor de Módulos
+</button>
+
+<button class="botao botao-amarelo" onclick="irParaWorkspace()">
+Retornar ao Workspace da Obra
+</button>
+
+<button class="botao botao-cinza" onclick="sairSistema()">
+Sair do sistema
+</button>
+</div>
+</div>
+
+</div>
+
+<script>
+function carregarJSON(chave){
+  const salvo = localStorage.getItem(chave);
+  if(!salvo) return null;
+  try{
+    return JSON.parse(salvo);
+  }catch(e){
+    return null;
+  }
+}
+
+function preencherResumo(){
+  const entrada = carregarJSON("lapidar_entrada_bolsao") || {};
+  const obra = carregarJSON("obraAtual") || {};
+  const traducao = carregarJSON("segunda_lingua_config") || {};
+  const nivelTraducao = localStorage.getItem("segunda_lingua_nivel") || "";
+
+  const titulo =
+    entrada.tituloManual ||
+    entrada.tituloBase ||
+    obra?.estrutura?.titulo ||
+    "Não identificado";
+
+  const autor =
+    entrada.autoresManual ||
+    entrada.autorBase ||
+    obra?.estrutura?.autor ||
+    "Não identificado";
+
+  const identificador =
+    entrada.identificadorPreview ||
+    "—";
+
+  document.getElementById("tituloObra").innerText = titulo;
+  document.getElementById("autorObra").innerText = autor;
+  document.getElementById("identificadorObra").innerText = identificador;
+
+  if(nivelTraducao){
+    document.getElementById("situacaoTraducao").innerText =
+      "Nível já selecionado: " + nivelTraducao + ".";
+    document.getElementById("statusPonte").className = "status status-ok";
+    document.getElementById("statusPonte").innerText =
+      "Nível de tradução identificado. A obra pode seguir para o planejamento multilíngue.";
+  }else{
+    document.getElementById("situacaoTraducao").innerText =
+      "Nenhum nível selecionado ainda.";
+    document.getElementById("statusPonte").className = "status status-alert";
+    document.getElementById("statusPonte").innerText =
+      "O autor ainda precisa escolher o nível de tradução antes do planejamento.";
+  }
+}
+
+function irParaMapa(){
+  window.location.href = "modulo05_segunda_linguas_mapa.html";
+}
+
+function irParaExecutor(){
+  window.location.href = "modulo_executor.html";
+}
+
+function irParaWorkspace(){
+  window.location.href = "obra_workspace.html";
+}
+
+function sairSistema(){
+  window.location.href = "index.html";
+}
+
+preencherResumo();
+</script>
+
+</body>
+</html>
