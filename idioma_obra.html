@@ -1,368 +1,404 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Idioma da obra — Lapidar</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Idioma da obra — Lapidar</title>
 
-<style>
-body{
-margin:0;
-font-family:Arial;
-background:#0d0603;
-color:white;
-display:flex;
-justify-content:center;
-}
+  <style>
+    body{
+      margin:0;
+      font-family:Arial,sans-serif;
+      background:#dce8f7;
+      color:#1f2d3d;
+    }
 
-.container{
-max-width:760px;
-width:92%;
-padding:40px 0 60px 0;
-}
+    .topo{
+      background:#6f96c8;
+      color:#fff;
+      padding:18px 16px;
+      text-align:center;
+      font-size:28px;
+      font-weight:bold;
+    }
 
-.titulo{
-font-size:36px;
-text-align:center;
-font-weight:bold;
-}
+    .subtopo{
+      text-align:center;
+      color:#355f93;
+      font-size:14px;
+      padding:10px 16px 0 16px;
+      line-height:1.6;
+    }
 
-.epigrafe{
-text-align:center;
-font-style:italic;
-color:#ffe6c9;
-margin-top:10px;
-}
+    .container{
+      max-width:920px;
+      margin:0 auto;
+      padding:24px 16px 40px 16px;
+    }
 
-.subtitulo{
-text-align:center;
-color:#ff7b2c;
-margin-top:10px;
-margin-bottom:28px;
-}
+    .card{
+      background:#ffffff;
+      border:1px solid #bfd0e7;
+      border-radius:18px;
+      padding:22px;
+      margin-bottom:18px;
+      box-shadow:0 6px 16px rgba(0,0,0,.08);
+    }
 
-.card{
-background:#140c08;
-border-radius:14px;
-padding:24px;
-}
+    .card h2{
+      margin:0 0 14px 0;
+      color:#355f93;
+      font-size:24px;
+    }
 
-select,input{
-width:100%;
-padding:14px;
-margin-top:8px;
-border-radius:10px;
-border:none;
-}
+    .info{
+      background:#eef4fb;
+      border:1px solid #cfdaee;
+      border-radius:12px;
+      padding:14px 16px;
+      margin-top:12px;
+    }
 
-.botaoIdioma{
-width:100%;
-padding:18px;
-margin-top:20px;
-border-radius:40px;
-border:2px solid #ff7b2c;
-background:white;
-color:black;
-font-weight:bold;
-cursor:pointer;
-}
+    .rotulo{
+      display:block;
+      font-size:12px;
+      font-weight:bold;
+      text-transform:uppercase;
+      letter-spacing:.4px;
+      margin-bottom:6px;
+      color:#5a6b7d;
+    }
 
-.botaoIdioma:hover{
-background:#fff6ef;
-}
+    .valor{
+      font-size:17px;
+      line-height:1.6;
+      word-break:break-word;
+    }
 
-.botaoCinza{
-width:100%;
-padding:18px;
-margin-top:10px;
-border-radius:40px;
-border:none;
-background:#444;
-color:white;
-cursor:pointer;
-}
-</style>
+    label{
+      display:block;
+      margin:14px 0 6px 0;
+      font-weight:bold;
+      font-size:16px;
+      color:#24476f;
+    }
+
+    select,
+    input,
+    textarea{
+      width:100%;
+      box-sizing:border-box;
+      padding:16px;
+      font-size:17px;
+      border:1px solid #b9cbe2;
+      border-radius:12px;
+      outline:none;
+      background:#f9fbfe;
+    }
+
+    textarea{
+      min-height:140px;
+      resize:vertical;
+    }
+
+    .ajuda{
+      margin-top:8px;
+      font-size:14px;
+      color:#5f6c78;
+      line-height:1.6;
+    }
+
+    .status{
+      margin-top:14px;
+      display:inline-block;
+      padding:8px 12px;
+      border-radius:999px;
+      font-size:13px;
+      font-weight:bold;
+    }
+
+    .status-info{
+      background:#eef4fb;
+      color:#355f93;
+      border:1px solid #cfdaee;
+    }
+
+    .botoes{
+      margin-top:24px;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+
+    .botao{
+      width:100%;
+      padding:18px;
+      font-size:18px;
+      font-weight:bold;
+      border:none;
+      border-radius:12px;
+      cursor:pointer;
+    }
+
+    .botao-verde{
+      background:#1faa47;
+      color:#fff;
+    }
+
+    .botao-verde:hover{
+      background:#17863a;
+    }
+
+    .botao-azul{
+      background:#355f93;
+      color:#fff;
+    }
+
+    .botao-azul:hover{
+      background:#294a73;
+    }
+
+    .botao-cinza{
+      background:#a4acb7;
+      color:#fff;
+    }
+
+    .botao-cinza:hover{
+      background:#848d99;
+    }
+
+    .botao-vermelho{
+      background:#b22222;
+      color:#fff;
+    }
+
+    .botao-vermelho:hover{
+      background:#8f1b1b;
+    }
+
+    .footer{
+      text-align:center;
+      margin-top:16px;
+      font-size:14px;
+      color:#5d6772;
+      line-height:1.6;
+    }
+
+    @media(max-width:700px){
+      .topo{
+        font-size:24px;
+      }
+
+      .card h2{
+        font-size:22px;
+      }
+
+      .valor{
+        font-size:16px;
+      }
+    }
+  </style>
 </head>
 <body>
 
-<div class="container">
-
-<div class="titulo">Idioma da obra</div>
-
-<div class="epigrafe">
-Opus tuum in alias linguas conversum a Lapidare
-</div>
-
-<div class="subtitulo">
-Diagramação internacional multilíngue com estrutura editorial preservada
-</div>
-
-<div class="card">
-
-<label>Plano internacional</label>
-
-<select id="plano">
-<option value="40">
-Plano simples — 10 diagramações internacionais — capa simples
-</option>
-
-<option value="70">
-Plano premium — 20 diagramações internacionais — capa premium
-</option>
-
-</select>
-
-
-<label>ID da obra</label>
-
-<input id="idObra"
-placeholder="ex: obra_baltar_2026">
-
-
-<label>Idioma original</label>
-
-<select id="idiomaOriginal"></select>
-
-
-<label>Idioma internacional desejado</label>
-
-<select id="idiomaDestino"></select>
-
-
-<button class="botaoIdioma"
-onclick="registrarPlano()">
-
-Registrar diagramação internacional
-
-</button>
-
-
-<button class="botaoCinza"
-onclick="window.location.href='status_plano.html'">
-
-Ver status do plano
-
-</button>
-
-</div>
-
-</div>
-
-<script>
-
-let idiomasDisponiveis=null
-
-
-async function carregarIdiomas(){
-
-let resposta=await fetch("idiomas.json")
-
-let dados=await resposta.json()
-
-idiomasDisponiveis=dados.idiomas_suportados
-
-let origem=document.getElementById("idiomaOriginal")
-
-let destino=document.getElementById("idiomaDestino")
-
-origem.innerHTML=""
-
-destino.innerHTML=""
-
-idiomasDisponiveis.forEach(function(nome){
-
-let opt1=document.createElement("option")
-
-opt1.value=nome
-
-opt1.textContent=nome
-
-origem.appendChild(opt1)
-
-let opt2=document.createElement("option")
-
-opt2.value=nome
-
-opt2.textContent=nome
-
-destino.appendChild(opt2)
-
-})
-
-}
-
-
-function registrarPlano(){
-
-let plano=document.getElementById("plano").value
-
-let idObra=document.getElementById("idObra").value.trim()
-
-if(idObra===""){
-
-alert("Informe o ID da obra")
-
-return
-
-}
-
-let inicio=localStorage.getItem("DIAGRAMACAO_INTERNACIONAL_DATA_ATIVACAO")
-
-if(!inicio){
-
-let agora=new Date()
-
-let fim=new Date()
-
-fim.setDate(agora.getDate()+30)
-
-localStorage.setItem(
-
-"DIAGRAMACAO_INTERNACIONAL_DATA_ATIVACAO",
-
-agora.toISOString()
-
-)
-
-localStorage.setItem(
-
-"DIAGRAMACAO_INTERNACIONAL_DATA_FIM",
-
-fim.toISOString()
-
-)
-
-}
-
-if(plano==="40"){
-
-localStorage.setItem(
-
-"DIAGRAMACAO_INTERNACIONAL_PLANO",
-
-"40"
-
-)
-
-localStorage.setItem(
-
-"DIAGRAMACAO_INTERNACIONAL_LIMITE",
-
-"10"
-
-)
-
-localStorage.setItem(
-
-"DIAGRAMACAO_INTERNACIONAL_CAPA",
-
-"simples"
-
-)
-
-}
-
-if(plano==="70"){
-
-localStorage.setItem(
-
-"DIAGRAMACAO_INTERNACIONAL_PLANO",
-
-"70"
-
-)
-
-localStorage.setItem(
-
-"DIAGRAMACAO_INTERNACIONAL_LIMITE",
-
-"20"
-
-)
-
-localStorage.setItem(
-
-"DIAGRAMACAO_INTERNACIONAL_CAPA",
-
-"premium"
-
-)
-
-}
-
-
-let usados=parseInt(
-
-localStorage.getItem(
-
-"DIAGRAMACAO_INTERNACIONAL_USADOS"
-
-)||"0"
-
-)
-
-let limite=parseInt(
-
-localStorage.getItem(
-
-"DIAGRAMACAO_INTERNACIONAL_LIMITE"
-
-)
-
-)
-
-
-let lista=
-
-JSON.parse(
-
-localStorage.getItem(
-
-"DIAGRAMACAO_INTERNACIONAL_IDS"
-
-)||"[]"
-
-)
-
-
-if(!lista.includes(idObra)){
-
-if(usados>=limite){
-
-alert("Limite do plano atingido")
-
-return
-
-}
-
-lista.push(idObra)
-
-localStorage.setItem(
-
-"DIAGRAMACAO_INTERNACIONAL_IDS",
-
-JSON.stringify(lista)
-
-)
-
-localStorage.setItem(
-
-"DIAGRAMACAO_INTERNACIONAL_USADOS",
-
-usados+1
-
-)
-
-}
-
-alert("Diagramação internacional registrada com sucesso")
-
-}
-
-
-carregarIdiomas()
-
-</script>
+  <div class="topo">
+    Planejamento multilíngue da obra
+  </div>
+
+  <div class="subtopo">
+    Etapa técnica da tradução editorial do Lapidar.<br>
+    Aqui você define somente os idiomas e a intenção tradutória da obra.
+  </div>
+
+  <div class="container">
+
+    <div class="card">
+      <h2>Resumo da tradução</h2>
+
+      <div class="info">
+        <span class="rotulo">Nível de tradução escolhido</span>
+        <div class="valor" id="nivelTraducaoTexto">Não identificado</div>
+      </div>
+
+      <div class="info">
+        <span class="rotulo">Valor-base da seção</span>
+        <div class="valor" id="valorTraducaoTexto">Não registrado</div>
+      </div>
+
+      <div class="info">
+        <span class="rotulo">Idioma original da obra</span>
+        <div class="valor" id="idiomaOriginalTexto">Não identificado</div>
+      </div>
+
+      <div id="statusTraducao" class="status status-info">
+        Aguardando definição dos idiomas de destino.
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Idiomas de destino</h2>
+
+      <label for="idiomaDestino">Idioma internacional desejado</label>
+      <select id="idiomaDestino">
+        <option value="">Selecione</option>
+        <option value="Inglês">Inglês</option>
+        <option value="Espanhol">Espanhol</option>
+        <option value="Francês">Francês</option>
+        <option value="Alemão">Alemão</option>
+        <option value="Italiano">Italiano</option>
+        <option value="Português de Portugal">Português de Portugal</option>
+      </select>
+
+      <label for="quantidadeIdiomas">Quantos idiomas deseja nesta etapa?</label>
+      <input type="number" id="quantidadeIdiomas" min="1" max="20" value="1">
+
+      <div class="ajuda">
+        O idioma original já vem do registro da obra. Aqui você informa apenas o(s) idioma(s) de destino.
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Observações interpretativas da tradução</h2>
+
+      <label for="observacoesTraducao">Orientações do autor ou da editora</label>
+      <textarea id="observacoesTraducao" placeholder="Ex.: preservar termos religiosos, evitar literalismo em metáforas, manter nomes próprios intactos, respeitar clima sombrio da narrativa, manter expressões simbólicas etc."></textarea>
+
+      <div class="ajuda">
+        Use este campo para registrar nuances de interpretação, tom, simbolismo, regionalismos ou termos fixos da obra.
+      </div>
+    </div>
+
+    <div class="botoes">
+      <button class="botao botao-verde" onclick="registrarTraducao()">
+        Registrar tradução editorial
+      </button>
+
+      <button class="botao botao-azul" onclick="verMesario()">
+        Ver Mesário da obra
+      </button>
+
+      <button class="botao botao-cinza" onclick="voltarSegundaLingua()">
+        Retornar ao módulo Segunda Língua(s)
+      </button>
+
+      <button class="botao botao-vermelho" onclick="sairSistema()">
+        Sair do sistema
+      </button>
+    </div>
+
+    <div class="footer">
+      Tradução e capa são módulos diferentes dentro do Lapidar.<br>
+      O módulo Segunda Língua(s) trata apenas de idioma, interpretação, registro e circulação internacional.
+    </div>
+
+  </div>
+
+  <script>
+    function carregarJSON(chave){
+      const salvo = localStorage.getItem(chave);
+      if(!salvo) return null;
+      try{
+        return JSON.parse(salvo);
+      }catch(e){
+        return null;
+      }
+    }
+
+    function preencherCabecalhoTraducao(){
+      const entrada = carregarJSON("lapidar_entrada_bolsao") || {};
+      const nivel = localStorage.getItem("segunda_lingua_nivel") || "";
+      const valor = localStorage.getItem("mesario_segunda_lingua_valor") || "";
+      const config = carregarJSON("segunda_lingua_config") || {};
+
+      let idiomaOriginal =
+        entrada.idioma ||
+        entrada.idiomaBase ||
+        localStorage.getItem("idioma_obra_original") ||
+        "Português / edição lusófona";
+
+      localStorage.setItem("idioma_obra_original", idiomaOriginal);
+
+      let nivelTexto = "Não identificado";
+      if(nivel === "basica"){
+        nivelTexto = "Tradução de leitura rápida";
+      }
+      if(nivel === "editorial"){
+        nivelTexto = "Tradução editorial recomendada";
+      }
+      if(nivel === "internacional"){
+        nivelTexto = "Tradução internacional publicável";
+      }
+
+      let valorTexto = "Não registrado";
+      if(valor){
+        valorTexto = "R$ " + valor + " ou US$ " + valor;
+      }
+
+      document.getElementById("nivelTraducaoTexto").innerText = nivelTexto;
+      document.getElementById("valorTraducaoTexto").innerText = valorTexto;
+      document.getElementById("idiomaOriginalTexto").innerText = idiomaOriginal;
+
+      if(config.idiomaDestino){
+        document.getElementById("idiomaDestino").value = config.idiomaDestino;
+      }
+
+      if(config.quantidadeIdiomas){
+        document.getElementById("quantidadeIdiomas").value = config.quantidadeIdiomas;
+      }
+
+      if(config.observacoes){
+        document.getElementById("observacoesTraducao").value = config.observacoes;
+      }
+    }
+
+    function registrarTraducao(){
+      const nivel = localStorage.getItem("segunda_lingua_nivel") || "";
+      const valor = localStorage.getItem("mesario_segunda_lingua_valor") || "";
+      const idiomaOriginal = localStorage.getItem("idioma_obra_original") || "Português / edição lusófona";
+      const idiomaDestino = document.getElementById("idiomaDestino").value.trim();
+      const quantidadeIdiomas = document.getElementById("quantidadeIdiomas").value.trim();
+      const observacoes = document.getElementById("observacoesTraducao").value.trim();
+
+      if(!nivel){
+        alert("Escolha primeiro o nível de tradução antes de registrar esta etapa.");
+        window.location.href = "modulo05_segunda_linguas_mapa.html";
+        return;
+      }
+
+      if(!idiomaDestino){
+        alert("Selecione o idioma internacional desejado.");
+        return;
+      }
+
+      const dadosTraducao = {
+        nivel: nivel,
+        valorBase: valor,
+        idiomaOriginal: idiomaOriginal,
+        idiomaDestino: idiomaDestino,
+        quantidadeIdiomas: quantidadeIdiomas,
+        observacoes: observacoes,
+        dataRegistro: new Date().toISOString()
+      };
+
+      localStorage.setItem("segunda_lingua_config", JSON.stringify(dadosTraducao));
+
+      alert("Tradução editorial registrada com sucesso.");
+    }
+
+    function verMesario(){
+      window.location.href = "mesario.html";
+    }
+
+    function voltarSegundaLingua(){
+      window.location.href = "segunda_lingua.html";
+    }
+
+    function sairSistema(){
+      window.location.href = "index.html";
+    }
+
+    preencherCabecalhoTraducao();
+  </script>
 
 </body>
 </html>
