@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Módulo 01 — Bolsão de Limpeza Editorial</title>
+
+  <style>
+    body{
+      margin:0;
+      font-family:Arial,sans-serif;
+      background:#eee8dd;
+      color:#2f2a24;
+    }
+
+    .topo{
+      background:#e2d8ca;
+      color:#4b433a;
+      padding:18px 16px;
+      text-align:center;
+      font-size:26px;
+      font-weight:bold;
+      border-bottom:1px solid #d2c6b6;
+    }
+
+    .subtopo{
+      text-align:center;
+      color:#6c6257;
+      font-size:14px;
+      padding:10px 16px 0 16px;
+      line-height:1.7;
+    }
+
+    .container{
+      max-width:1100px;
+      margin:0 auto;
+      padding:24px 16px 40px 16px;
+    }
+
+    .card{
+      background:#fbf8f2;
+      border:1px solid #d9cfbf;
+      border-radius:18px;
+      padding:22px;
+      margin-bottom:18px;
+      box-shadow:0 6px 16px rgba(0,0,0,.06);
+    }
+
+    .card h2{
+      margin:0 0 14px 0;
+      color:#5c5145;
+      font-size:24px;
+    }
+
+    .card p{
+      margin:0;
+      line-height:1.7;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:18px;
+    }
+
+    .linha{
+      background:#f6f1e8;
+      border:1px solid #dfd4c4;
+      border-radius:12px;
+      padding:14px 16px;
+      margin-top:12px;
+    }
+
+    .rotulo{
+      display:block;
+      font-size:12px;
+      font-weight:bold;
+      text-transform:uppercase;
+      letter-spacing:.4px;
+      margin-bottom:6px;
+      color:#776d61;
+    }
+
+    .valor{
+      font-size:16px;
+      line-height:1.6;
+      word-break:break-word;
+    }
+
+    .status{
+      margin-top:14px;
+      display:inline-block;
+      padding:8px 12px;
+      border-radius:999px;
+      font-size:13px;
+      font-weight:bold;
+    }
+
+    .status-info{
+      background:#f3ede3;
+      color:#6c6258;
+      border:1px solid #e0d4c3;
+    }
+
+    .status-ok{
+      background:#e7f6ea;
+      color:#196b3a;
+      border:1px solid #bde0c6;
+    }
+
+    .status-alert{
+      background:#fff3df;
+      color:#8a5a14;
+      border:1px solid #efd2a3;
+    }
+
+    .preview-a4{
+      margin-top:14px;
+      background:#ffffff;
+      border:1px solid #d7cdbe;
+      border-radius:14px;
+      min-height:360px;
+      max-height:480px;
+      overflow:auto;
+      padding:22px;
+      box-shadow:inset 0 0 0 1px #f0e8db;
+    }
+
+    .preview-a4 .pagina{
+      width:100%;
+      max-width:760px;
+      margin:0 auto;
+      background:#fff;
+      color:#2f2a24;
+      line-height:1.8;
+      font-size:16px;
+      white-space:pre-wrap;
+    }
+
+    .acoes{
+      display:grid;
+      grid-template-columns:1fr 1fr 1fr;
+      gap:12px;
+      margin-top:14px;
+    }
+
+    .acao{
+      background:#fff;
+      border:1px solid #d9cfbf;
+      border-radius:12px;
+      padding:14px;
+      text-align:center;
+      font-size:14px;
+      line-height:1.6;
+    }
+
+    .acao strong{
+      display:block;
+      margin-bottom:6px;
+      color:#5e5448;
+    }
+
+    .botoes{
+      margin-top:24px;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+
+    .botao{
+      width:100%;
+      padding:19px;
+      font-size:19px;
+      font-weight:bold;
+      border:none;
+      border-radius:14px;
+      cursor:pointer;
+    }
+
+    .botao-principal{
+      background:#6f6559;
+      color:#fff;
+    }
+
+    .botao-principal:hover{
+      background:#584f45;
+    }
+
+    .botao-workspace{
+      background:#d8cab3;
+      color:#3d372f;
+    }
+
+    .botao-workspace:hover{
+      background:#c6b498;
+    }
+
+    .botao-voltar{
+      background:#a4acb7;
+      color:#fff;
+    }
+
+    .botao-voltar:hover{
+      background:#848d99;
+    }
+
+    .small{
+      font-size:13px;
+      color:#766b5f;
+      line-height:1.7;
+      margin-top:12px;
+    }
+
+    @media(max-width:900px){
+      .grid,.acoes{
+        grid-template-columns:1fr;
+      }
+
+      .topo{
+        font-size:22px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="topo">
+    Módulo 01 — Bolsão de Limpeza Editorial
+  </div>
+
+  <div class="subtopo">
+    Segunda etapa do Bolsão.<br>
+    Aqui a obra passa pela limpeza técnica, correção ortográfica e confirmação final da sua estrutura antes de seguir para o Workspace.
+  </div>
+
+  <div class="container">
+
+    <div class="grid">
+
+      <div class="card">
+        <h2>Resumo da obra recebida</h2>
+        <p>
+          O Bolsão recupera aqui o diagnóstico da leitura inicial e prepara a obra para os módulos seguintes sem deformar sua identidade estrutural.
+        </p>
+
+        <div class="linha">
+          <span class="rotulo">Arquivo ativo</span>
+          <div class="valor" id="arquivoAtivo">Nenhum arquivo identificado.</div>
+        </div>
+
+        <div class="linha">
+          <span class="rotulo">Classificação principal</span>
+          <div class="valor" id="principalFinal">—</div>
+        </div>
+
+        <div class="linha">
+          <span class="rotulo">Classificação secundária</span>
+          <div class="valor" id="secundarioFinal">—</div>
+        </div>
+
+        <div class="linha">
+          <span class="rotulo">Classificação terciária</span>
+          <div class="valor" id="terciarioFinal">—</div>
+        </div>
+
+        <div class="linha">
+          <span class="rotulo">Modo de limpeza técnica</span>
+          <div class="valor" id="modoLimpeza">
+            Aguardando identificação da obra.
+          </div>
+        </div>
+
+        <div class="linha">
+          <span class="rotulo">Modo de correção ortográfica e gramatical</span>
+          <div class="valor" id="modoCorrecao">
+            O sistema aplicará correção técnica respeitando a identidade autoral da obra.
+          </div>
+        </div>
+
+        <div class="linha">
+          <span class="rotulo">Confirmação estrutural da obra</span>
+          <div class="valor" id="confirmacaoEstrutural">
+            Ainda não confirmada.
+          </div>
+          <div id="statusEstrutural" class="status status-info">
+            Aguardando processamento técnico
+          </div>
+        </div>
+
+        <div class="acoes">
+          <div class="acao">
+            <strong>Modo 1</strong>
+            Leitura diagnóstica já concluída
+          </div>
+
+          <div class="acao">
+            <strong>Modo 2</strong>
+            Limpeza técnica em exibição
+          </div>
+
+          <div class="acao">
+            <strong>Modo 3</strong>
+            Correção ortográfica e gramatical
+          </div>
+        </div>
+
+        <div class="small">
+          O Bolsão não pode ferir a estrutura original da obra. Em poesia, versos e estrofes devem ser mantidos. Em prosa, os parágrafos devem ser preservados. Em obras híbridas, cada bloco deve ser tratado conforme sua natureza.
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Prévia técnica da obra</h2>
+        <p>
+          A prévia abaixo simula a leitura editorial em formato visual A4 para que o autor acompanhe a limpeza e a correção sem ficar às escuras.
+        </p>
+
+        <div class="preview-a4">
+          <div class="pagina" id="previewTexto">
+Aguardando preparação técnica do texto.
+          </div>
+        </div>
+
+        <div class="linha">
+          <span class="rotulo">Exibição ao vivo do processo</span>
+          <div class="valor" id="processoAoVivo">
+            O Bolsão mostrará aqui o que está sendo limpo, preservado e corrigido diante do autor.
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="card">
+      <h2>Confirmação final do Bolsão</h2>
+      <p>
+        Ao concluir esta etapa, o tipo estrutural da obra será oficialmente definido para orientar Diagramação, Tradutor, Avaliação, Silo Sonoro e os demais módulos do Lapidar.
+      </p>
+
+      <div class="botoes">
+        <button class="botao botao-principal" onclick="confirmarBolsao()">
+          Confirmar limpeza editorial e seguir para o Workspace
+        </button>
+
+        <button class="botao botao-workspace" onclick="irWorkspace()">
+          Ir diretamente para o Workspace da Obra
+        </button>
+
+        <button class="botao botao-voltar" onclick="voltarLeitura()">
+          Retornar à leitura diagnóstica do Bolsão
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    function carregarJSON(chave){
+      const salvo = localStorage.getItem(chave);
+      if(!salvo) return null;
+      try{
+        return JSON.parse(salvo);
+      }catch(e){
+        return null;
+      }
+    }
+
+    function preencherTela(){
+      const dados = carregarJSON("lapidar_bolsao_upload") || {};
+      const arquivo = dados.arquivoNome || "Nenhum arquivo identificado.";
+      const principal = dados.principal || "—";
+      const secundario = dados.secundario || "—";
+      const terciario = dados.terciario || "—";
+
+      document.getElementById("arquivoAtivo").innerText = arquivo;
+      document.getElementById("principalFinal").innerText = principal;
+      document.getElementById("secundarioFinal").innerText = secundario;
+      document.getElementById("terciarioFinal").innerText = terciario;
+
+      let modoLimpeza = "Limpeza técnica padrão ativada.";
+      let modoCorrecao = "Correção ortográfica e gramatical padrão ativada.";
+      let confirmacao = "Estrutura em preparação final.";
+      let processo = "Normalizando resíduos técnicos sem deformar a identidade da obra.";
+      let preview = "Amostra técnica do texto preparada para acompanhamento editorial.";
+
+      if(principal === "Poesia"){
+        modoLimpeza = "Limpeza técnica com preservação integral de versos, estrofes e respiração poética.";
+        modoCorrecao = "Correção ortográfica e gramatical com preservação máxima da forma poética.";
+        confirmacao = "Estrutura poética confirmada. O sistema respeitará a métrica e a organização visual dos versos.";
+        processo = "Preservando versos, quebras de linha e blocos estróficos sem converter em parágrafo corrido.";
+        preview =
+`Exemplo de visualização poética preservada
+
+No silêncio da página branca
+a palavra ainda respira
+
+e cada verso permanece
+onde o autor o deixou
+
+sem colagem indevida
+sem esmagamento da estrofe
+sem violência sobre a forma`;
+      }
+
+      if(principal === "Prosa"){
+        modoLimpeza = "Limpeza técnica narrativa ativada com preservação de parágrafos e ritmo textual.";
+        modoCorrecao = "Correção ortográfica e gramatical orientada à prosa literária.";
+        confirmacao = "Estrutura em prosa confirmada. O sistema manterá o fluxo narrativo contínuo.";
+        processo = "Removendo resíduos e estabilizando o texto narrativo sem apagar sua cadência autoral.";
+        preview =
+`Exemplo de visualização de prosa preservada
+
+O texto segue em parágrafos contínuos, com o respiro próprio da narrativa, sem colagens indevidas e sem deformações técnicas herdadas do arquivo original.
+
+A limpeza acontece por dentro, mas o autor acompanha tudo diante de si.`;
+      }
+
+      if(principal === "Híbrido"){
+        modoLimpeza = "Limpeza técnica híbrida ativada. Blocos poéticos e narrativos serão tratados de forma distinta.";
+        modoCorrecao = "Correção ortográfica e gramatical adaptada a uma estrutura híbrida.";
+        confirmacao = "Estrutura híbrida confirmada. O sistema combinará preservação poética e estabilização narrativa.";
+        processo = "Separando corretamente blocos em verso e blocos em prosa para evitar deformações.";
+        preview =
+`Exemplo de visualização híbrida preservada
+
+Quando o texto entrar em verso
+o sistema não poderá uni-lo
+
+Quando voltar à narrativa,
+os parágrafos seguirão contínuos,
+com a limpeza técnica própria da prosa.`;
+      }
+
+      if(principal === "Fotografia"){
+        modoLimpeza = "Modo fotográfico ativado. A estrutura visual será preservada sem forçar leitura literária indevida.";
+        modoCorrecao = "Correção textual reduzida a legendas, títulos e elementos técnicos presentes.";
+        confirmacao = "Estrutura fotográfica confirmada.";
+        processo = "Preservando a lógica visual da obra e reconhecendo que o núcleo não é textual.";
+        preview =
+`Exemplo de visualização fotográfica
+
+[ Área reservada à composição de imagens ]
+[ Legendas e títulos serão preservados ]
+[ Organização visual reconhecida como eixo principal da obra ]`;
+      }
+
+      if(principal === "Receita"){
+        modoLimpeza = "Modo culinário ativado. Ingredientes, passos e blocos ilustrativos serão preservados.";
+        modoCorrecao = "Correção ortográfica e gramatical aplicada aos blocos textuais sem deformar listas e modos de preparo.";
+        confirmacao = "Estrutura culinária confirmada.";
+        processo = "Mantendo a separação entre ingredientes, preparo, observações e blocos visuais.";
+        preview =
+`Exemplo de visualização culinária preservada
+
+Ingredientes
+- 2 xícaras de farinha
+- 1 colher de manteiga
+
+Modo de preparo
+Misture lentamente os ingredientes, respeitando a sequência da receita e os blocos funcionais do texto.`;
+      }
+
+      document.getElementById("modoLimpeza").innerText = modoLimpeza;
+      document.getElementById("modoCorrecao").innerText = modoCorrecao;
+      document.getElementById("confirmacaoEstrutural").innerText = confirmacao;
+      document.getElementById("processoAoVivo").innerText = processo;
+      document.getElementById("previewTexto").innerText = preview;
+
+      document.getElementById("statusEstrutural").className = "status status-ok";
+      document.getElementById("statusEstrutural").innerText = "Estrutura pronta para confirmação";
+    }
+
+    function confirmarBolsao(){
+      const dados = carregarJSON("lapidar_bolsao_upload") || {};
+      const classificacao = {
+        principal: dados.principal || "—",
+        secundario: dados.secundario || "—",
+        terciario: dados.terciario || "—",
+        dataConfirmacao: new Date().toISOString()
+      };
+
+      localStorage.setItem("lapidar_bolsao_classificacao_final", JSON.stringify(classificacao));
+      alert("Bolsão confirmado com sucesso. A obra pode seguir para o Workspace.");
+      window.location.href = "obra_workspace.html";
+    }
+
+    function irWorkspace(){
+      window.location.href = "obra_workspace.html";
+    }
+
+    function voltarLeitura(){
+      window.location.href = "modulo_01_bolsao.html";
+    }
+
+    preencherTela();
+  </script>
+
+</body>
+</html>
