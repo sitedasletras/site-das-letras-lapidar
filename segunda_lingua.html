@@ -1,414 +1,346 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Segunda Língua(s) • Lapidar</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lapidar — Segunda Língua(s)</title>
 
-<style>
-body{
-margin:0;
-font-family:Arial, sans-serif;
-background:#0e0604;
-color:white;
-font-size:20px;
-}
+  <style>
+    body{
+      margin:0;
+      font-family:Arial,sans-serif;
+      background:#eef3fb;
+      color:#1f2d3d;
+    }
 
-header{
-background:#2f436d;
-padding:24px 20px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-gap:12px;
-flex-wrap:wrap;
-}
+    .topo{
+      background:#355f93;
+      color:#fff;
+      padding:18px 16px;
+      text-align:center;
+      font-size:26px;
+      font-weight:bold;
+    }
 
-.container{
-max-width:1100px;
-margin:auto;
-padding:28px 18px 44px;
-}
+    .container{
+      max-width:960px;
+      margin:0 auto;
+      padding:28px 16px 40px 16px;
+    }
 
-.card{
-background:#1c0e08;
-border-radius:18px;
-padding:24px;
-margin-bottom:22px;
-box-shadow:0 6px 18px rgba(0,0,0,.25);
-}
+    .card{
+      background:#ffffff;
+      border:1px solid #d8e0ea;
+      border-radius:16px;
+      padding:22px;
+      margin-bottom:18px;
+      box-shadow:0 6px 16px rgba(0,0,0,.08);
+    }
 
-h2{
-margin:0;
-font-size:34px;
-}
+    .card h2{
+      margin:0 0 12px 0;
+      color:#24476f;
+      font-size:24px;
+    }
 
-h3{
-margin-top:0;
-font-size:28px;
-}
+    .card p{
+      margin:0;
+      line-height:1.7;
+    }
 
-label{
-display:block;
-margin-top:18px;
-margin-bottom:8px;
-font-weight:bold;
-font-size:22px;
-}
+    .linha{
+      background:#f4f8fc;
+      border:1px solid #d8e0ea;
+      border-radius:12px;
+      padding:14px 16px;
+      margin-top:12px;
+    }
 
-input[type="text"],
-input[type="number"],
-input[type="file"],
-select,
-textarea{
-width:100%;
-padding:16px;
-border-radius:12px;
-border:none;
-background:#2a140c;
-color:white;
-box-sizing:border-box;
-font-family:Arial, sans-serif;
-font-size:22px;
-}
+    .rotulo{
+      display:block;
+      font-size:12px;
+      font-weight:bold;
+      text-transform:uppercase;
+      letter-spacing:.4px;
+      margin-bottom:6px;
+      color:#5b6a7a;
+    }
 
-textarea{
-min-height:140px;
-resize:vertical;
-}
+    .valor{
+      font-size:15px;
+      line-height:1.6;
+      word-break:break-word;
+    }
 
-button{
-margin-top:16px;
-padding:16px 20px;
-border:none;
-border-radius:12px;
-background:#2f436d;
-color:white;
-font-weight:bold;
-cursor:pointer;
-font-size:22px;
-}
+    .status{
+      margin-top:14px;
+      display:inline-block;
+      padding:8px 12px;
+      border-radius:999px;
+      font-size:13px;
+      font-weight:bold;
+    }
 
-.alt{
-background:#8a6f3f;
-}
+    .status-info{
+      background:#eef3fb;
+      color:#355f93;
+      border:1px solid #cfdaee;
+    }
 
-.sec{
-background:#6c757d;
-}
+    .status-ok{
+      background:#e7f6ea;
+      color:#196b3a;
+      border:1px solid #bde0c6;
+    }
 
-.ok{
-background:#1f6b36;
-}
+    .status-alert{
+      background:#fff3df;
+      color:#8a5a14;
+      border:1px solid #efd2a3;
+    }
 
-.preview{
-margin-top:16px;
-background:#2a140c;
-padding:16px;
-border-radius:12px;
-font-size:20px;
-line-height:1.8;
-}
+    .lista{
+      margin:14px 0 0 0;
+      padding-left:18px;
+      line-height:1.8;
+    }
 
-.grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:18px;
-}
+    .botoes{
+      margin-top:24px;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
 
-.mode-box{
-background:#24130c;
-padding:20px;
-border-radius:14px;
-margin-top:14px;
-border:2px solid transparent;
-font-size:21px;
-line-height:1.7;
-}
+    .botao{
+      width:100%;
+      padding:18px;
+      font-size:18px;
+      font-weight:bold;
+      border:none;
+      border-radius:12px;
+      cursor:pointer;
+    }
 
-.mode-box.selected{
-border-color:#d1a24c;
-}
+    .botao-principal{
+      background:#1faa47;
+      color:#fff;
+    }
 
-.badge{
-display:inline-block;
-padding:10px 14px;
-border-radius:999px;
-font-size:16px;
-font-weight:bold;
-margin-top:12px;
-background:#1f6b36;
-}
+    .botao-principal:hover{
+      background:#17863a;
+    }
 
-.checkline{
-margin-top:18px;
-padding:16px;
-background:#24130c;
-border-radius:12px;
-font-size:20px;
-line-height:1.7;
-}
+    .botao-azul{
+      background:#355f93;
+      color:#fff;
+    }
 
-.checkline input{
-width:auto;
-margin-right:10px;
-transform:scale(1.4);
-}
+    .botao-azul:hover{
+      background:#294a73;
+    }
 
-@media (max-width:800px){
-.grid{
-grid-template-columns:1fr;
-}
-}
-</style>
+    .botao-cinza{
+      background:#a4acb7;
+      color:#fff;
+    }
+
+    .botao-cinza:hover{
+      background:#848d99;
+    }
+
+    .botao-vermelho{
+      background:#b22222;
+      color:#fff;
+    }
+
+    .botao-vermelho:hover{
+      background:#8f1b1b;
+    }
+
+    .footer{
+      text-align:center;
+      margin-top:20px;
+      font-size:14px;
+      color:#666;
+      line-height:1.6;
+    }
+
+    @media(max-width:700px){
+      .topo{
+        font-size:22px;
+      }
+    }
+  </style>
 </head>
 <body>
 
-<header>
-<h2>Segunda Língua(s)</h2>
-<div>
-<button class="sec" onclick="voltar()">Voltar</button>
-</div>
-</header>
+  <div class="topo">
+    Módulo 05 — Segunda Língua(s)
+  </div>
 
-<div class="container">
+  <div class="container">
 
-<div class="card">
-<h3>Projeto ativo</h3>
-<div id="nomeProjeto">Nenhum projeto ativo selecionado.</div>
-<div class="badge" id="modoProducaoBadge">Modo: Personalizada</div>
-</div>
+    <div class="card">
+      <h2>Entrada oficial do tradutor do Lapidar</h2>
+      <p>
+        Esta página agora funciona como ponte oficial do módulo Segunda Língua(s). Antes de configurar idiomas e estratégias multilíngues, a obra deve passar pela escolha do nível de tradução.
+      </p>
+      <div id="statusPonte" class="status status-info">Verificando situação do módulo...</div>
+    </div>
 
-<div class="card">
-<h3>Configuração-base da tradução</h3>
+    <div class="card">
+      <h2>Resumo da obra ativa</h2>
 
-<div class="mode-box selected" id="descricaoModo">
-Carregando configuração do modo escolhido...
-</div>
+      <div class="linha">
+        <span class="rotulo">Título da obra</span>
+        <div class="valor" id="tituloObra">—</div>
+      </div>
 
-<div class="preview" id="statusModo">
-Aguardando leitura do modo de produção.
-</div>
-</div>
+      <div class="linha">
+        <span class="rotulo">Autor(es)</span>
+        <div class="valor" id="autorObra">—</div>
+      </div>
 
-<div class="card">
-<h3>Planejamento da tradução</h3>
+      <div class="linha">
+        <span class="rotulo">Identificador institucional</span>
+        <div class="valor" id="identificadorObra">—</div>
+      </div>
 
-<div class="grid">
-<div>
-<label for="idiomaOrigem">Idioma de origem</label>
-<select id="idiomaOrigem">
-<option>Português</option>
-<option>Inglês</option>
-<option>Espanhol</option>
-<option>Francês</option>
-<option>Italiano</option>
-<option>Alemão</option>
-</select>
-</div>
+      <div class="linha">
+        <span class="rotulo">Situação do módulo</span>
+        <div class="valor" id="situacaoTraducao">Nenhum nível de tradução foi selecionado ainda.</div>
+      </div>
+    </div>
 
-<div>
-<label for="quantidadeIdiomas">Quantas línguas deseja?</label>
-<input type="number" id="quantidadeIdiomas" min="1" max="10" value="1">
-</div>
-</div>
+    <div class="card">
+      <h2>Fluxo do módulo</h2>
+      <ul class="lista">
+        <li>Escolher o nível de tradução</li>
+        <li>Definir idioma(s) e modo editorial</li>
+        <li>Salvar a configuração técnica</li>
+        <li>Enviar o valor da seção ao Mesário</li>
+        <li>Preparar o módulo para Auditoria e Exportação</li>
+      </ul>
 
-<label for="idiomasDestino">Quais idiomas deseja?</label>
-<textarea id="idiomasDestino" placeholder="Ex.: Inglês, Espanhol, Francês"></textarea>
+      <div class="botoes">
+        <button class="botao botao-principal" onclick="irParaMapa()">
+          Escolher nível de tradução
+        </button>
 
-<label for="obsTraducao">Observações da tradução</label>
-<textarea id="obsTraducao" placeholder="Tom desejado, público, termos técnicos, regionalismos, adaptações e observações gerais."></textarea>
+        <button class="botao botao-azul" onclick="continuarPlanejamento()">
+          Continuar planejamento multilíngue
+        </button>
 
-<div class="checkline">
-<label>
-<input type="checkbox" id="umaCapaSo">
-Desejo usar uma única capa para todas as línguas.
-</label>
-</div>
+        <button class="botao botao-cinza" onclick="voltarWorkspace()">
+          Retornar ao Workspace da Obra
+        </button>
 
-<div class="checkline">
-<label>
-<input type="checkbox" id="capaPorIdioma">
-Desejo capas separadas por idioma.
-</label>
-</div>
+        <button class="botao botao-vermelho" onclick="sairSistema()">
+          Sair do sistema
+        </button>
+      </div>
+    </div>
 
-<button onclick="aplicarPadraoModo()">Aplicar padrão do modo</button>
-<button class="alt" onclick="salvarTraducao()">Salvar configuração da tradução</button>
+    <div class="footer">
+      Valores variam conforme o tipo de licença editorial da conta e o país de registro.<br>
+      Lapidar — trabalhando ao lado do autor, desde a primeira letra até o último ponto final.
+    </div>
 
-<div class="preview" id="statusTraducao">
-Nenhuma configuração de tradução salva ainda.
-</div>
-</div>
+  </div>
 
-<div class="card">
-<h3>Texto-base da tradução</h3>
+  <script>
+    function carregarJSON(chave){
+      const salvo = localStorage.getItem(chave);
+      if(!salvo) return null;
+      try{
+        return JSON.parse(salvo);
+      }catch(e){
+        return null;
+      }
+    }
 
-<label for="textoBaseTraducao">Texto-base</label>
-<textarea id="textoBaseTraducao" placeholder="Cole ou revise aqui o texto-base que seguirá para tradução."></textarea>
+    function preencherResumo(){
+      const entrada = carregarJSON("lapidar_entrada_bolsao") || {};
+      const obra = carregarJSON("obraAtual") || {};
+      const nivelTraducao = localStorage.getItem("segunda_lingua_nivel") || "";
+      const valorTraducao = localStorage.getItem("mesario_segunda_lingua_valor") || "";
 
-<button onclick="puxarTextoObra()">Puxar texto da obra já lida</button>
-<button class="alt" onclick="salvarTextoBase()">Salvar texto-base</button>
+      const titulo =
+        entrada.tituloManual ||
+        entrada.tituloBase ||
+        (obra.estrutura && obra.estrutura.titulo) ||
+        "Não identificado";
 
-<div class="preview" id="statusTextoBase">
-Nenhum texto-base salvo ainda.
-</div>
-</div>
+      const autor =
+        entrada.autoresManual ||
+        entrada.autorBase ||
+        (obra.estrutura && obra.estrutura.autor) ||
+        "Não identificado";
 
-<div class="card">
-<h3>Confirmação</h3>
+      const identificador =
+        entrada.identificadorPreview ||
+        "—";
 
-<div class="preview" id="resumoConfirmacao">
-Revise os dados acima. Se estiver tudo certo, confirme e siga para o próximo setor marcado.
-</div>
+      document.getElementById("tituloObra").innerText = titulo;
+      document.getElementById("autorObra").innerText = autor;
+      document.getElementById("identificadorObra").innerText = identificador;
 
-<button class="ok" onclick="confirmarESeguir()">Concordo com esta tradução e quero seguir</button>
-<button class="sec" onclick="abrirExpedicao()">Pular para expedição</button>
-</div>
+      if(nivelTraducao){
+        let nomeNivel = nivelTraducao;
 
-</div>
+        if(nivelTraducao === "basica"){
+          nomeNivel = "Tradução de leitura rápida";
+        }
+        if(nivelTraducao === "editorial"){
+          nomeNivel = "Tradução editorial recomendada";
+        }
+        if(nivelTraducao === "internacional"){
+          nomeNivel = "Tradução internacional publicável";
+        }
 
-<script>
-const perfil = localStorage.getItem("lapidar_perfil");
-if(!perfil){
-window.location.href = "index.html";
-}
+        document.getElementById("situacaoTraducao").innerText =
+          "Nível já selecionado: " + nomeNivel + (valorTraducao ? " | Valor-base registrado: " + valorTraducao : "") + ".";
 
-const projeto = localStorage.getItem("lapidar_projeto_ativo");
-if(projeto){
-document.getElementById("nomeProjeto").innerText = projeto;
-}
+        document.getElementById("statusPonte").className = "status status-ok";
+        document.getElementById("statusPonte").innerText =
+          "Nível identificado. O módulo pode seguir para o planejamento multilíngue.";
+      }else{
+        document.getElementById("situacaoTraducao").innerText =
+          "Nenhum nível de tradução foi selecionado ainda.";
 
-const modo = localStorage.getItem("lapidar_modo_producao") || "personalizada";
+        document.getElementById("statusPonte").className = "status status-alert";
+        document.getElementById("statusPonte").innerText =
+          "A obra precisa passar primeiro pelo mapa de níveis de tradução.";
+      }
+    }
 
-function carregarModo(){
-const badge = document.getElementById("modoProducaoBadge");
-const descricao = document.getElementById("descricaoModo");
-const status = document.getElementById("statusModo");
+    function irParaMapa(){
+      window.location.href = "modulo05_segunda_linguas_mapa.html";
+    }
 
-if(modo === "nacional"){
-badge.innerText = "Modo: Nacional";
-descricao.innerHTML =
-"<strong>Produção Nacional</strong><br>" +
-"Fluxo de tradução objetivo, com foco em clareza, adaptação funcional e organização segura para publicação.";
-status.innerText = "Padrão nacional carregado.";
-}
+    function continuarPlanejamento(){
+      const nivelTraducao = localStorage.getItem("segunda_lingua_nivel") || "";
 
-if(modo === "internacional"){
-badge.innerText = "Modo: Internacional";
-descricao.innerHTML =
-"<strong>Produção Internacional</strong><br>" +
-"Fluxo de tradução ampliado, com maior sofisticação de apresentação, múltiplos idiomas e suporte para variações editoriais.";
-status.innerText = "Padrão internacional carregado.";
-}
+      if(!nivelTraducao){
+        alert("Escolha primeiro o nível de tradução antes de abrir o planejamento multilíngue.");
+        window.location.href = "modulo05_segunda_linguas_mapa.html";
+        return;
+      }
 
-if(modo === "personalizada"){
-badge.innerText = "Modo: Personalizada";
-descricao.innerHTML =
-"<strong>Produção Personalizada</strong><br>" +
-"Você define quantas línguas quer, quais idiomas serão usados e se a capa será única ou separada por idioma.";
-status.innerText = "Modo personalizado carregado.";
-}
-}
+      window.location.href = "idioma_obra.html";
+    }
 
-function aplicarPadraoModo(){
-if(modo === "nacional"){
-document.getElementById("idiomaOrigem").value = "Português";
-document.getElementById("quantidadeIdiomas").value = 1;
-document.getElementById("idiomasDestino").value = "Inglês";
-document.getElementById("umaCapaSo").checked = true;
-document.getElementById("capaPorIdioma").checked = false;
-}
+    function voltarWorkspace(){
+      window.location.href = "obra_workspace.html";
+    }
 
-if(modo === "internacional"){
-document.getElementById("idiomaOrigem").value = "Português";
-document.getElementById("quantidadeIdiomas").value = 3;
-document.getElementById("idiomasDestino").value = "Inglês, Espanhol, Francês";
-document.getElementById("umaCapaSo").checked = false;
-document.getElementById("capaPorIdioma").checked = true;
-}
+    function sairSistema(){
+      window.location.href = "index.html";
+    }
 
-document.getElementById("statusTraducao").innerText =
-"Padrão do modo aplicado com sucesso.";
-}
-
-function puxarTextoObra(){
-const texto = localStorage.getItem("lapidar_obra_texto") || "";
-document.getElementById("textoBaseTraducao").value = texto;
-
-document.getElementById("statusTextoBase").innerText =
-texto ? "Texto-base carregado com sucesso." : "Nenhum texto da obra encontrado.";
-}
-
-function salvarTextoBase(){
-const texto = document.getElementById("textoBaseTraducao").value;
-localStorage.setItem("lapidar_texto_base_traducao", texto);
-
-document.getElementById("statusTextoBase").innerText =
-"Texto-base salvo com sucesso.";
-}
-
-function salvarTraducao(){
-const dados = {
-origem: document.getElementById("idiomaOrigem").value,
-quantidade: document.getElementById("quantidadeIdiomas").value,
-idiomas: document.getElementById("idiomasDestino").value.trim(),
-observacoes: document.getElementById("obsTraducao").value.trim(),
-umaCapaSo: document.getElementById("umaCapaSo").checked,
-capaPorIdioma: document.getElementById("capaPorIdioma").checked
-};
-
-localStorage.setItem("lapidar_traducao_config", JSON.stringify(dados));
-localStorage.setItem("lapidar_traducao_origem", dados.origem);
-localStorage.setItem("lapidar_traducao_quantidade", dados.quantidade);
-localStorage.setItem("lapidar_traducao_idiomas", dados.idiomas);
-localStorage.setItem("lapidar_traducao_obs", dados.observacoes);
-localStorage.setItem("lapidar_traducao_uma_capa", dados.umaCapaSo ? "true" : "false");
-localStorage.setItem("lapidar_traducao_capa_por_idioma", dados.capaPorIdioma ? "true" : "false");
-
-document.getElementById("statusTraducao").innerHTML =
-"Configuração da tradução salva com sucesso.<br>" +
-"Origem: " + dados.origem + "<br>" +
-"Quantidade de línguas: " + dados.quantidade + "<br>" +
-"Idiomas: " + (dados.idiomas || "-");
-
-document.getElementById("resumoConfirmacao").innerHTML =
-"Tradução configurada.<br>" +
-"Idiomas: " + (dados.idiomas || "-") + "<br>" +
-"Uma capa só: " + (dados.umaCapaSo ? "Sim" : "Não") + "<br>" +
-"Capas por idioma: " + (dados.capaPorIdioma ? "Sim" : "Não");
-}
-
-function proximoServicoAposTraducao(){
-const s = JSON.parse(localStorage.getItem("lapidar_servicos_marcados") || "{}");
-
-if(s.avaliacao) return "avaliacao_literaria.html";
-if(s.lapidacao) return "lapidacao_literaria.html";
-if(s.analisador) return "analisador_obra.html";
-
-return "expedicao_material.html";
-}
-
-function confirmarESeguir(){
-salvarTraducao();
-window.location.href = proximoServicoAposTraducao();
-}
-
-function abrirExpedicao(){
-window.location.href = "expedicao_material.html";
-}
-
-function voltar(){
-window.location.href = "capista.html";
-}
-
-carregarModo();
-
-const textoSalvo = localStorage.getItem("lapidar_texto_base_traducao");
-if(textoSalvo){
-document.getElementById("textoBaseTraducao").value = textoSalvo;
-}
-</script>
+    preencherResumo();
+  </script>
 
 </body>
 </html>
