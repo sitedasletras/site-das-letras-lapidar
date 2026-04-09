@@ -1,221 +1,621 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Capista — Início</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OKapista — Início</title>
 
-<style>
-:root{
---bg:#0d0603;
---card:#140c08;
---cardHover:#1b100a;
---orange:#f7b22c;
---border:rgba(255,123,44,0.18);
-}
+  <style>
+    *{box-sizing:border-box}
 
-body{
-margin:0;
-font-family:Arial;
-background:var(--bg);
-color:white;
-}
+    body{
+      margin:0;
+      font-family:Arial,sans-serif;
+      background:#f6f1e7;
+      color:#2f2a24;
+    }
 
-.container{
-width:min(1100px,95%);
-margin:auto;
-padding:40px 0;
-}
+    .topo{
+      background:#7a5c2e;
+      color:#fff;
+      padding:22px 18px;
+      text-align:center;
+    }
 
-.titulo{
-font-size:36px;
-font-weight:bold;
-}
+    .topo h1{
+      margin:0;
+      font-size:28px;
+    }
 
-.subtitulo{
-margin-top:5px;
-color:var(--orange);
-}
+    .topo p{
+      margin:8px 0 0 0;
+      font-size:14px;
+      opacity:.95;
+    }
 
-.status{
-margin-top:20px;
-padding:16px;
-border-radius:12px;
-background:rgba(247,178,44,0.12);
-border:1px solid rgba(247,178,44,0.25);
-color:#ffe7b0;
-}
+    .container{
+      max-width:1200px;
+      margin:0 auto;
+      padding:24px 16px 40px 16px;
+    }
 
-.grid{
-margin-top:28px;
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:18px;
-}
+    .card{
+      background:#fff;
+      border-radius:14px;
+      padding:20px;
+      margin-bottom:20px;
+      box-shadow:0 4px 14px rgba(0,0,0,.08);
+      border:1px solid #eadfce;
+    }
 
-.card{
-background:var(--card);
-padding:22px;
-border-radius:16px;
-border:1px solid var(--border);
-cursor:pointer;
-transition:.2s;
-}
+    .card h2{
+      margin-top:0;
+      color:#7a5c2e;
+      font-size:22px;
+    }
 
-.card:hover{
-background:var(--cardHover);
-}
+    .grid-2{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:16px;
+    }
 
-.cardTitulo{
-font-size:20px;
-font-weight:bold;
-margin-bottom:6px;
-}
+    .grid-3{
+      display:grid;
+      grid-template-columns:1fr 1fr 1fr;
+      gap:16px;
+    }
 
-.cardDesc{
-color:#ffd2b3;
-font-size:14px;
-line-height:1.6;
-}
+    .linha{
+      background:#f9f6f1;
+      border:1px solid #eadfce;
+      border-radius:10px;
+      padding:12px 14px;
+      margin-bottom:12px;
+    }
 
-.actions{
-margin-top:28px;
-display:flex;
-gap:12px;
-flex-wrap:wrap;
-}
+    .rotulo{
+      display:block;
+      font-size:12px;
+      font-weight:bold;
+      text-transform:uppercase;
+      letter-spacing:.4px;
+      color:#8a6a3c;
+      margin-bottom:6px;
+    }
 
-button{
-border:none;
-padding:14px 18px;
-border-radius:999px;
-cursor:pointer;
-background:#24150f;
-color:white;
-}
+    .valor{
+      font-size:15px;
+      line-height:1.5;
+      word-break:break-word;
+    }
 
-</style>
+    .box{
+      background:#fbfaf7;
+      border:1px solid #eadfce;
+      border-radius:12px;
+      padding:14px;
+    }
+
+    .box strong{
+      display:block;
+      margin-bottom:6px;
+      color:#5d4b2d;
+    }
+
+    .preview{
+      min-height:210px;
+      border:2px dashed #d7cbbc;
+      border-radius:12px;
+      background:#fcfbf9;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      padding:18px;
+      color:#6c6258;
+      line-height:1.6;
+      white-space:pre-wrap;
+    }
+
+    .resumo{
+      background:#f4f8f9;
+      border:1px solid #d9e4e6;
+      border-radius:12px;
+      padding:14px;
+      line-height:1.6;
+    }
+
+    .status{
+      display:inline-block;
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:bold;
+      margin-top:4px;
+    }
+
+    .status-ok{
+      background:#e8f6ee;
+      color:#1d6b43;
+      border:1px solid #b9e2c7;
+    }
+
+    .status-alert{
+      background:#fff4e8;
+      color:#a85b19;
+      border:1px solid #efcfab;
+    }
+
+    .status-note{
+      background:#eef3f8;
+      color:#3f5872;
+      border:1px solid #d8e0ea;
+    }
+
+    .tag{
+      display:inline-block;
+      padding:6px 10px;
+      background:#eef3f8;
+      border:1px solid #d8e0ea;
+      border-radius:999px;
+      font-size:13px;
+      margin-right:6px;
+      margin-top:8px;
+    }
+
+    .campo{
+      margin-bottom:14px;
+    }
+
+    .campo label{
+      display:block;
+      font-weight:bold;
+      margin-bottom:6px;
+      color:#6d4c41;
+      font-size:14px;
+    }
+
+    .campo textarea,
+    .campo select,
+    .campo input[type="text"]{
+      width:100%;
+      padding:11px 12px;
+      border:1px solid #d7cbbc;
+      border-radius:10px;
+      font-size:14px;
+      background:#fff;
+    }
+
+    .campo textarea{
+      min-height:100px;
+      resize:vertical;
+    }
+
+    .botoes{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      margin-top:18px;
+    }
+
+    button{
+      border:none;
+      border-radius:10px;
+      padding:12px 18px;
+      font-size:15px;
+      cursor:pointer;
+    }
+
+    .btn-principal{
+      background:#7a5c2e;
+      color:#fff;
+    }
+
+    .btn-principal:hover{
+      background:#624920;
+    }
+
+    .btn-secundario{
+      background:#e9dfcf;
+      color:#473721;
+    }
+
+    .btn-secundario:hover{
+      background:#dbcdb7;
+    }
+
+    .btn-verde{
+      background:#2a9d8f;
+      color:#fff;
+    }
+
+    .btn-verde:hover{
+      background:#1f776a;
+    }
+
+    .rodape{
+      text-align:center;
+      color:#6c6258;
+      font-size:13px;
+      margin-top:10px;
+    }
+
+    @media (max-width:980px){
+      .grid-2,.grid-3{
+        grid-template-columns:1fr;
+      }
+    }
+  </style>
 </head>
-
 <body>
 
-<div class="container">
+  <div class="topo">
+    <h1>OKapista — Início</h1>
+    <p>Recebimento editorial da obra para capa, contracapa, lombada e orelhas.</p>
+  </div>
 
-<div class="titulo">
-Capista — Painel Inicial
-</div>
+  <div class="container">
 
-<div class="subtitulo">
-Fluxo visual e técnico da capa dentro do Lapidar
-</div>
+    <div class="card">
+      <h2>Obra recebida pelo OKapista</h2>
 
-<div id="statusCapista" class="status">
-Verificando projeto ativo...
-</div>
+      <div class="linha">
+        <span class="rotulo">Título principal</span>
+        <div class="valor" id="tituloObra">—</div>
+      </div>
 
-<div class="grid">
+      <div class="linha">
+        <span class="rotulo">Subtítulo</span>
+        <div class="valor" id="subtituloObra">—</div>
+      </div>
 
-<div class="card" onclick="abrirPlanosCapista()">
-<div class="cardTitulo">Planos do Capista</div>
-<div class="cardDesc">Validar liberação do serviço visual</div>
-</div>
+      <div class="linha">
+        <span class="rotulo">Autor(es)</span>
+        <div class="valor" id="autorObra">—</div>
+      </div>
 
-<div class="card" onclick="abrirConfigurarCapa()">
-<div class="cardTitulo">Configurar Capa Técnica</div>
-<div class="cardDesc">Definir formato, páginas, papel, lombada e base técnica</div>
-</div>
+      <div class="linha">
+        <span class="rotulo">Série / coleção / volume</span>
+        <div class="valor" id="serieVolumeObra">—</div>
+      </div>
 
-<div class="card" onclick="abrirIdiomaCapa()">
-<div class="cardTitulo">Idioma da Capa</div>
-<div class="cardDesc">Preparar título e elementos visuais por idioma</div>
-</div>
+      <div class="linha">
+        <span class="rotulo">Organização / direção / selo</span>
+        <div class="valor" id="creditosEditoriais">—</div>
+      </div>
 
-<div class="card" onclick="abrirUploadTextos()">
-<div class="cardTitulo">Upload de Textos</div>
-<div class="cardDesc">Inserir sinopse, orelhas, biografia e textos da capa</div>
-</div>
+      <div class="linha">
+        <span class="rotulo">Identificador institucional</span>
+        <div class="valor" id="identificadorObra">—</div>
+      </div>
 
-<div class="card" onclick="abrirGerarCapa()">
-<div class="cardTitulo">Gerar Capa</div>
-<div class="cardDesc">Seguir para a montagem visual da capa</div>
-</div>
+      <div class="linha">
+        <span class="rotulo">ISBN informado</span>
+        <div class="valor" id="isbnObra">—</div>
+      </div>
 
-<div class="card" onclick="abrirConfiguracaoCapista()">
-<div class="cardTitulo">Configuração Avançada</div>
-<div class="cardDesc">Ajustar parâmetros visuais e técnicos complementares</div>
-</div>
+      <div id="tagsObra"></div>
+    </div>
 
-</div>
+    <div class="grid-2">
 
-<div class="actions">
-<button onclick="voltarIndice()">Voltar ao índice</button>
-</div>
+      <div>
+        <div class="card">
+          <h2>Base textual para a capa</h2>
 
-</div>
+          <div class="linha">
+            <span class="rotulo">Sinopse</span>
+            <div class="valor" id="sinopseStatus">—</div>
+          </div>
 
-<script>
-function verificarSessao(){
-  if(localStorage.getItem("SDL_sessao_ativa") !== "sim"){
-    window.location.href = "login.html";
-  }
-}
+          <div class="linha">
+            <span class="rotulo">Biografia</span>
+            <div class="valor" id="biografiaStatus">—</div>
+          </div>
 
-function obterProjetoAtivo(){
-  try{
-    const lista = JSON.parse(localStorage.getItem("SDL_projetos_lista") || "[]");
-    const ativo = localStorage.getItem("SDL_projeto_ativo");
-    return lista.find(p => p.id === ativo) || null;
-  }catch{
-    return null;
-  }
-}
+          <div class="linha">
+            <span class="rotulo">Prefácio</span>
+            <div class="valor" id="prefacioStatus">—</div>
+          </div>
 
-function carregarStatusCapista(){
-  const projeto = obterProjetoAtivo();
+          <div class="linha">
+            <span class="rotulo">Dedicatória</span>
+            <div class="valor" id="dedicatoriaStatus">—</div>
+          </div>
 
-  if(!projeto){
-    document.getElementById("statusCapista").innerHTML =
-      "Nenhum projeto ativo selecionado.";
-    return;
-  }
+          <div class="resumo" id="resumoCapista">
+            O OKapista usa a estrutura editorial consolidada pelo Lapidar para organizar a hierarquia visual da capa.
+          </div>
+        </div>
 
-  document.getElementById("statusCapista").innerHTML =
-    "Projeto ativo no módulo capista: <strong>" + (projeto.titulo || "Sem título") + "</strong>";
-  document.getElementById("statusCapista").style.background =
-    "rgba(23,77,39,0.28)";
-}
+        <div class="card">
+          <h2>Estado das imagens</h2>
 
-function abrirPlanosCapista(){
-  window.location.href = "capista_planos.html";
-}
+          <div class="linha">
+            <span class="rotulo">Imagens internas</span>
+            <div class="valor" id="imagensInternasStatus">—</div>
+          </div>
 
-function abrirConfigurarCapa(){
-  window.location.href = "capista_configurar_capa.html";
-}
+          <div class="linha">
+            <span class="rotulo">Imagens de capa</span>
+            <div class="valor" id="imagensCapaStatus">—</div>
+          </div>
 
-function abrirIdiomaCapa(){
-  window.location.href = "capista_idioma.html";
-}
+          <div class="linha">
+            <span class="rotulo">Modo visual sugerido</span>
+            <div class="valor" id="modoVisualStatus">—</div>
+          </div>
 
-function abrirUploadTextos(){
-  window.location.href = "capista_upload_textos.html";
-}
+          <div class="linha">
+            <span class="rotulo">Preparação para voz</span>
+            <div class="valor" id="vozStatus">—</div>
+          </div>
+        </div>
 
-function abrirGerarCapa(){
-  window.location.href = "capista_gerar_capa.html";
-}
+        <div class="card">
+          <h2>Decisão inicial do OKapista</h2>
 
-function abrirConfiguracaoCapista(){
-  window.location.href = "capista_configuracao.html";
-}
+          <div class="campo">
+            <label for="hierarquiaCapa">Hierarquia visual sugerida</label>
+            <select id="hierarquiaCapa">
+              <option value="titulo-subtitulo-autor">Título → Subtítulo → Autor</option>
+              <option value="serie-titulo-autor">Série → Título → Autor</option>
+              <option value="titulo-autor-serie">Título → Autor → Série</option>
+              <option value="organizacao-titulo">Organização → Título</option>
+            </select>
+          </div>
 
-function voltarIndice(){
-  window.location.href = "_Indice.html";
-}
+          <div class="campo">
+            <label for="observacaoCapista">Observação visual</label>
+            <textarea id="observacaoCapista" placeholder="Escreva aqui observações visuais do projeto de capa."></textarea>
+          </div>
 
-verificarSessao();
-carregarStatusCapista();
-</script>
+          <div class="botoes">
+            <button class="btn-verde" onclick="salvarCapista()">Salvar decisão do OKapista</button>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="card">
+          <h2>Prévia textual dos elementos de capa</h2>
+
+          <div class="grid-2">
+            <div class="box">
+              <strong>Capa frontal</strong>
+              <div class="preview" id="previewCapa">Prévia textual da capa frontal</div>
+            </div>
+
+            <div class="box">
+              <strong>Contracapa</strong>
+              <div class="preview" id="previewContra">Prévia textual da contracapa</div>
+            </div>
+
+            <div class="box">
+              <strong>Lombada</strong>
+              <div class="preview" id="previewLombada">Prévia textual da lombada</div>
+            </div>
+
+            <div class="box">
+              <strong>Orelha dianteira</strong>
+              <div class="preview" id="previewOrelha1">Prévia textual da orelha dianteira</div>
+            </div>
+
+            <div class="box">
+              <strong>Orelha traseira</strong>
+              <div class="preview" id="previewOrelha2">Prévia textual da orelha traseira</div>
+            </div>
+
+            <div class="box">
+              <strong>Observação geral</strong>
+              <div class="preview" id="previewObs">O OKapista organiza a distribuição dos elementos de capa e deixa o acabamento fino para os demais passos do próprio módulo.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>Navegação</h2>
+
+          <div class="botoes">
+            <button class="btn-secundario" onclick="location.href='modulo_executor.html'">Voltar ao Executor</button>
+            <button class="btn-secundario" onclick="location.href='obra_workspace.html'">Voltar ao Workspace</button>
+            <button class="btn-secundario" onclick="location.href='mesario.html'">Ir ao Mesário</button>
+            <button class="btn-secundario" onclick="location.href='exportar.html'">Ir para Exportação</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="rodape">
+      Lapidar — trabalhando ao lado do autor, desde a primeira letra até o último ponto final.
+    </div>
+  </div>
+
+  <script>
+    function carregarJSON(chave){
+      const salvo = localStorage.getItem(chave);
+      if(!salvo) return null;
+      try{
+        return JSON.parse(salvo);
+      }catch(e){
+        return null;
+      }
+    }
+
+    function textoOuTraco(v){
+      if(Array.isArray(v)) return v.length ? v.join(", ") : "—";
+      return v && String(v).trim() ? v : "—";
+    }
+
+    function textoArquivoOuGerado(v, fallback){
+      if(Array.isArray(v)) return v.length ? "Enviado: " + v.join(", ") : fallback;
+      return v ? "Enviado: " + v : fallback;
+    }
+
+    function montarSerieVolume(entrada){
+      let partes = [];
+      if(entrada?.colecao) partes.push("Coleção: " + entrada.colecao);
+      if(entrada?.serie) partes.push("Série: " + entrada.serie);
+      if(entrada?.volume) partes.push("Volume: " + entrada.volume);
+      return partes.length ? partes.join(" | ") : "—";
+    }
+
+    function montarCreditosEditoriais(entrada){
+      let partes = [];
+      if(entrada?.organizacao) partes.push("Organização: " + entrada.organizacao);
+      if(entrada?.direcao) partes.push("Direção: " + entrada.direcao);
+      if(entrada?.editora) partes.push("Selo: " + entrada.editora);
+      return partes.length ? partes.join(" | ") : "—";
+    }
+
+    function preencherCapistaInicio(){
+      const entrada = carregarJSON("lapidar_entrada_bolsao");
+      const obra = carregarJSON("obraAtual");
+
+      if(!entrada && !obra){
+        return;
+      }
+
+      const titulo =
+        entrada?.tituloManual ||
+        entrada?.tituloBase ||
+        obra?.estrutura?.titulo ||
+        "Não identificado";
+
+      const subtitulo =
+        entrada?.subtituloManual ||
+        entrada?.subtituloBase ||
+        "";
+
+      const autor =
+        entrada?.autoresManual ||
+        entrada?.autorBase ||
+        obra?.estrutura?.autor ||
+        "Não identificado";
+
+      const identificador =
+        entrada?.identificadorPreview ||
+        "—";
+
+      const isbn =
+        entrada?.isbnInformado ||
+        "—";
+
+      document.getElementById("tituloObra").innerText = titulo;
+      document.getElementById("subtituloObra").innerText = subtitulo || "—";
+      document.getElementById("autorObra").innerText = autor;
+      document.getElementById("serieVolumeObra").innerText = montarSerieVolume(entrada);
+      document.getElementById("creditosEditoriais").innerText = montarCreditosEditoriais(entrada);
+      document.getElementById("identificadorObra").innerText = identificador;
+      document.getElementById("isbnObra").innerText = isbn;
+
+      document.getElementById("sinopseStatus").innerText =
+        textoArquivoOuGerado(entrada?.sinopseArquivo, "Poderá ser gerada gratuitamente em PDF separado.");
+
+      document.getElementById("biografiaStatus").innerText =
+        textoArquivoOuGerado(entrada?.biografiaArquivo, "Poderá ser gerada gratuitamente.");
+
+      document.getElementById("prefacioStatus").innerText =
+        textoArquivoOuGerado(entrada?.prefacioArquivo, "Poderá ser gerado gratuitamente.");
+
+      document.getElementById("dedicatoriaStatus").innerText =
+        textoArquivoOuGerado(entrada?.dedicatoriaArquivo, "Poderá ser gerada gratuitamente.");
+
+      let imagensInternas = "Não deseja imagens internas";
+      if(entrada?.imagensInternasModo === "enviar"){
+        imagensInternas = entrada?.uploadImagensInternas
+          ? "Imagens internas enviadas: " + textoOuTraco(entrada.uploadImagensInternas)
+          : "Imagens internas serão enviadas";
+      }
+      if(entrada?.imagensInternasModo === "criar"){
+        imagensInternas = "Criação automática de imagens internas: " + textoOuTraco(entrada?.tipoImagemCriada);
+      }
+
+      document.getElementById("imagensInternasStatus").innerText = imagensInternas;
+      document.getElementById("imagensCapaStatus").innerText =
+        entrada?.imagensCapa ? textoOuTraco(entrada.imagensCapa) : "Não enviadas";
+      document.getElementById("vozStatus").innerText = textoOuTraco(entrada?.voz);
+
+      let modoVisual = "A definir pelo OKapista";
+      if(entrada?.imagensInternasModo === "criar" && entrada?.tipoImagemCriada){
+        modoVisual = "Projeto visual apoiado por criação automática em estilo: " + entrada.tipoImagemCriada;
+      } else if (entrada?.imagensCapa){
+        modoVisual = "Projeto visual apoiado por imagens fornecidas";
+      }
+      document.getElementById("modoVisualStatus").innerText = modoVisual;
+
+      const tags = document.getElementById("tagsObra");
+      tags.innerHTML = "";
+
+      [
+        obra?.tipo,
+        obra?.genero,
+        obra?.estilo,
+        obra?.clima,
+        entrada?.serie,
+        entrada?.volume
+      ].filter(Boolean).forEach(tagTexto=>{
+        const span = document.createElement("span");
+        span.className = "tag";
+        span.innerText = tagTexto;
+        tags.appendChild(span);
+      });
+
+      let resumo = `O OKapista recebeu a obra "${titulo}" a partir do fluxo do Lapidar. `;
+      if(subtitulo){
+        resumo += `Há subtítulo, então a hierarquia tipográfica da capa precisa respeitar dois níveis principais. `;
+      }
+      if(entrada?.serie){
+        resumo += `A série "${entrada.serie}" pode entrar como assinatura superior ou como elemento complementar. `;
+      }
+      if(entrada?.organizacao){
+        resumo += `Há organização declarada, então o crédito editorial precisa ser tratado visualmente com clareza. `;
+      }
+      if(isbn !== "—"){
+        resumo += `Há ISBN informado para uso posterior na contracapa e na parte técnica interna. `;
+      } else {
+        resumo += `Não há ISBN informado neste momento. `;
+      }
+      document.getElementById("resumoCapista").innerText = resumo;
+
+      document.getElementById("previewCapa").innerText =
+        [entrada?.serie || "", titulo, subtitulo, autor].filter(Boolean).join("\n");
+
+      document.getElementById("previewContra").innerText =
+        (entrada?.sinopseArquivo ? "Contracapa com sinopse enviada pelo autor." : "Contracapa preparada para sinopse gerada ou futura.") +
+        "\n\nSelo editorial: " + (entrada?.editora || "não informado");
+
+      document.getElementById("previewLombada").innerText =
+        [titulo, autor].filter(Boolean).join("\n");
+
+      document.getElementById("previewOrelha1").innerText =
+        entrada?.organizacao
+          ? "Orelha dianteira com destaque para organização e apresentação da obra."
+          : "Orelha dianteira preparada para frases de impacto, apresentação curta ou série.";
+
+      document.getElementById("previewOrelha2").innerText =
+        entrada?.biografiaArquivo
+          ? "Orelha traseira com biografia enviada."
+          : "Orelha traseira preparada para biografia gerada do autor.";
+
+      document.getElementById("previewObs").innerText =
+        "O OKapista organiza título, créditos, sinopse, biografia e elementos de apoio visual antes do refinamento final do projeto gráfico.";
+    }
+
+    function salvarCapista(){
+      const dados = {
+        observacaoCapista: document.getElementById("observacaoCapista").value || "",
+        hierarquiaCapa: document.getElementById("hierarquiaCapa").value || ""
+      };
+
+      localStorage.setItem("okapista_obra", JSON.stringify(dados));
+      alert("Decisão do OKapista salva com sucesso.");
+    }
+
+    preencherCapistaInicio();
+  </script>
 
 </body>
 </html>
