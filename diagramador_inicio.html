@@ -1,76 +1,82 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Assistente de Diagramação • Lapidar</title>
+  <title>Assistente de Diagramação</title>
 
   <style>
-    *{
-      box-sizing:border-box;
-    }
+    *{box-sizing:border-box}
 
     body{
       margin:0;
-      font-family:Arial, sans-serif;
-      background:#08111f;
-      color:#ffffff;
+      font-family:Arial,sans-serif;
+      background:#071225;
+      color:#f3f6fb;
     }
 
-    header{
-      background:#32497d;
-      padding:20px 16px;
+    .topo{
+      background:#314f8a;
+      color:#fff;
+      padding:18px 16px;
       display:flex;
-      justify-content:space-between;
       align-items:center;
+      justify-content:space-between;
+      gap:12px;
     }
 
-    header h2{
+    .topo h1{
       margin:0;
-      font-size:22px;
+      font-size:24px;
     }
 
-    header a{
-      background:#7b8795;
-      padding:10px 16px;
+    .topo button{
+      background:#8d99ae;
+      color:#fff;
+      border:none;
       border-radius:10px;
-      color:#ffffff;
-      text-decoration:none;
+      padding:10px 14px;
+      cursor:pointer;
       font-weight:bold;
-      font-size:15px;
+    }
+
+    .topo button:hover{
+      background:#6c788d;
     }
 
     .container{
-      max-width:1000px;
+      max-width:1200px;
       margin:0 auto;
-      padding:20px 14px 40px;
+      padding:20px 16px 40px 16px;
     }
 
     .card{
-      background:#0f1f38;
-      border:1px solid rgba(255,255,255,.08);
-      border-radius:18px;
+      background:#0e2347;
+      border:1px solid #193564;
+      border-radius:16px;
       padding:20px;
       margin-bottom:18px;
-      box-shadow:0 4px 16px rgba(0,0,0,.25);
+      box-shadow:0 8px 18px rgba(0,0,0,.18);
     }
 
-    .card h3{
-      margin:0 0 18px 0;
-      font-size:22px;
+    .card h2{
+      margin-top:0;
+      color:#ffffff;
+      font-size:28px;
     }
 
-    .secao{
-      background:#132748;
+    .subcard{
+      background:#143160;
+      border:1px solid #1a3c73;
       border-radius:14px;
       padding:16px;
       margin-bottom:14px;
     }
 
-    .secao h4{
-      margin:0 0 14px 0;
+    .subcard h3{
+      margin:0 0 12px 0;
       font-size:18px;
-      color:#d9e6ff;
+      color:#dbe7ff;
     }
 
     .grid-2{
@@ -79,30 +85,90 @@
       gap:14px;
     }
 
-    label{
-      display:block;
-      font-weight:bold;
-      margin:14px 0 8px;
-      color:#e6eefc;
+    .campo{
+      margin-bottom:12px;
     }
 
-    input, select, textarea{
+    .campo label{
+      display:block;
+      font-size:14px;
+      font-weight:bold;
+      color:#dfe8fb;
+      margin-bottom:6px;
+    }
+
+    .campo select,
+    .campo input[type="text"],
+    .campo textarea{
       width:100%;
       padding:12px;
       border-radius:10px;
-      border:1px solid rgba(255,255,255,.10);
-      background:#1a335c;
-      color:#ffffff;
-      margin-bottom:10px;
-      font-size:15px;
+      border:1px solid #335791;
+      background:#18386d;
+      color:#fff;
+      font-size:14px;
     }
 
-    textarea{
-      min-height:110px;
+    .campo textarea{
+      min-height:120px;
       resize:vertical;
     }
 
-    .acoes{
+    .info{
+      background:#143160;
+      border:1px solid #1a3c73;
+      border-radius:12px;
+      padding:14px;
+      line-height:1.6;
+      color:#dce8ff;
+    }
+
+    .linha{
+      background:#18386d;
+      border:1px solid #335791;
+      border-radius:10px;
+      padding:12px 14px;
+      margin-bottom:12px;
+    }
+
+    .rotulo{
+      display:block;
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.4px;
+      color:#afc4ef;
+      margin-bottom:6px;
+      font-weight:bold;
+    }
+
+    .valor{
+      font-size:15px;
+      line-height:1.5;
+      word-break:break-word;
+    }
+
+    .status{
+      display:inline-block;
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:bold;
+      margin-top:8px;
+    }
+
+    .status-ok{
+      background:#e8f6ee;
+      color:#1d6b43;
+      border:1px solid #b9e2c7;
+    }
+
+    .status-note{
+      background:#eef3f8;
+      color:#3f5872;
+      border:1px solid #d8e0ea;
+    }
+
+    .botoes{
       display:flex;
       flex-wrap:wrap;
       gap:12px;
@@ -111,198 +177,286 @@
 
     button{
       border:none;
-      border-radius:12px;
+      border-radius:10px;
       padding:14px 18px;
       font-size:15px;
-      font-weight:bold;
       cursor:pointer;
+      font-weight:bold;
     }
 
-    .botao-verde{
-      background:#2e7d32;
-      color:#ffffff;
+    .btn-verde{
+      background:#1faa47;
+      color:#fff;
     }
 
-    .botao-cinza{
-      background:#7b8795;
-      color:#ffffff;
+    .btn-verde:hover{
+      background:#17863a;
     }
 
-    .status{
-      margin-top:18px;
-      background:#132748;
+    .btn-amarelo{
+      background:#c9c9c9;
+      color:#2d2d2d;
+    }
+
+    .btn-amarelo:hover{
+      background:#b3b3b3;
+    }
+
+    .btn-azul{
+      background:#355f93;
+      color:#fff;
+    }
+
+    .btn-azul:hover{
+      background:#294a73;
+    }
+
+    .rodape{
+      margin-top:10px;
+      background:#143160;
+      border:1px solid #1a3c73;
       border-radius:12px;
       padding:14px;
+      color:#dce8ff;
       line-height:1.6;
-      white-space:pre-line;
-      color:#e7efff;
     }
 
-    @media(max-width:700px){
+    @media (max-width: 900px){
       .grid-2{
         grid-template-columns:1fr;
       }
 
-      header h2{
-        font-size:20px;
+      .topo{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+
+      .botoes{
+        flex-direction:column;
+      }
+
+      .botoes button{
+        width:100%;
       }
     }
   </style>
 </head>
 <body>
 
-  <header>
-    <h2>Assistente de Diagramação</h2>
-    <a href="index.html">Voltar</a>
-  </header>
+  <div class="topo">
+    <h1>Assistente de Diagramação</h1>
+    <button onclick="location.href='modulo_executor.html'">Voltar</button>
+  </div>
 
   <div class="container">
+
     <div class="card">
-      <h3>Configuração da diagramação</h3>
+      <h2>Configuração da diagramação</h2>
 
-      <div class="secao">
-        <h4>Estrutura do livro</h4>
-
+      <div class="subcard">
+        <h3>Estrutura do livro</h3>
         <div class="grid-2">
-          <div>
+          <div class="campo">
             <label for="formatoLivro">Formato do livro</label>
             <select id="formatoLivro">
-              <option value="A5">A5</option>
-              <option value="16x23">16x23</option>
+              <option value="A5" selected>A5</option>
+              <option value="16x23">16 x 23 cm</option>
+              <option value="6x9">6 x 9</option>
               <option value="A4">A4</option>
-              <option value="6x9">6x9</option>
             </select>
           </div>
 
-          <div>
+          <div class="campo">
             <label for="numeracaoPaginas">Numeração de páginas</label>
             <select id="numeracaoPaginas">
-              <option value="corpo-da-obra">Iniciar no corpo da obra</option>
-              <option value="desde-o-inicio">Iniciar desde o início</option>
+              <option value="iniciar-corpo" selected>Iniciar no corpo da obra</option>
+              <option value="iniciar-inicio">Iniciar desde o início</option>
               <option value="sem-numeracao">Sem numeração</option>
             </select>
           </div>
-        </div>
 
-        <div class="grid-2">
-          <div>
+          <div class="campo">
             <label for="posicaoNumeracao">Posição da numeração</label>
             <select id="posicaoNumeracao">
-              <option value="rodape-centro">Rodapé central</option>
-              <option value="rodape-direita">Rodapé à direita</option>
-              <option value="rodape-esquerda">Rodapé à esquerda</option>
-              <option value="cabecalho-centro">Cabeçalho central</option>
+              <option value="rodape-central" selected>Rodapé central</option>
+              <option value="rodape-direito">Rodapé direito</option>
+              <option value="cabecalho-direito">Cabeçalho direito</option>
             </select>
           </div>
 
-          <div>
+          <div class="campo">
             <label for="letraCapitular">Letra capitular</label>
             <select id="letraCapitular">
-              <option value="nao">Não</option>
+              <option value="nao" selected>Não</option>
               <option value="sim">Sim</option>
             </select>
           </div>
         </div>
       </div>
 
-      <div class="secao">
-        <h4>Corpo do texto</h4>
-
+      <div class="subcard">
+        <h3>Corpo do texto</h3>
         <div class="grid-2">
-          <div>
+          <div class="campo">
             <label for="fonteTexto">Fonte do texto</label>
             <select id="fonteTexto">
-              <option value="Garamond">Garamond</option>
-              <option value="Times New Roman">Times New Roman</option>
-              <option value="Arial">Arial</option>
-              <option value="Libre Baskerville">Libre Baskerville</option>
+              <option value="garamond" selected>Garamond</option>
+              <option value="times">Times New Roman</option>
+              <option value="arial">Arial</option>
             </select>
           </div>
 
-          <div>
+          <div class="campo">
             <label for="tamanhoFonte">Tamanho da fonte</label>
-            <input id="tamanhoFonte" type="text" value="12">
+            <input type="text" id="tamanhoFonte" value="12">
           </div>
-        </div>
 
-        <div class="grid-2">
-          <div>
+          <div class="campo">
             <label for="espacamentoLinhas">Espaçamento entre linhas</label>
             <select id="espacamentoLinhas">
-              <option value="1,0">1,0</option>
-              <option value="1,15">1,15</option>
-              <option value="1,5" selected>1,5</option>
-              <option value="2,0">2,0</option>
+              <option value="1.5" selected>1,5</option>
+              <option value="1.15">1,15</option>
+              <option value="1.0">1,0</option>
             </select>
           </div>
 
-          <div>
+          <div class="campo">
             <label for="espacamentoParagrafos">Espaçamento entre parágrafos</label>
             <select id="espacamentoParagrafos">
-              <option value="0">Sem espaço extra</option>
-              <option value="6">6 pt</option>
-              <option value="12">12 pt</option>
+              <option value="sem-extra" selected>Sem espaço extra</option>
+              <option value="com-extra">Com espaço extra</option>
             </select>
           </div>
         </div>
       </div>
 
-      <div class="secao">
-        <h4>Capítulos</h4>
-
+      <div class="subcard">
+        <h3>Capítulos</h3>
         <div class="grid-2">
-          <div>
+          <div class="campo">
             <label for="fonteCapitulo">Fonte do título do capítulo</label>
             <select id="fonteCapitulo">
-              <option value="Garamond">Garamond</option>
-              <option value="Times New Roman">Times New Roman</option>
-              <option value="Arial">Arial</option>
-              <option value="Libre Baskerville">Libre Baskerville</option>
+              <option value="garamond" selected>Garamond</option>
+              <option value="times">Times New Roman</option>
+              <option value="arial">Arial</option>
             </select>
           </div>
 
-          <div>
+          <div class="campo">
             <label for="tamanhoCapitulo">Tamanho do título do capítulo</label>
-            <input id="tamanhoCapitulo" type="text" value="16">
+            <input type="text" id="tamanhoCapitulo" value="16">
           </div>
         </div>
       </div>
 
-      <div class="secao">
-        <h4>Observações</h4>
-        <label for="observacoesDiagramacao">Observações da diagramação</label>
-        <textarea id="observacoesDiagramacao"></textarea>
+      <div class="subcard">
+        <h3>Observações</h3>
+        <div class="campo">
+          <label for="observacoesDiagramacao">Observações da diagramação</label>
+          <textarea id="observacoesDiagramacao"></textarea>
+        </div>
       </div>
 
-      <div class="acoes">
-        <button class="botao-verde" type="button" onclick="confirmarDiagramacao()">
+      <div class="botoes">
+        <button class="btn-verde" onclick="confirmarDiagramacao()">
           Concordo com esta diagramação e quero seguir
         </button>
 
-        <button class="botao-cinza" type="button" onclick="irParaExpedicao()">
+        <button class="btn-amarelo" onclick="irParaExportacao()">
           Pular para expedição
+        </button>
+
+        <button class="btn-azul" onclick="voltarExecutor()">
+          Escolher o que você quer fazer
         </button>
       </div>
 
-      <div class="status" id="statusDiagramacao">
+      <div class="rodape">
         Ajuste a diagramação e siga para o próximo passo do fluxo.
       </div>
     </div>
+
+    <div class="card">
+      <h2>Resumo técnico da obra</h2>
+
+      <div class="linha">
+        <span class="rotulo">Título</span>
+        <div class="valor" id="tituloObra">—</div>
+      </div>
+
+      <div class="linha">
+        <span class="rotulo">Autor</span>
+        <div class="valor" id="autorObra">—</div>
+      </div>
+
+      <div class="linha">
+        <span class="rotulo">Identificador institucional</span>
+        <div class="valor" id="identificadorObra">—</div>
+      </div>
+
+      <div class="linha">
+        <span class="rotulo">Estado do miolo</span>
+        <div class="valor">
+          O texto já passou pela leitura e limpeza do Bolsão.
+          <div id="statusMiolo" class="status status-note">Aguardando confirmação da diagramação</div>
+        </div>
+      </div>
+
+      <div class="info">
+        Esta etapa organiza o miolo do livro. A capa, contracapa, lombada e orelhas continuam pertencendo ao OKapista.
+      </div>
+    </div>
+
   </div>
 
   <script>
-    function obterModulosSelecionados(){
+    function carregarJSON(chave){
+      const salvo = localStorage.getItem(chave);
+      if(!salvo) return null;
       try{
-        return JSON.parse(localStorage.getItem("lapidar_modulos_marcados")) || {};
+        return JSON.parse(salvo);
       }catch(e){
-        return {};
+        return null;
       }
     }
 
-    function salvarConfiguracaoDiagramacao(){
-      var config = {
-        formato: document.getElementById("formatoLivro").value,
-        numeracao: document.getElementById("numeracaoPaginas").value,
+    function preencherResumo(){
+      const entrada = carregarJSON("lapidar_entrada_bolsao") || {};
+      const obra = carregarJSON("obraAtual") || {};
+
+      const titulo =
+        entrada.tituloManual ||
+        entrada.tituloBase ||
+        obra?.estrutura?.titulo ||
+        "Não identificado";
+
+      const autor =
+        entrada.autoresManual ||
+        entrada.autorBase ||
+        obra?.estrutura?.autor ||
+        "Não identificado";
+
+      const identificador =
+        entrada.identificadorPreview ||
+        "—";
+
+      document.getElementById("tituloObra").innerText = titulo;
+      document.getElementById("autorObra").innerText = autor;
+      document.getElementById("identificadorObra").innerText = identificador;
+
+      const mioloDiagramado = localStorage.getItem("mioloDiagramado") === "true";
+      const status = document.getElementById("statusMiolo");
+
+      if(mioloDiagramado){
+        status.className = "status status-ok";
+        status.innerText = "Miolo diagramado e liberado para os próximos módulos";
+      }
+    }
+
+    function confirmarDiagramacao(){
+      const dados = {
+        formatoLivro: document.getElementById("formatoLivro").value,
+        numeracaoPaginas: document.getElementById("numeracaoPaginas").value,
         posicaoNumeracao: document.getElementById("posicaoNumeracao").value,
         letraCapitular: document.getElementById("letraCapitular").value,
         fonteTexto: document.getElementById("fonteTexto").value,
@@ -311,68 +465,25 @@
         espacamentoParagrafos: document.getElementById("espacamentoParagrafos").value,
         fonteCapitulo: document.getElementById("fonteCapitulo").value,
         tamanhoCapitulo: document.getElementById("tamanhoCapitulo").value,
-        observacoes: document.getElementById("observacoesDiagramacao").value
+        observacoesDiagramacao: document.getElementById("observacoesDiagramacao").value || ""
       };
 
-      sessionStorage.setItem("diagramacao_config_atual", JSON.stringify(config));
+      localStorage.setItem("diagramacao_obra", JSON.stringify(dados));
+      localStorage.setItem("mioloDiagramado", "true");
+
+      alert("Diagramação confirmada com sucesso.");
+      window.location.href = "confirmacao_final_modulos.html";
     }
 
-    function obterProximoDestinoDepoisDaDiagramacao(){
-      var modulos = obterModulosSelecionados();
-
-      if(modulos.capista) return "capista.html";
-      if(modulos.traducao) return "segunda_lingua.html";
-      if(modulos.avaliacao) return "avaliacao_literaria.html";
-      if(modulos.analisador) return "analisador_obra.html";
-      if(modulos.lapidacao) return "lapidacao_literaria.html";
-      if(modulos.siloSonoro) return "narracao_editorial.html";
-
-      return "expedicao_material.html";
+    function irParaExportacao(){
+      window.location.href = "exportar.html";
     }
 
-    function confirmarDiagramacao(){
-      salvarConfiguracaoDiagramacao();
-
-      var destino = obterProximoDestinoDepoisDaDiagramacao();
-
-      document.getElementById("statusDiagramacao").innerText =
-        "Configuração salva com sucesso.\nEncaminhando para: " + destino;
-
-      setTimeout(function(){
-        window.location.href = destino;
-      }, 400);
+    function voltarExecutor(){
+      window.location.href = "modulo_executor.html";
     }
 
-    function irParaExpedicao(){
-      document.getElementById("statusDiagramacao").innerText =
-        "Pulando diretamente para a expedição do material.";
-
-      setTimeout(function(){
-        window.location.href = "expedicao_material.html";
-      }, 300);
-    }
-
-    window.addEventListener("load", function(){
-      try{
-        var configSalva = JSON.parse(sessionStorage.getItem("diagramacao_config_atual") || "null");
-
-        if(configSalva){
-          if(configSalva.formato) document.getElementById("formatoLivro").value = configSalva.formato;
-          if(configSalva.numeracao) document.getElementById("numeracaoPaginas").value = configSalva.numeracao;
-          if(configSalva.posicaoNumeracao) document.getElementById("posicaoNumeracao").value = configSalva.posicaoNumeracao;
-          if(configSalva.letraCapitular) document.getElementById("letraCapitular").value = configSalva.letraCapitular;
-          if(configSalva.fonteTexto) document.getElementById("fonteTexto").value = configSalva.fonteTexto;
-          if(configSalva.tamanhoFonte) document.getElementById("tamanhoFonte").value = configSalva.tamanhoFonte;
-          if(configSalva.espacamentoLinhas) document.getElementById("espacamentoLinhas").value = configSalva.espacamentoLinhas;
-          if(configSalva.espacamentoParagrafos) document.getElementById("espacamentoParagrafos").value = configSalva.espacamentoParagrafos;
-          if(configSalva.fonteCapitulo) document.getElementById("fonteCapitulo").value = configSalva.fonteCapitulo;
-          if(configSalva.tamanhoCapitulo) document.getElementById("tamanhoCapitulo").value = configSalva.tamanhoCapitulo;
-          if(configSalva.observacoes) document.getElementById("observacoesDiagramacao").value = configSalva.observacoes;
-        }
-      }catch(e){
-        console.log("Sem configuração anterior de diagramação.");
-      }
-    });
+    preencherResumo();
   </script>
 
 </body>
