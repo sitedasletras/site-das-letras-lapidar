@@ -1,732 +1,147 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lapidar • Módulo 05 — Segunda Língua(s)</title>
-  <style>
-    :root{
-      --bg:#f7f5ef;
-      --card:#ffffff;
-      --line:#c9c1b2;
-      --text:#2f2a24;
-      --muted:#5f574c;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lapidar • Segunda Língua(s)</title>
 
-      --module-bg:#f3eefb;
-      --module-top:#8b6bb3;
-      --module-soft:#ebe2f7;
+<style>
 
-      --accent:#7b5ca7;
-      --accent-dark:#65488f;
-      --accent-light:#efe8fa;
+body{
+font-family:Arial, sans-serif;
+margin:0;
+background:#2c140c;
+color:white;
+}
 
-      --gold:#c79a2e;
-      --gold-dark:#a77e1f;
+header{
+background:#2e4066;
+padding:18px;
+text-align:center;
+font-size:24px;
+font-weight:bold;
+}
 
-      --blue:#7d97b5;
-      --blue-dark:#667f9b;
+.container{
+max-width:900px;
+margin:auto;
+padding:30px;
+}
 
-      --mesario-bg:#faf6ee;
-      --mesario-line:#c79a2e;
+.card{
+background:#3b1c12;
+padding:25px;
+border-radius:10px;
+margin-bottom:20px;
+border:2px solid #a67c52;
+transition:.3s;
+}
 
-      --shadow:0 12px 28px rgba(67, 58, 45, 0.10);
-    }
+.card:hover{
+border-color:#d4a373;
+}
 
-    *{box-sizing:border-box;}
+.titulo{
+font-size:22px;
+margin-bottom:10px;
+}
 
-    body{
-      margin:0;
-      font-family: Arial, Helvetica, sans-serif;
-      background:linear-gradient(180deg,var(--bg),#efe8da);
-      color:var(--text);
-    }
+.desc{
+font-size:15px;
+color:#f1e6d6;
+margin-bottom:20px;
+}
 
-    .container{
-      max-width:980px;
-      margin:0 auto;
-      padding:28px 16px 40px;
-    }
+.botao{
+display:block;
+width:100%;
+padding:18px;
+background:#c49b63;
+border:none;
+border-radius:8px;
+font-size:18px;
+cursor:pointer;
+transition:.3s;
+}
 
-    .topbar{
-      display:flex;
-      justify-content:space-between;
-      gap:12px;
-      margin-bottom:18px;
-    }
+.botao:hover{
+background:#e0b879;
+}
 
-    .small-btn{
-      border:none;
-      border-radius:14px;
-      padding:12px 16px;
-      font-size:15px;
-      font-weight:bold;
-      cursor:pointer;
-      transition:.2s ease;
-    }
+.voltar{
+margin-top:20px;
+background:#888;
+}
 
-    .small-btn:hover{ transform:translateY(-1px); }
+.sair{
+margin-top:10px;
+background:#b22222;
+color:white;
+}
 
-    .btn-back{ background:#ece7db; color:var(--text); }
-    .btn-back:hover{ background:#e2dccd; }
+footer{
+margin-top:30px;
+text-align:center;
+font-size:13px;
+color:#d9c7a5;
+}
 
-    .btn-exit{ background:#d7d2c6; color:var(--text); }
-    .btn-exit:hover{ background:#c9c1b2; }
-
-    .hero{
-      background:var(--module-bg);
-      border:1px solid var(--line);
-      border-top:10px solid var(--module-top);
-      border-radius:28px;
-      padding:30px;
-      box-shadow:var(--shadow);
-      margin-bottom:22px;
-    }
-
-    .eyebrow{
-      display:inline-block;
-      padding:8px 14px;
-      border-radius:999px;
-      background:var(--module-soft);
-      color:var(--accent-dark);
-      font-size:14px;
-      font-weight:bold;
-      margin-bottom:14px;
-    }
-
-    h1{
-      margin:0 0 10px 0;
-      font-size:34px;
-      line-height:1.15;
-      color:#493760;
-    }
-
-    .subtitle{
-      margin:0;
-      font-size:20px;
-      color:var(--muted);
-      line-height:1.7;
-    }
-
-    .trust-box{
-      margin-top:22px;
-      background:#fbf9fe;
-      border:1px solid #d8caee;
-      border-left:6px solid var(--accent);
-      border-radius:18px;
-      padding:18px 18px 18px 16px;
-      font-size:18px;
-      line-height:1.85;
-      color:var(--text);
-    }
-
-    .trust-box strong{
-      display:block;
-      margin-bottom:6px;
-      font-size:19px;
-    }
-
-    .card{
-      background:var(--card);
-      border:1px solid var(--line);
-      border-radius:24px;
-      padding:22px;
-      box-shadow:var(--shadow);
-      margin-bottom:20px;
-    }
-
-    h2{
-      margin:0 0 14px 0;
-      font-size:28px;
-      color:#593f79;
-    }
-
-    h3{
-      margin:0 0 12px 0;
-      font-size:22px;
-      color:#5d447d;
-    }
-
-    p{
-      margin:0 0 14px 0;
-      font-size:19px;
-      line-height:1.8;
-    }
-
-    .muted{ color:var(--muted); }
-
-    label{
-      display:block;
-      font-size:18px;
-      font-weight:bold;
-      margin-bottom:10px;
-      color:#5d447d;
-    }
-
-    select, textarea, input[type="text"]{
-      width:100%;
-      padding:16px;
-      border-radius:16px;
-      border:1px solid var(--line);
-      background:#f7f8fb;
-      font-size:17px;
-      color:var(--text);
-      margin-bottom:18px;
-    }
-
-    textarea{
-      min-height:130px;
-      resize:vertical;
-    }
-
-    .grid{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:14px;
-    }
-
-    .lang-box{
-      background:#faf8fd;
-      border:1px solid #dccfea;
-      border-radius:18px;
-      padding:16px;
-    }
-
-    .lang-box label{
-      margin:0;
-      display:flex;
-      gap:10px;
-      align-items:flex-start;
-      cursor:pointer;
-      font-size:17px;
-      font-weight:normal;
-      color:var(--text);
-    }
-
-    .lang-box input{
-      margin-top:3px;
-      transform:scale(1.2);
-    }
-
-    .highlight-box{
-      background:#faf8fd;
-      border:1px solid #dccfea;
-      border-radius:18px;
-      padding:16px;
-      margin-top:14px;
-    }
-
-    .question-box{
-      background:#fcfbf6;
-      border:1px solid #ddd4bc;
-      border-left:7px solid var(--gold);
-      border-radius:18px;
-      padding:18px;
-      margin-top:18px;
-    }
-
-    .option-card{
-      background:#ffffff;
-      border:1px solid #ddd4bc;
-      border-radius:18px;
-      padding:16px;
-      margin-top:12px;
-    }
-
-    .option-card label{
-      display:flex;
-      gap:10px;
-      align-items:flex-start;
-      margin:0;
-      cursor:pointer;
-      font-weight:bold;
-      color:var(--text);
-    }
-
-    .option-card small{
-      display:block;
-      margin-top:8px;
-      color:var(--muted);
-      line-height:1.7;
-      font-size:15px;
-    }
-
-    .humanizacao-box{
-      background:#fbf6fb;
-      border:1px solid #e0cfe3;
-      border-radius:18px;
-      padding:16px;
-      margin-top:18px;
-    }
-
-    .human-item{
-      background:#fff;
-      border:1px solid #e0cfe3;
-      border-radius:14px;
-      padding:12px 14px;
-      margin-top:10px;
-    }
-
-    .human-item label{
-      margin:0;
-      display:flex;
-      gap:10px;
-      align-items:flex-start;
-      cursor:pointer;
-      font-weight:bold;
-      color:var(--text);
-    }
-
-    .human-item small{
-      display:block;
-      margin-top:6px;
-      color:var(--muted);
-      line-height:1.6;
-      font-size:15px;
-    }
-
-    .mesario{
-      margin-top:18px;
-      background:var(--mesario-bg);
-      border:1px solid var(--line);
-      border-left:7px solid var(--mesario-line);
-      border-radius:18px;
-      padding:16px 18px;
-    }
-
-    .mesario h3{
-      margin:0 0 8px 0;
-      font-size:22px;
-      color:#6a5435;
-    }
-
-    .mesario p{
-      margin:0;
-      font-size:18px;
-      line-height:1.8;
-    }
-
-    .mesario-valor{
-      display:inline-block;
-      margin-top:8px;
-      padding:8px 12px;
-      border-radius:12px;
-      background:#fff7e6;
-      border:1px solid #e2c98f;
-      font-weight:bold;
-      color:#7a5d1d;
-    }
-
-    .actions{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:14px;
-      margin-top:18px;
-    }
-
-    .main-btn{
-      width:100%;
-      border:none;
-      border-radius:18px;
-      padding:18px 20px;
-      font-size:19px;
-      font-weight:bold;
-      cursor:pointer;
-      transition:.2s ease;
-      margin-top:6px;
-    }
-
-    .main-btn:hover{ transform:translateY(-1px); }
-
-    .btn-save{
-      background:var(--accent);
-      color:white;
-    }
-
-    .btn-save:hover{ background:var(--accent-dark); }
-
-    .btn-next{
-      background:var(--gold);
-      color:white;
-    }
-
-    .btn-next:hover{ background:var(--gold-dark); }
-
-    .btn-skip{
-      background:var(--blue);
-      color:white;
-    }
-
-    .btn-skip:hover{ background:var(--blue-dark); }
-
-    .status-box{
-      background:#edf1f7;
-      border-left:6px solid #7d97b5;
-      border-radius:18px;
-      padding:18px;
-      font-size:18px;
-      line-height:1.8;
-      color:#4f5a69;
-      margin-top:18px;
-      white-space:pre-line;
-    }
-
-    .hidden{ display:none; }
-
-    @media (max-width: 800px){
-      .grid,
-      .actions,
-      .topbar{
-        grid-template-columns:1fr;
-        display:grid;
-      }
-
-      h1{ font-size:30px; }
-      h2{ font-size:25px; }
-      p, .status-box{ font-size:18px; }
-    }
-  </style>
+</style>
 </head>
+
 <body>
-  <div class="container">
 
-    <div class="topbar">
-      <button class="small-btn btn-back" onclick="window.location.href='selecionar_modulos.html'">← Retornar</button>
-      <button class="small-btn btn-exit" onclick="window.location.href='index.html'">Sair do sistema</button>
-    </div>
+<header>
+Módulo 05 — Segunda Língua(s)
+</header>
 
-    <section class="hero">
-      <div class="eyebrow">Módulo 05 • Segunda Língua(s)</div>
-      <h1>Segunda Língua(s)</h1>
-      <p class="subtitle">
-        Aqui o Lapidar prepara novas versões editoriais da obra em outros idiomas, mantendo o autor no controle da sequência do processo.
-      </p>
+<div class="container">
 
-      <div class="trust-box">
-        <strong>O Lapidar trabalha de mãos dadas com o autor.</strong>
-        Cada etapa é realizada em ação conjunta, sempre com sua autorização.
-        <br><br>
-        Cada idioma solicitado cria uma nova instância editorial da obra. Tradução, humanização e diagramação são calculadas separadamente.
-      </div>
-    </section>
+<div class="card">
 
-    <section class="card">
-      <h2>1. Escolha os idiomas</h2>
-      <p>
-        Cada tradução solicitada gera uma nova versão editorial da obra.
-      </p>
+<div class="titulo">
+Selecionar nível de tradução da obra
+</div>
 
-      <div class="grid">
-        <div class="lang-box">
-          <label><input type="checkbox" class="idioma" value="Inglês"> Inglês — R$ 25</label>
-        </div>
-        <div class="lang-box">
-          <label><input type="checkbox" class="idioma" value="Espanhol"> Espanhol — R$ 25</label>
-        </div>
-        <div class="lang-box">
-          <label><input type="checkbox" class="idioma" value="Francês"> Francês — R$ 25</label>
-        </div>
-        <div class="lang-box">
-          <label><input type="checkbox" class="idioma" value="Italiano"> Italiano — R$ 25</label>
-        </div>
-      </div>
+<div class="desc">
+Escolha o nível de tradução antes de iniciar o planejamento multilíngue.
+O Lapidar ajustará automaticamente o tipo de processamento linguístico conforme a escolha.
+</div>
 
-      <div class="highlight-box">
-        O texto-base já recebeu correção ortográfica e gramatical básica no Bolsão.
-      </div>
-    </section>
+<button class="botao"
+onclick="location.href='modulo05_segunda_linguas_mapa.html'">
 
-    <section class="card" id="blocoSequencia">
-      <h2>2. Ordem do tratamento editorial</h2>
-      <p>
-        Se você escolher Humanização e Segunda Língua(s) ao mesmo tempo, o Lapidar precisa saber em qual ordem deseja trabalhar.
-      </p>
+Escolher nível de tradução
 
-      <div class="question-box">
-        <strong>Qual sequência você prefere?</strong>
+</button>
 
-        <div class="option-card">
-          <label>
-            <input type="radio" name="ordemFluxo" value="humanizar_antes" checked>
-            Humanizar primeiro e traduzir depois
-          </label>
-          <small>
-            Recomendação do Lapidar. Este caminho tende a melhorar a qualidade da tradução e reduzir retrabalho.
-          </small>
-        </div>
+</div>
 
-        <div class="option-card">
-          <label>
-            <input type="radio" name="ordemFluxo" value="traduzir_antes">
-            Traduzir primeiro e humanizar depois
-          </label>
-          <small>
-            Indicado quando você deseja priorizar a versão traduzida antes da lapidação narrativa.
-          </small>
-        </div>
 
-        <div class="option-card">
-          <label>
-            <input type="radio" name="ordemFluxo" value="somente_traducao">
-            Fazer apenas a tradução
-          </label>
-          <small>
-            Permitido. Neste caso, a nova versão seguirá para a etapa seguinte sem humanização neste idioma.
-          </small>
-        </div>
-      </div>
-    </section>
+<button class="botao voltar"
+onclick="location.href='obra_workspace.html'">
 
-    <section class="card" id="blocoHumanizacao">
-      <h2>3. Humanização para a versão traduzida</h2>
-      <p>
-        A humanização nesta etapa é composta por uma base obrigatória quando selecionada, com opcionais narrativos adicionais.
-      </p>
+Retornar ao Workspace da Obra
 
-      <div class="humanizacao-box">
-        <div class="human-item">
-          <label>
-            <input type="checkbox" id="humanizacaoBase" checked>
-            Humanização base — R$ 25
-          </label>
-          <small>
-            Concordância verbal e nominal, suavização sintática e estabilização estrutural do texto.
-          </small>
-        </div>
+</button>
 
-        <div class="human-item">
-          <label>
-            <input type="checkbox" class="itemExtra" value="7">
-            Revisão de diálogos — + R$ 7
-          </label>
-        </div>
 
-        <div class="human-item">
-          <label>
-            <input type="checkbox" class="itemExtra" value="7">
-            Coerência narrativa — + R$ 7
-          </label>
-        </div>
+<button class="botao sair"
+onclick="location.href='index.html'">
 
-        <div class="human-item">
-          <label>
-            <input type="checkbox" class="itemExtra" value="7">
-            Ritmo textual — + R$ 7
-          </label>
-        </div>
+Sair do sistema
 
-        <div class="human-item">
-          <label>
-            <input type="checkbox" class="itemExtra" value="7">
-            Preservação do estilo — + R$ 7
-          </label>
-        </div>
+</button>
 
-        <div class="human-item">
-          <label>
-            <input type="checkbox" id="pacoteNarrativo">
-            Pacote narrativo completo — + R$ 25
-          </label>
-          <small>
-            Substitui os quatro itens narrativos individuais desta seção.
-          </small>
-        </div>
-      </div>
-    </section>
 
-    <section class="card">
-      <h2>4. Configuração da próxima etapa</h2>
-      <p>
-        Após a tradução, cada idioma seguirá para uma nova diagramação da obra.
-      </p>
+<footer>
 
-      <div class="highlight-box">
-        A diagramação da nova língua será calculada depois, conforme as escolhas do módulo de Diagramação.
-      </div>
+Valores variam conforme tipo de licença editorial da conta.<br>
+Lapidar — trabalhando ao lado do autor, desde a primeira letra até o último ponto final.
 
-      <div class="mesario" id="mesarioSecao">
-        <h3>Mesário da seção</h3>
-        <p id="resumoMesario">
-          Nenhum idioma selecionado ainda.
-        </p>
-        <div class="mesario-valor" id="mesarioValor">
-          CVR sugerida desta seção: R$ 0,00
-        </div>
-      </div>
+</footer>
 
-      <div class="actions">
-        <button class="main-btn btn-save" onclick="salvarConfiguracao()">Salvar configuração</button>
-        <button class="main-btn btn-next" onclick="seguirProximoModulo()">Seguir para o próximo módulo</button>
-      </div>
+</div>
 
-      <div class="actions">
-        <button class="main-btn btn-skip" onclick="pularTraducao()">Pular esta etapa</button>
-        <button class="main-btn btn-skip" onclick="window.location.href='selecionar_modulos.html'">Voltar às escolhas</button>
-      </div>
-
-      <div class="status-box" id="statusTraducao">
-        Aguardando configuração da sessão.
-      </div>
-    </section>
-
-  </div>
-
-  <script>
-    const idiomas = document.querySelectorAll('.idioma');
-    const radios = document.querySelectorAll('input[name=\"ordemFluxo\"]');
-    const humanizacaoBase = document.getElementById('humanizacaoBase');
-    const itensExtras = document.querySelectorAll('.itemExtra');
-    const pacoteNarrativo = document.getElementById('pacoteNarrativo');
-    const mesarioValor = document.getElementById('mesarioValor');
-    const resumoMesario = document.getElementById('resumoMesario');
-    const statusTraducao = document.getElementById('statusTraducao');
-    const mesarioSecao = document.getElementById('mesarioSecao');
-
-    function obterIdiomasSelecionados(){
-      const selecionados = [];
-      idiomas.forEach(i => {
-        if(i.checked) selecionados.push(i.value);
-      });
-      return selecionados;
-    }
-
-    function obterOrdemEscolhida(){
-      let valor = 'humanizar_antes';
-      radios.forEach(r => {
-        if(r.checked) valor = r.value;
-      });
-      return valor;
-    }
-
-    function atualizarVisibilidadeHumanizacao(){
-      const ordem = obterOrdemEscolhida();
-      const bloco = document.getElementById('blocoHumanizacao');
-
-      if(ordem === 'somente_traducao'){
-        bloco.classList.add('hidden');
-      } else {
-        bloco.classList.remove('hidden');
-      }
-      atualizarMesario();
-    }
-
-    function atualizarPacoteNarrativo(){
-      if(pacoteNarrativo.checked){
-        itensExtras.forEach(item => {
-          item.checked = false;
-          item.disabled = true;
-        });
-      } else {
-        itensExtras.forEach(item => {
-          item.disabled = false;
-        });
-      }
-      atualizarMesario();
-    }
-
-    function calcularTotal(){
-      const selecionados = obterIdiomasSelecionados();
-      const ordem = obterOrdemEscolhida();
-
-      let total = 0;
-
-      total += selecionados.length * 25;
-
-      if(ordem !== 'somente_traducao'){
-        if(humanizacaoBase.checked){
-          total += 25;
-        }
-
-        if(pacoteNarrativo.checked){
-          total += 25;
-        } else {
-          itensExtras.forEach(item => {
-            if(item.checked) total += 7;
-          });
-        }
-      }
-
-      return total;
-    }
-
-    function atualizarMesario(){
-      const selecionados = obterIdiomasSelecionados();
-      const ordem = obterOrdemEscolhida();
-      const total = calcularTotal();
-
-      if(selecionados.length === 0){
-        resumoMesario.textContent = 'Nenhum idioma selecionado ainda.';
-        mesarioValor.textContent = 'CVR sugerida desta seção: R$ 0,00';
-        return;
-      }
-
-      let ordemTexto = '';
-      if(ordem === 'humanizar_antes') ordemTexto = 'Humanizar primeiro e traduzir depois';
-      if(ordem === 'traduzir_antes') ordemTexto = 'Traduzir primeiro e humanizar depois';
-      if(ordem === 'somente_traducao') ordemTexto = 'Somente tradução';
-
-      resumoMesario.textContent =
-        'Idiomas selecionados: ' + selecionados.join(', ') + '. ' +
-        'Ordem escolhida: ' + ordemTexto + '.';
-
-      mesarioValor.textContent =
-        'CVR sugerida desta seção: R$ ' + total.toFixed(2).replace('.', ',');
-    }
-
-    function salvarConfiguracao(){
-      const selecionados = obterIdiomasSelecionados();
-      const ordem = obterOrdemEscolhida();
-      const total = calcularTotal();
-
-      const itensMarcados = [];
-      itensExtras.forEach(item => {
-        if(item.checked) itensMarcados.push(item.parentElement.textContent.trim());
-      });
-
-      const configuracao = {
-        idiomas: selecionados,
-        ordem: ordem,
-        humanizacaoBase: humanizacaoBase.checked,
-        pacoteNarrativo: pacoteNarrativo.checked,
-        itensExtras: itensMarcados,
-        total: total
-      };
-
-      localStorage.setItem('lapidar_segunda_lingua_config', JSON.stringify(configuracao));
-
-      statusTraducao.textContent =
-        'Configuração salva com sucesso. ' +
-        'Idiomas: ' + (selecionados.length ? selecionados.join(', ') : 'nenhum') + '. ' +
-        'CVR calculada desta seção: R$ ' + total.toFixed(2).replace('.', ',') + '.';
-    }
-
-    function seguirProximoModulo(){
-      salvarConfiguracao();
-      window.location.href = 'hub_diagramador.html';
-    }
-
-    function pularTraducao(){
-      statusTraducao.textContent =
-        'Etapa de Segunda Língua(s) ignorada nesta sessão. O fluxo seguirá sem tradução.';
-    }
-
-    function aplicarRegraPerfil(){
-      const perfil = (localStorage.getItem('lapidar_perfil') || '').toLowerCase();
-      const cortesia = perfil.includes('cortesia');
-
-      if(cortesia){
-        mesarioSecao.classList.add('hidden');
-      }
-    }
-
-    idiomas.forEach(i => i.addEventListener('change', atualizarMesario));
-    radios.forEach(r => r.addEventListener('change', atualizarVisibilidadeHumanizacao));
-    itensExtras.forEach(i => i.addEventListener('change', atualizarMesario));
-    pacoteNarrativo.addEventListener('change', atualizarPacoteNarrativo);
-    humanizacaoBase.addEventListener('change', atualizarMesario);
-
-    aplicarRegraPerfil();
-    atualizarVisibilidadeHumanizacao();
-    atualizarMesario();
-  </script>
 </body>
 </html>
