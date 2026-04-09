@@ -20,7 +20,6 @@ padding:18px;
 text-align:center;
 font-size:28px;
 font-weight:bold;
-border-bottom:1px solid #d2c6b6;
 }
 
 .sub{
@@ -42,11 +41,6 @@ border-radius:14px;
 padding:22px;
 margin-bottom:20px;
 border:1px solid #ddd2c0;
-}
-
-.card h2{
-margin-top:0;
-color:#5c5145;
 }
 
 .upload-box{
@@ -83,11 +77,6 @@ font-size:17px;
 
 .rotulo{
 font-weight:bold;
-color:#6a5f54;
-}
-
-.valor{
-color:#2f2a24;
 }
 
 .botao{
@@ -99,28 +88,15 @@ font-size:18px;
 font-weight:bold;
 cursor:pointer;
 margin-top:18px;
-}
-
-.botao-proximo{
 background:#6f6559;
 color:white;
 }
 
-.botao-proximo:hover{
+.botao:hover{
 background:#584f45;
 }
 
-.botao-workspace{
-background:#cdbfa9;
-color:#3b342c;
-}
-
-.botao-workspace:hover{
-background:#b8a98e;
-}
-
 </style>
-
 </head>
 
 <body>
@@ -130,7 +106,7 @@ Cofre Editorial do Autor
 </div>
 
 <div class="sub">
-Envie sua obra. O Lapidar inicia imediatamente a leitura estrutural.
+Envie sua obra. O sistema inicia imediatamente o reconhecimento estrutural.
 </div>
 
 <div class="container">
@@ -162,41 +138,29 @@ Nenhuma obra enviada
 
 <div class="card">
 
-<h2>Reconhecimento estrutural da obra</h2>
+<h2>Reconhecimento estrutural automático</h2>
 
 <div class="tabela">
 
 <div class="linha">
 <span class="rotulo">Principal:</span>
-<span id="principal" class="valor">— aguardando leitura —</span>
+<span id="principal">— aguardando leitura —</span>
 </div>
 
 <div class="linha">
 <span class="rotulo">Secundário:</span>
-<span id="secundario" class="valor">— aguardando leitura —</span>
+<span id="secundario">— aguardando leitura —</span>
 </div>
 
 <div class="linha">
 <span class="rotulo">Terciário:</span>
-<span id="terciario" class="valor">— aguardando leitura —</span>
+<span id="terciario">— aguardando leitura —</span>
 </div>
 
 </div>
 
-<button
-class="botao botao-proximo"
-onclick="irLimpeza()">
-
+<button onclick="iniciarReconhecimento()" class="botao">
 Iniciar leitura estrutural
-
-</button>
-
-<button
-class="botao botao-workspace"
-onclick="abrirWorkspace()">
-
-Ir para Workspace da Obra
-
 </button>
 
 </div>
@@ -221,19 +185,18 @@ arquivoNome:arquivo.name
 })
 )
 
-simularReconhecimento()
-
 }
 
-function simularReconhecimento(){
+
+function iniciarReconhecimento(){
 
 let dados=JSON.parse(
 localStorage.getItem("lapidar_bolsao_upload")||"{}"
 )
 
 dados.principal="Prosa"
-dados.secundario="Investigação"
-dados.terciario="Suspense"
+dados.secundario="Terror"
+dados.terciario="Gótico"
 
 localStorage.setItem(
 "lapidar_bolsao_upload",
@@ -244,17 +207,11 @@ document.getElementById("principal").innerText=dados.principal
 document.getElementById("secundario").innerText=dados.secundario
 document.getElementById("terciario").innerText=dados.terciario
 
-}
-
-function irLimpeza(){
+setTimeout(()=>{
 
 window.location.href="bolsao_limpeza.html"
 
-}
-
-function abrirWorkspace(){
-
-window.location.href="obra_workspace.html"
+},1200)
 
 }
 
