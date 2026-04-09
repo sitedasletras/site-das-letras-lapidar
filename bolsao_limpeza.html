@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bolsão — Limpeza Editorial</title>
+<title>Cofre Editorial do Autor — Limpeza Editorial</title>
 
 <style>
 
 body{
 margin:0;
-font-family:Arial, sans-serif;
+font-family:Arial,sans-serif;
 background:#eee8dd;
 color:#2f2a24;
 }
@@ -18,7 +18,7 @@ color:#2f2a24;
 background:#e2d8ca;
 padding:18px;
 text-align:center;
-font-size:26px;
+font-size:28px;
 font-weight:bold;
 border-bottom:1px solid #d2c6b6;
 }
@@ -26,7 +26,7 @@ border-bottom:1px solid #d2c6b6;
 .sub{
 text-align:center;
 padding:10px;
-font-size:14px;
+font-size:15px;
 color:#6c6257;
 }
 
@@ -39,7 +39,7 @@ padding:25px;
 .card{
 background:white;
 border-radius:14px;
-padding:20px;
+padding:22px;
 margin-bottom:20px;
 border:1px solid #ddd2c0;
 }
@@ -49,21 +49,42 @@ margin-top:0;
 color:#5c5145;
 }
 
-.linha{
-background:#f6f1e8;
-padding:12px;
+.tabela{
 margin-top:10px;
-border-radius:10px;
+background:#faf7f2;
+border:1px solid #d6cbb9;
+border-radius:12px;
+padding:20px;
+}
+
+.linha{
+margin-bottom:12px;
+font-size:17px;
+}
+
+.rotulo{
+font-weight:bold;
+color:#6a5f54;
+}
+
+.valor{
+color:#2f2a24;
 }
 
 .preview{
-background:white;
+margin-top:18px;
+background:#fff;
 border:1px solid #ccc;
 padding:20px;
 border-radius:10px;
-margin-top:10px;
 white-space:pre-wrap;
 line-height:1.7;
+}
+
+.status{
+margin-top:12px;
+font-weight:bold;
+color:#196b3a;
 }
 
 .botao{
@@ -74,44 +95,34 @@ border-radius:12px;
 font-size:18px;
 font-weight:bold;
 cursor:pointer;
-margin-top:12px;
+margin-top:18px;
 }
 
-.confirmar{
+.botao-confirmar{
 background:#6f6559;
 color:white;
 }
 
-.confirmar:hover{
+.botao-confirmar:hover{
 background:#584f45;
 }
 
-.executor{
+.botao-executor{
 background:#cdbfa9;
 color:#3b342c;
 }
 
-.executor:hover{
+.botao-executor:hover{
 background:#b8a98e;
 }
 
-.voltar{
+.botao-voltar{
 background:#9aa4af;
 color:white;
 }
 
-.voltar:hover{
+.botao-voltar:hover{
 background:#7e8893;
-}
-
-.status{
-padding:8px 12px;
-margin-top:10px;
-display:inline-block;
-border-radius:999px;
-background:#e7f6ea;
-color:#196b3a;
-font-weight:bold;
 }
 
 </style>
@@ -120,125 +131,150 @@ font-weight:bold;
 <body>
 
 <div class="topo">
-Módulo 01 — Bolsão de Limpeza Editorial
+Cofre Editorial do Autor
 </div>
 
 <div class="sub">
-Confirmação técnica antes do Executor do Bolsão
+Limpeza editorial e confirmação estrutural da obra
 </div>
 
 <div class="container">
 
 <div class="card">
 
-<h2>Resumo estrutural da obra</h2>
+<h2>Reconhecimento estrutural confirmado</h2>
+
+<div class="tabela">
 
 <div class="linha">
-Arquivo detectado:
-<span id="arquivo"></span>
+<span class="rotulo">Arquivo:</span>
+<span id="arquivo" class="valor">—</span>
 </div>
 
 <div class="linha">
-Classificação principal:
-<span id="principal"></span>
+<span class="rotulo">Principal:</span>
+<span id="principal" class="valor">—</span>
 </div>
 
 <div class="linha">
-Classificação secundária:
-<span id="secundario"></span>
+<span class="rotulo">Secundário:</span>
+<span id="secundario" class="valor">—</span>
 </div>
 
 <div class="linha">
-Classificação terciária:
-<span id="terciario"></span>
+<span class="rotulo">Terciário:</span>
+<span id="terciario" class="valor">—</span>
+</div>
+
 </div>
 
 <div class="status">
-Estrutura pronta para confirmação
+Estrutura pronta para preparação editorial
 </div>
 
 </div>
+
 
 <div class="card">
 
-<h2>Prévia técnica simulada</h2>
+<h2>Prévia da limpeza editorial</h2>
 
 <div id="preview" class="preview">
-Preparando visualização editorial…
+
+Preparando visualização editorial...
+
 </div>
 
 </div>
+
 
 <div class="card">
 
-<h2>Confirmação do Bolsão</h2>
+<h2>Confirmação do Cofre Editorial</h2>
 
-<button class="botao confirmar"
+<button
+class="botao botao-confirmar"
 onclick="confirmarLimpeza()">
+
 Confirmar limpeza editorial
+
 </button>
 
-<button class="botao executor"
+<button
+class="botao botao-executor"
 onclick="abrirExecutor()">
+
 Abrir Executor do Bolsão
+
 </button>
 
-<button class="botao voltar"
-onclick="voltarDiagnostico()">
-Retornar para leitura diagnóstica
+<button
+class="botao botao-voltar"
+onclick="voltarInicio()">
+
+Retornar ao Cofre Editorial
+
 </button>
 
 </div>
 
 </div>
+
 
 <script>
 
-function carregar(){
+function carregarDados(){
 
-let dados = JSON.parse(localStorage.getItem("lapidar_bolsao_upload") || "{}")
+let dados=JSON.parse(
+localStorage.getItem("lapidar_bolsao_upload")||"{}"
+)
 
-document.getElementById("arquivo").innerText =
-dados.arquivoNome || "Não identificado"
+document.getElementById("arquivo").innerText=
+dados.arquivoNome||"Não identificado"
 
-document.getElementById("principal").innerText =
-dados.principal || "—"
+document.getElementById("principal").innerText=
+dados.principal||"—"
 
-document.getElementById("secundario").innerText =
-dados.secundario || "—"
+document.getElementById("secundario").innerText=
+dados.secundario||"—"
 
-document.getElementById("terciario").innerText =
-dados.terciario || "—"
+document.getElementById("terciario").innerText=
+dados.terciario||"—"
 
-let preview = "Prévia editorial preparada com base na estrutura detectada."
+
+let preview="Prévia editorial preparada com base na estrutura detectada."
 
 if(dados.principal==="Poesia"){
 
-preview=`Versos preservados
+preview=
+`Versos preservados
 estrofes mantidas
-estrutura poética intacta`
+estrutura poética estabilizada`
 
 }
 
 if(dados.principal==="Prosa"){
 
-preview=`Parágrafos preservados
-fluxo narrativo mantido
-estrutura textual estabilizada`
+preview=
+`Parágrafos preservados
+estrutura narrativa estabilizada
+fluxo textual mantido`
 
 }
 
 if(dados.principal==="Híbrido"){
 
-preview=`Blocos narrativos preservados
+preview=
+`Blocos narrativos preservados
 blocos poéticos preservados
-estrutura híbrida reconhecida`
+estrutura híbrida confirmada`
 
 }
 
 document.getElementById("preview").innerText=preview
 
 }
+
 
 function confirmarLimpeza(){
 
@@ -247,9 +283,10 @@ localStorage.setItem(
 "true"
 )
 
-alert("Limpeza confirmada com sucesso.")
+alert("Limpeza editorial confirmada com sucesso.")
 
 }
+
 
 function abrirExecutor(){
 
@@ -257,13 +294,15 @@ window.location.href="bolsao_execucao.html"
 
 }
 
-function voltarDiagnostico(){
+
+function voltarInicio(){
 
 window.location.href="modulo_01_bolsao.html"
 
 }
 
-carregar()
+
+carregarDados()
 
 </script>
 
