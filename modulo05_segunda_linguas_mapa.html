@@ -1,356 +1,222 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lapidar • Módulo 05 — Segunda Língua(s)</title>
-  <style>
-    :root{
-      --bg:#CFE5D6;
-      --card:#ffffff;
-      --line:#b9d2c2;
-      --text:#2f2a24;
-      --muted:#456255;
-      --title:#214437;
-      --accent:#5e8b6b;
-      --accent-dark:#476b52;
-      --mesario-bg:#f5fbf7;
-      --mesario-line:#7da58a;
-      --shadow:0 12px 28px rgba(0,0,0,.10);
-    }
+<meta charset="UTF-8">
+<title>Lapidar — Segunda Língua(s)</title>
 
-    *{ box-sizing:border-box; }
+<style>
 
-    body{
-      margin:0;
-      font-family:Arial, Helvetica, sans-serif;
-      background:var(--bg);
-      color:var(--text);
-    }
+body{
+font-family:Arial, sans-serif;
+background:#f5f5f5;
+margin:0;
+padding:0;
+}
 
-    .container{
-      max-width:1100px;
-      margin:auto;
-      padding:30px 18px 45px;
-    }
+header{
+background:#1b4f72;
+color:white;
+padding:18px;
+text-align:center;
+font-size:26px;
+font-weight:bold;
+}
 
-    .topbar{
-      display:flex;
-      justify-content:space-between;
-      gap:12px;
-      margin-bottom:18px;
-    }
+.container{
+max-width:900px;
+margin:auto;
+background:white;
+padding:40px;
+margin-top:30px;
+border-radius:10px;
+box-shadow:0px 0px 12px rgba(0,0,0,0.15);
+}
 
-    .small-btn{
-      border:none;
-      border-radius:14px;
-      padding:12px 16px;
-      font-weight:bold;
-      cursor:pointer;
-      background:rgba(255,255,255,.8);
-    }
+h2{
+text-align:center;
+margin-bottom:25px;
+}
 
-    .small-btn:hover{
-      background:#fff;
-    }
+.modulo{
+border:2px solid #ddd;
+border-radius:10px;
+padding:25px;
+margin-bottom:20px;
+transition:0.3s;
+}
 
-    .hero{
-      background:rgba(255,255,255,.6);
-      border-left:8px solid var(--accent);
-      border-radius:26px;
-      padding:28px;
-      margin-bottom:22px;
-      box-shadow:var(--shadow);
-    }
+.modulo:hover{
+border-color:#1b4f72;
+}
 
-    .eyebrow{
-      display:inline-block;
-      background:#fff;
-      padding:8px 14px;
-      border-radius:999px;
-      font-size:14px;
-      font-weight:bold;
-      margin-bottom:14px;
-      color:var(--title);
-    }
+.titulo{
+font-size:22px;
+font-weight:bold;
+margin-bottom:10px;
+}
 
-    h1{
-      margin:0 0 10px;
-      font-size:34px;
-      color:var(--title);
-    }
+.descricao{
+margin-bottom:10px;
+}
 
-    .subtitle{
-      font-size:20px;
-      line-height:1.8;
-      color:var(--muted);
-    }
+.valor{
+font-weight:bold;
+font-size:18px;
+color:#1b4f72;
+margin-bottom:10px;
+}
 
-    .grid{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:18px;
-    }
+.obs{
+font-size:14px;
+color:#555;
+}
 
-    .card{
-      background:var(--card);
-      border-radius:24px;
-      padding:22px;
-      border:1px solid var(--line);
-      box-shadow:var(--shadow);
-    }
+.botao{
+display:block;
+width:100%;
+padding:18px;
+margin-top:40px;
+font-size:20px;
+background:#f1c40f;
+color:black;
+border:none;
+border-radius:8px;
+cursor:pointer;
+transition:0.3s;
+}
 
-    .wide{
-      grid-column:1 / -1;
-    }
+.botao:hover{
+background:#d4ac0d;
+}
 
-    h2{
-      margin:0 0 12px;
-      font-size:26px;
-      color:var(--title);
-    }
+.voltar{
+margin-top:15px;
+background:#bbb;
+}
 
-    label{
-      display:block;
-      font-weight:bold;
-      margin-top:14px;
-      margin-bottom:6px;
-      color:#000;
-    }
+.sair{
+margin-top:10px;
+background:#e74c3c;
+color:white;
+}
 
-    select, input[type="text"]{
-      width:100%;
-      padding:14px;
-      border-radius:14px;
-      border:1px solid var(--line);
-      background:#fff;
-      font-size:16px;
-      color:#000;
-    }
+.footer{
+text-align:center;
+margin-top:20px;
+font-size:14px;
+color:#666;
+}
 
-    .field{
-      background:#f7fcf8;
-      border-radius:16px;
-      padding:14px;
-      border:1px solid var(--line);
-      margin-top:10px;
-    }
+</style>
 
-    .field strong{
-      display:block;
-      margin-bottom:4px;
-      color:#000;
-    }
-
-    .field span{
-      color:#000;
-      line-height:1.7;
-    }
-
-    .preview{
-      background:#f7fcf8;
-      border-radius:22px;
-      padding:20px;
-      border:1px solid var(--line);
-    }
-
-    .preview-box{
-      background:#fff;
-      border:1px solid var(--line);
-      border-radius:16px;
-      padding:18px;
-      line-height:1.8;
-      color:#1f2b24;
-    }
-
-    .preview-box .lang-title{
-      font-size:20px;
-      font-weight:bold;
-      color:var(--title);
-      margin-bottom:10px;
-    }
-
-    .preview-box .lang-line{
-      margin-bottom:8px;
-    }
-
-    .mesario{
-      margin-top:16px;
-      background:var(--mesario-bg);
-      border-left:6px solid var(--mesario-line);
-      border-radius:18px;
-      padding:16px;
-    }
-
-    .actions{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:14px;
-      margin-top:18px;
-    }
-
-    .main-btn{
-      border:none;
-      border-radius:18px;
-      padding:18px;
-      font-size:18px;
-      font-weight:bold;
-      cursor:pointer;
-    }
-
-    .btn-next{
-      background:var(--accent);
-      color:#fff;
-    }
-
-    .btn-next:hover{
-      background:var(--accent-dark);
-    }
-
-    .btn-skip{
-      background:rgba(255,255,255,.8);
-      color:var(--text);
-    }
-
-    .btn-skip:hover{
-      background:#fff;
-    }
-
-    @media(max-width:900px){
-      .grid, .actions, .topbar{
-        grid-template-columns:1fr;
-        display:grid;
-      }
-    }
-  </style>
 </head>
+
 <body>
+
+<header>
+Módulo 05 — Segunda Língua(s)
+</header>
 
 <div class="container">
 
-  <div class="topbar">
-    <button class="small-btn" onclick="history.back()">← Retornar</button>
-    <button class="small-btn" onclick="window.location.href='index.html'">Sair do sistema</button>
-  </div>
+<h2>Escolha o nível de tradução da sua obra</h2>
 
-  <section class="hero">
-    <div class="eyebrow">📗 Lapidar • Módulo 05</div>
-    <h1>Segunda Língua(s)</h1>
-    <p class="subtitle">
-      Aqui ampliamos o alcance da sua obra para que ela atravesse fronteiras sem perder sua voz original.
-    </p>
-  </section>
+<div class="modulo">
 
-  <div class="grid">
+<div class="titulo">
+Tradução de leitura rápida
+</div>
 
-    <section class="card">
-      <h2>Dados da obra</h2>
+<div class="descricao">
+Indicado para compreensão geral da obra em outro idioma.
+Mantém o conteúdo acessível para leitura e referência.
+</div>
 
-      <div class="field">
-        <strong>Título</strong>
-        <span id="tituloObra">Aguardando identificação</span>
-      </div>
+<div class="valor">
+Valor base: R$ 25 ou US$ 25
+</div>
 
-      <div class="field">
-        <strong>Autor</strong>
-        <span id="autorObra">Aguardando identificação</span>
-      </div>
+<div class="obs">
+Valores variam conforme o tipo de licença da conta e país de registro.
+Não indicado para publicação internacional.
+</div>
 
-      <div class="field">
-        <strong>Idioma base</strong>
-        <span id="idiomaObra">Aguardando idioma</span>
-      </div>
-    </section>
-
-    <section class="card">
-      <h2>Configuração da tradução</h2>
-
-      <label for="idiomaDestino">Idioma de destino</label>
-      <select id="idiomaDestino" onchange="atualizarPreview()">
-        <option>Inglês (Estados Unidos)</option>
-        <option>Inglês (Reino Unido)</option>
-        <option>Espanhol (Espanha)</option>
-        <option>Espanhol (América Latina)</option>
-        <option>Francês</option>
-        <option>Italiano</option>
-      </select>
-
-      <label for="tipoTraducao">Tipo de tradução</label>
-      <select id="tipoTraducao" onchange="atualizarPreview()">
-        <option>Editorial literária</option>
-        <option>Institucional</option>
-        <option>Comercial</option>
-        <option>Adaptada para publicação</option>
-      </select>
-    </section>
-
-    <section class="card wide">
-      <h2>Palhinha da transposição linguística</h2>
-
-      <div class="preview">
-        <div class="preview-box">
-          <div class="lang-title" id="previewIdioma">Idioma de destino</div>
-          <div class="lang-line"><strong>Obra:</strong> <span id="previewTitulo">Título da obra</span></div>
-          <div class="lang-line"><strong>Autor:</strong> <span id="previewAutor">Autor</span></div>
-          <div class="lang-line"><strong>Modo:</strong> <span id="previewModo">Editorial literária</span></div>
-          <div class="lang-line"><strong>Objetivo:</strong> A obra será preparada para circular em outro idioma sem perder sua identidade autoral.</div>
-        </div>
-      </div>
-
-      <div class="mesario" id="mesarioSecao">
-        <strong>Mesário da seção</strong><br>
-        Valor acumulado desta tradução.<br><br>
-        <strong>CVR sugerida desta seção: R$ 0,00</strong>
-      </div>
-
-      <div class="actions">
-        <button class="main-btn btn-next" onclick="window.location.href='motor_sequencial.html'">
-          Concluir esta etapa e seguir
-        </button>
-
-        <button class="main-btn btn-skip" onclick="window.location.href='motor_sequencial.html'">
-          Pular este módulo por agora
-        </button>
-      </div>
-    </section>
-
-  </div>
+<input type="radio" name="traducao">
 
 </div>
 
-<script>
-  function preencherDados(){
-    const titulo = localStorage.getItem("lapidar_titulo_obra") || "Título da obra";
-    const autor = localStorage.getItem("lapidar_autor_obra") || "Autor";
-    const idioma = localStorage.getItem("lapidar_idioma_obra") || "Idioma base";
 
-    document.getElementById("tituloObra").textContent = titulo;
-    document.getElementById("autorObra").textContent = autor;
-    document.getElementById("idiomaObra").textContent = idioma;
+<div class="modulo">
 
-    document.getElementById("previewTitulo").textContent = titulo;
-    document.getElementById("previewAutor").textContent = autor;
-  }
+<div class="titulo">
+Tradução editorial recomendada
+</div>
 
-  function atualizarPreview(){
-    document.getElementById("previewIdioma").textContent =
-      document.getElementById("idiomaDestino").value;
+<div class="descricao">
+Preserva coerência narrativa, nomes próprios, símbolos e estrutura literária.
+Indicado para circulação editorial e preparação internacional.
+</div>
 
-    document.getElementById("previewModo").textContent =
-      document.getElementById("tipoTraducao").value;
-  }
+<div class="valor">
+Valor base: R$ 150 ou US$ 150
+</div>
 
-  function aplicarPerfil(){
-    const perfil = (localStorage.getItem("lapidar_perfil") || "").toLowerCase();
-    if(perfil.includes("cortesia")){
-      document.getElementById("mesarioSecao").style.display = "none";
-    }
-  }
+<div class="obs">
+Recomendado para autores que desejam consistência literária multilíngue.
+</div>
 
-  preencherDados();
-  atualizarPreview();
-  aplicarPerfil();
-</script>
+<input type="radio" name="traducao">
+
+</div>
+
+
+<div class="modulo">
+
+<div class="titulo">
+Tradução internacional publicável
+</div>
+
+<div class="descricao">
+Tradução interpretativa com preservação estilística completa.
+Indicada para publicação internacional e submissão editorial.
+</div>
+
+<div class="valor">
+Valor base: R$ 250 ou US$ 250
+</div>
+
+<div class="obs">
+Integra análise narrativa e memória terminológica da obra.
+</div>
+
+<input type="radio" name="traducao">
+
+</div>
+
+
+<button class="botao">
+Confirmar nível de tradução escolhido
+</button>
+
+
+<button class="botao voltar">
+Retornar ao Workspace da Obra
+</button>
+
+
+<button class="botao sair">
+Sair do sistema
+</button>
+
+
+<div class="footer">
+
+Valores institucionais podem variar conforme tipo de licença editorial da conta.<br>
+Lapidar — trabalhando ao lado do autor, desde a primeira letra até o último ponto final.
+
+</div>
+
+</div>
 
 </body>
 </html>
