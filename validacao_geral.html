@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Validação Geral dos Textos</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:#1f8f3a;
+color:white;
+}
+
+.topo{
+background:#0f5d25;
+padding:18px 16px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.topo h1{
+margin:0;
+font-size:24px;
+}
+
+.topo button{
+background:white;
+color:#0f5d25;
+border:none;
+padding:10px 14px;
+border-radius:10px;
+cursor:pointer;
+font-weight:bold;
+}
+
+.container{
+max-width:1100px;
+margin:auto;
+padding:30px 16px;
+}
+
+.card{
+background:#2ea44f;
+border-radius:16px;
+padding:22px;
+margin-bottom:18px;
+box-shadow:0 6px 14px rgba(0,0,0,.25);
+}
+
+.card h2{
+margin-top:0;
+}
+
+.box{
+background:white;
+color:black;
+border-radius:12px;
+padding:18px;
+margin-bottom:14px;
+}
+
+.botao{
+width:100%;
+padding:16px;
+border:none;
+border-radius:12px;
+font-size:18px;
+font-weight:bold;
+cursor:pointer;
+margin-top:12px;
+}
+
+.botao-branco{
+background:white;
+color:#1f8f3a;
+}
+
+.botao-verde{
+background:#0f5d25;
+color:white;
+}
+
+.botao:hover{
+opacity:.9;
+}
+
+</style>
+</head>
+<body>
+
+<div class="topo">
+<h1>Validação Geral dos Textos</h1>
+
+<button onclick="window.location.href='modulo_executor.html'">
+Voltar ao Executor
+</button>
+</div>
+
+
+<div class="container">
+
+<div class="card">
+
+<h2>Leitura editorial estruturada da obra</h2>
+
+<div class="box">
+
+Este módulo realiza análise editorial estruturada da obra:
+
+<br><br>
+
+• coerência narrativa  
+• desenvolvimento de personagens  
+• força temática  
+• consistência estrutural  
+• potencial de continuidade (série / trilogia / coleção)  
+• posicionamento editorial provável  
+• recomendação estratégica de evolução do texto  
+
+</div>
+
+
+<button class="botao botao-verde"
+onclick="window.location.href='avaliacao_literaria.html'">
+
+Confirmar apoio à validação editorial
+
+</button>
+
+
+<button class="botao botao-branco"
+onclick="window.location.href='confirmacao_final_modulos.html'">
+
+Encerrar este módulo e voltar ao fluxo editorial
+
+</button>
+
+</div>
+
+
+<div class="card">
+
+<h2>Status da validação</h2>
+
+<div id="statusValidacao">
+
+Nenhuma validação editorial registrada ainda.
+
+</div>
+
+</div>
+
+
+</div>
+
+
+<script>
+
+function carregarJSON(chave){
+
+const salvo = localStorage.getItem(chave)
+
+if(!salvo) return null
+
+try{
+return JSON.parse(salvo)
+}catch(e){
+return null
+}
+
+}
+
+
+function atualizarStatus(){
+
+const validacao = carregarJSON("avaliacao_literaria_confirmada")
+
+if(validacao){
+
+document.getElementById("statusValidacao").innerHTML =
+
+"Validação editorial registrada com sucesso.<br><br>" +
+
+"Plano escolhido: " + validacao.plano
+
+}
+
+}
+
+
+atualizarStatus()
+
+</script>
+
+
+</body>
+</html>
