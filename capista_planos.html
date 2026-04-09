@@ -3,186 +3,291 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Capista — Planos</title>
+<title>Lapidar — Planos do OKapista</title>
 
 <style>
 body{
 margin:0;
 font-family:Arial,sans-serif;
-background:#f2c230;
-color:#111111;
+background:#720000;
+color:white;
 }
 
 .container{
-width:min(1100px,95%);
+max-width:980px;
 margin:auto;
-padding:40px 0 60px;
+padding:40px 20px;
 }
 
-.titulo{
-font-size:38px;
-font-weight:bold;
-}
-
-.subtitulo{
-margin-top:8px;
-line-height:1.7;
-color:#2a2200;
-}
-
-.status{
-margin-top:20px;
-padding:16px;
-border-radius:12px;
-background:rgba(17,17,17,0.08);
-border:1px solid rgba(17,17,17,0.25);
-}
-
-.grid{
-margin-top:28px;
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:18px;
-}
-
-.card{
-background:#f4cc4d;
-border:2px solid #111111;
-border-radius:18px;
-padding:22px;
-cursor:pointer;
-transition:.2s;
-box-shadow:0 10px 26px rgba(0,0,0,0.18);
-}
-
-.card:hover{
-transform:translateY(-2px);
-}
-
-.cardTitulo{
-font-size:20px;
-font-weight:bold;
-margin-bottom:8px;
-}
-
-.cardValor{
-font-size:28px;
-font-weight:bold;
+h1{
+text-align:center;
 margin-bottom:10px;
 }
 
-.cardDesc{
+.sub{
+text-align:center;
+margin-bottom:30px;
+opacity:.92;
+}
+
+.card{
+background:white;
+color:black;
+padding:30px;
+border-radius:14px;
+box-shadow:0 5px 15px rgba(0,0,0,.3);
+}
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr 1fr;
+gap:18px;
+}
+
+.plano{
+border:2px solid #ddd;
+border-radius:12px;
+padding:18px;
+background:#fafafa;
+display:flex;
+flex-direction:column;
+gap:10px;
+}
+
+.plano.ativo{
+border-color:#28a745;
+background:#f3fff6;
+}
+
+.plano h2{
+margin:0;
+font-size:22px;
+}
+
+.preco{
+font-size:24px;
+font-weight:bold;
+color:#7a0000;
+}
+
+.lista{
 line-height:1.7;
 font-size:14px;
-color:#2a2200;
 }
 
-.actions{
-margin-top:30px;
-display:flex;
-gap:12px;
-flex-wrap:wrap;
-}
-
-button{
+.botao-escolher{
+margin-top:auto;
+padding:14px;
 border:none;
-padding:14px 18px;
-border-radius:999px;
-background:#f2c230;
-color:#111111;
-border:2px solid #111111;
+border-radius:10px;
 cursor:pointer;
+font-size:16px;
 font-weight:bold;
+background:#1565c0;
+color:white;
+}
+
+.botao-escolher:hover{
+opacity:.92;
+}
+
+.preview{
+margin-top:28px;
+padding:18px;
+background:#f3f3f3;
+border-radius:10px;
+border:1px solid #ddd;
+line-height:1.6;
+white-space:pre-wrap;
+}
+
+.botoes{
+margin-top:25px;
+display:flex;
+flex-direction:column;
+gap:14px;
+}
+
+.botao{
+width:100%;
+padding:18px;
+font-size:18px;
+border:none;
+border-radius:10px;
+cursor:pointer;
+}
+
+.botao-continuar{
+background:#28a745;
+color:white;
+}
+
+.botao-voltar{
+background:#ffc107;
+color:black;
+}
+
+.botao-sair{
+background:#dc3545;
+color:white;
+}
+
+.botao:hover{
+opacity:.92;
+}
+
+@media(max-width:900px){
+.grid{
+grid-template-columns:1fr;
+}
 }
 </style>
 </head>
-
 <body>
 
 <div class="container">
+<h1>Planos do OKapista</h1>
+<div class="sub">Escolha como a capa será produzida antes de seguir para a geração final.</div>
 
-<div class="titulo">Capista</div>
-<div class="subtitulo">
-Escolha a modalidade de doação do setor de identidade visual da obra.
-</div>
-
-<div id="statusCapistaPlanos" class="status">
-Selecione uma modalidade para continuar.
-</div>
+<div class="card">
 
 <div class="grid">
 
-<div class="card" onclick="selecionarPlano('capista_avulso','Doação avulsa')">
-<div class="cardTitulo">Avulsa</div>
-<div class="cardValor">R$ 2,99</div>
-<div class="cardDesc">
-Entrada unitária para uso pontual do setor de capa.
+<div class="plano" id="planoBasico">
+<h2>Básico</h2>
+<div class="preco">Essencial</div>
+<div class="lista">
+• capa frontal<br>
+• contracapa simples<br>
+• lombada básica<br>
+• estrutura objetiva<br>
+• ideal para fluxo rápido
 </div>
-</div>
-
-<div class="card" onclick="selecionarPlano('capista_30','30 dias')">
-<div class="cardTitulo">30 dias</div>
-<div class="cardValor">R$ 19,99</div>
-<div class="cardDesc">
-Acesso mensal ao setor capista.
-</div>
-</div>
-
-<div class="card" onclick="selecionarPlano('capista_90','90 dias')">
-<div class="cardTitulo">90 dias</div>
-<div class="cardValor">R$ 44,99</div>
-<div class="cardDesc">
-Acesso trimestral ao fluxo de capa.
-</div>
+<button class="botao-escolher" onclick="selecionarPlano('basico')">
+Escolher plano Básico
+</button>
 </div>
 
-<div class="card" onclick="selecionarPlano('capista_180','180 dias')">
-<div class="cardTitulo">180 dias</div>
-<div class="cardValor">R$ 74,99</div>
-<div class="cardDesc">
-Meio ano de acesso ao setor de capa.
+<div class="plano" id="planoMedio">
+<h2>Medium</h2>
+<div class="preco">Intermediário</div>
+<div class="lista">
+• capa frontal refinada<br>
+• contracapa trabalhada<br>
+• lombada com melhor acabamento<br>
+• orelhas opcionais<br>
+• equilíbrio entre rapidez e estética
 </div>
-</div>
-
-<div class="card" onclick="selecionarPlano('capista_365','365 dias')">
-<div class="cardTitulo">365 dias</div>
-<div class="cardValor">R$ 119,99</div>
-<div class="cardDesc">
-Acesso anual completo ao setor capista.
-</div>
-</div>
-
+<button class="botao-escolher" onclick="selecionarPlano('medium')">
+Escolher plano Medium
+</button>
 </div>
 
-<div class="actions">
-<button onclick="abrirCapista()">Entrar no setor</button>
-<button onclick="voltarSetores()">Voltar aos setores</button>
+<div class="plano" id="planoOpen">
+<h2>Open</h2>
+<div class="preco">Avançado</div>
+<div class="lista">
+• composição visual mais forte<br>
+• contracapa ampliada<br>
+• lombada refinada<br>
+• orelhas trabalhadas<br>
+• abordagem visual mais impactante
+</div>
+<button class="botao-escolher" onclick="selecionarPlano('open')">
+Escolher plano Open
+</button>
 </div>
 
 </div>
 
-<script src="auditoria.js"></script>
+<div class="preview" id="previewPlano">
+Nenhum plano selecionado ainda.
+</div>
+
+<div class="botoes">
+<button class="botao botao-continuar" onclick="salvarEContinuar()">
+Salvar plano e seguir para geração da capa
+</button>
+
+<button class="botao botao-voltar" onclick="window.location.href='capista_idioma.html'">
+Voltar ao idioma da capa
+</button>
+
+<button class="botao botao-sair" onclick="window.location.href='departamentos.html'">
+Sair do sistema
+</button>
+</div>
+
+</div>
+</div>
 
 <script>
-function selecionarPlano(codigo, nome){
-  localStorage.setItem("SDL_plano_capista", codigo);
-  localStorage.setItem("SDL_plano_capista_nome", nome);
+let planoSelecionado = "";
 
-  document.getElementById("statusCapistaPlanos").innerHTML =
-    "Plano selecionado no Capista: <strong>" + nome + "</strong>";
-
-  try{
-    SDL_registrarAuditoria("Plano do capista selecionado", "capista_planos");
-  }catch(e){}
+function carregarJSON(chave){
+const salvo = localStorage.getItem(chave);
+if(!salvo) return null;
+try{
+return JSON.parse(salvo);
+}catch(e){
+return null;
+}
 }
 
-function abrirCapista(){
-  window.location.href = "capista_inicio.html";
+function limparAtivos(){
+document.getElementById("planoBasico").classList.remove("ativo");
+document.getElementById("planoMedio").classList.remove("ativo");
+document.getElementById("planoOpen").classList.remove("ativo");
 }
 
-function voltarSetores(){
-  window.location.href = "painel_setores.html";
+function selecionarPlano(plano){
+planoSelecionado = plano;
+limparAtivos();
+
+if(plano === "basico"){
+document.getElementById("planoBasico").classList.add("ativo");
+document.getElementById("previewPlano").innerText =
+"Plano escolhido: Básico\n\n" +
+"Fluxo mais direto, com foco em capa, contracapa simples e lombada objetiva.";
 }
+
+if(plano === "medium"){
+document.getElementById("planoMedio").classList.add("ativo");
+document.getElementById("previewPlano").innerText =
+"Plano escolhido: Medium\n\n" +
+"Fluxo intermediário, com melhor acabamento visual e equilíbrio entre praticidade e refinamento.";
+}
+
+if(plano === "open"){
+document.getElementById("planoOpen").classList.add("ativo");
+document.getElementById("previewPlano").innerText =
+"Plano escolhido: Open\n\n" +
+"Fluxo avançado, com composição mais impactante, melhor presença estética e maior liberdade visual.";
+}
+}
+
+function preencherPlanoSalvo(){
+const salvo = carregarJSON("okapista_plano") || {};
+if(salvo.plano){
+selecionarPlano(salvo.plano);
+}
+}
+
+function salvarEContinuar(){
+if(!planoSelecionado){
+alert("Escolha um plano antes de continuar.");
+return;
+}
+
+const dados = {
+plano: planoSelecionado
+};
+
+localStorage.setItem("okapista_plano", JSON.stringify(dados));
+window.location.href = "capista_gerar_capa.html";
+}
+
+window.addEventListener("load", preencherPlanoSalvo);
 </script>
 
 </body>
