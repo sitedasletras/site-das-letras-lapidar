@@ -227,7 +227,7 @@ Executor de Módulos — Lapidar
     </div>
 
     <div class="linha">
-      <span class="rotulo">Idioma / operação</span>
+      <span class="rotulo">Idioma da edição</span>
       <div class="valor" id="idiomaOperacao">—</div>
     </div>
 
@@ -238,50 +238,63 @@ Executor de Módulos — Lapidar
 
     <div>
       <div class="card">
-        <h2>Módulos editoriais acionáveis</h2>
+        <h2>Escolha o que você quer fazer</h2>
 
         <div class="grid-3">
+
+          <div class="modulo">
+            <h3>Módulo 02 — Diagramação</h3>
+            <p>Organiza o miolo do livro, paginação, hierarquia tipográfica, pré-textuais e estrutura final do interior.</p>
+            <div id="statusDiagramacao" class="status status-note">Aguardando análise</div>
+            <button onclick="abrirModulo('02')">Abrir Diagramação</button>
+          </div>
 
           <div class="modulo">
             <h3>Módulo 03 — OKapista</h3>
             <p>Cuida de capa, contracapa, lombada, orelhas e coerência visual da obra.</p>
             <div id="statusCapista" class="status status-note">Aguardando análise</div>
+            <button onclick="abrirModulo('03')">Abrir OKapista</button>
           </div>
 
           <div class="modulo">
             <h3>Módulo 05 — Segunda Língua(s)</h3>
             <p>Prepara tradução e edição multilíngue conforme idioma e mercado escolhidos.</p>
             <div id="statusTraducao" class="status status-note">Aguardando análise</div>
+            <button onclick="abrirModulo('05')">Abrir Segunda Língua(s)</button>
           </div>
 
           <div class="modulo">
             <h3>Módulo 07 — Avaliação Literária</h3>
             <p>Executa parecer técnico e leitura crítica estruturada da obra.</p>
             <div id="statusAvaliacao" class="status status-note">Aguardando análise</div>
+            <button onclick="abrirModulo('07')">Abrir Avaliação</button>
           </div>
 
           <div class="modulo">
             <h3>Módulo 11 — Analisador de Obra</h3>
             <p>Consolida leitura estrutural, eixo narrativo, potencial de série e progressão.</p>
             <div id="statusAnalisador" class="status status-note">Aguardando análise</div>
+            <button onclick="abrirModulo('11')">Abrir Analisador</button>
           </div>
 
           <div class="modulo">
             <h3>Módulo 13 — Lapidação Literária</h3>
             <p>Refina diálogos, coerência, ritmo, estilo e força narrativa.</p>
             <div id="statusLapidacao" class="status status-note">Aguardando análise</div>
+            <button onclick="abrirModulo('13')">Abrir Lapidação</button>
           </div>
 
           <div class="modulo">
             <h3>Módulo 17 — Silo Sonoro</h3>
             <p>Prepara narração, voz e futura adaptação para audiobook.</p>
             <div id="statusSonoro" class="status status-note">Aguardando análise</div>
+            <button onclick="abrirModulo('17')">Abrir Silo Sonoro</button>
           </div>
 
         </div>
 
         <div class="resumo-box" style="margin-top:14px;">
-          O Executor de Módulos não substitui a Diagramação. Ele apenas organiza quais módulos fazem sentido para esta obra com base na entrada do Bolsão e na leitura do Cofre técnico.
+          O Executor organiza os caminhos possíveis da obra. A ordem editorial padrão é definida pelo Lapidar, mas a ponte geral permite exceções inteligentes conforme o objetivo do autor.
         </div>
       </div>
 
@@ -375,8 +388,8 @@ Executor de Módulos — Lapidar
 </div>
 
 <div class="footer">
-  Lapidar — trabalhando ao lado do autor, desde a primeira letra até o último ponto final.<br>
-  Mas a jornada ainda continua.
+Lapidar — trabalhando ao lado do autor, desde a primeira letra até o último ponto final.<br>
+Mas a jornada ainda continua.
 </div>
 
 <script>
@@ -406,6 +419,10 @@ function definirStatus(id, tipo, texto){
   el.innerText = texto;
 }
 
+function abrirModulo(codigo){
+  window.location.href = "ponte_modulos.html?modulo=" + encodeURIComponent(codigo);
+}
+
 function preencherExecutor(){
   const obra = carregarJSON("obraAtual");
   const entrada = carregarJSON("lapidar_entrada_bolsao");
@@ -419,8 +436,7 @@ function preencherExecutor(){
   document.getElementById("identificadorObra").innerText = identificador;
 
   const idioma = entrada?.idiomaObra === "en-US" ? "Inglês / edição internacional" : "Português / edição lusófona";
-  const operacao = entrada?.perfilEdicao ? " | operação " + entrada.perfilEdicao.toUpperCase() : "";
-  document.getElementById("idiomaOperacao").innerText = idioma + operacao;
+  document.getElementById("idiomaOperacao").innerText = idioma;
 
   document.getElementById("sinopseStatus").innerText = textoArquivoOuGerado(entrada?.sinopseArquivo, "Será gerada gratuitamente em PDF separado, se necessário");
   document.getElementById("prefacioStatus").innerText = textoArquivoOuGerado(entrada?.prefacioArquivo, "Poderá ser gerado gratuitamente");
@@ -463,45 +479,56 @@ function preencherExecutor(){
   });
 
   const temTexto = !!obra?.textoExtraido;
-  const temSinopse = !!entrada?.sinopseArquivo;
-  const temPrefacio = !!entrada?.prefacioArquivo;
-  const temDedic = !!entrada?.dedicatoriaArquivo;
-  const querVoz = entrada?.voz === "sim" || entrada?.voz === "depois";
   const querTraducao = entrada?.idiomaObra === "en-US";
+  const querVoz = entrada?.voz === "sim" || entrada?.voz === "depois";
   const querImagemCriada = entrada?.imagensInternasModo === "criar";
   const temImagemEnviada = entrada?.imagensInternasModo === "enviar" || (Array.isArray(entrada?.imagensCapa) ? entrada.imagensCapa.length > 0 : !!entrada?.imagensCapa);
 
-  definirStatus("statusCapista",
+  definirStatus(
+    "statusDiagramacao",
+    temTexto ? "status-ok" : "status-alert",
+    temTexto ? "Pronta para diagramação" : "Texto ainda não consolidado"
+  );
+
+  definirStatus(
+    "statusCapista",
     (temImagemEnviada || querImagemCriada) ? "status-ok" : "status-alert",
     (temImagemEnviada || querImagemCriada) ? "Pronto para o OKapista" : "Capa dependerá de definição visual"
   );
 
-  definirStatus("statusTraducao",
+  definirStatus(
+    "statusTraducao",
     querTraducao ? "status-ok" : "status-note",
     querTraducao ? "Edição internacional detectada" : "Tradução opcional neste momento"
   );
 
-  definirStatus("statusAvaliacao",
+  definirStatus(
+    "statusAvaliacao",
     temTexto ? "status-ok" : "status-alert",
     temTexto ? "Obra pronta para avaliação" : "Texto da obra ainda não consolidado"
   );
 
-  definirStatus("statusAnalisador",
+  definirStatus(
+    "statusAnalisador",
     obra?.genero ? "status-ok" : "status-alert",
     obra?.genero ? "Leitura estrutural consolidada" : "Aguardando leitura da obra"
   );
 
-  definirStatus("statusLapidacao",
+  definirStatus(
+    "statusLapidacao",
     temTexto ? "status-ok" : "status-alert",
     temTexto ? "Pode seguir para lapidação literária" : "Texto limpo ainda indisponível"
   );
 
-  definirStatus("statusSonoro",
+  definirStatus(
+    "statusSonoro",
     querVoz ? "status-ok" : "status-note",
     querVoz ? "Preparação sonora ativada" : "Silo Sonoro opcional neste momento"
   );
 
   let resumo = `A obra "${titulo}" foi consolidada no Executor com base na entrada do Bolsão e na leitura do Cofre técnico. `;
+  resumo += `A partir daqui, você escolhe o que quer fazer, e a ponte geral organiza a ordem editorial mais adequada. `;
+
   if(entrada?.serie){
     resumo += `Ela pertence a "${entrada.serie}". `;
   }
@@ -518,15 +545,6 @@ function preencherExecutor(){
     resumo += `As imagens internas deverão ser criadas automaticamente. `;
   } else if(entrada?.imagensInternasModo === "enviar"){
     resumo += `As imagens internas virão por envio do autor. `;
-  }
-  if(!temSinopse){
-    resumo += `A sinopse poderá ser gerada gratuitamente em PDF separado. `;
-  }
-  if(!temPrefacio){
-    resumo += `O prefácio poderá ser gerado gratuitamente, se necessário. `;
-  }
-  if(!temDedic){
-    resumo += `A dedicatória poderá ser gerada gratuitamente, se necessário. `;
   }
 
   document.getElementById("encaminhamentoResumo").innerText = resumo;
