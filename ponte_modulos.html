@@ -1,220 +1,346 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ponte Geral de Módulos — Lapidar</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ponte Geral de Módulos — Lapidar</title>
 
-<style>
+  <style>
+    *{box-sizing:border-box}
 
-body{
-margin:0;
-font-family:Arial, sans-serif;
-background:#f6f1e7;
-display:flex;
-align-items:center;
-justify-content:center;
-height:100vh;
-text-align:center;
-}
+    body{
+      margin:0;
+      font-family:Arial,sans-serif;
+      background:#f6f1e7;
+      color:#2f2a24;
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
+    }
 
-.box{
-background:white;
-padding:40px;
-border-radius:14px;
-box-shadow:0 6px 20px rgba(0,0,0,0.15);
-max-width:500px;
-}
+    .box{
+      width:100%;
+      max-width:720px;
+      background:#fff;
+      padding:34px 26px;
+      border-radius:16px;
+      box-shadow:0 8px 24px rgba(0,0,0,.12);
+      border:1px solid #eadfce;
+      text-align:center;
+    }
 
-h1{
-margin-top:0;
-color:#6b4c2c;
-}
+    h1{
+      margin:0 0 10px 0;
+      color:#6b4c2c;
+      font-size:30px;
+    }
 
-.status{
-margin-top:20px;
-font-size:16px;
-color:#444;
-}
+    .sub{
+      color:#6c6258;
+      font-size:14px;
+      margin-bottom:18px;
+    }
 
-</style>
+    .status{
+      margin-top:10px;
+      font-size:18px;
+      color:#444;
+      line-height:1.6;
+      min-height:58px;
+    }
+
+    .mini{
+      margin-top:16px;
+      background:#f9f6f1;
+      border:1px solid #eadfce;
+      border-radius:12px;
+      padding:14px;
+      text-align:left;
+      font-size:14px;
+      line-height:1.6;
+    }
+
+    .rotulo{
+      display:block;
+      font-size:12px;
+      font-weight:bold;
+      text-transform:uppercase;
+      letter-spacing:.4px;
+      color:#8a6a3c;
+      margin-bottom:6px;
+    }
+
+    .valor{
+      word-break:break-word;
+    }
+
+    .rodape{
+      margin-top:18px;
+      font-size:13px;
+      color:#7a6a5f;
+    }
+  </style>
 </head>
-
 <body>
 
-<div class="box">
-
-<h1>Lapidar</h1>
-
-<div class="status" id="status">
-Organizando o próximo passo da sua obra...
-</div>
-
-</div>
-
-
-<script>
-
-
-function getParametro(nome){
-const params = new URLSearchParams(window.location.search);
-return params.get(nome);
-}
-
-
-function carregarJSON(chave){
-try{
-return JSON.parse(localStorage.getItem(chave));
-}catch{
-return null;
-}
-}
-
-
-function abrir(destino){
-
-document.getElementById("status").innerText =
-"Abrindo " + destino.replace(".html","") + "...";
-
-setTimeout(()=>{
-window.location.href = destino;
-},900);
-
-}
-
-
-
-function iniciarPonte(){
-
-const moduloSolicitado = getParametro("modulo");
-
-const entrada = carregarJSON("lapidar_entrada_bolsao") || {};
-const obra = carregarJSON("obraAtual") || {};
-
-const tipoObra = obra.tipo || "";
-const objetivo = entrada.objetivoAutor || "";
-
-
-console.log("Módulo solicitado:", moduloSolicitado);
-console.log("Tipo da obra:", tipoObra);
-console.log("Objetivo:", objetivo);
-
-
-
-/*
-========================
-EXCEÇÃO INTELIGENTE
-POESIA → SILO SONORO
-========================
-*/
-
-if(tipoObra.toLowerCase().includes("poesia") 
-&& objetivo.toLowerCase().includes("audio")){
-
-document.getElementById("status").innerText =
-"Preparando texto para gravação no Silo Sonoro...";
-
-setTimeout(()=>{
-window.location.href = "silo_sonoro_inicio.html";
-},1200);
-
-return;
-}
-
-
-
-/*
-========================
-ORDEM EDITORIAL PADRÃO
-========================
-*/
-
-if(moduloSolicitado === "02"){
-
-abrir("diagramador_inicio.html");
-return;
-
-}
-
-
-if(moduloSolicitado === "03"){
-
-if(!localStorage.getItem("mioloDiagramado")){
-
-document.getElementById("status").innerText =
-"Antes de preparar a capa, vamos organizar o miolo do livro.";
-
-setTimeout(()=>{
-window.location.href = "diagramador_inicio.html";
-},1400);
-
-return;
-
-}
-
-abrir("capista_inicio.html");
-return;
-
-}
-
-
-if(moduloSolicitado === "05"){
-
-abrir("segunda_lingua_inicio.html");
-return;
-
-}
-
-
-if(moduloSolicitado === "07"){
-
-abrir("avaliacao_inicio.html");
-return;
-
-}
-
-
-if(moduloSolicitado === "11"){
-
-abrir("analisador_inicio.html");
-return;
-
-}
-
-
-if(moduloSolicitado === "13"){
-
-abrir("lapidacao_inicio.html");
-return;
-
-}
-
-
-if(moduloSolicitado === "17"){
-
-abrir("silo_sonoro_inicio.html");
-return;
-
-}
-
-
-
-/*
-========================
-PADRÃO DEFAULT
-========================
-*/
-
-document.getElementById("status").innerText =
-"Módulo ainda não configurado.";
-
-}
-
-
-
-iniciarPonte();
-
-</script>
+  <div class="box">
+    <h1>Lapidar</h1>
+    <div class="sub">Organizando o próximo passo da sua obra...</div>
+
+    <div class="status" id="status">
+      Preparando o roteamento editorial inteligente.
+    </div>
+
+    <div class="mini">
+      <span class="rotulo">Módulo solicitado</span>
+      <div class="valor" id="moduloSolicitado">—</div>
+    </div>
+
+    <div class="mini">
+      <span class="rotulo">Decisão da ponte</span>
+      <div class="valor" id="decisaoPonte">Aguardando análise.</div>
+    </div>
+
+    <div class="rodape">
+      A ponte geral não é uma etapa visível do fluxo. Ela apenas organiza o caminho certo.
+    </div>
+  </div>
+
+  <script>
+    function getParametro(nome){
+      const params = new URLSearchParams(window.location.search);
+      return params.get(nome);
+    }
+
+    function carregarJSON(chave){
+      try{
+        const salvo = localStorage.getItem(chave);
+        return salvo ? JSON.parse(salvo) : null;
+      }catch(e){
+        return null;
+      }
+    }
+
+    function setTexto(id, texto){
+      const el = document.getElementById(id);
+      if(el) el.innerText = texto;
+    }
+
+    function abrir(destino, mensagem){
+      setTexto("decisaoPonte", mensagem || ("Abrindo " + destino + "..."));
+      setTexto("status", "Redirecionando o fluxo editorial.");
+      setTimeout(()=>{
+        window.location.href = destino;
+      }, 1000);
+    }
+
+    function normalizar(txt){
+      return String(txt || "").toLowerCase().trim();
+    }
+
+    function detectarObjetivo(entrada){
+      const objetivoLivre = normalizar(entrada?.objetivoAutor || "");
+      const voz = normalizar(entrada?.voz || "");
+
+      if(objetivoLivre.includes("áudio") || objetivoLivre.includes("audio") || objetivoLivre.includes("audiobook")){
+        return "audio";
+      }
+
+      if(voz === "sim" || voz === "depois"){
+        return "audio";
+      }
+
+      return "";
+    }
+
+    function detectarTipoObra(obra, entrada){
+      return normalizar(
+        obra?.tipo ||
+        obra?.genero ||
+        entrada?.tipoBase ||
+        ""
+      );
+    }
+
+    function iniciarPonte(){
+      const moduloSolicitado = getParametro("modulo") || "";
+      const entrada = carregarJSON("lapidar_entrada_bolsao") || {};
+      const obra = carregarJSON("obraAtual") || {};
+      const capista = carregarJSON("okapista_obra") || {};
+      const mesario = carregarJSON("mesario_obra") || {};
+
+      setTexto("moduloSolicitado", moduloSolicitado || "não informado");
+
+      /*
+        IMPORTANTE:
+        Se algum nome de arquivo no seu projeto estiver diferente,
+        altere apenas aqui.
+      */
+      const MAPA_MODULOS = {
+        "02": "diagramador_inicio.html",
+        "03": "capista_inicio.html",
+        "05": "segunda_lingua_inicio.html",
+        "07": "avaliacao_inicio.html",
+        "11": "analisador_inicio.html",
+        "13": "lapidacao_inicio.html",
+        "17": "silo_sonoro_inicio.html"
+      };
+
+      const tipoObra = detectarTipoObra(obra, entrada);
+      const objetivo = detectarObjetivo(entrada);
+
+      const temTexto = !!obra?.textoExtraido;
+      const mioloDiagramado = localStorage.getItem("mioloDiagramado") === "true";
+
+      /*
+        EXCEÇÃO INTELIGENTE:
+        poesia + objetivo de áudio
+        pode ir direto ao Silo Sonoro após limpeza/correção básica
+      */
+      if(
+        moduloSolicitado === "17" &&
+        tipoObra.includes("poesia") &&
+        objetivo === "audio"
+      ){
+        abrir(
+          MAPA_MODULOS["17"],
+          "Obra poética com objetivo de áudio detectado. Seguindo direto para o Silo Sonoro."
+        );
+        return;
+      }
+
+      /*
+        ORDEM PADRÃO:
+        se pedir OKapista antes de diagramação, vai para Diagramação primeiro
+      */
+      if(moduloSolicitado === "03"){
+        if(!temTexto){
+          abrir(
+            "modulo_01_bolsao.html",
+            "A obra ainda precisa consolidar leitura e limpeza no Bolsão antes de seguir."
+          );
+          return;
+        }
+
+        if(!mioloDiagramado){
+          abrir(
+            MAPA_MODULOS["02"],
+            "Antes de preparar a capa, vamos organizar o miolo do livro na Diagramação."
+          );
+          return;
+        }
+
+        abrir(
+          MAPA_MODULOS["03"],
+          "Miolo já preparado. Abrindo OKapista."
+        );
+        return;
+      }
+
+      if(moduloSolicitado === "02"){
+        if(!temTexto){
+          abrir(
+            "modulo_01_bolsao.html",
+            "Antes da Diagramação, a obra precisa passar pela leitura e limpeza do Bolsão."
+          );
+          return;
+        }
+
+        abrir(
+          MAPA_MODULOS["02"],
+          "Abrindo Assistente de Diagramação do Autor."
+        );
+        return;
+      }
+
+      if(moduloSolicitado === "05"){
+        if(!temTexto){
+          abrir(
+            "modulo_01_bolsao.html",
+            "Antes da tradução, a obra precisa consolidar a leitura no Bolsão."
+          );
+          return;
+        }
+
+        abrir(
+          MAPA_MODULOS["05"],
+          "Abrindo Segunda Língua(s)."
+        );
+        return;
+      }
+
+      if(moduloSolicitado === "07"){
+        if(!temTexto){
+          abrir(
+            "modulo_01_bolsao.html",
+            "Antes da avaliação, a obra precisa consolidar a leitura no Bolsão."
+          );
+          return;
+        }
+
+        abrir(
+          MAPA_MODULOS["07"],
+          "Abrindo Avaliação Literária."
+        );
+        return;
+      }
+
+      if(moduloSolicitado === "11"){
+        if(!temTexto){
+          abrir(
+            "modulo_01_bolsao.html",
+            "Antes do analisador, a obra precisa consolidar a leitura no Bolsão."
+          );
+          return;
+        }
+
+        abrir(
+          MAPA_MODULOS["11"],
+          "Abrindo Analisador de Obra."
+        );
+        return;
+      }
+
+      if(moduloSolicitado === "13"){
+        if(!temTexto){
+          abrir(
+            "modulo_01_bolsao.html",
+            "Antes da lapidação, a obra precisa consolidar a leitura no Bolsão."
+          );
+          return;
+        }
+
+        abrir(
+          MAPA_MODULOS["13"],
+          "Abrindo Lapidação Literária."
+        );
+        return;
+      }
+
+      if(moduloSolicitado === "17"){
+        if(!temTexto){
+          abrir(
+            "modulo_01_bolsao.html",
+            "Antes do Silo Sonoro, a obra precisa consolidar a leitura no Bolsão."
+          );
+          return;
+        }
+
+        abrir(
+          MAPA_MODULOS["17"],
+          "Abrindo Silo Sonoro."
+        );
+        return;
+      }
+
+      setTexto("status", "Módulo não configurado.");
+      setTexto("decisaoPonte", "Verifique o código do módulo solicitado ou ajuste o mapa interno da ponte.");
+    }
+
+    iniciarPonte();
+  </script>
 
 </body>
 </html>
