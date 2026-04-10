@@ -1,123 +1,252 @@
-<!DOCTYPE html><html lang="pt-br">
+<!DOCTYPE html>
+<html lang="pt-br">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lapidar — Módulo 02 | Sistema Desbaste</title><style>
+
+<title>Lapidar — Sistema Desbaste</title>
+
+<style>
+
 body{
 margin:0;
-font-family:Georgia, serif;
-background:linear-gradient(#f4ecd8,#e6d3a3);
+font-family:Arial, Helvetica, sans-serif;
+background:#f4f6f8;
 }
 
-.wrapper{
-max-width:860px;
+header{
+
+background:#102437;
+color:white;
+padding:20px;
+text-align:center;
+font-size:22px;
+font-weight:bold;
+
+}
+
+.container{
+
+max-width:900px;
 margin:auto;
-margin-top:50px;
+margin-top:40px;
 background:white;
-padding:42px;
-border-radius:18px;
-box-shadow:0 14px 40px rgba(0,0,0,.18);
+padding:40px;
+border-radius:14px;
+box-shadow:0px 6px 20px rgba(0,0,0,0.12);
+
 }
 
-h1{
-text-align:center;
-color:#8c6239;
-margin-bottom:5px;
+.etapa{
+
+margin-bottom:30px;
+padding:20px;
+border-left:6px solid #0b5ed7;
+background:#f8fbff;
+border-radius:8px;
+
 }
 
-h2{
-text-align:center;
-font-weight:normal;
+.etapa h3{
+
 margin-top:0;
-margin-bottom:35px;
-}
 
-.progress-container{
-width:100%;
-height:30px;
-background:#ececec;
-border-radius:20px;
-overflow:hidden;
-margin-bottom:28px;
-}
-
-.progress{
-height:100%;
-width:0%;
-background:#b87333;
-transition:width 1.2s ease-in-out;
-}
-
-.log{
-font-size:17px;
-line-height:1.8;
-min-height:210px;
 }
 
 .status{
-margin-bottom:6px;
+
+font-weight:bold;
+margin-top:10px;
+
 }
 
-.footer{
-margin-top:45px;
-display:flex;
-justify-content:space-between;
-}
+.botao-principal{
 
-button{
-padding:14px 26px;
-font-size:16px;
+background:#198754;
+color:white;
 border:none;
+padding:18px 30px;
+font-size:18px;
 border-radius:10px;
 cursor:pointer;
+margin-top:25px;
+
 }
 
-.retornar{background:#fbc02d}
-.confirmar{background:#2e7d32;color:white}
-.sair{background:#c62828;color:white}
+.botao-principal:hover{
 
-</style></head><body><div class="wrapper"><h1>Sistema Desbaste</h1>
-<h2>Leitura estrutural progressiva da obra em execução</h2><div class="progress-container">
-<div id="progress" class="progress"></div>
-</div><div id="log" class="log"></div><div class="footer">
-<button class="retornar">Retornar</button>
-<button class="confirmar">Confirmar estrutura</button>
-<button class="sair">Sair do sistema</button>
-</div></div><script>
+background:#146c43;
 
-const etapas=[
-"Recebendo dados estruturais do Cofre...",
-"Consolidando título, subtítulo e autoria...",
-"Validando classificação editorial principal/secundária/terciária...",
-"Identificando capítulos e divisões internas...",
-"Detectando prólogo, epílogo e elementos pré-textuais...",
-"Verificando prefácio, dedicatória, sinopse e biografia...",
-"Preparando ficha estrutural consolidada da obra...",
-"Organizando dados para Diagramação, OKapista e Silo Sonoro...",
-"Sistema Desbaste finalizado com sucesso."
-];
+}
 
-let etapaAtual=0;
-let progresso=0;
+.botao-desativado{
+
+background:#999 !important;
+cursor:not-allowed !important;
+
+}
+
+.info{
+
+margin-top:20px;
+font-size:14px;
+color:#666;
+text-align:center;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+Sistema Desbaste — Consolidação Estrutural da Obra
+
+</header>
+
+<div class="container">
+
+<div class="etapa">
+
+<h3>Camada 1 — Consolidação Estrutural</h3>
+
+<div id="status1" class="status">
+
+Em processamento...
+
+</div>
+
+</div>
+
+<div class="etapa">
+
+<h3>Camada 2 — Leitura Narrativa</h3>
+
+<div id="status2" class="status">
+
+Aguardando...
+
+</div>
+
+</div>
+
+<div class="etapa">
+
+<h3>Camada 3 — Consolidação Editorial</h3>
+
+<div id="status3" class="status">
+
+Aguardando...
+
+</div>
+
+</div>
+
+<div style="text-align:center">
+
+<button
+
+id="botaoWorkspace"
+
+class="botao-principal botao-desativado"
+
+disabled
+
+onclick="seguirWorkspace()"
+
+>
+
+Seguir para Workspace da Obra
+
+</button>
+
+<div class="info">
+
+O Sistema Desbaste é obrigatório antes do acesso aos módulos editoriais.
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+let etapaAtual = 0
 
 function executarDesbaste(){
 
-if(etapaAtual<etapas.length){
+setTimeout(()=>{
 
-log.innerHTML+=`<div class="status">✔ ${etapas[etapaAtual]}</div>`;
+document.getElementById("status1").innerHTML="Estrutura narrativa consolidada ✓"
 
-progresso+=(100/etapas.length);
-progress.style.width=progresso+"%";
+etapaAtual++
 
-etapaAtual++;
+executarEtapa2()
 
-setTimeout(executarDesbaste,1300);
+},2000)
+
+}
+
+function executarEtapa2(){
+
+setTimeout(()=>{
+
+document.getElementById("status2").innerHTML="Elementos narrativos reconhecidos ✓"
+
+etapaAtual++
+
+executarEtapa3()
+
+},2000)
+
+}
+
+function executarEtapa3(){
+
+setTimeout(()=>{
+
+document.getElementById("status3").innerHTML="Ficha-base editorial preparada ✓"
+
+etapaAtual++
+
+finalizarDesbaste()
+
+},2000)
+
+}
+
+function finalizarDesbaste(){
+
+localStorage.setItem("desbaste_concluido","true")
+
+let botao=document.getElementById("botaoWorkspace")
+
+botao.disabled=false
+
+botao.classList.remove("botao-desativado")
+
+}
+
+function seguirWorkspace(){
+
+if(localStorage.getItem("desbaste_concluido")=="true"){
+
+window.location.href="obra_workspace.html"
 
 }
 
 }
 
-executarDesbaste();
+executarDesbaste()
 
-</script></body>
+</script>
+
+</body>
+
 </html>
