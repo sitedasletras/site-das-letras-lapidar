@@ -1,0 +1,123 @@
+<!DOCTYPE html><html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lapidar — Módulo 02 | Sistema Desbaste</title><style>
+body{
+margin:0;
+font-family:Georgia, serif;
+background:linear-gradient(#f4ecd8,#e6d3a3);
+}
+
+.wrapper{
+max-width:860px;
+margin:auto;
+margin-top:50px;
+background:white;
+padding:42px;
+border-radius:18px;
+box-shadow:0 14px 40px rgba(0,0,0,.18);
+}
+
+h1{
+text-align:center;
+color:#8c6239;
+margin-bottom:5px;
+}
+
+h2{
+text-align:center;
+font-weight:normal;
+margin-top:0;
+margin-bottom:35px;
+}
+
+.progress-container{
+width:100%;
+height:30px;
+background:#ececec;
+border-radius:20px;
+overflow:hidden;
+margin-bottom:28px;
+}
+
+.progress{
+height:100%;
+width:0%;
+background:#b87333;
+transition:width 1.2s ease-in-out;
+}
+
+.log{
+font-size:17px;
+line-height:1.8;
+min-height:210px;
+}
+
+.status{
+margin-bottom:6px;
+}
+
+.footer{
+margin-top:45px;
+display:flex;
+justify-content:space-between;
+}
+
+button{
+padding:14px 26px;
+font-size:16px;
+border:none;
+border-radius:10px;
+cursor:pointer;
+}
+
+.retornar{background:#fbc02d}
+.confirmar{background:#2e7d32;color:white}
+.sair{background:#c62828;color:white}
+
+</style></head><body><div class="wrapper"><h1>Sistema Desbaste</h1>
+<h2>Leitura estrutural progressiva da obra em execução</h2><div class="progress-container">
+<div id="progress" class="progress"></div>
+</div><div id="log" class="log"></div><div class="footer">
+<button class="retornar">Retornar</button>
+<button class="confirmar">Confirmar estrutura</button>
+<button class="sair">Sair do sistema</button>
+</div></div><script>
+
+const etapas=[
+"Recebendo dados estruturais do Cofre...",
+"Consolidando título, subtítulo e autoria...",
+"Validando classificação editorial principal/secundária/terciária...",
+"Identificando capítulos e divisões internas...",
+"Detectando prólogo, epílogo e elementos pré-textuais...",
+"Verificando prefácio, dedicatória, sinopse e biografia...",
+"Preparando ficha estrutural consolidada da obra...",
+"Organizando dados para Diagramação, OKapista e Silo Sonoro...",
+"Sistema Desbaste finalizado com sucesso."
+];
+
+let etapaAtual=0;
+let progresso=0;
+
+function executarDesbaste(){
+
+if(etapaAtual<etapas.length){
+
+log.innerHTML+=`<div class="status">✔ ${etapas[etapaAtual]}</div>`;
+
+progresso+=(100/etapas.length);
+progress.style.width=progresso+"%";
+
+etapaAtual++;
+
+setTimeout(executarDesbaste,1300);
+
+}
+
+}
+
+executarDesbaste();
+
+</script></body>
+</html>
