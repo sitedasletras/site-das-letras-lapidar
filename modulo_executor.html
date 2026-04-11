@@ -7,10 +7,11 @@
 <title>Lapidar — Executor de Módulos</title>
 
 <style>
+
 body{
 margin:0;
-font-family:Arial, Helvetica, sans-serif;
-background:#f2f4f7;
+font-family:Arial;
+background:#eef2f7;
 }
 
 header{
@@ -23,378 +24,282 @@ font-weight:bold;
 }
 
 .container{
-max-width:1180px;
+max-width:1100px;
 margin:auto;
 margin-top:40px;
 background:white;
 padding:40px;
-border-radius:14px;
-box-shadow:0px 6px 20px rgba(0,0,0,0.12);
-}
-
-.status-ok{
-color:#198754;
-font-weight:bold;
-}
-
-.status-erro{
-color:#dc3545;
-font-weight:bold;
-}
-
-.bloqueio{
-text-align:center;
-padding:80px 20px;
-}
-
-.grid-topo{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:18px;
-margin-top:25px;
-margin-bottom:30px;
-}
-
-.card{
-background:#f8f9fa;
-border:1px solid #dee2e6;
 border-radius:12px;
-padding:20px;
+box-shadow:0px 4px 18px rgba(0,0,0,0.12);
 }
 
-.card h3{
-margin-top:0;
-color:#102437;
-}
-
-.linha{
-padding:10px 0;
-border-bottom:1px solid #e5e5e5;
-font-size:15px;
-}
-
-.linha:last-child{
-border-bottom:none;
-}
-
-.rotulo{
-font-weight:bold;
-color:#333;
-}
-
-.secao-titulo{
-margin-top:34px;
-margin-bottom:16px;
-padding-bottom:10px;
-border-bottom:2px solid #d9e0e7;
-color:#102437;
-font-size:22px;
-font-weight:bold;
-}
-
-.modulos-grid{
+.grid{
 display:grid;
-grid-template-columns:repeat(2, 1fr);
-gap:18px;
-margin-top:18px;
+grid-template-columns:repeat(2,1fr);
+gap:20px;
 }
 
 .modulo{
-border-radius:14px;
+
+border-radius:12px;
 padding:22px;
-color:#102437;
-border:1px solid rgba(0,0,0,0.08);
-box-shadow:0px 4px 10px rgba(0,0,0,0.05);
+background:#f8f9fa;
+border:1px solid #dee2e6;
+
 }
 
-.modulo h4{
+.modulo h3{
 margin-top:0;
-margin-bottom:10px;
-font-size:20px;
 }
 
-.modulo p{
-margin-bottom:18px;
-line-height:1.5;
-}
+button{
 
-.modulo button{
+width:100%;
+padding:14px;
+margin-top:10px;
+font-size:16px;
+border:none;
+border-radius:8px;
+cursor:pointer;
 background:#102437;
 color:white;
-border:none;
-padding:14px 18px;
-font-size:15px;
-border-radius:10px;
-cursor:pointer;
-width:100%;
+
 }
 
-.modulo button:hover{
+button:hover{
+
 opacity:0.92;
+
 }
 
-.modulo-03{ background:#eef8ff; }
-.modulo-05{ background:#fff7e8; }
-.modulo-07{ background:#f3eefc; }
-.modulo-11{ background:#eef8ee; }
-.modulo-13{ background:#fff0f0; }
-.modulo-17{ background:#eef7ff; }
-.modulo-19{ background:#fff7e8; }
-.modulo-23{ background:#eef8ee; }
-.modulo-31{ background:#f7f0ff; }
+.status{
 
-.info-box{
-margin-top:28px;
-padding:18px;
-background:#eef6ff;
-border-left:5px solid #0b5ed7;
-border-radius:8px;
-line-height:1.6;
-color:#23384d;
+margin-top:10px;
+font-weight:bold;
+
 }
 
-.acoes{
-margin-top:28px;
-display:flex;
-gap:14px;
-flex-wrap:wrap;
+.liberado{
+
+color:#198754;
+
 }
 
-.botao{
-background:#0b5ed7;
-color:white;
-border:none;
-padding:18px 26px;
-font-size:18px;
-border-radius:10px;
-cursor:pointer;
+.bloqueado{
+
+color:#dc3545;
+
 }
 
-.botao:hover{
-background:#084298;
-}
-
-.botao-secundario{
-background:#6c757d;
-color:white;
-border:none;
-padding:18px 26px;
-font-size:18px;
-border-radius:10px;
-cursor:pointer;
-}
-
-.botao-secundario:hover{
-background:#565e64;
-}
-
-@media(max-width:900px){
-.grid-topo,
-.modulos-grid{
-grid-template-columns:1fr;
-}
-.acoes{
-flex-direction:column;
-}
-.botao,
-.botao-secundario{
-width:100%;
-}
-}
 </style>
+
 </head>
 
 <body>
 
 <header>
-Executor de Módulos — Lapidar
+
+Executor de Módulos — Celeiro Literário
+
 </header>
 
-<div id="areaExecutor" class="container" style="display:none;">
-
-<p class="status-ok">
-Sistema Desbaste confirmado ✓
-</p>
+<div class="container">
 
 <h2>
-Executor liberado
+
+Selecione o módulo desejado
+
 </h2>
 
-<p>
-A obra já passou pelo Cofre Editorial e pelo Sistema Desbaste. Os módulos abaixo agora recebem a base consolidada da obra para execução editorial e multimídia.
-</p>
+<div class="grid">
 
-<div class="grid-topo">
+<!-- DESBASTE -->
 
-<div class="card">
-<h3>Ficha-base da obra</h3>
-<div class="linha"><span class="rotulo">Arquivo:</span> <span id="exArquivo">—</span></div>
-<div class="linha"><span class="rotulo">Título-base:</span> <span id="exTitulo">—</span></div>
-<div class="linha"><span class="rotulo">Autor:</span> <span id="exAutor">—</span></div>
-<div class="linha"><span class="rotulo">Status técnico:</span> <span id="exStatus">—</span></div>
-</div>
+<div class="modulo">
 
-<div class="card">
-<h3>Leitura consolidada</h3>
-<div class="linha"><span class="rotulo">Principal:</span> <span id="exPrincipal">—</span></div>
-<div class="linha"><span class="rotulo">Secundário:</span> <span id="exSecundario">—</span></div>
-<div class="linha"><span class="rotulo">Terciário:</span> <span id="exTerciario">—</span></div>
-<div class="linha"><span class="rotulo">Prontidão:</span> <span>Obra pronta para módulos seguintes</span></div>
-</div>
+<h3>Módulo 02 — Sistema Desbaste</h3>
 
-</div>
+<button onclick="abrirDesbaste()">
 
-<div class="secao-titulo">Módulos editoriais</div>
+Abrir módulo
 
-<div class="modulos-grid">
-
-<div class="modulo modulo-03">
-<h4>Módulo 03 — Assistente de Diagramação</h4>
-<p>Recebe a base técnica da obra para organização visual, estrutura do miolo e preparação editorial do conteúdo.</p>
-<button onclick="abrirModulo('modulo03_assistente_diagramacao.html')">Abrir módulo</button>
-</div>
-
-<div class="modulo modulo-05">
-<h4>Módulo 05 — Segunda Língua(s)</h4>
-<p>Usa a leitura consolidada da obra como referência para preparação, validação e encaminhamento de tradução editorial.</p>
-<button onclick="abrirModulo('modulo05_segunda_lingua.html')">Abrir módulo</button>
-</div>
-
-<div class="modulo modulo-07">
-<h4>Módulo 07 — Avaliação Literária</h4>
-<p>Recebe a obra já organizada pelo Desbaste para análise estrutural, editorial e interpretativa.</p>
-<button onclick="abrirModulo('modulo07_avaliacao_literaria.html')">Abrir módulo</button>
-</div>
-
-<div class="modulo modulo-11">
-<h4>Módulo 11 — Analisador de Obra</h4>
-<p>Parte da base consolidada para identificar lacunas, potenciais de progressão e pontos fortes da construção narrativa.</p>
-<button onclick="abrirModulo('modulo11_analisador_de_obra.html')">Abrir módulo</button>
-</div>
-
-<div class="modulo modulo-13">
-<h4>Módulo 13 — Lapidação Literária</h4>
-<p>Usa a leitura consolidada para trabalhar ritmo, coerência, diálogos, sensibilidade textual e preservação de estilo.</p>
-<button onclick="abrirModulo('modulo13_lapidacao_literaria.html')">Abrir módulo</button>
-</div>
-
-<div class="modulo modulo-19">
-<h4>Módulo 19 — OKapista</h4>
-<p>Recebe a atmosfera base da obra e sua classificação para orientar a preparação visual da capa, contracapa, orelhas e lombada.</p>
-<button onclick="abrirModulo('modulo19_okapista.html')">Abrir módulo</button>
-</div>
-
-</div>
-
-<div class="secao-titulo">Silos multimídia</div>
-
-<div class="modulos-grid">
-
-<div class="modulo modulo-17">
-<h4>Módulo 17 — Silo Sonoro</h4>
-<p>Recebe a leitura consolidada para orientar narração, tipo de voz, ritmo, densidade interpretativa e direção sonora da obra.</p>
-<button onclick="abrirModulo('modulo17_silo_sonoro.html')">Abrir módulo</button>
-</div>
-
-<div class="modulo modulo-23">
-<h4>Módulo 23 — Silo Cinematológico</h4>
-<p>Recebe a leitura consolidada para orientar força imagética, estrutura dramática, cenas-chave e formatos audiovisuais de circulação.</p>
-<button onclick="abrirModulo('modulo23_silo_cinematologico.html')">Abrir módulo</button>
-</div>
-
-<div class="modulo modulo-31">
-<h4>Módulo 31 — Silo Music</h4>
-<p>Recebe a leitura consolidada para orientar clima musical, intensidade emocional, atmosfera dominante e progressão sonora do projeto.</p>
-<button onclick="abrirModulo('modulo31_silo_music.html')">Abrir módulo</button>
-</div>
-
-</div>
-
-<div class="info-box">
-O Executor de Módulos lê a ficha-base automática gerada pelo Sistema Desbaste. Assim, cada setor editorial e multimídia passa a trabalhar sobre uma compreensão consolidada da obra, sem quebrar a espinha dorsal oficial do Lapidar.
-</div>
-
-<div class="acoes">
-<button class="botao" onclick="voltarWorkspace()">Retornar ao Workspace</button>
-<button class="botao-secundario" onclick="irMesario()">Ir para Mesário</button>
-</div>
-
-</div>
-
-<div id="bloqueioExecutor" class="container bloqueio" style="display:none;">
-
-<p class="status-erro">
-Acesso bloqueado
-</p>
-
-<h2>
-Sistema Desbaste obrigatório
-</h2>
-
-<p>
-Antes de acessar o Executor de Módulos, é necessário concluir o Sistema Desbaste e liberar oficialmente o Workspace da Obra.
-</p>
-
-<button class="botao" onclick="voltarDesbaste()">
-Ir para Sistema Desbaste
 </button>
+
+<div class="status liberado">
+
+Obrigatório
+
+</div>
+
+</div>
+
+
+<!-- BARRACÃO -->
+
+<div class="modulo">
+
+<h3>Módulo 41 — Barracão de Polimento das Imagens</h3>
+
+<button onclick="abrirBarracao()" id="btnBarracao">
+
+Verificando acesso...
+
+</button>
+
+<div id="statusBarracao" class="status bloqueado">
+
+Aguardando Sistema Desbaste
+
+</div>
+
+</div>
+
+
+<!-- OKAPISTA -->
+
+<div class="modulo">
+
+<h3>Módulo 03 — OKapista</h3>
+
+<button onclick="abrirCapista()">
+
+Abrir módulo
+
+</button>
+
+<div class="status liberado">
+
+Preparação de capas
+
+</div>
+
+</div>
+
+
+<!-- SILO MUSIC -->
+
+<div class="modulo">
+
+<h3>Módulo 31 — Silo Music</h3>
+
+<button onclick="abrirSiloMusic()">
+
+Abrir módulo
+
+</button>
+
+<div class="status liberado">
+
+Produção sonora musical
+
+</div>
+
+</div>
+
+
+<!-- SILO HQ -->
+
+<div class="modulo">
+
+<h3>Módulo 37 — Silo Mangá · HQ · Séries</h3>
+
+<button onclick="abrirSiloHQ()">
+
+Abrir módulo
+
+</button>
+
+<div class="status liberado">
+
+Narrativa sequencial
+
+</div>
+
+</div>
+
+
+</div>
 
 </div>
 
 <script>
 
-function preencherExecutorComFichaBase(){
-let ficha = localStorage.getItem("lapidar_ficha_base_obra");
 
-if(ficha){
-try{
-let dados = JSON.parse(ficha);
+function abrirDesbaste(){
 
-document.getElementById("exArquivo").innerText = dados.arquivo || "—";
-document.getElementById("exTitulo").innerText = dados.titulo_base || "—";
-document.getElementById("exAutor").innerText = dados.autor || "—";
-document.getElementById("exStatus").innerText = dados.status_tecnico || "—";
-document.getElementById("exPrincipal").innerText = dados.classificacao_principal || "—";
-document.getElementById("exSecundario").innerText = dados.classificacao_secundaria || "—";
-document.getElementById("exTerciario").innerText = dados.classificacao_terciaria || "—";
+window.location.href="modulo_02_sistema_desbaste.html"
 
-}catch(e){
-console.log("Erro ao ler ficha-base no executor:", e);
-}
-}
 }
 
-function verificarAcessoExecutor(){
-let desbaste = localStorage.getItem("desbaste_concluido");
-let desbasteLapidar = localStorage.getItem("lapidar_desbaste_concluido");
 
-if(desbaste === "true" || desbasteLapidar === "true"){
-document.getElementById("areaExecutor").style.display = "block";
-preencherExecutorComFichaBase();
-}else{
-document.getElementById("bloqueioExecutor").style.display = "block";
-}
-}
+function abrirBarracao(){
 
-function abrirModulo(arquivo){
-window.location.href = arquivo;
+let desbaste = localStorage.getItem("desbaste_concluido")
+
+let desbasteLapidar = localStorage.getItem("lapidar_desbaste_concluido")
+
+
+if(desbaste==="true" || desbasteLapidar==="true"){
+
+window.location.href="modulo41_barracao_de_polimento_das_imagens.html"
+
 }
 
-function voltarWorkspace(){
-window.location.href = "obra_workspace.html";
+else{
+
+alert("Finalize o Sistema Desbaste antes de acessar o Barracão.")
+
 }
 
-function voltarDesbaste(){
-window.location.href = "modulo_02_sistema_desbaste.html";
 }
 
-function irMesario(){
-window.location.href = "mesario.html";
+
+
+function abrirCapista(){
+
+window.location.href="modulo_03_okapista.html"
+
 }
 
-verificarAcessoExecutor();
+
+function abrirSiloMusic(){
+
+window.location.href="modulo_31_silo_music.html"
+
+}
+
+
+function abrirSiloHQ(){
+
+window.location.href="modulo_37_silo_manga_hq_series.html"
+
+}
+
+
+function verificarStatusBarracao(){
+
+let desbaste = localStorage.getItem("desbaste_concluido")
+
+let desbasteLapidar = localStorage.getItem("lapidar_desbaste_concluido")
+
+if(desbaste==="true" || desbasteLapidar==="true"){
+
+document.getElementById("statusBarracao").innerText="Liberado"
+
+document.getElementById("statusBarracao").className="status liberado"
+
+document.getElementById("btnBarracao").innerText="Abrir módulo"
+
+}
+
+}
+
+
+verificarStatusBarracao()
+
 
 </script>
 
 </body>
+
 </html>
