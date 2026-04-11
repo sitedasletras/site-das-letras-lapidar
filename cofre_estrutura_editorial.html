@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -10,7 +11,7 @@
 
 body{
 margin:0;
-font-family:Arial, Helvetica, sans-serif;
+font-family:Arial;
 background:#efe7da;
 }
 
@@ -87,6 +88,11 @@ font-size:14px;
 color:#444;
 }
 
+.uploadBox{
+margin-top:20px;
+display:none;
+}
+
 </style>
 
 </head>
@@ -127,6 +133,7 @@ Preparar Cofre para nova obra
 
 </button>
 
+
 <div class="progressContainer" id="progressContainer">
 
 <div class="progressBar" id="progressBar"></div>
@@ -136,32 +143,47 @@ Preparar Cofre para nova obra
 <div class="progressText" id="progressText"></div>
 
 
-<button id="btnUpload"
-class="botaoUpload">
+<div class="uploadBox" id="uploadBox">
 
-Upload da obra liberado após preparação
+<input type="file"
+id="arquivoDOCX"
+accept=".docx">
+
+<button class="botaoAtivo"
+onclick="registrarArquivo()">
+
+Confirmar envio da obra
 
 </button>
 
 </div>
 
+</div>
+
+
 <script>
 
 let progresso = 0
+
 
 function prepararCofre(){
 
 document.getElementById("progressContainer").style.display="block"
 
 let barra = document.getElementById("progressBar")
+
 let texto = document.getElementById("progressText")
 
 let etapas = [
 
 "Removendo resíduos da obra anterior...",
+
 "Reorganizando ambiente editorial...",
+
 "Sincronizando com Sistema Desbaste...",
+
 "Sincronizando com Barracão de Polimento...",
+
 "Cofre pronto para nova obra."
 
 ]
@@ -206,11 +228,7 @@ if(progresso >=100){
 
 clearInterval(intervalo)
 
-localStorage.removeItem("lapidar_ficha_base_obra")
-
-localStorage.removeItem("lapidar_desbaste_concluido")
-
-localStorage.removeItem("desbaste_concluido")
+localStorage.clear()
 
 localStorage.setItem("cofre_preparado","true")
 
@@ -218,23 +236,65 @@ document.getElementById("statusMensagem").innerText =
 
 "Cofre pronto para receber nova obra."
 
-document.getElementById("btnUpload").classList.remove("botaoUpload")
-
-document.getElementById("btnUpload").classList.add("botaoAtivo")
-
-document.getElementById("btnUpload").innerText =
-
-"Iniciar envio da obra"
-
-document.getElementById("btnUpload").onclick=function(){
-
-window.location.href="upload_obra.html"
-
-}
+document.getElementById("uploadBox").style.display="block"
 
 }
 
 },800)
+
+}
+
+
+
+function registrarArquivo(){
+
+let arquivo = document.getElementById("arquivoDOCX").files[0]
+
+if(!arquivo){
+
+alert("Selecione o arquivo DOCX")
+
+return
+
+}
+
+let nomeArquivo = arquivo.name
+
+let tituloBase = nomeArquivo.replace(".docx","")
+
+
+let fichaBase = {
+
+arquivo:nomeArquivo,
+
+titulo_base:tituloBase,
+
+autor:"Autor a confirmar",
+
+classificacao_principal:"A definir",
+
+classificacao_secundaria:"A definir",
+
+classificacao_terciaria:"A definir",
+
+status_tecnico:"Estrutura recebida no Cofre"
+
+}
+
+
+localStorage.setItem(
+
+"lapidar_ficha_base_obra",
+
+JSON.stringify(fichaBase)
+
+)
+
+
+alert("Arquivo registrado com sucesso")
+
+
+window.location.href="modulo_02_sistema_desbaste.html"
 
 }
 
