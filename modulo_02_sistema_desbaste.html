@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Lapidar — Módulo 02 | Sistema Desbaste</title>
+
   <style>
     :root{
       --bg:#f3f5f8;
@@ -23,7 +24,9 @@
       --radius:18px;
     }
 
-    *{box-sizing:border-box}
+    *{
+      box-sizing:border-box;
+    }
 
     body{
       margin:0;
@@ -113,7 +116,9 @@
       font-size:15px;
     }
 
-    .linha:last-child{border-bottom:none}
+    .linha:last-child{
+      border-bottom:none;
+    }
 
     .rotulo{
       font-weight:700;
@@ -122,3 +127,273 @@
 
     .notice{
       margin-top:16px;
+      border-left:5px solid var(--warn-line);
+      background:var(--warn-bg);
+      padding:14px;
+      border-radius:12px;
+      color:#6b4f00;
+      line-height:1.55;
+    }
+
+    .info{
+      margin-top:16px;
+      border-left:5px solid var(--info-line);
+      background:var(--info-bg);
+      padding:14px;
+      border-radius:12px;
+      color:#23384d;
+      line-height:1.55;
+    }
+
+    .status-ok{
+      color:var(--ok);
+      font-weight:700;
+    }
+
+    .acoes{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-top:20px;
+    }
+
+    button{
+      border:none;
+      border-radius:12px;
+      padding:16px 20px;
+      font-size:16px;
+      font-weight:700;
+      cursor:pointer;
+    }
+
+    .btn-primary{
+      background:var(--primary);
+      color:#fff;
+      flex:1 1 280px;
+    }
+
+    .btn-primary:hover{
+      background:var(--primary-dark);
+    }
+
+    .btn-secondary{
+      background:#9aa3ab;
+      color:#fff;
+      flex:1 1 240px;
+    }
+
+    .btn-secondary:hover{
+      background:#838d96;
+    }
+
+    @media (max-width:760px){
+      .grid-2{
+        grid-template-columns:1fr;
+      }
+
+      .topbar{
+        font-size:20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    Sistema Desbaste — Consolidação Editorial da Obra
+  </header>
+
+  <main class="wrap">
+    <section class="card">
+
+      <div class="etapas">
+        <div class="etapa">
+          <strong>Etapa 1</strong>
+          <span>Estrutura geral consolidada <span class="status-ok">✓</span></span>
+        </div>
+
+        <div class="etapa">
+          <strong>Etapa 2</strong>
+          <span>Elementos narrativos identificados <span class="status-ok">✓</span></span>
+        </div>
+
+        <div class="etapa">
+          <strong>Etapa 3</strong>
+          <span>Base editorial consolidada <span class="status-ok">✓</span></span>
+        </div>
+      </div>
+
+      <h2>Ficha-base automática da obra</h2>
+
+      <div class="grid-2">
+        <div class="box">
+          <h3>Dados estruturais recebidos</h3>
+
+          <div class="linha"><span class="rotulo">Arquivo:</span> <span id="arquivoObra">—</span></div>
+          <div class="linha"><span class="rotulo">Título-base:</span> <span id="tituloObra">—</span></div>
+          <div class="linha"><span class="rotulo">Autor:</span> <span id="autorObra">—</span></div>
+          <div class="linha"><span class="rotulo">Idioma:</span> <span id="idiomaObra">—</span></div>
+          <div class="linha"><span class="rotulo">Classificação principal:</span> <span id="principalObra">—</span></div>
+          <div class="linha"><span class="rotulo">Classificação secundária:</span> <span id="secundarioObra">—</span></div>
+          <div class="linha"><span class="rotulo">Classificação terciária:</span> <span id="terciarioObra">—</span></div>
+        </div>
+
+        <div class="box">
+          <h3>Complementação editorial do Desbaste</h3>
+
+          <div class="linha"><span class="rotulo">Prefácio:</span> <span id="prefacioObra">A verificar / gerar se ausente</span></div>
+          <div class="linha"><span class="rotulo">Dedicatória:</span> <span id="dedicatoriaObra">A verificar / gerar se ausente</span></div>
+          <div class="linha"><span class="rotulo">Biografia:</span> <span id="biografiaObra">A verificar / gerar se ausente</span></div>
+          <div class="linha"><span class="rotulo">Sinopse:</span> <span id="sinopseObra">A verificar / gerar se ausente</span></div>
+          <div class="linha"><span class="rotulo">Status técnico:</span> <span id="statusTecnicoObra">Base pronta para os módulos seguintes</span></div>
+        </div>
+      </div>
+
+      <div class="notice">
+        O Sistema Desbaste é obrigatório. Ele <strong>preserva a ficha-base recebida do Cofre</strong> e complementa apenas os dados editoriais necessários antes da entrada no Workspace.
+      </div>
+
+      <div class="info">
+        Regra estrutural do Lapidar: o Desbaste <strong>não substitui</strong> nome da obra, autor, idioma ou classificação já reconhecidos no Cofre.
+      </div>
+
+      <div class="acoes">
+        <button class="btn-primary" onclick="seguirParaWorkspace()">Seguir para Workspace da Obra</button>
+        <button class="btn-secondary" onclick="retornarAoCofre()">Retornar ao Cofre</button>
+      </div>
+
+    </section>
+  </main>
+
+  <script>
+    function lerFichaBase() {
+      let ficha = null;
+
+      try {
+        const bruta = localStorage.getItem("lapidar_ficha_base_obra");
+        if (bruta) {
+          ficha = JSON.parse(bruta);
+        }
+      } catch (erro) {
+        ficha = null;
+      }
+
+      const fallback = {
+        arquivo:
+          (ficha && ficha.arquivo) ||
+          localStorage.getItem("lapidar_obra_nome") ||
+          localStorage.getItem("obra_nome") ||
+          "Obra sem nome",
+
+        titulo_base:
+          (ficha && (ficha.titulo_base || ficha.titulo)) ||
+          localStorage.getItem("lapidar_obra_titulo") ||
+          localStorage.getItem("obra_titulo") ||
+          "Obra sem nome",
+
+        autor:
+          (ficha && ficha.autor) ||
+          localStorage.getItem("lapidar_obra_autor") ||
+          localStorage.getItem("obra_autor") ||
+          "Autor a confirmar",
+
+        idioma:
+          (ficha && (ficha.idioma || ficha.idioma_base)) ||
+          localStorage.getItem("lapidar_obra_idioma") ||
+          localStorage.getItem("obra_idioma") ||
+          "Português do Brasil",
+
+        classificacao_principal:
+          (ficha && ficha.classificacao_principal) ||
+          localStorage.getItem("lapidar_classificacao_principal") ||
+          "Aguardando leitura",
+
+        classificacao_secundaria:
+          (ficha && ficha.classificacao_secundaria) ||
+          localStorage.getItem("lapidar_classificacao_secundaria") ||
+          "Aguardando leitura",
+
+        classificacao_terciaria:
+          (ficha && ficha.classificacao_terciaria) ||
+          localStorage.getItem("lapidar_classificacao_terciaria") ||
+          "Aguardando leitura",
+
+        status_tecnico:
+          (ficha && ficha.status_tecnico) ||
+          localStorage.getItem("lapidar_status_tecnico") ||
+          "Base pronta para os módulos seguintes"
+      };
+
+      return fallback;
+    }
+
+    function preencherTela(dados) {
+      document.getElementById("arquivoObra").textContent = dados.arquivo;
+      document.getElementById("tituloObra").textContent = dados.titulo_base;
+      document.getElementById("autorObra").textContent = dados.autor;
+      document.getElementById("idiomaObra").textContent = dados.idioma;
+      document.getElementById("principalObra").textContent = dados.classificacao_principal;
+      document.getElementById("secundarioObra").textContent = dados.classificacao_secundaria;
+      document.getElementById("terciarioObra").textContent = dados.classificacao_terciaria;
+      document.getElementById("statusTecnicoObra").textContent = "Base pronta para os módulos seguintes";
+    }
+
+    function sincronizarStorage(dados) {
+      const fichaConsolidada = {
+        arquivo: dados.arquivo,
+        titulo_base: dados.titulo_base,
+        autor: dados.autor,
+        idioma: dados.idioma,
+        classificacao_principal: dados.classificacao_principal,
+        classificacao_secundaria: dados.classificacao_secundaria,
+        classificacao_terciaria: dados.classificacao_terciaria,
+        prefacio: "A verificar / gerar se ausente",
+        dedicatoria: "A verificar / gerar se ausente",
+        biografia: "A verificar / gerar se ausente",
+        sinopse: "A verificar / gerar se ausente",
+        status_tecnico: "Base pronta para os módulos seguintes"
+      };
+
+      localStorage.setItem("lapidar_ficha_base_obra", JSON.stringify(fichaConsolidada));
+
+      localStorage.setItem("lapidar_obra_nome", fichaConsolidada.arquivo);
+      localStorage.setItem("lapidar_obra_titulo", fichaConsolidada.titulo_base);
+      localStorage.setItem("lapidar_obra_autor", fichaConsolidada.autor);
+      localStorage.setItem("lapidar_obra_idioma", fichaConsolidada.idioma);
+
+      localStorage.setItem("lapidar_classificacao_principal", fichaConsolidada.classificacao_principal);
+      localStorage.setItem("lapidar_classificacao_secundaria", fichaConsolidada.classificacao_secundaria);
+      localStorage.setItem("lapidar_classificacao_terciaria", fichaConsolidada.classificacao_terciaria);
+      localStorage.setItem("lapidar_status_tecnico", fichaConsolidada.status_tecnico);
+
+      localStorage.setItem("obra_nome", fichaConsolidada.arquivo);
+      localStorage.setItem("obra_titulo", fichaConsolidada.titulo_base);
+      localStorage.setItem("obra_autor", fichaConsolidada.autor);
+      localStorage.setItem("obra_idioma", fichaConsolidada.idioma);
+
+      localStorage.setItem("titulo_obra", fichaConsolidada.titulo_base);
+      localStorage.setItem("autor_obra", fichaConsolidada.autor);
+      localStorage.setItem("idioma_obra", fichaConsolidada.idioma);
+
+      localStorage.setItem("lapidar_titulo_obra", fichaConsolidada.titulo_base);
+      localStorage.setItem("lapidar_autor_obra", fichaConsolidada.autor);
+      localStorage.setItem("lapidar_idioma_obra", fichaConsolidada.idioma);
+
+      localStorage.setItem("lapidar_desbaste_concluido", "true");
+      localStorage.setItem("desbaste_concluido", "true");
+      localStorage.setItem("lapidar_fluxo_etapa", "desbaste_concluido");
+    }
+
+    function seguirParaWorkspace() {
+      window.location.href = "obra_workspace.html";
+    }
+
+    function retornarAoCofre() {
+      window.location.href = "modulo_01_bolsao.html";
+    }
+
+    const dados = lerFichaBase();
+    preencherTela(dados);
+    sincronizarStorage(dados);
+  </script>
+</body>
+</html>
