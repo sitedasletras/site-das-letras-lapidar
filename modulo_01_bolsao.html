@@ -106,19 +106,22 @@
       border-radius:14px;
       padding:24px 16px;
       text-align:center;
-      cursor:pointer;
       transition:.2s ease;
+      user-select:none;
     }
 
-    .upload-box:hover{
+    .upload-box.ready{
+      cursor:pointer;
+    }
+
+    .upload-box.ready:hover{
       background:#efe8dc;
       border-color:#cdbda4;
     }
 
-    .upload-box.disabled{
-      opacity:.55;
+    .upload-box.locked{
+      opacity:.65;
       cursor:not-allowed;
-      pointer-events:none;
     }
 
     .upload-box strong{
@@ -250,9 +253,9 @@
     }
 
     .btn-disabled{
-      background:#aeb7bf;
-      color:#eef2f5;
-      cursor:not-allowed;
+      background:#aeb7bf !important;
+      color:#eef2f5 !important;
+      cursor:not-allowed !important;
     }
 
     .hidden{
@@ -303,10 +306,10 @@
     <section class="card">
       <h2>Enviar obra</h2>
 
-      <label id="labelUpload" class="upload-box disabled" for="arquivoObra">
+      <div id="uploadBox" class="upload-box locked">
         <strong>Clique aqui para enviar sua obra</strong>
         <span>DOCX, DOC, PDF ou TXT. O envio só é liberado após a preparação do Cofre.</span>
-      </label>
+      </div>
 
       <input id="arquivoObra" type="file" accept=".doc,.docx,.pdf,.txt" />
 
@@ -413,7 +416,7 @@
     const logPreparacao = document.getElementById("logPreparacao");
     const statusCofre = document.getElementById("statusCofre");
 
-    const labelUpload = document.getElementById("labelUpload");
+    const uploadBox = document.getElementById("uploadBox");
     const arquivoObra = document.getElementById("arquivoObra");
     const arquivoRecebido = document.getElementById("arquivoRecebido");
 
@@ -444,7 +447,6 @@
       line.className = "log-line";
       line.textContent = text;
       container.appendChild(line);
-      container.scrollTop = container.scrollHeight;
     }
 
     function setProgress(bar, percent) {
@@ -462,8 +464,8 @@
 
     function clearLegacyState() {
       STORAGE_KEYS_TO_CLEAR.forEach((key) => {
-        localStorage.removeItem(key);
-        sessionStorage.removeItem(key);
+        try { localStorage.removeItem(key); } catch(e) {}
+        try { sessionStorage.removeItem(key); } catch(e) {}
       });
     }
 
@@ -494,11 +496,27 @@
       obraAtual = null;
     }
 
+    function travarUpload() {
+      cofrePreparado = false;
+      uploadBox.classList.remove("ready");
+      uploadBox.classList.add("locked");
+    }
+
+    function liberarUpload() {
+      cofrePreparado = true;
+      uploadBox.classList.remove("locked");
+      uploadBox.classList.add("ready");
+    }
+
     function prepararCofre() {
       btnPreparar.disabled = true;
       blocoPreparacao.classList.remove("hidden");
       logPreparacao.innerHTML = "";
-      barraPreparacao.style.width = "0%";
+      setProgress(barraPreparacao, 0);
+
+      clearLegacyState();
+      resetVisualStateOnly();
+      travarUpload();
 
       const steps = [
         { p: 15, t: "Iniciando limpeza estrutural do Cofre..." },
@@ -511,15 +529,11 @@
 
       let index = 0;
 
-      clearLegacyState();
-      resetVisualStateOnly();
-
       function runStep() {
         if (index >= steps.length) {
-          cofrePreparado = true;
+          liberarUpload();
           statusCofre.innerHTML = '<span class="status-ok">Status atual: Cofre preparado e liberado para upload.</span>';
           textoPreparacao.innerHTML = '<span class="status-ok">Cofre pronto para nova obra.</span>';
-          labelUpload.classList.remove("disabled");
           btnPreparar.disabled = false;
           return;
         }
@@ -529,7 +543,7 @@
         textoPreparacao.textContent = step.t;
         addLog(logPreparacao, step.t);
         index += 1;
-        setTimeout(runStep, 500);
+        setTimeout(runStep, 420);
       }
 
       runStep();
@@ -598,7 +612,6 @@
       };
 
       localStorage.setItem("lapidar_ficha_base_obra", JSON.stringify(ficha));
-
       localStorage.setItem("lapidar_obra_nome", data.arquivo);
       localStorage.setItem("lapidar_obra_titulo", data.titulo);
       localStorage.setItem("lapidar_obra_autor", data.autor);
@@ -625,6 +638,14 @@
       localStorage.setItem("lapidar_desbaste_concluido", "false");
       localStorage.setItem("desbaste_concluido", "false");
     }
+
+    uploadBox.addEventListener("click", function() {
+      if (!cofrePreparado) {
+        alert("Prepare primeiro o Cofre para nova obra.");
+        return;
+      }
+      arquivoObra.click();
+    });
 
     arquivoObra.addEventListener("change", (e) => {
       if (!cofrePreparado) {
@@ -676,7 +697,7 @@
 
       secaoLeitura.classList.remove("hidden");
       logLeitura.innerHTML = "";
-      barraLeitura.style.width = "0%";
+      setProgress(barraLeitura, 0);
 
       const steps = [
         { p: 18, t: "Preparando leitura estrutural..." },
@@ -702,7 +723,7 @@
         textoLeitura.textContent = step.t;
         addLog(logLeitura, step.t);
         i += 1;
-        setTimeout(run, 550);
+        setTimeout(run, 480);
       }
 
       run();
@@ -715,6 +736,8 @@
     btnReiniciar.addEventListener("click", () => {
       prepararCofre();
     });
+
+    travarUpload();
   </script>
 </body>
 </html>
