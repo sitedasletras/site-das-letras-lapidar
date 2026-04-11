@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lapidar — Módulo 01 | Cofre Mestre da Obra</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cofre Mestre da Obra</title>
   <style>
     :root{
       --bg:#eee8dd;
@@ -14,10 +14,9 @@
       --muted:#72695e;
       --brown:#7a6f63;
       --brown-dark:#655b50;
-      --blue:#0f2538;
       --green:#198754;
-      --yellow:#d4a72c;
-      --red:#c74444;
+      --blue:#0b5ed7;
+      --gray:#9aa3ab;
       --shadow:0 8px 22px rgba(0,0,0,.08);
       --radius:18px;
     }
@@ -41,14 +40,12 @@
     .topbar h1{
       margin:0;
       font-size:2rem;
-      font-weight:700;
     }
 
     .topbar p{
       margin:8px 0 0;
       color:var(--muted);
       font-size:.95rem;
-      line-height:1.5;
     }
 
     .wrap{
@@ -95,9 +92,56 @@
       font-weight:700;
     }
 
-    .status-wait{
-      color:#6c6258;
+    .buttons{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-top:14px;
+    }
+
+    button{
+      border:none;
+      border-radius:12px;
+      padding:15px 18px;
+      font-size:1rem;
       font-weight:700;
+      cursor:pointer;
+    }
+
+    .btn-primary{
+      background:var(--brown);
+      color:#fff;
+      flex:1 1 280px;
+    }
+
+    .btn-primary:hover{
+      background:var(--brown-dark);
+    }
+
+    .btn-secondary{
+      background:var(--blue);
+      color:#fff;
+      flex:1 1 240px;
+    }
+
+    .btn-secondary:hover{
+      background:#084298;
+    }
+
+    .btn-neutral{
+      background:var(--gray);
+      color:#fff;
+      flex:1 1 220px;
+    }
+
+    .btn-neutral:hover{
+      background:#7f8a93;
+    }
+
+    .btn-disabled{
+      background:#b8c0c8 !important;
+      color:#eef2f5 !important;
+      cursor:not-allowed !important;
     }
 
     .upload-box{
@@ -106,7 +150,6 @@
       border-radius:14px;
       padding:24px 16px;
       text-align:center;
-      transition:.2s ease;
       user-select:none;
     }
 
@@ -137,8 +180,15 @@
       line-height:1.45;
     }
 
-    input[type="file"]{
-      display:none;
+    .hidden{
+      display:none !important;
+    }
+
+    .small{
+      margin-top:10px;
+      font-size:.92rem;
+      color:#6e6458;
+      line-height:1.5;
     }
 
     .file-ok{
@@ -184,8 +234,8 @@
     .progress-bar{
       height:100%;
       width:0%;
-      transition:width .55s ease, background .55s ease;
-      background:var(--red);
+      transition:width .45s ease;
+      background:#c74444;
     }
 
     .log-box{
@@ -204,69 +254,6 @@
 
     .log-line:last-child{
       border-bottom:none;
-    }
-
-    .buttons{
-      display:flex;
-      gap:12px;
-      flex-wrap:wrap;
-      margin-top:14px;
-    }
-
-    button{
-      border:none;
-      border-radius:12px;
-      padding:15px 18px;
-      font-size:1rem;
-      font-weight:700;
-      cursor:pointer;
-    }
-
-    .btn-primary{
-      background:var(--brown);
-      color:#fff;
-      flex:1 1 280px;
-    }
-
-    .btn-primary:hover{
-      background:var(--brown-dark);
-    }
-
-    .btn-secondary{
-      background:#0b5ed7;
-      color:#fff;
-      flex:1 1 240px;
-    }
-
-    .btn-secondary:hover{
-      background:#084298;
-    }
-
-    .btn-neutral{
-      background:#9aa3ab;
-      color:#fff;
-      flex:1 1 220px;
-    }
-
-    .btn-neutral:hover{
-      background:#858f98;
-    }
-
-    .btn-disabled{
-      background:#aeb7bf !important;
-      color:#eef2f5 !important;
-      cursor:not-allowed !important;
-    }
-
-    .hidden{
-      display:none !important;
-    }
-
-    .small{
-      margin-top:10px;
-      font-size:.92rem;
-      color:#6e6458;
-      line-height:1.5;
     }
 
     @media (max-width:760px){
@@ -289,14 +276,14 @@
       </div>
 
       <div class="buttons">
-        <button id="btnPreparar" class="btn-primary" type="button">Preparar Cofre para nova obra</button>
+        <button id="btnPreparar" class="btn-primary" type="button" onclick="prepararCofre()">Preparar Cofre para nova obra</button>
       </div>
 
       <div id="blocoPreparacao" class="hidden">
         <div class="progress-shell">
           <div id="barraPreparacao" class="progress-bar"></div>
         </div>
-        <div id="textoPreparacao" class="status-wait">Aguardando preparação...</div>
+        <div id="textoPreparacao">Aguardando preparação...</div>
         <div id="logPreparacao" class="log-box" style="margin-top:12px;"></div>
       </div>
 
@@ -306,12 +293,12 @@
     <section class="card">
       <h2>Enviar obra</h2>
 
-      <div id="uploadBox" class="upload-box locked">
+      <div id="uploadBox" class="upload-box locked" onclick="abrirUpload()">
         <strong>Clique aqui para enviar sua obra</strong>
         <span>DOCX, DOC, PDF ou TXT. O envio só é liberado após a preparação do Cofre.</span>
       </div>
 
-      <input id="arquivoObra" type="file" accept=".doc,.docx,.pdf,.txt" />
+      <input id="arquivoObra" type="file" accept=".doc,.docx,.pdf,.txt" class="hidden" onchange="arquivoSelecionado(event)">
 
       <div id="arquivoRecebido" class="file-ok hidden"></div>
 
@@ -339,7 +326,7 @@
       </div>
 
       <div class="buttons">
-        <button id="btnLeitura" class="btn-primary btn-disabled" type="button" disabled>Iniciar leitura estrutural</button>
+        <button id="btnLeitura" class="btn-primary btn-disabled" type="button" disabled onclick="iniciarLeitura()">Iniciar leitura estrutural</button>
       </div>
     </section>
 
@@ -348,7 +335,7 @@
       <div class="progress-shell">
         <div id="barraLeitura" class="progress-bar"></div>
       </div>
-      <div id="textoLeitura" class="status-wait">Aguardando leitura...</div>
+      <div id="textoLeitura">Aguardando leitura...</div>
       <div id="logLeitura" class="log-box" style="margin-top:12px;"></div>
     </section>
 
@@ -359,14 +346,17 @@
       </div>
 
       <div class="buttons">
-        <button id="btnIrDesbaste" class="btn-secondary" type="button">Seguir para o Sistema Desbaste</button>
-        <button id="btnReiniciar" class="btn-neutral" type="button">Preparar nova obra novamente</button>
+        <button class="btn-secondary" type="button" onclick="irDesbaste()">Seguir para o Sistema Desbaste</button>
+        <button class="btn-neutral" type="button" onclick="prepararCofre()">Preparar nova obra novamente</button>
       </div>
     </section>
   </main>
 
   <script>
-    const STORAGE_KEYS_TO_CLEAR = [
+    var cofrePreparado = false;
+    var obraAtual = null;
+
+    var STORAGE_KEYS_TO_CLEAR = [
       "lapidar_ficha_base_obra",
       "lapidar_obra_nome",
       "lapidar_obra_titulo",
@@ -379,13 +369,9 @@
       "lapidar_desbaste_concluido",
       "desbaste_concluido",
       "lapidar_fluxo_etapa",
-      "lapidar_biblioteca_visual_autor",
-      "lapidar_imagens_pendentes_barracao",
-      "lapidar_estado_barracao",
       "lapidar_titulo_obra",
       "lapidar_autor_obra",
       "lapidar_idioma_obra",
-      "lapidar_perfil",
       "obra_nome",
       "obra_titulo",
       "obra_autor",
@@ -409,48 +395,21 @@
       "barracao_autor"
     ];
 
-    const btnPreparar = document.getElementById("btnPreparar");
-    const blocoPreparacao = document.getElementById("blocoPreparacao");
-    const barraPreparacao = document.getElementById("barraPreparacao");
-    const textoPreparacao = document.getElementById("textoPreparacao");
-    const logPreparacao = document.getElementById("logPreparacao");
-    const statusCofre = document.getElementById("statusCofre");
-
-    const uploadBox = document.getElementById("uploadBox");
-    const arquivoObra = document.getElementById("arquivoObra");
-    const arquivoRecebido = document.getElementById("arquivoRecebido");
-
-    const nomeArquivo = document.getElementById("nomeArquivo");
-    const tituloBase = document.getElementById("tituloBase");
-    const autorBase = document.getElementById("autorBase");
-    const idiomaBase = document.getElementById("idiomaBase");
-    const classPrincipal = document.getElementById("classPrincipal");
-    const classSecundario = document.getElementById("classSecundario");
-    const classTerciario = document.getElementById("classTerciario");
-    const statusTecnico = document.getElementById("statusTecnico");
-
-    const btnLeitura = document.getElementById("btnLeitura");
-    const secaoLeitura = document.getElementById("secaoLeitura");
-    const barraLeitura = document.getElementById("barraLeitura");
-    const textoLeitura = document.getElementById("textoLeitura");
-    const logLeitura = document.getElementById("logLeitura");
-
-    const secaoFinal = document.getElementById("secaoFinal");
-    const btnIrDesbaste = document.getElementById("btnIrDesbaste");
-    const btnReiniciar = document.getElementById("btnReiniciar");
-
-    let cofrePreparado = false;
-    let obraAtual = null;
-
-    function addLog(container, text) {
-      const line = document.createElement("div");
-      line.className = "log-line";
-      line.textContent = text;
-      container.appendChild(line);
+    function el(id){
+      return document.getElementById(id);
     }
 
-    function setProgress(bar, percent) {
+    function addLog(containerId, text){
+      var line = document.createElement("div");
+      line.className = "log-line";
+      line.textContent = text;
+      el(containerId).appendChild(line);
+    }
+
+    function setProgress(barId, percent){
+      var bar = el(barId);
       bar.style.width = percent + "%";
+
       if (percent <= 25) {
         bar.style.background = "#c74444";
       } else if (percent <= 50) {
@@ -462,63 +421,64 @@
       }
     }
 
-    function clearLegacyState() {
-      STORAGE_KEYS_TO_CLEAR.forEach((key) => {
-        try { localStorage.removeItem(key); } catch(e) {}
-        try { sessionStorage.removeItem(key); } catch(e) {}
-      });
+    function clearLegacyState(){
+      for (var i = 0; i < STORAGE_KEYS_TO_CLEAR.length; i++) {
+        try { localStorage.removeItem(STORAGE_KEYS_TO_CLEAR[i]); } catch(e) {}
+        try { sessionStorage.removeItem(STORAGE_KEYS_TO_CLEAR[i]); } catch(e) {}
+      }
     }
 
-    function resetVisualStateOnly() {
-      arquivoObra.value = "";
-      arquivoRecebido.classList.add("hidden");
-      arquivoRecebido.textContent = "";
+    function resetTela(){
+      el("arquivoObra").value = "";
+      el("arquivoRecebido").classList.add("hidden");
+      el("arquivoRecebido").textContent = "";
 
-      nomeArquivo.textContent = "— aguardando envio —";
-      tituloBase.textContent = "— aguardando envio —";
-      autorBase.textContent = "Autor a confirmar";
-      idiomaBase.textContent = "Português do Brasil";
-      classPrincipal.textContent = "— aguardando leitura —";
-      classSecundario.textContent = "— aguardando leitura —";
-      classTerciario.textContent = "— aguardando leitura —";
-      statusTecnico.textContent = "Aguardando leitura estrutural";
+      el("nomeArquivo").textContent = "— aguardando envio —";
+      el("tituloBase").textContent = "— aguardando envio —";
+      el("autorBase").textContent = "Autor a confirmar";
+      el("idiomaBase").textContent = "Português do Brasil";
+      el("classPrincipal").textContent = "— aguardando leitura —";
+      el("classSecundario").textContent = "— aguardando leitura —";
+      el("classTerciario").textContent = "— aguardando leitura —";
+      el("statusTecnico").textContent = "Aguardando leitura estrutural";
 
-      btnLeitura.disabled = true;
-      btnLeitura.classList.add("btn-disabled");
+      el("btnLeitura").disabled = true;
+      el("btnLeitura").classList.add("btn-disabled");
 
-      secaoLeitura.classList.add("hidden");
-      secaoFinal.classList.add("hidden");
+      el("secaoLeitura").classList.add("hidden");
+      el("secaoFinal").classList.add("hidden");
 
-      barraLeitura.style.width = "0%";
-      logLeitura.innerHTML = "";
-      textoLeitura.textContent = "Aguardando leitura...";
+      el("barraLeitura").style.width = "0%";
+      el("textoLeitura").textContent = "Aguardando leitura...";
+      el("logLeitura").innerHTML = "";
 
       obraAtual = null;
     }
 
-    function travarUpload() {
+    function travarUpload(){
       cofrePreparado = false;
-      uploadBox.classList.remove("ready");
-      uploadBox.classList.add("locked");
+      el("uploadBox").classList.remove("ready");
+      el("uploadBox").classList.add("locked");
     }
 
-    function liberarUpload() {
+    function liberarUpload(){
       cofrePreparado = true;
-      uploadBox.classList.remove("locked");
-      uploadBox.classList.add("ready");
+      el("uploadBox").classList.remove("locked");
+      el("uploadBox").classList.add("ready");
     }
 
-    function prepararCofre() {
-      btnPreparar.disabled = true;
-      blocoPreparacao.classList.remove("hidden");
-      logPreparacao.innerHTML = "";
-      setProgress(barraPreparacao, 0);
+    function prepararCofre(){
+      el("btnPreparar").disabled = true;
+      el("blocoPreparacao").classList.remove("hidden");
+      el("logPreparacao").innerHTML = "";
+      setProgress("barraPreparacao", 0);
+      el("textoPreparacao").textContent = "Iniciando preparação...";
 
       clearLegacyState();
-      resetVisualStateOnly();
+      resetTela();
       travarUpload();
 
-      const steps = [
+      var steps = [
         { p: 15, t: "Iniciando limpeza estrutural do Cofre..." },
         { p: 35, t: "Removendo resíduos da obra anterior..." },
         { p: 55, t: "Limpando chaves editoriais herdadas dos módulos..." },
@@ -527,80 +487,84 @@
         { p: 100, t: "Cofre pronto para nova obra." }
       ];
 
-      let index = 0;
+      var index = 0;
 
-      function runStep() {
-        if (index >= steps.length) {
+      function runStep(){
+        if (index >= steps.length){
           liberarUpload();
-          statusCofre.innerHTML = '<span class="status-ok">Status atual: Cofre preparado e liberado para upload.</span>';
-          textoPreparacao.innerHTML = '<span class="status-ok">Cofre pronto para nova obra.</span>';
-          btnPreparar.disabled = false;
+          el("statusCofre").innerHTML = '<span class="status-ok">Status atual: Cofre preparado e liberado para upload.</span>';
+          el("textoPreparacao").innerHTML = '<span class="status-ok">Cofre pronto para nova obra.</span>';
+          el("btnPreparar").disabled = false;
           return;
         }
 
-        const step = steps[index];
-        setProgress(barraPreparacao, step.p);
-        textoPreparacao.textContent = step.t;
-        addLog(logPreparacao, step.t);
-        index += 1;
-        setTimeout(runStep, 420);
+        var step = steps[index];
+        setProgress("barraPreparacao", step.p);
+        el("textoPreparacao").textContent = step.t;
+        addLog("logPreparacao", step.t);
+        index++;
+        setTimeout(runStep, 450);
       }
 
       runStep();
     }
 
-    function classificarObra(nomeArquivoSemExtensao) {
-      const n = nomeArquivoSemExtensao.toLowerCase();
-
-      if (n.includes("poema") || n.includes("poesia") || n.includes("soneto") || n.includes("haicai") || n.includes("elegia")) {
-        return { p: "Poesia", s: "Lírica", t: "Poética" };
+    function abrirUpload(){
+      if (!cofrePreparado){
+        alert("Prepare primeiro o Cofre para nova obra.");
+        return;
       }
-
-      if (n.includes("manga") || n.includes("hq") || n.includes("quadrinho") || n.includes("webtoon")) {
-        return { p: "Narrativa visual", s: "Sequencial", t: "Seriada" };
-      }
-
-      if (n.includes("infantil") || n.includes("crianca") || n.includes("criança") || n.includes("juvenil")) {
-        return { p: "Infantil", s: "Narrativa", t: "Formativa" };
-      }
-
-      if (n.includes("receita") || n.includes("culin") || n.includes("churrasco")) {
-        return { p: "Gastronomia", s: "Receituário narrativo", t: "Culinária temática" };
-      }
-
-      if (n.includes("ensaio") || n.includes("manifesto") || n.includes("artigo")) {
-        return { p: "Ensaístico", s: "Reflexivo", t: "Argumentativo" };
-      }
-
-      if (n.includes("manual") || n.includes("guia") || n.includes("metodo") || n.includes("método")) {
-        return { p: "Técnico", s: "Instrucional", t: "Aplicado" };
-      }
-
-      if (n.includes("cronica") || n.includes("crônica")) {
-        return { p: "Prosa", s: "Crônica", t: "Observacional" };
-      }
-
-      if (n.includes("conto") || n.includes("contos")) {
-        return { p: "Prosa", s: "Contística", t: "Narrativa curta" };
-      }
-
-      if (n.includes("romance") || n.includes("novela")) {
-        return { p: "Prosa", s: "Romance", t: "Narrativa longa" };
-      }
-
-      if (n.includes("abadia") || n.includes("templario") || n.includes("templário") || n.includes("graal") || n.includes("persida")) {
-        return { p: "Prosa", s: "Romance histórico", t: "Mistério arqueológico" };
-      }
-
-      return {
-        p: "Prosa",
-        s: "Narrativa literária",
-        t: "A definir no Desbaste"
-      };
+      el("arquivoObra").click();
     }
 
-    function saveUnifiedState(data) {
-      const ficha = {
+    function classificarObra(nome){
+      var n = nome.toLowerCase();
+
+      if (n.indexOf("poema") >= 0 || n.indexOf("poesia") >= 0 || n.indexOf("soneto") >= 0 || n.indexOf("haicai") >= 0 || n.indexOf("elegia") >= 0) {
+        return { p:"Poesia", s:"Lírica", t:"Poética" };
+      }
+
+      if (n.indexOf("manga") >= 0 || n.indexOf("hq") >= 0 || n.indexOf("quadrinho") >= 0 || n.indexOf("webtoon") >= 0) {
+        return { p:"Narrativa visual", s:"Sequencial", t:"Seriada" };
+      }
+
+      if (n.indexOf("infantil") >= 0 || n.indexOf("crianca") >= 0 || n.indexOf("criança") >= 0 || n.indexOf("juvenil") >= 0) {
+        return { p:"Infantil", s:"Narrativa", t:"Formativa" };
+      }
+
+      if (n.indexOf("receita") >= 0 || n.indexOf("culin") >= 0 || n.indexOf("churrasco") >= 0) {
+        return { p:"Gastronomia", s:"Receituário narrativo", t:"Culinária temática" };
+      }
+
+      if (n.indexOf("ensaio") >= 0 || n.indexOf("manifesto") >= 0 || n.indexOf("artigo") >= 0) {
+        return { p:"Ensaístico", s:"Reflexivo", t:"Argumentativo" };
+      }
+
+      if (n.indexOf("manual") >= 0 || n.indexOf("guia") >= 0 || n.indexOf("metodo") >= 0 || n.indexOf("método") >= 0) {
+        return { p:"Técnico", s:"Instrucional", t:"Aplicado" };
+      }
+
+      if (n.indexOf("cronica") >= 0 || n.indexOf("crônica") >= 0) {
+        return { p:"Prosa", s:"Crônica", t:"Observacional" };
+      }
+
+      if (n.indexOf("conto") >= 0 || n.indexOf("contos") >= 0) {
+        return { p:"Prosa", s:"Contística", t:"Narrativa curta" };
+      }
+
+      if (n.indexOf("romance") >= 0 || n.indexOf("novela") >= 0) {
+        return { p:"Prosa", s:"Romance", t:"Narrativa longa" };
+      }
+
+      if (n.indexOf("abadia") >= 0 || n.indexOf("templario") >= 0 || n.indexOf("templário") >= 0 || n.indexOf("graal") >= 0 || n.indexOf("persida") >= 0) {
+        return { p:"Prosa", s:"Romance histórico", t:"Mistério arqueológico" };
+      }
+
+      return { p:"Prosa", s:"Narrativa literária", t:"A definir no Desbaste" };
+    }
+
+    function saveUnifiedState(data){
+      var ficha = {
         arquivo: data.arquivo,
         titulo_base: data.titulo,
         autor: data.autor,
@@ -639,30 +603,22 @@
       localStorage.setItem("desbaste_concluido", "false");
     }
 
-    uploadBox.addEventListener("click", function() {
-      if (!cofrePreparado) {
+    function arquivoSelecionado(event){
+      if (!cofrePreparado){
         alert("Prepare primeiro o Cofre para nova obra.");
-        return;
-      }
-      arquivoObra.click();
-    });
-
-    arquivoObra.addEventListener("change", (e) => {
-      if (!cofrePreparado) {
-        alert("Prepare primeiro o Cofre para nova obra.");
-        arquivoObra.value = "";
+        el("arquivoObra").value = "";
         return;
       }
 
-      const file = e.target.files[0];
+      var file = event.target.files[0];
       if (!file) return;
 
-      const title = file.name.replace(/\.[^/.]+$/, "");
-      const cls = classificarObra(title);
+      var titulo = file.name.replace(/\.[^/.]+$/, "");
+      var cls = classificarObra(titulo);
 
       obraAtual = {
         arquivo: file.name,
-        titulo: title,
+        titulo: titulo,
         autor: "Autor a confirmar",
         idioma: "Português do Brasil",
         principal: cls.p,
@@ -673,69 +629,65 @@
 
       saveUnifiedState(obraAtual);
 
-      arquivoRecebido.classList.remove("hidden");
-      arquivoRecebido.textContent = "Arquivo recebido: " + file.name;
+      el("arquivoRecebido").classList.remove("hidden");
+      el("arquivoRecebido").textContent = "Arquivo recebido: " + file.name;
 
-      nomeArquivo.textContent = obraAtual.arquivo;
-      tituloBase.textContent = obraAtual.titulo;
-      autorBase.textContent = obraAtual.autor;
-      idiomaBase.textContent = obraAtual.idioma;
-      classPrincipal.textContent = obraAtual.principal;
-      classSecundario.textContent = obraAtual.secundario;
-      classTerciario.textContent = obraAtual.terciario;
-      statusTecnico.textContent = obraAtual.status;
+      el("nomeArquivo").textContent = obraAtual.arquivo;
+      el("tituloBase").textContent = obraAtual.titulo;
+      el("autorBase").textContent = obraAtual.autor;
+      el("idiomaBase").textContent = obraAtual.idioma;
+      el("classPrincipal").textContent = obraAtual.principal;
+      el("classSecundario").textContent = obraAtual.secundario;
+      el("classTerciario").textContent = obraAtual.terciario;
+      el("statusTecnico").textContent = obraAtual.status;
 
-      btnLeitura.disabled = false;
-      btnLeitura.classList.remove("btn-disabled");
-    });
+      el("btnLeitura").disabled = false;
+      el("btnLeitura").classList.remove("btn-disabled");
+    }
 
-    btnLeitura.addEventListener("click", () => {
-      if (!obraAtual) {
+    function iniciarLeitura(){
+      if (!obraAtual){
         alert("Envie primeiro a obra.");
         return;
       }
 
-      secaoLeitura.classList.remove("hidden");
-      logLeitura.innerHTML = "";
-      setProgress(barraLeitura, 0);
+      el("secaoLeitura").classList.remove("hidden");
+      el("logLeitura").innerHTML = "";
+      setProgress("barraLeitura", 0);
 
-      const steps = [
-        { p: 18, t: "Preparando leitura estrutural..." },
-        { p: 38, t: "Separando elementos técnicos..." },
-        { p: 58, t: "Organizando fluxo editorial..." },
-        { p: 78, t: "Consolidando ficha-base da obra..." },
-        { p: 100, t: "Leitura estrutural concluída com sucesso." }
+      var steps = [
+        { p:18, t:"Preparando leitura estrutural..." },
+        { p:38, t:"Separando elementos técnicos..." },
+        { p:58, t:"Organizando fluxo editorial..." },
+        { p:78, t:"Consolidando ficha-base da obra..." },
+        { p:100, t:"Leitura estrutural concluída com sucesso." }
       ];
 
-      let i = 0;
+      var i = 0;
 
-      function run() {
-        if (i >= steps.length) {
-          statusTecnico.textContent = "Estrutura pronta para preparação editorial";
+      function run(){
+        if (i >= steps.length){
           obraAtual.status = "Estrutura pronta para preparação editorial";
+          el("statusTecnico").textContent = obraAtual.status;
           saveUnifiedState(obraAtual);
-          secaoFinal.classList.remove("hidden");
+          el("secaoFinal").classList.remove("hidden");
           return;
         }
 
-        const step = steps[i];
-        setProgress(barraLeitura, step.p);
-        textoLeitura.textContent = step.t;
-        addLog(logLeitura, step.t);
-        i += 1;
+        var step = steps[i];
+        setProgress("barraLeitura", step.p);
+        el("textoLeitura").textContent = step.t;
+        addLog("logLeitura", step.t);
+        i++;
         setTimeout(run, 480);
       }
 
       run();
-    });
+    }
 
-    btnIrDesbaste.addEventListener("click", () => {
+    function irDesbaste(){
       window.location.href = "modulo_02_sistema_desbaste.html";
-    });
-
-    btnReiniciar.addEventListener("click", () => {
-      prepararCofre();
-    });
+    }
 
     travarUpload();
   </script>
