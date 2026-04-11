@@ -1,293 +1,323 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lapidar — Sistema Desbaste</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lapidar — Módulo 02 | Sistema Desbaste</title>
+  <style>
+    :root{
+      --bg:#f3f5f8;
+      --header:#0f2538;
+      --card:#ffffff;
+      --line:#d9e0e7;
+      --text:#1f2d3d;
+      --muted:#5c6b7a;
+      --primary:#6c6256;
+      --primary-dark:#5a5147;
+      --info-bg:#eef6ff;
+      --info-line:#0b5ed7;
+      --warn-bg:#fff8e1;
+      --warn-line:#d97706;
+      --ok:#198754;
+      --shadow:0 8px 24px rgba(0,0,0,.10);
+      --radius:18px;
+    }
 
-<style>
-body{
-margin:0;
-font-family:Arial, Helvetica, sans-serif;
-background:#f4f6f8;
-}
+    *{box-sizing:border-box}
 
-header{
-background:#102437;
-color:white;
-padding:20px;
-text-align:center;
-font-size:22px;
-font-weight:bold;
-}
+    body{
+      margin:0;
+      font-family:Arial, Helvetica, sans-serif;
+      background:var(--bg);
+      color:var(--text);
+    }
 
-.container{
-max-width:980px;
-margin:auto;
-margin-top:40px;
-background:white;
-padding:40px;
-border-radius:14px;
-box-shadow:0px 6px 20px rgba(0,0,0,0.12);
-}
+    .topbar{
+      background:var(--header);
+      color:#fff;
+      padding:18px 16px;
+      text-align:center;
+      font-size:22px;
+      font-weight:700;
+    }
 
-.etapa{
-margin-bottom:26px;
-padding:20px;
-border-left:6px solid #0b5ed7;
-background:#f8fbff;
-border-radius:8px;
-}
+    .wrap{
+      max-width:1100px;
+      margin:24px auto 36px;
+      padding:0 14px;
+    }
 
-.etapa h3{
-margin-top:0;
-margin-bottom:10px;
-}
+    .card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:22px;
+      margin-bottom:18px;
+    }
 
-.status{
-font-weight:bold;
-margin-top:10px;
-color:#2d3748;
-}
+    .card h2{
+      margin:0 0 14px;
+      font-size:1.55rem;
+      color:#223548;
+    }
 
-.bloco-ficha{
-margin-top:35px;
-padding:22px;
-background:#f7f7f7;
-border:1px solid #dcdcdc;
-border-radius:10px;
-display:none;
-}
+    .etapas{
+      display:grid;
+      gap:14px;
+      margin-bottom:18px;
+    }
 
-.bloco-ficha h3{
-margin-top:0;
-margin-bottom:18px;
-color:#102437;
-}
+    .etapa{
+      background:#f7f9fb;
+      border:1px solid #dde5ec;
+      border-left:5px solid #2f80ed;
+      border-radius:14px;
+      padding:16px;
+    }
 
-.linha-ficha{
-padding:10px 0;
-border-bottom:1px solid #e2e2e2;
-font-size:15px;
-}
+    .etapa strong{
+      display:block;
+      margin-bottom:6px;
+      color:#223548;
+    }
 
-.linha-ficha:last-child{
-border-bottom:none;
-}
+    .etapa span{
+      color:#495869;
+      line-height:1.45;
+    }
 
-.rotulo{
-font-weight:bold;
-color:#333;
-}
+    .grid-2{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:16px;
+    }
 
-.botao-principal{
-background:#198754;
-color:white;
-border:none;
-padding:18px 30px;
-font-size:18px;
-border-radius:10px;
-cursor:pointer;
-margin-top:25px;
-}
+    .box{
+      background:#fafbfc;
+      border:1px solid #e1e7ed;
+      border-radius:14px;
+      padding:18px;
+    }
 
-.botao-principal:hover{
-background:#146c43;
-}
+    .box h3{
+      margin:0 0 12px;
+      color:#223548;
+      font-size:1.05rem;
+    }
 
-.botao-desativado{
-background:#999 !important;
-cursor:not-allowed !important;
-}
+    .linha{
+      padding:10px 0;
+      border-bottom:1px solid #e5eaf0;
+      line-height:1.45;
+      font-size:15px;
+    }
 
-.info{
-margin-top:20px;
-font-size:14px;
-color:#666;
-text-align:center;
-line-height:1.5;
-}
+    .linha:last-child{border-bottom:none}
 
-.aviso{
-margin-top:18px;
-padding:14px;
-background:#fff8e1;
-border-left:5px solid #d97706;
-border-radius:8px;
-color:#6b4f00;
-font-size:14px;
-line-height:1.5;
-}
+    .rotulo{
+      font-weight:700;
+      color:#314457;
+    }
 
-</style>
+    .notice{
+      margin-top:16px;
+      border-left:5px solid var(--warn-line);
+      background:var(--warn-bg);
+      padding:14px;
+      border-radius:12px;
+      color:#6b4f00;
+      line-height:1.55;
+    }
+
+    .info{
+      margin-top:16px;
+      border-left:5px solid var(--info-line);
+      background:var(--info-bg);
+      padding:14px;
+      border-radius:12px;
+      color:#23384d;
+      line-height:1.55;
+    }
+
+    .status-ok{
+      color:var(--ok);
+      font-weight:700;
+    }
+
+    .acoes{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-top:20px;
+    }
+
+    button{
+      border:none;
+      border-radius:12px;
+      padding:16px 20px;
+      font-size:16px;
+      font-weight:700;
+      cursor:pointer;
+    }
+
+    .btn-primary{
+      background:var(--primary);
+      color:#fff;
+      flex:1 1 280px;
+    }
+
+    .btn-primary:hover{
+      background:var(--primary-dark);
+    }
+
+    .btn-secondary{
+      background:#9aa3ab;
+      color:#fff;
+      flex:1 1 240px;
+    }
+
+    .btn-secondary:hover{
+      background:#838d96;
+    }
+
+    @media (max-width:760px){
+      .grid-2{grid-template-columns:1fr}
+      .topbar{font-size:20px}
+    }
+  </style>
 </head>
-
 <body>
+  <header class="topbar">
+    Sistema Desbaste — Consolidação Editorial da Obra
+  </header>
 
-<header>
-Sistema Desbaste — Consolidação Editorial da Obra
-</header>
+  <main class="wrap">
+    <section class="card">
+      <div class="etapas">
+        <div class="etapa">
+          <strong>Etapa 1</strong>
+          <span>Estrutura geral consolidada <span class="status-ok">✓</span></span>
+        </div>
 
-<div class="container">
+        <div class="etapa">
+          <strong>Etapa 2</strong>
+          <span>Elementos narrativos identificados <span class="status-ok">✓</span></span>
+        </div>
 
-<div class="etapa">
-<h3>Etapa 1</h3>
-<div id="status1" class="status">
-Consolidação estrutural da obra em andamento…
-</div>
-</div>
+        <div class="etapa">
+          <strong>Etapa 3</strong>
+          <span>Base editorial consolidada <span class="status-ok">✓</span></span>
+        </div>
+      </div>
 
-<div class="etapa">
-<h3>Etapa 2</h3>
-<div id="status2" class="status">
-Aguardando sequência de leitura editorial…
-</div>
-</div>
+      <h2>Ficha-base automática da obra</h2>
 
-<div class="etapa">
-<h3>Etapa 3</h3>
-<div id="status3" class="status">
-Aguardando preparação da base técnica da obra…
-</div>
-</div>
+      <div class="grid-2">
+        <div class="box">
+          <h3>Dados estruturais recebidos</h3>
 
-<div class="bloco-ficha" id="blocoFicha">
-<h3>Ficha-base automática da obra</h3>
+          <div class="linha"><span class="rotulo">Arquivo:</span> <span id="arquivoObra">—</span></div>
+          <div class="linha"><span class="rotulo">Título-base:</span> <span id="tituloObra">—</span></div>
+          <div class="linha"><span class="rotulo">Autor:</span> <span id="autorObra">—</span></div>
+          <div class="linha"><span class="rotulo">Classificação principal:</span> <span id="principalObra">—</span></div>
+          <div class="linha"><span class="rotulo">Classificação secundária:</span> <span id="secundarioObra">—</span></div>
+          <div class="linha"><span class="rotulo">Classificação terciária:</span> <span id="terciarioObra">—</span></div>
+        </div>
 
-<div class="linha-ficha"><span class="rotulo">Arquivo:</span> <span id="fichaArquivo">—</span></div>
-<div class="linha-ficha"><span class="rotulo">Título base:</span> <span id="fichaTitulo">—</span></div>
-<div class="linha-ficha"><span class="rotulo">Autor:</span> <span id="fichaAutor">—</span></div>
-<div class="linha-ficha"><span class="rotulo">Classificação principal:</span> <span id="fichaPrincipal">—</span></div>
-<div class="linha-ficha"><span class="rotulo">Classificação secundária:</span> <span id="fichaSecundario">—</span></div>
-<div class="linha-ficha"><span class="rotulo">Classificação terciária:</span> <span id="fichaTerciario">—</span></div>
-<div class="linha-ficha"><span class="rotulo">Prefácio:</span> <span id="fichaPrefacio">A verificar / gerar se ausente</span></div>
-<div class="linha-ficha"><span class="rotulo">Dedicatória:</span> <span id="fichaDedicatória">A verificar / gerar se ausente</span></div>
-<div class="linha-ficha"><span class="rotulo">Biografia:</span> <span id="fichaBiografia">A verificar / gerar se ausente</span></div>
-<div class="linha-ficha"><span class="rotulo">Sinopse:</span> <span id="fichaSinopse">A verificar / gerar se ausente</span></div>
-<div class="linha-ficha"><span class="rotulo">Status técnico:</span> <span id="fichaStatus">Base pronta para os módulos seguintes</span></div>
-</div>
+        <div class="box">
+          <h3>Complementação editorial do Desbaste</h3>
 
-<div class="aviso">
-O Sistema Desbaste é obrigatório. A obra só segue para o Workspace após esta consolidação e após a geração da ficha-base técnica inicial.
-</div>
+          <div class="linha"><span class="rotulo">Prefácio:</span> <span id="prefacioObra">A verificar / gerar se ausente</span></div>
+          <div class="linha"><span class="rotulo">Dedicatória:</span> <span id="dedicatoriaObra">A verificar / gerar se ausente</span></div>
+          <div class="linha"><span class="rotulo">Biografia:</span> <span id="biografiaObra">A verificar / gerar se ausente</span></div>
+          <div class="linha"><span class="rotulo">Sinopse:</span> <span id="sinopseObra">A verificar / gerar se ausente</span></div>
+          <div class="linha"><span class="rotulo">Status técnico:</span> <span id="statusTecnicoObra">Base pronta para os módulos seguintes</span></div>
+        </div>
+      </div>
 
-<div style="text-align:center">
+      <div class="notice">
+        O Sistema Desbaste é obrigatório. Ele <strong>preserva a ficha-base recebida do Cofre</strong> e complementa apenas os dados editoriais necessários antes da entrada no Workspace.
+      </div>
 
-<button
-id="botaoWorkspace"
-class="botao-principal botao-desativado"
-disabled
-onclick="seguirWorkspace()"
->
-Seguir para Workspace da Obra
-</button>
+      <div class="info">
+        Regra estrutural do Lapidar: o Desbaste <strong>não substitui</strong> a classificação já reconhecida no Cofre. Ele apenas consolida e encaminha a obra para os módulos seguintes.
+      </div>
 
-<div class="info">
-Esta etapa é obrigatória antes do acesso aos módulos editoriais do sistema Lapidar.
-</div>
+      <div class="acoes">
+        <button class="btn-primary" onclick="seguirParaWorkspace()">Seguir para Workspace da Obra</button>
+        <button class="btn-secondary" onclick="retornarAoCofre()">Retornar ao Cofre</button>
+      </div>
+    </section>
+  </main>
 
-</div>
+  <script>
+    function obterFallbackFichaBase(){
+      return {
+        arquivo: "Obra sem nome",
+        titulo_base: "Obra sem nome",
+        autor: "Autor a confirmar",
+        classificacao_principal: "Prosa",
+        classificacao_secundaria: "Narrativa",
+        classificacao_terciaria: "Literária",
+        status_tecnico: "Base pronta para os módulos seguintes"
+      };
+    }
 
-</div>
+    function carregarFichaBaseDoCofre(){
+      const fichaSalva = localStorage.getItem("lapidar_ficha_base_obra");
+      let ficha = obterFallbackFichaBase();
 
-<script>
+      if (fichaSalva) {
+        try {
+          const dados = JSON.parse(fichaSalva);
 
-function obterTituloDoArquivo(nomeArquivo){
-if(!nomeArquivo) return "Título não identificado";
-return nomeArquivo.replace(/\.[^/.]+$/, "");
-}
+          ficha = {
+            arquivo: dados.arquivo || ficha.arquivo,
+            titulo_base: dados.titulo_base || ficha.titulo_base,
+            autor: dados.autor || ficha.autor,
+            classificacao_principal: dados.classificacao_principal || ficha.classificacao_principal,
+            classificacao_secundaria: dados.classificacao_secundaria || ficha.classificacao_secundaria,
+            classificacao_terciaria: dados.classificacao_terciaria || ficha.classificacao_terciaria,
+            status_tecnico: dados.status_tecnico || ficha.status_tecnico
+          };
+        } catch (erro) {
+          console.log("Erro ao ler ficha-base do Cofre:", erro);
+        }
+      }
 
-function obterAutorBase(){
-let autorSalvo = localStorage.getItem("lapidar_autor_nome");
-if(autorSalvo && autorSalvo.trim() !== ""){
-return autorSalvo;
-}
-return "Autor a confirmar";
-}
+      document.getElementById("arquivoObra").innerText = ficha.arquivo;
+      document.getElementById("tituloObra").innerText = ficha.titulo_base;
+      document.getElementById("autorObra").innerText = ficha.autor;
+      document.getElementById("principalObra").innerText = ficha.classificacao_principal;
+      document.getElementById("secundarioObra").innerText = ficha.classificacao_secundaria;
+      document.getElementById("terciarioObra").innerText = ficha.classificacao_terciaria;
+      document.getElementById("statusTecnicoObra").innerText = ficha.status_tecnico;
 
-function montarFichaBase(){
-const arquivo = localStorage.getItem("lapidar_arquivo_nome") || "Obra sem nome";
-const principal = localStorage.getItem("lapidar_classificacao_principal") || "Prosa";
-const secundario = localStorage.getItem("lapidar_classificacao_secundaria") || "Narrativa";
-const terciario = localStorage.getItem("lapidar_classificacao_terciaria") || "Literária";
-const titulo = obterTituloDoArquivo(arquivo);
-const autor = obterAutorBase();
+      // Regrava a ficha-base consolidada SEM apagar os dados corretos vindos do Cofre
+      const fichaConsolidada = {
+        ...ficha,
+        prefacio: "A verificar / gerar se ausente",
+        dedicatoria: "A verificar / gerar se ausente",
+        biografia: "A verificar / gerar se ausente",
+        sinopse: "A verificar / gerar se ausente"
+      };
 
-const fichaBase = {
-arquivo: arquivo,
-titulo_base: titulo,
-autor: autor,
-classificacao_principal: principal,
-classificacao_secundaria: secundario,
-classificacao_terciaria: terciario,
-prefacio: "A verificar / gerar se ausente",
-dedicatoria: "A verificar / gerar se ausente",
-biografia: "A verificar / gerar se ausente",
-sinopse: "A verificar / gerar se ausente",
-status_tecnico: "Base pronta para os módulos seguintes"
-};
+      localStorage.setItem("lapidar_ficha_base_obra", JSON.stringify(fichaConsolidada));
+      localStorage.setItem("lapidar_desbaste_concluido", "true");
+      localStorage.setItem("desbaste_concluido", "true");
+      localStorage.setItem("lapidar_fluxo_etapa", "desbaste_concluido");
+    }
 
-localStorage.setItem("lapidar_ficha_base_obra", JSON.stringify(fichaBase));
+    function seguirParaWorkspace(){
+      window.location.href = "obra_workspace.html";
+    }
 
-document.getElementById("fichaArquivo").innerText = fichaBase.arquivo;
-document.getElementById("fichaTitulo").innerText = fichaBase.titulo_base;
-document.getElementById("fichaAutor").innerText = fichaBase.autor;
-document.getElementById("fichaPrincipal").innerText = fichaBase.classificacao_principal;
-document.getElementById("fichaSecundario").innerText = fichaBase.classificacao_secundaria;
-document.getElementById("fichaTerciario").innerText = fichaBase.classificacao_terciaria;
-document.getElementById("fichaPrefacio").innerText = fichaBase.prefacio;
-document.getElementById("fichaDedicatória").innerText = fichaBase.dedicatoria;
-document.getElementById("fichaBiografia").innerText = fichaBase.biografia;
-document.getElementById("fichaSinopse").innerText = fichaBase.sinopse;
-document.getElementById("fichaStatus").innerText = fichaBase.status_tecnico;
+    function retornarAoCofre(){
+      window.location.href = "cofre_estrutura_editorial.html";
+    }
 
-document.getElementById("blocoFicha").style.display = "block";
-}
-
-function etapa1(){
-setTimeout(()=>{
-document.getElementById("status1").innerHTML = "Estrutura geral consolidada ✓";
-etapa2();
-},2200);
-}
-
-function etapa2(){
-document.getElementById("status2").innerHTML = "Identificação de elementos narrativos principais em andamento…";
-setTimeout(()=>{
-document.getElementById("status2").innerHTML = "Elementos narrativos identificados ✓";
-etapa3();
-},2600);
-}
-
-function etapa3(){
-document.getElementById("status3").innerHTML = "Preparação da base editorial da obra em andamento…";
-setTimeout(()=>{
-document.getElementById("status3").innerHTML = "Base editorial consolidada ✓";
-montarFichaBase();
-finalizarDesbaste();
-},2800);
-}
-
-function finalizarDesbaste(){
-localStorage.setItem("desbaste_concluido","true");
-localStorage.setItem("lapidar_desbaste_concluido","true");
-localStorage.setItem("lapidar_fluxo_etapa","workspace_liberado");
-
-let botao = document.getElementById("botaoWorkspace");
-botao.disabled = false;
-botao.classList.remove("botao-desativado");
-}
-
-function seguirWorkspace(){
-if(localStorage.getItem("desbaste_concluido") === "true" || localStorage.getItem("lapidar_desbaste_concluido") === "true"){
-window.location.href = "obra_workspace.html";
-}
-}
-
-etapa1();
-
-</script>
-
+    carregarFichaBaseDoCofre();
+  </script>
 </body>
 </html>
