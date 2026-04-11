@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -147,10 +146,10 @@
     .modulo-17 { background: #eef7ff; }
     .modulo-19 { background: #f8f5ec; }
     .modulo-23 { background: #eef8ee; }
+    .modulo-29 { background: #f2f6f2; }
     .modulo-31 { background: #f7f0ff; }
     .modulo-37 { background: #eef6ff; }
     .modulo-41 { background: #f4f8ff; }
-    .modulo-29 { background: #f2f6f2; }
 
     .tag-status {
       display: inline-block;
@@ -236,7 +235,6 @@
     }
   </style>
 </head>
-
 <body>
 
   <header>
@@ -260,6 +258,7 @@
         <div class="linha"><span class="rotulo">Arquivo:</span> <span id="exArquivo">—</span></div>
         <div class="linha"><span class="rotulo">Título-base:</span> <span id="exTitulo">—</span></div>
         <div class="linha"><span class="rotulo">Autor:</span> <span id="exAutor">—</span></div>
+        <div class="linha"><span class="rotulo">Idioma:</span> <span id="exIdioma">—</span></div>
         <div class="linha"><span class="rotulo">Status técnico:</span> <span id="exStatus">—</span></div>
       </div>
 
@@ -390,24 +389,79 @@
   </div>
 
   <script>
-    function preencherExecutorComFichaBase() {
-      const ficha = localStorage.getItem("lapidar_ficha_base_obra");
+    function lerFichaBaseExecutor() {
+      let ficha = null;
 
-      if (ficha) {
-        try {
-          const dados = JSON.parse(ficha);
-
-          document.getElementById("exArquivo").innerText = dados.arquivo || "—";
-          document.getElementById("exTitulo").innerText = dados.titulo_base || "—";
-          document.getElementById("exAutor").innerText = dados.autor || "—";
-          document.getElementById("exStatus").innerText = dados.status_tecnico || "—";
-          document.getElementById("exPrincipal").innerText = dados.classificacao_principal || "—";
-          document.getElementById("exSecundario").innerText = dados.classificacao_secundaria || "—";
-          document.getElementById("exTerciario").innerText = dados.classificacao_terciaria || "—";
-        } catch (e) {
-          console.log("Erro ao ler ficha-base no executor:", e);
+      try {
+        const bruta = localStorage.getItem("lapidar_ficha_base_obra");
+        if (bruta) {
+          ficha = JSON.parse(bruta);
         }
+      } catch (e) {
+        ficha = null;
       }
+
+      return {
+        arquivo:
+          (ficha && ficha.arquivo) ||
+          localStorage.getItem("lapidar_obra_nome") ||
+          localStorage.getItem("obra_nome") ||
+          "Obra sem nome",
+
+        titulo_base:
+          (ficha && (ficha.titulo_base || ficha.titulo)) ||
+          localStorage.getItem("lapidar_obra_titulo") ||
+          localStorage.getItem("obra_titulo") ||
+          localStorage.getItem("titulo_obra") ||
+          "Obra sem nome",
+
+        autor:
+          (ficha && ficha.autor) ||
+          localStorage.getItem("lapidar_obra_autor") ||
+          localStorage.getItem("obra_autor") ||
+          localStorage.getItem("autor_obra") ||
+          "Autor a confirmar",
+
+        idioma:
+          (ficha && (ficha.idioma || ficha.idioma_base)) ||
+          localStorage.getItem("lapidar_obra_idioma") ||
+          localStorage.getItem("obra_idioma") ||
+          localStorage.getItem("idioma_obra") ||
+          "Português do Brasil",
+
+        classificacao_principal:
+          (ficha && ficha.classificacao_principal) ||
+          localStorage.getItem("lapidar_classificacao_principal") ||
+          "Aguardando leitura",
+
+        classificacao_secundaria:
+          (ficha && ficha.classificacao_secundaria) ||
+          localStorage.getItem("lapidar_classificacao_secundaria") ||
+          "Aguardando leitura",
+
+        classificacao_terciaria:
+          (ficha && ficha.classificacao_terciaria) ||
+          localStorage.getItem("lapidar_classificacao_terciaria") ||
+          "Aguardando leitura",
+
+        status_tecnico:
+          (ficha && ficha.status_tecnico) ||
+          localStorage.getItem("lapidar_status_tecnico") ||
+          "Base pronta para os módulos seguintes"
+      };
+    }
+
+    function preencherExecutorComFichaBase() {
+      const dados = lerFichaBaseExecutor();
+
+      document.getElementById("exArquivo").innerText = dados.arquivo;
+      document.getElementById("exTitulo").innerText = dados.titulo_base;
+      document.getElementById("exAutor").innerText = dados.autor;
+      document.getElementById("exIdioma").innerText = dados.idioma;
+      document.getElementById("exStatus").innerText = dados.status_tecnico;
+      document.getElementById("exPrincipal").innerText = dados.classificacao_principal;
+      document.getElementById("exSecundario").innerText = dados.classificacao_secundaria;
+      document.getElementById("exTerciario").innerText = dados.classificacao_terciaria;
     }
 
     function verificarAcessoExecutor() {
