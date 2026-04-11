@@ -2,14 +2,11 @@
 <html lang="pt-br">
 
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Lapidar — Workspace da Obra</title>
 
 <style>
-
 body{
 margin:0;
 font-family:Arial, Helvetica, sans-serif;
@@ -17,45 +14,36 @@ background:#f2f4f7;
 }
 
 header{
-
 background:#102437;
 color:white;
 padding:22px;
 text-align:center;
 font-size:22px;
 font-weight:bold;
-
 }
 
 .container{
-
-max-width:1000px;
+max-width:1100px;
 margin:auto;
 margin-top:40px;
 background:white;
 padding:40px;
 border-radius:14px;
 box-shadow:0px 6px 20px rgba(0,0,0,0.12);
-
 }
 
 .status-ok{
-
 color:#198754;
 font-weight:bold;
-
 }
 
 .status-erro{
-
 color:#dc3545;
 font-weight:bold;
-
 }
 
 .botao{
-
-margin-top:30px;
+margin-top:20px;
 background:#0b5ed7;
 color:white;
 border:none;
@@ -63,58 +51,146 @@ padding:18px 30px;
 font-size:18px;
 border-radius:10px;
 cursor:pointer;
-
 }
 
 .botao:hover{
-
 background:#084298;
+}
 
+.botao-secundario{
+margin-top:20px;
+margin-left:10px;
+background:#6c757d;
+color:white;
+border:none;
+padding:18px 30px;
+font-size:18px;
+border-radius:10px;
+cursor:pointer;
+}
+
+.botao-secundario:hover{
+background:#565e64;
 }
 
 .bloqueio{
-
 text-align:center;
 padding:80px 20px;
-
 }
 
-</style>
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:18px;
+margin-top:30px;
+}
 
+.card{
+background:#f8f9fa;
+border:1px solid #dee2e6;
+border-radius:12px;
+padding:20px;
+}
+
+.card h3{
+margin-top:0;
+color:#102437;
+}
+
+.linha{
+padding:10px 0;
+border-bottom:1px solid #e5e5e5;
+font-size:15px;
+}
+
+.linha:last-child{
+border-bottom:none;
+}
+
+.rotulo{
+font-weight:bold;
+color:#333;
+}
+
+.info-box{
+margin-top:30px;
+padding:18px;
+background:#eef6ff;
+border-left:5px solid #0b5ed7;
+border-radius:8px;
+line-height:1.6;
+color:#23384d;
+}
+
+@media(max-width:768px){
+.grid{
+grid-template-columns:1fr;
+}
+.botao-secundario{
+margin-left:0;
+display:block;
+width:100%;
+}
+.botao{
+display:block;
+width:100%;
+}
+}
+</style>
 </head>
 
 <body>
 
 <header>
-
 Workspace da Obra — Ambiente Editorial Central
-
 </header>
 
 <div id="areaWorkspace" class="container" style="display:none;">
 
 <p class="status-ok">
-
 Sistema Desbaste confirmado ✓
-
 </p>
 
 <h2>
-
 Workspace liberado
-
 </h2>
 
 <p>
-
 A obra foi consolidada estruturalmente pelo Sistema Desbaste e está pronta para seguir para os módulos editoriais.
-
 </p>
 
+<div class="grid">
+
+<div class="card">
+<h3>Ficha-base da obra</h3>
+
+<div class="linha"><span class="rotulo">Arquivo:</span> <span id="wsArquivo">—</span></div>
+<div class="linha"><span class="rotulo">Título-base:</span> <span id="wsTitulo">—</span></div>
+<div class="linha"><span class="rotulo">Autor:</span> <span id="wsAutor">—</span></div>
+<div class="linha"><span class="rotulo">Status técnico:</span> <span id="wsStatus">—</span></div>
+</div>
+
+<div class="card">
+<h3>Leitura consolidada</h3>
+
+<div class="linha"><span class="rotulo">Classificação principal:</span> <span id="wsPrincipal">—</span></div>
+<div class="linha"><span class="rotulo">Classificação secundária:</span> <span id="wsSecundario">—</span></div>
+<div class="linha"><span class="rotulo">Classificação terciária:</span> <span id="wsTerciario">—</span></div>
+<div class="linha"><span class="rotulo">Prontidão:</span> <span>Obra pronta para módulos seguintes</span></div>
+</div>
+
+</div>
+
+<div class="info-box">
+O Workspace da Obra recebe a ficha-base consolidada pelo Sistema Desbaste e serve como ponte oficial para o Executor de Módulos, preservando a espinha dorsal do Lapidar.
+</div>
+
 <button class="botao" onclick="irExecutor()">
-
 Seguir para Executor de Módulos
+</button>
 
+<button class="botao-secundario" onclick="voltarDesbaste()">
+Retornar ao Sistema Desbaste
 </button>
 
 </div>
@@ -122,65 +198,69 @@ Seguir para Executor de Módulos
 <div id="bloqueioWorkspace" class="container bloqueio" style="display:none;">
 
 <p class="status-erro">
-
 Acesso bloqueado
-
 </p>
 
 <h2>
-
 Sistema Desbaste obrigatório
-
 </h2>
 
 <p>
-
 Antes de acessar o Workspace da obra, é necessário concluir a etapa de consolidação estrutural.
-
 </p>
 
 <button class="botao" onclick="voltarDesbaste()">
-
 Ir para Sistema Desbaste
-
 </button>
 
 </div>
 
 <script>
 
-function verificarDesbaste(){
+function preencherWorkspaceComFichaBase(){
+let ficha = localStorage.getItem("lapidar_ficha_base_obra");
 
-let desbaste = localStorage.getItem("desbaste_concluido")
+if(ficha){
+try{
+let dados = JSON.parse(ficha);
 
-if(desbaste === "true"){
+document.getElementById("wsArquivo").innerText = dados.arquivo || "—";
+document.getElementById("wsTitulo").innerText = dados.titulo_base || "—";
+document.getElementById("wsAutor").innerText = dados.autor || "—";
+document.getElementById("wsStatus").innerText = dados.status_tecnico || "—";
+document.getElementById("wsPrincipal").innerText = dados.classificacao_principal || "—";
+document.getElementById("wsSecundario").innerText = dados.classificacao_secundaria || "—";
+document.getElementById("wsTerciario").innerText = dados.classificacao_terciaria || "—";
 
-document.getElementById("areaWorkspace").style.display="block"
-
-}else{
-
-document.getElementById("bloqueioWorkspace").style.display="block"
-
+}catch(e){
+console.log("Erro ao ler ficha-base:", e);
+}
+}
 }
 
+function verificarDesbaste(){
+let desbaste = localStorage.getItem("desbaste_concluido");
+let desbasteLapidar = localStorage.getItem("lapidar_desbaste_concluido");
+
+if(desbaste === "true" || desbasteLapidar === "true"){
+document.getElementById("areaWorkspace").style.display = "block";
+preencherWorkspaceComFichaBase();
+}else{
+document.getElementById("bloqueioWorkspace").style.display = "block";
+}
 }
 
 function voltarDesbaste(){
-
-window.location.href="modulo_02_sistema_desbaste.html"
-
+window.location.href = "modulo_02_sistema_desbaste.html";
 }
 
 function irExecutor(){
-
-window.location.href="modulo_executor.html"
-
+window.location.href = "modulo_executor.html";
 }
 
-verificarDesbaste()
+verificarDesbaste();
 
 </script>
 
 </body>
-
 </html>
