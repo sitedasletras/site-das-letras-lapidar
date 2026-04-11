@@ -1,480 +1,527 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lapidar • Módulo 19 — OKapista</title>
+<title>Lapidar — Módulo 19 | OKapista</title>
 
 <style>
-
-:root{
-
---bg:#E8DFAF;
---card:#ffffff;
---line:#d7cc8a;
---text:#2f2a24;
---muted:#6b5d2e;
---title:#4c3f10;
-
---accent:#b5962c;
---accent-dark:#8f731f;
-
---mesario-bg:#fff8dd;
---mesario-line:#c79a2e;
-
---shadow:0 12px 28px rgba(0,0,0,.12);
-
-}
-
-*{ box-sizing:border-box; }
-
 body{
-
 margin:0;
 font-family:Arial, Helvetica, sans-serif;
-background:var(--bg);
-color:var(--text);
+background:#f2f4f7;
+}
 
+header{
+background:#102437;
+color:white;
+padding:22px;
+text-align:center;
+font-size:22px;
+font-weight:bold;
 }
 
 .container{
-
-max-width:1100px;
+max-width:1180px;
 margin:auto;
-padding:30px 18px 45px;
-
-}
-
-.topbar{
-
-display:flex;
-justify-content:space-between;
-margin-bottom:18px;
-
-}
-
-.small-btn{
-
-border:none;
+margin-top:40px;
+background:white;
+padding:40px;
 border-radius:14px;
-padding:12px 16px;
+box-shadow:0px 6px 20px rgba(0,0,0,0.12);
+}
+
+.status-ok{
+color:#198754;
 font-weight:bold;
-cursor:pointer;
-background:rgba(255,255,255,.8);
-
 }
 
-.small-btn:hover{
-
-background:#fff;
-
-}
-
-.hero{
-
-background:rgba(255,255,255,.6);
-border-left:8px solid var(--accent);
-border-radius:26px;
-padding:28px;
-margin-bottom:22px;
-box-shadow:var(--shadow);
-
-}
-
-.eyebrow{
-
-display:inline-block;
-background:#fff;
-padding:8px 14px;
-border-radius:999px;
-font-size:14px;
+.status-erro{
+color:#dc3545;
 font-weight:bold;
-margin-bottom:14px;
-
 }
 
-h1{
-
-margin:0 0 10px;
-font-size:34px;
-color:var(--title);
-
+.bloqueio{
+text-align:center;
+padding:80px 20px;
 }
 
-.subtitle{
-
-font-size:20px;
-line-height:1.8;
-color:var(--muted);
-
-}
-
-.grid{
-
+.grid-topo{
 display:grid;
 grid-template-columns:1fr 1fr;
 gap:18px;
-
+margin-top:25px;
+margin-bottom:30px;
 }
 
 .card{
-
-background:var(--card);
-border-radius:24px;
-padding:22px;
-border:1px solid var(--line);
-box-shadow:var(--shadow);
-
+background:#f8f9fa;
+border:1px solid #dee2e6;
+border-radius:12px;
+padding:20px;
 }
 
-.wide{
-
-grid-column:1 / -1;
-
+.card h3{
+margin-top:0;
+color:#102437;
 }
 
-h2{
-
-margin:0 0 12px;
-font-size:26px;
-color:var(--title);
-
+.linha{
+padding:10px 0;
+border-bottom:1px solid #e5e5e5;
+font-size:15px;
 }
 
-label{
+.linha:last-child{
+border-bottom:none;
+}
 
-display:block;
+.rotulo{
 font-weight:bold;
-margin-top:14px;
-margin-bottom:6px;
-
+color:#333;
 }
 
-select{
-
-width:100%;
-padding:14px;
-border-radius:14px;
-border:1px solid var(--line);
-
-}
-
-.field{
-
-background:#fffdf3;
-border-radius:16px;
-padding:14px;
-border:1px solid var(--line);
-margin-top:10px;
-
-}
-
-.preview{
-
-background:#fffdf3;
-border-radius:22px;
-padding:20px;
-border:1px solid var(--line);
-text-align:center;
-
-}
-
-.preview-cover{
-
-width:220px;
-height:320px;
-margin:auto;
-background:#111;
-border-radius:10px;
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-color:#fff;
-padding:20px;
-
-}
-
-.preview-cover span{
-
-font-size:14px;
-opacity:.7;
-
-}
-
-.preview-cover strong{
-
-font-size:22px;
-margin:10px 0;
-
-}
-
-.mesario{
-
-margin-top:16px;
-background:var(--mesario-bg);
-border-left:6px solid var(--mesario-line);
-border-radius:18px;
-padding:16px;
-
-}
-
-.actions{
-
+.scene-grid{
 display:grid;
 grid-template-columns:1fr 1fr;
-gap:14px;
-margin-top:18px;
-
+gap:18px;
+margin-top:30px;
 }
 
-.main-btn{
+.scene-box{
+border-radius:14px;
+padding:22px;
+background:#fff7e8;
+border:1px solid rgba(0,0,0,0.08);
+box-shadow:0px 4px 10px rgba(0,0,0,0.05);
+}
 
-border:none;
-border-radius:18px;
-padding:18px;
-font-size:18px;
+.scene-box h4{
+margin-top:0;
+margin-bottom:10px;
+font-size:20px;
+color:#102437;
+}
+
+.scene-box p{
+margin-bottom:16px;
+line-height:1.5;
+color:#334155;
+}
+
+.scene-box label{
+display:block;
+margin:10px 0 6px;
 font-weight:bold;
+color:#23384d;
+}
+
+.scene-box textarea,
+.scene-box select,
+.scene-box input{
+width:100%;
+padding:12px;
+border:1px solid #cfd6dd;
+border-radius:10px;
+font-size:15px;
+background:white;
+}
+
+.scene-box textarea{
+min-height:120px;
+resize:vertical;
+}
+
+.preview-box{
+margin-top:28px;
+padding:18px;
+background:#eef6ff;
+border-left:5px solid #0b5ed7;
+border-radius:8px;
+line-height:1.6;
+color:#23384d;
+}
+
+.preview-item{
+padding:10px 0;
+border-bottom:1px solid #d7e6f7;
+}
+
+.preview-item:last-child{
+border-bottom:none;
+}
+
+.aviso{
+margin-top:28px;
+padding:18px;
+background:#fff8e1;
+border-left:5px solid #d97706;
+border-radius:8px;
+line-height:1.6;
+color:#6b4f00;
+}
+
+.acoes{
+margin-top:28px;
+display:flex;
+gap:14px;
+flex-wrap:wrap;
+}
+
+.botao{
+background:#0b5ed7;
+color:white;
+border:none;
+padding:18px 26px;
+font-size:18px;
+border-radius:10px;
 cursor:pointer;
-
 }
 
-.btn-next{
-
-background:var(--accent);
-color:#fff;
-
+.botao:hover{
+background:#084298;
 }
 
-.btn-next:hover{
-
-background:var(--accent-dark);
-
+.botao-secundario{
+background:#6c757d;
+color:white;
+border:none;
+padding:18px 26px;
+font-size:18px;
+border-radius:10px;
+cursor:pointer;
 }
 
-.btn-skip{
-
-background:#ffffffaa;
-
+.botao-secundario:hover{
+background:#565e64;
 }
 
-.btn-skip:hover{
+.botao-verde{
+background:#198754;
+color:white;
+border:none;
+padding:18px 26px;
+font-size:18px;
+border-radius:10px;
+cursor:pointer;
+}
 
-background:#fff;
+.botao-verde:hover{
+background:#146c43;
+}
 
+.tag{
+display:inline-block;
+padding:6px 10px;
+border-radius:999px;
+font-size:13px;
+font-weight:bold;
+background:#e8f4ea;
+color:#1f6f3d;
+margin-top:8px;
 }
 
 @media(max-width:900px){
-
-.grid,
-.actions{
-
+.grid-topo,
+.scene-grid{
 grid-template-columns:1fr;
-
 }
-
+.acoes{
+flex-direction:column;
 }
-
+.botao,
+.botao-secundario,
+.botao-verde{
+width:100%;
+}
+}
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<header>
+Módulo 19 — OKapista
+</header>
 
-<div class="topbar">
+<div id="areaOkapista" class="container" style="display:none;">
 
-<button class="small-btn" onclick="history.back()">← Retornar</button>
-
-<button class="small-btn"
-onclick="window.location.href='index.html'">
-
-Sair do sistema
-
-</button>
-
-</div>
-
-<section class="hero">
-
-<div class="eyebrow">📙 Lapidar • Módulo 19</div>
-
-<h1>OKapista</h1>
-
-<p class="subtitle">
-
-Aqui damos rosto à sua obra.  
-É a primeira impressão que acompanhará o leitor antes mesmo da leitura começar.
-
+<p class="status-ok">
+Ficha-base recebida do Sistema Desbaste ✓
 </p>
 
-</section>
+<h2>
+Preparação visual editorial liberada
+</h2>
 
+<p>
+O OKapista agora recebe a obra com base consolidada. Se o autor descrever a cena desejada, o sistema respeita a direção visual autoral. Se não descrever, o sistema segue a interpretação da obra a partir da ficha-base.
+</p>
 
-<div class="grid">
+<div class="grid-topo">
 
-<section class="card">
+<div class="card">
+<h3>Ficha-base da obra</h3>
+<div class="linha"><span class="rotulo">Arquivo:</span> <span id="okArquivo">—</span></div>
+<div class="linha"><span class="rotulo">Título-base:</span> <span id="okTitulo">—</span></div>
+<div class="linha"><span class="rotulo">Autor:</span> <span id="okAutor">—</span></div>
+<div class="linha"><span class="rotulo">Status técnico:</span> <span id="okStatus">—</span></div>
+</div>
 
-<h2>Dados da obra</h2>
-
-<div class="field">
-
-<strong>Título</strong>
-
-<span id="tituloObra">Aguardando identificação</span>
+<div class="card">
+<h3>Leitura consolidada</h3>
+<div class="linha"><span class="rotulo">Principal:</span> <span id="okPrincipal">—</span></div>
+<div class="linha"><span class="rotulo">Secundário:</span> <span id="okSecundario">—</span></div>
+<div class="linha"><span class="rotulo">Terciário:</span> <span id="okTerciario">—</span></div>
+<div class="linha"><span class="rotulo">Modo de leitura visual:</span> <span id="okModoLeitura">Interpretação automática da obra disponível</span></div>
+</div>
 
 </div>
 
-<div class="field">
+<div class="scene-grid">
 
-<strong>Autor</strong>
-
-<span id="autorObra">Aguardando identificação</span>
-
+<div class="scene-box">
+<h4>Cena de Capa Desejada</h4>
+<p>Descreva a imagem principal da capa com linguagem editorial. Exemplo: campo florido, casa antiga ao fundo, pôr do sol dourado, clima nostálgico.</p>
+<label for="cenaCapa">Descrição visual da capa</label>
+<textarea id="cenaCapa" placeholder="Descreva a cena desejada para a capa..."></textarea>
+<div class="tag" id="tagCapa">Se vazio, o sistema interpretará a obra</div>
 </div>
 
-</section>
+<div class="scene-box">
+<h4>Cena de Contracapa Desejada</h4>
+<p>Descreva o ambiente visual da contracapa. Pode indicar sensação, atmosfera e relação com a sinopse.</p>
+<label for="cenaContracapa">Descrição visual da contracapa</label>
+<textarea id="cenaContracapa" placeholder="Descreva a cena desejada para a contracapa..."></textarea>
+<div class="tag" id="tagContracapa">Se vazio, o sistema interpretará a obra</div>
+</div>
 
+<div class="scene-box">
+<h4>Cena de Orelha Dianteira Desejada</h4>
+<p>Descreva o tom visual e textual da orelha dianteira.</p>
+<label for="cenaOrelhaDianteira">Descrição visual da orelha dianteira</label>
+<textarea id="cenaOrelhaDianteira" placeholder="Descreva a orelha dianteira..."></textarea>
+<div class="tag" id="tagOrelhaDianteira">Se vazio, o sistema interpretará a obra</div>
+</div>
 
-<section class="card">
+<div class="scene-box">
+<h4>Cena de Orelha Traseira Desejada</h4>
+<p>Descreva o tom biográfico, institucional ou emocional da orelha traseira.</p>
+<label for="cenaOrelhaTraseira">Descrição visual da orelha traseira</label>
+<textarea id="cenaOrelhaTraseira" placeholder="Descreva a orelha traseira..."></textarea>
+<div class="tag" id="tagOrelhaTraseira">Se vazio, o sistema interpretará a obra</div>
+</div>
 
-<h2>Formato da capa</h2>
+<div class="scene-box">
+<h4>Cena de Lombada Desejada</h4>
+<p>Descreva a proposta visual da lombada. Exemplo: minimalista, clássica, dramática, com identidade de coleção.</p>
+<label for="cenaLombada">Descrição visual da lombada</label>
+<textarea id="cenaLombada" placeholder="Descreva a lombada desejada..."></textarea>
+<div class="tag" id="tagLombada">Se vazio, o sistema interpretará a obra</div>
+</div>
 
-<label>Tipo de capa</label>
+<div class="scene-box">
+<h4>Parâmetros editoriais visuais</h4>
 
-<select>
-
-<option>Capa simples</option>
-
-<option>Capa com orelhas 50mm</option>
-
-<option>Capa com orelhas 70mm</option>
-
-<option>Capa com orelhas 100mm</option>
-
-<option>Capa internacional completa</option>
-
+<label for="larguraOrelhas">Largura das orelhas</label>
+<select id="larguraOrelhas">
+<option value="70 mm">70 mm</option>
+<option value="50 mm">50 mm</option>
+<option value="100 mm">100 mm</option>
 </select>
 
-<label>Estilo visual</label>
-
-<select>
-
-<option>Sóbrio editorial</option>
-
-<option>Literário artístico</option>
-
-<option>Comercial de impacto</option>
-
-<option>Minimalista</option>
-
-<option>Personalizado</option>
-
+<label for="seloEditorial">Selo editorial</label>
+<select id="seloEditorial">
+<option value="Inserir selo">Inserir selo</option>
+<option value="Não inserir selo">Não inserir selo</option>
 </select>
 
-</section>
-
-
-<section class="card wide">
-
-<h2>Pré-visualização simbólica da capa</h2>
-
-<div class="preview">
-
-<div class="preview-cover">
-
-<span>SITE DAS LETRAS</span>
-
-<strong id="prevTitulo">
-
-Título da obra
-
-</strong>
-
-<span id="prevAutor">
-
-Autor
-
-</span>
-
+<label for="isbnVisual">ISBN</label>
+<select id="isbnVisual">
+<option value="Reservar área de ISBN">Reservar área de ISBN</option>
+<option value="ISBN já informado pelo autor">ISBN já informado pelo autor</option>
+<option value="Sem ISBN por enquanto">Sem ISBN por enquanto</option>
+</select>
 </div>
 
 </div>
 
+<div class="preview-box">
+<strong>Leitura visual orientadora do OKapista</strong>
 
-<div class="mesario" id="mesarioSecao">
+<div class="preview-item"><strong>Capa:</strong> <span id="previewCapa">Interpretação automática da obra</span></div>
+<div class="preview-item"><strong>Contracapa:</strong> <span id="previewContracapa">Interpretação automática da obra</span></div>
+<div class="preview-item"><strong>Orelha dianteira:</strong> <span id="previewOrelhaDianteira">Interpretação automática da obra</span></div>
+<div class="preview-item"><strong>Orelha traseira:</strong> <span id="previewOrelhaTraseira">Interpretação automática da obra</span></div>
+<div class="preview-item"><strong>Lombada:</strong> <span id="previewLombada">Interpretação automática da obra</span></div>
+<div class="preview-item"><strong>Base editorial:</strong> <span id="previewBaseEditorial">A obra será interpretada visualmente a partir da ficha-base consolidada.</span></div>
+</div>
 
-<strong>Mesário da seção</strong><br>
+<div class="aviso">
+Se o autor não preencher os campos de cena desejada, o OKapista seguirá a interpretação da obra consolidada pelo Sistema Desbaste. Isso mantém o fluxo automático do Lapidar sem substituir a vontade do autor quando ela for expressa.
+</div>
 
-Valor acumulado da capa nesta seção.<br><br>
-
-<strong>CVR sugerida desta seção: R$ 0,00</strong>
+<div class="acoes">
+<button class="botao-verde" onclick="salvarConfiguracaoOkapista()">Salvar direção visual</button>
+<button class="botao" onclick="voltarExecutor()">Retornar ao Executor</button>
+<button class="botao-secundario" onclick="irMesario()">Ir para Mesário</button>
+</div>
 
 </div>
 
+<div id="bloqueioOkapista" class="container bloqueio" style="display:none;">
 
-<div class="actions">
+<p class="status-erro">
+Acesso bloqueado
+</p>
 
-<button class="main-btn btn-next"
-onclick="window.location.href='motor_sequencial.html'">
+<h2>
+Sistema Desbaste obrigatório
+</h2>
 
-Concluir esta etapa e seguir
+<p>
+Antes de acessar o OKapista, é necessário concluir o fluxo oficial do Lapidar: Cofre, Sistema Desbaste, Workspace e Executor.
+</p>
 
-</button>
-
-<button class="main-btn btn-skip"
-onclick="window.location.href='motor_sequencial.html'">
-
-Pular este módulo por agora
-
+<button class="botao" onclick="voltarDesbaste()">
+Ir para Sistema Desbaste
 </button>
 
 </div>
-
-</section>
-
-</div>
-
-</div>
-
 
 <script>
 
-function preencherDados(){
+let fichaBaseAtual = null;
 
-const titulo = localStorage.getItem("lapidar_titulo_obra")
-|| "Título da obra";
+function preencherComFichaBase(){
+let ficha = localStorage.getItem("lapidar_ficha_base_obra");
 
-const autor = localStorage.getItem("lapidar_autor_obra")
-|| "Autor";
+if(ficha){
+try{
+let dados = JSON.parse(ficha);
+fichaBaseAtual = dados;
 
-document.getElementById("tituloObra").textContent = titulo;
+document.getElementById("okArquivo").innerText = dados.arquivo || "—";
+document.getElementById("okTitulo").innerText = dados.titulo_base || "—";
+document.getElementById("okAutor").innerText = dados.autor || "—";
+document.getElementById("okStatus").innerText = dados.status_tecnico || "—";
+document.getElementById("okPrincipal").innerText = dados.classificacao_principal || "—";
+document.getElementById("okSecundario").innerText = dados.classificacao_secundaria || "—";
+document.getElementById("okTerciario").innerText = dados.classificacao_terciaria || "—";
 
-document.getElementById("autorObra").textContent = autor;
+atualizarPreviewOkapista();
 
-document.getElementById("prevTitulo").textContent = titulo;
-
-document.getElementById("prevAutor").textContent = autor;
-
+}catch(e){
+console.log("Erro ao ler ficha-base no OKapista:", e);
+}
+}
 }
 
-function aplicarPerfil(){
-
-const perfil = (
-localStorage.getItem("lapidar_perfil") || ""
-).toLowerCase();
-
-if(perfil.includes("cortesia")){
-
-document.getElementById("mesarioSecao").style.display="none";
-
+function textoAutomatico(tipo){
+if(!fichaBaseAtual){
+return "Interpretação automática da obra";
 }
 
+const principal = fichaBaseAtual.classificacao_principal || "Obra";
+const secundario = fichaBaseAtual.classificacao_secundaria || "Narrativa";
+const terciario = fichaBaseAtual.classificacao_terciaria || "Literária";
+const titulo = fichaBaseAtual.titulo_base || "obra";
+
+if(tipo === "capa"){
+return "Interpretação automática da obra: composição visual coerente com " + principal + ", " + secundario + " e " + terciario + ", alinhada ao título \"" + titulo + "\".";
 }
 
-preencherDados();
+if(tipo === "contracapa"){
+return "Interpretação automática da obra: atmosfera visual coerente com o clima narrativo e com a função da sinopse.";
+}
 
-aplicarPerfil();
+if(tipo === "orelhaDianteira"){
+return "Interpretação automática da obra: orelha dianteira orientada pela identidade visual do livro.";
+}
+
+if(tipo === "orelhaTraseira"){
+return "Interpretação automática da obra: orelha traseira orientada pela biografia e pelo tom institucional da obra.";
+}
+
+if(tipo === "lombada"){
+return "Interpretação automática da obra: lombada coerente com o título, autoria e identidade editorial do projeto.";
+}
+
+return "Interpretação automática da obra";
+}
+
+function valorOuAutomatico(idCampo, tipo){
+const valor = document.getElementById(idCampo).value.trim();
+if(valor !== ""){
+return valor;
+}
+return textoAutomatico(tipo);
+}
+
+function atualizarPreviewOkapista(){
+document.getElementById("previewCapa").innerText = valorOuAutomatico("cenaCapa", "capa");
+document.getElementById("previewContracapa").innerText = valorOuAutomatico("cenaContracapa", "contracapa");
+document.getElementById("previewOrelhaDianteira").innerText = valorOuAutomatico("cenaOrelhaDianteira", "orelhaDianteira");
+document.getElementById("previewOrelhaTraseira").innerText = valorOuAutomatico("cenaOrelhaTraseira", "orelhaTraseira");
+document.getElementById("previewLombada").innerText = valorOuAutomatico("cenaLombada", "lombada");
+
+if(fichaBaseAtual){
+document.getElementById("previewBaseEditorial").innerText =
+"A obra será interpretada visualmente a partir da classificação " +
+(fichaBaseAtual.classificacao_principal || "—") + " / " +
+(fichaBaseAtual.classificacao_secundaria || "—") + " / " +
+(fichaBaseAtual.classificacao_terciaria || "—") + ".";
+}
+}
+
+function salvarConfiguracaoOkapista(){
+const configuracao = {
+capa: valorOuAutomatico("cenaCapa", "capa"),
+contracapa: valorOuAutomatico("cenaContracapa", "contracapa"),
+orelhaDianteira: valorOuAutomatico("cenaOrelhaDianteira", "orelhaDianteira"),
+orelhaTraseira: valorOuAutomatico("cenaOrelhaTraseira", "orelhaTraseira"),
+lombada: valorOuAutomatico("cenaLombada", "lombada"),
+larguraOrelhas: document.getElementById("larguraOrelhas").value,
+seloEditorial: document.getElementById("seloEditorial").value,
+isbnVisual: document.getElementById("isbnVisual").value
+};
+
+localStorage.setItem("lapidar_configuracao_okapista", JSON.stringify(configuracao));
+alert("Direção visual do OKapista salva com sucesso.");
+}
+
+function verificarAcessoOkapista(){
+let desbaste = localStorage.getItem("desbaste_concluido");
+let desbasteLapidar = localStorage.getItem("lapidar_desbaste_concluido");
+
+if(desbaste === "true" || desbasteLapidar === "true"){
+document.getElementById("areaOkapista").style.display = "block";
+preencherComFichaBase();
+}else{
+document.getElementById("bloqueioOkapista").style.display = "block";
+}
+}
+
+function voltarExecutor(){
+window.location.href = "modulo_executor.html";
+}
+
+function voltarDesbaste(){
+window.location.href = "modulo_02_sistema_desbaste.html";
+}
+
+function irMesario(){
+window.location.href = "mesario.html";
+}
+
+document.getElementById("cenaCapa").addEventListener("input", atualizarPreviewOkapista);
+document.getElementById("cenaContracapa").addEventListener("input", atualizarPreviewOkapista);
+document.getElementById("cenaOrelhaDianteira").addEventListener("input", atualizarPreviewOkapista);
+document.getElementById("cenaOrelhaTraseira").addEventListener("input", atualizarPreviewOkapista);
+document.getElementById("cenaLombada").addEventListener("input", atualizarPreviewOkapista);
+
+verificarAcessoOkapista();
 
 </script>
 
