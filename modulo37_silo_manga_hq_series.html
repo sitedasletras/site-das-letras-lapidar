@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lapidar — Módulo 37 | Silo Mangá · HQ · Séries</title>
+
+<style>
+body{
+margin:0;
+font-family:Arial, Helvetica, sans-serif;
+background:#f2f4f7;
+}
+
+header{
+background:#102437;
+color:white;
+padding:22px;
+text-align:center;
+font-size:22px;
+font-weight:bold;
+}
+
+.container{
+max-width:1180px;
+margin:auto;
+margin-top:40px;
+background:white;
+padding:40px;
+border-radius:14px;
+box-shadow:0px 6px 20px rgba(0,0,0,0.12);
+}
+
+.status-ok{
+color:#198754;
+font-weight:bold;
+}
+
+.status-erro{
+color:#dc3545;
+font-weight:bold;
+}
+
+.bloqueio{
+text-align:center;
+padding:80px 20px;
+}
+
+.grid-topo{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:18px;
+margin-top:25px;
+margin-bottom:30px;
+}
+
+.card{
+background:#f8f9fa;
+border:1px solid #dee2e6;
+border-radius:12px;
+padding:20px;
+}
+
+.card h3{
+margin-top:0;
+color:#102437;
+}
+
+.linha{
+padding:10px 0;
+border-bottom:1px solid #e5e5e5;
+font-size:15px;
+}
+
+.linha:last-child{
+border-bottom:none;
+}
+
+.rotulo{
+font-weight:bold;
+color:#333;
+}
+
+.manga-grid{
+display:grid;
+grid-template-columns:repeat(2, 1fr);
+gap:18px;
+margin-top:30px;
+}
+
+.manga-box{
+border-radius:14px;
+padding:22px;
+background:#eef7ff;
+border:1px solid rgba(0,0,0,0.08);
+box-shadow:0px 4px 10px rgba(0,0,0,0.05);
+}
+
+.manga-box h4{
+margin-top:0;
+margin-bottom:10px;
+font-size:20px;
+color:#102437;
+}
+
+.manga-box p{
+margin-bottom:16px;
+line-height:1.5;
+color:#334155;
+}
+
+.manga-box label{
+display:block;
+margin:10px 0 6px;
+font-weight:bold;
+color:#23384d;
+}
+
+.manga-box select,
+.manga-box textarea,
+.manga-box input{
+width:100%;
+padding:12px;
+border:1px solid #cfd6dd;
+border-radius:10px;
+font-size:15px;
+background:white;
+}
+
+.manga-box textarea{
+min-height:120px;
+resize:vertical;
+}
+
+.preview-box{
+margin-top:28px;
+padding:18px;
+background:#eef6ff;
+border-left:5px solid #0b5ed7;
+border-radius:8px;
+line-height:1.6;
+color:#23384d;
+}
+
+.preview-item{
+padding:10px 0;
+border-bottom:1px solid #d7e6f7;
+}
+
+.preview-item:last-child{
+border-bottom:none;
+}
+
+.aviso{
+margin-top:28px;
+padding:18px;
+background:#fff8e1;
+border-left:5px solid #d97706;
+border-radius:8px;
+line-height:1.6;
+color:#6b4f00;
+}
+
+.acoes{
+margin-top:28px;
+display:flex;
+gap:14px;
+flex-wrap:wrap;
+}
+
+.botao{
+background:#0b5ed7;
+color:white;
+border:none;
+padding:18px 26px;
+font-size:18px;
+border-radius:10px;
+cursor:pointer;
+}
+
+.botao:hover{
+background:#084298;
+}
+
+.botao-secundario{
+background:#6c757d;
+color:white;
+border:none;
+padding:18px 26px;
+font-size:18px;
+border-radius:10px;
+cursor:pointer;
+}
+
+.botao-secundario:hover{
+background:#565e64;
+}
+
+.botao-verde{
+background:#198754;
+color:white;
+border:none;
+padding:18px 26px;
+font-size:18px;
+border-radius:10px;
+cursor:pointer;
+}
+
+.botao-verde:hover{
+background:#146c43;
+}
+
+.tag{
+display:inline-block;
+padding:6px 10px;
+border-radius:999px;
+font-size:13px;
+font-weight:bold;
+background:#e8f4ea;
+color:#1f6f3d;
+margin-top:8px;
+}
+
+@media(max-width:980px){
+.grid-topo,
+.manga-grid{
+grid-template-columns:1fr;
+}
+.acoes{
+flex-direction:column;
+}
+.botao,
+.botao-secundario,
+.botao-verde{
+width:100%;
+}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+Módulo 37 — Silo Mangá · HQ · Séries
+</header>
+
+<div id="areaManga" class="container" style="display:none;">
+
+<p class="status-ok">
+Ficha-base recebida do Sistema Desbaste ✓
+</p>
+
+<h2>
+Produção sequencial visual liberada
+</h2>
+
+<p>
+Este módulo recebe a obra com leitura consolidada. O Silo Mangá · HQ · Séries usa a base do Desbaste para orientar narrativa sequencial, divisão de cenas, ritmo visual e estrutura seriada.
+</p>
+
+<div class="grid-topo">
+
+<div class="card">
+<h3>Ficha-base da obra</h3>
+<div class="linha"><span class="rotulo">Arquivo:</span> <span id="mhArquivo">—</span></div>
+<div class="linha"><span class="rotulo">Título-base:</span> <span id="mhTitulo">—</span></div>
+<div class="linha"><span class="rotulo">Autor:</span> <span id="mhAutor">—</span></div>
+<div class="linha"><span class="rotulo">Status técnico:</span> <span id="mhStatus">—</span></div>
+</div>
+
+<div class="card">
+<h3>Leitura consolidada</h3>
+<div class="linha"><span class="rotulo">Principal:</span> <span id="mhPrincipal">—</span></div>
+<div class="linha"><span class="rotulo">Secundário:</span> <span id="mhSecundario">—</span></div>
+<div class="linha"><span class="rotulo">Terciário:</span> <span id="mhTerciario">—</span></div>
+<div class="linha"><span class="rotulo">Base visual:</span> <span>Narrativa sequencial orientada pela obra</span></div>
+</div>
+
+</div>
+
+<div class="manga-grid">
+
+<div class="manga-box">
+<h4>Tipo de adaptação visual</h4>
+<p>Define o formato principal da obra no campo gráfico sequencial.</p>
+
+<label for="tipoAdaptacao">Formato principal</label>
+<select id="tipoAdaptacao">
+<option value="Mangá">Mangá</option>
+<option value="HQ">HQ</option>
+<option value="Webtoon">Webtoon</option>
+<option value="Graphic Novel">Graphic Novel</option>
+<option value="Storyboard">Storyboard</option>
+<option value="Série visual">Série visual</option>
+</select>
+
+<label for="serializacao">Serialização</label>
+<select id="serializacao">
+<option value="One-shot">One-shot</option>
+<option value="Minissérie">Minissérie</option>
+<option value="Série curta">Série curta</option>
+<option value="Série longa">Série longa</option>
+<option value="Série aberta">Série aberta</option>
+</select>
+
+<div class="tag">Desbaste visual sequencial</div>
+</div>
+
+<div class="manga-box">
+<h4>Ritmo visual</h4>
+<p>Define a cadência entre quadros, cenas e viradas narrativas.</p>
+
+<label for="ritmoQuadros">Ritmo de quadros</label>
+<select id="ritmoQuadros">
+<option value="Equilibrado">Equilibrado</option>
+<option value="Ação intensa">Ação intensa</option>
+<option value="Contemplativo">Contemplativo</option>
+<option value="Dramático">Dramático</option>
+<option value="Simbólico">Simbólico</option>
+</select>
+
+<label for="densidadePagina">Densidade por página</label>
+<select id="densidadePagina">
+<option value="Leve">Leve</option>
+<option value="Média">Média</option>
+<option value="Densa">Densa</option>
+<option value="Variável">Variável</option>
+</select>
+
+<div class="tag">Cadência sequencial</div>
+</div>
+
+<div class="manga-box">
+<h4>Estrutura visual</h4>
+<p>Organiza o peso entre quadros, páginas amplas e impacto visual.</p>
+
+<label for="estruturaQuadros">Estrutura de quadros</label>
+<select id="estruturaQuadros">
+<option value="Quadros médios">Quadros médios</option>
+<option value="Quadros pequenos">Quadros pequenos</option>
+<option value="Quadros amplos">Quadros amplos</option>
+<option value="Mistura equilibrada">Mistura equilibrada</option>
+</select>
+
+<label for="splashPages">Splash pages</label>
+<select id="splashPages">
+<option value="Ocasional">Ocasional</option>
+<option value="Frequente">Frequente</option>
+<option value="Rara">Rara</option>
+<option value="Não usar">Não usar</option>
+</select>
+
+<div class="tag">Hierarquia visual</div>
+</div>
+
+<div class="manga-box">
+<h4>Direção estética</h4>
+<p>Define a atmosfera gráfica dominante da adaptação.</p>
+
+<label for="esteticaVisual">Estética principal</label>
+<select id="esteticaVisual">
+<option value="Realista">Realista</option>
+<option value="Estilizada">Estilizada</option>
+<option value="Sombria">Sombria</option>
+<option value="Juvenil">Juvenil</option>
+<option value="Épica">Épica</option>
+<option value="Minimalista">Minimalista</option>
+</select>
+
+<label for="observacoesManga">Observações do autor</label>
+<textarea id="observacoesManga" placeholder="Exemplo: foco em cenas dramáticas, estilo mais mangá, páginas mais limpas, valorização de silêncio visual, ritmo contemplativo..."></textarea>
+
+<div class="tag">Direção complementar</div>
+</div>
+
+</div>
+
+<div class="preview-box">
+<strong>Prévia da direção visual sequencial</strong>
+
+<div class="preview-item"><strong>Formato:</strong> <span id="previewTipoAdaptacao">Mangá</span></div>
+<div class="preview-item"><strong>Serialização:</strong> <span id="previewSerializacao">One-shot</span></div>
+<div class="preview-item"><strong>Ritmo:</strong> <span id="previewRitmoQuadros">Equilibrado</span></div>
+<div class="preview-item"><strong>Densidade:</strong> <span id="previewDensidadePagina">Média</span></div>
+<div class="preview-item"><strong>Estrutura:</strong> <span id="previewEstruturaQuadros">Quadros médios / Ocasional</span></div>
+<div class="preview-item"><strong>Estética:</strong> <span id="previewEsteticaVisual">Realista</span></div>
+<div class="preview-item"><strong>Base da obra:</strong> <span id="previewBaseManga">A adaptação seguirá a leitura consolidada da obra.</span></div>
+</div>
+
+<div class="aviso">
+O Silo Mangá · HQ · Séries usa a base consolidada do Sistema Desbaste para transformar a obra em estrutura visual sequencial. Ele organiza o roteiro gráfico e o ritmo da adaptação sem substituir o ilustrador final.
+</div>
+
+<div class="acoes">
+<button class="botao-verde" onclick="salvarConfiguracaoManga()">Salvar direção visual sequencial</button>
+<button class="botao" onclick="voltarExecutor()">Retornar ao Executor</button>
+<button class="botao-secundario" onclick="irMesario()">Ir para Mesário</button>
+</div>
+
+</div>
+
+<div id="bloqueioManga" class="container bloqueio" style="display:none;">
+
+<p class="status-erro">
+Acesso bloqueado
+</p>
+
+<h2>
+Sistema Desbaste obrigatório
+</h2>
+
+<p>
+Antes de acessar o Silo Mangá · HQ · Séries, é necessário concluir o fluxo oficial do Lapidar: Cofre, Sistema Desbaste, Workspace e Executor.
+</p>
+
+<button class="botao" onclick="voltarDesbaste()">
+Ir para Sistema Desbaste
+</button>
+
+</div>
+
+<script>
+
+let fichaBaseManga = null;
+
+function preencherComFichaBaseManga(){
+let ficha = localStorage.getItem("lapidar_ficha_base_obra");
+
+if(ficha){
+try{
+let dados = JSON.parse(ficha);
+fichaBaseManga = dados;
+
+document.getElementById("mhArquivo").innerText = dados.arquivo || "—";
+document.getElementById("mhTitulo").innerText = dados.titulo_base || "—";
+document.getElementById("mhAutor").innerText = dados.autor || "—";
+document.getElementById("mhStatus").innerText = dados.status_tecnico || "—";
+document.getElementById("mhPrincipal").innerText = dados.classificacao_principal || "—";
+document.getElementById("mhSecundario").innerText = dados.classificacao_secundaria || "—";
+document.getElementById("mhTerciario").innerText = dados.classificacao_terciaria || "—";
+
+atualizarPreviewManga();
+
+}catch(e){
+console.log("Erro ao ler ficha-base no Silo Mangá · HQ · Séries:", e);
+}
+}
+}
+
+function atualizarPreviewManga(){
+document.getElementById("previewTipoAdaptacao").innerText = document.getElementById("tipoAdaptacao").value;
+document.getElementById("previewSerializacao").innerText = document.getElementById("serializacao").value;
+document.getElementById("previewRitmoQuadros").innerText = document.getElementById("ritmoQuadros").value;
+document.getElementById("previewDensidadePagina").innerText = document.getElementById("densidadePagina").value;
+document.getElementById("previewEstruturaQuadros").innerText =
+document.getElementById("estruturaQuadros").value + " / " +
+document.getElementById("splashPages").value;
+document.getElementById("previewEsteticaVisual").innerText = document.getElementById("esteticaVisual").value;
+
+if(fichaBaseManga){
+document.getElementById("previewBaseManga").innerText =
+"A adaptação seguirá a leitura consolidada da obra: " +
+(fichaBaseManga.classificacao_principal || "—") + " / " +
+(fichaBaseManga.classificacao_secundaria || "—") + " / " +
+(fichaBaseManga.classificacao_terciaria || "—") + ".";
+}
+}
+
+function salvarConfiguracaoManga(){
+const configuracao = {
+tipoAdaptacao: document.getElementById("tipoAdaptacao").value,
+serializacao: document.getElementById("serializacao").value,
+ritmoQuadros: document.getElementById("ritmoQuadros").value,
+densidadePagina: document.getElementById("densidadePagina").value,
+estruturaQuadros: document.getElementById("estruturaQuadros").value,
+splashPages: document.getElementById("splashPages").value,
+esteticaVisual: document.getElementById("esteticaVisual").value,
+observacoes: document.getElementById("observacoesManga").value.trim()
+};
+
+localStorage.setItem("lapidar_configuracao_manga_hq_series", JSON.stringify(configuracao));
+alert("Direção visual sequencial salva com sucesso.");
+}
+
+function verificarAcessoManga(){
+let desbaste = localStorage.getItem("desbaste_concluido");
+let desbasteLapidar = localStorage.getItem("lapidar_desbaste_concluido");
+
+if(desbaste === "true" || desbasteLapidar === "true"){
+document.getElementById("areaManga").style.display = "block";
+preencherComFichaBaseManga();
+}else{
+document.getElementById("bloqueioManga").style.display = "block";
+}
+}
+
+function voltarExecutor(){
+window.location.href = "modulo_executor.html";
+}
+
+function voltarDesbaste(){
+window.location.href = "modulo_02_sistema_desbaste.html";
+}
+
+function irMesario(){
+window.location.href = "mesario.html";
+}
+
+document.getElementById("tipoAdaptacao").addEventListener("change", atualizarPreviewManga);
+document.getElementById("serializacao").addEventListener("change", atualizarPreviewManga);
+document.getElementById("ritmoQuadros").addEventListener("change", atualizarPreviewManga);
+document.getElementById("densidadePagina").addEventListener("change", atualizarPreviewManga);
+document.getElementById("estruturaQuadros").addEventListener("change", atualizarPreviewManga);
+document.getElementById("splashPages").addEventListener("change", atualizarPreviewManga);
+document.getElementById("esteticaVisual").addEventListener("change", atualizarPreviewManga);
+
+verificarAcessoManga();
+
+</script>
+
+</body>
+</html>
