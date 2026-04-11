@@ -1,223 +1,186 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Workspace da Obra</title>
+
+<title>Lapidar — Workspace da Obra</title>
 
 <style>
 
 body{
 margin:0;
-font-family:Arial,sans-serif;
-background:#f4f1ea;
-color:#2f2a24;
+font-family:Arial, Helvetica, sans-serif;
+background:#f2f4f7;
 }
 
-.topo{
-background:#d9cfbf;
-padding:18px;
+header{
+
+background:#102437;
+color:white;
+padding:22px;
 text-align:center;
-font-size:26px;
+font-size:22px;
 font-weight:bold;
-border-bottom:1px solid #c7bba7;
-}
 
-.sub{
-text-align:center;
-padding:10px;
-font-size:14px;
-color:#6c6257;
 }
 
 .container{
+
 max-width:1000px;
 margin:auto;
-padding:25px;
-}
-
-.card{
+margin-top:40px;
 background:white;
+padding:40px;
 border-radius:14px;
-padding:22px;
-margin-bottom:20px;
-border:1px solid #ddd2c0;
+box-shadow:0px 6px 20px rgba(0,0,0,0.12);
+
 }
 
-.card h2{
-margin-top:0;
-color:#5c5145;
-}
+.status-ok{
 
-.tabela{
-margin-top:15px;
-background:#faf7f2;
-border:1px solid #d6cbb9;
-border-radius:12px;
-padding:18px;
-}
-
-.linha{
-margin-bottom:10px;
-font-size:16px;
-}
-
-.rotulo{
+color:#198754;
 font-weight:bold;
-color:#6a5f54;
+
 }
 
-.valor{
-color:#2f2a24;
-}
+.status-erro{
 
-.status{
-margin-top:15px;
+color:#dc3545;
 font-weight:bold;
-color:#196b3a;
+
 }
 
 .botao{
-width:100%;
-padding:18px;
+
+margin-top:30px;
+background:#0b5ed7;
+color:white;
 border:none;
-border-radius:12px;
+padding:18px 30px;
 font-size:18px;
-font-weight:bold;
+border-radius:10px;
 cursor:pointer;
-margin-top:15px;
+
 }
 
-.executor{
-background:#6f6559;
-color:white;
+.botao:hover{
+
+background:#084298;
+
 }
 
-.executor:hover{
-background:#584f45;
-}
+.bloqueio{
 
-.voltar{
-background:#9aa4af;
-color:white;
-}
+text-align:center;
+padding:80px 20px;
 
-.voltar:hover{
-background:#7e8893;
 }
 
 </style>
+
 </head>
 
 <body>
 
-<div class="topo">
-Workspace da Obra
-</div>
+<header>
 
-<div class="sub">
-Ambiente central de preparação editorial da obra
-</div>
+Workspace da Obra — Ambiente Editorial Central
 
-<div class="container">
+</header>
 
-<div class="card">
+<div id="areaWorkspace" class="container" style="display:none;">
 
-<h2>Identificação da obra recebida</h2>
+<p class="status-ok">
 
-<div class="tabela">
+Sistema Desbaste confirmado ✓
 
-<div class="linha">
-<span class="rotulo">Arquivo:</span>
-<span id="arquivo" class="valor">—</span>
-</div>
+</p>
 
-<div class="linha">
-<span class="rotulo">Classificação principal:</span>
-<span id="principal" class="valor">—</span>
-</div>
+<h2>
 
-<div class="linha">
-<span class="rotulo">Classificação secundária:</span>
-<span id="secundario" class="valor">—</span>
-</div>
+Workspace liberado
 
-<div class="linha">
-<span class="rotulo">Classificação terciária:</span>
-<span id="terciario" class="valor">—</span>
-</div>
+</h2>
 
-</div>
+<p>
 
-<div class="status">
-A obra foi reconhecida pelo Cofre Editorial do Autor e está pronta para os módulos seguintes.
-</div>
+A obra foi consolidada estruturalmente pelo Sistema Desbaste e está pronta para seguir para os módulos editoriais.
 
-</div>
+</p>
 
+<button class="botao" onclick="irExecutor()">
 
-<div class="card">
-
-<h2>Executar módulos editoriais</h2>
-
-<button
-class="botao executor"
-onclick="abrirExecutor()">
-
-Abrir Executor de Módulos
-
-</button>
-
-<button
-class="botao voltar"
-onclick="voltarCofre()">
-
-Retornar ao Cofre Editorial do Autor
+Seguir para Executor de Módulos
 
 </button>
 
 </div>
 
-</div>
+<div id="bloqueioWorkspace" class="container bloqueio" style="display:none;">
 
+<p class="status-erro">
+
+Acesso bloqueado
+
+</p>
+
+<h2>
+
+Sistema Desbaste obrigatório
+
+</h2>
+
+<p>
+
+Antes de acessar o Workspace da obra, é necessário concluir a etapa de consolidação estrutural.
+
+</p>
+
+<button class="botao" onclick="voltarDesbaste()">
+
+Ir para Sistema Desbaste
+
+</button>
+
+</div>
 
 <script>
 
-function carregarDados(){
+function verificarDesbaste(){
 
-let dados=JSON.parse(
-localStorage.getItem("lapidar_bolsao_upload")||"{}"
-)
+let desbaste = localStorage.getItem("desbaste_concluido")
 
-document.getElementById("arquivo").innerText=
-dados.arquivoNome||"Não identificado"
+if(desbaste === "true"){
 
-document.getElementById("principal").innerText=
-dados.principal||"—"
+document.getElementById("areaWorkspace").style.display="block"
 
-document.getElementById("secundario").innerText=
-dados.secundario||"—"
+}else{
 
-document.getElementById("terciario").innerText=
-dados.terciario||"—"
+document.getElementById("bloqueioWorkspace").style.display="block"
 
 }
 
-function abrirExecutor(){
+}
+
+function voltarDesbaste(){
+
+window.location.href="modulo_02_sistema_desbaste.html"
+
+}
+
+function irExecutor(){
 
 window.location.href="modulo_executor.html"
 
 }
 
-function voltarCofre(){
-
-window.location.href="modulo_01_bolsao.html"
-
-}
-
-carregarDados()
+verificarDesbaste()
 
 </script>
 
 </body>
+
 </html>
