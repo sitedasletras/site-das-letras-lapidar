@@ -220,6 +220,7 @@
           <div class="linha"><span class="rotulo">Arquivo:</span> <span id="arquivoObra">—</span></div>
           <div class="linha"><span class="rotulo">Título-base:</span> <span id="tituloObra">—</span></div>
           <div class="linha"><span class="rotulo">Autor:</span> <span id="autorObra">—</span></div>
+          <div class="linha"><span class="rotulo">Idioma:</span> <span id="idiomaObra">—</span></div>
           <div class="linha"><span class="rotulo">Classificação principal:</span> <span id="principalObra">—</span></div>
           <div class="linha"><span class="rotulo">Classificação secundária:</span> <span id="secundarioObra">—</span></div>
           <div class="linha"><span class="rotulo">Classificação terciária:</span> <span id="terciarioObra">—</span></div>
@@ -229,95 +230,4 @@
           <h3>Complementação editorial do Desbaste</h3>
 
           <div class="linha"><span class="rotulo">Prefácio:</span> <span id="prefacioObra">A verificar / gerar se ausente</span></div>
-          <div class="linha"><span class="rotulo">Dedicatória:</span> <span id="dedicatoriaObra">A verificar / gerar se ausente</span></div>
-          <div class="linha"><span class="rotulo">Biografia:</span> <span id="biografiaObra">A verificar / gerar se ausente</span></div>
-          <div class="linha"><span class="rotulo">Sinopse:</span> <span id="sinopseObra">A verificar / gerar se ausente</span></div>
-          <div class="linha"><span class="rotulo">Status técnico:</span> <span id="statusTecnicoObra">Base pronta para os módulos seguintes</span></div>
-        </div>
-      </div>
-
-      <div class="notice">
-        O Sistema Desbaste é obrigatório. Ele <strong>preserva a ficha-base recebida do Cofre</strong> e complementa apenas os dados editoriais necessários antes da entrada no Workspace.
-      </div>
-
-      <div class="info">
-        Regra estrutural do Lapidar: o Desbaste <strong>não substitui</strong> a classificação já reconhecida no Cofre. Ele apenas consolida e encaminha a obra para os módulos seguintes.
-      </div>
-
-      <div class="acoes">
-        <button class="btn-primary" onclick="seguirParaWorkspace()">Seguir para Workspace da Obra</button>
-        <button class="btn-secondary" onclick="retornarAoCofre()">Retornar ao Cofre</button>
-      </div>
-    </section>
-  </main>
-
-  <script>
-    function obterFallbackFichaBase(){
-      return {
-        arquivo: "Obra sem nome",
-        titulo_base: "Obra sem nome",
-        autor: "Autor a confirmar",
-        classificacao_principal: "Prosa",
-        classificacao_secundaria: "Narrativa",
-        classificacao_terciaria: "Literária",
-        status_tecnico: "Base pronta para os módulos seguintes"
-      };
-    }
-
-    function carregarFichaBaseDoCofre(){
-      const fichaSalva = localStorage.getItem("lapidar_ficha_base_obra");
-      let ficha = obterFallbackFichaBase();
-
-      if (fichaSalva) {
-        try {
-          const dados = JSON.parse(fichaSalva);
-
-          ficha = {
-            arquivo: dados.arquivo || ficha.arquivo,
-            titulo_base: dados.titulo_base || ficha.titulo_base,
-            autor: dados.autor || ficha.autor,
-            classificacao_principal: dados.classificacao_principal || ficha.classificacao_principal,
-            classificacao_secundaria: dados.classificacao_secundaria || ficha.classificacao_secundaria,
-            classificacao_terciaria: dados.classificacao_terciaria || ficha.classificacao_terciaria,
-            status_tecnico: dados.status_tecnico || ficha.status_tecnico
-          };
-        } catch (erro) {
-          console.log("Erro ao ler ficha-base do Cofre:", erro);
-        }
-      }
-
-      document.getElementById("arquivoObra").innerText = ficha.arquivo;
-      document.getElementById("tituloObra").innerText = ficha.titulo_base;
-      document.getElementById("autorObra").innerText = ficha.autor;
-      document.getElementById("principalObra").innerText = ficha.classificacao_principal;
-      document.getElementById("secundarioObra").innerText = ficha.classificacao_secundaria;
-      document.getElementById("terciarioObra").innerText = ficha.classificacao_terciaria;
-      document.getElementById("statusTecnicoObra").innerText = ficha.status_tecnico;
-
-      // Regrava a ficha-base consolidada SEM apagar os dados corretos vindos do Cofre
-      const fichaConsolidada = {
-        ...ficha,
-        prefacio: "A verificar / gerar se ausente",
-        dedicatoria: "A verificar / gerar se ausente",
-        biografia: "A verificar / gerar se ausente",
-        sinopse: "A verificar / gerar se ausente"
-      };
-
-      localStorage.setItem("lapidar_ficha_base_obra", JSON.stringify(fichaConsolidada));
-      localStorage.setItem("lapidar_desbaste_concluido", "true");
-      localStorage.setItem("desbaste_concluido", "true");
-      localStorage.setItem("lapidar_fluxo_etapa", "desbaste_concluido");
-    }
-
-    function seguirParaWorkspace(){
-      window.location.href = "obra_workspace.html";
-    }
-
-    function retornarAoCofre(){
-      window.location.href = "cofre_estrutura_editorial.html";
-    }
-
-    carregarFichaBaseDoCofre();
-  </script>
-</body>
-</html>
+          <div class="linha"><span class="rotulo">Dedicatória:</span
