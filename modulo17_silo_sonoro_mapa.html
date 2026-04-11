@@ -1,882 +1,502 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lapidar • Módulo 17 — Silo Sonoro</title>
-  <style>
-    :root{
-      --bg:#DCCFE8;
-      --card:#ffffff;
-      --line:#c9bbd8;
-      --text:#2f2a24;
-      --muted:#655575;
-      --title:#4f3f62;
-      --accent:#8b72a6;
-      --accent-dark:#6e5987;
-      --soft:#f3edf8;
-      --soft-dark:#eadff3;
-      --mesario-bg:#faf7fd;
-      --mesario-line:#a88bc3;
-      --ok-bg:#eef8f0;
-      --ok-line:#9ec2a4;
-      --warn-bg:#fff8eb;
-      --warn-line:#d9b96b;
-      --danger-bg:#fdeeee;
-      --danger-line:#d28a8a;
-      --shadow:0 12px 28px rgba(0,0,0,.10);
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lapidar — Módulo 17 | Silo Sonoro</title>
 
-    *{ box-sizing:border-box; }
+<style>
+body{
+margin:0;
+font-family:Arial, Helvetica, sans-serif;
+background:#f2f4f7;
+}
 
-    body{
-      margin:0;
-      font-family:Arial, Helvetica, sans-serif;
-      background:var(--bg);
-      color:var(--text);
-    }
+header{
+background:#102437;
+color:white;
+padding:22px;
+text-align:center;
+font-size:22px;
+font-weight:bold;
+}
 
-    .container{
-      max-width:1180px;
-      margin:auto;
-      padding:30px 18px 46px;
-    }
+.container{
+max-width:1180px;
+margin:auto;
+margin-top:40px;
+background:white;
+padding:40px;
+border-radius:14px;
+box-shadow:0px 6px 20px rgba(0,0,0,0.12);
+}
 
-    .topbar{
-      display:flex;
-      justify-content:space-between;
-      gap:12px;
-      margin-bottom:18px;
-    }
+.status-ok{
+color:#198754;
+font-weight:bold;
+}
 
-    .small-btn{
-      border:none;
-      border-radius:14px;
-      padding:12px 16px;
-      font-weight:bold;
-      cursor:pointer;
-      background:rgba(255,255,255,.82);
-      color:#222;
-    }
+.status-erro{
+color:#dc3545;
+font-weight:bold;
+}
 
-    .small-btn:hover{
-      background:#fff;
-    }
+.bloqueio{
+text-align:center;
+padding:80px 20px;
+}
 
-    .hero{
-      background:rgba(255,255,255,.62);
-      border-left:8px solid var(--accent);
-      border-radius:26px;
-      padding:28px;
-      margin-bottom:22px;
-      box-shadow:var(--shadow);
-    }
+.grid-topo{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:18px;
+margin-top:25px;
+margin-bottom:30px;
+}
 
-    .eyebrow{
-      display:inline-block;
-      background:#fff;
-      padding:8px 14px;
-      border-radius:999px;
-      font-size:14px;
-      font-weight:bold;
-      margin-bottom:14px;
-      color:var(--title);
-    }
+.card{
+background:#f8f9fa;
+border:1px solid #dee2e6;
+border-radius:12px;
+padding:20px;
+}
 
-    h1{
-      margin:0 0 10px;
-      font-size:34px;
-      color:var(--title);
-    }
+.card h3{
+margin-top:0;
+color:#102437;
+}
 
-    .subtitle{
-      font-size:20px;
-      line-height:1.8;
-      color:var(--muted);
-    }
+.linha{
+padding:10px 0;
+border-bottom:1px solid #e5e5e5;
+font-size:15px;
+}
 
-    .grid{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:18px;
-    }
+.linha:last-child{
+border-bottom:none;
+}
 
-    .card{
-      background:var(--card);
-      border-radius:24px;
-      padding:22px;
-      border:1px solid var(--line);
-      box-shadow:var(--shadow);
-    }
+.rotulo{
+font-weight:bold;
+color:#333;
+}
 
-    .wide{
-      grid-column:1 / -1;
-    }
+.sonoro-grid{
+display:grid;
+grid-template-columns:repeat(2, 1fr);
+gap:18px;
+margin-top:30px;
+}
 
-    h2{
-      margin:0 0 12px;
-      font-size:26px;
-      color:var(--title);
-    }
+.sonoro-box{
+border-radius:14px;
+padding:22px;
+background:#eef8ff;
+border:1px solid rgba(0,0,0,0.08);
+box-shadow:0px 4px 10px rgba(0,0,0,0.05);
+}
 
-    p{
-      margin:0 0 14px;
-      line-height:1.8;
-    }
+.sonoro-box h4{
+margin-top:0;
+margin-bottom:10px;
+font-size:20px;
+color:#102437;
+}
 
-    label{
-      display:block;
-      font-weight:bold;
-      margin-top:14px;
-      margin-bottom:6px;
-      color:#000;
-    }
+.sonoro-box p{
+margin-bottom:16px;
+line-height:1.5;
+color:#334155;
+}
 
-    input[type="text"],
-    input[type="number"],
-    select,
-    textarea{
-      width:100%;
-      padding:14px;
-      border-radius:14px;
-      border:1px solid var(--line);
-      background:#fff;
-      font-size:16px;
-      color:#000;
-      font-family:Arial, Helvetica, sans-serif;
-    }
+.sonoro-box label{
+display:block;
+margin:10px 0 6px;
+font-weight:bold;
+color:#23384d;
+}
 
-    textarea{
-      min-height:120px;
-      resize:vertical;
-    }
+.sonoro-box select,
+.sonoro-box textarea,
+.sonoro-box input{
+width:100%;
+padding:12px;
+border:1px solid #cfd6dd;
+border-radius:10px;
+font-size:15px;
+background:white;
+}
 
-    .field{
-      background:#fcfafe;
-      border-radius:16px;
-      padding:14px;
-      border:1px solid var(--line);
-      margin-top:10px;
-    }
+.sonoro-box textarea{
+min-height:120px;
+resize:vertical;
+}
 
-    .field strong{
-      display:block;
-      margin-bottom:4px;
-      color:#000;
-    }
+.preview-box{
+margin-top:28px;
+padding:18px;
+background:#eef6ff;
+border-left:5px solid #0b5ed7;
+border-radius:8px;
+line-height:1.6;
+color:#23384d;
+}
 
-    .field span{
-      color:#000;
-      line-height:1.7;
-    }
+.preview-item{
+padding:10px 0;
+border-bottom:1px solid #d7e6f7;
+}
 
-    .mini-grid{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:12px;
-    }
+.preview-item:last-child{
+border-bottom:none;
+}
 
-    .triple-grid{
-      display:grid;
-      grid-template-columns:1fr 1fr 1fr;
-      gap:12px;
-    }
+.aviso{
+margin-top:28px;
+padding:18px;
+background:#fff8e1;
+border-left:5px solid #d97706;
+border-radius:8px;
+line-height:1.6;
+color:#6b4f00;
+}
 
-    .preview{
-      background:#fcfafe;
-      border-radius:22px;
-      padding:20px;
-      border:1px solid var(--line);
-    }
+.acoes{
+margin-top:28px;
+display:flex;
+gap:14px;
+flex-wrap:wrap;
+}
 
-    .preview-box{
-      background:#fff;
-      border:1px solid var(--line);
-      border-radius:16px;
-      padding:18px;
-      line-height:1.8;
-      color:#222;
-    }
+.botao{
+background:#0b5ed7;
+color:white;
+border:none;
+padding:18px 26px;
+font-size:18px;
+border-radius:10px;
+cursor:pointer;
+}
 
-    .preview-box .preview-title{
-      font-size:20px;
-      font-weight:bold;
-      color:var(--title);
-      margin-bottom:10px;
-    }
+.botao:hover{
+background:#084298;
+}
 
-    .preview-line{
-      margin-bottom:8px;
-    }
+.botao-secundario{
+background:#6c757d;
+color:white;
+border:none;
+padding:18px 26px;
+font-size:18px;
+border-radius:10px;
+cursor:pointer;
+}
 
-    .voice-demo{
-      margin-top:14px;
-      padding:14px;
-      border-radius:14px;
-      background:#f3edf8;
-      border:1px solid var(--line);
-      color:#4f3f62;
-      font-style:italic;
-      line-height:1.9;
-      white-space:pre-line;
-    }
+.botao-secundario:hover{
+background:#565e64;
+}
 
-    .status-box{
-      margin-top:14px;
-      border-radius:18px;
-      padding:16px;
-      line-height:1.8;
-    }
+.botao-verde{
+background:#198754;
+color:white;
+border:none;
+padding:18px 26px;
+font-size:18px;
+border-radius:10px;
+cursor:pointer;
+}
 
-    .status-ok{
-      background:var(--ok-bg);
-      border-left:6px solid var(--ok-line);
-      color:#36533a;
-    }
+.botao-verde:hover{
+background:#146c43;
+}
 
-    .status-warn{
-      background:var(--warn-bg);
-      border-left:6px solid var(--warn-line);
-      color:#6b5621;
-    }
+.tag{
+display:inline-block;
+padding:6px 10px;
+border-radius:999px;
+font-size:13px;
+font-weight:bold;
+background:#e8f4ea;
+color:#1f6f3d;
+margin-top:8px;
+}
 
-    .status-danger{
-      background:var(--danger-bg);
-      border-left:6px solid var(--danger-line);
-      color:#7a3f3f;
-    }
-
-    .history-list{
-      display:grid;
-      gap:10px;
-      margin-top:12px;
-    }
-
-    .history-item{
-      background:#fcfafe;
-      border:1px solid var(--line);
-      border-radius:16px;
-      padding:14px;
-      line-height:1.7;
-    }
-
-    .history-item strong{
-      display:block;
-      color:#4f3f62;
-      margin-bottom:4px;
-    }
-
-    .mesario{
-      margin-top:16px;
-      background:var(--mesario-bg);
-      border-left:6px solid var(--mesario-line);
-      border-radius:18px;
-      padding:16px;
-    }
-
-    .price-table{
-      display:grid;
-      gap:10px;
-      margin-top:12px;
-    }
-
-    .price-row{
-      display:flex;
-      justify-content:space-between;
-      gap:14px;
-      background:#fcfafe;
-      border:1px solid var(--line);
-      border-radius:14px;
-      padding:12px 14px;
-      line-height:1.6;
-    }
-
-    .actions{
-      display:grid;
-      grid-template-columns:1fr 1fr 1fr;
-      gap:14px;
-      margin-top:18px;
-    }
-
-    .main-btn{
-      border:none;
-      border-radius:18px;
-      padding:18px;
-      font-size:17px;
-      font-weight:bold;
-      cursor:pointer;
-    }
-
-    .btn-next{
-      background:var(--accent);
-      color:#fff;
-    }
-
-    .btn-next:hover{
-      background:var(--accent-dark);
-    }
-
-    .btn-soft{
-      background:rgba(255,255,255,.82);
-      color:var(--text);
-    }
-
-    .btn-soft:hover{
-      background:#fff;
-    }
-
-    .btn-dark{
-      background:#5b4a71;
-      color:#fff;
-    }
-
-    .btn-dark:hover{
-      background:#47385b;
-    }
-
-    .hidden{
-      display:none !important;
-    }
-
-    .note{
-      font-size:14px;
-      color:var(--muted);
-      line-height:1.7;
-      margin-top:8px;
-    }
-
-    @media(max-width:1000px){
-      .grid,
-      .actions,
-      .triple-grid,
-      .topbar{
-        grid-template-columns:1fr;
-        display:grid;
-      }
-
-      .mini-grid{
-        grid-template-columns:1fr;
-      }
-
-      .price-row{
-        flex-direction:column;
-      }
-    }
-  </style>
+@media(max-width:980px){
+.grid-topo,
+.sonoro-grid{
+grid-template-columns:1fr;
+}
+.acoes{
+flex-direction:column;
+}
+.botao,
+.botao-secundario,
+.botao-verde{
+width:100%;
+}
+}
+</style>
 </head>
+
 <body>
 
-<div class="container">
+<header>
+Módulo 17 — Silo Sonoro
+</header>
 
-  <div class="topbar">
-    <button class="small-btn" onclick="history.back()">← Retornar</button>
-    <button class="small-btn" onclick="window.location.href='index.html'">Sair do sistema</button>
-  </div>
+<div id="areaSonoro" class="container" style="display:none;">
 
-  <section class="hero">
-    <div class="eyebrow">📒 Lapidar • Módulo 17</div>
-    <h1>Silo Sonoro</h1>
-    <p class="subtitle">
-      Aqui a sua obra ganha presença sonora. O Silo Sonoro trabalha com capacidade equivalente em páginas A5, permitindo transformar livro, poesia, vinheta, comercial ou outro material textual em produção sonora utilizável dentro do limite contratado.
-    </p>
-  </section>
+<p class="status-ok">
+Ficha-base recebida do Sistema Desbaste ✓
+</p>
 
-  <div class="grid">
+<h2>
+Produção sonora liberada
+</h2>
 
-    <section class="card">
-      <h2>Dados da obra</h2>
+<p>
+Este módulo recebe a obra com leitura consolidada. O Silo Sonoro usa a base do Desbaste para orientar voz, ritmo, densidade de interpretação e direção de narração.
+</p>
 
-      <div class="field">
-        <strong>Título</strong>
-        <span id="tituloObra">Aguardando identificação</span>
-      </div>
+<div class="grid-topo">
 
-      <div class="field">
-        <strong>Autor</strong>
-        <span id="autorObra">Aguardando identificação</span>
-      </div>
+<div class="card">
+<h3>Ficha-base da obra</h3>
+<div class="linha"><span class="rotulo">Arquivo:</span> <span id="ssArquivo">—</span></div>
+<div class="linha"><span class="rotulo">Título-base:</span> <span id="ssTitulo">—</span></div>
+<div class="linha"><span class="rotulo">Autor:</span> <span id="ssAutor">—</span></div>
+<div class="linha"><span class="rotulo">Status técnico:</span> <span id="ssStatus">—</span></div>
+</div>
 
-      <div class="field">
-        <strong>Idioma base</strong>
-        <span id="idiomaObra">Aguardando idioma</span>
-      </div>
+<div class="card">
+<h3>Leitura consolidada</h3>
+<div class="linha"><span class="rotulo">Principal:</span> <span id="ssPrincipal">—</span></div>
+<div class="linha"><span class="rotulo">Secundário:</span> <span id="ssSecundario">—</span></div>
+<div class="linha"><span class="rotulo">Terciário:</span> <span id="ssTerciario">—</span></div>
+<div class="linha"><span class="rotulo">Base sonora:</span> <span>Leitura interpretativa orientada pela obra</span></div>
+</div>
 
-      <div class="field">
-        <strong>Base textual em uso</strong>
-        <span id="baseEmUso">Texto principal da obra</span>
-      </div>
-    </section>
+</div>
 
-    <section class="card">
-      <h2>Plano / capacidade sonora</h2>
+<div class="sonoro-grid">
 
-      <label for="tipoContratacao">Modo de contratação</label>
-      <select id="tipoContratacao" onchange="atualizarPlanoSonoro()">
-        <option value="avulso">Avulso — R$ 25 (até 5 páginas, uso único)</option>
-        <option value="9">Plano — até 9 páginas (R$ 9,90)</option>
-        <option value="30">Plano — até 30 páginas (R$ 39,90)</option>
-        <option value="50">Plano — até 50 páginas (R$ 59,90)</option>
-        <option value="90">Plano — até 90 páginas (R$ 99,90)</option>
-        <option value="200">Plano — até 200 páginas (R$ 299,90)</option>
-        <option value="300">Plano — até 300 páginas (R$ 399,90)</option>
-        <option value="400">Plano — até 400 páginas (R$ 450,00)</option>
-      </select>
+<div class="sonoro-box">
+<h4>Direção de voz</h4>
+<p>Define a função vocal principal da obra e o tipo geral de condução sonora.</p>
 
-      <div class="field">
-        <strong>Capacidade contratada</strong>
-        <span id="capacidadeTotal">Até 5 páginas A5 equivalentes</span>
-      </div>
+<label for="tipoVoz">Tipo de voz principal</label>
+<select id="tipoVoz">
+<option value="Narrador principal">Narrador principal</option>
+<option value="Narrador + falas destacadas">Narrador + falas destacadas</option>
+<option value="Voz dramática integral">Voz dramática integral</option>
+<option value="Leitura interpretativa suave">Leitura interpretativa suave</option>
+</select>
 
-      <div class="field">
-        <strong>Capacidade utilizada nesta contratação</strong>
-        <span id="capacidadeUsada">0 páginas</span>
-      </div>
+<label for="funcaoNarrativa">Função vocal dominante</label>
+<select id="funcaoNarrativa">
+<option value="Condução narrativa">Condução narrativa</option>
+<option value="Ênfase emocional">Ênfase emocional</option>
+<option value="Ênfase dramática">Ênfase dramática</option>
+<option value="Ênfase contemplativa">Ênfase contemplativa</option>
+</select>
 
-      <div class="field">
-        <strong>Capacidade restante</strong>
-        <span id="capacidadeRestante">5 páginas</span>
-      </div>
+<div class="tag">Desbaste sonoro derivado</div>
+</div>
 
-      <div class="status-box status-warn" id="statusPlano">
-        Modo avulso ativo. Esta contratação permite uma única utilização de até 5 páginas A5 equivalentes. Usou qualquer parte, a ativação é considerada consumida.
-      </div>
-    </section>
+<div class="sonoro-box">
+<h4>Ritmo de narração</h4>
+<p>Define a cadência geral da leitura em voz e a respiração da obra no formato sonoro.</p>
 
-    <section class="card">
-      <h2>Configuração da produção sonora</h2>
+<label for="ritmoNarracao">Ritmo principal</label>
+<select id="ritmoNarracao">
+<option value="Cadência equilibrada">Cadência equilibrada</option>
+<option value="Mais pausada">Mais pausada</option>
+<option value="Mais intensa">Mais intensa</option>
+<option value="Mais solene">Mais solene</option>
+</select>
 
-      <label for="formatoNarracao">Tipo de uso do espaço</label>
-      <select id="formatoNarracao" onchange="atualizarPreview()">
-        <option>Audiobook completo</option>
-        <option>Audiobook parcial</option>
-        <option>Capítulo isolado</option>
-        <option>Amostra sonora da obra</option>
-        <option>Trecho promocional</option>
-        <option>Prefácio narrado</option>
-        <option>Poema narrado</option>
-        <option>Vinheta</option>
-        <option>Texto comercial</option>
-        <option>Projeto sonoro híbrido</option>
-      </select>
+<label for="densidadeSonora">Densidade sonora</label>
+<select id="densidadeSonora">
+<option value="Leitura limpa">Leitura limpa</option>
+<option value="Leitura emotiva">Leitura emotiva</option>
+<option value="Leitura dramática">Leitura dramática</option>
+<option value="Leitura atmosférica">Leitura atmosférica</option>
+</select>
 
-      <label for="baseTextual">Base textual utilizada</label>
-      <select id="baseTextual" onchange="atualizarPreview()">
-        <option>Texto principal da obra</option>
-        <option>Versão traduzida ativa</option>
-        <option>Trecho promocional</option>
-        <option>Capítulo selecionado</option>
-        <option>Texto institucional</option>
-      </select>
+<div class="tag">Cadência e respiração</div>
+</div>
 
-      <label for="estiloVoz">Estilo de voz</label>
-      <select id="estiloVoz" onchange="atualizarPreview()">
-        <option>Voz narrativa neutra</option>
-        <option>Voz literária expressiva</option>
-        <option>Voz documental</option>
-        <option>Voz institucional</option>
-        <option>Voz intimista</option>
-        <option>Voz dramática leve</option>
-      </select>
-    </section>
+<div class="sonoro-box">
+<h4>Estrutura das falas</h4>
+<p>Organiza o peso entre narração e diálogos, ajudando a preparar a leitura da obra em voz.</p>
 
-    <section class="card">
-      <h2>Temperatura sonora</h2>
+<label for="pesoDialogos">Peso dos diálogos</label>
+<select id="pesoDialogos">
+<option value="Equilibrado">Equilibrado</option>
+<option value="Diálogos em evidência">Diálogos em evidência</option>
+<option value="Narração em evidência">Narração em evidência</option>
+</select>
 
-      <label for="ritmoNarracao">Ritmo da narração</label>
-      <select id="ritmoNarracao" onchange="atualizarPreview()">
-        <option>Ritmo calmo</option>
-        <option>Ritmo médio</option>
-        <option>Ritmo intenso</option>
-      </select>
+<label for="marcacaoFalas">Marcação de falas</label>
+<select id="marcacaoFalas">
+<option value="Natural e discreta">Natural e discreta</option>
+<option value="Mais teatral">Mais teatral</option>
+<option value="Mais sóbria">Mais sóbria</option>
+</select>
 
-      <label for="atmosferaSonora">Atmosfera de escuta</label>
-      <select id="atmosferaSonora" onchange="atualizarPreview()">
-        <option>Atmosfera limpa e clara</option>
-        <option>Atmosfera íntima</option>
-        <option>Atmosfera literária envolvente</option>
-        <option>Atmosfera documental</option>
-        <option>Atmosfera institucional</option>
-      </select>
+<div class="tag">Distribuição vocal</div>
+</div>
 
-      <label for="saidaAudio">Formato de saída previsto</label>
-      <select id="saidaAudio" onchange="atualizarPreview()">
-        <option>MP3</option>
-        <option>WAV</option>
-        <option>Pacote ZIP</option>
-        <option>Amostra textual de produção</option>
-      </select>
-    </section>
+<div class="sonoro-box">
+<h4>Observações do autor</h4>
+<p>Registre aqui preferências para a leitura sonora da obra.</p>
 
-    <section class="card wide">
-      <h2>Consumo desta produção</h2>
+<label for="observacoesSonoro">Observações</label>
+<textarea id="observacoesSonoro" placeholder="Exemplo: voz mais grave, leitura mais pausada, clima sombrio, destacar diálogos do protagonista, evitar teatralização excessiva..."></textarea>
 
-      <div class="triple-grid">
-        <div>
-          <label for="paginasEstimadas">Páginas A5 equivalentes desta produção</label>
-          <input type="number" id="paginasEstimadas" min="1" value="1" oninput="atualizarPlanoSonoro()" />
-        </div>
+<div class="tag">Direção complementar</div>
+</div>
 
-        <div>
-          <label for="capituloInicial">Capítulo inicial</label>
-          <input type="number" id="capituloInicial" min="1" value="1" oninput="atualizarPreview()" />
-        </div>
+</div>
 
-        <div>
-          <label for="capituloFinal">Capítulo final</label>
-          <input type="number" id="capituloFinal" min="1" value="1" oninput="atualizarPreview()" />
-        </div>
-      </div>
+<div class="preview-box">
+<strong>Prévia da direção sonora</strong>
 
-      <label for="trechoSelecionado">Trecho, observação ou direção sonora</label>
-      <textarea id="trechoSelecionado" oninput="atualizarPreview()" placeholder="Descreva aqui o trecho a ser narrado, a intenção da leitura, o tipo de escuta desejado ou qualquer direção especial para a produção."></textarea>
-    </section>
+<div class="preview-item"><strong>Voz principal:</strong> <span id="previewVoz">Narrador principal</span></div>
+<div class="preview-item"><strong>Função vocal:</strong> <span id="previewFuncao">Condução narrativa</span></div>
+<div class="preview-item"><strong>Ritmo:</strong> <span id="previewRitmoSonoro">Cadência equilibrada</span></div>
+<div class="preview-item"><strong>Densidade:</strong> <span id="previewDensidade">Leitura limpa</span></div>
+<div class="preview-item"><strong>Diálogos:</strong> <span id="previewDialogosSonoro">Equilibrado / Natural e discreta</span></div>
+<div class="preview-item"><strong>Base da obra:</strong> <span id="previewBaseSonora">A narração seguirá a leitura consolidada da obra.</span></div>
+</div>
 
-    <section class="card wide">
-      <h2>Palhinha da atmosfera sonora</h2>
+<div class="aviso">
+O Silo Sonoro usa a base consolidada do Sistema Desbaste para preparar a obra para narração. A lógica aqui não substitui a interpretação final, mas organiza a direção sonora com base no que a obra pede.
+</div>
 
-      <div class="preview">
-        <div class="preview-box">
-          <div class="preview-title" id="previewFormato">Audiobook completo</div>
+<div class="acoes">
+<button class="botao-verde" onclick="salvarConfiguracaoSonora()">Salvar direção sonora</button>
+<button class="botao" onclick="voltarExecutor()">Retornar ao Executor</button>
+<button class="botao-secundario" onclick="irMesario()">Ir para Mesário</button>
+</div>
 
-          <div class="preview-line"><strong>Obra:</strong> <span id="previewTitulo">Título da obra</span></div>
-          <div class="preview-line"><strong>Autor:</strong> <span id="previewAutor">Autor</span></div>
-          <div class="preview-line"><strong>Base textual:</strong> <span id="previewBase">Texto principal da obra</span></div>
-          <div class="preview-line"><strong>Estilo de voz:</strong> <span id="previewVoz">Voz narrativa neutra</span></div>
-          <div class="preview-line"><strong>Ritmo:</strong> <span id="previewRitmo">Ritmo calmo</span></div>
-          <div class="preview-line"><strong>Atmosfera:</strong> <span id="previewAtmosfera">Atmosfera limpa e clara</span></div>
-          <div class="preview-line"><strong>Recorte:</strong> <span id="previewCapitulos">Capítulo 1 ao 1</span></div>
-          <div class="preview-line"><strong>Saída prevista:</strong> <span id="previewSaida">MP3</span></div>
-          <div class="preview-line"><strong>Consumo estimado:</strong> <span id="previewPaginas">1 página A5 equivalente</span></div>
+</div>
 
-          <div class="voice-demo" id="voiceDemo">“A voz entra no texto com delicadeza, como se a obra respirasse pela primeira vez no ouvido do leitor.”</div>
-        </div>
-      </div>
+<div id="bloqueioSonoro" class="container bloqueio" style="display:none;">
 
-      <div class="mesario" id="mesarioSecao">
-        <strong>Mesário da seção</strong><br>
-        <span id="textoMesario">Ativação avulsa do Silo Sonoro — uso único de até 5 páginas A5 equivalentes.</span><br><br>
-        <strong id="valorMesario">Valor desta contratação: R$ 25,00</strong>
-      </div>
+<p class="status-erro">
+Acesso bloqueado
+</p>
 
-      <div class="actions">
-        <button class="main-btn btn-dark" onclick="registrarProducaoSonora()">
-          Registrar produção sonora
-        </button>
+<h2>
+Sistema Desbaste obrigatório
+</h2>
 
-        <button class="main-btn btn-soft" onclick="baixarFichaProducao()">
-          Baixar ficha sonora (.txt)
-        </button>
+<p>
+Antes de acessar o Silo Sonoro, é necessário concluir o fluxo oficial do Lapidar: Cofre, Sistema Desbaste, Workspace e Executor.
+</p>
 
-        <button class="main-btn btn-next" onclick="window.location.href='motor_sequencial.html'">
-          Concluir esta etapa e seguir
-        </button>
-      </div>
-    </section>
-
-    <section class="card">
-      <h2>Tabela do Silo Sonoro</h2>
-
-      <div class="price-table">
-        <div class="price-row"><strong>Avulso — uso único</strong><span>R$ 25,00 • até 5 páginas</span></div>
-        <div class="price-row"><strong>Plano 9</strong><span>R$ 9,90 • até 9 páginas</span></div>
-        <div class="price-row"><strong>Plano 30</strong><span>R$ 39,90 • até 30 páginas</span></div>
-        <div class="price-row"><strong>Plano 50</strong><span>R$ 59,90 • até 50 páginas</span></div>
-        <div class="price-row"><strong>Plano 90</strong><span>R$ 99,90 • até 90 páginas</span></div>
-        <div class="price-row"><strong>Plano 200</strong><span>R$ 299,90 • até 200 páginas</span></div>
-        <div class="price-row"><strong>Plano 300</strong><span>R$ 399,90 • até 300 páginas</span></div>
-        <div class="price-row"><strong>Plano 400</strong><span>R$ 450,00 • até 400 páginas</span></div>
-      </div>
-
-      <div class="note">
-        No avulso, a contratação é uma única entrada. Se a produção usar 1 página, 2 páginas ou 5 páginas, a ativação já é considerada consumida.
-      </div>
-    </section>
-
-    <section class="card">
-      <h2>Resumo de uso desta contratação</h2>
-
-      <div class="status-box status-ok" id="resumoContratacao">
-        A capacidade desta contratação ainda está íntegra e pronta para ser usada.
-      </div>
-    </section>
-
-    <section class="card wide">
-      <h2>Histórico interno do Silo Sonoro</h2>
-
-      <div id="historyList" class="history-list">
-        <div class="history-item">
-          <strong>Nenhuma produção sonora registrada ainda.</strong>
-          Assim que você registrar uma produção, ela aparecerá aqui para acompanhamento.
-        </div>
-      </div>
-    </section>
-
-  </div>
+<button class="botao" onclick="voltarDesbaste()">
+Ir para Sistema Desbaste
+</button>
 
 </div>
 
 <script>
-  const HISTORY_KEY = "lapidar_silo_historico_v2";
 
-  function obterTabelaPlano(valor){
-    const tabela = {
-      "avulso": { capacidade: 5, valor: "R$ 25,00", nome: "Avulso — uso único", tipo: "avulso" },
-      "9": { capacidade: 9, valor: "R$ 9,90", nome: "Plano 9", tipo: "plano" },
-      "30": { capacidade: 30, valor: "R$ 39,90", nome: "Plano 30", tipo: "plano" },
-      "50": { capacidade: 50, valor: "R$ 59,90", nome: "Plano 50", tipo: "plano" },
-      "90": { capacidade: 90, valor: "R$ 99,90", nome: "Plano 90", tipo: "plano" },
-      "200": { capacidade: 200, valor: "R$ 299,90", nome: "Plano 200", tipo: "plano" },
-      "300": { capacidade: 300, valor: "R$ 399,90", nome: "Plano 300", tipo: "plano" },
-      "400": { capacidade: 400, valor: "R$ 450,00", nome: "Plano 400", tipo: "plano" }
-    };
-    return tabela[valor] || tabela["avulso"];
-  }
+let fichaBaseSonora = null;
 
-  function preencherDados(){
-    const titulo = localStorage.getItem("lapidar_titulo_obra") || "Título da obra";
-    const autor = localStorage.getItem("lapidar_autor_obra") || "Autor";
-    const idioma = localStorage.getItem("lapidar_idioma_obra") || "Idioma base";
+function preencherComFichaBaseSonora(){
+let ficha = localStorage.getItem("lapidar_ficha_base_obra");
 
-    document.getElementById("tituloObra").textContent = titulo;
-    document.getElementById("autorObra").textContent = autor;
-    document.getElementById("idiomaObra").textContent = idioma;
+if(ficha){
+try{
+let dados = JSON.parse(ficha);
+fichaBaseSonora = dados;
 
-    document.getElementById("previewTitulo").textContent = titulo;
-    document.getElementById("previewAutor").textContent = autor;
-  }
+document.getElementById("ssArquivo").innerText = dados.arquivo || "—";
+document.getElementById("ssTitulo").innerText = dados.titulo_base || "—";
+document.getElementById("ssAutor").innerText = dados.autor || "—";
+document.getElementById("ssStatus").innerText = dados.status_tecnico || "—";
+document.getElementById("ssPrincipal").innerText = dados.classificacao_principal || "—";
+document.getElementById("ssSecundario").innerText = dados.classificacao_secundaria || "—";
+document.getElementById("ssTerciario").innerText = dados.classificacao_terciaria || "—";
 
-  function atualizarPlanoSonoro(){
-    const modo = document.getElementById("tipoContratacao").value;
-    const plano = obterTabelaPlano(modo);
-    const paginas = parseInt(document.getElementById("paginasEstimadas").value || "1", 10);
+atualizarPreviewSonora();
 
-    const usada = Math.min(paginas, plano.capacidade);
-    const restante = Math.max(plano.capacidade - usada, 0);
+}catch(e){
+console.log("Erro ao ler ficha-base no Silo Sonoro:", e);
+}
+}
+}
 
-    document.getElementById("capacidadeTotal").textContent = "Até " + plano.capacidade + " páginas A5 equivalentes";
-    document.getElementById("capacidadeUsada").textContent = usada + " página(s)";
-    document.getElementById("capacidadeRestante").textContent = restante + " página(s)";
-    document.getElementById("previewPaginas").textContent = paginas + " página(s) A5 equivalente(s)";
-    document.getElementById("valorMesario").textContent = "Valor desta contratação: " + plano.valor;
+function atualizarPreviewSonora(){
+document.getElementById("previewVoz").innerText = document.getElementById("tipoVoz").value;
+document.getElementById("previewFuncao").innerText = document.getElementById("funcaoNarrativa").value;
+document.getElementById("previewRitmoSonoro").innerText = document.getElementById("ritmoNarracao").value;
+document.getElementById("previewDensidade").innerText = document.getElementById("densidadeSonora").value;
+document.getElementById("previewDialogosSonoro").innerText =
+document.getElementById("pesoDialogos").value + " / " +
+document.getElementById("marcacaoFalas").value;
 
-    const statusPlano = document.getElementById("statusPlano");
-    const resumo = document.getElementById("resumoContratacao");
-    const textoMesario = document.getElementById("textoMesario");
+if(fichaBaseSonora){
+document.getElementById("previewBaseSonora").innerText =
+"A narração seguirá a leitura consolidada da obra: " +
+(fichaBaseSonora.classificacao_principal || "—") + " / " +
+(fichaBaseSonora.classificacao_secundaria || "—") + " / " +
+(fichaBaseSonora.classificacao_terciaria || "—") + ".";
+}
+}
 
-    if(plano.tipo === "avulso"){
-      textoMesario.textContent = "Ativação avulsa do Silo Sonoro — uso único de até 5 páginas A5 equivalentes.";
-      if(paginas <= 5){
-        statusPlano.className = "status-box status-warn";
-        statusPlano.textContent = "Modo avulso ativo. Esta contratação permite uma única utilização de até 5 páginas A5 equivalentes. Usou qualquer parte, a ativação é considerada consumida.";
-        resumo.className = "status-box status-ok";
-        resumo.textContent = "Esta produção cabe dentro da ativação avulsa do Silo Sonoro.";
-      } else {
-        statusPlano.className = "status-box status-danger";
-        statusPlano.textContent = "A produção estimada ultrapassa o limite do avulso. Para este volume, o ideal é contratar um plano de capacidade compatível.";
-        resumo.className = "status-box status-danger";
-        resumo.textContent = "Esta produção excede a ativação avulsa de até 5 páginas. Se quiser seguir com este volume, o correto é subir para um plano do Silo.";
-      }
-    } else {
-      textoMesario.textContent = "Capacidade sonora contratada para uso livre dentro do limite escolhido.";
-      statusPlano.className = "status-box status-ok";
-      statusPlano.textContent = plano.nome + " ativo. Você pode usar essa capacidade como quiser dentro do Silo Sonoro, inclusive combinando livro, poesia, vinheta, comercial ou outros formatos sonoros.";
-      if(paginas <= plano.capacidade){
-        resumo.className = "status-box status-ok";
-        resumo.textContent = "Esta produção cabe dentro do plano atual. A capacidade restante poderá ser usada depois no que você quiser dentro do Silo.";
-      } else {
-        resumo.className = "status-box status-danger";
-        resumo.textContent = "A produção estimada ultrapassa a capacidade do plano atual. Será necessário subir para uma faixa maior de páginas.";
-      }
-    }
+function salvarConfiguracaoSonora(){
+const configuracao = {
+tipoVoz: document.getElementById("tipoVoz").value,
+funcaoNarrativa: document.getElementById("funcaoNarrativa").value,
+ritmoNarracao: document.getElementById("ritmoNarracao").value,
+densidadeSonora: document.getElementById("densidadeSonora").value,
+pesoDialogos: document.getElementById("pesoDialogos").value,
+marcacaoFalas: document.getElementById("marcacaoFalas").value,
+observacoes: document.getElementById("observacoesSonoro").value.trim()
+};
 
-    atualizarPreview();
-  }
+localStorage.setItem("lapidar_configuracao_sonora", JSON.stringify(configuracao));
+alert("Direção sonora salva com sucesso.");
+}
 
-  function atualizarPreview(){
-    const formato = document.getElementById("formatoNarracao").value;
-    const base = document.getElementById("baseTextual").value;
-    const voz = document.getElementById("estiloVoz").value;
-    const ritmo = document.getElementById("ritmoNarracao").value;
-    const atmosfera = document.getElementById("atmosferaSonora").value;
-    const saida = document.getElementById("saidaAudio").value;
-    const capIni = document.getElementById("capituloInicial").value || "1";
-    const capFim = document.getElementById("capituloFinal").value || "1";
-    const trecho = document.getElementById("trechoSelecionado").value.trim();
+function verificarAcessoSonoro(){
+let desbaste = localStorage.getItem("desbaste_concluido");
+let desbasteLapidar = localStorage.getItem("lapidar_desbaste_concluido");
 
-    document.getElementById("baseEmUso").textContent = base;
-    document.getElementById("previewFormato").textContent = formato;
-    document.getElementById("previewBase").textContent = base;
-    document.getElementById("previewVoz").textContent = voz;
-    document.getElementById("previewRitmo").textContent = ritmo;
-    document.getElementById("previewAtmosfera").textContent = atmosfera;
-    document.getElementById("previewCapitulos").textContent = "Capítulo " + capIni + " ao " + capFim;
-    document.getElementById("previewSaida").textContent = saida;
+if(desbaste === "true" || desbasteLapidar === "true"){
+document.getElementById("areaSonoro").style.display = "block";
+preencherComFichaBaseSonora();
+}else{
+document.getElementById("bloqueioSonoro").style.display = "block";
+}
+}
 
-    let frase = "“A voz entra no texto com delicadeza, como se a obra respirasse pela primeira vez no ouvido do leitor.”";
+function voltarExecutor(){
+window.location.href = "modulo_executor.html";
+}
 
-    if(voz === "Voz literária expressiva"){
-      frase = "“Cada frase ganha relevo, emoção e presença, como se a narrativa estivesse diante do leitor em carne e voz.”";
-    } else if(voz === "Voz documental"){
-      frase = "“A condução sonora se organiza com firmeza, precisão e limpeza, deixando cada informação respirar com clareza.”";
-    } else if(voz === "Voz institucional"){
-      frase = "“A leitura assume tom sóbrio, seguro e estável, preservando direção clara e presença de autoridade.”";
-    } else if(voz === "Voz intimista"){
-      frase = "“A narração se aproxima do ouvido do leitor como confidência, criando acolhimento e proximidade emocional.”";
-    } else if(voz === "Voz dramática leve"){
-      frase = "“A interpretação mantém tensão medida e calor narrativo, sem excesso, mas com presença sensível.”";
-    }
+function voltarDesbaste(){
+window.location.href = "modulo_02_sistema_desbaste.html";
+}
 
-    if(trecho){
-      frase += "\n\nDireção registrada: " + trecho;
-    }
+function irMesario(){
+window.location.href = "mesario.html";
+}
 
-    document.getElementById("voiceDemo").textContent = frase;
-  }
+document.getElementById("tipoVoz").addEventListener("change", atualizarPreviewSonora);
+document.getElementById("funcaoNarrativa").addEventListener("change", atualizarPreviewSonora);
+document.getElementById("ritmoNarracao").addEventListener("change", atualizarPreviewSonora);
+document.getElementById("densidadeSonora").addEventListener("change", atualizarPreviewSonora);
+document.getElementById("pesoDialogos").addEventListener("change", atualizarPreviewSonora);
+document.getElementById("marcacaoFalas").addEventListener("change", atualizarPreviewSonora);
 
-  function obterHistorico(){
-    try{
-      return JSON.parse(localStorage.getItem(HISTORY_KEY) || "[]");
-    }catch(e){
-      return [];
-    }
-  }
+verificarAcessoSonoro();
 
-  function salvarHistorico(lista){
-    localStorage.setItem(HISTORY_KEY, JSON.stringify(lista));
-  }
-
-  function renderHistorico(){
-    const list = document.getElementById("historyList");
-    const historico = obterHistorico();
-
-    if(!historico.length){
-      list.innerHTML = `
-        <div class="history-item">
-          <strong>Nenhuma produção sonora registrada ainda.</strong>
-          Assim que você registrar uma produção, ela aparecerá aqui para acompanhamento.
-        </div>
-      `;
-      return;
-    }
-
-    list.innerHTML = "";
-    historico.slice().reverse().forEach((item) => {
-      const div = document.createElement("div");
-      div.className = "history-item";
-      div.innerHTML = `
-        <strong>${item.formato}</strong>
-        Obra: ${item.titulo}<br>
-        Contratação: ${item.plano}<br>
-        Capacidade desta produção: ${item.paginas} página(s)<br>
-        Base: ${item.base}<br>
-        Voz: ${item.voz}<br>
-        Recorte: ${item.capitulos}<br>
-        Saída: ${item.saida}<br>
-        Registrado em: ${item.data}
-      `;
-      list.appendChild(div);
-    });
-  }
-
-  function registrarProducaoSonora(){
-    const titulo = localStorage.getItem("lapidar_titulo_obra") || "Título da obra";
-    const formato = document.getElementById("formatoNarracao").value;
-    const base = document.getElementById("baseTextual").value;
-    const voz = document.getElementById("estiloVoz").value;
-    const ritmo = document.getElementById("ritmoNarracao").value;
-    const atmosfera = document.getElementById("atmosferaSonora").value;
-    const saida = document.getElementById("saidaAudio").value;
-    const capIni = document.getElementById("capituloInicial").value || "1";
-    const capFim = document.getElementById("capituloFinal").value || "1";
-    const paginas = parseInt(document.getElementById("paginasEstimadas").value || "1", 10);
-    const planoSelecionado = document.getElementById("tipoContratacao").value;
-    const plano = obterTabelaPlano(planoSelecionado);
-
-    if(plano.tipo === "avulso" && paginas > 5){
-      alert("O avulso do Silo Sonoro é uma única ativação de até 5 páginas A5 equivalentes. Para este volume, selecione um plano maior.");
-      return;
-    }
-
-    if(plano.tipo === "plano" && paginas > plano.capacidade){
-      alert("A produção estimada ultrapassa a capacidade do plano atual. Selecione uma faixa maior.");
-      return;
-    }
-
-    const historico = obterHistorico();
-    historico.push({
-      titulo,
-      formato,
-      base,
-      voz,
-      ritmo,
-      atmosfera,
-      saida,
-      paginas,
-      plano: plano.nome + " — " + plano.valor,
-      capitulos: "Capítulo " + capIni + " ao " + capFim,
-      data: new Date().toLocaleString("pt-BR")
-    });
-    salvarHistorico(historico);
-    renderHistorico();
-
-    alert("Produção sonora registrada no histórico interno do Silo Sonoro.");
-  }
-
-  function baixarFichaProducao(){
-    const titulo = localStorage.getItem("lapidar_titulo_obra") || "Título da obra";
-    const autor = localStorage.getItem("lapidar_autor_obra") || "Autor";
-    const idioma = localStorage.getItem("lapidar_idioma_obra") || "Idioma base";
-
-    const formato = document.getElementById("formatoNarracao").value;
-    const base = document.getElementById("baseTextual").value;
-    const voz = document.getElementById("estiloVoz").value;
-    const ritmo = document.getElementById("ritmoNarracao").value;
-    const atmosfera = document.getElementById("atmosferaSonora").value;
-    const saida = document.getElementById("saidaAudio").value;
-    const capIni = document.getElementById("capituloInicial").value || "1";
-    const capFim = document.getElementById("capituloFinal").value || "1";
-    const paginas = document.getElementById("paginasEstimadas").value || "1";
-    const trecho = document.getElementById("trechoSelecionado").value.trim() || "Sem observações adicionais.";
-    const planoSelecionado = document.getElementById("tipoContratacao").value;
-    const plano = obterTabelaPlano(planoSelecionado);
-
-    const conteudo = [
-      "SILO SONORO — FICHA DE PRODUÇÃO",
-      "",
-      "Título: " + titulo,
-      "Autor: " + autor,
-      "Idioma base: " + idioma,
-      "",
-      "Modo de contratação: " + plano.nome,
-      "Valor: " + plano.valor,
-      "Capacidade do plano: até " + plano.capacidade + " páginas A5 equivalentes",
-      "Consumo estimado desta produção: " + paginas + " página(s) A5 equivalente(s)",
-      "",
-      "Formato da narração: " + formato,
-      "Base textual: " + base,
-      "Estilo de voz: " + voz,
-      "Ritmo: " + ritmo,
-      "Atmosfera: " + atmosfera,
-      "Formato de saída: " + saida,
-      "Recorte: Capítulo " + capIni + " ao " + capFim,
-      "",
-      "Direção sonora / observações:",
-      trecho,
-      "",
-      "Documento gerado no módulo Silo Sonoro do Lapidar."
-    ].join("\n");
-
-    const blob = new Blob([conteudo], { type: "text/plain;charset=utf-8" });
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
-    link.download = "ficha_silo_sonoro.txt";
-    link.click();
-    URL.revokeObjectURL(link.href);
-  }
-
-  preencherDados();
-  atualizarPlanoSonoro();
-  renderHistorico();
 </script>
 
 </body>
