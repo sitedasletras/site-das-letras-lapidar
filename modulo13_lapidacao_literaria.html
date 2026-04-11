@@ -1,316 +1,512 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lapidar • Módulo 13 — Lapidação Literária</title>
+<title>Lapidar — Módulo 13 | Lapidação Literária</title>
 
 <style>
-
-:root{
---bg:#f7f5ef;
---card:#ffffff;
---line:#d8d2c4;
---text:#2f2a24;
---muted:#5f574c;
---title:#6b5b46;
-
---lap-bg:#f1eef8;
---lap-accent:#6c5aa8;
---lap-accent-dark:#52448b;
-
---soft:#ece7db;
---soft-dark:#e2dccd;
-
---gold:#c79a2e;
---gold-bg:#fff7e6;
-}
-
-*{box-sizing:border-box;}
-
 body{
 margin:0;
-font-family:Arial;
-background:var(--bg);
-color:var(--text);
+font-family:Arial, Helvetica, sans-serif;
+background:#f2f4f7;
+}
+
+header{
+background:#102437;
+color:white;
+padding:22px;
+text-align:center;
+font-size:22px;
+font-weight:bold;
 }
 
 .container{
-max-width:1050px;
+max-width:1180px;
 margin:auto;
-padding:28px 16px 40px;
-}
-
-.topbar{
-display:flex;
-justify-content:space-between;
-margin-bottom:18px;
-}
-
-.small-btn{
-border:none;
+margin-top:40px;
+background:white;
+padding:40px;
 border-radius:14px;
-padding:12px 16px;
-font-size:15px;
+box-shadow:0px 6px 20px rgba(0,0,0,0.12);
+}
+
+.status-ok{
+color:#198754;
 font-weight:bold;
-cursor:pointer;
-background:var(--soft);
 }
 
-.small-btn:hover{
-background:var(--soft-dark);
-}
-
-.hero{
-background:var(--lap-bg);
-border:1px solid var(--line);
-border-left:8px solid var(--lap-accent);
-border-radius:28px;
-padding:30px;
-margin-bottom:22px;
-}
-
-.eyebrow{
-display:inline-block;
-padding:8px 14px;
-border-radius:999px;
-background:#fff;
-font-size:14px;
+.status-erro{
+color:#dc3545;
 font-weight:bold;
-margin-bottom:14px;
 }
 
-h1{
-margin:0 0 10px 0;
-font-size:34px;
-color:var(--title);
+.bloqueio{
+text-align:center;
+padding:80px 20px;
 }
 
-.subtitle{
-font-size:20px;
-line-height:1.8;
-color:var(--muted);
+.grid-topo{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:18px;
+margin-top:25px;
+margin-bottom:30px;
 }
 
 .card{
-background:var(--card);
-border:1px solid var(--line);
-border-radius:24px;
-padding:22px;
-margin-bottom:18px;
+background:#f8f9fa;
+border:1px solid #dee2e6;
+border-radius:12px;
+padding:20px;
 }
 
-h2{
-margin:0 0 14px 0;
-font-size:28px;
-color:var(--title);
+.card h3{
+margin-top:0;
+color:#102437;
 }
 
-.checkbox{
-margin-bottom:10px;
-font-size:18px;
+.linha{
+padding:10px 0;
+border-bottom:1px solid #e5e5e5;
+font-size:15px;
 }
 
-.checkbox input{
-margin-right:8px;
+.linha:last-child{
+border-bottom:none;
 }
 
-.mesario{
-margin-top:14px;
-background:var(--gold-bg);
-border-left:7px solid var(--gold);
-border-radius:18px;
-padding:16px 18px;
-}
-
-.actions{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:14px;
-margin-top:18px;
-}
-
-.main-btn{
-border:none;
-border-radius:18px;
-padding:18px;
-font-size:18px;
+.rotulo{
 font-weight:bold;
+color:#333;
+}
+
+.lapidacao-grid{
+display:grid;
+grid-template-columns:repeat(2, 1fr);
+gap:18px;
+margin-top:30px;
+}
+
+.lapidacao-box{
+border-radius:14px;
+padding:22px;
+background:#fff0f0;
+border:1px solid rgba(0,0,0,0.08);
+box-shadow:0px 4px 10px rgba(0,0,0,0.05);
+}
+
+.lapidacao-box h4{
+margin-top:0;
+margin-bottom:10px;
+font-size:20px;
+color:#102437;
+}
+
+.lapidacao-box p{
+margin-bottom:16px;
+line-height:1.5;
+color:#334155;
+}
+
+.lapidacao-box label{
+display:block;
+margin:10px 0 6px;
+font-weight:bold;
+color:#23384d;
+}
+
+.lapidacao-box select,
+.lapidacao-box textarea,
+.lapidacao-box input{
+width:100%;
+padding:12px;
+border:1px solid #cfd6dd;
+border-radius:10px;
+font-size:15px;
+background:white;
+}
+
+.lapidacao-box textarea{
+min-height:120px;
+resize:vertical;
+}
+
+.preview-box{
+margin-top:28px;
+padding:18px;
+background:#eef6ff;
+border-left:5px solid #0b5ed7;
+border-radius:8px;
+line-height:1.6;
+color:#23384d;
+}
+
+.preview-item{
+padding:10px 0;
+border-bottom:1px solid #d7e6f7;
+}
+
+.preview-item:last-child{
+border-bottom:none;
+}
+
+.aviso{
+margin-top:28px;
+padding:18px;
+background:#fff8e1;
+border-left:5px solid #d97706;
+border-radius:8px;
+line-height:1.6;
+color:#6b4f00;
+}
+
+.acoes{
+margin-top:28px;
+display:flex;
+gap:14px;
+flex-wrap:wrap;
+}
+
+.botao{
+background:#0b5ed7;
+color:white;
+border:none;
+padding:18px 26px;
+font-size:18px;
+border-radius:10px;
 cursor:pointer;
 }
 
-.btn-next{
-background:var(--lap-accent);
+.botao:hover{
+background:#084298;
+}
+
+.botao-secundario{
+background:#6c757d;
 color:white;
+border:none;
+padding:18px 26px;
+font-size:18px;
+border-radius:10px;
+cursor:pointer;
 }
 
-.btn-next:hover{
-background:var(--lap-accent-dark);
+.botao-secundario:hover{
+background:#565e64;
 }
 
-.btn-skip{
-background:var(--soft);
+.botao-verde{
+background:#198754;
+color:white;
+border:none;
+padding:18px 26px;
+font-size:18px;
+border-radius:10px;
+cursor:pointer;
 }
 
-.hidden{
-display:none!important;
+.botao-verde:hover{
+background:#146c43;
 }
 
+.tag{
+display:inline-block;
+padding:6px 10px;
+border-radius:999px;
+font-size:13px;
+font-weight:bold;
+background:#e8f4ea;
+color:#1f6f3d;
+margin-top:8px;
+}
+
+@media(max-width:980px){
+.grid-topo,
+.lapidacao-grid{
+grid-template-columns:1fr;
+}
+.acoes{
+flex-direction:column;
+}
+.botao,
+.botao-secundario,
+.botao-verde{
+width:100%;
+}
+}
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<header>
+Módulo 13 — Lapidação Literária
+</header>
 
-<div class="topbar">
+<div id="areaLapidacao" class="container" style="display:none;">
 
-<button class="small-btn"
-onclick="history.back()">
-
-← Retornar
-
-</button>
-
-<button class="small-btn"
-onclick="window.location.href='index.html'">
-
-Sair do sistema
-
-</button>
-
-</div>
-
-<section class="hero">
-
-<div class="eyebrow">
-
-Lapidar • Módulo 13
-
-</div>
-
-<h1>
-
-Lapidação Literária
-
-</h1>
-
-<p class="subtitle">
-
-Aqui preservamos sua voz autoral enquanto fortalecemos ritmo, clareza e coerência narrativa.
-
+<p class="status-ok">
+Ficha-base recebida do Sistema Desbaste ✓
 </p>
 
-</section>
-
-<section class="card">
-
 <h2>
-
-Selecione os ajustes desejados
-
+Lapidação literária liberada
 </h2>
 
-<label class="checkbox">
+<p>
+Este módulo recebe a obra com leitura consolidada. A lapidação literária trabalha refinamento textual sem apagar a identidade autoral da obra.
+</p>
 
-<input type="checkbox">
+<div class="grid-topo">
 
-Humanização completa da obra
+<div class="card">
+<h3>Ficha-base da obra</h3>
+<div class="linha"><span class="rotulo">Arquivo:</span> <span id="lpArquivo">—</span></div>
+<div class="linha"><span class="rotulo">Título-base:</span> <span id="lpTitulo">—</span></div>
+<div class="linha"><span class="rotulo">Autor:</span> <span id="lpAutor">—</span></div>
+<div class="linha"><span class="rotulo">Status técnico:</span> <span id="lpStatus">—</span></div>
+</div>
 
-</label>
-
-<label class="checkbox">
-
-<input type="checkbox">
-
-Revisão de diálogos
-
-</label>
-
-<label class="checkbox">
-
-<input type="checkbox">
-
-Coerência narrativa
-
-</label>
-
-<label class="checkbox">
-
-<input type="checkbox">
-
-Ritmo textual
-
-</label>
-
-<label class="checkbox">
-
-<input type="checkbox">
-
-Preservação de estilo autoral
-
-</label>
-
-<div class="mesario"
-id="mesarioSecao">
-
-<strong>
-
-Mesário da seção
-
-</strong>
-
-<br>
-
-Valor acumulado desta lapidação.
-
-<br><br>
-
-<strong>
-
-CVR sugerida desta seção: R$ 0,00
-
-</strong>
+<div class="card">
+<h3>Leitura consolidada</h3>
+<div class="linha"><span class="rotulo">Principal:</span> <span id="lpPrincipal">—</span></div>
+<div class="linha"><span class="rotulo">Secundário:</span> <span id="lpSecundario">—</span></div>
+<div class="linha"><span class="rotulo">Terciário:</span> <span id="lpTerciario">—</span></div>
+<div class="linha"><span class="rotulo">Base da lapidação:</span> <span>Ritmo, coerência, diálogos e estilo</span></div>
+</div>
 
 </div>
 
-<div class="actions">
+<div class="lapidacao-grid">
 
-<button class="main-btn btn-next"
-onclick="window.location.href='motor_sequencial.html'">
+<div class="lapidacao-box">
+<h4>Ritmo textual</h4>
+<p>Refina cadência, fluidez, distribuição de peso narrativo e respiração do texto sem descaracterizar a obra.</p>
 
-Concluir esta etapa e seguir
+<label for="nivelRitmo">Profundidade da lapidação</label>
+<select id="nivelRitmo">
+<option value="Leve">Leve</option>
+<option value="Média">Média</option>
+<option value="Profunda">Profunda</option>
+</select>
 
-</button>
+<label for="focoRitmo">Foco principal</label>
+<select id="focoRitmo">
+<option value="Fluidez geral">Fluidez geral</option>
+<option value="Cadência narrativa">Cadência narrativa</option>
+<option value="Distribuição do peso textual">Distribuição do peso textual</option>
+</select>
 
-<button class="main-btn btn-skip"
-onclick="window.location.href='motor_sequencial.html'">
+<div class="tag">Eixo 1</div>
+</div>
 
-Pular este módulo por agora
+<div class="lapidacao-box">
+<h4>Coerência narrativa</h4>
+<p>Trabalha continuidade, consistência interna, ligações entre cenas e fortalecimento da construção narrativa.</p>
 
-</button>
+<label for="nivelCoerencia">Profundidade da lapidação</label>
+<select id="nivelCoerencia">
+<option value="Leve">Leve</option>
+<option value="Média">Média</option>
+<option value="Profunda">Profunda</option>
+</select>
+
+<label for="focoCoerencia">Foco principal</label>
+<select id="focoCoerencia">
+<option value="Continuidade interna">Continuidade interna</option>
+<option value="Ligação entre cenas">Ligação entre cenas</option>
+<option value="Coerência global da obra">Coerência global da obra</option>
+</select>
+
+<div class="tag">Eixo 2</div>
+</div>
+
+<div class="lapidacao-box">
+<h4>Diálogos</h4>
+<p>Refina naturalidade, força de fala, verbos dicendi, dinamismo e clareza dos diálogos.</p>
+
+<label for="nivelDialogos">Profundidade da lapidação</label>
+<select id="nivelDialogos">
+<option value="Leve">Leve</option>
+<option value="Média">Média</option>
+<option value="Profunda">Profunda</option>
+</select>
+
+<label for="focoDialogos">Foco principal</label>
+<select id="focoDialogos">
+<option value="Naturalidade">Naturalidade</option>
+<option value="Dinamismo">Dinamismo</option>
+<option value="Clareza e força de fala">Clareza e força de fala</option>
+</select>
+
+<div class="tag">Eixo 3</div>
+</div>
+
+<div class="lapidacao-box">
+<h4>Preservação de estilo e observações</h4>
+<p>Garante que a lapidação respeite a identidade da obra e a assinatura do autor.</p>
+
+<label for="nivelEstilo">Preservação de estilo</label>
+<select id="nivelEstilo">
+<option value="Máxima preservação">Máxima preservação</option>
+<option value="Preservação equilibrada">Preservação equilibrada</option>
+<option value="Maior liberdade de lapidação">Maior liberdade de lapidação</option>
+</select>
+
+<label for="observacoesLapidacao">Observações do autor</label>
+<textarea id="observacoesLapidacao" placeholder="Exemplo: preservar voz do narrador, não suavizar diálogos, manter clima sombrio, evitar modernização excessiva..."></textarea>
+
+<div class="tag">Eixo 4</div>
+</div>
 
 </div>
 
-</section>
+<div class="preview-box">
+<strong>Prévia da lapidação literária</strong>
+
+<div class="preview-item"><strong>Ritmo textual:</strong> <span id="previewRitmo">Leve / Fluidez geral</span></div>
+<div class="preview-item"><strong>Coerência narrativa:</strong> <span id="previewCoerencia">Leve / Continuidade interna</span></div>
+<div class="preview-item"><strong>Diálogos:</strong> <span id="previewDialogos">Leve / Naturalidade</span></div>
+<div class="preview-item"><strong>Preservação de estilo:</strong> <span id="previewEstilo">Máxima preservação</span></div>
+<div class="preview-item"><strong>Base da obra:</strong> <span id="previewBaseLapidacao">A lapidação partirá da leitura consolidada da obra.</span></div>
+</div>
+
+<div class="aviso">
+A Lapidação Literária trabalha sobre a base consolidada do Sistema Desbaste para refinar o texto com mais precisão. O objetivo é fortalecer a obra sem apagar sua identidade autoral.
+</div>
+
+<div class="acoes">
+<button class="botao-verde" onclick="salvarConfiguracaoLapidacao()">Salvar direção de lapidação</button>
+<button class="botao" onclick="voltarExecutor()">Retornar ao Executor</button>
+<button class="botao-secundario" onclick="irMesario()">Ir para Mesário</button>
+</div>
+
+</div>
+
+<div id="bloqueioLapidacao" class="container bloqueio" style="display:none;">
+
+<p class="status-erro">
+Acesso bloqueado
+</p>
+
+<h2>
+Sistema Desbaste obrigatório
+</h2>
+
+<p>
+Antes de acessar a Lapidação Literária, é necessário concluir o fluxo oficial do Lapidar: Cofre, Sistema Desbaste, Workspace e Executor.
+</p>
+
+<button class="botao" onclick="voltarDesbaste()">
+Ir para Sistema Desbaste
+</button>
 
 </div>
 
 <script>
 
-function aplicarRegraPerfil(){
+let fichaBaseLapidacao = null;
 
-const perfil=(localStorage.getItem("lapidar_perfil")||"").toLowerCase();
+function preencherComFichaBaseLapidacao(){
+let ficha = localStorage.getItem("lapidar_ficha_base_obra");
 
-if(perfil.includes("cortesia")){
+if(ficha){
+try{
+let dados = JSON.parse(ficha);
+fichaBaseLapidacao = dados;
 
-document.getElementById("mesarioSecao").classList.add("hidden");
+document.getElementById("lpArquivo").innerText = dados.arquivo || "—";
+document.getElementById("lpTitulo").innerText = dados.titulo_base || "—";
+document.getElementById("lpAutor").innerText = dados.autor || "—";
+document.getElementById("lpStatus").innerText = dados.status_tecnico || "—";
+document.getElementById("lpPrincipal").innerText = dados.classificacao_principal || "—";
+document.getElementById("lpSecundario").innerText = dados.classificacao_secundaria || "—";
+document.getElementById("lpTerciario").innerText = dados.classificacao_terciaria || "—";
 
+atualizarPreviewLapidacao();
+
+}catch(e){
+console.log("Erro ao ler ficha-base em Lapidação Literária:", e);
+}
+}
 }
 
+function atualizarPreviewLapidacao(){
+document.getElementById("previewRitmo").innerText =
+document.getElementById("nivelRitmo").value + " / " +
+document.getElementById("focoRitmo").value;
+
+document.getElementById("previewCoerencia").innerText =
+document.getElementById("nivelCoerencia").value + " / " +
+document.getElementById("focoCoerencia").value;
+
+document.getElementById("previewDialogos").innerText =
+document.getElementById("nivelDialogos").value + " / " +
+document.getElementById("focoDialogos").value;
+
+document.getElementById("previewEstilo").innerText =
+document.getElementById("nivelEstilo").value;
+
+if(fichaBaseLapidacao){
+document.getElementById("previewBaseLapidacao").innerText =
+"A lapidação partirá da leitura consolidada da obra: " +
+(fichaBaseLapidacao.classificacao_principal || "—") + " / " +
+(fichaBaseLapidacao.classificacao_secundaria || "—") + " / " +
+(fichaBaseLapidacao.classificacao_terciaria || "—") + ".";
+}
 }
 
-aplicarRegraPerfil();
+function salvarConfiguracaoLapidacao(){
+const configuracao = {
+nivelRitmo: document.getElementById("nivelRitmo").value,
+focoRitmo: document.getElementById("focoRitmo").value,
+nivelCoerencia: document.getElementById("nivelCoerencia").value,
+focoCoerencia: document.getElementById("focoCoerencia").value,
+nivelDialogos: document.getElementById("nivelDialogos").value,
+focoDialogos: document.getElementById("focoDialogos").value,
+nivelEstilo: document.getElementById("nivelEstilo").value,
+observacoes: document.getElementById("observacoesLapidacao").value.trim()
+};
+
+localStorage.setItem("lapidar_configuracao_lapidacao", JSON.stringify(configuracao));
+alert("Direção de lapidação salva com sucesso.");
+}
+
+function verificarAcessoLapidacao(){
+let desbaste = localStorage.getItem("desbaste_concluido");
+let desbasteLapidar = localStorage.getItem("lapidar_desbaste_concluido");
+
+if(desbaste === "true" || desbasteLapidar === "true"){
+document.getElementById("areaLapidacao").style.display = "block";
+preencherComFichaBaseLapidacao();
+}else{
+document.getElementById("bloqueioLapidacao").style.display = "block";
+}
+}
+
+function voltarExecutor(){
+window.location.href = "modulo_executor.html";
+}
+
+function voltarDesbaste(){
+window.location.href = "modulo_02_sistema_desbaste.html";
+}
+
+function irMesario(){
+window.location.href = "mesario.html";
+}
+
+document.getElementById("nivelRitmo").addEventListener("change", atualizarPreviewLapidacao);
+document.getElementById("focoRitmo").addEventListener("change", atualizarPreviewLapidacao);
+document.getElementById("nivelCoerencia").addEventListener("change", atualizarPreviewLapidacao);
+document.getElementById("focoCoerencia").addEventListener("change", atualizarPreviewLapidacao);
+document.getElementById("nivelDialogos").addEventListener("change", atualizarPreviewLapidacao);
+document.getElementById("focoDialogos").addEventListener("change", atualizarPreviewLapidacao);
+document.getElementById("nivelEstilo").addEventListener("change", atualizarPreviewLapidacao);
+
+verificarAcessoLapidacao();
 
 </script>
 
