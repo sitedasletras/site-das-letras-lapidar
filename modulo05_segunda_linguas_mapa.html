@@ -1,305 +1,463 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lapidar — Segunda Língua(s)</title>
+<title>Lapidar — Módulo 05 | Segunda Língua(s)</title>
 
 <style>
 body{
-font-family:Arial,sans-serif;
-background:#f1f5fb;
 margin:0;
-padding:0;
-color:#1f2d3d;
+font-family:Arial, Helvetica, sans-serif;
+background:#f2f4f7;
 }
 
 header{
-background:#355f93;
+background:#102437;
 color:white;
-padding:18px;
+padding:22px;
 text-align:center;
-font-size:26px;
+font-size:22px;
 font-weight:bold;
 }
 
 .container{
-max-width:960px;
+max-width:1180px;
 margin:auto;
+margin-top:40px;
 background:white;
-padding:36px;
-margin-top:28px;
+padding:40px;
 border-radius:14px;
-box-shadow:0 0 14px rgba(0,0,0,.12);
+box-shadow:0px 6px 20px rgba(0,0,0,0.12);
 }
 
-h2{
+.status-ok{
+color:#198754;
+font-weight:bold;
+}
+
+.status-erro{
+color:#dc3545;
+font-weight:bold;
+}
+
+.bloqueio{
 text-align:center;
-margin-bottom:24px;
-color:#355f93;
+padding:80px 20px;
 }
 
-.modulo{
-border:2px solid #d8e0ea;
+.grid-topo{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:18px;
+margin-top:25px;
+margin-bottom:30px;
+}
+
+.card{
+background:#f8f9fa;
+border:1px solid #dee2e6;
 border-radius:12px;
-padding:24px;
-margin-bottom:18px;
-transition:.3s;
-background:#fbfdff;
-cursor:pointer;
+padding:20px;
 }
 
-.modulo:hover{
-border-color:#355f93;
-background:#f4f8fc;
+.card h3{
+margin-top:0;
+color:#102437;
 }
 
-.modulo.selecionado{
-border-color:#355f93;
-background:#eaf1fb;
+.linha{
+padding:10px 0;
+border-bottom:1px solid #e5e5e5;
+font-size:15px;
 }
 
-.titulo{
-font-size:22px;
+.linha:last-child{
+border-bottom:none;
+}
+
+.rotulo{
 font-weight:bold;
-margin-bottom:10px;
-color:#24476f;
+color:#333;
 }
 
-.descricao{
-margin-bottom:12px;
-line-height:1.6;
-}
-
-.valor{
-font-weight:bold;
-font-size:18px;
-color:#355f93;
-margin-bottom:10px;
-}
-
-.obs{
-font-size:14px;
-color:#555;
-line-height:1.6;
-}
-
-.linha-resumo{
-background:#f4f8fc;
-border:1px solid #d8e0ea;
-border-radius:10px;
-padding:16px;
-margin-top:26px;
-line-height:1.7;
-}
-
-.botoes{
-display:flex;
-flex-direction:column;
-gap:12px;
+.config-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:18px;
 margin-top:30px;
 }
 
-.botao{
+.config-box{
+border-radius:14px;
+padding:22px;
+background:#fff7e8;
+border:1px solid rgba(0,0,0,0.08);
+box-shadow:0px 4px 10px rgba(0,0,0,0.05);
+}
+
+.config-box h4{
+margin-top:0;
+margin-bottom:10px;
+font-size:20px;
+color:#102437;
+}
+
+.config-box p{
+margin-bottom:16px;
+line-height:1.5;
+color:#334155;
+}
+
+.config-box label{
 display:block;
+margin:10px 0 6px;
+font-weight:bold;
+color:#23384d;
+}
+
+.config-box textarea,
+.config-box select,
+.config-box input{
 width:100%;
+padding:12px;
+border:1px solid #cfd6dd;
+border-radius:10px;
+font-size:15px;
+background:white;
+}
+
+.config-box textarea{
+min-height:120px;
+resize:vertical;
+}
+
+.preview-box{
+margin-top:28px;
 padding:18px;
-font-size:18px;
+background:#eef6ff;
+border-left:5px solid #0b5ed7;
+border-radius:8px;
+line-height:1.6;
+color:#23384d;
+}
+
+.preview-item{
+padding:10px 0;
+border-bottom:1px solid #d7e6f7;
+}
+
+.preview-item:last-child{
+border-bottom:none;
+}
+
+.aviso{
+margin-top:28px;
+padding:18px;
+background:#fff8e1;
+border-left:5px solid #d97706;
+border-radius:8px;
+line-height:1.6;
+color:#6b4f00;
+}
+
+.acoes{
+margin-top:28px;
+display:flex;
+gap:14px;
+flex-wrap:wrap;
+}
+
+.botao{
+background:#0b5ed7;
+color:white;
 border:none;
+padding:18px 26px;
+font-size:18px;
 border-radius:10px;
 cursor:pointer;
-transition:.3s;
-font-weight:bold;
 }
 
-.botao-principal{
-background:#1faa47;
+.botao:hover{
+background:#084298;
+}
+
+.botao-secundario{
+background:#6c757d;
 color:white;
+border:none;
+padding:18px 26px;
+font-size:18px;
+border-radius:10px;
+cursor:pointer;
 }
 
-.botao-principal:hover{
-background:#17863a;
+.botao-secundario:hover{
+background:#565e64;
 }
 
-.botao-voltar{
-background:#a4acb7;
+.botao-verde{
+background:#198754;
 color:white;
+border:none;
+padding:18px 26px;
+font-size:18px;
+border-radius:10px;
+cursor:pointer;
 }
 
-.botao-voltar:hover{
-background:#848d99;
+.botao-verde:hover{
+background:#146c43;
 }
 
-.botao-sair{
-background:#b22222;
-color:white;
+@media(max-width:900px){
+.grid-topo,
+.config-grid{
+grid-template-columns:1fr;
 }
-
-.botao-sair:hover{
-background:#8f1b1b;
+.acoes{
+flex-direction:column;
 }
-
-.footer{
-text-align:center;
-margin-top:20px;
-font-size:14px;
-color:#666;
-line-height:1.6;
-}
-
-@media(max-width:700px){
-.container{
-margin:14px;
-padding:22px;
+.botao,
+.botao-secundario,
+.botao-verde{
+width:100%;
 }
 }
 </style>
 </head>
+
 <body>
 
 <header>
 Módulo 05 — Segunda Língua(s)
 </header>
 
-<div class="container">
+<div id="areaTraducao" class="container" style="display:none;">
 
-<h2>Escolha o nível de tradução da sua obra</h2>
+<p class="status-ok">
+Ficha-base recebida do Sistema Desbaste ✓
+</p>
 
-<div class="modulo" onclick="selecionarNivel('basica',25)">
-  <div class="titulo">
-    Tradução de leitura rápida
-  </div>
+<h2>
+Preparação de tradução liberada
+</h2>
 
-  <div class="descricao">
-    Indicado para compreensão geral da obra em outro idioma.
-    Mantém o conteúdo acessível para leitura e referência.
-  </div>
+<p>
+Este módulo recebe a obra com leitura consolidada. A tradução parte do contexto estrutural e editorial da obra, preservando intenção, tom e direção narrativa.
+</p>
 
-  <div class="valor">
-    Valor base: R$ 25 ou US$ 25
-  </div>
+<div class="grid-topo">
 
-  <div class="obs">
-    Valores variam conforme o tipo de licença da conta e o país de registro.
-    Não indicado para publicação internacional.
-  </div>
+<div class="card">
+<h3>Ficha-base da obra</h3>
+<div class="linha"><span class="rotulo">Arquivo:</span> <span id="trArquivo">—</span></div>
+<div class="linha"><span class="rotulo">Título-base:</span> <span id="trTitulo">—</span></div>
+<div class="linha"><span class="rotulo">Autor:</span> <span id="trAutor">—</span></div>
+<div class="linha"><span class="rotulo">Status técnico:</span> <span id="trStatus">—</span></div>
 </div>
 
-<div class="modulo" onclick="selecionarNivel('editorial',150)">
-  <div class="titulo">
-    Tradução editorial recomendada
-  </div>
-
-  <div class="descricao">
-    Preserva coerência narrativa, nomes próprios, símbolos e estrutura literária.
-    Indicado para circulação editorial e preparação internacional.
-  </div>
-
-  <div class="valor">
-    Valor base: R$ 150 ou US$ 150
-  </div>
-
-  <div class="obs">
-    Recomendado para autores que desejam consistência literária multilíngue.
-  </div>
+<div class="card">
+<h3>Leitura consolidada</h3>
+<div class="linha"><span class="rotulo">Principal:</span> <span id="trPrincipal">—</span></div>
+<div class="linha"><span class="rotulo">Secundário:</span> <span id="trSecundario">—</span></div>
+<div class="linha"><span class="rotulo">Terciário:</span> <span id="trTerciario">—</span></div>
+<div class="linha"><span class="rotulo">Base da tradução:</span> <span>Contexto narrativo e editorial consolidado</span></div>
 </div>
 
-<div class="modulo" onclick="selecionarNivel('internacional',250)">
-  <div class="titulo">
-    Tradução internacional publicável
-  </div>
-
-  <div class="descricao">
-    Tradução interpretativa com preservação estilística completa.
-    Indicada para publicação internacional e submissão editorial.
-  </div>
-
-  <div class="valor">
-    Valor base: R$ 250 ou US$ 250
-  </div>
-
-  <div class="obs">
-    Integra análise narrativa e memória terminológica da obra.
-  </div>
 </div>
 
-<div class="linha-resumo" id="resumoEscolha">
-Nenhum nível de tradução foi selecionado ainda.
+<div class="config-grid">
+
+<div class="config-box">
+<h4>Direção da tradução</h4>
+
+<label for="idiomaOrigem">Idioma de origem</label>
+<select id="idiomaOrigem">
+<option value="Português (Brasil)">Português (Brasil)</option>
+<option value="Inglês">Inglês</option>
+<option value="Espanhol">Espanhol</option>
+<option value="Francês">Francês</option>
+<option value="Italiano">Italiano</option>
+</select>
+
+<label for="idiomaDestino">Idioma de destino</label>
+<select id="idiomaDestino">
+<option value="Inglês">Inglês</option>
+<option value="Espanhol">Espanhol</option>
+<option value="Francês">Francês</option>
+<option value="Italiano">Italiano</option>
+<option value="Português (Brasil)">Português (Brasil)</option>
+</select>
+
+<label for="registroTraducao">Registro da tradução</label>
+<select id="registroTraducao">
+<option value="Preservar tom da obra">Preservar tom da obra</option>
+<option value="Mais formal">Mais formal</option>
+<option value="Mais fluido">Mais fluido</option>
+<option value="Mais internacional">Mais internacional</option>
+</select>
 </div>
 
-<div class="botoes">
+<div class="config-box">
+<h4>Orientação editorial da tradução</h4>
 
-<button class="botao botao-principal" onclick="confirmarNivel()">
-Confirmar nível de tradução escolhido
+<label for="observacoesTraducao">Observações do autor</label>
+<textarea id="observacoesTraducao" placeholder="Exemplo: manter atmosfera sombria, preservar nomes próprios, evitar simplificação excessiva..."></textarea>
+
+<label for="nomesProprios">Tratamento de nomes próprios</label>
+<select id="nomesProprios">
+<option value="Preservar nomes originais">Preservar nomes originais</option>
+<option value="Adaptar quando necessário">Adaptar quando necessário</option>
+</select>
+
+<label for="poesiaEstrutura">Estrutura poética e estilística</label>
+<select id="poesiaEstrutura">
+<option value="Preservar estrutura da obra">Preservar estrutura da obra</option>
+<option value="Flexibilizar com prioridade semântica">Flexibilizar com prioridade semântica</option>
+</select>
+</div>
+
+</div>
+
+<div class="preview-box">
+<strong>Prévia editorial da tradução</strong>
+
+<div class="preview-item"><strong>Direção:</strong> <span id="previewDirecao">Português (Brasil) → Inglês</span></div>
+<div class="preview-item"><strong>Registro:</strong> <span id="previewRegistro">Preservar tom da obra</span></div>
+<div class="preview-item"><strong>Nomes próprios:</strong> <span id="previewNomes">Preservar nomes originais</span></div>
+<div class="preview-item"><strong>Estrutura:</strong> <span id="previewEstrutura">Preservar estrutura da obra</span></div>
+<div class="preview-item"><strong>Leitura-base:</strong> <span id="previewLeituraBase">A tradução seguirá a interpretação consolidada da obra.</span></div>
+</div>
+
+<div class="aviso">
+O módulo Segunda Língua(s) usa a base consolidada da obra para reduzir perda de intenção narrativa. A tradução parte da leitura do Lapidar, não apenas da troca literal de palavras.
+</div>
+
+<div class="acoes">
+<button class="botao-verde" onclick="salvarConfiguracaoTraducao()">Salvar direção de tradução</button>
+<button class="botao" onclick="voltarExecutor()">Retornar ao Executor</button>
+<button class="botao-secundario" onclick="irMesario()">Ir para Mesário</button>
+</div>
+
+</div>
+
+<div id="bloqueioTraducao" class="container bloqueio" style="display:none;">
+
+<p class="status-erro">
+Acesso bloqueado
+</p>
+
+<h2>
+Sistema Desbaste obrigatório
+</h2>
+
+<p>
+Antes de acessar Segunda Língua(s), é necessário concluir o fluxo oficial do Lapidar: Cofre, Sistema Desbaste, Workspace e Executor.
+</p>
+
+<button class="botao" onclick="voltarDesbaste()">
+Ir para Sistema Desbaste
 </button>
-
-<button class="botao botao-voltar" onclick="location.href='ponte_tradutor.html'">
-Retornar à ponte do tradutor
-</button>
-
-<button class="botao botao-sair" onclick="location.href='index.html'">
-Sair do sistema
-</button>
-
-</div>
-
-<div class="footer">
-Valores institucionais podem variar conforme o tipo de licença editorial da conta.<br>
-Lapidar — trabalhando ao lado do autor, desde a primeira letra até o último ponto final.
-</div>
 
 </div>
 
 <script>
-let nivelSelecionado = "";
-let valorSelecionado = 0;
 
-function selecionarNivel(nivel, valor){
-  nivelSelecionado = nivel;
-  valorSelecionado = valor;
+let fichaBaseTraducao = null;
 
-  document.querySelectorAll(".modulo").forEach(el=>{
-    el.classList.remove("selecionado");
-  });
+function preencherComFichaBaseTraducao(){
+let ficha = localStorage.getItem("lapidar_ficha_base_obra");
 
-  event.currentTarget.classList.add("selecionado");
+if(ficha){
+try{
+let dados = JSON.parse(ficha);
+fichaBaseTraducao = dados;
 
-  let texto = "";
+document.getElementById("trArquivo").innerText = dados.arquivo || "—";
+document.getElementById("trTitulo").innerText = dados.titulo_base || "—";
+document.getElementById("trAutor").innerText = dados.autor || "—";
+document.getElementById("trStatus").innerText = dados.status_tecnico || "—";
+document.getElementById("trPrincipal").innerText = dados.classificacao_principal || "—";
+document.getElementById("trSecundario").innerText = dados.classificacao_secundaria || "—";
+document.getElementById("trTerciario").innerText = dados.classificacao_terciaria || "—";
 
-  if(nivel === "basica"){
-    texto = "Nível selecionado: Tradução de leitura rápida. Valor base registrado: R$ 25 ou US$ 25.";
-  }
+atualizarPreviewTraducao();
 
-  if(nivel === "editorial"){
-    texto = "Nível selecionado: Tradução editorial recomendada. Valor base registrado: R$ 150 ou US$ 150.";
-  }
-
-  if(nivel === "internacional"){
-    texto = "Nível selecionado: Tradução internacional publicável. Valor base registrado: R$ 250 ou US$ 250.";
-  }
-
-  document.getElementById("resumoEscolha").innerText = texto;
+}catch(e){
+console.log("Erro ao ler ficha-base em Segunda Língua(s):", e);
+}
+}
 }
 
-function confirmarNivel(){
-  if(!nivelSelecionado){
-    alert("Escolha um nível de tradução antes de continuar.");
-    return;
-  }
+function atualizarPreviewTraducao(){
+const origem = document.getElementById("idiomaOrigem").value;
+const destino = document.getElementById("idiomaDestino").value;
+const registro = document.getElementById("registroTraducao").value;
+const nomes = document.getElementById("nomesProprios").value;
+const estrutura = document.getElementById("poesiaEstrutura").value;
 
-  localStorage.setItem("segunda_lingua_nivel", nivelSelecionado);
-  localStorage.setItem("mesario_segunda_lingua_valor", String(valorSelecionado));
+document.getElementById("previewDirecao").innerText = origem + " → " + destino;
+document.getElementById("previewRegistro").innerText = registro;
+document.getElementById("previewNomes").innerText = nomes;
+document.getElementById("previewEstrutura").innerText = estrutura;
 
-  const dados = {
-    nivel: nivelSelecionado,
-    valorBase: valorSelecionado,
-    dataRegistro: new Date().toISOString()
-  };
-
-  localStorage.setItem("segunda_lingua_config", JSON.stringify(dados));
-
-  location.href = "idioma_obra.html";
+if(fichaBaseTraducao){
+document.getElementById("previewLeituraBase").innerText =
+"A tradução seguirá a leitura consolidada da obra: " +
+(fichaBaseTraducao.classificacao_principal || "—") + " / " +
+(fichaBaseTraducao.classificacao_secundaria || "—") + " / " +
+(fichaBaseTraducao.classificacao_terciaria || "—") + ".";
 }
+}
+
+function salvarConfiguracaoTraducao(){
+const configuracao = {
+idiomaOrigem: document.getElementById("idiomaOrigem").value,
+idiomaDestino: document.getElementById("idiomaDestino").value,
+registroTraducao: document.getElementById("registroTraducao").value,
+observacoesTraducao: document.getElementById("observacoesTraducao").value.trim(),
+nomesProprios: document.getElementById("nomesProprios").value,
+poesiaEstrutura: document.getElementById("poesiaEstrutura").value
+};
+
+localStorage.setItem("lapidar_configuracao_traducao", JSON.stringify(configuracao));
+alert("Direção de tradução salva com sucesso.");
+}
+
+function verificarAcessoTraducao(){
+let desbaste = localStorage.getItem("desbaste_concluido");
+let desbasteLapidar = localStorage.getItem("lapidar_desbaste_concluido");
+
+if(desbaste === "true" || desbasteLapidar === "true"){
+document.getElementById("areaTraducao").style.display = "block";
+preencherComFichaBaseTraducao();
+}else{
+document.getElementById("bloqueioTraducao").style.display = "block";
+}
+}
+
+function voltarExecutor(){
+window.location.href = "modulo_executor.html";
+}
+
+function voltarDesbaste(){
+window.location.href = "modulo_02_sistema_desbaste.html";
+}
+
+function irMesario(){
+window.location.href = "mesario.html";
+}
+
+document.getElementById("idiomaOrigem").addEventListener("change", atualizarPreviewTraducao);
+document.getElementById("idiomaDestino").addEventListener("change", atualizarPreviewTraducao);
+document.getElementById("registroTraducao").addEventListener("change", atualizarPreviewTraducao);
+document.getElementById("nomesProprios").addEventListener("change", atualizarPreviewTraducao);
+document.getElementById("poesiaEstrutura").addEventListener("change", atualizarPreviewTraducao);
+
+verificarAcessoTraducao();
+
 </script>
 
 </body>
