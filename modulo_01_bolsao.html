@@ -81,6 +81,15 @@
       line-height:1.55;
     }
 
+    .info{
+      background:#eef6ff;
+      border-left:5px solid #0b5ed7;
+      color:#23384d;
+      padding:14px;
+      border-radius:12px;
+      line-height:1.55;
+    }
+
     .status-ok{
       color:var(--green);
       font-weight:700;
@@ -342,7 +351,7 @@
 
     <section id="secaoFinal" class="card hidden">
       <h2>Próximo passo</h2>
-      <div class="notice">
+      <div class="info">
         A ficha-base da obra foi consolidada no Cofre Mestre. O fluxo oficial segue agora para o Sistema Desbaste.
       </div>
 
@@ -435,6 +444,7 @@
       line.className = "log-line";
       line.textContent = text;
       container.appendChild(line);
+      container.scrollTop = container.scrollHeight;
     }
 
     function setProgress(bar, percent) {
@@ -519,16 +529,16 @@
         textoPreparacao.textContent = step.t;
         addLog(logPreparacao, step.t);
         index += 1;
-        setTimeout(runStep, 450);
+        setTimeout(runStep, 500);
       }
 
       runStep();
     }
 
-    function classifyByFilename(filename) {
-      const n = filename.toLowerCase();
+    function classificarObra(nomeArquivoSemExtensao) {
+      const n = nomeArquivoSemExtensao.toLowerCase();
 
-      if (n.includes("poema") || n.includes("poesia") || n.includes("soneto") || n.includes("haicai")) {
+      if (n.includes("poema") || n.includes("poesia") || n.includes("soneto") || n.includes("haicai") || n.includes("elegia")) {
         return { p: "Poesia", s: "Lírica", t: "Poética" };
       }
 
@@ -536,14 +546,42 @@
         return { p: "Narrativa visual", s: "Sequencial", t: "Seriada" };
       }
 
-      if (n.includes("infantil") || n.includes("criança") || n.includes("crianca")) {
+      if (n.includes("infantil") || n.includes("crianca") || n.includes("criança") || n.includes("juvenil")) {
         return { p: "Infantil", s: "Narrativa", t: "Formativa" };
       }
 
+      if (n.includes("receita") || n.includes("culin") || n.includes("churrasco")) {
+        return { p: "Gastronomia", s: "Receituário narrativo", t: "Culinária temática" };
+      }
+
+      if (n.includes("ensaio") || n.includes("manifesto") || n.includes("artigo")) {
+        return { p: "Ensaístico", s: "Reflexivo", t: "Argumentativo" };
+      }
+
+      if (n.includes("manual") || n.includes("guia") || n.includes("metodo") || n.includes("método")) {
+        return { p: "Técnico", s: "Instrucional", t: "Aplicado" };
+      }
+
+      if (n.includes("cronica") || n.includes("crônica")) {
+        return { p: "Prosa", s: "Crônica", t: "Observacional" };
+      }
+
+      if (n.includes("conto") || n.includes("contos")) {
+        return { p: "Prosa", s: "Contística", t: "Narrativa curta" };
+      }
+
+      if (n.includes("romance") || n.includes("novela")) {
+        return { p: "Prosa", s: "Romance", t: "Narrativa longa" };
+      }
+
+      if (n.includes("abadia") || n.includes("templario") || n.includes("templário") || n.includes("graal") || n.includes("persida")) {
+        return { p: "Prosa", s: "Romance histórico", t: "Mistério arqueológico" };
+      }
+
       return {
-        p: "Aguardando leitura",
-        s: "Aguardando leitura",
-        t: "Aguardando leitura"
+        p: "Prosa",
+        s: "Narrativa literária",
+        t: "A definir no Desbaste"
       };
     }
 
@@ -599,7 +637,7 @@
       if (!file) return;
 
       const title = file.name.replace(/\.[^/.]+$/, "");
-      const cls = classifyByFilename(file.name);
+      const cls = classificarObra(title);
 
       obraAtual = {
         arquivo: file.name,
@@ -652,9 +690,9 @@
 
       function run() {
         if (i >= steps.length) {
+          statusTecnico.textContent = "Estrutura pronta para preparação editorial";
           obraAtual.status = "Estrutura pronta para preparação editorial";
           saveUnifiedState(obraAtual);
-          statusTecnico.textContent = obraAtual.status;
           secaoFinal.classList.remove("hidden");
           return;
         }
@@ -664,15 +702,19 @@
         textoLeitura.textContent = step.t;
         addLog(logLeitura, step.t);
         i += 1;
-        setTimeout(run, 500);
+        setTimeout(run, 550);
       }
 
       run();
     });
 
-    btnPreparar.addEventListener("click", prepararCofre);
-    btnIrDesbaste.addEventListener("click", () => window.location.href = "modulo_02_sistema_desbaste.html");
-    btnReiniciar.addEventListener("click", prepararCofre);
+    btnIrDesbaste.addEventListener("click", () => {
+      window.location.href = "modulo_02_sistema_desbaste.html";
+    });
+
+    btnReiniciar.addEventListener("click", () => {
+      prepararCofre();
+    });
   </script>
 </body>
 </html>
