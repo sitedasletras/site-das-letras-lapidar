@@ -72,25 +72,10 @@
       color:#4a4036;
     }
 
-    .card h3{
-      margin:0 0 10px;
-      font-size:1.08rem;
-      color:#554b41;
-    }
-
     .notice{
       background:#fff8e1;
       border-left:5px solid #d97706;
       color:#6a4f10;
-      padding:14px;
-      border-radius:12px;
-      line-height:1.55;
-    }
-
-    .info{
-      background:#eef6ff;
-      border-left:5px solid #0b5ed7;
-      color:#23384d;
       padding:14px;
       border-radius:12px;
       line-height:1.55;
@@ -357,7 +342,7 @@
 
     <section id="secaoFinal" class="card hidden">
       <h2>Próximo passo</h2>
-      <div class="info">
+      <div class="notice">
         A ficha-base da obra foi consolidada no Cofre Mestre. O fluxo oficial segue agora para o Sistema Desbaste.
       </div>
 
@@ -450,7 +435,6 @@
       line.className = "log-line";
       line.textContent = text;
       container.appendChild(line);
-      container.scrollTop = container.scrollHeight;
     }
 
     function setProgress(bar, percent) {
@@ -535,7 +519,7 @@
         textoPreparacao.textContent = step.t;
         addLog(logPreparacao, step.t);
         index += 1;
-        setTimeout(runStep, 500);
+        setTimeout(runStep, 450);
       }
 
       runStep();
@@ -556,7 +540,11 @@
         return { p: "Infantil", s: "Narrativa", t: "Formativa" };
       }
 
-      return { p: "Prosa", s: "Investigação", t: "Suspense" };
+      return {
+        p: "Aguardando leitura",
+        s: "Aguardando leitura",
+        t: "Aguardando leitura"
+      };
     }
 
     function saveUnifiedState(data) {
@@ -664,9 +652,9 @@
 
       function run() {
         if (i >= steps.length) {
-          statusTecnico.textContent = "Estrutura pronta para preparação editorial";
           obraAtual.status = "Estrutura pronta para preparação editorial";
           saveUnifiedState(obraAtual);
+          statusTecnico.textContent = obraAtual.status;
           secaoFinal.classList.remove("hidden");
           return;
         }
@@ -676,19 +664,15 @@
         textoLeitura.textContent = step.t;
         addLog(logLeitura, step.t);
         i += 1;
-        setTimeout(run, 550);
+        setTimeout(run, 500);
       }
 
       run();
     });
 
-    btnIrDesbaste.addEventListener("click", () => {
-      window.location.href = "modulo_02_sistema_desbaste.html";
-    });
-
-    btnReiniciar.addEventListener("click", () => {
-      prepararCofre();
-    });
+    btnPreparar.addEventListener("click", prepararCofre);
+    btnIrDesbaste.addEventListener("click", () => window.location.href = "modulo_02_sistema_desbaste.html");
+    btnReiniciar.addEventListener("click", prepararCofre);
   </script>
 </body>
 </html>
