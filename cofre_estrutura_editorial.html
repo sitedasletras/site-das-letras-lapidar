@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -18,15 +16,15 @@ background:#efe7da;
 
 header{
 background:#d6cbb8;
-padding:18px;
+padding:20px;
 text-align:center;
-font-size:20px;
+font-size:22px;
 font-weight:bold;
 color:#4b4237;
 }
 
 .container{
-max-width:980px;
+max-width:900px;
 margin:auto;
 margin-top:30px;
 background:white;
@@ -35,25 +33,11 @@ border-radius:14px;
 box-shadow:0px 6px 18px rgba(0,0,0,0.12);
 }
 
-.card{
+.statusBox{
 background:#f4f1ec;
 padding:20px;
 border-radius:12px;
 margin-bottom:25px;
-}
-
-.card h3{
-margin-top:0;
-color:#4b4237;
-}
-
-.status-ok{
-color:#2e7d32;
-font-weight:bold;
-}
-
-.status-info{
-color:#4b4237;
 }
 
 button{
@@ -66,23 +50,41 @@ margin-top:12px;
 cursor:pointer;
 }
 
-.botao-principal{
+.botaoPrincipal{
 background:#6f6254;
 color:white;
 }
 
-.botao-secundario{
-background:#c7b8a3;
-color:white;
-}
-
-.botao-terciario{
+.botaoUpload{
 background:#9aa3ab;
 color:white;
+cursor:not-allowed;
 }
 
-button:hover{
-opacity:0.92;
+.botaoAtivo{
+background:#2e7d32;
+cursor:pointer;
+}
+
+.progressContainer{
+margin-top:20px;
+height:25px;
+background:#ddd;
+border-radius:10px;
+overflow:hidden;
+display:none;
+}
+
+.progressBar{
+height:100%;
+width:0%;
+transition:width 0.4s linear;
+}
+
+.progressText{
+margin-top:10px;
+font-size:14px;
+color:#444;
 }
 
 </style>
@@ -98,171 +100,145 @@ Cofre Editorial do Autor
 <br>
 
 <span style="font-size:13px;font-weight:normal;">
-Limpeza editorial e confirmação estrutural da obra
+Preparação do ambiente editorial antes da nova obra
 </span>
 
 </header>
 
-
 <div class="container">
 
+<div class="statusBox">
 
-<div class="card">
+<h3>Status do Cofre</h3>
 
-<h3>Reconhecimento estrutural confirmado</h3>
+<p id="statusMensagem">
 
-<p class="status-info">
-
-Arquivo:
-<span id="nomeArquivo">
-Apoie em Mim Versão extendida.docx
-</span>
-
-<br><br>
-
-Principal:
-<span id="classPrincipal">Prosa</span>
-
-<br>
-
-Secundário:
-<span id="classSecundario">Investigação</span>
-
-<br>
-
-Terciário:
-<span id="classTerciario">Suspense</span>
-
-</p>
-
-<p class="status-ok">
-
-Estrutura pronta para preparação editorial
+Para iniciar uma nova obra, prepare primeiro o ambiente do Cofre.
 
 </p>
 
 </div>
 
+<button id="btnPreparar"
+class="botaoPrincipal"
+onclick="prepararCofre()">
 
+Preparar Cofre para nova obra
 
-<div class="card">
+</button>
 
-<h3>Prévia da limpeza editorial</h3>
+<div class="progressContainer" id="progressContainer">
 
-<p>
-
-Parágrafos preservados<br>
-
-estrutura narrativa estabilizada<br>
-
-fluxo textual mantido
-
-</p>
+<div class="progressBar" id="progressBar"></div>
 
 </div>
 
+<div class="progressText" id="progressText"></div>
 
 
-<div class="card">
+<button id="btnUpload"
+class="botaoUpload">
 
-<h3>Confirmação do Cofre Editorial</h3>
-
-
-<button class="botao-principal"
-onclick="confirmarLimpezaEditorial()">
-
-Confirmar limpeza editorial
-
-</button>
-
-
-<button class="botao-secundario"
-onclick="abrirExecutorBolsa()">
-
-Abrir Executor do Bolsão
-
-</button>
-
-
-<button class="botao-terciario"
-onclick="retornarCofre()">
-
-Retornar ao Cofre Editorial
+Upload da obra liberado após preparação
 
 </button>
 
 </div>
-
-
-</div>
-
 
 <script>
 
-function confirmarLimpezaEditorial(){
+let progresso = 0
 
-const nomeArquivo =
-document.getElementById("nomeArquivo").innerText;
+function prepararCofre(){
 
-const fichaBase = {
+document.getElementById("progressContainer").style.display="block"
 
-arquivo: nomeArquivo,
+let barra = document.getElementById("progressBar")
+let texto = document.getElementById("progressText")
 
-titulo_base: nomeArquivo.replace(".docx",""),
+let etapas = [
 
-autor: "Autor a confirmar",
+"Removendo resíduos da obra anterior...",
+"Reorganizando ambiente editorial...",
+"Sincronizando com Sistema Desbaste...",
+"Sincronizando com Barracão de Polimento...",
+"Cofre pronto para nova obra."
 
-classificacao_principal:
-document.getElementById("classPrincipal").innerText,
+]
 
-classificacao_secundaria:
-document.getElementById("classSecundario").innerText,
+let etapaAtual = 0
 
-classificacao_terciaria:
-document.getElementById("classTerciario").innerText,
+let intervalo = setInterval(()=>{
 
-status_tecnico:
-"Estrutura pronta para preparação editorial"
+progresso += 20
 
-};
+barra.style.width = progresso + "%"
 
-localStorage.setItem(
-"lapidar_ficha_base_obra",
-JSON.stringify(fichaBase)
-);
+if(progresso <=25){
 
-localStorage.setItem(
-"lapidar_desbaste_concluido",
-"true"
-);
-
-alert("Ficha-base registrada com sucesso.");
-
-window.location.href =
-"modulo_02_sistema_desbaste.html";
+barra.style.background="red"
 
 }
 
+else if(progresso <=50){
 
-
-function abrirExecutorBolsa(){
-
-window.location.href =
-"bolsao_execucao.html";
+barra.style.background="orange"
 
 }
 
+else if(progresso <=75){
 
+barra.style.background="gold"
 
-function retornarCofre(){
+}
 
-window.location.href =
-"modulo_01_bolsao.html";
+else{
+
+barra.style.background="green"
+
+}
+
+texto.innerText = etapas[etapaAtual]
+
+etapaAtual++
+
+if(progresso >=100){
+
+clearInterval(intervalo)
+
+localStorage.removeItem("lapidar_ficha_base_obra")
+
+localStorage.removeItem("lapidar_desbaste_concluido")
+
+localStorage.removeItem("desbaste_concluido")
+
+localStorage.setItem("cofre_preparado","true")
+
+document.getElementById("statusMensagem").innerText =
+
+"Cofre pronto para receber nova obra."
+
+document.getElementById("btnUpload").classList.remove("botaoUpload")
+
+document.getElementById("btnUpload").classList.add("botaoAtivo")
+
+document.getElementById("btnUpload").innerText =
+
+"Iniciar envio da obra"
+
+document.getElementById("btnUpload").onclick=function(){
+
+window.location.href="upload_obra.html"
+
+}
+
+}
+
+},800)
 
 }
 
 </script>
-
 
 </body>
 </html>
