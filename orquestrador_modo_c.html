@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lapidar — Orquestrador do Modo C</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f6f1e8;color:#2d251b}
+.topo{background:#3f4f8a;color:#fff;padding:22px 18px}
+.topo h1{margin:0;font-size:1.8rem}
+.topo p{margin:8px 0 0 0;line-height:1.45;opacity:.95}
+.container{max-width:1280px;margin:0 auto;padding:18px 14px 30px}
+.card{background:#fff;border:1px solid #e1d9cb;border-radius:16px;padding:18px;box-shadow:0 4px 14px rgba(0,0,0,.08);margin-bottom:18px}
+.card h2{margin:0 0 14px 0;color:#3f4f8a;font-size:1.2rem}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.grid-3{display:grid;grid-template-columns:repeat(3, 1fr);gap:14px}
+.box{background:#faf7f1;border:1px solid #ebe2d4;border-radius:12px;padding:14px}
+.linha{margin:10px 0;line-height:1.5;font-size:14px}
+label{display:block;font-size:13px;font-weight:bold;margin-bottom:6px;color:#5a4b34;text-transform:uppercase}
+select,input[type="text"]{width:100%;border:1px solid #d8cab3;border-radius:10px;padding:12px 12px;font-size:15px;background:#fffdfa}
+.modulo{background:#fff;border:1px solid #e6dccb;border-radius:12px;padding:14px}
+.modulo h3{margin:0 0 8px 0;font-size:1rem;color:#3f4f8a}
+.modulo p{margin:0 0 10px 0;font-size:13px;line-height:1.45}
+.modulo input{margin-right:8px}
+.preview{white-space:pre-wrap;line-height:1.6;font-size:14px;min-height:280px;background:#fff;border:1px solid #d9d1c2;border-radius:12px;padding:18px}
+.acoes{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+button{border:none;border-radius:10px;padding:12px 16px;font-size:15px;cursor:pointer;font-weight:bold}
+.btn-azul{background:#3f4f8a;color:#fff}
+.btn-azul:hover{background:#33406f}
+.btn-claro{background:#e3e8f9;color:#2d3b6b}
+.btn-claro:hover{background:#d4dcf6}
+.btn-verde{background:#15803d;color:#fff}
+.btn-verde:hover{background:#11622f}
+.mensagem{margin-top:14px;padding:12px 14px;border-radius:10px;display:none;font-size:14px}
+.ok{background:#edf9ef;border:1px solid #b7e1c1;color:#166534}
+.erro{background:#fff1f1;border:1px solid #f0b9b9;color:#991b1b}
+.tag{display:inline-block;padding:8px 12px;border-radius:999px;font-size:12px;font-weight:bold;background:#eef1fb;color:#3f4f8a;border:1px solid #d9e0f5;margin-right:8px;margin-bottom:8px}
+@media (max-width:1000px){.grid,.grid-3{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header class="topo">
+<h1>Orquestrador do Modo C</h1>
+<p>O autor escolhe os módulos. O Lapidar organiza a sequência técnica correta sem quebrar a espinha dorsal.</p>
+</header>
+
+<main class="container">
+<div class="grid">
+<section class="card">
+<h2>Configuração do trilho editorial</h2>
+
+<div class="box">
+<div class="linha"><strong>Título:</strong> <span id="tituloObra">Carregando...</span></div>
+<div class="linha"><strong>Autor:</strong> <span id="autorObra">Carregando...</span></div>
+<div class="linha"><strong>Status do Workspace:</strong> <span id="statusWorkspace">Validando...</span></div>
+</div>
+
+<div class="grid-3">
+<div class="box">
+<label for="modoConducao">Modo de condução</label>
+<select id="modoConducao">
+<option value="automatico">Automático assistido</option>
+<option value="manual">Manual guiado</option>
+<option value="hibrido">Híbrido líquido</option>
+</select>
+</div>
+
+<div class="box">
+<label for="saidaFinal">Saída desejada</label>
+<select id="saidaFinal">
+<option value="pdf">PDF físico</option>
+<option value="epub">EPUB</option>
+<option value="pdf_epub">PDF + EPUB</option>
+<option value="sob_demanda">Sob demanda / definir depois</option>
+</select>
+</div>
+
+<div class="box">
+<label for="observacaoAutor">Observação do autor</label>
+<input type="text" id="observacaoAutor" placeholder="Ex.: só quero diagramação">
+</div>
+</div>
+
+<div class="linha" style="margin-top:16px;"><strong>Módulos desejados pelo autor</strong></div>
+
+<div class="grid-3">
+<div class="modulo">
+<h3>Diagramação</h3>
+<p>Organização do miolo, margens, capítulos, tipografia e composição editorial.</p>
+<label><input type="checkbox" class="moduloCheck" value="diagramacao">Selecionar</label>
+</div>
+
+<div class="modulo">
+<h3>OKapista</h3>
+<p>Capa, contracapa, lombada, orelhas e materiais gráficos da obra.</p>
+<label><input type="checkbox" class="moduloCheck" value="okapista">Selecionar</label>
+</div>
+
+<div class="modulo">
+<h3>Segunda Língua(s)</h3>
+<p>Tradução e adaptação linguística da obra.</p>
+<label><input type="checkbox" class="moduloCheck" value="segunda_lingua">Selecionar</label>
+</div>
+
+<div class="modulo">
+<h3>Avaliação Literária</h3>
+<p>Leitura crítica e relatório técnico da obra.</p>
+<label><input type="checkbox" class="moduloCheck" value="avaliacao">Selecionar</label>
+</div>
+
+<div class="modulo">
+<h3>Silos</h3>
+<p>Silo Sonoro, Cinematográfico e Music para derivados multimídia.</p>
+<label><input type="checkbox" class="moduloCheck" value="silos">Selecionar</label>
+</div>
+
+<div class="modulo">
+<h3>Polir</h3>
+<p>Acabamento técnico final antes do fechamento institucional.</p>
+<label><input type="checkbox" class="moduloCheck" value="polir">Selecionar</label>
+</div>
+</div>
+
+<div class="acoes">
+<button class="btn-azul" onclick="organizarTrilho()">Organizar sequência</button>
+<button class="btn-claro" onclick="voltarWorkspace()">Voltar ao Workspace</button>
+<button class="btn-verde" onclick="seguirExecutor()">Seguir para o Executor</button>
+</div>
+
+<div id="mensagemOk" class="mensagem ok"></div>
+<div id="mensagemErro" class="mensagem erro"></div>
+</section>
+
+<section class="card">
+<h2>Trilho organizado pelo Lapidar</h2>
+
+<div class="box">
+<span class="tag" id="tagModo">Modo: --</span>
+<span class="tag" id="tagSaida">Saída: --</span>
+<span class="tag" id="tagPacote">Pacote: --</span>
+</div>
+
+<div class="preview" id="previewTrilho">A sequência organizada pelo Lapidar aparecerá aqui.</div>
+</section>
+</div>
+</main>
+
+<script>
+function mostrarOk(msg){
+const ok=document.getElementById("mensagemOk");
+const erro=document.getElementById("mensagemErro");
+erro.style.display="none";
+ok.textContent=msg;
+ok.style.display="block";
+}
+
+function mostrarErro(msg){
+const ok=document.getElementById("mensagemOk");
+const erro=document.getElementById("mensagemErro");
+ok.style.display="none";
+erro.textContent=msg;
+erro.style.display="block";
+}
+
+function carregarObra(){
+try{
+return JSON.parse(localStorage.getItem("obraAtual") || "null");
+}catch(error){
+return null;
+}
+}
+
+function workspaceValido(){
+return localStorage.getItem("workspace_liberado") === "true";
+}
+
+function preencherCabecalho(){
+const obra=carregarObra();
+
+if(!obra){
+document.getElementById("tituloObra").textContent="Nenhuma obra ativa";
+document.getElementById("autorObra").textContent="—";
+}else{
+document.getElementById("tituloObra").textContent=obra?.estrutura?.titulo || obra?.titulo || "Título não identificado";
+document.getElementById("autorObra").textContent=obra?.estrutura?.autor || obra?.autor || "Autor não identificado";
+}
+
+document.getElementById("statusWorkspace").textContent=workspaceValido() ? "Workspace liberado" : "Workspace não liberado";
+}
+
+function coletarModulosSelecionados(){
+return Array.from(document.querySelectorAll(".moduloCheck:checked")).map(el => el.value);
+}
+
+function traduzirModo(valor){
+if(valor === "automatico") return "Automático assistido";
+if(valor === "manual") return "Manual guiado";
+return "Híbrido líquido";
+}
+
+function traduzirSaida(valor){
+if(valor === "pdf") return "PDF físico";
+if(valor === "epub") return "EPUB";
+if(valor === "pdf_epub") return "PDF + EPUB";
+return "Sob demanda";
+}
+
+function traduzirModulo(mod){
+const mapa={
+diagramacao:"Diagramação",
+okapista:"OKapista",
+segunda_lingua:"Segunda Língua(s)",
+avaliacao:"Avaliação Literária",
+silos:"Silos",
+polir:"Sistema Polir"
+};
+return mapa[mod] || mod;
+}
+
+function organizarTrilho(){
+if(!workspaceValido()){
+mostrarErro("O Orquestrador do Modo C exige o Workspace liberado.");
+return;
+}
+
+const modo=document.getElementById("modoConducao").value;
+const saida=document.getElementById("saidaFinal").value;
+const observacao=document.getElementById("observacaoAutor").value.trim();
+const selecionados=coletarModulosSelecionados();
+
+if(!selecionados.length){
+mostrarErro("Selecione pelo menos um módulo para o Lapidar organizar a sequência.");
+return;
+}
+
+const trilho=["Bolsão","Sistema Desbaste","Workspace"];
+
+const ordemTecnica=["diagramacao","okapista","segunda_lingua","avaliacao","silos","polir"];
+
+ordemTecnica.forEach(mod => {
+if(selecionados.includes(mod)){
+trilho.push(traduzirModulo(mod));
+}
+});
+
+if(saida === "pdf") trilho.push("Exportação PDF");
+if(saida === "epub") trilho.push("Exportação EPUB");
+if(saida === "pdf_epub"){
+trilho.push("Exportação PDF");
+trilho.push("Exportação EPUB");
+}
+if(saida === "sob_demanda") trilho.push("Exportação");
+
+const pacote={
+data:new Date().toISOString(),
+modo:modo,
+saida:saida,
+observacao:observacao,
+modulos:selecionados,
+trilho:trilho
+};
+
+localStorage.setItem("modo_c_pacote_editorial", JSON.stringify(pacote));
+localStorage.setItem("executor_liberado", "true");
+
+document.getElementById("tagModo").textContent="Modo: " + traduzirModo(modo);
+document.getElementById("tagSaida").textContent="Saída: " + traduzirSaida(saida);
+document.getElementById("tagPacote").textContent="Pacote: " + selecionados.map(traduzirModulo).join(", ");
+
+document.getElementById("previewTrilho").textContent=
+"Sequência organizada pelo Lapidar:\n\n" +
+trilho.map((etapa, i) => (i + 1) + ". " + etapa).join("\n") +
+"\n\nObservação do autor: " + (observacao || "Nenhuma observação registrada.") +
+"\n\nRegra aplicada: o autor escolhe os módulos; o Lapidar organiza a ordem técnica.";
+
+mostrarOk("Sequência organizada com sucesso. O pacote editorial foi salvo para o Executor.");
+}
+
+function seguirExecutor(){
+const pacote=localStorage.getItem("modo_c_pacote_editorial");
+
+if(!pacote){
+mostrarErro("Antes de seguir, organize a sequência do Modo C.");
+return;
+}
+
+window.location.href="modulo_executor.html";
+}
+
+function voltarWorkspace(){
+window.location.href="obra_workspace.html";
+}
+
+preencherCabecalho();
+</script>
+
+<script src="lapidar_inteligencia_core.js"></script>
+</body>
+</html>
