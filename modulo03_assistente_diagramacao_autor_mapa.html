@@ -1,503 +1,253 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Lapidar — Módulo 03 | Assistente de Diagramação</title>
+<title>Módulo 03 — Assistente de Diagramação</title>
 
 <style>
 
 body{
 margin:0;
-font-family:Arial, Helvetica, sans-serif;
-background:#f2f4f7;
+font-family:Georgia, serif;
+background:#eef2f6;
 }
 
-header{
-background:#102437;
+.topo{
+background:#2c5282;
 color:white;
-padding:22px;
+padding:16px;
 text-align:center;
-font-size:22px;
+font-size:24px;
 font-weight:bold;
 }
 
 .container{
-max-width:1180px;
+max-width:900px;
 margin:auto;
-margin-top:40px;
-background:white;
-padding:40px;
-border-radius:14px;
-box-shadow:0px 6px 20px rgba(0,0,0,0.12);
-}
-
-.status-ok{
-color:#198754;
-font-weight:bold;
-}
-
-.status-erro{
-color:#dc3545;
-font-weight:bold;
-}
-
-.grid-topo{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:18px;
-margin-top:25px;
-margin-bottom:30px;
-}
-
-.card{
-background:#f8f9fa;
-border:1px solid #dee2e6;
-border-radius:12px;
 padding:20px;
 }
 
-.card h3{
-margin-top:0;
-color:#102437;
-}
-
-.linha{
-padding:10px 0;
-border-bottom:1px solid #e5e5e5;
-font-size:15px;
-}
-
-.linha:last-child{
-border-bottom:none;
-}
-
-.rotulo{
-font-weight:bold;
-color:#333;
-}
-
-.opcoes-grid{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:18px;
-margin-top:30px;
-}
-
-.opcao{
+.card{
+background:white;
 border-radius:14px;
-padding:22px;
-background:#eef8ff;
-border:1px solid rgba(0,0,0,0.08);
-box-shadow:0px 4px 10px rgba(0,0,0,0.05);
+padding:20px;
+box-shadow:0px 8px 20px rgba(0,0,0,0.08);
+margin-bottom:20px;
 }
 
-.opcao h4{
-margin-top:0;
-margin-bottom:10px;
-font-size:20px;
-color:#102437;
+.a4{
+
+width:210mm;
+min-height:297mm;
+margin:auto;
+background:white;
+padding:18mm 16mm;
+
+border:1px solid #ccc;
+
+line-height:1.8;
+font-size:13pt;
+color:#222;
+
 }
 
-.opcao label{
-display:block;
-margin:10px 0 6px;
-font-weight:bold;
-}
-
-.opcao select{
-width:100%;
-padding:12px;
-border-radius:10px;
-border:1px solid #ced4da;
-font-size:15px;
-}
-
-.preview-box{
-margin-top:30px;
-padding:18px;
-background:#eef6ff;
-border-left:5px solid #0b5ed7;
-border-radius:8px;
-line-height:1.6;
-color:#23384d;
-}
-
-.acoes{
-margin-top:28px;
-display:flex;
-gap:14px;
-flex-wrap:wrap;
-}
-
-.botao{
-background:#0b5ed7;
-color:white;
-border:none;
-padding:18px 26px;
-font-size:18px;
-border-radius:10px;
-cursor:pointer;
-}
-
-.botao:hover{
-background:#084298;
-}
-
-.botao-secundario{
-background:#6c757d;
-}
-
-.botao-verde{
-background:#198754;
-}
-
-.botao-verde:hover{
-background:#146c43;
-}
-
-.bloqueio{
+.meta{
 text-align:center;
-padding:80px 20px;
+border-bottom:1px solid #ddd;
+padding-bottom:12px;
+margin-bottom:20px;
+}
+
+.meta h1{
+font-size:18pt;
+margin:0;
+}
+
+.meta small{
+color:#666;
+}
+
+.pagina{
+margin-bottom:20px;
+text-align:justify;
+}
+
+.controles{
+
+display:flex;
+gap:12px;
+margin-top:20px;
+
+}
+
+button{
+
+padding:12px 16px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+font-size:16px;
+
+}
+
+.botao1{
+background:#2c5282;
+color:white;
+}
+
+.botao2{
+background:#777;
+color:white;
+}
+
+.botao3{
+background:#2e8b57;
+color:white;
 }
 
 </style>
+
 </head>
 
 <body>
 
-<header>
-Módulo 03 — Assistente de Diagramação
-</header>
+<div class="topo">
+Módulo 03 — Assistente de Diagramação (Matriz Editorial A4)
+</div>
 
-
-<div id="areaDiagramacao" class="container" style="display:none;">
-
-<p class="status-ok">
-Ficha-base recebida do Sistema Desbaste ✔
-</p>
-
-<h2>
-Diagramação liberada
-</h2>
-
-<p>
-Este módulo recebe a obra com base consolidada. A diagramação começa a partir da leitura estrutural validada.
-</p>
-
-
-<div class="grid-topo">
+<div class="container">
 
 <div class="card">
 
-<h3>Ficha-base da obra</h3>
+<div class="a4">
 
-<div class="linha"><span class="rotulo">Arquivo:</span> <span id="dgArquivo"></span></div>
-<div class="linha"><span class="rotulo">Título-base:</span> <span id="dgTitulo"></span></div>
-<div class="linha"><span class="rotulo">Autor:</span> <span id="dgAutor"></span></div>
-<div class="linha"><span class="rotulo">Status técnico:</span> <span id="dgStatus"></span></div>
+<div class="meta">
 
-</div>
+<h1 id="tituloObra">
+Carregando título...
+</h1>
 
-
-<div class="card">
-
-<h3>Leitura consolidada</h3>
-
-<div class="linha"><span class="rotulo">Principal:</span> <span id="dgPrincipal"></span></div>
-<div class="linha"><span class="rotulo">Secundária:</span> <span id="dgSecundaria"></span></div>
-<div class="linha"><span class="rotulo">Terciária:</span> <span id="dgTerciaria"></span></div>
-<div class="linha"><span class="rotulo">Prontidão:</span> Base pronta para configuração editorial</div>
+<small id="autorObra">
+Carregando autor...
+</small>
 
 </div>
 
-</div>
+<div id="textoObra" class="pagina">
 
-
-<div class="opcoes-grid">
-
-<div class="opcao">
-
-<h4>Formato do livro</h4>
-
-<select id="formatoLivro">
-
-<option value="A5">A5</option>
-<option value="16x23">16x23</option>
-<option value="16x27">16x27</option>
-<option value="6x9">6x9</option>
-<option value="A4">A4</option>
-
-</select>
-
-<label>Fonte</label>
-
-<select id="fonteTexto">
-
-<option>Times New Roman</option>
-<option>Arial</option>
-<option>Garamond</option>
-
-</select>
-
-<label>Alinhamento</label>
-
-<select id="alinhamentoTexto">
-
-<option>Justificado</option>
-<option>Alinhado à esquerda</option>
-
-</select>
-
-</div>
-
-
-<div class="opcao">
-
-<h4>Estrutura visual inicial</h4>
-
-<label>Capitular</label>
-
-<select id="capitular">
-
-<option>Sim</option>
-<option>Não</option>
-
-</select>
-
-<label>Numeração</label>
-
-<select id="numeracaoPaginas">
-
-<option>Início da história</option>
-<option>Desde o começo do arquivo</option>
-
-</select>
-
-<label>Margens</label>
-
-<select id="espelhamento">
-
-<option>Espelhadas</option>
-<option>Simples</option>
-
-</select>
+Carregando manuscrito...
 
 </div>
 
 </div>
 
+<div class="controles">
 
-<div class="preview-box">
+<button class="botao3" onclick="paginaAnterior()">◀ Página anterior</button>
 
-<strong>Prévia técnica da diagramação:</strong>
+<button class="botao3" onclick="proximaPagina()">Próxima página ▶</button>
 
-<br><br>
-
-Formato:
-<span id="previewFormato"></span>
-
-<br>
-
-Fonte:
-<span id="previewFonte"></span>
-
-<br>
-
-Alinhamento:
-<span id="previewAlinhamento"></span>
-
-<br>
-
-Margens:
-<span id="previewMargens"></span>
-
-</div>
-
-
-<div class="preview-box">
-
-<strong>Matriz editorial A4 oficial da obra:</strong>
-
-<br><br>
-
-Formato base estrutural universal ativado para:
-
-A5 · 14x21 · 16x23 · 21x28 · eBook · PDF · audiobook estrutural
-
-<br><br>
-
-<span id="statusMatrizA4"></span>
-
-<br><br>
-
-<button class="botao-verde" onclick="ativarMatrizA4()">
-Ativar matriz editorial A4 desta obra
-</button>
-
-</div>
-
-
-<div class="acoes">
-
-<button class="botao-verde" onclick="salvarConfiguracaoDiagramacao()">
-Salvar configuração de diagramação
-</button>
-
-<button class="botao" onclick="voltarExecutor()">
-Retornar ao Executor
-</button>
-
-<button class="botao-secundario" onclick="irMesario()">
-Ir para Mesário
-</button>
+<button class="botao2" onclick="voltarExecutor()">Retornar ao Executor</button>
 
 </div>
 
 </div>
 
-
-<div id="bloqueioDiagramacao" class="container bloqueio" style="display:none;">
-
-<p class="status-erro">
-Acesso bloqueado
-</p>
-
-<h2>
-Sistema Desbaste obrigatório
-</h2>
-
-<p>
-Antes de acessar a Diagramação é necessário concluir o fluxo oficial do Lapidar.
-</p>
-
-<button class="botao" onclick="voltarDesbaste()">
-Ir para Sistema Desbaste
-</button>
-
 </div>
-
 
 <script>
 
+let paginaAtual = 0;
+let paginas = [];
 
-function preencherFichaBase(){
+function carregarTexto(){
 
-let ficha = localStorage.getItem("lapidar_ficha_base_obra")
+let texto =
 
-if(!ficha)return
+localStorage.getItem("texto_obra_limpo") ||
 
-let dados = JSON.parse(ficha)
+localStorage.getItem("texto_obra") ||
 
-dgArquivo.innerText=dados.arquivo||"—"
-dgTitulo.innerText=dados.titulo_base||"—"
-dgAutor.innerText=dados.autor||"—"
-dgStatus.innerText=dados.status_tecnico||"—"
+"Texto ainda não carregado pelo Cofre.";
 
-dgPrincipal.innerText=dados.classificacao_principal||"—"
-dgSecundaria.innerText=dados.classificacao_secundaria||"—"
-dgTerciaria.innerText=dados.classificacao_terciaria||"—"
+let titulo =
 
-}
+localStorage.getItem("matriz_editorial_titulo") ||
 
+"Título da obra";
 
-function atualizarPreview(){
+let autor =
 
-previewFormato.innerText=formatoLivro.value
-previewFonte.innerText=fonteTexto.value
-previewAlinhamento.innerText=alinhamentoTexto.value
-previewMargens.innerText=espelhamento.value
+localStorage.getItem("matriz_editorial_autor") ||
 
-}
+"Autor não identificado";
 
+document.getElementById("tituloObra").innerText = titulo;
 
-function salvarConfiguracaoDiagramacao(){
+document.getElementById("autorObra").innerText = autor;
 
-let config={
+paginas = dividirPaginas(texto);
 
-formato:formatoLivro.value,
-fonte:fonteTexto.value,
-alinhamento:alinhamentoTexto.value,
-capitular:capitular.value,
-numeracao:numeracaoPaginas.value,
-margens:espelhamento.value
+mostrarPagina();
 
 }
 
-localStorage.setItem(
-"lapidar_configuracao_diagramacao",
-JSON.stringify(config)
-)
+function dividirPaginas(texto){
 
-alert("Configuração salva com sucesso.")
+let tamanhoPagina = 1800;
 
-}
+let lista = [];
 
+for(let i=0;i<texto.length;i+=tamanhoPagina){
 
-function ativarMatrizA4(){
-
-localStorage.setItem("lapidar_matriz_a4_ativa","true")
-
-statusMatrizA4.innerText="Matriz A4 editorial ativada com sucesso."
+lista.push(texto.substring(i,i+tamanhoPagina));
 
 }
 
+return lista;
 
-function verificarAcessoDiagramacao(){
+}
 
-let desbaste=localStorage.getItem("desbaste_concluido")
-let lapidar=localStorage.getItem("lapidar_desbaste_concluido")
+function mostrarPagina(){
 
-if(desbaste==="true"||lapidar==="true"){
+document.getElementById("textoObra").innerText = paginas[paginaAtual];
 
-areaDiagramacao.style.display="block"
+}
 
-preencherFichaBase()
+function proximaPagina(){
 
-atualizarPreview()
+if(paginaAtual < paginas.length-1){
 
-}else{
+paginaAtual++;
 
-bloqueioDiagramacao.style.display="block"
+mostrarPagina();
 
 }
 
 }
 
+function paginaAnterior(){
+
+if(paginaAtual > 0){
+
+paginaAtual--;
+
+mostrarPagina();
+
+}
+
+}
 
 function voltarExecutor(){
 
-window.location.href="modulo_executor.html"
+window.location.href="modulo_executor.html";
 
 }
 
-
-function voltarDesbaste(){
-
-window.location.href="modulo_02_sistema_desbaste.html"
-
-}
-
-
-function irMesario(){
-
-window.location.href="mesario.html"
-
-}
-
-
-formatoLivro.onchange=atualizarPreview
-fonteTexto.onchange=atualizarPreview
-alinhamentoTexto.onchange=atualizarPreview
-espelhamento.onchange=atualizarPreview
-
-
-verificarAcessoDiagramacao()
-
+carregarTexto();
 
 </script>
-
 
 </body>
 </html>
