@@ -1,773 +1,220 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lapidar — Auditoria Institucional</title>
-  <style>
-    *{
-      box-sizing:border-box;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lapidar — Auditoria</title>
+<style>
+*{box-sizing:border-box}
+body{
+margin:0;
+font-family:Arial, sans-serif;
+background:#f5f7fb;
+color:#1f2937;
+}
+.topo{
+background:#3749a6;
+color:#fff;
+padding:22px 18px;
+}
+.topo h1{margin:0;font-size:1.8rem}
+.topo p{margin:8px 0 0 0;opacity:.95}
 
-    body{
-      margin:0;
-      font-family:Arial, sans-serif;
-      background:#f3efe6;
-      color:#2f2a24;
-    }
+.container{
+max-width:1240px;
+margin:0 auto;
+padding:18px 14px 30px;
+}
 
-    .topbar{
-      background:#3d4a5c;
-      color:#fff;
-      padding:18px 24px;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:12px;
-      flex-wrap:wrap;
-    }
+.card{
+background:#fff;
+border:1px solid #e1e6f5;
+border-radius:16px;
+padding:18px;
+margin-bottom:18px;
+box-shadow:0 4px 14px rgba(0,0,0,.08);
+}
 
-    .topbar h1{
-      margin:0;
-      font-size:22px;
-    }
+.card h2{
+margin:0 0 14px 0;
+color:#3749a6;
+font-size:1.2rem;
+}
 
-    .topbar .acoes{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-    }
+.linha{
+margin:10px 0;
+font-size:14px;
+}
 
-    .container{
-      max-width:1280px;
-      margin:24px auto;
-      padding:0 16px 32px;
-    }
+.preview{
+white-space:pre-wrap;
+line-height:1.55;
+font-size:14px;
+max-height:420px;
+overflow:auto;
+background:#fff;
+border:1px solid #e1e6f5;
+border-radius:12px;
+padding:18px;
+}
 
-    .grid{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:18px;
-    }
+.acoes{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+margin-top:14px;
+}
 
-    .card{
-      background:#fff;
-      border-radius:14px;
-      padding:18px;
-      box-shadow:0 4px 14px rgba(0,0,0,0.08);
-    }
+button{
+border:none;
+border-radius:10px;
+padding:12px 16px;
+font-size:15px;
+cursor:pointer;
+font-weight:bold;
+}
 
-    .card h2{
-      margin:0 0 14px 0;
-      color:#3d4a5c;
-      font-size:20px;
-    }
+.btn-azul{background:#3749a6;color:#fff}
+.btn-azul:hover{background:#2c3b87}
 
-    .linha{
-      background:#f8fafc;
-      border:1px solid #dde5ee;
-      border-radius:10px;
-      padding:12px 14px;
-      margin-bottom:12px;
-    }
+.btn-claro{background:#dfe5fb;color:#2c3b87}
+.btn-claro:hover{background:#cfd7f6}
 
-    .rotulo{
-      display:block;
-      font-size:12px;
-      font-weight:bold;
-      text-transform:uppercase;
-      letter-spacing:0.4px;
-      color:#617287;
-      margin-bottom:6px;
-    }
+.btn-verde{background:#15803d;color:#fff}
+.btn-verde:hover{background:#11622f}
 
-    .valor{
-      font-size:15px;
-      line-height:1.45;
-      word-break:break-word;
-    }
+.mensagem{
+margin-top:14px;
+padding:12px 14px;
+border-radius:10px;
+display:none;
+font-size:14px;
+}
 
-    .tag-area{
-      display:flex;
-      gap:8px;
-      flex-wrap:wrap;
-      margin-top:10px;
-    }
-
-    .tag{
-      background:#eef3f8;
-      border:1px solid #d8e0ea;
-      color:#456;
-      padding:7px 10px;
-      border-radius:999px;
-      font-size:13px;
-    }
-
-    .relogio-box{
-      background:#eef4fb;
-      border:1px solid #d8e3f0;
-      padding:15px;
-      border-radius:10px;
-      margin-top:10px;
-    }
-
-    .valor-destaque{
-      font-size:22px;
-      font-weight:bold;
-      color:#31445a;
-    }
-
-    .painel-mini{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:12px;
-      margin-top:12px;
-    }
-
-    .mini-box{
-      background:#fbfcfe;
-      border:1px solid #d9e2ec;
-      border-radius:12px;
-      padding:14px;
-    }
-
-    .mini-box strong{
-      display:block;
-      margin-bottom:6px;
-      color:#31445a;
-    }
-
-    .timeline{
-      display:flex;
-      flex-direction:column;
-      gap:12px;
-      margin-top:12px;
-    }
-
-    .evento{
-      border:1px solid #d9e2ec;
-      background:#fbfcfe;
-      border-radius:12px;
-      padding:14px;
-    }
-
-    .evento strong{
-      display:block;
-      color:#31445a;
-      margin-bottom:6px;
-      font-size:15px;
-    }
-
-    .evento .data{
-      font-size:12px;
-      color:#6c7d91;
-      margin-bottom:6px;
-    }
-
-    .evento .texto{
-      font-size:14px;
-      line-height:1.5;
-      color:#2f2a24;
-    }
-
-    .aviso{
-      margin-top:14px;
-      background:#eef4fb;
-      border:1px solid #d8e3f0;
-      border-radius:10px;
-      padding:12px 14px;
-      color:#44586f;
-      line-height:1.45;
-      font-size:14px;
-    }
-
-    textarea{
-      width:100%;
-      min-height:120px;
-      resize:vertical;
-      border:1px solid #d8e0ea;
-      border-radius:10px;
-      padding:12px;
-      font-size:15px;
-      font-family:Arial, sans-serif;
-      outline:none;
-    }
-
-    textarea:focus{
-      border-color:#94a8c2;
-    }
-
-    .acoes-centrais{
-      margin-top:16px;
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-    }
-
-    button{
-      border:none;
-      border-radius:10px;
-      padding:12px 18px;
-      font-size:15px;
-      cursor:pointer;
-      transition:0.2s ease;
-    }
-
-    .btn-primario{
-      background:#3d4a5c;
-      color:#fff;
-    }
-
-    .btn-primario:hover{
-      background:#313c4b;
-    }
-
-    .btn-secundario{
-      background:#e8dfcf;
-      color:#433726;
-    }
-
-    .btn-secundario:hover{
-      background:#dbcdb7;
-    }
-
-    .btn-alerta{
-      background:#9b2c2c;
-      color:#fff;
-    }
-
-    .btn-alerta:hover{
-      background:#7f2323;
-    }
-
-    .vazio{
-      color:#7b7f87;
-      font-style:italic;
-    }
-
-    @media (max-width: 980px){
-      .grid{
-        grid-template-columns:1fr;
-      }
-
-      .painel-mini{
-        grid-template-columns:1fr;
-      }
-    }
-  </style>
+.ok{background:#edf9ef;border:1px solid #b7e1c1;color:#166534}
+.erro{background:#fff1f1;border:1px solid #f0b9b9;color:#991b1b}
+</style>
 </head>
 <body>
 
-  <div class="topbar">
-    <h1>Auditoria Institucional da Obra</h1>
-    <div class="acoes">
-      <button class="btn-secundario" onclick="voltarMesario()">Retornar ao Mesário</button>
-      <button class="btn-primario" onclick="seguirExportacao()">Ir para Exportação</button>
-    </div>
-  </div>
-
-  <div class="container">
-
-    <div class="grid">
-      <div class="card">
-        <h2>Resumo auditável da obra</h2>
-
-        <div class="linha">
-          <span class="rotulo">Título</span>
-          <div class="valor" id="tituloObra">—</div>
-        </div>
-
-        <div class="linha">
-          <span class="rotulo">Autor</span>
-          <div class="valor" id="autorObra">—</div>
-        </div>
-
-        <div class="linha">
-          <span class="rotulo">Tipo de obra</span>
-          <div class="valor" id="tipoObra">—</div>
-        </div>
-
-        <div class="linha">
-          <span class="rotulo">CDD provável</span>
-          <div class="valor" id="cddObra">—</div>
-        </div>
-
-        <div class="linha">
-          <span class="rotulo">Seção atual</span>
-          <div class="valor" id="moduloAtivo">—</div>
-        </div>
-
-        <div class="linha">
-          <span class="rotulo">Confirmação do setor</span>
-          <div class="valor" id="confirmacaoSetor">—</div>
-        </div>
-
-        <div class="linha">
-          <span class="rotulo">Confirmação final</span>
-          <div class="valor" id="confirmacaoFinal">—</div>
-        </div>
-
-        <div class="tag-area" id="tagsNarrativas"></div>
-
-        <div class="aviso">
-          Esta página concentra o rastro oficial da obra dentro da espinha dorsal do Lapidar e registra o caminho editorial percorrido até aqui.
-        </div>
-      </div>
-
-      <div class="card">
-        <h2>LapidarClock e contadores institucionais</h2>
-
-        <div class="relogio-box">
-          <div class="linha">
-            <span class="rotulo">Sessão iniciada em</span>
-            <div class="valor" id="inicioSessao">—</div>
-          </div>
-
-          <div class="linha">
-            <span class="rotulo">Tempo ativo no fluxo</span>
-            <div class="valor-destaque" id="tempoSessao">—</div>
-          </div>
-        </div>
-
-        <div class="painel-mini">
-          <div class="mini-box">
-            <strong>Total de tarefas</strong>
-            <div id="totalTarefas">—</div>
-          </div>
-
-          <div class="mini-box">
-            <strong>Tarefas executadas</strong>
-            <div id="tarefasExecutadas">—</div>
-          </div>
-
-          <div class="mini-box">
-            <strong>Tarefas restantes</strong>
-            <div id="tarefasRestantes">—</div>
-          </div>
-
-          <div class="mini-box">
-            <strong>Dias / ações restantes</strong>
-            <div id="planoRestante">—</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="grid" style="margin-top:18px;">
-      <div class="card">
-        <h2>Painel técnico da auditoria</h2>
-
-        <div class="painel-mini">
-          <div class="mini-box">
-            <strong>Capítulos detectados</strong>
-            <div id="resCapitulos">—</div>
-          </div>
-
-          <div class="mini-box">
-            <strong>Personagens recorrentes</strong>
-            <div id="resPersonagens">—</div>
-          </div>
-
-          <div class="mini-box">
-            <strong>Lacunas editoriais</strong>
-            <div id="resLacunas">—</div>
-          </div>
-
-          <div class="mini-box">
-            <strong>Ativos da obra</strong>
-            <div id="resAtivos">—</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="card">
-        <h2>Registrar observação manual</h2>
-
-        <textarea id="observacaoManual" placeholder="Escreva uma observação manual de auditoria, se necessário..."></textarea>
-
-        <div class="acoes-centrais">
-          <button class="btn-primario" onclick="salvarObservacaoManual()">Salvar observação</button>
-          <button class="btn-alerta" onclick="limparObservacao()">Limpar campo</button>
-        </div>
-
-        <div class="aviso">
-          Use esta área para registrar decisões, inconsistências percebidas, pendências editoriais ou observações técnicas importantes sobre a etapa atual.
-        </div>
-      </div>
-    </div>
-
-    <div class="card" style="margin-top:18px;">
-      <h2>Linha do tempo da auditoria</h2>
-      <div class="timeline" id="timelineAuditoria"></div>
-      <div class="aviso" id="semEventos" style="display:none;">
-        Nenhum evento de auditoria foi registrado ainda.
-      </div>
-    </div>
-
-  </div>
-
-  <script>
-    const nomesModulos = {
-      diagramacao: "Assistente de Diagramação do Autor",
-      okapista: "OKapista",
-      segundaLinguas: "Segunda Língua(s)",
-      avaliacaoLiteraria: "Avaliação Literária",
-      analisadorObra: "Analisador de Obra",
-      lapidacaoLiteraria: "Lapidação Literária",
-      siloSonoro: "Silo Sonoro",
-      portalIntegracoes: "Portal de Integrações"
-    };
-
-    function obterObraAtual(){
-      const obraSalva = localStorage.getItem("obraAtual");
-      if(!obraSalva){
-        return null;
-      }
-
-      try{
-        return JSON.parse(obraSalva);
-      }catch(erro){
-        return null;
-      }
-    }
-
-    function salvarObra(obra){
-      localStorage.setItem("obraAtual", JSON.stringify(obra));
-    }
-
-    function nomeModulo(chave){
-      return nomesModulos[chave] || chave || "Não definido";
-    }
-
-    function agoraBR(){
-      return new Date().toLocaleString("pt-BR");
-    }
-
-    function formatarLacuna(valor){
-      return valor ? "enviado" : "ausente";
-    }
-
-    function garantirEstruturaAuditoria(obra){
-      if(!Array.isArray(obra.auditoria)){
-        obra.auditoria = [];
-      }
-
-      if(!obra.lapidarClock){
-        obra.lapidarClock = {
-          inicioSessao: Date.now()
-        };
-      }
-
-      if(!obra.tarefas){
-        obra.tarefas = {
-          total: 7,
-          executadas: 4
-        };
-      }
-
-      if(!obra.plano){
-        obra.plano = {
-          diasRestantes: 20,
-          acoesRestantes: 3
-        };
-      }
-
-      const eventosBase = [
-        {
-          chave: "obra_carregada",
-          titulo: "Obra carregada no fluxo",
-          texto: "A obra entrou na espinha dorsal e foi reconhecida pelo sistema."
-        },
-        {
-          chave: "cofre_processado",
-          titulo: "Cofre processado",
-          texto: "O Cofre Editorial do Autor executou leitura estrutural, sinais narrativos e preparação da base da obra."
-        },
-        {
-          chave: "workspace_aberto",
-          titulo: "Workspace aberto",
-          texto: "A obra foi apresentada no Workspace para conferência da leitura estrutural inicial."
-        },
-        {
-          chave: "executor_aberto",
-          titulo: "Executor aberto",
-          texto: "A obra avançou para o tronco central dos módulos editoriais."
-        },
-        {
-          chave: "mesario_registrado",
-          titulo: "Mesário registrado",
-          texto: "A etapa atual passou pelo Mesário com controle de confirmações."
-        },
-        {
-          chave: "auditoria_aberta",
-          titulo: "Auditoria aberta",
-          texto: "A obra entrou na etapa oficial de trilha e rastreamento."
-        }
-      ];
-
-      eventosBase.forEach(function(base){
-        const existe = obra.auditoria.some(function(item){
-          return item.chave === base.chave;
-        });
-
-        if(!existe){
-          obra.auditoria.push({
-            chave: base.chave,
-            titulo: base.titulo,
-            texto: base.texto,
-            data: agoraBR(),
-            tipo: "sistema"
-          });
-        }
-      });
-    }
-
-    function preencherResumo(){
-      const obra = obterObraAtual();
-
-      if(!obra){
-        document.getElementById("tituloObra").innerText = "Nenhuma obra carregada";
-        document.getElementById("autorObra").innerText = "Nenhuma obra carregada";
-        document.getElementById("tipoObra").innerText = "Nenhuma obra carregada";
-        document.getElementById("cddObra").innerText = "Nenhuma obra carregada";
-        document.getElementById("moduloAtivo").innerText = "Nenhuma obra carregada";
-        document.getElementById("confirmacaoSetor").innerText = "Não disponível";
-        document.getElementById("confirmacaoFinal").innerText = "Não disponível";
-        document.getElementById("resCapitulos").innerText = "Não disponível";
-        document.getElementById("resPersonagens").innerText = "Não disponível";
-        document.getElementById("resLacunas").innerText = "Não disponível";
-        document.getElementById("resAtivos").innerText = "Não disponível";
-        document.getElementById("tagsNarrativas").innerHTML = "";
-        return;
-      }
-
-      document.getElementById("tituloObra").innerText = obra?.estrutura?.titulo || "Não identificado";
-      document.getElementById("autorObra").innerText = obra?.estrutura?.autor || "Não identificado";
-      document.getElementById("tipoObra").innerText = obra.type || obra.tipo || "Não identificado";
-      document.getElementById("cddObra").innerText = obra.cdd || "Não identificado";
-
-      const secao = obra?.mesario?.secaoAtual || obra.moduloAtivo || "";
-      document.getElementById("moduloAtivo").innerText = nomeModulo(secao);
-
-      document.getElementById("confirmacaoSetor").innerText =
-        obra?.mesario?.confirmacaoSetor ? "Confirmado" : "Não confirmado";
-
-      document.getElementById("confirmacaoFinal").innerText =
-        obra?.mesario?.confirmacaoFinal ? "Confirmado" : "Não confirmado";
-
-      document.getElementById("resCapitulos").innerText =
-        Array.isArray(obra?.estrutura?.capitulos) ? obra.estrutura.capitulos.length : 0;
-
-      document.getElementById("resPersonagens").innerText =
-        Array.isArray(obra.personagens) && obra.personagens.length
-        ? obra.personagens.join(", ")
-        : "Não identificados";
-
-      const lacunas = [
-        "Biografia: " + formatarLacuna(obra?.lacunas?.biografia),
-        "Prefácio: " + formatarLacuna(obra?.lacunas?.prefacio),
-        "Ficha catalográfica: " + formatarLacuna(obra?.lacunas?.fichaCatalografica),
-        "Dedicatória: " + formatarLacuna(obra?.lacunas?.dedicatoria)
-      ];
-      document.getElementById("resLacunas").innerHTML = lacunas.join("<br>");
-
-      const vozesAutor = JSON.parse(localStorage.getItem("vozesAutor")) || [];
-      const imagens = obra.imagensSalvas || 0;
-      document.getElementById("resAtivos").innerHTML =
-        imagens + " imagem(ns) registrada(s)<br>" +
-        vozesAutor.length + " voz(es) vinculada(s)";
-
-      preencherTagsNarrativas(obra);
-    }
-
-    function preencherTagsNarrativas(obra){
-      const area = document.getElementById("tagsNarrativas");
-      area.innerHTML = "";
-
-      const tags = [
-        obra.narrador,
-        obra.clima,
-        obra.genero
-      ].filter(Boolean);
-
-      if(!tags.length){
-        const span = document.createElement("span");
-        span.className = "tag";
-        span.innerText = "Sem sinais narrativos detectados";
-        area.appendChild(span);
-        return;
-      }
-
-      tags.forEach(function(tagTexto){
-        const span = document.createElement("span");
-        span.className = "tag";
-        span.innerText = tagTexto;
-        area.appendChild(span);
-      });
-    }
-
-    function atualizarClock(){
-      const obra = obterObraAtual();
-
-      if(!obra || !obra.lapidarClock){
-        document.getElementById("inicioSessao").innerText = "Não disponível";
-        document.getElementById("tempoSessao").innerText = "Não disponível";
-        return;
-      }
-
-      const inicio = obra.lapidarClock.inicioSessao;
-      const agora = Date.now();
-      const tempo = agora - inicio;
-
-      const minutos = Math.floor(tempo / 60000);
-      const horas = Math.floor(minutos / 60);
-      const restoMinutos = minutos % 60;
-
-      document.getElementById("inicioSessao").innerText = new Date(inicio).toLocaleString("pt-BR");
-      document.getElementById("tempoSessao").innerText =
-        horas > 0 ? (horas + "h " + restoMinutos + "min") : (minutos + " min");
-    }
-
-    function preencherContadores(){
-      const obra = obterObraAtual();
-
-      if(!obra){
-        document.getElementById("totalTarefas").innerText = "—";
-        document.getElementById("tarefasExecutadas").innerText = "—";
-        document.getElementById("tarefasRestantes").innerText = "—";
-        document.getElementById("planoRestante").innerText = "—";
-        return;
-      }
-
-      const total = obra?.tarefas?.total ?? 7;
-      const executadas = obra?.tarefas?.executadas ?? 4;
-      const restantes = Math.max(total - executadas, 0);
-
-      document.getElementById("totalTarefas").innerText = total;
-      document.getElementById("tarefasExecutadas").innerText = executadas;
-      document.getElementById("tarefasRestantes").innerText = restantes;
-      document.getElementById("planoRestante").innerHTML =
-        (obra?.plano?.diasRestantes ?? 20) + " dia(s)<br>" +
-        (obra?.plano?.acoesRestantes ?? 3) + " ação(ões)";
-    }
-
-    function renderizarTimeline(){
-      const obra = obterObraAtual();
-      const timeline = document.getElementById("timelineAuditoria");
-      const vazio = document.getElementById("semEventos");
-
-      timeline.innerHTML = "";
-
-      if(!obra || !Array.isArray(obra.auditoria) || !obra.auditoria.length){
-        vazio.style.display = "block";
-        return;
-      }
-
-      vazio.style.display = "none";
-
-      const eventosOrdenados = [...obra.auditoria].reverse();
-
-      eventosOrdenados.forEach(function(item){
-        const div = document.createElement("div");
-        div.className = "evento";
-
-        div.innerHTML = `
-          <strong>${item.titulo || "Evento sem título"}</strong>
-          <div class="data">${item.data || "Sem data"}</div>
-          <div class="texto">${item.texto || ""}</div>
-        `;
-
-        timeline.appendChild(div);
-      });
-    }
-
-    function salvarObservacaoManual(){
-      const obra = obterObraAtual();
-
-      if(!obra){
-        alert("Nenhuma obra carregada.");
-        return;
-      }
-
-      const texto = document.getElementById("observacaoManual").value.trim();
-
-      if(!texto){
-        alert("Escreva uma observação antes de salvar.");
-        return;
-      }
-
-      if(!Array.isArray(obra.auditoria)){
-        obra.auditoria = [];
-      }
-
-      obra.auditoria.push({
-        chave: "obs_manual_" + Date.now(),
-        titulo: "Observação manual de auditoria",
-        texto: texto,
-        data: agoraBR(),
-        tipo: "manual"
-      });
-
-      salvarObra(obra);
-      document.getElementById("observacaoManual").value = "";
-      renderizarTimeline();
-      alert("Observação registrada na auditoria.");
-    }
-
-    function limparObservacao(){
-      document.getElementById("observacaoManual").value = "";
-    }
-
-    function voltarMesario(){
-      window.location.href = "mesario.html";
-    }
-
-    function seguirExportacao(){
-      const obra = obterObraAtual();
-
-      if(!obra){
-        alert("Nenhuma obra carregada.");
-        return;
-      }
-
-      if(!Array.isArray(obra.auditoria)){
-        obra.auditoria = [];
-      }
-
-      obra.auditoria.push({
-        chave: "encaminhada_exportacao_" + Date.now(),
-        titulo: "Obra encaminhada para exportação",
-        texto: "A obra foi enviada da Auditoria para a etapa final de exportação.",
-        data: agoraBR(),
-        tipo: "sistema"
-      });
-
-      salvarObra(obra);
-      window.location.href = "exportar.html";
-    }
-
-    function iniciarAuditoria(){
-      const obra = obterObraAtual();
-
-      if(!obra){
-        preencherResumo();
-        atualizarClock();
-        preencherContadores();
-        renderizarTimeline();
-        return;
-      }
-
-      garantirEstruturaAuditoria(obra);
-      salvarObra(obra);
-      preencherResumo();
-      atualizarClock();
-      preencherContadores();
-      renderizarTimeline();
-    }
-
-    iniciarAuditoria();
-    setInterval(atualizarClock, 1000);
-  </script>
+<header class="topo">
+<h1>Auditoria</h1>
+<p>Registro técnico final do fluxo editorial antes da etapa de exportação da obra.</p>
+</header>
+
+<main class="container">
+
+<section class="card">
+<h2>Verificação da trilha editorial</h2>
+
+<div class="linha"><strong>Título:</strong> <span id="titulo">Carregando...</span></div>
+<div class="linha"><strong>Autor:</strong> <span id="autor">Carregando...</span></div>
+<div class="linha"><strong>Status Mesário:</strong> <span id="statusMesario">Validando...</span></div>
+
+<div class="acoes">
+<button class="btn-claro" onclick="voltarMesario()">Voltar ao Mesário</button>
+<button class="btn-azul" onclick="executarAuditoria()">Executar Auditoria</button>
+<button class="btn-verde" onclick="seguirExportacao()">Seguir para Exportação</button>
+</div>
+
+<div id="msgOk" class="mensagem ok"></div>
+<div id="msgErro" class="mensagem erro"></div>
+
+</section>
+
+<section class="card">
+<h2>Resumo técnico consolidado</h2>
+<div class="preview" id="preview">Aguardando obra...</div>
+</section>
+
+</main>
+
+<script>
+
+function ok(msg){
+let el=document.getElementById("msgOk")
+let er=document.getElementById("msgErro")
+er.style.display="none"
+el.innerText=msg
+el.style.display="block"
+}
+
+function erro(msg){
+let el=document.getElementById("msgOk")
+let er=document.getElementById("msgErro")
+el.style.display="none"
+er.innerText=msg
+er.style.display="block"
+}
+
+function obra(){
+try{
+return JSON.parse(localStorage.getItem("obraAtual")||"null")
+}catch{return null}
+}
+
+function mesarioOk(){
+return localStorage.getItem("mesario_confirmado")==="true"
+}
+
+function carregar(){
+
+let o=obra()
+
+if(!o){
+document.getElementById("titulo").innerText="Nenhuma obra ativa"
+document.getElementById("autor").innerText="—"
+document.getElementById("preview").innerText="Nenhuma obra carregada."
+return
+}
+
+document.getElementById("titulo").innerText=o?.titulo||"Título não identificado"
+document.getElementById("autor").innerText=o?.autor||"Autor não identificado"
+
+document.getElementById("preview").innerText=(o?.textoExtraido||"Sem texto disponível").slice(0,3000)
+
+document.getElementById("statusMesario").innerText=mesarioOk()?"Confirmado":"Pendente"
+}
+
+function executarAuditoria(){
+
+if(!mesarioOk()){
+erro("Confirme o Mesário antes de executar a Auditoria.")
+return
+}
+
+localStorage.setItem("auditoria_concluida","true")
+
+let relatorio={
+data:new Date().toISOString(),
+etapa:"auditoria.html",
+status:"concluida"
+}
+
+localStorage.setItem("auditoria_relatorio",JSON.stringify(relatorio))
+
+ok("Auditoria registrada com sucesso.")
+}
+
+function seguirExportacao(){
+
+if(localStorage.getItem("auditoria_concluida")!=="true"){
+erro("Execute a Auditoria antes de seguir.")
+return
+}
+
+window.location.href="exportar.html"
+}
+
+function voltarMesario(){
+window.location.href="mesario.html"
+}
+
+carregar()
+
+</script>
+
+<script src="lapidar_inteligencia_core.js"></script>
 
 </body>
 </html>
