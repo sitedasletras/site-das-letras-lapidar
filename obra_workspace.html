@@ -1,305 +1,458 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Workspace da Obra — Ambiente Editorial Central</title>
   <style>
-    :root{
-      --bg:#f2f4f7;
-      --header:#0f2538;
-      --card:#ffffff;
-      --line:#d9e0e7;
-      --text:#1f2d3d;
-      --muted:#5c6b7a;
-      --ok:#198754;
-      --info-bg:#eef6ff;
-      --info-line:#0b5ed7;
-      --blue:#0b5ed7;
-      --blue-dark:#084298;
-      --gray:#6c757d;
-      --gray-dark:#565e64;
-      --shadow:0 8px 22px rgba(0,0,0,.10);
-      --radius:18px;
+    * {
+      box-sizing: border-box;
     }
 
-    *{
-      box-sizing:border-box;
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #eef1f5;
+      color: #24303c;
     }
 
-    body{
-      margin:0;
-      font-family:Arial, Helvetica, sans-serif;
-      background:var(--bg);
-      color:var(--text);
+    .topo {
+      background: #0d2b44;
+      color: #fff;
+      text-align: center;
+      padding: 18px 14px;
+      font-size: 24px;
+      font-weight: 700;
+      box-shadow: 0 2px 8px rgba(0,0,0,.08);
     }
 
-    header{
-      background:var(--header);
-      color:#fff;
-      padding:20px 16px;
-      text-align:center;
-      font-size:22px;
-      font-weight:700;
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 22px 18px 40px;
     }
 
-    .container{
-      max-width:1100px;
-      margin:28px auto 36px;
-      padding:0 14px;
+    .card {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,.08);
+      border: 1px solid #dde5ed;
     }
 
-    .card{
-      background:var(--card);
-      border:1px solid var(--line);
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
-      padding:24px;
+    .status-verde {
+      color: #2e8b57;
+      font-weight: 700;
+      margin-bottom: 10px;
     }
 
-    .status-ok{
-      color:var(--ok);
-      font-weight:700;
-      margin-bottom:16px;
+    .titulo-principal {
+      margin: 0 0 10px;
+      font-size: 42px;
+      color: #1f2b36;
     }
 
-    h1{
-      margin:0 0 12px;
-      font-size:2rem;
-      color:#111827;
+    .texto-base {
+      font-size: 19px;
+      line-height: 1.6;
+      color: #53606c;
     }
 
-    .lead{
-      color:var(--muted);
-      line-height:1.6;
-      margin-bottom:22px;
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-top: 18px;
     }
 
-    .grid{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:16px;
-      margin-bottom:18px;
+    .bloco {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 16px;
     }
 
-    .box{
-      background:#fafbfc;
-      border:1px solid #e2e8f0;
-      border-radius:14px;
-      padding:18px;
+    .bloco h3 {
+      margin: 0 0 12px;
+      font-size: 24px;
+      color: #36485b;
     }
 
-    .box h3{
-      margin:0 0 12px;
-      font-size:1.08rem;
-      color:#223548;
+    .linha {
+      padding: 9px 0;
+      border-bottom: 1px solid #e7edf3;
+      font-size: 18px;
+      line-height: 1.5;
     }
 
-    .linha{
-      padding:10px 0;
-      border-bottom:1px solid #e5eaf0;
-      line-height:1.45;
-      font-size:15px;
+    .linha:last-child {
+      border-bottom: none;
     }
 
-    .linha:last-child{
-      border-bottom:none;
+    .faixa-azul {
+      margin-top: 18px;
+      background: #eaf3ff;
+      border-left: 5px solid #2d74da;
+      border-radius: 10px;
+      padding: 14px 16px;
+      font-size: 18px;
+      line-height: 1.6;
+      color: #415263;
     }
 
-    .rotulo{
-      font-weight:700;
-      color:#314457;
+    .subtitulo {
+      margin: 0 0 14px;
+      font-size: 30px;
+      color: #24303c;
     }
 
-    .info-box{
-      margin-top:16px;
-      background:var(--info-bg);
-      border-left:5px solid var(--info-line);
-      border-radius:10px;
-      padding:16px;
-      color:#23384d;
-      line-height:1.6;
+    .a4-wrap {
+      display: flex;
+      justify-content: center;
+      overflow-x: auto;
+      padding: 6px 0;
     }
 
-    .acoes{
-      display:flex;
-      gap:14px;
-      flex-wrap:wrap;
-      margin-top:18px;
+    .a4 {
+      width: 210mm;
+      min-height: 297mm;
+      background: #fff;
+      border: 1px solid #d6d6d6;
+      box-shadow: 0 10px 26px rgba(0,0,0,.12);
+      padding: 28mm 22mm 24mm;
+      font-family: Georgia, "Times New Roman", serif;
+      color: #2e2e2e;
+      line-height: 1.85;
+      font-size: 14pt;
     }
 
-    button{
-      border:none;
-      border-radius:10px;
-      padding:16px 22px;
-      font-size:18px;
-      font-weight:700;
-      cursor:pointer;
+    .a4 .meta {
+      text-align: center;
+      margin-bottom: 24px;
     }
 
-    .btn-primary{
-      background:var(--blue);
-      color:#fff;
+    .a4 .meta h1 {
+      margin: 0 0 10px;
+      font-size: 20pt;
     }
 
-    .btn-primary:hover{
-      background:var(--blue-dark);
+    .a4 .meta .meta-linha {
+      margin: 4px 0;
+      font-size: 11.5pt;
+      color: #5f6870;
     }
 
-    .btn-secondary{
-      background:var(--gray);
-      color:#fff;
+    .a4 h2 {
+      margin: 28px 0 14px;
+      text-align: center;
+      font-size: 15pt;
     }
 
-    .btn-secondary:hover{
-      background:var(--gray-dark);
+    .a4 p {
+      margin: 0 0 14px;
+      text-align: justify;
     }
 
-    @media (max-width: 850px){
-      .grid{
-        grid-template-columns:1fr;
+    .rodape-nota {
+      margin-top: 12px;
+      font-size: 16px;
+      color: #61707d;
+    }
+
+    .acoes {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .botao {
+      border: none;
+      border-radius: 12px;
+      padding: 16px 18px;
+      font-size: 19px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: .15s ease;
+    }
+
+    .botao:hover {
+      transform: translateY(-1px);
+      opacity: .97;
+    }
+
+    .botao-primario {
+      background: #0d63dd;
+      color: #fff;
+    }
+
+    .botao-secundario {
+      background: #7a8591;
+      color: #fff;
+    }
+
+    @media (max-width: 900px) {
+      .topo {
+        font-size: 20px;
       }
 
-      .acoes{
-        flex-direction:column;
+      .titulo-principal {
+        font-size: 34px;
       }
 
-      button{
-        width:100%;
+      .subtitulo {
+        font-size: 24px;
+      }
+
+      .grid-2,
+      .acoes {
+        grid-template-columns: 1fr;
+      }
+
+      .linha,
+      .texto-base,
+      .faixa-azul {
+        font-size: 16px;
+      }
+
+      .a4 {
+        width: 100%;
+        min-height: 560px;
+        padding: 24px 20px;
+        font-size: 12pt;
       }
     }
   </style>
 </head>
 <body>
-  <header>
-    Workspace da Obra — Ambiente Editorial Central
-  </header>
+  <div class="topo">Workspace da Obra — Ambiente Editorial Central</div>
 
-  <main class="container">
-    <section class="card">
-      <div class="status-ok">Sistema Desbaste confirmado ✓</div>
+  <div class="container">
+    <div class="card">
+      <div class="status-verde">Sistema Desbaste confirmado ✔</div>
+      <h1 class="titulo-principal">Workspace liberado</h1>
+      <div class="texto-base">
+        A obra foi consolidada estruturalmente pelo Sistema Desbaste e está pronta
+        para seguir aos módulos editoriais com uma matriz editorial persistente.
+      </div>
 
-      <h1>Workspace liberado</h1>
-
-      <p class="lead">
-        A obra foi consolidada estruturalmente pelo Sistema Desbaste e está pronta para seguir aos módulos editoriais.
-      </p>
-
-      <div class="grid">
-        <div class="box">
+      <div class="grid-2">
+        <div class="bloco">
           <h3>Ficha-base da obra</h3>
-          <div class="linha"><span class="rotulo">Arquivo:</span> <span id="wsArquivo">—</span></div>
-          <div class="linha"><span class="rotulo">Título-base:</span> <span id="wsTitulo">—</span></div>
-          <div class="linha"><span class="rotulo">Autor:</span> <span id="wsAutor">—</span></div>
-          <div class="linha"><span class="rotulo">Idioma:</span> <span id="wsIdioma">—</span></div>
-          <div class="linha"><span class="rotulo">Status técnico:</span> <span id="wsStatus">—</span></div>
+          <div class="linha"><strong>Arquivo:</strong> <span id="arquivoObra">—</span></div>
+          <div class="linha"><strong>Título-base:</strong> <span id="tituloBase">—</span></div>
+          <div class="linha"><strong>Autor:</strong> <span id="autorObra">—</span></div>
+          <div class="linha"><strong>Idioma:</strong> <span id="idiomaObra">—</span></div>
+          <div class="linha"><strong>Status técnico:</strong> <span id="statusTecnico">—</span></div>
         </div>
 
-        <div class="box">
+        <div class="bloco">
           <h3>Leitura consolidada</h3>
-          <div class="linha"><span class="rotulo">Classificação principal:</span> <span id="wsPrincipal">—</span></div>
-          <div class="linha"><span class="rotulo">Classificação secundária:</span> <span id="wsSecundario">—</span></div>
-          <div class="linha"><span class="rotulo">Classificação terciária:</span> <span id="wsTerciario">—</span></div>
-          <div class="linha"><span class="rotulo">Prontidão:</span> Obra pronta para módulos seguintes</div>
+          <div class="linha"><strong>Classificação principal:</strong> <span id="classPrincipal">—</span></div>
+          <div class="linha"><strong>Classificação secundária:</strong> <span id="classSecundaria">—</span></div>
+          <div class="linha"><strong>Classificação terciária:</strong> <span id="classTerciaria">—</span></div>
+          <div class="linha"><strong>Prontidão:</strong> <span id="statusProntidao">—</span></div>
         </div>
       </div>
 
-      <div class="info-box">
-        O Workspace da Obra recebe a ficha-base consolidada pelo Sistema Desbaste e serve como ponto oficial para o Executor de Módulos, preservando a espinha dorsal do Lapidar.
+      <div class="faixa-azul">
+        O Workspace da Obra recebe a ficha-base consolidada pelo Sistema Desbaste e
+        passa a manter a <strong>matriz editorial persistente</strong> como referência oficial
+        para Diagramação, Segunda Língua(s), Avaliação, Analisador, Lapidação Literária e demais módulos.
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 class="subtitulo">Matriz editorial persistente — folha A4 oficial da obra</h2>
+
+      <div class="a4-wrap">
+        <div class="a4">
+          <div class="meta">
+            <h1 id="a4Titulo">Obra em preparação editorial</h1>
+            <div class="meta-linha"><strong>Autor:</strong> <span id="a4Autor">—</span></div>
+            <div class="meta-linha"><strong>Idioma:</strong> <span id="a4Idioma">—</span></div>
+            <div class="meta-linha"><strong>Classificação:</strong> <span id="a4Classificacao">—</span></div>
+          </div>
+
+          <p>
+            Esta folha A4 representa a matriz editorial oficial da obra dentro do Lapidar.
+            A partir deste ponto, a base técnica do texto passa a ser preservada como eixo
+            de referência para todos os módulos seguintes.
+          </p>
+
+          <p>
+            Aqui o sistema consolida o título-base, o idioma, a autoria declarada ou não declarada
+            e a classificação editorial inicial, criando uma superfície única de trabalho para
+            diagramação, análise, lapidação, tradução e demais operações do ecossistema.
+          </p>
+
+          <h2>Base comum para múltiplos formatos</h2>
+
+          <p>
+            A partir desta matriz, a obra poderá seguir para formatos como A5, 14x21, 16x23,
+            16x27, 6x9, A4 vertical, A4 horizontal, PDF digital e e-book, conforme a escolha
+            do autor ou a necessidade editorial dos módulos seguintes.
+          </p>
+
+          <p>
+            O objetivo desta etapa não é substituir a diagramação final, mas garantir que todos
+            os departamentos trabalhem sobre uma mesma base consolidada, reduzindo divergências
+            e fortalecendo a coerência estrutural do sistema.
+          </p>
+
+          <h2>Persistência editorial do Lapidar</h2>
+
+          <p>
+            Esta folha permanece como referência institucional interna da obra enquanto ela estiver
+            em circulação no fluxo editorial. É por isso que o Workspace se torna o ponto central
+            entre o Desbaste e o Executor.
+          </p>
+        </div>
       </div>
 
-      <div class="acoes">
-        <button class="btn-primary" onclick="seguirExecutor()">Seguir para Executor de Módulos</button>
-        <button class="btn-secondary" onclick="retornarDesbaste()">Retornar ao Sistema Desbaste</button>
+      <div class="rodape-nota">
+        Esta matriz A4 será reaproveitada pelos módulos seguintes como base editorial comum.
       </div>
-    </section>
-  </main>
+    </div>
+
+    <div class="card">
+      <div class="acoes">
+        <button class="botao botao-primario" onclick="seguirExecutor()">
+          Seguir para Executor de Módulos
+        </button>
+
+        <button class="botao botao-secundario" onclick="window.location.href='modulo_02_sistema_desbaste.html'">
+          Retornar ao Sistema Desbaste
+        </button>
+      </div>
+    </div>
+  </div>
 
   <script>
-    function lerFichaBaseWorkspace() {
-      let ficha = null;
-
-      try {
-        const bruta = localStorage.getItem("lapidar_ficha_base_obra");
-        if (bruta) {
-          ficha = JSON.parse(bruta);
-        }
-      } catch (e) {
-        ficha = null;
+    function obterPrimeiroValor(chaves, fallback = "") {
+      for (const chave of chaves) {
+        const valor = localStorage.getItem(chave);
+        if (valor && valor.trim()) return valor.trim();
       }
+      return fallback;
+    }
+
+    function limparNomeArquivo(nome) {
+      return (nome || "")
+        .replace(/\.[^/.]+$/, "")
+        .replace(/[_-]+/g, " ")
+        .trim();
+    }
+
+    function montarDadosObra() {
+      const arquivo = obterPrimeiroValor([
+        "arquivo_obra_nome",
+        "nome_arquivo_obra",
+        "arquivoNome",
+        "nomeArquivo",
+        "arquivo_obra",
+        "arquivo"
+      ], "Arquivo não informado");
+
+      const titulo = obterPrimeiroValor([
+        "titulo_base_obra",
+        "tituloBaseObra",
+        "titulo_obra",
+        "obra_titulo",
+        "tituloBase",
+        "titulo"
+      ], limparNomeArquivo(arquivo) || "Obra em preparação editorial");
+
+      const autorBruto = obterPrimeiroValor([
+        "autor_obra",
+        "autorObra",
+        "autor",
+        "nome_autor"
+      ], "Autor a confirmar");
+
+      const idioma = obterPrimeiroValor([
+        "idioma_obra",
+        "idiomaObra",
+        "idioma"
+      ], "Português do Brasil");
+
+      const principal = obterPrimeiroValor([
+        "classificacao_principal",
+        "classPrincipal",
+        "principal"
+      ], "Prosa");
+
+      const secundaria = obterPrimeiroValor([
+        "classificacao_secundaria",
+        "classSecundaria",
+        "secundaria"
+      ], "Narrativa literária");
+
+      const terciaria = obterPrimeiroValor([
+        "classificacao_terciaria",
+        "classTerciaria",
+        "terciaria"
+      ], "A definir no Desbaste");
+
+      const statusTecnico = obterPrimeiroValor([
+        "status_tecnico_obra",
+        "statusTecnico",
+        "status_tecnico"
+      ], "Estrutura pronta para preparação editorial");
+
+      const autorFinal = autorBruto.trim() ? autorBruto : "Autor a confirmar";
 
       return {
-        arquivo:
-          (ficha && ficha.arquivo) ||
-          localStorage.getItem("lapidar_obra_nome") ||
-          localStorage.getItem("obra_nome") ||
-          "Obra sem nome",
-
-        titulo_base:
-          (ficha && (ficha.titulo_base || ficha.titulo)) ||
-          localStorage.getItem("lapidar_obra_titulo") ||
-          localStorage.getItem("obra_titulo") ||
-          localStorage.getItem("titulo_obra") ||
-          "Obra sem nome",
-
-        autor:
-          (ficha && ficha.autor) ||
-          localStorage.getItem("lapidar_obra_autor") ||
-          localStorage.getItem("obra_autor") ||
-          localStorage.getItem("autor_obra") ||
-          "Autor a confirmar",
-
-        idioma:
-          (ficha && (ficha.idioma || ficha.idioma_base)) ||
-          localStorage.getItem("lapidar_obra_idioma") ||
-          localStorage.getItem("obra_idioma") ||
-          localStorage.getItem("idioma_obra") ||
-          "Português do Brasil",
-
-        classificacao_principal:
-          (ficha && ficha.classificacao_principal) ||
-          localStorage.getItem("lapidar_classificacao_principal") ||
-          "Aguardando leitura",
-
-        classificacao_secundaria:
-          (ficha && ficha.classificacao_secundaria) ||
-          localStorage.getItem("lapidar_classificacao_secundaria") ||
-          "Aguardando leitura",
-
-        classificacao_terciaria:
-          (ficha && ficha.classificacao_terciaria) ||
-          localStorage.getItem("lapidar_classificacao_terciaria") ||
-          "Aguardando leitura",
-
-        status_tecnico:
-          (ficha && ficha.status_tecnico) ||
-          localStorage.getItem("lapidar_status_tecnico") ||
-          "Base pronta para os módulos seguintes"
+        arquivo,
+        titulo,
+        autor: autorFinal,
+        idioma,
+        principal,
+        secundaria,
+        terciaria,
+        statusTecnico
       };
     }
 
-    function preencherWorkspace() {
-      const dados = lerFichaBaseWorkspace();
+    function preencherTela() {
+      const dados = montarDadosObra();
 
-      document.getElementById("wsArquivo").textContent = dados.arquivo;
-      document.getElementById("wsTitulo").textContent = dados.titulo_base;
-      document.getElementById("wsAutor").textContent = dados.autor;
-      document.getElementById("wsIdioma").textContent = dados.idioma;
-      document.getElementById("wsStatus").textContent = dados.status_tecnico;
-      document.getElementById("wsPrincipal").textContent = dados.classificacao_principal;
-      document.getElementById("wsSecundario").textContent = dados.classificacao_secundaria;
-      document.getElementById("wsTerciario").textContent = dados.classificacao_terciaria;
+      document.getElementById("arquivoObra").textContent = dados.arquivo;
+      document.getElementById("tituloBase").textContent = dados.titulo;
+      document.getElementById("autorObra").textContent = dados.autor;
+      document.getElementById("idiomaObra").textContent = dados.idioma;
+      document.getElementById("statusTecnico").textContent = dados.statusTecnico;
+
+      document.getElementById("classPrincipal").textContent = dados.principal;
+      document.getElementById("classSecundaria").textContent = dados.secundaria;
+      document.getElementById("classTerciaria").textContent = dados.terciaria;
+      document.getElementById("statusProntidao").textContent = "Obra pronta para módulos seguintes";
+
+      document.getElementById("a4Titulo").textContent = dados.titulo;
+      document.getElementById("a4Autor").textContent = dados.autor;
+      document.getElementById("a4Idioma").textContent = dados.idioma;
+      document.getElementById("a4Classificacao").textContent =
+        dados.principal + " / " + dados.secundaria + " / " + dados.terciaria;
+
+      localStorage.setItem("matriz_editorial_titulo", dados.titulo);
+      localStorage.setItem("matriz_editorial_autor", dados.autor);
+      localStorage.setItem("matriz_editorial_idioma", dados.idioma);
+      localStorage.setItem("matriz_editorial_classificacao_principal", dados.principal);
+      localStorage.setItem("matriz_editorial_classificacao_secundaria", dados.secundaria);
+      localStorage.setItem("matriz_editorial_classificacao_terciaria", dados.terciaria);
+      localStorage.setItem("matriz_editorial_arquivo", dados.arquivo);
+      localStorage.setItem("matriz_editorial_status_tecnico", dados.statusTecnico);
+      localStorage.setItem("matriz_editorial_ativa", "true");
+      localStorage.setItem("workspace_liberado", "true");
     }
 
     function seguirExecutor() {
+      localStorage.setItem("executor_liberado", "true");
+      localStorage.setItem("status_workspace", "ativo");
       window.location.href = "modulo_executor.html";
     }
 
-    function retornarDesbaste() {
-      window.location.href = "modulo_02_sistema_desbaste.html";
-    }
-
-    preencherWorkspace();
+    preencherTela();
   </script>
 </body>
 </html>
