@@ -1,451 +1,467 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lapidar — Painel de Setores</title>
-  <style>
-    *{box-sizing:border-box;}
-    body{
-      margin:0;
-      font-family:Arial, sans-serif;
-      background:#f7f4ec;
-      color:#2f2a24;
-    }
-    .topo{
-      background:#5d4b2d;
-      color:#fff;
-      padding:22px 24px;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:12px;
-      flex-wrap:wrap;
-    }
-    .topo h1{
-      margin:0;
-      font-size:24px;
-    }
-    .topo .sub{
-      font-size:14px;
-      opacity:0.92;
-      margin-top:4px;
-      line-height:1.4;
-    }
-    .topo .acoes{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-    }
-    .container{
-      max-width:1320px;
-      margin:24px auto;
-      padding:0 16px 32px;
-    }
-    .card{
-      background:#fff;
-      border-radius:14px;
-      padding:18px;
-      box-shadow:0 4px 14px rgba(0,0,0,0.08);
-      margin-bottom:18px;
-      border:1px solid #ece2d3;
-    }
-    .card h2{
-      margin:0 0 14px 0;
-      color:#5d4b2d;
-      font-size:20px;
-    }
-    .linha{
-      background:#f9f6f1;
-      border:1px solid #eadfce;
-      border-radius:10px;
-      padding:12px 14px;
-      margin-bottom:12px;
-    }
-    .rotulo{
-      display:block;
-      font-size:12px;
-      font-weight:bold;
-      text-transform:uppercase;
-      letter-spacing:0.4px;
-      color:#8a6a3c;
-      margin-bottom:6px;
-    }
-    .valor{
-      font-size:15px;
-      line-height:1.45;
-      word-break:break-word;
-    }
-    .grid{
-      display:grid;
-      grid-template-columns:repeat(3, 1fr);
-      gap:16px;
-    }
-    .setor{
-      background:#fff;
-      border-radius:14px;
-      padding:18px;
-      box-shadow:0 4px 14px rgba(0,0,0,0.08);
-      border:1px solid #eee4d6;
-      display:flex;
-      flex-direction:column;
-      justify-content:space-between;
-      min-height:235px;
-    }
-    .setor h3{
-      margin:0 0 10px 0;
-      font-size:19px;
-    }
-    .setor p{
-      margin:0 0 12px 0;
-      line-height:1.5;
-      font-size:14px;
-    }
-    .setor .tag{
-      display:inline-block;
-      padding:7px 10px;
-      border-radius:999px;
-      font-size:12px;
-      margin-bottom:12px;
-      border:1px solid rgba(0,0,0,0.08);
-      background:#f5f1e8;
-      color:#5d4b2d;
-    }
-    .setor .acoes{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      margin-top:8px;
-    }
-    button{
-      border:none;
-      border-radius:10px;
-      padding:12px 18px;
-      font-size:15px;
-      cursor:pointer;
-      transition:0.2s ease;
-    }
-    .btn-primario{
-      background:#5d4b2d;
-      color:#fff;
-    }
-    .btn-primario:hover{
-      background:#4a3b23;
-    }
-    .btn-secundario{
-      background:#e9dfcf;
-      color:#473721;
-    }
-    .btn-secundario:hover{
-      background:#dacdb8;
-    }
-    .aviso{
-      margin-top:14px;
-      background:#fff8e8;
-      border:1px solid #ecd7a7;
-      border-radius:10px;
-      padding:12px 14px;
-      color:#6a552a;
-      line-height:1.45;
-      font-size:14px;
-    }
-    .marrom h3{ color:#5d4b2d; }
-    .azul h3{ color:#2457c5; }
-    .dourado h3{ color:#9a6f00; }
-    .verde h3{ color:#15803d; }
-    .roxo h3{ color:#7c3aed; }
-    .vermelho h3{ color:#be123c; }
-    .cinza h3{ color:#374151; }
-    .vinho h3{ color:#8b1e3f; }
-    .oculto{ display:none !important; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lapidar — Painel de Setores</title>
+<style>
+*{box-sizing:border-box}
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:#f7f4ec;
+    color:#2f2a24;
+}
+.topo{
+    background:#5d4b2d;
+    color:#fff;
+    padding:22px 24px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+    flex-wrap:wrap;
+}
+.topo h1{
+    margin:0;
+    font-size:24px;
+}
+.topo .sub{
+    font-size:14px;
+    opacity:.92;
+    margin-top:4px;
+    line-height:1.4;
+}
+.topo .acoes{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+}
+.container{
+    max-width:1320px;
+    margin:24px auto;
+    padding:0 16px 32px;
+}
+.card{
+    background:#fff;
+    border-radius:14px;
+    padding:18px;
+    box-shadow:0 4px 14px rgba(0,0,0,.08);
+    margin-bottom:18px;
+    border:1px solid #ece2d3;
+}
+.card h2{
+    margin:0 0 14px 0;
+    color:#5d4b2d;
+    font-size:20px;
+}
+.linha{
+    background:#f9f6f1;
+    border:1px solid #eadfce;
+    border-radius:10px;
+    padding:12px 14px;
+    margin-bottom:12px;
+}
+.rotulo{
+    display:block;
+    font-size:12px;
+    font-weight:bold;
+    text-transform:uppercase;
+    letter-spacing:.4px;
+    color:#8a6a3c;
+    margin-bottom:6px;
+}
+.valor{
+    font-size:15px;
+    line-height:1.45;
+    word-break:break-word;
+}
+.grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:16px;
+}
+.setor{
+    background:#fff;
+    border-radius:14px;
+    padding:18px;
+    box-shadow:0 4px 14px rgba(0,0,0,.08);
+    border:1px solid #eee4d6;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    min-height:235px;
+}
+.setor h3{
+    margin:0 0 10px 0;
+    font-size:19px;
+}
+.setor p{
+    margin:0 0 12px 0;
+    line-height:1.5;
+    font-size:14px;
+}
+.setor .tag{
+    display:inline-block;
+    padding:7px 10px;
+    border-radius:999px;
+    font-size:12px;
+    margin-bottom:12px;
+    border:1px solid rgba(0,0,0,.08);
+    background:#f5f1e8;
+    color:#5d4b2d;
+}
+.setor .acoes{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-top:8px;
+}
+button{
+    border:none;
+    border-radius:10px;
+    padding:12px 18px;
+    font-size:15px;
+    cursor:pointer;
+    transition:.2s ease;
+}
+.btn-primario{
+    background:#5d4b2d;
+    color:#fff;
+}
+.btn-primario:hover{
+    background:#4a3b23;
+}
+.btn-secundario{
+    background:#e9dfcf;
+    color:#473721;
+}
+.btn-secundario:hover{
+    background:#dacdb8;
+}
+.aviso{
+    margin-top:14px;
+    background:#fff8e8;
+    border:1px solid #ecd7a7;
+    border-radius:10px;
+    padding:12px 14px;
+    color:#6a552a;
+    line-height:1.45;
+    font-size:14px;
+}
+.marrom h3{ color:#5d4b2d; }
+.azul h3{ color:#2457c5; }
+.dourado h3{ color:#9a6f00; }
+.verde h3{ color:#15803d; }
+.roxo h3{ color:#7c3aed; }
+.vermelho h3{ color:#be123c; }
+.cinza h3{ color:#374151; }
+.vinho h3{ color:#8b1e3f; }
+.oculto{ display:none !important; }
 
-    @media (max-width: 1050px){
-      .grid{ grid-template-columns:repeat(2, 1fr); }
-    }
-    @media (max-width: 700px){
-      .grid{ grid-template-columns:1fr; }
-    }
-  </style>
+@media (max-width:1050px){
+    .grid{ grid-template-columns:repeat(2,1fr); }
+}
+@media (max-width:700px){
+    .grid{ grid-template-columns:1fr; }
+}
+</style>
 </head>
 <body>
 
-  <div class="topo">
+<div class="topo">
     <div>
-      <h1>Painel de Setores</h1>
-      <div class="sub">Espinha dorsal oficial do Lapidar</div>
+        <h1>Painel de Setores</h1>
+        <div class="sub">Espinha dorsal oficial do Lapidar</div>
     </div>
     <div class="acoes">
-      <button class="btn-secundario" onclick="irParaCofre()">Entrar no Cofre</button>
-      <button class="btn-secundario" onclick="sairSistema()">Sair do sistema</button>
+        <button class="btn-secundario" onclick="irParaCofre()">Entrar no Cofre</button>
+        <button class="btn-secundario" onclick="sairSistema()">Sair do sistema</button>
     </div>
-  </div>
+</div>
 
-  <div class="container">
-
+<div class="container">
     <div class="card">
-      <h2>Resumo do ambiente ativo</h2>
+        <h2>Resumo do ambiente ativo</h2>
 
-      <div class="linha">
-        <span class="rotulo">Usuário logado</span>
-        <div class="valor" id="usuarioAtivo">Carregando...</div>
-      </div>
+        <div class="linha">
+            <span class="rotulo">Usuário logado</span>
+            <div class="valor" id="usuarioAtivo">Carregando...</div>
+        </div>
 
-      <div class="linha">
-        <span class="rotulo">Perfil ativo</span>
-        <div class="valor" id="perfilAtivo">Carregando...</div>
-      </div>
+        <div class="linha">
+            <span class="rotulo">Perfil ativo</span>
+            <div class="valor" id="perfilAtivo">Carregando...</div>
+        </div>
 
-      <div class="linha">
-        <span class="rotulo">Obra ativa</span>
-        <div class="valor" id="resumoObraAtiva">Nenhuma obra carregada no momento.</div>
-      </div>
+        <div class="linha">
+            <span class="rotulo">Obra ativa</span>
+            <div class="valor" id="resumoObraAtiva">Nenhuma obra carregada no momento.</div>
+        </div>
 
-      <div class="aviso" id="avisoPerfil">
-        O painel está sendo ajustado conforme o perfil ativo.
-      </div>
+        <div class="aviso" id="avisoPerfil">
+            O painel está sendo ajustado conforme o perfil ativo.
+        </div>
     </div>
 
     <div class="grid">
+        <div class="setor marrom" id="setorCofre">
+            <div>
+                <span class="tag">Entrada oficial</span>
+                <h3>Cofre Editorial do Autor</h3>
+                <p>Ponto de entrada da obra. Aqui o Lapidar lê o manuscrito, identifica estrutura, detecta lacunas editoriais, registra imagens e preserva vozes do autor.</p>
+            </div>
+            <div class="acoes">
+                <button class="btn-primario" onclick="irParaCofre()">Abrir Cofre</button>
+            </div>
+        </div>
 
-      <div class="setor marrom" id="setorCofre">
-        <div>
-          <span class="tag">Entrada oficial</span>
-          <h3>Cofre Editorial do Autor</h3>
-          <p>Ponto de entrada da obra. Aqui o Lapidar lê o manuscrito, identifica estrutura, detecta lacunas editoriais, registra imagens e preserva vozes do autor.</p>
+        <div class="setor azul" id="setorWorkspace">
+            <div>
+                <span class="tag">Confirmação da leitura</span>
+                <h3>Workspace da Obra</h3>
+                <p>Mostra ao autor o que o Cofre leu: título, autor, capítulos, personagens, clima, gênero e lacunas identificadas.</p>
+            </div>
+            <div class="acoes">
+                <button class="btn-primario" onclick="irParaWorkspace()">Abrir Workspace</button>
+            </div>
         </div>
-        <div class="acoes">
-          <button class="btn-primario" onclick="irParaCofre()">Abrir Cofre</button>
-        </div>
-      </div>
 
-      <div class="setor azul" id="setorWorkspace">
-        <div>
-          <span class="tag">Confirmação da leitura</span>
-          <h3>Workspace da Obra</h3>
-          <p>Mostra ao autor o que o Cofre leu: título, autor, capítulos, personagens, clima, gênero e lacunas identificadas.</p>
+        <div class="setor dourado" id="setorExecutor">
+            <div>
+                <span class="tag">Ação editorial</span>
+                <h3>Executor de Módulos</h3>
+                <p>Tronco operacional do Lapidar. É aqui que a obra passa por Diagramação, OKapista, Avaliação, Silo Sonoro e integrações.</p>
+            </div>
+            <div class="acoes">
+                <button class="btn-primario" onclick="irParaExecutor()">Abrir Executor</button>
+            </div>
         </div>
-        <div class="acoes">
-          <button class="btn-primario" onclick="irParaWorkspace()">Abrir Workspace</button>
-        </div>
-      </div>
 
-      <div class="setor dourado" id="setorExecutor">
-        <div>
-          <span class="tag">Ação editorial</span>
-          <h3>Executor de Módulos</h3>
-          <p>Tronco operacional do Lapidar. É aqui que a obra passa por Diagramação, OKapista, Avaliação, Lapidação, Silo Sonoro e integrações.</p>
+        <div class="setor verde" id="setorMesario">
+            <div>
+                <span class="tag">Decisão consciente</span>
+                <h3>Mesário Oficial</h3>
+                <p>Mesa de decisão do autor. Consolida a seção atual, registra confirmações e formaliza a passagem da obra para a próxima etapa.</p>
+            </div>
+            <div class="acoes">
+                <button class="btn-primario" onclick="irParaMesario()">Abrir Mesário</button>
+            </div>
         </div>
-        <div class="acoes">
-          <button class="btn-primario" onclick="irParaExecutor()">Abrir Executor</button>
-        </div>
-      </div>
 
-      <div class="setor verde" id="setorMesario">
-        <div>
-          <span class="tag">Decisão consciente</span>
-          <h3>Mesário Oficial</h3>
-          <p>Mesa de decisão do autor. Consolida a seção atual, registra confirmações e formaliza a passagem da obra para a próxima etapa.</p>
+        <div class="setor cinza" id="setorExpedicao">
+            <div>
+                <span class="tag">Saída editorial</span>
+                <h3>Expedição / Exportação</h3>
+                <p>Fecha a jornada institucional da obra, gera os primeiros artefatos formais e permite iniciar um novo ciclo.</p>
+            </div>
+            <div class="acoes">
+                <button class="btn-primario" onclick="irParaExportacao()">Abrir Expedição</button>
+            </div>
         </div>
-        <div class="acoes">
-          <button class="btn-primario" onclick="irParaMesario()">Abrir Mesário</button>
-        </div>
-      </div>
 
-      <div class="setor cinza" id="setorExpedicao">
-        <div>
-          <span class="tag">Saída editorial</span>
-          <h3>Expedição / Exportação</h3>
-          <p>Fecha a jornada institucional da obra, gera os primeiros artefatos formais e permite iniciar um novo ciclo.</p>
+        <div class="setor roxo" id="setorAuditoria">
+            <div>
+                <span class="tag">Rastro institucional</span>
+                <h3>Auditoria</h3>
+                <p>Registra a trilha oficial da obra, o LapidarClock, observações técnicas e o histórico institucional do fluxo.</p>
+            </div>
+            <div class="acoes">
+                <button class="btn-primario" onclick="irParaAuditoria()">Abrir Auditoria</button>
+            </div>
         </div>
-        <div class="acoes">
-          <button class="btn-primario" onclick="irParaExportacao()">Abrir Expedição</button>
-        </div>
-      </div>
 
-      <div class="setor roxo" id="setorAuditoria">
-        <div>
-          <span class="tag">Rastro institucional</span>
-          <h3>Auditoria</h3>
-          <p>Registra a trilha oficial da obra, o LapidarClock, observações técnicas e o histórico institucional do fluxo.</p>
+        <div class="setor vinho" id="setorCortesias">
+            <div>
+                <span class="tag">Liberações especiais</span>
+                <h3>Cortesias</h3>
+                <p>Área reservada para liberações de cortesia e decisões especiais permitidas aos perfis institucionais autorizados.</p>
+            </div>
+            <div class="acoes">
+                <button class="btn-primario" onclick="abrirPlaceholder('Cortesias')">Abrir Cortesias</button>
+            </div>
         </div>
-        <div class="acoes">
-          <button class="btn-primario" onclick="irParaAuditoria()">Abrir Auditoria</button>
-        </div>
-      </div>
 
-      <div class="setor vinho" id="setorCortesias">
-        <div>
-          <span class="tag">Liberações especiais</span>
-          <h3>Cortesias</h3>
-          <p>Área reservada para liberações de cortesia e decisões especiais permitidas aos perfis institucionais autorizados.</p>
+        <div class="setor vermelho" id="setorJoiaRara">
+            <div>
+                <span class="tag">Área especial</span>
+                <h3>Joia Rara</h3>
+                <p>Espaço especial reservado aos perfis autorizados para materiais e decisões de valor excepcional dentro do sistema.</p>
+            </div>
+            <div class="acoes">
+                <button class="btn-primario" onclick="abrirPlaceholder('Joia Rara')">Abrir Joia Rara</button>
+            </div>
         </div>
-        <div class="acoes">
-          <button class="btn-primario" onclick="abrirPlaceholder('Cortesias')">Abrir Cortesias</button>
-        </div>
-      </div>
 
-      <div class="setor vermelho" id="setorJoiaRara">
-        <div>
-          <span class="tag">Área especial</span>
-          <h3>Joia Rara</h3>
-          <p>Espaço especial reservado aos perfis autorizados para materiais e decisões de valor excepcional dentro do sistema.</p>
+        <div class="setor cinza" id="setorAdministracao">
+            <div>
+                <span class="tag">Controle total</span>
+                <h3>Administração</h3>
+                <p>Área de administração completa do sistema, com acesso reservado exclusivamente ao perfil Admin.</p>
+            </div>
+            <div class="acoes">
+                <button class="btn-primario" onclick="abrirPlaceholder('Administração')">Abrir Administração</button>
+            </div>
         </div>
-        <div class="acoes">
-          <button class="btn-primario" onclick="abrirPlaceholder('Joia Rara')">Abrir Joia Rara</button>
-        </div>
-      </div>
-
-      <div class="setor cinza" id="setorAdministracao">
-        <div>
-          <span class="tag">Controle total</span>
-          <h3>Administração</h3>
-          <p>Área de administração completa do sistema, com acesso reservado exclusivamente ao perfil Admin.</p>
-        </div>
-        <div class="acoes">
-          <button class="btn-primario" onclick="abrirPlaceholder('Administração')">Abrir Administração</button>
-        </div>
-      </div>
-
     </div>
+</div>
 
-  </div>
+<script>
+function obraCorrompida(obra){
+    if(!obra) return false;
+    const titulo = (obra?.estrutura?.titulo || obra?.titulo || "").toString();
+    const texto = (obra?.textoExtraido || obra?.texto || "").toString();
 
-  <script>
-    function obraCorrompida(obra){
-      if(!obra) return false;
-      const titulo = (obra?.estrutura?.titulo || obra?.titulo || "").toString();
-      const texto = (obra?.textoExtraido || obra?.texto || "").toString();
+    if(titulo.startsWith("PK")) return true;
+    if(titulo.includes("word/numbering.xml")) return true;
+    if(texto.includes("word/numbering.xml")) return true;
+    if(texto.startsWith("PK")) return true;
 
-      if(titulo.startsWith("PK")) return true;
-      if(titulo.includes("word/numbering.xml")) return true;
-      if(texto.includes("word/numbering.xml")) return true;
-      if(texto.startsWith("PK")) return true;
+    return false;
+}
 
-      return false;
-    }
+function obterObraAtual(){
+    const obraSalva = localStorage.getItem("obraAtual");
+    if(!obraSalva) return null;
 
-    function obterObraAtual(){
-      const obraSalva = localStorage.getItem("obraAtual");
-      if(!obraSalva) return null;
-
-      try{
+    try{
         return JSON.parse(obraSalva);
-      }catch(erro){
+    }catch(error){
         return null;
-      }
     }
+}
 
-    function obterPerfil(){
-      return localStorage.getItem("perfilAtivo") || "usuario";
-    }
+function obterPerfil(){
+    return localStorage.getItem("perfilUsuario")
+        || localStorage.getItem("perfilAtivo")
+        || "usuario";
+}
 
-    function obterPerfilLabel(perfil){
-      if(perfil === "admin") return "Admin";
-      if(perfil === "heteronimo") return "Heterônimo";
-      return "Utilizador";
-    }
+function obterPerfilLabel(perfil){
+    if(perfil === "admin") return "Admin";
+    if(perfil === "heteronimo") return "Heterônimo";
+    return "Utilizador";
+}
 
-    function preencherResumoObra(){
-      const obra = obterObraAtual();
-      const alvo = document.getElementById("resumoObraAtiva");
+function preencherResumoObra(){
+    const obra = obterObraAtual();
+    const alvo = document.getElementById("resumoObraAtiva");
 
-      if(!obra){
+    if(!obra){
         alvo.innerText = "Nenhuma obra carregada no momento.";
         return;
-      }
+    }
 
-      if(obraCorrompida(obra)){
+    if(obraCorrompida(obra)){
         alvo.innerText = "Obra ativa corrompida detectada. Reenvie o manuscrito no Cofre atualizado.";
         return;
-      }
-
-      const titulo = obra?.estrutura?.titulo || obra?.titulo || "Título não identificado";
-      const autor = obra?.estrutura?.autor || "Autor não identificado";
-      const tipo = obra?.tipo || "Tipo não identificado";
-
-      alvo.innerText = `${titulo} — ${autor} — ${tipo}`;
     }
 
-    function preencherUsuarioEPerfil(){
-      const usuario = localStorage.getItem("usuarioLogado") || "Não identificado";
-      const perfil = obterPerfil();
+    const titulo = obra?.estrutura?.titulo || obra?.titulo || "Título não identificado";
+    const autor = obra?.estrutura?.autor || obra?.autor || "Autor não identificado";
+    const tipo = obra?.tipo || "Tipo não identificado";
 
-      document.getElementById("usuarioAtivo").innerText = usuario;
-      document.getElementById("perfilAtivo").innerText = obterPerfilLabel(perfil);
-    }
+    alvo.innerText = `${titulo} — ${autor} — ${tipo}`;
+}
 
-    function aplicarPermissoes(){
-      const perfil = obterPerfil();
+function preencherUsuarioEPerfil(){
+    const usuario = localStorage.getItem("usuarioLogado")
+        || localStorage.getItem("emailUsuario")
+        || "Não identificado";
 
-      const setorAuditoria = document.getElementById("setorAuditoria");
-      const setorCortesias = document.getElementById("setorCortesias");
-      const setorJoiaRara = document.getElementById("setorJoiaRara");
-      const setorAdministracao = document.getElementById("setorAdministracao");
-      const aviso = document.getElementById("avisoPerfil");
+    const perfil = obterPerfil();
 
-      setorAuditoria.classList.remove("oculto");
-      setorCortesias.classList.remove("oculto");
-      setorJoiaRara.classList.remove("oculto");
-      setorAdministracao.classList.remove("oculto");
+    document.getElementById("usuarioAtivo").innerText = usuario;
+    document.getElementById("perfilAtivo").innerText = obterPerfilLabel(perfil);
+}
 
-      if(perfil === "usuario"){
+function aplicarPermissoes(){
+    const perfil = obterPerfil();
+
+    const setorAuditoria = document.getElementById("setorAuditoria");
+    const setorCortesias = document.getElementById("setorCortesias");
+    const setorJoiaRara = document.getElementById("setorJoiaRara");
+    const setorAdministracao = document.getElementById("setorAdministracao");
+    const aviso = document.getElementById("avisoPerfil");
+
+    setorAuditoria.classList.remove("oculto");
+    setorCortesias.classList.remove("oculto");
+    setorJoiaRara.classList.remove("oculto");
+    setorAdministracao.classList.remove("oculto");
+
+    if(perfil === "usuario"){
         setorAuditoria.classList.add("oculto");
         setorCortesias.classList.add("oculto");
         setorJoiaRara.classList.add("oculto");
         setorAdministracao.classList.add("oculto");
         aviso.innerText = "Perfil Utilizador ativo: acesso liberado somente ao fluxo da obra, do Cofre até a Expedição.";
         return;
-      }
+    }
 
-      if(perfil === "heteronimo"){
+    if(perfil === "heteronimo"){
         setorAuditoria.classList.add("oculto");
         setorAdministracao.classList.add("oculto");
-        aviso.innerText = "Perfil Heterônimo ativo: acesso à produção, Cortesias e Joia Rara. Auditoria e Administração permanecem bloqueadas.";
+        aviso.innerText = "Perfil Heterônimo ativo: acesso à produção, Cortesias e Joia Rara. Auditoria e Administração permanecem restritas.";
         return;
-      }
-
-      aviso.innerText = "Perfil Admin ativo: acesso total ao ecossistema operacional do Lapidar.";
     }
 
-    function irParaCofre(){
-      window.location.href = "modulo01_bolsao_mapa.html";
-    }
+    aviso.innerText = "Perfil Admin ativo: acesso total ao ecossistema operacional do Lapidar.";
+}
 
-    function irParaWorkspace(){
-      window.location.href = "obra_workspace.html";
-    }
+function registrarPassagemPainel(){
+    const historico = JSON.parse(localStorage.getItem("nasPainelSetores") || "[]");
+    historico.unshift({
+        data: new Date().toISOString(),
+        pagina: "painel_setores.html",
+        perfil: obterPerfil(),
+        usuario: localStorage.getItem("usuarioLogado") || localStorage.getItem("emailUsuario") || "Não identificado"
+    });
+    localStorage.setItem("nasPainelSetores", JSON.stringify(historico.slice(0,20)));
+}
 
-    function irParaExecutor(){
-      window.location.href = "modulo_executor.html";
-    }
+function irParaCofre(){
+    window.location.href = "modulo_01_bolsao.html";
+}
 
-    function irParaMesario(){
-      window.location.href = "mesario.html";
-    }
+function irParaWorkspace(){
+    window.location.href = "obra_workspace.html";
+}
 
-    function irParaAuditoria(){
-      window.location.href = "auditoria.html";
-    }
+function irParaExecutor(){
+    window.location.href = "modulo_executor.html";
+}
 
-    function irParaExportacao(){
-      window.location.href = "exportar.html";
-    }
+function irParaMesario(){
+    window.location.href = "mesario.html";
+}
 
-    function abrirPlaceholder(nome){
-      alert(nome + " ainda será consolidado dentro da espinha dorsal correspondente.");
-    }
+function irParaAuditoria(){
+    window.location.href = "auditoria.html";
+}
 
-    function sairSistema(){
-      localStorage.removeItem("sessaoLapidarAtiva");
-      localStorage.removeItem("usuarioLogado");
-      localStorage.removeItem("perfilAtivo");
-      window.location.href = "login.html";
-    }
+function irParaExportacao(){
+    window.location.href = "exportar.html";
+}
 
-    preencherUsuarioEPerfil();
-    preencherResumoObra();
-    aplicarPermissoes();
-  </script>
+function abrirPlaceholder(nome){
+    alert(nome + " ainda será consolidado dentro da espinha dorsal correspondente.");
+}
 
+function sairSistema(){
+    localStorage.removeItem("sessaoLapidarAtiva");
+    localStorage.removeItem("usuarioLogado");
+    localStorage.removeItem("perfilUsuario");
+    localStorage.removeItem("perfilAtivo");
+    localStorage.removeItem("emailUsuario");
+    window.location.href = "login.html";
+}
+
+preencherUsuarioEPerfil();
+preencherResumoObra();
+aplicarPermissoes();
+registrarPassagemPainel();
+</script>
+
+<script src="lapidar_inteligencia_core.js"></script>
 </body>
 </html>
