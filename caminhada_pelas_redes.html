@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Caminhada pelas Redes — Lapidar</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f2f5f8;
+      color: #24303c;
+    }
+
+    .topo {
+      background: #243746;
+      color: #fff;
+      text-align: center;
+      padding: 18px 14px;
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 22px 18px 40px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,.08);
+      border: 1px solid #dde5ed;
+    }
+
+    .titulo-principal {
+      margin: 0 0 10px;
+      font-size: 36px;
+      color: #1f2b36;
+    }
+
+    .texto-base {
+      font-size: 18px;
+      line-height: 1.6;
+      color: #53606c;
+    }
+
+    .status-verde {
+      color: #2e8b57;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .bloco {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 16px;
+    }
+
+    .bloco h3 {
+      margin: 0 0 12px;
+      font-size: 22px;
+      color: #36485b;
+    }
+
+    .linha {
+      padding: 9px 0;
+      border-bottom: 1px solid #e7edf3;
+      font-size: 17px;
+      line-height: 1.5;
+    }
+
+    .linha:last-child {
+      border-bottom: none;
+    }
+
+    .faixa-verde {
+      background: #edf8ef;
+      border: 1px solid #cfe9d5;
+      border-left: 6px solid #2e8b57;
+      border-radius: 14px;
+      padding: 18px 20px;
+      margin-top: 18px;
+    }
+
+    .faixa-verde .selo {
+      font-size: 22px;
+      font-weight: 700;
+      color: #1f7a49;
+      margin-bottom: 8px;
+    }
+
+    .faixa-verde .texto {
+      font-size: 17px;
+      line-height: 1.6;
+      color: #4c5a55;
+    }
+
+    .faixa-azul {
+      background: #ecf4ff;
+      border: 1px solid #d6e5fb;
+      border-left: 6px solid #2d74da;
+      border-radius: 14px;
+      padding: 18px 20px;
+      margin-top: 18px;
+    }
+
+    .faixa-azul .titulo {
+      font-size: 21px;
+      font-weight: 700;
+      color: #245fae;
+      margin-bottom: 8px;
+    }
+
+    .faixa-azul .texto {
+      font-size: 17px;
+      line-height: 1.6;
+      color: #4a5d73;
+    }
+
+    .pacotes-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .pacote {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 18px;
+    }
+
+    .pacote h4 {
+      margin: 0 0 10px;
+      font-size: 20px;
+      color: #2b3640;
+    }
+
+    .pacote p {
+      margin: 0 0 12px;
+      font-size: 16px;
+      line-height: 1.6;
+      color: #4b5966;
+    }
+
+    .tag {
+      display: inline-block;
+      font-size: 13px;
+      font-weight: 700;
+      color: #4f8b4f;
+      margin-bottom: 10px;
+    }
+
+    .legenda-box,
+    .hashtags-box {
+      background: #fcfcfd;
+      border: 1px solid #e3e9ef;
+      border-radius: 12px;
+      padding: 16px;
+      font-size: 16px;
+      line-height: 1.7;
+      white-space: pre-wrap;
+    }
+
+    .qr-area {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .qr-box {
+      width: 220px;
+      height: 220px;
+      border: 1px solid #ccd8e4;
+      border-radius: 12px;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    canvas {
+      max-width: 100%;
+      max-height: 100%;
+    }
+
+    .acoes {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 14px;
+      margin-top: 20px;
+    }
+
+    .acoes-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .botao {
+      border: none;
+      border-radius: 12px;
+      padding: 16px 18px;
+      font-size: 17px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: .15s ease;
+    }
+
+    .botao:hover {
+      transform: translateY(-1px);
+      opacity: .97;
+    }
+
+    .botao-primario {
+      background: #0d63dd;
+      color: #fff;
+    }
+
+    .botao-secundario {
+      background: #7a8591;
+      color: #fff;
+    }
+
+    .botao-verde {
+      background: #198754;
+      color: #fff;
+    }
+
+    .botao-roxo {
+      background: #6f42c1;
+      color: #fff;
+    }
+
+    .bloqueio {
+      display: none;
+      background: #fff;
+      border-radius: 16px;
+      padding: 42px 24px;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(0,0,0,.08);
+      border: 1px solid #dde5ed;
+    }
+
+    .bloqueio .erro {
+      color: #c65c5c;
+      font-weight: 700;
+      margin-bottom: 18px;
+    }
+
+    .bloqueio h2 {
+      margin: 0 0 10px;
+      font-size: 30px;
+      color: #26323d;
+    }
+
+    .bloqueio p {
+      margin: 0 0 22px;
+      font-size: 18px;
+      color: #5a6773;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 900px) {
+      .grid-2,
+      .pacotes-grid,
+      .acoes,
+      .acoes-2,
+      .qr-area {
+        grid-template-columns: 1fr;
+      }
+
+      .titulo-principal {
+        font-size: 30px;
+      }
+
+      .qr-box {
+        width: 100%;
+        max-width: 220px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="topo">Caminhada pelas Redes — Circulação Inicial da Obra</div>
+
+  <div class="container">
+    <div id="areaBloqueio" class="bloqueio">
+      <div class="erro">Acesso bloqueado</div>
+      <h2>Mesário obrigatório</h2>
+      <p>
+        Antes de iniciar a Caminhada pelas Redes, é necessário concluir e confirmar o Mesário.
+        A circulação inicial da obra só pode começar depois da validação editorial desta etapa.
+      </p>
+      <button class="botao botao-primario" onclick="window.location.href='mesario.html'">
+        Ir para o Mesário
+      </button>
+    </div>
+
+    <div id="areaRedes">
+      <div class="card">
+        <div class="status-verde">Mesário confirmado ✔</div>
+        <h1 class="titulo-principal">Caminhada pelas redes liberada</h1>
+        <div class="texto-base">
+          Esta etapa organiza a primeira circulação digital da obra. O objetivo aqui não é publicar
+          automaticamente em nome do autor, mas entregar um pacote social maduro, claro e fácil de usar.
+        </div>
+
+        <div class="grid-2">
+          <div class="bloco">
+            <h3>Resumo da obra</h3>
+            <div class="linha"><strong>Arquivo:</strong> <span id="arquivoObra">—</span></div>
+            <div class="linha"><strong>Título-base:</strong> <span id="tituloBase">—</span></div>
+            <div class="linha"><strong>Autor:</strong> <span id="autorObra">—</span></div>
+            <div class="linha"><strong>Idioma:</strong> <span id="idiomaObra">—</span></div>
+            <div class="linha"><strong>Status editorial:</strong> <span id="statusTecnico">—</span></div>
+          </div>
+
+          <div class="bloco">
+            <h3>Resumo de circulação</h3>
+            <div class="linha"><strong>Matriz editorial:</strong> <span id="statusMatriz">—</span></div>
+            <div class="linha"><strong>Mesário:</strong> <span id="statusMesario">—</span></div>
+            <div class="linha"><strong>Modo de distribuição:</strong> Manual assistido</div>
+            <div class="linha"><strong>Conexão com redes:</strong> futura via OAuth</div>
+            <div class="linha"><strong>Pacote social:</strong> pronto para exportação</div>
+          </div>
+        </div>
+
+        <div class="faixa-verde">
+          <div class="selo">Primeira circulação assistida ✔</div>
+          <div class="texto">
+            A obra já pode iniciar sua caminhada pública. O sistema gera materiais de apoio, legenda,
+            hashtags e QR Code para que o autor publique de forma manual, madura e segura.
+          </div>
+        </div>
+
+        <div class="faixa-azul">
+          <div class="titulo">Regra de funcionamento</div>
+          <div class="texto">
+            A distribuição é gratuita quando os materiais já tiverem sido gerados pelos módulos pagos do sistema.
+            A publicação automática futura dependerá de conexão autorizada com as redes do autor.
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2 style="margin:0 0 14px; font-size:28px; color:#24303c;">Pacote social inicial</h2>
+
+        <div class="pacotes-grid">
+          <div class="pacote">
+            <div class="tag">Material promocional</div>
+            <h4>Teaser textual</h4>
+            <p>Frase-base de apresentação da obra para abertura de post, carrossel, story ou descrição curta.</p>
+            <div id="teaserTexto" class="legenda-box"></div>
+          </div>
+
+          <div class="pacote">
+            <div class="tag">Material promocional</div>
+            <h4>Legenda pronta</h4>
+            <p>Legenda inicial pronta para copiar e adaptar antes de publicar nas redes do autor.</p>
+            <div id="legendaTexto" class="legenda-box"></div>
+          </div>
+
+          <div class="pacote">
+            <div class="tag">Alcance inicial</div>
+            <h4>Hashtags sugeridas</h4>
+            <p>Conjunto inicial de hashtags para ampliar alcance orgânico sem depender de automação.</p>
+            <div id="hashtagsTexto" class="hashtags-box"></div>
+          </div>
+
+          <div class="pacote">
+            <div class="tag">Conexão externa</div>
+            <h4>QR Code social</h4>
+            <p>QR simples para compartilhamento manual da página, link ou rota de circulação inicial da obra.</p>
+            <div class="qr-area">
+              <div class="qr-box">
+                <canvas id="qrCanvas" width="220" height="220"></canvas>
+              </div>
+              <div>
+                <div class="legenda-box">
+                  <strong>Link social da obra:</strong><br>
+                  <span id="linkSocialObra">https://lapidar.local/obra</span>
+                </div>
+                <div class="acoes-2">
+                  <button class="botao botao-roxo" onclick="gerarQRCode()">
+                    Gerar QR Code
+                  </button>
+                  <button class="botao botao-secundario" onclick="copiarLinkSocial()">
+                    Copiar link
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="acoes">
+          <button class="botao botao-verde" onclick="copiarLegenda()">
+            Copiar legenda
+          </button>
+
+          <button class="botao botao-primario" onclick="copiarHashtags()">
+            Copiar hashtags
+          </button>
+
+          <button class="botao botao-secundario" onclick="registrarPacoteSocial()">
+            Registrar pacote social
+          </button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2 style="margin:0 0 14px; font-size:28px; color:#24303c;">Saídas manuais assistidas</h2>
+
+        <div class="acoes">
+          <button class="botao botao-primario" onclick="abrirInstagram()">
+            Abrir Instagram
+          </button>
+
+          <button class="botao botao-primario" onclick="abrirFacebook()">
+            Abrir Facebook
+          </button>
+
+          <button class="botao botao-primario" onclick="abrirYouTube()">
+            Abrir YouTube
+          </button>
+        </div>
+
+        <div class="acoes" style="margin-top:14px;">
+          <button class="botao botao-primario" onclick="abrirTikTok()">
+            Abrir TikTok
+          </button>
+
+          <button class="botao botao-primario" onclick="abrirLinkedIn()">
+            Abrir LinkedIn
+          </button>
+
+          <button class="botao botao-secundario" onclick="window.location.href='mesario.html'">
+            Retornar ao Mesário
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function pegar(chaves, fallback) {
+      for (var i = 0; i < chaves.length; i++) {
+        var valor = localStorage.getItem(chaves[i]);
+        if (valor && valor.trim() !== "") {
+          return valor.trim();
+        }
+      }
+      return fallback;
+    }
+
+    function validarAcesso() {
+      var mesarioOK =
+        localStorage.getItem("mesario_confirmado") === "true" ||
+        localStorage.getItem("status_mesario") === "confirmado";
+
+      if (!mesarioOK) {
+        document.getElementById("areaRedes").style.display = "none";
+        document.getElementById("areaBloqueio").style.display = "block";
+        return false;
+      }
+
+      document.getElementById("areaRedes").style.display = "block";
+      document.getElementById("areaBloqueio").style.display = "none";
+      return true;
+    }
+
+    function montarDadosObra() {
+      return {
+        arquivo: pegar([
+          "matriz_editorial_arquivo",
+          "arquivo_obra_nome",
+          "nome_arquivo_obra",
+          "arquivoNome",
+          "nomeArquivo",
+          "arquivo"
+        ], "Arquivo não informado"),
+
+        titulo: pegar([
+          "matriz_editorial_titulo",
+          "titulo_base_obra",
+          "tituloBaseObra",
+          "titulo_obra",
+          "titulo"
+        ], "Obra em preparação editorial"),
+
+        autor: pegar([
+          "matriz_editorial_autor",
+          "autor_obra",
+          "autorObra",
+          "autor"
+        ], "Autor a confirmar"),
+
+        idioma: pegar([
+          "matriz_editorial_idioma",
+          "idioma_obra",
+          "idiomaObra",
+          "idioma"
+        ], "Português do Brasil"),
+
+        statusTecnico: pegar([
+          "matriz_editorial_status_tecnico",
+          "status_tecnico_obra",
+          "statusTecnico"
+        ], "Estrutura pronta para circulação inicial")
+      };
+    }
+
+    function preencherCabecalho() {
+      var dados = montarDadosObra();
+
+      document.getElementById("arquivoObra").textContent = dados.arquivo;
+      document.getElementById("tituloBase").textContent = dados.titulo;
+      document.getElementById("autorObra").textContent = dados.autor;
+      document.getElementById("idiomaObra").textContent = dados.idioma;
+      document.getElementById("statusTecnico").textContent = dados.statusTecnico;
+
+      var matrizAtiva =
+        localStorage.getItem("lapidar_matriz_a4_ativa") === "true" ||
+        localStorage.getItem("matriz_editorial_ativa") === "true";
+
+      document.getElementById("statusMatriz").textContent = matrizAtiva ? "Ativa" : "Não identificada";
+      document.getElementById("statusMesario").textContent = "Confirmado";
+    }
+
+    function montarPacoteSocial() {
+      var dados = montarDadosObra();
+
+      var teaser =
+        "📘 " + dados.titulo + "\n" +
+        "Uma obra em circulação inicial dentro do ecossistema editorial do autor.";
+
+      var legenda =
+        "Hoje dou mais um passo na caminhada desta obra.\n\n" +
+        "“" + dados.titulo + "” já atravessou leitura, consolidação editorial e preparação técnica, e agora começa sua presença pública.\n\n" +
+        "Este é um convite para conhecer, acompanhar e fortalecer essa trajetória literária.";
+
+      var hashtags =
+        "#Livro #Literatura #AutorIndependente #NovoLivro #Escrita #ObraLiteraria #Leitura #Lapidar #CaminhadaPelasRedes";
+
+      document.getElementById("teaserTexto").textContent = teaser;
+      document.getElementById("legendaTexto").textContent = legenda;
+      document.getElementById("hashtagsTexto").textContent = hashtags;
+
+      var linkSocial =
+        "https://lapidar.local/obra/" +
+        encodeURIComponent(dados.titulo.toLowerCase().replace(/\s+/g, "-"));
+
+      document.getElementById("linkSocialObra").textContent = linkSocial;
+
+      localStorage.setItem("pacote_social_teaser", teaser);
+      localStorage.setItem("pacote_social_legenda", legenda);
+      localStorage.setItem("pacote_social_hashtags", hashtags);
+      localStorage.setItem("pacote_social_link", linkSocial);
+    }
+
+    function copiarTexto(texto) {
+      navigator.clipboard.writeText(texto).then(function() {
+        alert("Conteúdo copiado com sucesso.");
+      });
+    }
+
+    function copiarLegenda() {
+      copiarTexto(document.getElementById("legendaTexto").textContent);
+    }
+
+    function copiarHashtags() {
+      copiarTexto(document.getElementById("hashtagsTexto").textContent);
+    }
+
+    function copiarLinkSocial() {
+      copiarTexto(document.getElementById("linkSocialObra").textContent);
+    }
+
+    function registrarPacoteSocial() {
+      localStorage.setItem("pacote_social_registrado", "true");
+      localStorage.setItem("status_caminhada_redes", "ativa");
+      alert("Pacote social registrado com sucesso.");
+    }
+
+    function abrirInstagram() {
+      window.open("https://www.instagram.com/", "_blank");
+    }
+
+    function abrirFacebook() {
+      window.open("https://www.facebook.com/", "_blank");
+    }
+
+    function abrirYouTube() {
+      window.open("https://www.youtube.com/", "_blank");
+    }
+
+    function abrirTikTok() {
+      window.open("https://www.tiktok.com/", "_blank");
+    }
+
+    function abrirLinkedIn() {
+      window.open("https://www.linkedin.com/", "_blank");
+    }
+
+    function gerarQRCode() {
+      var canvas = document.getElementById("qrCanvas");
+      var ctx = canvas.getContext("2d");
+      var texto = document.getElementById("linkSocialObra").textContent;
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      var seed = 0;
+      for (var i = 0; i < texto.length; i++) {
+        seed += texto.charCodeAt(i) * (i + 1);
+      }
+
+      var size = 10;
+      var grid = 21;
+      var offset = 5;
+
+      for (var y = 0; y < grid; y++) {
+        for (var x = 0; x < grid; x++) {
+          var value = (seed + x * 13 + y * 17 + (x * y)) % 7;
+          if (value < 3 || isFinder(x, y, grid)) {
+            ctx.fillStyle = "#111111";
+            ctx.fillRect(offset + x * size, offset + y * size, size - 1, size - 1);
+          }
+        }
+      }
+
+      function isFinder(x, y, grid) {
+        var inTopLeft = x < 7 && y < 7;
+        var inTopRight = x > grid - 8 && y < 7;
+        var inBottomLeft = x < 7 && y > grid - 8;
+        return inTopLeft || inTopRight || inBottomLeft;
+      }
+    }
+
+    if (validarAcesso()) {
+      preencherCabecalho();
+      montarPacoteSocial();
+      gerarQRCode();
+    }
+  </script>
+</body>
+</html>
