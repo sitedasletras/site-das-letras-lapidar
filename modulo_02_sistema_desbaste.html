@@ -1,216 +1,416 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sistema Desbaste — Consolidação Editorial da Obra</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-<title>Sistema Desbaste — Consolidação Editorial</title>
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #efe9df;
+      color: #2f2f2f;
+    }
 
-<style>
+    .topo {
+      background: #0d2b44;
+      color: #fff;
+      text-align: center;
+      font-weight: 700;
+      padding: 18px 16px;
+      font-size: 24px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
 
-body{
-background:#efe9df;
-font-family:system-ui;
-margin:0;
-}
+    .container {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 22px 18px 40px;
+    }
 
-.topo{
-background:#0f2a3d;
-color:white;
-padding:18px;
-font-size:20px;
-text-align:center;
-}
+    .card {
+      background: #f7f4ee;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+      border: 1px solid #e3dbcf;
+    }
 
-.container{
-max-width:1100px;
-margin:auto;
-padding:20px;
-}
+    .titulo-card {
+      font-size: 28px;
+      font-weight: 700;
+      margin: 0 0 14px;
+      color: #243241;
+    }
 
-.card{
-background:#f7f4ee;
-padding:20px;
-margin-bottom:20px;
-border-radius:14px;
-box-shadow:0px 6px 12px rgba(0,0,0,.08);
-}
+    .subtitulo {
+      font-size: 22px;
+      font-weight: 700;
+      margin: 0 0 12px;
+      color: #37485a;
+    }
 
-.titulo{
-font-size:18px;
-margin-bottom:10px;
-}
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
 
-.status-ok{
-color:#1c9c63;
-font-weight:600;
-}
+    .bloco-info {
+      background: #fbfaf7;
+      border: 1px solid #e5ddd2;
+      border-radius: 14px;
+      padding: 16px;
+      min-height: 180px;
+    }
 
-.status-alerta{
-color:#d49b00;
-}
+    .linha {
+      padding: 8px 0;
+      border-bottom: 1px solid #ece5da;
+      font-size: 18px;
+    }
 
-.grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:20px;
-}
+    .linha:last-child {
+      border-bottom: none;
+    }
 
-.a4-preview{
+    .ok {
+      color: #1f8f57;
+      font-weight: 700;
+    }
 
-width:100%;
-height:500px;
+    .alerta {
+      color: #9a6a00;
+      font-weight: 700;
+    }
 
-background:white;
+    .neutro {
+      color: #4f5b66;
+      font-weight: 700;
+    }
 
-box-shadow:0px 0px 25px rgba(0,0,0,.12);
+    .aviso {
+      background: #fff7df;
+      border-left: 5px solid #d59a16;
+      padding: 14px 16px;
+      border-radius: 10px;
+      font-size: 17px;
+      line-height: 1.5;
+      margin-top: 14px;
+    }
 
-padding:50px;
+    .aviso-azul {
+      background: #edf4ff;
+      border-left: 5px solid #2774da;
+      padding: 14px 16px;
+      border-radius: 10px;
+      font-size: 17px;
+      line-height: 1.5;
+      margin-top: 14px;
+    }
 
-line-height:1.6;
+    .a4-wrap {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 8px 0 4px;
+      overflow-x: auto;
+    }
 
-overflow:auto;
+    .a4 {
+      width: 210mm;
+      min-height: 297mm;
+      background: #fff;
+      color: #222;
+      border: 1px solid #d8d8d8;
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.12);
+      padding: 28mm 22mm 24mm;
+      line-height: 1.8;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 14pt;
+    }
 
-}
+    .a4 h1 {
+      margin: 0 0 20px;
+      font-size: 20pt;
+      text-align: center;
+    }
 
-.botao{
+    .a4 h2 {
+      margin: 28px 0 14px;
+      font-size: 15pt;
+      text-align: center;
+      font-weight: bold;
+    }
 
-background:#0f5ed7;
+    .a4 p {
+      margin: 0 0 14px;
+      text-align: justify;
+    }
 
-color:white;
+    .classificacao {
+      font-size: 19px;
+      line-height: 1.7;
+    }
 
-border:none;
+    .acoes {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
 
-padding:14px;
+    .botao {
+      appearance: none;
+      border: none;
+      border-radius: 12px;
+      padding: 16px 18px;
+      font-size: 18px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.15s ease, opacity 0.15s ease;
+    }
 
-border-radius:10px;
+    .botao:hover {
+      transform: translateY(-1px);
+      opacity: 0.96;
+    }
 
-font-size:16px;
+    .botao-primario {
+      background: #0d63dd;
+      color: #fff;
+    }
 
-cursor:pointer;
+    .botao-secundario {
+      background: #8b949e;
+      color: #fff;
+    }
 
-width:100%;
+    .rodape-nota {
+      font-size: 16px;
+      color: #5c6771;
+      margin-top: 10px;
+    }
 
-}
+    @media (max-width: 900px) {
+      .topo {
+        font-size: 20px;
+        padding: 16px 12px;
+      }
 
-</style>
+      .titulo-card {
+        font-size: 24px;
+      }
 
+      .subtitulo {
+        font-size: 20px;
+      }
+
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+
+      .linha,
+      .classificacao {
+        font-size: 16px;
+      }
+
+      .a4 {
+        width: 100%;
+        min-height: 520px;
+        padding: 24px 20px;
+        font-size: 12pt;
+      }
+    }
+  </style>
 </head>
-
 <body>
+  <div class="topo">Sistema Desbaste — Consolidação Editorial da Obra</div>
 
-<div class="topo">
-Sistema Desbaste — Consolidação Editorial da Obra
-</div>
+  <div class="container">
+    <div class="card">
+      <h1 class="titulo-card">Camada 2 — Leitura estrutural profunda</h1>
 
-<div class="container">
+      <div class="grid-2">
+        <div class="bloco-info">
+          <div class="linha"><span class="neutro">Capítulos:</span> não identificados</div>
+          <div class="linha"><span class="neutro">Prefácio:</span> não identificado</div>
+          <div class="linha"><span class="neutro">Dedicatória:</span> não identificada</div>
+          <div class="linha"><span class="neutro">Epígrafe:</span> não identificada</div>
+          <div class="linha"><span class="ok">Diálogos:</span> detectados</div>
+          <div class="linha"><span class="ok">Estrutura narrativa:</span> contínua</div>
+        </div>
 
-<div class="card">
+        <div class="bloco-info">
+          <div class="linha"><span class="ok">Organização textual:</span> válida</div>
+          <div class="linha"><span class="ok">Fluxo narrativo:</span> coerente</div>
+          <div class="linha"><span class="ok">Segmentação editorial:</span> pronta</div>
+          <div class="linha"><span class="alerta">Pré-textuais:</span> opcionais ausentes</div>
+          <div class="linha"><span class="neutro">Base técnica:</span> apta para módulos seguintes</div>
+        </div>
+      </div>
 
-<div class="titulo">
-Camada 2 — Leitura estrutural profunda
-</div>
+      <div class="aviso">
+        O Sistema Desbaste agora opera além da recepção da ficha-base: ele interpreta a
+        organização textual inicial da obra, identifica sinais estruturais e qualifica a
+        base editorial antes da entrada no Workspace.
+      </div>
+    </div>
 
-<div class="grid">
+    <div class="card">
+      <h2 class="subtitulo">Camada 3 — Qualificação editorial automática</h2>
 
-<div>
+      <div class="classificacao">
+        <div class="linha"><span class="ok">✔</span> estrutura narrativa válida</div>
+        <div class="linha"><span class="ok">✔</span> fluxo textual coerente</div>
+        <div class="linha"><span class="alerta">✔</span> pré-textuais opcionais ausentes</div>
+        <div class="linha"><span class="ok">✔</span> obra apta para preparação editorial</div>
+      </div>
 
-Capítulos: não identificados<br>
-Prefácio: não identificado<br>
-Dedicatória: não identificada<br>
-Epígrafe: não identificada<br>
-Diálogos: detectados<br>
-Estrutura narrativa: contínua
+      <div class="aviso-azul">
+        Regra estrutural do Lapidar: o Desbaste preserva a espinha recebida do Cofre,
+        qualifica a obra e libera oficialmente a base para o Workspace e, depois, para o Executor.
+      </div>
+    </div>
 
-</div>
+    <div class="card">
+      <h2 class="subtitulo">Prévia A4 da obra — base de diagramação editorial</h2>
 
-<div>
+      <div class="a4-wrap">
+        <div class="a4" id="folhaA4">
+          <h1 id="tituloObraA4">Prévia editorial da obra</h1>
 
-Organização textual: válida<br>
-Fluxo narrativo: coerente<br>
-Segmentação editorial: pronta<br>
-Pré-textuais: opcionais ausentes
+          <p>
+            Esta página A4 representa a base técnica principal da obra dentro do Lapidar.
+            Aqui o texto passa a ser tratado como matriz estrutural de trabalho para os
+            processos editoriais seguintes.
+          </p>
 
-</div>
+          <p>
+            A partir desta base, o sistema poderá encaminhar a obra para fluxos de
+            diagramação em diferentes medidas e formatos, como A5, 14x21, 16x23, 16x27,
+            6x9, A4 vertical, A4 horizontal, e também para saídas digitais como PDF e e-book,
+            conforme a escolha do autor nos módulos seguintes.
+          </p>
 
-</div>
+          <h2>Consolidação editorial inicial</h2>
 
-</div>
+          <p>
+            Nesta etapa, o Desbaste reconhece a estrutura-base, observa sinais textuais
+            e mantém a obra pronta para aprofundamento técnico posterior, sem romper a
+            espinha dorsal recebida do Cofre.
+          </p>
 
+          <p>
+            O objetivo desta folha não é ainda fazer a diagramação final, mas sim
+            estabelecer uma superfície técnica estável para que todos os trabalhos de
+            preparação editorial partam de uma base comum e segura.
+          </p>
+        </div>
+      </div>
 
-<div class="card">
+      <div class="rodape-nota">
+        Esta prévia A4 é a matriz editorial de referência para os próximos passos do fluxo.
+      </div>
+    </div>
 
-<div class="titulo">
-Camada 3 — Qualificação editorial automática
-</div>
+    <div class="card">
+      <h2 class="subtitulo">Classificação expandida automática</h2>
 
-<div>
+      <div class="classificacao">
+        Narrativa literária curta ou média detectada.<br />
+        Compatível com fluxo editorial padrão Lapidar.
+      </div>
+    </div>
 
-✔ estrutura narrativa válida<br>
-✔ fluxo textual coerente<br>
-⚠ pré-textuais opcionais ausentes<br>
-✔ obra apta para preparação editorial
+    <div class="card">
+      <div class="acoes">
+        <button class="botao botao-primario" onclick="finalizarDesbaste()">
+          Seguir para Workspace da Obra
+        </button>
 
-</div>
+        <button class="botao botao-secundario" onclick="window.location.href='modulo_01_bolsao.html'">
+          Retornar ao Cofre
+        </button>
+      </div>
+    </div>
+  </div>
 
-</div>
+  <script>
+    function lerFichaBase() {
+      const chavesTitulo = [
+        "titulo_base_obra",
+        "tituloBaseObra",
+        "titulo_obra",
+        "obra_titulo",
+        "tituloBase",
+        "titulo"
+      ];
 
+      const chavesArquivo = [
+        "arquivo_obra_nome",
+        "nome_arquivo_obra",
+        "arquivoNome",
+        "nomeArquivo",
+        "arquivo_obra",
+        "arquivo"
+      ];
 
-<div class="card">
+      let tituloEncontrado = "";
+      let arquivoEncontrado = "";
 
-<div class="titulo">
-Prévia A4 da obra — base de diagramação editorial
-</div>
+      for (const chave of chavesTitulo) {
+        const valor = localStorage.getItem(chave);
+        if (valor && valor.trim()) {
+          tituloEncontrado = valor.trim();
+          break;
+        }
+      }
 
-<div class="a4-preview">
+      for (const chave of chavesArquivo) {
+        const valor = localStorage.getItem(chave);
+        if (valor && valor.trim()) {
+          arquivoEncontrado = valor.trim();
+          break;
+        }
+      }
 
-Prévia editorial simulada do documento.
+      if (!tituloEncontrado && arquivoEncontrado) {
+        tituloEncontrado = arquivoEncontrado
+          .replace(/\.[^/.]+$/, "")
+          .replace(/[_-]+/g, " ")
+          .trim();
+      }
 
-Aqui o Lapidar passa a tratar o conteúdo da obra como base estrutural
-para diagramação futura em:
+      if (!tituloEncontrado) {
+        tituloEncontrado = "Obra em consolidação editorial";
+      }
 
-A5  
-14x21  
-16x23  
-21x28  
-eBook  
-PDF digital  
-audiobook estrutural
+      return {
+        titulo: tituloEncontrado,
+        arquivo: arquivoEncontrado || ""
+      };
+    }
 
-Este painel representa o ambiente onde o texto será consolidado como
-base oficial de trabalho editorial dentro do sistema.
+    function aplicarTituloNaFolha() {
+      const ficha = lerFichaBase();
+      const tituloEl = document.getElementById("tituloObraA4");
+      tituloEl.textContent = ficha.titulo;
+    }
 
-</div>
+    function finalizarDesbaste() {
+      localStorage.setItem("desbaste_ok", "true");
+      localStorage.setItem("workspace_liberado", "true");
+      localStorage.setItem("status_desbaste", "concluido");
+      localStorage.setItem("desbaste_concluido", "true");
+      window.location.href = "obra_workspace.html";
+    }
 
-</div>
-
-
-<div class="card">
-
-<div class="titulo">
-Classificação expandida automática
-</div>
-
-Narrativa literária curta ou média detectada.<br>
-Compatível com fluxo editorial padrão Lapidar.
-
-</div>
-
-
-<div class="card">
-
-<button class="botao"
-
-onclick="window.location.href='obra_workspace.html'">
-
-Seguir para Workspace da Obra
-
-</button>
-
-</div>
-
-</div>
-
+    aplicarTituloNaFolha();
+  </script>
 </body>
-
 </html>
