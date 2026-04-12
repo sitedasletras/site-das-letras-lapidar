@@ -1,495 +1,345 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Executor de Módulos — Celeiro Literário</title>
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: #edf1f5;
-      color: #24303c;
-    }
-
-    .topo {
-      background: #0d2b44;
-      color: #fff;
-      text-align: center;
-      padding: 18px 14px;
-      font-size: 22px;
-      font-weight: 700;
-    }
-
-    .container {
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 22px 18px 40px;
-    }
-
-    .card {
-      background: #fff;
-      border-radius: 16px;
-      padding: 20px;
-      margin-bottom: 20px;
-      box-shadow: 0 8px 20px rgba(0,0,0,.08);
-      border: 1px solid #dde5ed;
-    }
-
-    .status-verde {
-      color: #2e8b57;
-      font-weight: 700;
-      margin-bottom: 10px;
-    }
-
-    .titulo-principal {
-      margin: 0 0 10px;
-      font-size: 36px;
-      color: #1f2b36;
-    }
-
-    .texto-base {
-      font-size: 18px;
-      line-height: 1.6;
-      color: #53606c;
-    }
-
-    .grid-2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
-      margin-top: 18px;
-    }
-
-    .bloco {
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
-      border-radius: 14px;
-      padding: 16px;
-    }
-
-    .bloco h3 {
-      margin: 0 0 12px;
-      font-size: 22px;
-      color: #36485b;
-    }
-
-    .linha {
-      padding: 9px 0;
-      border-bottom: 1px solid #e7edf3;
-      font-size: 17px;
-      line-height: 1.5;
-    }
-
-    .linha:last-child {
-      border-bottom: none;
-    }
-
-    .subtitulo {
-      margin: 0 0 14px;
-      font-size: 28px;
-      color: #24303c;
-    }
-
-    .faixa-matriz {
-      background: #edf8ef;
-      border: 1px solid #cfe9d5;
-      border-left: 6px solid #2e8b57;
-      border-radius: 14px;
-      padding: 18px 20px;
-      margin-top: 18px;
-    }
-
-    .faixa-matriz .selo {
-      font-size: 22px;
-      font-weight: 700;
-      color: #1f7a49;
-      margin-bottom: 8px;
-    }
-
-    .faixa-matriz .texto {
-      font-size: 17px;
-      line-height: 1.6;
-      color: #4c5a55;
-    }
-
-    .modulos-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
-    }
-
-    .modulo {
-      border-radius: 16px;
-      padding: 18px;
-      border: 1px solid rgba(0,0,0,.06);
-      box-shadow: 0 6px 16px rgba(0,0,0,.05);
-    }
-
-    .modulo h4 {
-      margin: 0 0 12px;
-      font-size: 20px;
-      color: #2b3640;
-    }
-
-    .modulo p {
-      margin: 0 0 14px;
-      font-size: 16px;
-      line-height: 1.6;
-      color: #4b5966;
-      min-height: 80px;
-    }
-
-    .tag {
-      display: inline-block;
-      font-size: 13px;
-      font-weight: 700;
-      color: #4f8b4f;
-      margin-bottom: 10px;
-    }
-
-    .botao-modulo,
-    .botao-principal,
-    .botao-secundario {
-      border: none;
-      border-radius: 12px;
-      padding: 14px 18px;
-      font-size: 17px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    .botao-modulo {
-      width: 100%;
-      background: #082744;
-      color: #fff;
-    }
-
-    .botao-principal {
-      background: #0d63dd;
-      color: #fff;
-    }
-
-    .botao-secundario {
-      background: #7a8591;
-      color: #fff;
-    }
-
-    .acoes {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-    }
-
-    .fundo-azul { background: #eaf4ff; }
-    .fundo-amarelo { background: #f7f1df; }
-    .fundo-lilas { background: #efe8f7; }
-    .fundo-verde { background: #e8f2e8; }
-    .fundo-rosa { background: #f6eaea; }
-    .fundo-bege { background: #f1ede3; }
-    .fundo-cinzaazul { background: #edf3fb; }
-    .fundo-verdeclaro { background: #edf5ef; }
-
-    .bloqueio {
-      display: none;
-      background: #fff;
-      border-radius: 16px;
-      padding: 42px 24px;
-      text-align: center;
-      box-shadow: 0 8px 20px rgba(0,0,0,.08);
-      border: 1px solid #dde5ed;
-    }
-
-    .bloqueio .erro {
-      color: #c65c5c;
-      font-weight: 700;
-      margin-bottom: 18px;
-    }
-
-    .bloqueio h2 {
-      margin: 0 0 10px;
-      font-size: 30px;
-      color: #26323d;
-    }
-
-    .bloqueio p {
-      margin: 0 0 22px;
-      font-size: 18px;
-      color: #5a6773;
-      line-height: 1.6;
-    }
-
-    @media (max-width: 900px) {
-      .grid-2,
-      .modulos-grid,
-      .acoes {
-        grid-template-columns: 1fr;
-      }
-
-      .titulo-principal {
-        font-size: 30px;
-      }
-
-      .subtitulo {
-        font-size: 24px;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lapidar — Executor de Módulos</title>
+<style>
+*{box-sizing:border-box}
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:#f6f1e8;
+    color:#2d251b;
+}
+.topo{
+    background:#8a5a14;
+    color:#fff;
+    padding:22px 18px;
+}
+.topo h1{
+    margin:0;
+    font-size:1.8rem;
+}
+.topo p{
+    margin:8px 0 0 0;
+    line-height:1.45;
+    opacity:.95;
+}
+.container{
+    max-width:1260px;
+    margin:0 auto;
+    padding:18px 14px 30px;
+}
+.card{
+    background:#fff;
+    border:1px solid #eadfce;
+    border-radius:16px;
+    padding:18px;
+    box-shadow:0 4px 14px rgba(0,0,0,.08);
+    margin-bottom:18px;
+}
+.card h2{
+    margin:0 0 14px 0;
+    color:#8a5a14;
+    font-size:1.2rem;
+}
+.linha{
+    margin:10px 0;
+    line-height:1.5;
+    font-size:14px;
+}
+.grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:16px;
+}
+.modulo{
+    background:#fff;
+    border:1px solid #ece0cc;
+    border-radius:14px;
+    padding:18px;
+    box-shadow:0 4px 14px rgba(0,0,0,.06);
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    min-height:220px;
+}
+.modulo h3{
+    margin:0 0 10px 0;
+    font-size:1.05rem;
+}
+.modulo p{
+    margin:0 0 12px 0;
+    font-size:14px;
+    line-height:1.5;
+}
+.tag{
+    display:inline-block;
+    padding:7px 10px;
+    border-radius:999px;
+    font-size:12px;
+    margin-bottom:12px;
+    border:1px solid rgba(0,0,0,.08);
+    background:#f7f0e0;
+    color:#7b4e0d;
+}
+.acoes{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-top:10px;
+}
+button{
+    border:none;
+    border-radius:10px;
+    padding:12px 16px;
+    font-size:15px;
+    cursor:pointer;
+    font-weight:bold;
+}
+.btn-primario{background:#8a5a14;color:#fff}
+.btn-primario:hover{background:#71480f}
+.btn-claro{background:#e9dcc8;color:#4b3718}
+.btn-claro:hover{background:#d8cab1}
+.btn-verde{background:#15803d;color:#fff}
+.btn-verde:hover{background:#11622f}
+.mensagem{
+    margin-top:14px;
+    padding:12px 14px;
+    border-radius:10px;
+    display:none;
+    font-size:14px;
+}
+.ok{background:#edf9ef;border:1px solid #b7e1c1;color:#166534}
+.erro{background:#fff1f1;border:1px solid #f0b9b9;color:#991b1b}
+.info{
+    background:#faf6ef;
+    border:1px solid #eadfce;
+    border-radius:10px;
+    padding:12px;
+    margin-bottom:12px;
+    font-size:14px;
+    line-height:1.45;
+}
+@media (max-width:1000px){
+    .grid{grid-template-columns:1fr 1fr;}
+}
+@media (max-width:700px){
+    .grid{grid-template-columns:1fr;}
+}
+</style>
 </head>
 <body>
-  <div class="topo">Executor de Módulos — Celeiro Literário</div>
 
-  <div class="container">
-    <div id="areaBloqueio" class="bloqueio">
-      <div class="erro">Acesso bloqueado</div>
-      <h2>Workspace obrigatório</h2>
-      <p>
-        Antes de acessar o Executor de Módulos, é necessário concluir o Sistema Desbaste
-        e liberar oficialmente o Workspace da Obra.
-      </p>
-      <button class="botao-principal" onclick="window.location.href='obra_workspace.html'">
-        Ir para o Workspace da Obra
-      </button>
-    </div>
+<header class="topo">
+    <h1>Executor de Módulos</h1>
+    <p>Núcleo operacional da obra dentro da espinha dorsal do Lapidar. Aqui a obra ativa aciona os módulos de produção e pode seguir para os Silos e para o Sistema Polir.</p>
+</header>
 
-    <div id="areaExecutor">
-      <div class="card">
-        <div class="status-verde">Sistema Desbaste confirmado ✔</div>
-        <h1 class="titulo-principal">Executor liberado</h1>
-        <div class="texto-base">
-          A obra já passou pelo Cofre Editorial, pelo Sistema Desbaste e pelo Workspace.
-          Os módulos abaixo agora recebem a base consolidada da obra para execução editorial e multimídia.
+<main class="container">
+    <section class="card">
+        <h2>Estado técnico antes da execução</h2>
+
+        <div class="linha"><strong>Título:</strong> <span id="tituloObra">Carregando...</span></div>
+        <div class="linha"><strong>Autor:</strong> <span id="autorObra">Carregando...</span></div>
+        <div class="linha"><strong>Classificação:</strong> <span id="tipoObra">Carregando...</span></div>
+        <div class="linha"><strong>Pré-requisitos:</strong> <span id="estadoRequisitos">Validando...</span></div>
+
+        <div class="info">
+            O Executor exige a passagem regular por Bolsão → Desbaste → Workspace. O Lapidar Core observa essa ordem sem quebrar a espinha dorsal.
         </div>
 
-        <div class="grid-2">
-          <div class="bloco">
-            <h3>Ficha-base da obra</h3>
-            <div class="linha"><strong>Arquivo:</strong> <span id="arquivoObra">—</span></div>
-            <div class="linha"><strong>Título-base:</strong> <span id="tituloBase">—</span></div>
-            <div class="linha"><strong>Autor:</strong> <span id="autorObra">—</span></div>
-            <div class="linha"><strong>Idioma:</strong> <span id="idiomaObra">—</span></div>
-            <div class="linha"><strong>Status técnico:</strong> <span id="statusTecnico">—</span></div>
-          </div>
-
-          <div class="bloco">
-            <h3>Leitura consolidada</h3>
-            <div class="linha"><strong>Principal:</strong> <span id="classPrincipal">—</span></div>
-            <div class="linha"><strong>Secundária:</strong> <span id="classSecundaria">—</span></div>
-            <div class="linha"><strong>Terciária:</strong> <span id="classTerciaria">—</span></div>
-            <div class="linha"><strong>Prontidão:</strong> <span id="statusProntidao">—</span></div>
-          </div>
-        </div>
-
-        <div id="faixaMatriz" class="faixa-matriz" style="display:none;">
-          <div class="selo">Matriz editorial ativa ✔</div>
-          <div class="texto">
-            Esta obra já possui matriz editorial A4 ativa e está pronta para seguir aos módulos
-            de produção, acabamento e circulação dentro do Lapidar.
-          </div>
-        </div>
-      </div>
-
-      <div class="card">
-        <h2 class="subtitulo">Módulos editoriais</h2>
-
-        <div class="modulos-grid">
-          <div class="modulo fundo-azul">
-            <div class="tag">Fluxo editorial</div>
-            <h4>Módulo 03 — Assistente de Diagramação</h4>
-            <p>Recebe a base técnica da obra para organização visual, estrutura do miolo e preparação editorial do conteúdo.</p>
-            <button class="botao-modulo" onclick="window.location.href='modulo03_assistente_diagramacao_autor_mapa.html'">Abrir módulo</button>
-          </div>
-
-          <div class="modulo fundo-amarelo">
-            <div class="tag">Fluxo editorial</div>
-            <h4>Módulo 05 — Segunda Língua(s)</h4>
-            <p>Usa a leitura consolidada da obra como referência para preparação, validação e encaminhamento de tradução editorial.</p>
-            <button class="botao-modulo" onclick="window.location.href='modulo05_segunda_linguas_mapa.html'">Abrir módulo</button>
-          </div>
-
-          <div class="modulo fundo-lilas">
-            <div class="tag">Fluxo editorial</div>
-            <h4>Módulo 07 — Avaliação Literária</h4>
-            <p>Recebe a obra já organizada pelo Desbaste para análise estrutural, editorial e interpretativa.</p>
-            <button class="botao-modulo" onclick="window.location.href='modulo07_avaliacao_literaria_mapa.html'">Abrir módulo</button>
-          </div>
-
-          <div class="modulo fundo-verde">
-            <div class="tag">Fluxo editorial</div>
-            <h4>Módulo 11 — Analisador de Obra</h4>
-            <p>Parte da base consolidada para identificar lacunas, potenciais de progressão e pontos fortes da construção narrativa.</p>
-            <button class="botao-modulo" onclick="window.location.href='modulo11_analisador_de_obra_mapa.html'">Abrir módulo</button>
-          </div>
-
-          <div class="modulo fundo-rosa">
-            <div class="tag">Fluxo editorial</div>
-            <h4>Módulo 13 — Lapidação Literária</h4>
-            <p>Usa a leitura consolidada para trabalhar ritmo, coerência, diálogos, sensibilidade textual e preservação de estilo.</p>
-            <button class="botao-modulo" onclick="window.location.href='modulo13_lapidacao_literaria.html'">Abrir módulo</button>
-          </div>
-
-          <div class="modulo fundo-bege">
-            <div class="tag">Capas e composição final</div>
-            <h4>Módulo 19 — OKapista</h4>
-            <p>Composição editorial de capas. Usa imagens previamente preparadas no Barracão de Polimento das Imagens.</p>
-            <button class="botao-modulo" onclick="window.location.href='modulo19_okapista_mapa.html'">Abrir módulo</button>
-          </div>
-
-          <div class="modulo fundo-cinzaazul">
-            <div class="tag">Polimento visual obrigatório no sistema</div>
-            <h4>Módulo 41 — Barracão de Polimento das Imagens</h4>
-            <p>Contraponto visual do Sistema Desbaste. Classifica, corrige e compatibiliza imagens para o OKapista, miolo, silos e reuso futuro.</p>
-            <button class="botao-modulo" onclick="window.location.href='modulo41_barracao_de_polimento.html'">Abrir módulo</button>
-          </div>
-
-          <div class="modulo fundo-verdeclaro">
-            <div class="tag">Etapa de saída editorial</div>
-            <h4>Módulo 29 — Expedição Editorial Cultural</h4>
-            <p>Organiza a saída final da obra, materiais culturais, encaminhamentos editoriais e ponte para exportação e circulação.</p>
-            <button class="botao-modulo" onclick="window.location.href='modulo29_expedicao_editorial.html'">Abrir módulo</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="card">
         <div class="acoes">
-          <button class="botao-principal" onclick="window.location.href='obra_workspace.html'">
-            Retornar ao Workspace da Obra
-          </button>
-
-          <button class="botao-secundario" onclick="encerrarFluxo()">
-            Encerrar fluxo desta obra
-          </button>
+            <button class="btn-claro" onclick="voltarWorkspace()">Voltar ao Workspace</button>
+            <button class="btn-primario" onclick="liberarExecutor()">Liberar Executor</button>
+            <button class="btn-verde" onclick="seguirParaSilos()">Seguir para os Silos</button>
         </div>
-      </div>
-    </div>
-  </div>
 
-  <script>
-    function pegar(chaves, fallback) {
-      for (var i = 0; i < chaves.length; i++) {
-        var valor = localStorage.getItem(chaves[i]);
-        if (valor && valor.trim() !== "") {
-          return valor.trim();
-        }
-      }
-      return fallback;
+        <div id="mensagemOk" class="mensagem ok"></div>
+        <div id="mensagemErro" class="mensagem erro"></div>
+    </section>
+
+    <section class="grid">
+        <article class="modulo">
+            <div>
+                <span class="tag">Produção textual</span>
+                <h3>Diagramação</h3>
+                <p>Área para organização estrutural da obra, parâmetros de composição e preparação do miolo editorial.</p>
+            </div>
+            <div class="acoes">
+                <button class="btn-primario" onclick="abrirPlaceholder('Diagramação')">Abrir</button>
+            </div>
+        </article>
+
+        <article class="modulo">
+            <div>
+                <span class="tag">Produção visual</span>
+                <h3>OKapista</h3>
+                <p>Setor de capas, contracapas, lombadas e demais elementos visuais relacionados à obra.</p>
+            </div>
+            <div class="acoes">
+                <button class="btn-primario" onclick="abrirPlaceholder('OKapista')">Abrir</button>
+            </div>
+        </article>
+
+        <article class="modulo">
+            <div>
+                <span class="tag">Produção linguística</span>
+                <h3>Segunda Língua(s)</h3>
+                <p>Tradução e adaptação técnica da obra conforme o plano editorial e a necessidade do autor.</p>
+            </div>
+            <div class="acoes">
+                <button class="btn-primario" onclick="abrirPlaceholder('Segunda Língua(s)')">Abrir</button>
+            </div>
+        </article>
+
+        <article class="modulo">
+            <div>
+                <span class="tag">Leitura crítica</span>
+                <h3>Avaliação Literária</h3>
+                <p>Análise técnica da obra, com leitura crítica institucional e relatórios de observação textual.</p>
+            </div>
+            <div class="acoes">
+                <button class="btn-primario" onclick="abrirPlaceholder('Avaliação Literária')">Abrir</button>
+            </div>
+        </article>
+
+        <article class="modulo">
+            <div>
+                <span class="tag">Produção sonora</span>
+                <h3>Silo Sonoro</h3>
+                <p>Etapa audiovisual e sonora da obra, com passagem oficial pelos Silos antes do Polir e do Mesário.</p>
+            </div>
+            <div class="acoes">
+                <button class="btn-primario" onclick="seguirParaSilos()">Abrir Silos</button>
+            </div>
+        </article>
+
+        <article class="modulo">
+            <div>
+                <span class="tag">Acabamento</span>
+                <h3>Sistema Polir</h3>
+                <p>Refino técnico final do material após a produção textual, visual e multimídia.</p>
+            </div>
+            <div class="acoes">
+                <button class="btn-primario" onclick="seguirParaPolir()">Abrir Polir</button>
+            </div>
+        </article>
+    </section>
+</main>
+
+<script>
+function mostrarOk(msg){
+    const ok = document.getElementById("mensagemOk");
+    const erro = document.getElementById("mensagemErro");
+    erro.style.display = "none";
+    ok.textContent = msg;
+    ok.style.display = "block";
+}
+
+function mostrarErro(msg){
+    const ok = document.getElementById("mensagemOk");
+    const erro = document.getElementById("mensagemErro");
+    ok.style.display = "none";
+    erro.textContent = msg;
+    erro.style.display = "block";
+}
+
+function carregarObra(){
+    try{
+        return JSON.parse(localStorage.getItem("obraAtual") || "null");
+    }catch(error){
+        return null;
+    }
+}
+
+function requisitosValidos(){
+    const desbaste = localStorage.getItem("desbaste_concluido") === "true"
+        || localStorage.getItem("lapidar_desbaste_concluido") === "true"
+        || localStorage.getItem("status_desbaste") === "concluido";
+
+    const workspace = localStorage.getItem("workspace_liberado") === "true";
+
+    return desbaste && workspace;
+}
+
+function preencherExecutor(){
+    const obra = carregarObra();
+
+    if(!obra){
+        document.getElementById("tituloObra").textContent = "Nenhuma obra ativa";
+        document.getElementById("autorObra").textContent = "—";
+        document.getElementById("tipoObra").textContent = "—";
+        document.getElementById("estadoRequisitos").textContent = "Obra ausente";
+        return;
     }
 
-    function validarAcesso() {
-      var desbasteOK =
-        localStorage.getItem("desbaste_ok") === "true" ||
-        localStorage.getItem("desbaste_concluido") === "true" ||
-        localStorage.getItem("status_desbaste") === "concluido";
+    document.getElementById("tituloObra").textContent = obra?.estrutura?.titulo || obra?.titulo || "Título não identificado";
+    document.getElementById("autorObra").textContent = obra?.estrutura?.autor || obra?.autor || "Autor não identificado";
+    document.getElementById("tipoObra").textContent = obra?.tipo || "Indefinido";
+    document.getElementById("estadoRequisitos").textContent = requisitosValidos() ? "Prontos para execução" : "Pendentes";
+}
 
-      var workspaceOK =
-        localStorage.getItem("workspace_liberado") === "true" ||
-        localStorage.getItem("matriz_editorial_ativa") === "true" ||
-        localStorage.getItem("status_workspace") === "ativo" ||
-        localStorage.getItem("executor_liberado") === "true";
+function liberarExecutor(){
+    const obra = carregarObra();
 
-      if (!desbasteOK || !workspaceOK) {
-        document.getElementById("areaExecutor").style.display = "none";
-        document.getElementById("areaBloqueio").style.display = "block";
-        return false;
-      }
-
-      document.getElementById("areaExecutor").style.display = "block";
-      document.getElementById("areaBloqueio").style.display = "none";
-      return true;
+    if(!obra){
+        mostrarErro("Não há obra ativa para liberar o Executor.");
+        return;
     }
 
-    function preencher() {
-      document.getElementById("arquivoObra").textContent = pegar([
-        "matriz_editorial_arquivo",
-        "arquivo_obra_nome",
-        "nome_arquivo_obra",
-        "arquivoNome",
-        "nomeArquivo",
-        "arquivo"
-      ], "Arquivo não informado");
-
-      document.getElementById("tituloBase").textContent = pegar([
-        "matriz_editorial_titulo",
-        "titulo_base_obra",
-        "tituloBaseObra",
-        "titulo_obra",
-        "titulo"
-      ], "Obra em preparação editorial");
-
-      document.getElementById("autorObra").textContent = pegar([
-        "matriz_editorial_autor",
-        "autor_obra",
-        "autorObra",
-        "autor"
-      ], "Autor a confirmar");
-
-      document.getElementById("idiomaObra").textContent = pegar([
-        "matriz_editorial_idioma",
-        "idioma_obra",
-        "idiomaObra",
-        "idioma"
-      ], "Português do Brasil");
-
-      document.getElementById("statusTecnico").textContent = pegar([
-        "matriz_editorial_status_tecnico",
-        "status_tecnico_obra",
-        "statusTecnico"
-      ], "Estrutura pronta para preparação editorial");
-
-      document.getElementById("classPrincipal").textContent = pegar([
-        "matriz_editorial_classificacao_principal",
-        "classificacao_principal",
-        "classPrincipal"
-      ], "Prosa");
-
-      document.getElementById("classSecundaria").textContent = pegar([
-        "matriz_editorial_classificacao_secundaria",
-        "classificacao_secundaria",
-        "classSecundaria"
-      ], "Narrativa literária");
-
-      document.getElementById("classTerciaria").textContent = pegar([
-        "matriz_editorial_classificacao_terciaria",
-        "classificacao_terciaria",
-        "classTerciaria"
-      ], "A definir no Desbaste");
-
-      document.getElementById("statusProntidao").textContent = "Obra pronta para módulos seguintes";
+    if(!requisitosValidos()){
+        mostrarErro("O Executor exige Desbaste concluído e Workspace liberado.");
+        return;
     }
 
-    function mostrarSeloMatriz() {
-      var matrizAtiva =
-        localStorage.getItem("lapidar_matriz_a4_ativa") === "true" ||
-        localStorage.getItem("matriz_editorial_ativa") === "true";
+    localStorage.setItem("executor_liberado", "true");
+    localStorage.setItem("executor_ativo", "true");
 
-      if (matrizAtiva) {
-        document.getElementById("faixaMatriz").style.display = "block";
-      } else {
-        document.getElementById("faixaMatriz").style.display = "none";
-      }
+    const relatorio = {
+        data: new Date().toISOString(),
+        etapa: "modulo_executor.html",
+        titulo: obra?.estrutura?.titulo || obra?.titulo || "Título não identificado",
+        autor: obra?.estrutura?.autor || obra?.autor || "Autor não identificado",
+        status: "liberado"
+    };
+
+    localStorage.setItem("executor_relatorio", JSON.stringify(relatorio));
+    document.getElementById("estadoRequisitos").textContent = "Executor liberado";
+
+    mostrarOk("Executor liberado com sucesso. A obra já pode seguir para os Silos ou para o Polir.");
+}
+
+function seguirParaSilos(){
+    if(localStorage.getItem("executor_liberado") !== "true"){
+        mostrarErro("Antes de seguir, libere o Executor.");
+        return;
     }
 
-    function encerrarFluxo() {
-      localStorage.removeItem("desbaste_ok");
-      localStorage.removeItem("workspace_liberado");
-      localStorage.removeItem("status_desbaste");
-      localStorage.removeItem("desbaste_concluido");
-      localStorage.removeItem("executor_liberado");
-      localStorage.removeItem("status_workspace");
-      localStorage.removeItem("matriz_editorial_ativa");
-      localStorage.removeItem("lapidar_matriz_a4_ativa");
-      window.location.href = "modulo_01_bolsao.html";
+    window.location.href = "modulos_audiovisual.html";
+}
+
+function seguirParaPolir(){
+    if(localStorage.getItem("executor_liberado") !== "true"){
+        mostrarErro("Antes de seguir, libere o Executor.");
+        return;
     }
 
-    if (validarAcesso()) {
-      preencher();
-      mostrarSeloMatriz();
-    }
-  </script>
+    window.location.href = "modulo41_barracao_de_polimento_das_imagens.html";
+}
+
+function voltarWorkspace(){
+    window.location.href = "obra_workspace.html";
+}
+
+function abrirPlaceholder(nome){
+    alert(nome + " permanece dentro da espinha dorsal e será consolidado sem romper o fluxo principal.");
+}
+
+preencherExecutor();
+</script>
+
+<script src="lapidar_inteligencia_core.js"></script>
 </body>
 </html>
