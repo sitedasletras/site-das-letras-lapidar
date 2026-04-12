@@ -4,231 +4,137 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lapidar — Ponte Diagramação → Exportação</title>
-
 <style>
 *{box-sizing:border-box}
 body{margin:0;font-family:Arial,sans-serif;background:#f2f6fb;color:#1f2a44}
-
-.topo{
-background:#234a7a;
-color:#fff;
-padding:22px 18px
-}
-
-.topo h1{margin:0;font-size:1.8rem}
-
-.container{
-max-width:1180px;
-margin:auto;
-padding:20px
-}
-
-.card{
-background:#fff;
-border-radius:14px;
-padding:18px;
-margin-bottom:18px;
-border:1px solid #d9e4f5;
-box-shadow:0 4px 12px rgba(0,0,0,.07)
-}
-
-.card h2{
-margin-top:0;
-color:#234a7a
-}
-
-.preview{
-white-space:pre-wrap;
-background:#fafcff;
-padding:16px;
-border-radius:12px;
-border:1px solid #d9e4f5;
-min-height:180px
-}
-
-button{
-border:none;
-padding:12px 18px;
-border-radius:10px;
-font-weight:bold;
-cursor:pointer
-}
-
-.btn-azul{
-background:#234a7a;
-color:#fff
-}
-
-.btn-verde{
-background:#15803d;
-color:#fff
-}
-
-.status{
-margin-top:12px;
-padding:10px;
-border-radius:10px;
-display:none
-}
-
-.ok{
-background:#edf9ef;
-border:1px solid #b7e1c1;
-color:#166534
-}
-
-.erro{
-background:#fff1f1;
-border:1px solid #f0b9b9;
-color:#991b1b
-}
-
+header{background:#234a7a;color:#fff;padding:22px 18px}
+header h1{margin:0;font-size:1.8rem}
+header p{margin:8px 0 0 0;opacity:.95;line-height:1.45}
+main{max-width:1180px;margin:auto;padding:20px}
+.card{background:#fff;border-radius:14px;padding:18px;margin-bottom:18px;border:1px solid #d9e4f5;box-shadow:0 4px 12px rgba(0,0,0,.07)}
+.card h2{margin-top:0;color:#234a7a}
+.preview{white-space:pre-wrap;background:#fafcff;padding:16px;border-radius:12px;border:1px solid #d9e4f5;min-height:180px;line-height:1.6}
+button{border:none;padding:12px 18px;border-radius:10px;font-weight:bold;cursor:pointer;margin-right:8px;margin-top:10px}
+.btn-azul{background:#234a7a;color:#fff}
+.btn-verde{background:#15803d;color:#fff}
+.status{margin-top:12px;padding:10px;border-radius:10px;display:none}
+.ok{background:#edf9ef;border:1px solid #b7e1c1;color:#166534}
+.erro{background:#fff1f1;border:1px solid #f0b9b9;color:#991b1b}
+.tag{display:inline-block;padding:8px 12px;border-radius:999px;font-size:12px;font-weight:bold;background:#eef4fb;color:#234a7a;border:1px solid #d9e4f5;margin-right:8px;margin-bottom:8px}
 </style>
 </head>
-
 <body>
 
-<header class="topo">
+<header>
 <h1>Ponte Diagramação → Exportação</h1>
+<p>Validação final do miolo antes da exportação editorial do Lapidar.</p>
 </header>
 
-<main class="container">
+<main>
 
 <section class="card">
-
 <h2>Estado editorial antes da exportação</h2>
 
-<div id="preview" class="preview">
-Verificando dados da diagramação...
+<div>
+<span class="tag" id="tagObra">Obra: verificando</span>
+<span class="tag" id="tagMatriz">Matriz: verificando</span>
+<span class="tag" id="tagDiagramacao">Diagramação: verificando</span>
 </div>
 
-<br>
+<div id="preview" class="preview">Verificando dados da diagramação...</div>
 
-<button class="btn-azul" onclick="irExportacao()">
-Abrir Exportação Editorial
-</button>
-
-<button class="btn-verde" onclick="finalizarPipeline()">
-Finalizar Pipeline Lapidar
-</button>
+<button class="btn-azul" onclick="irExportacao()">Abrir Exportação Editorial</button>
+<button class="btn-verde" onclick="finalizarPipeline()">Finalizar Pipeline Lapidar</button>
 
 <div id="statusOk" class="status ok"></div>
 <div id="statusErro" class="status erro"></div>
-
 </section>
 
 </main>
 
-
 <script>
-
 function mostrarOk(msg){
-
-const el=document.getElementById("statusOk")
-const er=document.getElementById("statusErro")
-
-er.style.display="none"
-el.textContent=msg
-el.style.display="block"
-
+  const ok=document.getElementById("statusOk");
+  const er=document.getElementById("statusErro");
+  er.style.display="none";
+  ok.textContent=msg;
+  ok.style.display="block";
 }
-
 function mostrarErro(msg){
-
-const el=document.getElementById("statusOk")
-const er=document.getElementById("statusErro")
-
-el.style.display="none"
-er.textContent=msg
-er.style.display="block"
-
+  const ok=document.getElementById("statusOk");
+  const er=document.getElementById("statusErro");
+  ok.style.display="none";
+  er.textContent=msg;
+  er.style.display="block";
 }
-
-
 function carregarJSON(chave){
-
-try{
-return JSON.parse(localStorage.getItem(chave)||"null")
-}catch{
-return null
+  try{return JSON.parse(localStorage.getItem(chave)||"null");}
+  catch(e){return null;}
 }
-
-}
-
-
 function verificarEstado(){
+  const obra=carregarJSON("obraAtual");
+  const matriz=carregarJSON("matriz_editorial");
+  const diagramacao=carregarJSON("diagramacao_config");
 
-const obra=carregarJSON("obraAtual")
-const matriz=carregarJSON("matriz_editorial")
-const diagramacao=carregarJSON("diagramacao_config")
+  let status=[];
 
-let status=[]
+  if(obra){
+    status.push("✔ Obra ativa detectada");
+    document.getElementById("tagObra").textContent="Obra: ativa";
+  }else{
+    status.push("✘ Nenhuma obra ativa");
+    document.getElementById("tagObra").textContent="Obra: ausente";
+  }
 
-if(obra){
-status.push("✔ Obra ativa detectada")
-}else{
-status.push("✘ Nenhuma obra ativa")
+  if(matriz){
+    status.push("✔ Matriz editorial válida");
+    document.getElementById("tagMatriz").textContent="Matriz: pronta";
+  }else{
+    status.push("✘ Matriz editorial ausente");
+    document.getElementById("tagMatriz").textContent="Matriz: ausente";
+  }
+
+  if(diagramacao){
+    status.push("✔ Diagramação pronta para exportação");
+    document.getElementById("tagDiagramacao").textContent="Diagramação: pronta";
+  }else{
+    status.push("✘ Diagramação ainda não realizada");
+    document.getElementById("tagDiagramacao").textContent="Diagramação: ausente";
+  }
+
+  document.getElementById("preview").textContent=status.join("\n");
 }
-
-if(matriz){
-status.push("✔ Matriz editorial válida")
-}else{
-status.push("✘ Matriz editorial ausente")
-}
-
-if(diagramacao){
-status.push("✔ Diagramação pronta para exportação")
-}else{
-status.push("✘ Diagramação ainda não realizada")
-}
-
-document.getElementById("preview").textContent=status.join("\n")
-
-}
-
-
 function irExportacao(){
+  const matriz=localStorage.getItem("matriz_editorial_pronta");
+  const diagramacao=localStorage.getItem("diagramacao_pronta");
 
-const matriz=localStorage.getItem("matriz_editorial_pronta")
-const diagramacao=localStorage.getItem("diagramacao_pronta")
+  if(matriz!=="true"){
+    mostrarErro("Primeiro gere a matriz editorial.");
+    return;
+  }
 
-if(matriz!=="true"){
-mostrarErro("Primeiro gere a matriz editorial.")
-return
+  if(diagramacao!=="true"){
+    mostrarErro("Primeiro gere a diagramação.");
+    return;
+  }
+
+  window.location.href="exportar.html";
 }
-
-if(diagramacao!=="true"){
-mostrarErro("Primeiro gere a diagramação.")
-return
-}
-
-window.location.href="exportar.html"
-
-}
-
-
 function finalizarPipeline(){
+  const exportacao=localStorage.getItem("exportacao_concluida");
 
-const exportacao=localStorage.getItem("exportacao_concluida")
+  if(exportacao!=="true"){
+    mostrarErro("Finalize a exportação antes de encerrar o pipeline.");
+    return;
+  }
 
-if(exportacao!=="true"){
-mostrarErro("Finalize a exportação antes de encerrar o pipeline.")
-return
+  localStorage.setItem("pipeline_lapidar_encerrado","true");
+  mostrarOk("Pipeline Lapidar encerrado com sucesso. Livro pronto para publicação.");
 }
 
-localStorage.setItem("pipeline_lapidar_encerrado","true")
-
-mostrarOk("Pipeline Lapidar encerrado com sucesso. Livro pronto para publicação.")
-
-}
-
-
-verificarEstado()
-
+verificarEstado();
 </script>
 
-
 <script src="lapidar_inteligencia_core.js"></script>
-
 </body>
 </html>
