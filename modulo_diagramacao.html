@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lapidar — Diagramação Editorial</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f5efe5;color:#2d251b}
+.topo{background:#6b4f1d;color:#fff;padding:22px 18px}
+.topo h1{margin:0;font-size:1.8rem}
+.topo p{margin:8px 0 0 0;line-height:1.45;opacity:.95}
+.container{max-width:1280px;margin:0 auto;padding:18px 14px 30px}
+.card{background:#fff;border:1px solid #eadfce;border-radius:16px;padding:18px;box-shadow:0 4px 14px rgba(0,0,0,.08);margin-bottom:18px}
+.card h2{margin:0 0 14px 0;color:#6b4f1d;font-size:1.2rem}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+label{display:block;font-size:13px;font-weight:bold;margin-bottom:6px;color:#7a5a25;text-transform:uppercase}
+select,input[type="number"]{width:100%;border:1px solid #d8cab3;border-radius:10px;padding:12px 12px;font-size:15px;background:#fffdfa}
+.preview-livro{background:#f8f4ed;border:1px solid #e6dccb;border-radius:12px;padding:16px;min-height:520px}
+.pagina{
+    width:min(100%,430px);
+    min-height:610px;
+    background:#fff;
+    margin:0 auto 16px;
+    border:1px solid #d8cab3;
+    box-shadow:0 10px 22px rgba(0,0,0,.08);
+    padding:42px 36px 46px;
+    position:relative;
+}
+.pagina .cabecalho{font-size:11px;color:#7b6a54;text-transform:uppercase;letter-spacing:.5px;margin-bottom:24px}
+.pagina .titulo-cap{font-size:24px;font-weight:bold;margin-bottom:18px;color:#3d2f18}
+.pagina .texto{font-size:15px;line-height:1.7;text-align:justify;white-space:pre-wrap}
+.pagina .rodape{position:absolute;bottom:18px;right:24px;font-size:12px;color:#7b6a54}
+.acoes{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+button{border:none;border-radius:10px;padding:12px 16px;font-size:15px;cursor:pointer;font-weight:bold}
+.btn-marrom{background:#6b4f1d;color:#fff}
+.btn-marrom:hover{background:#573f17}
+.btn-claro{background:#e9dcc8;color:#4b3718}
+.btn-claro:hover{background:#d8cab1}
+.btn-verde{background:#15803d;color:#fff}
+.btn-verde:hover{background:#11622f}
+.btn-azul{background:#1f4e79;color:#fff}
+.btn-azul:hover{background:#183d5f}
+.mensagem{margin-top:14px;padding:12px 14px;border-radius:10px;display:none;font-size:14px}
+.ok{background:#edf9ef;border:1px solid #b7e1c1;color:#166534}
+.erro{background:#fff1f1;border:1px solid #f0b9b9;color:#991b1b}
+.tag{display:inline-block;padding:8px 12px;border-radius:999px;font-size:12px;font-weight:bold;background:#f5eee1;color:#6b4f1d;border:1px solid #e8dcc4;margin-right:8px;margin-bottom:8px}
+.lista{margin:0;padding-left:18px;line-height:1.6;font-size:14px}
+@media (max-width:1000px){.grid,.grid-3{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header class="topo">
+<h1>Diagramação Editorial</h1>
+<p>Miolo do livro físico e base de saída para PDF editorial e EPUB. Aqui o Lapidar deixa de ser só fluxo e passa a montar o livro.</p>
+</header>
+
+<main class="container">
+<div class="grid">
+<section class="card">
+<h2>Configuração editorial do miolo</h2>
+
+<div class="grid-3">
+<div>
+<label for="formatoLivro">Formato do livro</label>
+<select id="formatoLivro">
+<option value="A5">A5</option>
+<option value="14x21">14x21 cm</option>
+<option value="16x23">16x23 cm</option>
+<option value="16x24">16x24 cm</option>
+<option value="A4">A4</option>
+<option value="Infantil">Infantil ilustrado</option>
+</select>
+</div>
+
+<div>
+<label for="fonteLivro">Fonte do miolo</label>
+<select id="fonteLivro">
+<option value="Times New Roman">Times New Roman</option>
+<option value="Garamond">Garamond</option>
+<option value="Arial">Arial</option>
+</select>
+</div>
+
+<div>
+<label for="entrelinhaLivro">Entrelinha</label>
+<select id="entrelinhaLivro">
+<option value="1.3">1.3</option>
+<option value="1.4">1.4</option>
+<option value="1.5">1.5</option>
+<option value="1.6">1.6</option>
+<option value="1.7" selected>1.7</option>
+</select>
+</div>
+</div>
+
+<div class="grid-3" style="margin-top:14px">
+<div>
+<label for="margemInterna">Margem interna (mm)</label>
+<input type="number" id="margemInterna" value="20">
+</div>
+
+<div>
+<label for="margemExterna">Margem externa (mm)</label>
+<input type="number" id="margemExterna" value="15">
+</div>
+
+<div>
+<label for="margemSuperior">Margem superior (mm)</label>
+<input type="number" id="margemSuperior" value="18">
+</div>
+</div>
+
+<div class="grid-3" style="margin-top:14px">
+<div>
+<label for="margemInferior">Margem inferior (mm)</label>
+<input type="number" id="margemInferior" value="18">
+</div>
+
+<div>
+<label for="paragrafoLivro">Recuo de parágrafo (cm)</label>
+<input type="number" id="paragrafoLivro" value="1.25" step="0.05">
+</div>
+
+<div>
+<label for="saidaLivro">Saída desejada</label>
+<select id="saidaLivro">
+<option value="pdf">PDF físico</option>
+<option value="epub">EPUB</option>
+<option value="pdf_epub">PDF + EPUB</option>
+</select>
+</div>
+</div>
+
+<div style="margin-top:14px">
+<span class="tag" id="tagTitulo">Título: --</span>
+<span class="tag" id="tagAutor">Autor: --</span>
+<span class="tag" id="tagTipo">Tipo: --</span>
+</div>
+
+<div class="acoes">
+<button class="btn-marrom" onclick="gerarDiagramacao()">Gerar diagramação</button>
+<button class="btn-azul" onclick="exportarPDF()">Preparar PDF físico</button>
+<button class="btn-verde" onclick="exportarEPUB()">Preparar EPUB</button>
+<button class="btn-claro" onclick="voltarMatriz()">Voltar à Matriz</button>
+</div>
+
+<div id="msgOk" class="mensagem ok"></div>
+<div id="msgErro" class="mensagem erro"></div>
+</section>
+
+<section class="card">
+<h2>Prévia do livro diagramado</h2>
+<div class="preview-livro" id="previewLivro">
+<div class="pagina">
+<div class="cabecalho">Prévia editorial</div>
+<div class="titulo-cap">Aguardando diagramação</div>
+<div class="texto">A obra será diagramada aqui com base na matriz editorial e nas configurações do miolo.</div>
+<div class="rodape">1</div>
+</div>
+</div>
+</section>
+</div>
+
+<section class="card">
+<h2>Diagnóstico editorial gerado</h2>
+<ul class="lista" id="listaDiagnostico">
+<li>Aguardando geração da diagramação.</li>
+</ul>
+</section>
+</main>
+
+<script>
+function ok(msg){
+  const el=document.getElementById("msgOk");
+  const er=document.getElementById("msgErro");
+  er.style.display="none";
+  el.textContent=msg;
+  el.style.display="block";
+}
+function erro(msg){
+  const el=document.getElementById("msgOk");
+  const er=document.getElementById("msgErro");
+  el.style.display="none";
+  er.textContent=msg;
+  er.style.display="block";
+}
+function carregarObra(){
+  try{return JSON.parse(localStorage.getItem("obraAtual")||"null");}
+  catch(e){return null;}
+}
+function carregarMatriz(){
+  try{return JSON.parse(localStorage.getItem("matriz_editorial")||"null");}
+  catch(e){return null;}
+}
+function preencherTags(){
+  const obra=carregarObra();
+  if(!obra) return;
+  document.getElementById("tagTitulo").textContent="Título: " + (obra?.estrutura?.titulo || obra?.titulo || "--");
+  document.getElementById("tagAutor").textContent="Autor: " + (obra?.estrutura?.autor || obra?.autor || "--");
+  document.getElementById("tagTipo").textContent="Tipo: " + (obra?.tipo || "--");
+}
+function gerarDiagramacao(){
+  const obra=carregarObra();
+  const matriz=carregarMatriz();
+
+  if(!obra){
+    erro("Não há obra ativa para diagramar.");
+    return;
+  }
+
+  if(!matriz){
+    erro("A matriz editorial ainda não foi gerada.");
+    return;
+  }
+
+  const formato=document.getElementById("formatoLivro").value;
+  const fonte=document.getElementById("fonteLivro").value;
+  const entrelinha=document.getElementById("entrelinhaLivro").value;
+  const interna=document.getElementById("margemInterna").value;
+  const externa=document.getElementById("margemExterna").value;
+  const superior=document.getElementById("margemSuperior").value;
+  const inferior=document.getElementById("margemInferior").value;
+  const paragrafo=document.getElementById("paragrafoLivro").value;
+  const saida=document.getElementById("saidaLivro").value;
+
+  const titulo=obra?.estrutura?.titulo || obra?.titulo || "Título não identificado";
+  const texto=(obra?.textoExtraido || obra?.texto || "Sem texto disponível.").trim();
+  const primeiroBloco=texto.split("\n").filter(Boolean).slice(0,6).join("\n\n");
+
+  const config={
+    data:new Date().toISOString(),
+    formato:formato,
+    fonte:fonte,
+    entrelinha:entrelinha,
+    margemInterna:interna,
+    margemExterna:externa,
+    margemSuperior:superior,
+    margemInferior:inferior,
+    paragrafo:paragrafo,
+    saida:saida,
+    titulo:titulo
+  };
+
+  localStorage.setItem("diagramacao_config", JSON.stringify(config));
+  localStorage.setItem("diagramacao_pronta", "true");
+
+  document.getElementById("previewLivro").innerHTML = `
+    <div class="pagina" style="
+      font-family:${fonte};
+      padding:${superior}px ${externa}px ${inferior}px ${interna}px;
+    ">
+      <div class="cabecalho">${formato} • ${fonte} • Entrelinha ${entrelinha}</div>
+      <div class="titulo-cap">${titulo}</div>
+      <div class="texto" style="
+        line-height:${entrelinha};
+        text-indent:${paragrafo}cm;
+      ">${primeiroBloco || "Sem texto suficiente para prévia."}</div>
+      <div class="rodape">1</div>
+    </div>
+  `;
+
+  const diagnostico = [
+    "Formato editorial definido: " + formato,
+    "Fonte definida: " + fonte,
+    "Entrelinha definida: " + entrelinha,
+    "Margens aplicadas: interna " + interna + "mm, externa " + externa + "mm, superior " + superior + "mm, inferior " + inferior + "mm",
+    "Recuo de parágrafo aplicado: " + paragrafo + " cm",
+    "Saída editorial desejada: " + (saida === "pdf" ? "PDF físico" : saida === "epub" ? "EPUB" : "PDF + EPUB"),
+    "Prévia do miolo pronta para validação editorial."
+  ];
+
+  document.getElementById("listaDiagnostico").innerHTML =
+    diagnostico.map(item => "<li>" + item + "</li>").join("");
+
+  ok("Diagramação gerada com sucesso. O miolo editorial já pode seguir para PDF físico e/ou EPUB.");
+}
+function exportarPDF(){
+  if(localStorage.getItem("diagramacao_pronta") !== "true"){
+    erro("Gere a diagramação antes de preparar o PDF físico.");
+    return;
+  }
+
+  localStorage.setItem("exportacao_pdf_pronta", "true");
+  ok("Preset de PDF físico preparado. Próximo passo: ligar o motor real de exportação gráfica.");
+}
+function exportarEPUB(){
+  if(localStorage.getItem("diagramacao_pronta") !== "true"){
+    erro("Gere a diagramação antes de preparar o EPUB.");
+    return;
+  }
+
+  localStorage.setItem("exportacao_epub_pronta", "true");
+  ok("Preset de EPUB preparado. Próximo passo: ligar o motor real de exportação EPUB.");
+}
+function voltarMatriz(){
+  window.location.href="matriz_a4_operacional.html";
+}
+
+preencherTags();
+</script>
+
+<script src="lapidar_inteligencia_core.js"></script>
+</body>
+</html>
