@@ -8,7 +8,7 @@
 *{box-sizing:border-box}
 body{
     margin:0;
-    font-family:Arial, sans-serif;
+    font-family:Arial,sans-serif;
     background:#f6f1e7;
     color:#2d251b;
 }
@@ -17,15 +17,8 @@ body{
     color:#fff;
     padding:22px 18px;
 }
-.topo h1{
-    margin:0;
-    font-size:1.8rem;
-}
-.topo p{
-    margin:8px 0 0 0;
-    line-height:1.45;
-    opacity:.95;
-}
+.topo h1{margin:0;font-size:1.8rem}
+.topo p{margin:8px 0 0 0;line-height:1.45;opacity:.95}
 .container{
     max-width:1200px;
     margin:0 auto;
@@ -66,7 +59,7 @@ input[type="text"], textarea, select{
     background:#fffdfa;
 }
 textarea{
-    min-height:160px;
+    min-height:220px;
     resize:vertical;
 }
 input[type="file"]{
@@ -107,7 +100,7 @@ button{
 .erro{background:#fff1f1;border:1px solid #f0b9b9;color:#991b1b}
 .preview-a4{
     width:100%;
-    min-height:520px;
+    min-height:540px;
     background:#fff;
     border:1px solid #d9d1c2;
     border-radius:12px;
@@ -128,8 +121,24 @@ button{
     font-size:14px;
     line-height:1.45;
 }
-.linha{
-    margin-bottom:12px;
+.linha{margin-bottom:12px}
+.tag{
+    display:inline-block;
+    padding:8px 12px;
+    border-radius:999px;
+    font-size:12px;
+    font-weight:bold;
+    background:#f5eee1;
+    color:#6b4f1d;
+    border:1px solid #e8dcc4;
+    margin-right:8px;
+    margin-bottom:8px;
+}
+.lista{
+    margin:0;
+    padding-left:18px;
+    line-height:1.6;
+    font-size:14px;
 }
 @media (max-width:900px){
     .grid{grid-template-columns:1fr}
@@ -140,7 +149,7 @@ button{
 
 <header class="topo">
     <h1>Módulo 01 — Bolsão Editorial</h1>
-    <p>Ponto oficial de entrada da obra na espinha dorsal do Lapidar. Aqui a obra é recebida, lida, registrada e preparada para o Sistema Desbaste.</p>
+    <p>Ponto oficial de entrada da obra na espinha dorsal do Lapidar. Aqui a obra é recebida, lida, registrada e preparada para o Sistema Desbaste, com prioridade absoluta para os campos manuais confirmados pelo autor.</p>
 </header>
 
 <main class="container">
@@ -155,12 +164,12 @@ button{
 
             <div class="linha">
                 <label for="tituloManual">Título da obra</label>
-                <input type="text" id="tituloManual" placeholder="Se quiser, ajuste manualmente o título detectado">
+                <input type="text" id="tituloManual" placeholder="Quando preenchido, este título tem prioridade total">
             </div>
 
             <div class="linha">
                 <label for="autorManual">Autor da obra</label>
-                <input type="text" id="autorManual" placeholder="Se quiser, ajuste manualmente o autor detectado">
+                <input type="text" id="autorManual" placeholder="Quando preenchido, este autor tem prioridade total">
             </div>
 
             <div class="linha">
@@ -170,11 +179,14 @@ button{
                     <option value="Prosa">Prosa</option>
                     <option value="Poesia">Poesia</option>
                     <option value="Híbrido">Híbrido</option>
+                    <option value="Infantil">Infantil</option>
+                    <option value="Receitas">Receitas</option>
+                    <option value="Técnico">Técnico</option>
                 </select>
             </div>
 
             <div class="linha">
-                <label for="textoBruto">Prévia do texto bruto</label>
+                <label for="textoBruto">Texto bruto / prévia da obra</label>
                 <textarea id="textoBruto" placeholder="O texto detectado aparecerá aqui. Também é possível colar manualmente."></textarea>
             </div>
 
@@ -192,7 +204,18 @@ button{
             <h2>Matriz editorial A4</h2>
 
             <div class="info">
-                O Bolsão preserva a espinha dorsal. Ele recebe a obra, registra os dados principais e prepara o estado técnico para o Desbaste, sem pular etapas.
+                Regras desta versão do Bolsão:
+                <ul class="lista">
+                    <li>Se o autor preencher <strong>Título</strong> ou <strong>Autor</strong> manualmente, o Lapidar obedece sem discutir.</li>
+                    <li>Na dúvida entre poesia e prosa, o sistema assume <strong>Prosa</strong> por segurança.</li>
+                    <li>A classificação <strong>Poesia</strong> só é usada quando houver sinais fortes e consistentes.</li>
+                </ul>
+            </div>
+
+            <div>
+                <span class="tag" id="tagTitulo">Título: --</span>
+                <span class="tag" id="tagAutor">Autor: --</span>
+                <span class="tag" id="tagTipo">Tipo: --</span>
             </div>
 
             <div class="preview-a4" id="previewA4">
@@ -220,42 +243,139 @@ function mostrarErro(msg){
     erro.style.display = "block";
 }
 
+function normalizarLinhas(texto){
+    return (texto || "")
+        .replace(/\r/g, "")
+        .split("\n")
+        .map(l => l.trim())
+        .filter(Boolean);
+}
+
+function pareceNomePessoa(linha){
+    if(!linha) return false;
+    if(linha.length < 4 || linha.length > 80) return false;
+    if(/[0-9]/.test(linha)) return false;
+    if(/[.!?;:]/.test(linha)) return false;
+
+    const palavras = linha.split(/\s+/).filter(Boolean);
+    if(palavras.length < 2 || palavras.length > 5) return false;
+
+    const pequenas = ["de","da","do","dos","das","e"];
+    const ok = palavras.every(p => {
+        if(pequenas.includes(p.toLowerCase())) return true;
+        return /^[A-ZÁÀÂÃÉÈÊÍÌÎÓÒÔÕÚÙÛÇ][a-záàâãéèêíìîóòôõúùûç'-]+$/.test(p);
+    });
+
+    return ok;
+}
+
+function detectarTitulo(texto){
+    const linhas = normalizarLinhas(texto).slice(0, 12);
+
+    for(const linha of linhas){
+        if(/^t[ií]tulo\s*[:\-]/i.test(linha)){
+            return linha.replace(/^t[ií]tulo\s*[:\-]\s*/i, "").trim();
+        }
+    }
+
+    for(const linha of linhas){
+        if(linha.length >= 4 && linha.length <= 120 && !pareceNomePessoa(linha)){
+            return linha;
+        }
+    }
+
+    return "Título não identificado";
+}
+
+function detectarAutor(texto){
+    const linhas = normalizarLinhas(texto).slice(0, 15);
+
+    for(const linha of linhas){
+        if(/^autor\s*[:\-]/i.test(linha)){
+            return linha.replace(/^autor\s*[:\-]\s*/i, "").trim();
+        }
+        if(/^by\s+/.test(linha.toLowerCase())){
+            return linha.replace(/^by\s+/i, "").trim();
+        }
+    }
+
+    for(const linha of linhas){
+        if(pareceNomePessoa(linha)){
+            return linha;
+        }
+    }
+
+    return "Autor não identificado";
+}
+
 function detectarClassificacaoBasica(texto){
-    const t = (texto || "").toLowerCase();
+    const bruto = (texto || "").replace(/\r/g, "");
+    const linhas = bruto.split("\n");
+    const naoVazias = linhas.map(l => l.trim()).filter(Boolean);
 
-    if(!t.trim()) return "Indefinido";
+    if(!naoVazias.length) return "Indefinido";
 
-    const versos = t.split("\n").filter(l => l.trim().length > 0 && l.trim().length < 60).length;
-    const capitulos = (t.match(/cap[ií]tulo|chapter|pr[oó]logo|ep[ií]logo/g) || []).length;
+    const capitulos = (bruto.match(/\b(cap[ií]tulo|capitulo|pr[oó]logo|ep[ií]logo|parte\s+[ivxlcdm0-9]+)\b/gi) || []).length;
+    const receita = (bruto.match(/\b(ingredientes|modo de preparo|rendimento|porções|porcoes)\b/gi) || []).length;
+    const infantil = (bruto.match(/\b(ilustra[cç][aã]o|ilustra[cç][oõ]es|crian[cç]a|crianças|infantil)\b/gi) || []).length;
 
-    if(versos > 20 && capitulos < 2) return "Poesia";
-    if(capitulos > 1) return "Prosa";
-    if(t.includes("poema") || t.includes("estrofe") || t.includes("verso")) return "Poesia";
+    let linhasCurtas = 0;
+    let linhasMedias = 0;
+    let linhasLongas = 0;
+    let estrofes = 0;
+    let pontuadas = 0;
+
+    for(let i=0;i<linhas.length;i++){
+        const l = linhas[i].trim();
+        if(!l){
+            const ant = i > 0 ? linhas[i-1].trim() : "";
+            const prox = i < linhas.length - 1 ? linhas[i+1].trim() : "";
+            if(ant && prox) estrofes++;
+            continue;
+        }
+
+        if(/[.!?;:]$/.test(l)) pontuadas++;
+
+        const tam = l.length;
+        if(tam <= 45) linhasCurtas++;
+        else if(tam <= 90) linhasMedias++;
+        else linhasLongas++;
+    }
+
+    const total = naoVazias.length;
+    const proporcaoCurtas = linhasCurtas / total;
+    const proporcaoLongas = linhasLongas / total;
+    const proporcaoPontuadas = pontuadas / total;
+
+    if(receita >= 2) return "Receitas";
+    if(infantil >= 2) return "Infantil";
+    if(capitulos >= 1 && proporcaoLongas >= 0.20) return "Prosa";
+
+    const fortePoesia =
+        total >= 12 &&
+        proporcaoCurtas >= 0.65 &&
+        proporcaoLongas <= 0.10 &&
+        estrofes >= 2 &&
+        proporcaoPontuadas <= 0.55;
+
+    if(fortePoesia) return "Poesia";
 
     return "Prosa";
 }
 
-function detectarTitulo(texto){
-    const linhas = (texto || "").split("\n").map(l => l.trim()).filter(Boolean);
-    return linhas.length ? linhas[0].slice(0,120) : "Título não identificado";
-}
-
-function detectarAutor(texto){
-    const linhas = (texto || "").split("\n").map(l => l.trim()).filter(Boolean).slice(0,10);
-    const autorLinha = linhas.find(l => /^autor[:\-]/i.test(l));
-    if(autorLinha) return autorLinha.replace(/^autor[:\-]\s*/i, "").trim();
-    return "Autor não identificado";
-}
-
 function atualizarPreview(titulo, autor, tipo, texto){
-    const alvo = document.getElementById("previewA4");
-    const trecho = (texto || "").slice(0, 600).replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    alvo.innerHTML = `
+    document.getElementById("tagTitulo").textContent = "Título: " + titulo;
+    document.getElementById("tagAutor").textContent = "Autor: " + autor;
+    document.getElementById("tagTipo").textContent = "Tipo: " + tipo;
+
+    const trecho = (texto || "").slice(0, 1200).replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+    document.getElementById("previewA4").innerHTML = `
         <h3>${titulo}</h3>
-        <p><b>Autor:</b> ${autor}</p>
-        <p><b>Classificação base:</b> ${tipo}</p>
+        <p><strong>Autor:</strong> ${autor}</p>
+        <p><strong>Classificação base:</strong> ${tipo}</p>
         <hr>
-        <div style="white-space:pre-wrap; line-height:1.55;">${trecho || "Sem prévia textual disponível."}</div>
+        <div style="white-space:pre-wrap; line-height:1.6;">${trecho || "Sem prévia textual disponível."}</div>
     `;
 }
 
@@ -337,9 +457,13 @@ async function lerObra(){
             return;
         }
 
-        let titulo = document.getElementById("tituloManual").value.trim() || detectarTitulo(texto);
-        let autor = document.getElementById("autorManual").value.trim() || detectarAutor(texto);
-        let tipo = document.getElementById("tipoManual").value || detectarClassificacaoBasica(texto);
+        const tituloManual = document.getElementById("tituloManual").value.trim();
+        const autorManual = document.getElementById("autorManual").value.trim();
+        const tipoManual = document.getElementById("tipoManual").value;
+
+        const titulo = tituloManual || detectarTitulo(texto);
+        const autor = autorManual || detectarAutor(texto);
+        const tipo = tipoManual || detectarClassificacaoBasica(texto);
 
         document.getElementById("tituloManual").value = titulo;
         document.getElementById("autorManual").value = autor;
@@ -349,7 +473,13 @@ async function lerObra(){
 
         persistirObra(titulo, autor, tipo, texto, nomeArquivo);
         atualizarPreview(titulo, autor, tipo, texto);
-        mostrarOk("Obra lida e registrada no Bolsão com sucesso. O estado técnico foi preparado para o Sistema Desbaste.");
+
+        let msg = "Obra lida e registrada no Bolsão com sucesso.";
+        if(autorManual) msg += " Autor manual preservado.";
+        if(tituloManual) msg += " Título manual preservado.";
+        if(!tipoManual) msg += " Classificação detectada com regra conservadora.";
+
+        mostrarOk(msg);
     }catch(error){
         mostrarErro("Ocorreu um problema ao ler a obra no Bolsão.");
     }
@@ -361,10 +491,14 @@ function limparBolsao(){
     document.getElementById("autorManual").value = "";
     document.getElementById("tipoManual").value = "";
     document.getElementById("textoBruto").value = "";
+    document.getElementById("tagTitulo").textContent = "Título: --";
+    document.getElementById("tagAutor").textContent = "Autor: --";
+    document.getElementById("tagTipo").textContent = "Tipo: --";
     document.getElementById("previewA4").innerHTML = "<h3>Prévia técnica da obra</h3><p>Nenhuma obra carregada ainda.</p>";
     localStorage.removeItem("obraAtual");
     localStorage.removeItem("cofre_preparado");
     localStorage.removeItem("obraAtiva");
+    localStorage.removeItem("matriz_editorial_ativa");
     mostrarOk("Bolsão limpo com sucesso.");
 }
 
