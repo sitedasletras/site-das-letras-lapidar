@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Lapidar — Módulo 03 | Assistente de Diagramação</title>
 
 <style>
+
 body{
 margin:0;
 font-family:Arial, Helvetica, sans-serif;
@@ -40,11 +41,6 @@ font-weight:bold;
 .status-erro{
 color:#dc3545;
 font-weight:bold;
-}
-
-.bloqueio{
-text-align:center;
-padding:80px 20px;
 }
 
 .grid-topo{
@@ -84,7 +80,7 @@ color:#333;
 
 .opcoes-grid{
 display:grid;
-grid-template-columns:repeat(2, 1fr);
+grid-template-columns:repeat(2,1fr);
 gap:18px;
 margin-top:30px;
 }
@@ -104,30 +100,22 @@ font-size:20px;
 color:#102437;
 }
 
-.opcao p{
-margin-bottom:16px;
-line-height:1.5;
-}
-
 .opcao label{
 display:block;
 margin:10px 0 6px;
 font-weight:bold;
-color:#23384d;
 }
 
-.opcao select,
-.opcao input{
+.opcao select{
 width:100%;
 padding:12px;
-border:1px solid #cfd6dd;
 border-radius:10px;
+border:1px solid #ced4da;
 font-size:15px;
-background:white;
 }
 
 .preview-box{
-margin-top:28px;
+margin-top:30px;
 padding:18px;
 background:#eef6ff;
 border-left:5px solid #0b5ed7;
@@ -159,46 +147,21 @@ background:#084298;
 
 .botao-secundario{
 background:#6c757d;
-color:white;
-border:none;
-padding:18px 26px;
-font-size:18px;
-border-radius:10px;
-cursor:pointer;
-}
-
-.botao-secundario:hover{
-background:#565e64;
 }
 
 .botao-verde{
 background:#198754;
-color:white;
-border:none;
-padding:18px 26px;
-font-size:18px;
-border-radius:10px;
-cursor:pointer;
 }
 
 .botao-verde:hover{
 background:#146c43;
 }
 
-@media(max-width:900px){
-.grid-topo,
-.opcoes-grid{
-grid-template-columns:1fr;
+.bloqueio{
+text-align:center;
+padding:80px 20px;
 }
-.acoes{
-flex-direction:column;
-}
-.botao,
-.botao-secundario,
-.botao-verde{
-width:100%;
-}
-}
+
 </style>
 </head>
 
@@ -208,10 +171,11 @@ width:100%;
 Módulo 03 — Assistente de Diagramação
 </header>
 
+
 <div id="areaDiagramacao" class="container" style="display:none;">
 
 <p class="status-ok">
-Ficha-base recebida do Sistema Desbaste ✓
+Ficha-base recebida do Sistema Desbaste ✔
 </p>
 
 <h2>
@@ -219,93 +183,180 @@ Diagramação liberada
 </h2>
 
 <p>
-Este módulo já recebe a obra com base consolidada. A diagramação começa a partir da leitura estrutural validada pelo Cofre e pelo Sistema Desbaste.
+Este módulo recebe a obra com base consolidada. A diagramação começa a partir da leitura estrutural validada.
 </p>
+
 
 <div class="grid-topo">
 
 <div class="card">
+
 <h3>Ficha-base da obra</h3>
-<div class="linha"><span class="rotulo">Arquivo:</span> <span id="dgArquivo">—</span></div>
-<div class="linha"><span class="rotulo">Título-base:</span> <span id="dgTitulo">—</span></div>
-<div class="linha"><span class="rotulo">Autor:</span> <span id="dgAutor">—</span></div>
-<div class="linha"><span class="rotulo">Status técnico:</span> <span id="dgStatus">—</span></div>
+
+<div class="linha"><span class="rotulo">Arquivo:</span> <span id="dgArquivo"></span></div>
+<div class="linha"><span class="rotulo">Título-base:</span> <span id="dgTitulo"></span></div>
+<div class="linha"><span class="rotulo">Autor:</span> <span id="dgAutor"></span></div>
+<div class="linha"><span class="rotulo">Status técnico:</span> <span id="dgStatus"></span></div>
+
 </div>
+
 
 <div class="card">
+
 <h3>Leitura consolidada</h3>
-<div class="linha"><span class="rotulo">Principal:</span> <span id="dgPrincipal">—</span></div>
-<div class="linha"><span class="rotulo">Secundário:</span> <span id="dgSecundario">—</span></div>
-<div class="linha"><span class="rotulo">Terciário:</span> <span id="dgTerciario">—</span></div>
-<div class="linha"><span class="rotulo">Prontidão:</span> <span>Base pronta para configuração de diagramação</span></div>
+
+<div class="linha"><span class="rotulo">Principal:</span> <span id="dgPrincipal"></span></div>
+<div class="linha"><span class="rotulo">Secundária:</span> <span id="dgSecundaria"></span></div>
+<div class="linha"><span class="rotulo">Terciária:</span> <span id="dgTerciaria"></span></div>
+<div class="linha"><span class="rotulo">Prontidão:</span> Base pronta para configuração editorial</div>
+
 </div>
 
 </div>
+
 
 <div class="opcoes-grid">
 
 <div class="opcao">
-<h4>Configuração inicial do miolo</h4>
 
-<label for="formatoLivro">Formato do livro</label>
+<h4>Formato do livro</h4>
+
 <select id="formatoLivro">
+
 <option value="A5">A5</option>
 <option value="16x23">16x23</option>
 <option value="16x27">16x27</option>
 <option value="6x9">6x9</option>
 <option value="A4">A4</option>
+
 </select>
 
-<label for="fonteTexto">Fonte do corpo do texto</label>
+<label>Fonte</label>
+
 <select id="fonteTexto">
-<option value="Times New Roman">Times New Roman</option>
-<option value="Arial">Arial</option>
-<option value="Garamond">Garamond</option>
+
+<option>Times New Roman</option>
+<option>Arial</option>
+<option>Garamond</option>
+
 </select>
 
-<label for="alinhamentoTexto">Alinhamento</label>
+<label>Alinhamento</label>
+
 <select id="alinhamentoTexto">
-<option value="Justificado">Justificado</option>
-<option value="Alinhado à esquerda">Alinhado à esquerda</option>
+
+<option>Justificado</option>
+<option>Alinhado à esquerda</option>
+
 </select>
+
 </div>
+
 
 <div class="opcao">
+
 <h4>Estrutura visual inicial</h4>
 
-<label for="capitular">Letra capitular</label>
+<label>Capitular</label>
+
 <select id="capitular">
-<option value="Sim">Sim</option>
-<option value="Não">Não</option>
+
+<option>Sim</option>
+<option>Não</option>
+
 </select>
 
-<label for="numeracaoPaginas">Numeração de páginas</label>
+<label>Numeração</label>
+
 <select id="numeracaoPaginas">
-<option value="Início da história">Início da história</option>
-<option value="Desde o começo do arquivo">Desde o começo do arquivo</option>
+
+<option>Início da história</option>
+<option>Desde o começo do arquivo</option>
+
 </select>
 
-<label for="espelhamento">Margens</label>
+<label>Margens</label>
+
 <select id="espelhamento">
-<option value="Espelhadas">Espelhadas</option>
-<option value="Simples">Simples</option>
+
+<option>Espelhadas</option>
+<option>Simples</option>
+
 </select>
+
 </div>
 
 </div>
+
 
 <div class="preview-box">
-<strong>Prévia técnica da diagramação:</strong><br>
-A obra <span id="previewTitulo">—</span>, de <span id="previewAutor">—</span>, será preparada inicialmente em <span id="previewFormato">A5</span>, com corpo de texto em <span id="previewFonte">Times New Roman</span>, alinhamento <span id="previewAlinhamento">Justificado</span> e margens <span id="previewMargens">Espelhadas</span>.
+
+<strong>Prévia técnica da diagramação:</strong>
+
+<br><br>
+
+Formato:
+<span id="previewFormato"></span>
+
+<br>
+
+Fonte:
+<span id="previewFonte"></span>
+
+<br>
+
+Alinhamento:
+<span id="previewAlinhamento"></span>
+
+<br>
+
+Margens:
+<span id="previewMargens"></span>
+
 </div>
+
+
+<div class="preview-box">
+
+<strong>Matriz editorial A4 oficial da obra:</strong>
+
+<br><br>
+
+Formato base estrutural universal ativado para:
+
+A5 · 14x21 · 16x23 · 21x28 · eBook · PDF · audiobook estrutural
+
+<br><br>
+
+<span id="statusMatrizA4"></span>
+
+<br><br>
+
+<button class="botao-verde" onclick="ativarMatrizA4()">
+Ativar matriz editorial A4 desta obra
+</button>
+
+</div>
+
 
 <div class="acoes">
-<button class="botao-verde" onclick="salvarConfiguracaoDiagramacao()">Salvar configuração de diagramação</button>
-<button class="botao" onclick="voltarExecutor()">Retornar ao Executor</button>
-<button class="botao-secundario" onclick="irMesario()">Ir para Mesário</button>
+
+<button class="botao-verde" onclick="salvarConfiguracaoDiagramacao()">
+Salvar configuração de diagramação
+</button>
+
+<button class="botao" onclick="voltarExecutor()">
+Retornar ao Executor
+</button>
+
+<button class="botao-secundario" onclick="irMesario()">
+Ir para Mesário
+</button>
+
 </div>
 
 </div>
+
 
 <div id="bloqueioDiagramacao" class="container bloqueio" style="display:none;">
 
@@ -318,7 +369,7 @@ Sistema Desbaste obrigatório
 </h2>
 
 <p>
-Antes de acessar a Diagramação, é necessário concluir o fluxo oficial do Lapidar: Cofre, Sistema Desbaste, Workspace e Executor.
+Antes de acessar a Diagramação é necessário concluir o fluxo oficial do Lapidar.
 </p>
 
 <button class="botao" onclick="voltarDesbaste()">
@@ -327,86 +378,126 @@ Ir para Sistema Desbaste
 
 </div>
 
+
 <script>
 
-function preencherComFichaBase(){
-let ficha = localStorage.getItem("lapidar_ficha_base_obra");
 
-if(ficha){
-try{
-let dados = JSON.parse(ficha);
+function preencherFichaBase(){
 
-document.getElementById("dgArquivo").innerText = dados.arquivo || "—";
-document.getElementById("dgTitulo").innerText = dados.titulo_base || "—";
-document.getElementById("dgAutor").innerText = dados.autor || "—";
-document.getElementById("dgStatus").innerText = dados.status_tecnico || "—";
-document.getElementById("dgPrincipal").innerText = dados.classificacao_principal || "—";
-document.getElementById("dgSecundario").innerText = dados.classificacao_secundaria || "—";
-document.getElementById("dgTerciario").innerText = dados.classificacao_terciaria || "—";
+let ficha = localStorage.getItem("lapidar_ficha_base_obra")
 
-document.getElementById("previewTitulo").innerText = dados.titulo_base || "—";
-document.getElementById("previewAutor").innerText = dados.autor || "—";
+if(!ficha)return
 
-}catch(e){
-console.log("Erro ao ler ficha-base na diagramação:", e);
+let dados = JSON.parse(ficha)
+
+dgArquivo.innerText=dados.arquivo||"—"
+dgTitulo.innerText=dados.titulo_base||"—"
+dgAutor.innerText=dados.autor||"—"
+dgStatus.innerText=dados.status_tecnico||"—"
+
+dgPrincipal.innerText=dados.classificacao_principal||"—"
+dgSecundaria.innerText=dados.classificacao_secundaria||"—"
+dgTerciaria.innerText=dados.classificacao_terciaria||"—"
+
 }
-}
-}
+
 
 function atualizarPreview(){
-document.getElementById("previewFormato").innerText = document.getElementById("formatoLivro").value;
-document.getElementById("previewFonte").innerText = document.getElementById("fonteTexto").value;
-document.getElementById("previewAlinhamento").innerText = document.getElementById("alinhamentoTexto").value;
-document.getElementById("previewMargens").innerText = document.getElementById("espelhamento").value;
+
+previewFormato.innerText=formatoLivro.value
+previewFonte.innerText=fonteTexto.value
+previewAlinhamento.innerText=alinhamentoTexto.value
+previewMargens.innerText=espelhamento.value
+
 }
+
 
 function salvarConfiguracaoDiagramacao(){
-let configuracao = {
-formato: document.getElementById("formatoLivro").value,
-fonte: document.getElementById("fonteTexto").value,
-alinhamento: document.getElementById("alinhamentoTexto").value,
-capitular: document.getElementById("capitular").value,
-numeracao: document.getElementById("numeracaoPaginas").value,
-margens: document.getElementById("espelhamento").value
-};
 
-localStorage.setItem("lapidar_configuracao_diagramacao", JSON.stringify(configuracao));
-alert("Configuração de diagramação salva com sucesso.");
+let config={
+
+formato:formatoLivro.value,
+fonte:fonteTexto.value,
+alinhamento:alinhamentoTexto.value,
+capitular:capitular.value,
+numeracao:numeracaoPaginas.value,
+margens:espelhamento.value
+
 }
+
+localStorage.setItem(
+"lapidar_configuracao_diagramacao",
+JSON.stringify(config)
+)
+
+alert("Configuração salva com sucesso.")
+
+}
+
+
+function ativarMatrizA4(){
+
+localStorage.setItem("lapidar_matriz_a4_ativa","true")
+
+statusMatrizA4.innerText="Matriz A4 editorial ativada com sucesso."
+
+}
+
 
 function verificarAcessoDiagramacao(){
-let desbaste = localStorage.getItem("desbaste_concluido");
-let desbasteLapidar = localStorage.getItem("lapidar_desbaste_concluido");
 
-if(desbaste === "true" || desbasteLapidar === "true"){
-document.getElementById("areaDiagramacao").style.display = "block";
-preencherComFichaBase();
-atualizarPreview();
+let desbaste=localStorage.getItem("desbaste_concluido")
+let lapidar=localStorage.getItem("lapidar_desbaste_concluido")
+
+if(desbaste==="true"||lapidar==="true"){
+
+areaDiagramacao.style.display="block"
+
+preencherFichaBase()
+
+atualizarPreview()
+
 }else{
-document.getElementById("bloqueioDiagramacao").style.display = "block";
+
+bloqueioDiagramacao.style.display="block"
+
 }
+
 }
+
 
 function voltarExecutor(){
-window.location.href = "modulo_executor.html";
+
+window.location.href="modulo_executor.html"
+
 }
+
 
 function voltarDesbaste(){
-window.location.href = "modulo_02_sistema_desbaste.html";
+
+window.location.href="modulo_02_sistema_desbaste.html"
+
 }
+
 
 function irMesario(){
-window.location.href = "mesario.html";
+
+window.location.href="mesario.html"
+
 }
 
-document.getElementById("formatoLivro").addEventListener("change", atualizarPreview);
-document.getElementById("fonteTexto").addEventListener("change", atualizarPreview);
-document.getElementById("alinhamentoTexto").addEventListener("change", atualizarPreview);
-document.getElementById("espelhamento").addEventListener("change", atualizarPreview);
 
-verificarAcessoDiagramacao();
+formatoLivro.onchange=atualizarPreview
+fonteTexto.onchange=atualizarPreview
+alinhamentoTexto.onchange=atualizarPreview
+espelhamento.onchange=atualizarPreview
+
+
+verificarAcessoDiagramacao()
+
 
 </script>
+
 
 </body>
 </html>
