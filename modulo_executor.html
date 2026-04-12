@@ -95,6 +95,28 @@
       color: #24303c;
     }
 
+    .faixa-matriz {
+      background: #edf8ef;
+      border: 1px solid #cfe9d5;
+      border-left: 6px solid #2e8b57;
+      border-radius: 14px;
+      padding: 18px 20px;
+      margin-top: 18px;
+    }
+
+    .faixa-matriz .selo {
+      font-size: 22px;
+      font-weight: 700;
+      color: #1f7a49;
+      margin-bottom: 8px;
+    }
+
+    .faixa-matriz .texto {
+      font-size: 17px;
+      line-height: 1.6;
+      color: #4c5a55;
+    }
+
     .modulos-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -261,6 +283,14 @@
             <div class="linha"><strong>Prontidão:</strong> <span id="statusProntidao">—</span></div>
           </div>
         </div>
+
+        <div id="faixaMatriz" class="faixa-matriz" style="display:none;">
+          <div class="selo">Matriz editorial ativa ✔</div>
+          <div class="texto">
+            Esta obra já possui matriz editorial A4 ativa e está pronta para seguir aos módulos
+            de produção, acabamento e circulação dentro do Lapidar.
+          </div>
+        </div>
       </div>
 
       <div class="card">
@@ -271,7 +301,7 @@
             <div class="tag">Fluxo editorial</div>
             <h4>Módulo 03 — Assistente de Diagramação</h4>
             <p>Recebe a base técnica da obra para organização visual, estrutura do miolo e preparação editorial do conteúdo.</p>
-            <button class="botao-modulo" onclick="window.location.href='modulo03_assistente_diagramacao.html'">Abrir módulo</button>
+            <button class="botao-modulo" onclick="window.location.href='modulo03_assistente_diagramacao_autor_mapa.html'">Abrir módulo</button>
           </div>
 
           <div class="modulo fundo-amarelo">
@@ -432,6 +462,18 @@
       document.getElementById("statusProntidao").textContent = "Obra pronta para módulos seguintes";
     }
 
+    function mostrarSeloMatriz() {
+      var matrizAtiva =
+        localStorage.getItem("lapidar_matriz_a4_ativa") === "true" ||
+        localStorage.getItem("matriz_editorial_ativa") === "true";
+
+      if (matrizAtiva) {
+        document.getElementById("faixaMatriz").style.display = "block";
+      } else {
+        document.getElementById("faixaMatriz").style.display = "none";
+      }
+    }
+
     function encerrarFluxo() {
       localStorage.removeItem("desbaste_ok");
       localStorage.removeItem("workspace_liberado");
@@ -440,11 +482,13 @@
       localStorage.removeItem("executor_liberado");
       localStorage.removeItem("status_workspace");
       localStorage.removeItem("matriz_editorial_ativa");
+      localStorage.removeItem("lapidar_matriz_a4_ativa");
       window.location.href = "modulo_01_bolsao.html";
     }
 
     if (validarAcesso()) {
       preencher();
+      mostrarSeloMatriz();
     }
   </script>
 </body>
