@@ -31,7 +31,7 @@ button{border:none;border-radius:10px;padding:12px 16px;font-size:15px;cursor:po
 .ok{background:#edf9ef;border:1px solid #b7e1c1;color:#166534}
 .erro{background:#fff1f1;border:1px solid #f0b9b9;color:#991b1b}
 .info{background:#faf6ef;border:1px solid #eadfce;border-radius:10px;padding:12px;margin-bottom:12px;font-size:14px;line-height:1.45}
-.preview{white-space:pre-wrap;line-height:1.6;font-size:14px;min-height:160px;background:#fff;border:1px solid #eadfce;border-radius:12px;padding:16px}
+.preview{white-space:pre-wrap;line-height:1.6;font-size:14px;min-height:180px;background:#fff;border:1px solid #eadfce;border-radius:12px;padding:16px}
 .oculto{display:none !important}
 @media (max-width:1000px){.grid{grid-template-columns:1fr 1fr}}
 @media (max-width:700px){.grid{grid-template-columns:1fr}}
@@ -41,7 +41,7 @@ button{border:none;border-radius:10px;padding:12px 16px;font-size:15px;cursor:po
 
 <header class="topo">
 <h1>Executor de Módulos</h1>
-<p>Núcleo operacional da obra dentro da espinha dorsal do Lapidar. Aqui a obra ativa aciona apenas os módulos escolhidos no Modo C.</p>
+<p>Núcleo operacional da obra dentro da espinha dorsal do Lapidar. Aqui a obra ativa aciona apenas os módulos escolhidos no Modo C e o Lapidar organiza as pontes necessárias.</p>
 </header>
 
 <main class="container">
@@ -53,8 +53,8 @@ button{border:none;border-radius:10px;padding:12px 16px;font-size:15px;cursor:po
 <div class="linha"><strong>Classificação:</strong> <span id="tipoObra">Carregando...</span></div>
 <div class="linha"><strong>Pré-requisitos:</strong> <span id="estadoRequisitos">Validando...</span></div>
 
-<div class="info" id="infoPacote">
-O Executor agora lê o pacote do Modo C. O autor escolhe os módulos; o Lapidar organiza a ordem.
+<div class="info">
+O Executor lê o pacote do Modo C. O autor escolhe os módulos e o Lapidar organiza a ordem técnica, incluindo as pontes para Matriz, Diagramação e Exportação.
 </div>
 
 <div class="preview" id="previewTrilho">Aguardando pacote editorial do Modo C...</div>
@@ -76,7 +76,7 @@ O Executor agora lê o pacote do Modo C. O autor escolhe os módulos; o Lapidar 
 <h3>Diagramação</h3>
 <p>Organização do miolo, margens, capítulos, tipografia e composição editorial.</p>
 </div>
-<div class="acoes"><button class="btn-primario" onclick="window.location.href='modulo_diagramacao.html'">Abrir</button></div>
+<div class="acoes"><button class="btn-primario" onclick="window.location.href='ponte_executor_matriz.html'">Abrir trilho da Diagramação</button></div>
 </article>
 
 <article class="modulo oculto" id="card_okapista">
@@ -193,7 +193,8 @@ function preencherExecutor(){
   document.getElementById("previewTrilho").textContent=
     "Modo: " + (pacote.modo || "--") + "\n" +
     "Saída: " + traduzirSaida(pacote.saida || "sob_demanda") + "\n\n" +
-    "Trilho organizado pelo Lapidar:\n\n" + trilho;
+    "Trilho organizado pelo Lapidar:\n\n" + trilho + "\n\n" +
+    "Quando a Diagramação estiver selecionada, o Lapidar enviará a obra para a ponte Executor → Matriz automaticamente.";
 }
 function liberarExecutor(){
   const pacote=carregarPacote();
@@ -238,7 +239,7 @@ function seguirProximaEtapa(){
   const primeira=ordem.find(item => pacote.modulos.includes(item));
 
   if(primeira==="diagramacao"){
-    window.location.href="modulo_diagramacao.html";
+    window.location.href="ponte_executor_matriz.html";
     return;
   }
   if(primeira==="silos"){
