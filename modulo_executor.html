@@ -76,7 +76,7 @@ O Executor agora lê o pacote do Modo C. O autor escolhe os módulos; o Lapidar 
 <h3>Diagramação</h3>
 <p>Organização do miolo, margens, capítulos, tipografia e composição editorial.</p>
 </div>
-<div class="acoes"><button class="btn-primario" onclick="abrirPlaceholder('Diagramação')">Abrir</button></div>
+<div class="acoes"><button class="btn-primario" onclick="window.location.href='modulo_diagramacao.html'">Abrir</button></div>
 </article>
 
 <article class="modulo oculto" id="card_okapista">
@@ -156,17 +156,6 @@ function requisitosValidos(){
   const workspace=localStorage.getItem("workspace_liberado")==="true";
   return desbaste && workspace;
 }
-function traduzirModulo(mod){
-  const mapa={
-    diagramacao:"Diagramação",
-    okapista:"OKapista",
-    segunda_lingua:"Segunda Língua(s)",
-    avaliacao:"Avaliação Literária",
-    silos:"Silos",
-    polir:"Sistema Polir"
-  };
-  return mapa[mod] || mod;
-}
 function traduzirSaida(valor){
   if(valor==="pdf") return "PDF físico";
   if(valor==="epub") return "EPUB";
@@ -245,9 +234,13 @@ function seguirProximaEtapa(){
     return;
   }
 
-  const ordem= ["diagramacao","okapista","segunda_lingua","avaliacao","silos","polir"];
-  const primeira = ordem.find(item => pacote.modulos.includes(item));
+  const ordem=["diagramacao","okapista","segunda_lingua","avaliacao","silos","polir"];
+  const primeira=ordem.find(item => pacote.modulos.includes(item));
 
+  if(primeira==="diagramacao"){
+    window.location.href="modulo_diagramacao.html";
+    return;
+  }
   if(primeira==="silos"){
     window.location.href="modulos_audiovisual.html";
     return;
@@ -257,7 +250,7 @@ function seguirProximaEtapa(){
     return;
   }
 
-  mostrarOk("Pacote reconhecido. O próximo módulo real a ser reativado agora é: " + traduzirModulo(primeira) + ".");
+  mostrarOk("Pacote reconhecido. O próximo módulo real a ser reativado agora é: " + (primeira || "nenhum") + ".");
 }
 function voltarModoC(){
   window.location.href="orquestrador_modo_c.html";
