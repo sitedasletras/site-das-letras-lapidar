@@ -3,220 +3,220 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lapidar — Exportação</title>
+<title>Lapidar — Exportação Editorial</title>
 <style>
 *{box-sizing:border-box}
-body{
-margin:0;
-font-family:Arial, sans-serif;
-background:#f3f6fb;
-color:#1f2a44;
-}
-.topo{
-background:#0f4c81;
-color:#fff;
-padding:22px 18px;
-}
+body{margin:0;font-family:Arial,sans-serif;background:#f3f6fb;color:#1f2a44}
+.topo{background:#0f4c81;color:#fff;padding:22px 18px}
 .topo h1{margin:0;font-size:1.8rem}
-.topo p{margin:8px 0 0 0;opacity:.95}
-
-.container{
-max-width:1240px;
-margin:0 auto;
-padding:18px 14px 30px;
-}
-
-.card{
-background:#fff;
-border:1px solid #d9e4f5;
-border-radius:16px;
-padding:18px;
-margin-bottom:18px;
-box-shadow:0 4px 14px rgba(0,0,0,.08);
-}
-
-.card h2{
-margin:0 0 14px 0;
-color:#0f4c81;
-font-size:1.2rem;
-}
-
-.linha{
-margin:10px 0;
-font-size:14px;
-}
-
-.preview{
-white-space:pre-wrap;
-line-height:1.55;
-font-size:14px;
-max-height:420px;
-overflow:auto;
-background:#fff;
-border:1px solid #d9e4f5;
-border-radius:12px;
-padding:18px;
-}
-
-.acoes{
-display:flex;
-gap:10px;
-flex-wrap:wrap;
-margin-top:14px;
-}
-
-button{
-border:none;
-border-radius:10px;
-padding:12px 16px;
-font-size:15px;
-cursor:pointer;
-font-weight:bold;
-}
-
+.topo p{margin:8px 0 0 0;opacity:.95;line-height:1.45}
+.container{max-width:1240px;margin:0 auto;padding:18px 14px 30px}
+.card{background:#fff;border:1px solid #d9e4f5;border-radius:16px;padding:18px;margin-bottom:18px;box-shadow:0 4px 14px rgba(0,0,0,.08)}
+.card h2{margin:0 0 14px 0;color:#0f4c81;font-size:1.2rem}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.linha{margin:10px 0;font-size:14px;line-height:1.5}
+.preview{white-space:pre-wrap;line-height:1.55;font-size:14px;min-height:260px;background:#fff;border:1px solid #d9e4f5;border-radius:12px;padding:18px}
+.acoes{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+button{border:none;border-radius:10px;padding:12px 16px;font-size:15px;cursor:pointer;font-weight:bold}
 .btn-azul{background:#0f4c81;color:#fff}
 .btn-azul:hover{background:#0c3c66}
-
 .btn-claro{background:#e3ecfa;color:#0c3c66}
 .btn-claro:hover{background:#d3e1f6}
-
 .btn-verde{background:#15803d;color:#fff}
 .btn-verde:hover{background:#11622f}
-
-.mensagem{
-margin-top:14px;
-padding:12px 14px;
-border-radius:10px;
-display:none;
-font-size:14px;
-}
-
+.btn-roxo{background:#5b2d82;color:#fff}
+.btn-roxo:hover{background:#49236a}
+.mensagem{margin-top:14px;padding:12px 14px;border-radius:10px;display:none;font-size:14px}
 .ok{background:#edf9ef;border:1px solid #b7e1c1;color:#166534}
 .erro{background:#fff1f1;border:1px solid #f0b9b9;color:#991b1b}
+.tag{display:inline-block;padding:8px 12px;border-radius:999px;font-size:12px;font-weight:bold;background:#eef4fb;color:#0f4c81;border:1px solid #d9e4f5;margin-right:8px;margin-bottom:8px}
+.lista{margin:0;padding-left:18px;line-height:1.6;font-size:14px}
+@media (max-width:900px){.grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 
 <header class="topo">
-<h1>Exportação</h1>
-<p>Encerramento oficial do fluxo editorial do Lapidar com registro técnico final da obra preparada.</p>
+<h1>Exportação Editorial</h1>
+<p>Saída final do Lapidar para PDF físico, EPUB ou ambos, com base na matriz editorial e na diagramação gerada.</p>
 </header>
 
 <main class="container">
 
 <section class="card">
-<h2>Estado final da obra</h2>
+<h2>Estado técnico da obra</h2>
 
+<div class="grid">
+<div>
 <div class="linha"><strong>Título:</strong> <span id="titulo">Carregando...</span></div>
 <div class="linha"><strong>Autor:</strong> <span id="autor">Carregando...</span></div>
-<div class="linha"><strong>Status Auditoria:</strong> <span id="statusAuditoria">Validando...</span></div>
+<div class="linha"><strong>Tipo:</strong> <span id="tipo">Carregando...</span></div>
+<div class="linha"><strong>Saída do pacote:</strong> <span id="saidaPacote">Carregando...</span></div>
+</div>
+
+<div>
+<span class="tag" id="tagMatriz">Matriz: pendente</span>
+<span class="tag" id="tagDiagramacao">Diagramação: pendente</span>
+<span class="tag" id="tagExportacao">Exportação: pendente</span>
+</div>
+</div>
 
 <div class="acoes">
-<button class="btn-claro" onclick="voltarAuditoria()">Voltar à Auditoria</button>
-<button class="btn-azul" onclick="executarExportacao()">Executar Exportação</button>
-<button class="btn-verde" onclick="finalizarPipeline()">Finalizar Pipeline</button>
+<button class="btn-claro" onclick="voltarDiagramacao()">Voltar à Diagramação</button>
+<button class="btn-azul" onclick="prepararPDF()">Preparar PDF físico</button>
+<button class="btn-roxo" onclick="prepararEPUB()">Preparar EPUB</button>
+<button class="btn-verde" onclick="finalizarExportacao()">Finalizar Exportação</button>
 </div>
 
 <div id="msgOk" class="mensagem ok"></div>
 <div id="msgErro" class="mensagem erro"></div>
+</section>
 
+<section class="grid">
+<section class="card">
+<h2>Resumo técnico final</h2>
+<div class="preview" id="previewFinal">Aguardando leitura do estado editorial...</div>
 </section>
 
 <section class="card">
-<h2>Resumo final consolidado</h2>
-<div class="preview" id="preview">Aguardando obra...</div>
+<h2>Checklist de saída</h2>
+<ul id="checklistSaida" class="lista">
+<li>Aguardando validações de exportação.</li>
+</ul>
+</section>
 </section>
 
 </main>
 
 <script>
-
 function ok(msg){
-let el=document.getElementById("msgOk")
-let er=document.getElementById("msgErro")
-er.style.display="none"
-el.innerText=msg
-el.style.display="block"
+  const el=document.getElementById("msgOk");
+  const er=document.getElementById("msgErro");
+  er.style.display="none";
+  el.textContent=msg;
+  el.style.display="block";
 }
-
 function erro(msg){
-let el=document.getElementById("msgOk")
-let er=document.getElementById("msgErro")
-el.style.display="none"
-er.innerText=msg
-er.style.display="block"
+  const el=document.getElementById("msgOk");
+  const er=document.getElementById("msgErro");
+  el.style.display="none";
+  er.textContent=msg;
+  er.style.display="block";
+}
+function carregarJSON(chave){
+  try{return JSON.parse(localStorage.getItem(chave) || "null");}
+  catch(e){return null;}
+}
+function preencherDados(){
+  const obra=carregarJSON("obraAtual");
+  const pacote=carregarJSON("modo_c_pacote_editorial");
+  const matriz=carregarJSON("matriz_editorial");
+  const diagramacao=carregarJSON("diagramacao_config");
+
+  if(obra){
+    document.getElementById("titulo").textContent=obra?.estrutura?.titulo || obra?.titulo || "—";
+    document.getElementById("autor").textContent=obra?.estrutura?.autor || obra?.autor || "—";
+    document.getElementById("tipo").textContent=obra?.tipo || "—";
+  }else{
+    document.getElementById("titulo").textContent="Nenhuma obra ativa";
+    document.getElementById("autor").textContent="—";
+    document.getElementById("tipo").textContent="—";
+  }
+
+  document.getElementById("saidaPacote").textContent = pacote?.saida || "Não definida";
+
+  if(matriz) document.getElementById("tagMatriz").textContent="Matriz: pronta";
+  if(diagramacao) document.getElementById("tagDiagramacao").textContent="Diagramação: pronta";
+
+  const resumo = [
+    "Obra ativa: " + (obra?.estrutura?.titulo || obra?.titulo || "não encontrada"),
+    "Autor: " + (obra?.estrutura?.autor || obra?.autor || "não identificado"),
+    "Formato da matriz: " + (matriz?.tamanho || "não definido"),
+    "Tipo de miolo: " + (matriz?.miolo || "não definido"),
+    "Preset editorial: " + (matriz?.preset || "não definido"),
+    "Fonte do miolo: " + (diagramacao?.fonte || "não definida"),
+    "Saída prevista: " + (pacote?.saida || "não definida")
+  ];
+
+  document.getElementById("previewFinal").textContent = resumo.join("\n");
+
+  const checklist = [
+    matriz ? "Matriz editorial validada." : "Matriz editorial ainda ausente.",
+    diagramacao ? "Diagramação editorial gerada." : "Diagramação ainda não gerada.",
+    localStorage.getItem("exportacao_pdf_pronta")==="true" ? "PDF físico preparado." : "PDF físico ainda não preparado.",
+    localStorage.getItem("exportacao_epub_pronta")==="true" ? "EPUB preparado." : "EPUB ainda não preparado."
+  ];
+
+  document.getElementById("checklistSaida").innerHTML =
+    checklist.map(item => "<li>" + item + "</li>").join("");
+}
+function validarBase(){
+  const obra=carregarJSON("obraAtual");
+  const matriz=carregarJSON("matriz_editorial");
+  const diagramacao=carregarJSON("diagramacao_config");
+
+  if(!obra){
+    erro("Não há obra ativa para exportação.");
+    return false;
+  }
+  if(!matriz){
+    erro("A matriz editorial ainda não foi gerada.");
+    return false;
+  }
+  if(!diagramacao){
+    erro("A diagramação ainda não foi gerada.");
+    return false;
+  }
+  return true;
+}
+function prepararPDF(){
+  if(!validarBase()) return;
+
+  localStorage.setItem("exportacao_pdf_pronta","true");
+  ok("PDF físico preparado com sucesso. O próximo passo é finalizar a exportação.");
+  preencherDados();
+}
+function prepararEPUB(){
+  if(!validarBase()) return;
+
+  localStorage.setItem("exportacao_epub_pronta","true");
+  ok("EPUB preparado com sucesso. O próximo passo é finalizar a exportação.");
+  preencherDados();
+}
+function finalizarExportacao(){
+  if(!validarBase()) return;
+
+  const pdf=localStorage.getItem("exportacao_pdf_pronta")==="true";
+  const epub=localStorage.getItem("exportacao_epub_pronta")==="true";
+
+  if(!pdf && !epub){
+    erro("Prepare ao menos uma saída antes de finalizar a exportação.");
+    return;
+  }
+
+  localStorage.setItem("exportacao_concluida","true");
+  localStorage.setItem("pipeline_lapidar_finalizado","true");
+
+  const relatorio = {
+    data:new Date().toISOString(),
+    etapa:"exportar.html",
+    pdf:pdf,
+    epub:epub,
+    status:"concluida"
+  };
+  localStorage.setItem("exportacao_relatorio", JSON.stringify(relatorio));
+
+  document.getElementById("tagExportacao").textContent="Exportação: concluída";
+  ok("Exportação finalizada com sucesso. O pipeline editorial do Lapidar foi encerrado.");
+  preencherDados();
+}
+function voltarDiagramacao(){
+  window.location.href="modulo_diagramacao.html";
 }
 
-function obra(){
-try{
-return JSON.parse(localStorage.getItem("obraAtual")||"null")
-}catch{return null}
-}
-
-function auditoriaOk(){
-return localStorage.getItem("auditoria_concluida")==="true"
-}
-
-function carregar(){
-
-let o=obra()
-
-if(!o){
-document.getElementById("titulo").innerText="Nenhuma obra ativa"
-document.getElementById("autor").innerText="—"
-document.getElementById("preview").innerText="Nenhuma obra carregada."
-return
-}
-
-document.getElementById("titulo").innerText=o?.titulo||"Título não identificado"
-document.getElementById("autor").innerText=o?.autor||"Autor não identificado"
-
-document.getElementById("preview").innerText=(o?.textoExtraido||"Sem texto disponível").slice(0,3000)
-
-document.getElementById("statusAuditoria").innerText=auditoriaOk()?"Concluída":"Pendente"
-}
-
-function executarExportacao(){
-
-if(!auditoriaOk()){
-erro("Execute a Auditoria antes da Exportação.")
-return
-}
-
-localStorage.setItem("exportacao_concluida","true")
-
-let relatorio={
-data:new Date().toISOString(),
-etapa:"exportar.html",
-status:"concluida"
-}
-
-localStorage.setItem("exportacao_relatorio",JSON.stringify(relatorio))
-
-ok("Exportação registrada com sucesso.")
-}
-
-function finalizarPipeline(){
-
-if(localStorage.getItem("exportacao_concluida")!=="true"){
-erro("Execute a Exportação antes de finalizar.")
-return
-}
-
-localStorage.setItem("pipeline_lapidar_finalizado","true")
-
-ok("Pipeline Lapidar finalizado com sucesso. Obra pronta para distribuição.")
-}
-
-function voltarAuditoria(){
-window.location.href="auditoria.html"
-}
-
-carregar()
-
+preencherDados();
 </script>
 
 <script src="lapidar_inteligencia_core.js"></script>
-
 </body>
 </html>
