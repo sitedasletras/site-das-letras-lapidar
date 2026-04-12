@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lapidar — Compositor de Diagramação</title>
+<style>
+*{box-sizing:border-box} body{margin:0;font-family:Arial,sans-serif;background:#f5efe5;color:#2d251b}
+header{background:#6b4f1d;color:#fff;padding:20px}
+main{max-width:1280px;margin:auto;padding:20px}
+.card{background:#fff;border:1px solid #eadfce;border-radius:14px;padding:18px;margin-bottom:18px;box-shadow:0 4px 12px rgba(0,0,0,.07)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+button{border:none;border-radius:10px;padding:12px 16px;font-weight:bold;cursor:pointer;margin-right:8px;margin-top:10px}
+.btn{background:#6b4f1d;color:#fff}.btn2{background:#15803d;color:#fff}
+.pagina{width:min(100%,440px);min-height:620px;background:#fff;margin:0 auto;border:1px solid #d8cab3;box-shadow:0 10px 22px rgba(0,0,0,.08);padding:42px 36px 46px;position:relative}
+.cab{font-size:11px;color:#7b6a54;text-transform:uppercase;letter-spacing:.5px;margin-bottom:24px}
+.tit{font-size:24px;font-weight:bold;margin-bottom:18px;color:#3d2f18}
+.txt{font-size:15px;line-height:1.7;text-align:justify;white-space:pre-wrap}
+.rod{position:absolute;bottom:18px;right:24px;font-size:12px;color:#7b6a54}
+.preview{background:#f8f4ed;border:1px solid #e6dccb;border-radius:12px;padding:16px;min-height:520px}
+.lista{margin:0;padding-left:18px;line-height:1.6}
+.msg{display:none;margin-top:10px;padding:10px;border-radius:10px}.ok{background:#edf9ef;border:1px solid #b7e1c1;color:#166534}.er{background:#fff1f1;border:1px solid #f0b9b9;color:#991b1b}
+@media(max-width:900px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+<h1>Compositor de Diagramação</h1>
+<div>Composição real do miolo a partir da obra e da matriz editorial.</div>
+</header>
+<main>
+<section class="card">
+<button class="btn" onclick="compor()">Compor miolo</button>
+<button class="btn2" onclick="seguirExportador()">Seguir para exportação</button>
+<div id="ok" class="msg ok"></div>
+<div id="er" class="msg er"></div>
+</section>
+<section class="grid">
+<div class="card">
+<h2>Diagnóstico editorial</h2>
+<ul id="diagnostico" class="lista"><li>Aguardando composição.</li></ul>
+</div>
+<div class="card">
+<h2>Prévia do livro</h2>
+<div class="preview" id="preview">
+<div class="pagina">
+<div class="cab">Prévia editorial</div>
+<div class="tit">Aguardando composição</div>
+<div class="txt">A obra será composta aqui com base na matriz editorial.</div>
+<div class="rod">1</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<script>
+function msgOk(t){const a=document.getElementById('ok'),b=document.getElementById('er');b.style.display='none';a.textContent=t;a.style.display='block';}
+function msgEr(t){const a=document.getElementById('ok'),b=document.getElementById('er');a.style.display='none';b.textContent=t;b.style.display='block';}
+function obra(){try{return JSON.parse(localStorage.getItem('obraAtual')||'null')}catch(e){return null}}
+function matriz(){try{return JSON.parse(localStorage.getItem('matriz_editorial')||'null')}catch(e){return null}}
+function compor(){
+  const o=obra(), m=matriz();
+  if(!o){msgEr('Não há obra ativa.'); return;}
+  if(!m){msgEr('A matriz editorial ainda não foi gerada.'); return;}
+
+  const texto=(o.textoExtraido||'').trim();
+  const bloco=texto.split('\n').filter(Boolean).slice(0,8).join('\n\n') || 'Sem texto suficiente para prévia.';
+  const cfg={
+    data:new Date().toISOString(),
+    formato:m.formato,
+    fonte:m.fonte,
+    entrelinha:m.entrelinha,
+    margemInterna:m.margemInterna,
+    titulo:o.titulo,
+    saida:m.saida
+  };
+  localStorage.setItem('diagramacao_config', JSON.stringify(cfg));
+  localStorage.setItem('diagramacao_pronta','true');
+
+  document.getElementById('preview').innerHTML = `
+    <div class="pagina" style="font-family:${m.fonte};padding:42px 30px 46px ${m.margemInterna}px;">
+      <div class="cab">${m.formato} • ${m.fonte} • Entrelinha ${m.entrelinha}</div>
+      <div class="tit">${o.titulo || 'Título não identificado'}</div>
+      <div class="txt" style="line-height:${m.entrelinha};">${bloco.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div>
+      <div class="rod">1</div>
+    </div>`;
+  document.getElementById('diagnostico').innerHTML = [
+    'Formato aplicado: '+m.formato,
+    'Fonte aplicada: '+m.fonte,
+    'Entrelinha: '+m.entrelinha,
+    'Margem interna: '+m.margemInterna+' mm',
+    'Saída prevista: '+m.saida,
+    'Composição do miolo concluída.'
+  ].map(x=>'<li>'+x+'</li>').join('');
+  msgOk('Miolo composto com sucesso.');
+}
+function seguirExportador(){
+  if(localStorage.getItem('diagramacao_pronta')!=='true'){ msgEr('Primeiro componha o miolo.'); return; }
+  window.location.href='exportador_editorial.html';
+}
+</script>
+<script src="lapidar_inteligencia_core.js"></script>
+</body>
+</html>
