@@ -1,554 +1,267 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lapidar — Módulo 41 | Barracão de Polimento das Imagens</title>
-
+<title>Lapidar — Sistema Polir</title>
 <style>
+*{box-sizing:border-box}
 body{
-margin:0;
-font-family:Arial, Helvetica, sans-serif;
-background:#f2f4f7;
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:#f4efe7;
+    color:#2d251b;
 }
-
-header{
-background:#102437;
-color:white;
-padding:22px;
-text-align:center;
-font-size:22px;
-font-weight:bold;
+.topo{
+    background:#7b1e3c;
+    color:#fff;
+    padding:22px 18px;
 }
-
+.topo h1{
+    margin:0;
+    font-size:1.8rem;
+}
+.topo p{
+    margin:8px 0 0 0;
+    line-height:1.45;
+    opacity:.95;
+}
 .container{
-max-width:1220px;
-margin:auto;
-margin-top:40px;
-background:white;
-padding:40px;
-border-radius:14px;
-box-shadow:0px 6px 20px rgba(0,0,0,0.12);
+    max-width:1240px;
+    margin:0 auto;
+    padding:18px 14px 30px;
 }
-
-.status-ok{
-color:#198754;
-font-weight:bold;
-}
-
-.status-erro{
-color:#dc3545;
-font-weight:bold;
-}
-
-.bloqueio{
-text-align:center;
-padding:80px 20px;
-}
-
-.grid-topo{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:18px;
-margin-top:25px;
-margin-bottom:30px;
-}
-
 .card{
-background:#f8f9fa;
-border:1px solid #dee2e6;
-border-radius:12px;
-padding:20px;
+    background:#fff;
+    border:1px solid #eadfce;
+    border-radius:16px;
+    padding:18px;
+    box-shadow:0 4px 14px rgba(0,0,0,.08);
+    margin-bottom:18px;
 }
-
-.card h3{
-margin-top:0;
-color:#102437;
+.card h2{
+    margin:0 0 14px 0;
+    color:#7b1e3c;
+    font-size:1.2rem;
 }
-
+.grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+}
 .linha{
-padding:10px 0;
-border-bottom:1px solid #e5e5e5;
-font-size:15px;
-line-height:1.5;
+    margin:10px 0;
+    line-height:1.5;
+    font-size:14px;
 }
-
-.linha:last-child{
-border-bottom:none;
+.box{
+    background:#fcf5f7;
+    border:1px solid #f0d7e0;
+    border-radius:12px;
+    padding:14px;
+    margin-bottom:12px;
 }
-
-.rotulo{
-font-weight:bold;
-color:#333;
-}
-
-.setores-grid{
-display:grid;
-grid-template-columns:repeat(2, 1fr);
-gap:18px;
-margin-top:30px;
-}
-
-.setor{
-border-radius:14px;
-padding:22px;
-background:#eef7ff;
-border:1px solid rgba(0,0,0,0.08);
-box-shadow:0px 4px 10px rgba(0,0,0,0.05);
-}
-
-.setor h4{
-margin-top:0;
-margin-bottom:10px;
-font-size:20px;
-color:#102437;
-}
-
-.setor p{
-margin-bottom:16px;
-line-height:1.5;
-color:#334155;
-}
-
-.setor .codigo{
-display:inline-block;
-padding:6px 10px;
-border-radius:999px;
-font-size:13px;
-font-weight:bold;
-background:#e8f4ea;
-color:#1f6f3d;
-margin-bottom:12px;
-}
-
-.setor button{
-background:#102437;
-color:white;
-border:none;
-padding:14px 18px;
-font-size:15px;
-border-radius:10px;
-cursor:pointer;
-width:100%;
-}
-
-.setor button:hover{
-opacity:0.92;
-}
-
-.preview-box{
-margin-top:28px;
-padding:18px;
-background:#eef6ff;
-border-left:5px solid #0b5ed7;
-border-radius:8px;
-line-height:1.6;
-color:#23384d;
-}
-
-.preview-item{
-padding:10px 0;
-border-bottom:1px solid #d7e6f7;
-}
-
-.preview-item:last-child{
-border-bottom:none;
-}
-
-.aviso{
-margin-top:28px;
-padding:18px;
-background:#fff8e1;
-border-left:5px solid #d97706;
-border-radius:8px;
-line-height:1.6;
-color:#6b4f00;
-}
-
-.admin-note{
-margin-top:14px;
-padding:14px;
-background:#f8f3ff;
-border-left:5px solid #7c3aed;
-border-radius:8px;
-color:#4c1d95;
-line-height:1.5;
-display:none;
-}
-
-.image-list{
-margin-top:18px;
-display:grid;
-grid-template-columns:1fr;
-gap:12px;
-}
-
-.image-item{
-background:#f8fafc;
-border:1px solid #dbe4ee;
-border-radius:12px;
-padding:14px;
-}
-
-.image-item strong{
-display:block;
-color:#102437;
-margin-bottom:8px;
-}
-
-.image-meta{
-font-size:14px;
-line-height:1.5;
-color:#425466;
-}
-
-.tag{
-display:inline-block;
-padding:6px 10px;
-margin:6px 6px 0 0;
-border-radius:999px;
-font-size:12px;
-font-weight:bold;
-background:#ece4d7;
-color:#5c544a;
-}
-
-.acoes{
-margin-top:28px;
-display:flex;
-gap:14px;
-flex-wrap:wrap;
-}
-
-.botao{
-background:#0b5ed7;
-color:white;
-border:none;
-padding:18px 26px;
-font-size:18px;
-border-radius:10px;
-cursor:pointer;
-}
-
-.botao:hover{
-background:#084298;
-}
-
-.botao-secundario{
-background:#6c757d;
-color:white;
-border:none;
-padding:18px 26px;
-font-size:18px;
-border-radius:10px;
-cursor:pointer;
-}
-
-.botao-secundario:hover{
-background:#565e64;
-}
-
-.botao-verde{
-background:#198754;
-color:white;
-border:none;
-padding:18px 26px;
-font-size:18px;
-border-radius:10px;
-cursor:pointer;
-}
-
-.botao-verde:hover{
-background:#146c43;
-}
-
-.hidden{
-display:none !important;
-}
-
-@media(max-width:980px){
-.grid-topo,
-.setores-grid{
-grid-template-columns:1fr;
+.preview{
+    white-space:pre-wrap;
+    line-height:1.55;
+    font-size:14px;
+    max-height:420px;
+    overflow:auto;
+    background:#fff;
+    border:1px solid #ead7df;
+    border-radius:12px;
+    padding:18px;
 }
 .acoes{
-flex-direction:column;
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-top:14px;
 }
-.botao,
-.botao-secundario,
-.botao-verde{
-width:100%;
+button{
+    border:none;
+    border-radius:10px;
+    padding:12px 16px;
+    font-size:15px;
+    cursor:pointer;
+    font-weight:bold;
 }
+.btn-vinho{background:#7b1e3c;color:#fff}
+.btn-vinho:hover{background:#611730}
+.btn-claro{background:#f1dde5;color:#5e1b31}
+.btn-claro:hover{background:#e7cfd8}
+.btn-verde{background:#15803d;color:#fff}
+.btn-verde:hover{background:#11622f}
+.mensagem{
+    margin-top:14px;
+    padding:12px 14px;
+    border-radius:10px;
+    display:none;
+    font-size:14px;
+}
+.ok{background:#edf9ef;border:1px solid #b7e1c1;color:#166534}
+.erro{background:#fff1f1;border:1px solid #f0b9b9;color:#991b1b}
+.pill{
+    display:inline-block;
+    padding:8px 12px;
+    border-radius:999px;
+    font-size:12px;
+    font-weight:bold;
+    background:#f7e8ee;
+    color:#7b1e3c;
+    border:1px solid #eed3dc;
+    margin-right:8px;
+    margin-bottom:8px;
+}
+@media (max-width:900px){
+    .grid{grid-template-columns:1fr}
 }
 </style>
 </head>
-
 <body>
 
-<header>
-Módulo 41 — Barracão de Polimento das Imagens
+<header class="topo">
+    <h1>Sistema Polir</h1>
+    <p>Etapa de acabamento técnico e refinamento final do fluxo oficial do Lapidar antes do Mesário, da Auditoria e da Exportação.</p>
 </header>
 
-<div id="areaBarracao" class="container" style="display:none;">
+<main class="container">
+    <div class="grid">
+        <section class="card">
+            <h2>Validação do Polir</h2>
 
-<p class="status-ok">
-Ficha-base recebida do Sistema Desbaste ✓
-</p>
+            <div class="linha"><strong>Título:</strong> <span id="tituloObra">Carregando...</span></div>
+            <div class="linha"><strong>Autor:</strong> <span id="autorObra">Carregando...</span></div>
+            <div class="linha"><strong>Executor:</strong> <span id="estadoExecutor">Validando...</span></div>
+            <div class="linha"><strong>Passagem pelos Silos:</strong> <span id="estadoSilos">Validando...</span></div>
 
-<h2>
-Barracão liberado
-</h2>
+            <div class="box">
+                <div class="pill" id="pillPolir">Polir: pendente</div>
+                <div class="pill" id="pillMesario">Próximo: Mesário</div>
+            </div>
 
-<p>
-O Barracão de Polimento das Imagens é o contraponto visual do Sistema Desbaste dentro do Celeiro Literário. Enquanto o Desbaste prepara a estrutura textual da obra, o Barracão prepara as imagens para uso editorial no miolo, nas capas e nas adaptações visuais.
-</p>
+            <div class="box">
+                <div class="linha"><strong>O que o Polir faz</strong></div>
+                <div class="linha">Uniformiza o acabamento técnico final, confirma a passagem multimídia e prepara a obra para a formalização no Mesário.</div>
+            </div>
 
-<div class="grid-topo">
+            <div class="acoes">
+                <button class="btn-claro" onclick="voltarSilos()">Voltar aos Silos</button>
+                <button class="btn-vinho" onclick="executarPolir()">Executar Polir</button>
+                <button class="btn-verde" onclick="seguirMesario()">Seguir para o Mesário</button>
+            </div>
 
-<div class="card">
-<h3>Ficha-base da obra</h3>
-<div class="linha"><span class="rotulo">Arquivo:</span> <span id="baArquivo">—</span></div>
-<div class="linha"><span class="rotulo">Título-base:</span> <span id="baTitulo">—</span></div>
-<div class="linha"><span class="rotulo">Autor:</span> <span id="baAutor">—</span></div>
-<div class="linha"><span class="rotulo">Status técnico:</span> <span id="baStatus">—</span></div>
-<div class="linha"><span class="rotulo">Principal:</span> <span id="baPrincipal">—</span></div>
-<div class="linha"><span class="rotulo">Secundário:</span> <span id="baSecundario">—</span></div>
-<div class="linha"><span class="rotulo">Terciário:</span> <span id="baTerciario">—</span></div>
-</div>
+            <div id="mensagemOk" class="mensagem ok"></div>
+            <div id="mensagemErro" class="mensagem erro"></div>
+        </section>
 
-<div class="card">
-<h3>Função do Barracão</h3>
-<div class="linha">Classificação visual das imagens da obra</div>
-<div class="linha">Correção e compatibilização editorial pelo protocolo 3C</div>
-<div class="linha">Preparação de imagens internas e derivadas</div>
-<div class="linha">Abastecimento do OKapista com material já preparado</div>
-<div class="linha">Salvamento automático no Depósito Visual da Obra</div>
-</div>
-
-</div>
-
-<section class="card">
-<h3>Imagens recebidas do Cofre</h3>
-<div class="linha"><span class="rotulo">Quantidade de imagens:</span> <span id="quantidadeImagens">0</span></div>
-<div class="linha"><span class="rotulo">Status do lote visual:</span> <span id="statusLoteVisual">Aguardando imagens do Cofre</span></div>
-<div id="listaImagens" class="image-list"></div>
-</section>
-
-<div class="setores-grid">
-
-<div class="setor">
-<div class="codigo">41.1</div>
-<h4>Biblioteca Visual do Autor</h4>
-<p>Organiza imagens gerais do autor, imagens da obra, imagens da sequência, imagens da coleção e elementos recorrentes reutilizáveis.</p>
-<button onclick="alert('Departamento 41.1 selecionado: Biblioteca Visual do Autor')">Entrar no departamento</button>
-</div>
-
-<div class="setor">
-<div class="codigo">41.2</div>
-<h4>Polimento Visual 3C</h4>
-<p>Aplica classificação, correção e compatibilização às imagens enviadas, preparando-as para uso editorial dentro do Lapidar.</p>
-<button onclick="alert('Departamento 41.2 selecionado: Polimento Visual 3C')">Entrar no departamento</button>
-</div>
-
-<div class="setor">
-<div class="codigo">41.3</div>
-<h4>Imagens do Miolo</h4>
-<p>Prepara vinhetas, aberturas de capítulo, letras capitulares, ornamentos, mapas, símbolos e imagens internas do livro.</p>
-<button onclick="alert('Departamento 41.3 selecionado: Imagens do Miolo')">Entrar no departamento</button>
-</div>
-
-<div class="setor">
-<div class="codigo">41.4</div>
-<h4>Preparação Narrativa Sequencial</h4>
-<p>Organiza cenas, quadros, ritmo visual e estrutura preliminar para Mangá, HQ, Webtoon, Graphic Novel e storyboard.</p>
-<button onclick="alert('Departamento 41.4 selecionado: Preparação Narrativa Sequencial')">Entrar no departamento</button>
-</div>
-
-<div class="setor">
-<div class="codigo">41.5</div>
-<h4>Material Promocional</h4>
-<p>Prepara cards, banners, chamadas visuais, posts, apoio para reels, shorts, teaser e material de divulgação da obra.</p>
-<button onclick="alert('Departamento 41.5 selecionado: Material Promocional')">Entrar no departamento</button>
-</div>
-
-<div class="setor">
-<div class="codigo">41.6</div>
-<h4>Depósito Visual da Obra</h4>
-<p>Guarda automaticamente o acervo visual consolidado da obra para reuso futuro pelo autor. Em perfil administrativo, este setor corresponde ao Bunker Visual da Obra.</p>
-<button onclick="alert('Departamento 41.6 selecionado: Depósito Visual da Obra')">Entrar no departamento</button>
-</div>
-
-</div>
-
-<div class="preview-box">
-<strong>Leitura visual do módulo</strong>
-
-<div class="preview-item"><strong>Estado atual:</strong> Barracão liberado após o Sistema Desbaste</div>
-<div class="preview-item"><strong>Pipeline visual:</strong> Cofre → Barracão → OKapista / Miolo / Silos</div>
-<div class="preview-item"><strong>Função do OKapista:</strong> composição de capas com imagens já preparadas aqui</div>
-<div class="preview-item"><strong>Função do Depósito:</strong> preservação visual da obra para reuso futuro</div>
-</div>
-
-<div class="aviso">
-O Barracão de Polimento das Imagens é uma etapa obrigatória do sistema, mas seu uso direto pelo autor pode variar. Se não houver imagens enviadas, o próprio sistema poderá estruturar uma base visual inicial da obra para utilização nos módulos seguintes.
-</div>
-
-<div id="adminNote" class="admin-note">
-<strong>Modo administrativo:</strong> o setor 41.6 é tratado internamente como <strong>Bunker Visual da Obra</strong> e alimenta a camada de auditoria interna do sistema.
-</div>
-
-<div class="acoes">
-<button class="botao-verde" onclick="salvarEstadoBarracao()">Salvar estado do Barracão</button>
-<button class="botao" onclick="voltarExecutor()">Retornar ao Executor</button>
-<button class="botao-secundario" onclick="irMesario()">Ir para Mesário</button>
-</div>
-
-</div>
-
-<div id="bloqueioBarracao" class="container bloqueio" style="display:none;">
-
-<p class="status-erro">
-Acesso bloqueado
-</p>
-
-<h2>
-Sistema Desbaste obrigatório
-</h2>
-
-<p>
-Antes de acessar o Barracão de Polimento das Imagens, é necessário concluir o fluxo oficial do Lapidar: Cofre, Sistema Desbaste, Workspace e Executor.
-</p>
-
-<button class="botao" onclick="voltarDesbaste()">
-Ir para Sistema Desbaste
-</button>
-
-</div>
+        <section class="card">
+            <h2>Prévia final antes do Mesário</h2>
+            <div class="preview" id="previewObra">Aguardando consolidação final da obra...</div>
+        </section>
+    </div>
+</main>
 
 <script>
+function mostrarOk(msg){
+    const ok = document.getElementById("mensagemOk");
+    const erro = document.getElementById("mensagemErro");
+    erro.style.display = "none";
+    ok.textContent = msg;
+    ok.style.display = "block";
+}
 
-let fichaBaseBarracao = null;
-let imagensPendentes = [];
+function mostrarErro(msg){
+    const ok = document.getElementById("mensagemOk");
+    const erro = document.getElementById("mensagemErro");
+    ok.style.display = "none";
+    erro.textContent = msg;
+    erro.style.display = "block";
+}
 
-function preencherComFichaBaseBarracao(){
-  let ficha = localStorage.getItem("lapidar_ficha_base_obra");
-
-  if(ficha){
+function carregarObra(){
     try{
-      let dados = JSON.parse(ficha);
-      fichaBaseBarracao = dados;
-
-      document.getElementById("baArquivo").innerText = dados.arquivo || "—";
-      document.getElementById("baTitulo").innerText = dados.titulo_base || "—";
-      document.getElementById("baAutor").innerText = dados.autor || "—";
-      document.getElementById("baStatus").innerText = dados.status_tecnico || "—";
-      document.getElementById("baPrincipal").innerText = dados.classificacao_principal || "—";
-      document.getElementById("baSecundario").innerText = dados.classificacao_secundaria || "—";
-      document.getElementById("baTerciario").innerText = dados.classificacao_terciaria || "—";
-    }catch(e){
-      console.log("Erro ao ler ficha-base no Barracão:", e);
+        return JSON.parse(localStorage.getItem("obraAtual") || "null");
+    }catch(error){
+        return null;
     }
-  }
 }
 
-function carregarImagensDoCofre(){
-  let imagens = localStorage.getItem("lapidar_imagens_pendentes_barracao");
-  let lista = document.getElementById("listaImagens");
-  let quantidade = document.getElementById("quantidadeImagens");
-  let status = document.getElementById("statusLoteVisual");
+function executorValido(){
+    return localStorage.getItem("executor_liberado") === "true";
+}
 
-  lista.innerHTML = "";
+function silosValidos(){
+    return localStorage.getItem("lapidar_passou_silos") === "true"
+        || localStorage.getItem("silos_concluidos") === "true";
+}
 
-  if(imagens){
-    try{
-      imagensPendentes = JSON.parse(imagens) || [];
-    }catch(e){
-      imagensPendentes = [];
+function preencherPolir(){
+    const obra = carregarObra();
+
+    if(!obra){
+        document.getElementById("tituloObra").textContent = "Nenhuma obra ativa";
+        document.getElementById("autorObra").textContent = "—";
+        document.getElementById("previewObra").textContent = "Nenhuma obra foi detectada para o Polir.";
+    }else{
+        document.getElementById("tituloObra").textContent = obra?.estrutura?.titulo || obra?.titulo || "Título não identificado";
+        document.getElementById("autorObra").textContent = obra?.estrutura?.autor || obra?.autor || "Autor não identificado";
+        document.getElementById("previewObra").textContent = (obra?.textoExtraido || obra?.texto || "Sem texto disponível.").slice(0, 3200);
     }
-  }
 
-  quantidade.innerText = String(imagensPendentes.length);
-
-  if(imagensPendentes.length === 0){
-    status.innerText = "Nenhuma imagem recebida do Cofre. Base visual automática poderá ser criada no Barracão.";
-    return;
-  }
-
-  status.innerText = "Imagens recebidas do Cofre e prontas para classificação, correção e compatibilização.";
-
-  imagensPendentes.forEach((img, index) => {
-    const item = document.createElement("div");
-    item.className = "image-item";
-
-    item.innerHTML = `
-      <strong>${index + 1}. ${img.nome || "Imagem sem nome"}</strong>
-      <div class="image-meta">
-        Tipo: ${img.tipo || "imagem"}<br>
-        Bloco visual: ${img.bloco_visual || "Obra atual"}<br>
-        Destino inicial: ${img.destino_inicial || "Barracão de Polimento das Imagens"}<br>
-        Reutilizável: ${img.reutilizavel ? "Sim" : "Não"}
-      </div>
-      <div>
-        <span class="tag">Recebida do Cofre</span>
-        <span class="tag">Pendente de 3C</span>
-        <span class="tag">${img.bloco_visual || "Obra atual"}</span>
-      </div>
-    `;
-
-    lista.appendChild(item);
-  });
+    document.getElementById("estadoExecutor").textContent = executorValido() ? "Executor liberado" : "Executor não liberado";
+    document.getElementById("estadoSilos").textContent = silosValidos() ? "Passagem registrada" : "Passagem não registrada";
 }
 
-function mostrarCamadaAdminSeAplicavel(){
-  let perfil = localStorage.getItem("lapidar_perfil_usuario");
-  if(perfil === "admin"){
-    document.getElementById("adminNote").style.display = "block";
-  }
+function executarPolir(){
+    const obra = carregarObra();
+
+    if(!obra){
+        mostrarErro("Não há obra ativa para o Sistema Polir.");
+        return;
+    }
+
+    if(!executorValido()){
+        mostrarErro("O Polir exige Executor liberado.");
+        return;
+    }
+
+    if(!silosValidos()){
+        mostrarErro("O Polir exige registro oficial de passagem pelos Silos.");
+        return;
+    }
+
+    localStorage.setItem("polir_concluido", "true");
+
+    const relatorio = {
+        data: new Date().toISOString(),
+        etapa: "modulo41_barracao_de_polimento_das_imagens.html",
+        titulo: obra?.estrutura?.titulo || obra?.titulo || "Título não identificado",
+        autor: obra?.estrutura?.autor || obra?.autor || "Autor não identificado",
+        status: "concluido"
+    };
+
+    localStorage.setItem("polir_relatorio", JSON.stringify(relatorio));
+    document.getElementById("pillPolir").textContent = "Polir: concluído";
+    mostrarOk("Sistema Polir executado com sucesso. A obra pode seguir para o Mesário.");
 }
 
-function salvarEstadoBarracao(){
-  const estadoBarracao = {
-    modulo: "41 — Barracão de Polimento das Imagens",
-    timestamp: new Date().toISOString(),
-    obra: fichaBaseBarracao ? fichaBaseBarracao.titulo_base : "Obra sem nome",
-    status: "Barracão visitado e pronto para departamentos internos",
-    imagens_recebidas: imagensPendentes.length
-  };
+function seguirMesario(){
+    if(localStorage.getItem("polir_concluido") !== "true"){
+        mostrarErro("Antes de seguir, execute o Sistema Polir.");
+        return;
+    }
 
-  localStorage.setItem("lapidar_estado_barracao", JSON.stringify(estadoBarracao));
-  alert("Estado do Barracão salvo com sucesso.");
+    window.location.href = "mesario.html";
 }
 
-function verificarAcessoBarracao(){
-  let desbaste = localStorage.getItem("desbaste_concluido");
-  let desbasteLapidar = localStorage.getItem("lapidar_desbaste_concluido");
-
-  if(desbaste === "true" || desbasteLapidar === "true"){
-    document.getElementById("areaBarracao").style.display = "block";
-    preencherComFichaBaseBarracao();
-    carregarImagensDoCofre();
-    mostrarCamadaAdminSeAplicavel();
-  }else{
-    document.getElementById("bloqueioBarracao").style.display = "block";
-  }
+function voltarSilos(){
+    window.location.href = "modulos_audiovisual.html";
 }
 
-function voltarExecutor(){
-  window.location.href = "modulo_executor.html";
-}
-
-function voltarDesbaste(){
-  window.location.href = "modulo_02_sistema_desbaste.html";
-}
-
-function irMesario(){
-  window.location.href = "mesario.html";
-}
-
-verificarAcessoBarracao();
-
+preencherPolir();
 </script>
 
+<script src="lapidar_inteligencia_core.js"></script>
 </body>
 </html>
