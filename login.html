@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -8,58 +10,97 @@
 
 <style>
 
-body{
+body {
+
 margin:0;
-font-family:Arial;
-background:#efe7d6;
 height:100vh;
+
 display:flex;
 align-items:center;
 justify-content:center;
-}
 
-.container{
-background:white;
-padding:40px;
-border-radius:12px;
-box-shadow:0 4px 18px rgba(0,0,0,.12);
-width:320px;
-text-align:center;
-}
+background:#0f172a;
 
-h1{
-margin-top:0;
-color:#5d4037;
-}
+font-family:Arial;
 
-input{
-width:100%;
-padding:10px;
-margin:10px 0;
-border-radius:6px;
-border:1px solid #ccc;
-}
-
-button{
-width:100%;
-padding:12px;
-margin-top:10px;
-border:none;
-border-radius:8px;
-background:#5d4037;
 color:white;
-font-size:16px;
-cursor:pointer;
+
 }
 
-button:hover{
-background:#4b322b;
+.container {
+
+background:#111827;
+
+padding:40px;
+
+border-radius:18px;
+
+box-shadow:0px 0px 40px rgba(0,0,0,0.5);
+
+width:320px;
+
+text-align:center;
+
 }
 
-.footer{
+h1 {
+
+margin-bottom:20px;
+
+}
+
+input {
+
+width:100%;
+
+padding:12px;
+
+margin-top:10px;
+
+border-radius:8px;
+
+border:none;
+
+outline:none;
+
+}
+
+button {
+
 margin-top:20px;
-font-size:12px;
-color:#777;
+
+width:100%;
+
+padding:12px;
+
+border:none;
+
+border-radius:10px;
+
+background:#22c55e;
+
+color:white;
+
+font-weight:bold;
+
+cursor:pointer;
+
+}
+
+button:hover {
+
+background:#16a34a;
+
+}
+
+.erro {
+
+margin-top:10px;
+
+color:#ef4444;
+
+display:none;
+
 }
 
 </style>
@@ -68,81 +109,82 @@ color:#777;
 
 <body>
 
+
 <div class="container">
 
 <h1>Lapidar</h1>
 
-<input
-type="email"
-id="email"
-placeholder="Seu e-mail"
-/>
+<input id="email" placeholder="email">
 
-<input
-type="password"
-id="senha"
-placeholder="Senha"
-/>
+<input id="senha" type="password" placeholder="senha">
 
-<button onclick="entrarSistema()">
-Entrar
-</button>
+<button onclick="login()">Entrar</button>
 
-<div class="footer">
-Site das Letras — Edições Literárias, Sonoras & Cinematográficas
+<div id="erro" class="erro">
+Usuário não reconhecido
 </div>
 
 </div>
+
 
 <script>
 
-function entrarSistema(){
+function login(){
 
 const email =
-document.getElementById("email").value.toLowerCase()
+document.getElementById("email").value.toLowerCase();
 
-let perfil = "usuario"
+const senha =
+document.getElementById("senha").value;
 
-// regras simples de perfil inicial
 
-if(email.includes("admin")){
+let perfil = "";
 
-perfil="admin"
 
-}
+/* PERFIS DO SISTEMA */
 
-else if(email.includes("heteronimo")){
+if(email === "admin" && senha === "admin"){
 
-perfil="heteronimo"
-
-}
-
-else if(email.includes("planaswagner")){
-
-perfil="heteronimo"
+perfil = "admin";
 
 }
 
-// salva sessão
+else if(email === "heteronimo" && senha === "heteronimo"){
 
-localStorage.setItem(
-"lapidar_usuario_logado",
-"true"
-)
+perfil = "heteronimo";
 
-localStorage.setItem(
-"lapidar_perfil",
-perfil
-)
+}
 
-// redireciona corretamente
+else if(email === "planaswagner@gmail.com"){
 
-location.href =
-"pagina_respiro.html"
+perfil = "admin";
+
+}
+
+else{
+
+document.getElementById("erro").style.display="block";
+return;
+
+}
+
+
+/* REGISTRO DE SESSÃO PARA NAS / FIIISAA */
+
+localStorage.setItem("perfilUsuario",perfil);
+
+localStorage.setItem("emailUsuario",email);
+
+
+/* REDIRECIONAMENTO CORRETO DO LAPIDAR */
+
+window.location.href="pagina_respiro.html";
 
 }
 
 </script>
 
+
 </body>
+
 </html>
