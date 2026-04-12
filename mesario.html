@@ -1,599 +1,204 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mesário — Consolidação Editorial e Liberação</title>
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: #f2f4f7;
-      color: #24303c;
-    }
-
-    .topo {
-      background: #243746;
-      color: #fff;
-      text-align: center;
-      padding: 18px 14px;
-      font-size: 22px;
-      font-weight: 700;
-    }
-
-    .container {
-      max-width: 1180px;
-      margin: 0 auto;
-      padding: 22px 18px 40px;
-    }
-
-    .card {
-      background: #fff;
-      border-radius: 16px;
-      padding: 20px;
-      margin-bottom: 20px;
-      box-shadow: 0 8px 20px rgba(0,0,0,.08);
-      border: 1px solid #dde5ed;
-    }
-
-    .titulo-principal {
-      margin: 0 0 10px;
-      font-size: 36px;
-      color: #1f2b36;
-    }
-
-    .texto-base {
-      font-size: 18px;
-      line-height: 1.6;
-      color: #53606c;
-    }
-
-    .status-verde {
-      color: #2e8b57;
-      font-weight: 700;
-      margin-bottom: 10px;
-    }
-
-    .grid-2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
-      margin-top: 18px;
-    }
-
-    .bloco {
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
-      border-radius: 14px;
-      padding: 16px;
-    }
-
-    .bloco h3 {
-      margin: 0 0 12px;
-      font-size: 22px;
-      color: #36485b;
-    }
-
-    .linha {
-      padding: 9px 0;
-      border-bottom: 1px solid #e7edf3;
-      font-size: 17px;
-      line-height: 1.5;
-    }
-
-    .linha:last-child {
-      border-bottom: none;
-    }
-
-    .faixa-matriz {
-      background: #edf8ef;
-      border: 1px solid #cfe9d5;
-      border-left: 6px solid #2e8b57;
-      border-radius: 14px;
-      padding: 18px 20px;
-      margin-top: 18px;
-      display: none;
-    }
-
-    .faixa-matriz .selo {
-      font-size: 22px;
-      font-weight: 700;
-      color: #1f7a49;
-      margin-bottom: 8px;
-    }
-
-    .faixa-matriz .texto {
-      font-size: 17px;
-      line-height: 1.6;
-      color: #4c5a55;
-    }
-
-    .faixa-alerta {
-      background: #fff8e5;
-      border: 1px solid #ecd9a6;
-      border-left: 6px solid #d39a11;
-      border-radius: 14px;
-      padding: 18px 20px;
-      margin-top: 18px;
-    }
-
-    .faixa-alerta .titulo {
-      font-size: 21px;
-      font-weight: 700;
-      color: #8a6200;
-      margin-bottom: 8px;
-    }
-
-    .faixa-alerta .texto {
-      font-size: 17px;
-      line-height: 1.6;
-      color: #5f5540;
-    }
-
-    .mesario-total {
-      background: #f6fbf7;
-      border: 1px solid #d5ead8;
-      border-radius: 14px;
-      padding: 18px;
-      margin-top: 18px;
-    }
-
-    .mesario-total .rotulo {
-      font-size: 18px;
-      color: #4f5c56;
-      margin-bottom: 8px;
-    }
-
-    .mesario-total .valor {
-      font-size: 34px;
-      font-weight: 700;
-      color: #1f7a49;
-    }
-
-    .checks {
-      display: grid;
-      gap: 14px;
-      margin-top: 18px;
-    }
-
-    .check-item {
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
-      border-radius: 12px;
-      padding: 14px 16px;
-      font-size: 17px;
-      line-height: 1.6;
-    }
-
-    .check-item label {
-      cursor: pointer;
-      display: flex;
-      gap: 10px;
-      align-items: flex-start;
-    }
-
-    .check-item input[type="checkbox"] {
-      margin-top: 4px;
-      transform: scale(1.15);
-    }
-
-    .acoes {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 14px;
-      margin-top: 20px;
-    }
-
-    .acoes-2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-      margin-top: 14px;
-    }
-
-    .botao {
-      border: none;
-      border-radius: 12px;
-      padding: 16px 18px;
-      font-size: 18px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: .15s ease;
-    }
-
-    .botao:hover {
-      transform: translateY(-1px);
-      opacity: .97;
-    }
-
-    .botao-primario {
-      background: #0d63dd;
-      color: #fff;
-    }
-
-    .botao-secundario {
-      background: #7a8591;
-      color: #fff;
-    }
-
-    .botao-verde {
-      background: #198754;
-      color: #fff;
-    }
-
-    .botao-roxo {
-      background: #6f42c1;
-      color: #fff;
-    }
-
-    .mensagem-final {
-      display: none;
-      background: #eef8ef;
-      border: 1px solid #cfe9d5;
-      border-left: 6px solid #2e8b57;
-      border-radius: 14px;
-      padding: 18px 20px;
-      margin-top: 20px;
-    }
-
-    .mensagem-final .titulo {
-      font-size: 22px;
-      font-weight: 700;
-      color: #1f7a49;
-      margin-bottom: 8px;
-    }
-
-    .mensagem-final .texto {
-      font-size: 17px;
-      line-height: 1.6;
-      color: #4c5a55;
-    }
-
-    .liberacao-redes {
-      display: none;
-      background: #f3edff;
-      border: 1px solid #ddd0ff;
-      border-left: 6px solid #6f42c1;
-      border-radius: 14px;
-      padding: 18px 20px;
-      margin-top: 18px;
-    }
-
-    .liberacao-redes .titulo {
-      font-size: 22px;
-      font-weight: 700;
-      color: #5c35a5;
-      margin-bottom: 8px;
-    }
-
-    .liberacao-redes .texto {
-      font-size: 17px;
-      line-height: 1.6;
-      color: #554f6a;
-      margin-bottom: 14px;
-    }
-
-    .bloqueio {
-      display: none;
-      background: #fff;
-      border-radius: 16px;
-      padding: 42px 24px;
-      text-align: center;
-      box-shadow: 0 8px 20px rgba(0,0,0,.08);
-      border: 1px solid #dde5ed;
-    }
-
-    .bloqueio .erro {
-      color: #c65c5c;
-      font-weight: 700;
-      margin-bottom: 18px;
-    }
-
-    .bloqueio h2 {
-      margin: 0 0 10px;
-      font-size: 30px;
-      color: #26323d;
-    }
-
-    .bloqueio p {
-      margin: 0 0 22px;
-      font-size: 18px;
-      color: #5a6773;
-      line-height: 1.6;
-    }
-
-    @media (max-width: 900px) {
-      .grid-2,
-      .acoes,
-      .acoes-2 {
-        grid-template-columns: 1fr;
-      }
-
-      .titulo-principal {
-        font-size: 30px;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lapidar — Mesário</title>
+<style>
+*{box-sizing:border-box}
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:#f2f6f5;
+    color:#243533;
+}
+.topo{
+    background:#1f7a6e;
+    color:#fff;
+    padding:22px 18px;
+}
+.topo h1{margin:0;font-size:1.8rem}
+.topo p{margin:8px 0 0 0;line-height:1.45;opacity:.95}
+.container{
+    max-width:1240px;
+    margin:0 auto;
+    padding:18px 14px 30px;
+}
+.card{
+    background:#fff;
+    border:1px solid #dcebea;
+    border-radius:16px;
+    padding:18px;
+    box-shadow:0 4px 14px rgba(0,0,0,.08);
+    margin-bottom:18px;
+}
+.card h2{
+    margin:0 0 14px 0;
+    color:#1f7a6e;
+    font-size:1.2rem;
+}
+.linha{margin:10px 0;font-size:14px}
+.preview{
+    white-space:pre-wrap;
+    line-height:1.55;
+    font-size:14px;
+    max-height:420px;
+    overflow:auto;
+    background:#fff;
+    border:1px solid #d9ece9;
+    border-radius:12px;
+    padding:18px;
+}
+.acoes{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-top:14px;
+}
+button{
+    border:none;
+    border-radius:10px;
+    padding:12px 16px;
+    font-size:15px;
+    cursor:pointer;
+    font-weight:bold;
+}
+.btn-verde{background:#1f7a6e;color:#fff}
+.btn-verde:hover{background:#16655b}
+.btn-claro{background:#dff1ef;color:#154e47}
+.btn-claro:hover{background:#cde7e4}
+.btn-azul{background:#2563eb;color:#fff}
+.btn-azul:hover{background:#1d4ed8}
+.mensagem{
+    margin-top:14px;
+    padding:12px 14px;
+    border-radius:10px;
+    display:none;
+    font-size:14px;
+}
+.ok{background:#edf9ef;border:1px solid #b7e1c1;color:#166534}
+.erro{background:#fff1f1;border:1px solid #f0b9b9;color:#991b1b}
+</style>
 </head>
 <body>
-  <div class="topo">Mesário — Consolidação Editorial e Liberação</div>
 
-  <div class="container">
-    <div id="areaBloqueio" class="bloqueio">
-      <div class="erro">Acesso bloqueado</div>
-      <h2>Executor obrigatório</h2>
-      <p>
-        Antes de acessar o Mesário, é necessário concluir o fluxo de leitura,
-        consolidação editorial e passagem pelo Executor de Módulos.
-      </p>
-      <button class="botao botao-primario" onclick="window.location.href='modulo_executor.html'">
-        Ir para o Executor
-      </button>
-    </div>
+<header class="topo">
+<h1>Mesário</h1>
+<p>Etapa oficial de confirmação do fluxo editorial antes da Auditoria e Exportação.</p>
+</header>
 
-    <div id="areaMesario">
-      <div class="card">
-        <div class="status-verde">Fluxo editorial confirmado ✔</div>
-        <h1 class="titulo-principal">Mesário liberado</h1>
-        <div class="texto-base">
-          Esta etapa consolida a decisão editorial da obra, registra a concordância do autor
-          e prepara a liberação das próximas saídas do sistema.
-        </div>
+<main class="container">
 
-        <div class="grid-2">
-          <div class="bloco">
-            <h3>Resumo da obra</h3>
-            <div class="linha"><strong>Arquivo:</strong> <span id="arquivoObra">—</span></div>
-            <div class="linha"><strong>Título-base:</strong> <span id="tituloBase">—</span></div>
-            <div class="linha"><strong>Autor:</strong> <span id="autorObra">—</span></div>
-            <div class="linha"><strong>Idioma:</strong> <span id="idiomaObra">—</span></div>
-            <div class="linha"><strong>Status técnico:</strong> <span id="statusTecnico">—</span></div>
-          </div>
+<section class="card">
+<h2>Validação final do pipeline</h2>
 
-          <div class="bloco">
-            <h3>Resumo editorial</h3>
-            <div class="linha"><strong>Principal:</strong> <span id="classPrincipal">—</span></div>
-            <div class="linha"><strong>Secundária:</strong> <span id="classSecundaria">—</span></div>
-            <div class="linha"><strong>Terciária:</strong> <span id="classTerciaria">—</span></div>
-            <div class="linha"><strong>Matriz editorial:</strong> <span id="statusMatriz">—</span></div>
-          </div>
-        </div>
+<div class="linha"><strong>Título:</strong> <span id="titulo">Carregando...</span></div>
+<div class="linha"><strong>Autor:</strong> <span id="autor">Carregando...</span></div>
+<div class="linha"><strong>Status Polir:</strong> <span id="statusPolir">Validando...</span></div>
 
-        <div id="faixaMatriz" class="faixa-matriz">
-          <div class="selo">Matriz editorial ativa ✔</div>
-          <div class="texto">
-            Esta obra já possui matriz editorial A4 ativa. Isso significa que a base técnica
-            foi consolidada e o sistema pode registrar a etapa de liberação editorial com mais segurança.
-          </div>
-        </div>
+<div class="acoes">
+<button class="btn-claro" onclick="voltarPolir()">Voltar ao Polir</button>
+<button class="btn-verde" onclick="confirmarMesario()">Confirmar Mesário</button>
+<button class="btn-azul" onclick="seguirAuditoria()">Seguir para Auditoria</button>
+</div>
 
-        <div class="faixa-alerta">
-          <div class="titulo">Importante para o autor</div>
-          <div class="texto">
-            O Mesário não substitui os módulos editoriais. Ele registra a concordância final desta etapa
-            e organiza a passagem da obra para continuidade, produção e futura circulação.
-          </div>
-        </div>
+<div id="msgOk" class="mensagem ok"></div>
+<div id="msgErro" class="mensagem erro"></div>
 
-        <div class="mesario-total">
-          <div class="rotulo">Mesário da seção</div>
-          <div class="valor" id="valorMesario">R$ 0,00</div>
-        </div>
-      </div>
+</section>
 
-      <div class="card">
-        <h2 style="margin:0 0 12px; font-size:28px; color:#24303c;">Confirmação do autor</h2>
+<section class="card">
+<h2>Prévia consolidada da obra</h2>
+<div class="preview" id="preview">Aguardando obra...</div>
+</section>
 
-        <div class="checks">
-          <div class="check-item">
-            <label>
-              <input type="checkbox" id="checkConcordaSecao">
-              <span>Estou de acordo com os dados desta seção e com a continuidade editorial da obra até este ponto.</span>
-            </label>
-          </div>
+</main>
 
-          <div class="check-item">
-            <label>
-              <input type="checkbox" id="checkConcordaMesario">
-              <span>Confirmo o Mesário Oficial desta etapa e autorizo o sistema a registrar esta passagem no fluxo da obra.</span>
-            </label>
-          </div>
-        </div>
+<script>
 
-        <div class="acoes">
-          <button class="botao botao-verde" onclick="confirmarMesario()">
-            Confirmar Mesário
-          </button>
+function ok(msg){
+let el=document.getElementById("msgOk")
+let er=document.getElementById("msgErro")
+er.style.display="none"
+el.innerText=msg
+el.style.display="block"
+}
 
-          <button class="botao botao-primario" onclick="window.location.href='modulo_executor.html'">
-            Retornar ao Executor
-          </button>
+function erro(msg){
+let el=document.getElementById("msgOk")
+let er=document.getElementById("msgErro")
+el.style.display="none"
+er.innerText=msg
+er.style.display="block"
+}
 
-          <button class="botao botao-secundario" onclick="window.location.href='obra_workspace.html'">
-            Voltar ao Workspace
-          </button>
-        </div>
+function obra(){
+try{
+return JSON.parse(localStorage.getItem("obraAtual")||"null")
+}catch{return null}
+}
 
-        <div id="mensagemFinal" class="mensagem-final">
-          <div class="titulo">Mesário confirmado ✔</div>
-          <div class="texto">
-            A obra foi registrada com sucesso nesta etapa do fluxo editorial. Os dados da seção
-            foram confirmados e o sistema está pronto para liberar as próximas continuidades da obra.
-          </div>
-        </div>
+function polirOk(){
+return localStorage.getItem("polir_concluido")==="true"
+}
 
-        <div id="liberacaoRedes" class="liberacao-redes">
-          <div class="titulo">Caminhada pelas Redes liberada ✔</div>
-          <div class="texto">
-            Como o Mesário foi confirmado, a obra já pode seguir para a etapa de circulação inicial assistida,
-            com pacote social, legenda, hashtags e QR Code.
-          </div>
+function carregar(){
+let o=obra()
 
-          <div class="acoes-2">
-            <button class="botao botao-roxo" onclick="window.location.href='caminhada_pelas_redes.html'">
-              Iniciar Caminhada pelas Redes
-            </button>
+if(!o){
+document.getElementById("titulo").innerText="Nenhuma obra ativa"
+document.getElementById("autor").innerText="—"
+document.getElementById("preview").innerText="Nenhuma obra carregada."
+return
+}
 
-            <button class="botao botao-secundario" onclick="window.location.href='modulo_executor.html'">
-              Fazer isso depois
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+document.getElementById("titulo").innerText=o?.titulo||"Título não identificado"
+document.getElementById("autor").innerText=o?.autor||"Autor não identificado"
 
-  <script>
-    function pegar(chaves, fallback) {
-      for (var i = 0; i < chaves.length; i++) {
-        var valor = localStorage.getItem(chaves[i]);
-        if (valor && valor.trim() !== "") {
-          return valor.trim();
-        }
-      }
-      return fallback;
-    }
+document.getElementById("preview").innerText=(o?.textoExtraido||"Sem texto disponível").slice(0,3000)
 
-    function validarAcesso() {
-      var desbasteOK =
-        localStorage.getItem("desbaste_ok") === "true" ||
-        localStorage.getItem("desbaste_concluido") === "true" ||
-        localStorage.getItem("status_desbaste") === "concluido";
+document.getElementById("statusPolir").innerText=polirOk()?"Concluído":"Pendente"
+}
 
-      var workspaceOK =
-        localStorage.getItem("workspace_liberado") === "true" ||
-        localStorage.getItem("matriz_editorial_ativa") === "true" ||
-        localStorage.getItem("status_workspace") === "ativo";
+function confirmarMesario(){
 
-      var executorOK =
-        localStorage.getItem("executor_liberado") === "true" ||
-        localStorage.getItem("ultimo_modulo_aberto") !== null;
+if(!polirOk()){
+erro("Antes de confirmar o Mesário, execute o Sistema Polir.")
+return
+}
 
-      if (!desbasteOK || !workspaceOK || !executorOK) {
-        document.getElementById("areaMesario").style.display = "none";
-        document.getElementById("areaBloqueio").style.display = "block";
-        return false;
-      }
+localStorage.setItem("mesario_confirmado","true")
 
-      document.getElementById("areaMesario").style.display = "block";
-      document.getElementById("areaBloqueio").style.display = "none";
-      return true;
-    }
+let relatorio={
+data:new Date().toISOString(),
+etapa:"mesario.html",
+status:"confirmado"
+}
 
-    function preencher() {
-      document.getElementById("arquivoObra").textContent = pegar([
-        "matriz_editorial_arquivo",
-        "arquivo_obra_nome",
-        "nome_arquivo_obra",
-        "arquivoNome",
-        "nomeArquivo",
-        "arquivo"
-      ], "Arquivo não informado");
+localStorage.setItem("mesario_relatorio",JSON.stringify(relatorio))
 
-      document.getElementById("tituloBase").textContent = pegar([
-        "matriz_editorial_titulo",
-        "titulo_base_obra",
-        "tituloBaseObra",
-        "titulo_obra",
-        "titulo"
-      ], "Obra em preparação editorial");
+ok("Mesário confirmado com sucesso.")
+}
 
-      document.getElementById("autorObra").textContent = pegar([
-        "matriz_editorial_autor",
-        "autor_obra",
-        "autorObra",
-        "autor"
-      ], "Autor a confirmar");
+function seguirAuditoria(){
 
-      document.getElementById("idiomaObra").textContent = pegar([
-        "matriz_editorial_idioma",
-        "idioma_obra",
-        "idiomaObra",
-        "idioma"
-      ], "Português do Brasil");
+if(localStorage.getItem("mesario_confirmado")!=="true"){
+erro("Confirme o Mesário antes de seguir.")
+return
+}
 
-      document.getElementById("statusTecnico").textContent = pegar([
-        "matriz_editorial_status_tecnico",
-        "status_tecnico_obra",
-        "statusTecnico"
-      ], "Estrutura pronta para preparação editorial");
+window.location.href="auditoria.html"
+}
 
-      document.getElementById("classPrincipal").textContent = pegar([
-        "matriz_editorial_classificacao_principal",
-        "classificacao_principal",
-        "classPrincipal"
-      ], "Prosa");
+function voltarPolir(){
+window.location.href="modulo41_barracao_de_polimento_das_imagens.html"
+}
 
-      document.getElementById("classSecundaria").textContent = pegar([
-        "matriz_editorial_classificacao_secundaria",
-        "classificacao_secundaria",
-        "classSecundaria"
-      ], "Narrativa literária");
+carregar()
 
-      document.getElementById("classTerciaria").textContent = pegar([
-        "matriz_editorial_classificacao_terciaria",
-        "classificacao_terciaria",
-        "classTerciaria"
-      ], "A definir no Desbaste");
-    }
+</script>
 
-    function verificarMatriz() {
-      var matrizAtiva =
-        localStorage.getItem("lapidar_matriz_a4_ativa") === "true" ||
-        localStorage.getItem("matriz_editorial_ativa") === "true";
+<script src="lapidar_inteligencia_core.js"></script>
 
-      if (matrizAtiva) {
-        document.getElementById("faixaMatriz").style.display = "block";
-        document.getElementById("statusMatriz").textContent = "Ativa";
-      } else {
-        document.getElementById("faixaMatriz").style.display = "none";
-        document.getElementById("statusMatriz").textContent = "Ainda não ativada";
-      }
-    }
-
-    function calcularMesario() {
-      var valorBase = 0;
-      document.getElementById("valorMesario").textContent = "R$ " + valorBase.toFixed(2).replace(".", ",");
-    }
-
-    function verificarMesarioJaConfirmado() {
-      var confirmado =
-        localStorage.getItem("mesario_confirmado") === "true" ||
-        localStorage.getItem("status_mesario") === "confirmado";
-
-      if (confirmado) {
-        document.getElementById("mensagemFinal").style.display = "block";
-        document.getElementById("liberacaoRedes").style.display = "block";
-      }
-    }
-
-    function confirmarMesario() {
-      var c1 = document.getElementById("checkConcordaSecao").checked;
-      var c2 = document.getElementById("checkConcordaMesario").checked;
-
-      if (!c1 || !c2) {
-        alert("É necessário marcar as duas confirmações antes de concluir o Mesário.");
-        return;
-      }
-
-      localStorage.setItem("mesario_confirmado", "true");
-      localStorage.setItem("status_mesario", "confirmado");
-      localStorage.setItem("data_fluxo_mesario", new Date().toISOString());
-
-      document.getElementById("mensagemFinal").style.display = "block";
-      document.getElementById("liberacaoRedes").style.display = "block";
-    }
-
-    if (validarAcesso()) {
-      preencher();
-      verificarMatriz();
-      calcularMesario();
-      verificarMesarioJaConfirmado();
-    }
-  </script>
 </body>
 </html>
