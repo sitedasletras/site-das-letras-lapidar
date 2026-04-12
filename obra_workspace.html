@@ -84,6 +84,7 @@
       border-bottom: 1px solid #e7edf3;
       font-size: 18px;
       line-height: 1.5;
+      word-break: break-word;
     }
 
     .linha:last-child {
@@ -120,33 +121,31 @@
       background: #fff;
       border: 1px solid #d6d6d6;
       box-shadow: 0 10px 26px rgba(0,0,0,.12);
-      padding: 28mm 22mm 24mm;
+      padding: 18mm 16mm 18mm;
       font-family: Georgia, "Times New Roman", serif;
       color: #2e2e2e;
-      line-height: 1.85;
-      font-size: 14pt;
+      line-height: 1.75;
+      font-size: 13pt;
     }
 
     .a4 .meta {
       text-align: center;
       margin-bottom: 24px;
+      border-bottom: 1px solid #ececec;
+      padding-bottom: 14px;
     }
 
     .a4 .meta h1 {
       margin: 0 0 10px;
-      font-size: 20pt;
+      font-size: 18pt;
+      line-height: 1.35;
+      word-break: break-word;
     }
 
     .a4 .meta .meta-linha {
       margin: 4px 0;
-      font-size: 11.5pt;
+      font-size: 10.8pt;
       color: #5f6870;
-    }
-
-    .a4 h2 {
-      margin: 28px 0 14px;
-      text-align: center;
-      font-size: 15pt;
     }
 
     .a4 p {
@@ -185,7 +184,7 @@
 
     .acoes {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr 1fr 1fr;
       gap: 14px;
     }
 
@@ -193,7 +192,7 @@
       border: none;
       border-radius: 12px;
       padding: 16px 18px;
-      font-size: 19px;
+      font-size: 18px;
       font-weight: 700;
       cursor: pointer;
       transition: .15s ease;
@@ -211,6 +210,11 @@
 
     .botao-secundario {
       background: #7a8591;
+      color: #fff;
+    }
+
+    .botao-verde {
+      background: #198754;
       color: #fff;
     }
 
@@ -295,41 +299,20 @@
             <h1 id="a4Titulo">Obra em preparação editorial</h1>
             <div class="meta-linha"><strong>Autor:</strong> <span id="a4Autor">—</span></div>
             <div class="meta-linha"><strong>Idioma:</strong> <span id="a4Idioma">—</span></div>
-            <div class="meta-linha"><strong>Classificação:</strong> <span id="a4Classificacao">—</span></div>
           </div>
 
-          <p>
+          <p id="a4Resumo1">
             Esta folha A4 representa a matriz editorial oficial da obra dentro do Lapidar.
-            A partir deste ponto, a base técnica do texto passa a ser preservada como eixo
-            de referência para todos os módulos seguintes.
           </p>
 
-          <p>
-            Aqui o sistema consolida o título-base, o idioma, a autoria declarada ou não declarada
-            e a classificação editorial inicial, criando uma superfície única de trabalho para
-            diagramação, análise, lapidação, tradução e demais operações do ecossistema.
+          <p id="a4Resumo2">
+            O texto integral da obra poderá ser visualizado no leitor editorial A4, com navegação por páginas,
+            mantendo o manuscrito como base universal para os demais departamentos.
           </p>
 
-          <h2>Base comum para múltiplos formatos</h2>
-
-          <p>
-            A partir desta matriz, a obra poderá seguir para formatos como A5, 14x21,
-            16x23, 16x27, 6x9, A4 vertical, A4 horizontal, PDF digital e e-book, conforme a escolha
-            do autor ou a necessidade editorial dos módulos seguintes.
-          </p>
-
-          <p>
-            O objetivo desta etapa não é substituir a diagramação final, mas garantir que todos
-            os departamentos trabalhem sobre uma mesma base consolidada, reduzindo divergências
-            e fortalecendo a coerência estrutural do sistema.
-          </p>
-
-          <h2>Persistência editorial do Lapidar</h2>
-
-          <p>
-            Esta folha permanece como referência institucional interna da obra enquanto ela estiver
-            em circulação no fluxo editorial. É por isso que o Workspace se torna o ponto central
-            entre o Desbaste e o Executor.
+          <p id="a4Resumo3">
+            A diagramação final, os elementos técnicos e os acabamentos do livro ficam reservados para a etapa
+            específica de diagramação editorial.
           </p>
         </div>
       </div>
@@ -349,6 +332,10 @@
 
     <div class="card">
       <div class="acoes">
+        <button class="botao botao-verde" onclick="abrirLeitorA4()">
+          Abrir matriz editorial A4
+        </button>
+
         <button class="botao botao-primario" onclick="seguirExecutor()">
           Seguir para Executor de Módulos
         </button>
@@ -380,6 +367,7 @@
 
     function montarDadosObra() {
       var arquivo = obterPrimeiroValor([
+        "matriz_editorial_arquivo",
         "arquivo_obra_nome",
         "nome_arquivo_obra",
         "arquivoNome",
@@ -389,6 +377,7 @@
       ], "Arquivo não informado");
 
       var titulo = obterPrimeiroValor([
+        "matriz_editorial_titulo",
         "titulo_base_obra",
         "tituloBaseObra",
         "titulo_obra",
@@ -398,6 +387,7 @@
       ], limparNomeArquivo(arquivo) || "Obra em preparação editorial");
 
       var autorBruto = obterPrimeiroValor([
+        "matriz_editorial_autor",
         "autor_obra",
         "autorObra",
         "autor",
@@ -405,30 +395,35 @@
       ], "Autor a confirmar");
 
       var idioma = obterPrimeiroValor([
+        "matriz_editorial_idioma",
         "idioma_obra",
         "idiomaObra",
         "idioma"
       ], "Português do Brasil");
 
       var principal = obterPrimeiroValor([
+        "matriz_editorial_classificacao_principal",
         "classificacao_principal",
         "classPrincipal",
         "principal"
       ], "Prosa");
 
       var secundaria = obterPrimeiroValor([
+        "matriz_editorial_classificacao_secundaria",
         "classificacao_secundaria",
         "classSecundaria",
         "secundaria"
       ], "Narrativa literária");
 
       var terciaria = obterPrimeiroValor([
+        "matriz_editorial_classificacao_terciaria",
         "classificacao_terciaria",
         "classTerciaria",
         "terciaria"
       ], "A definir no Desbaste");
 
       var statusTecnico = obterPrimeiroValor([
+        "matriz_editorial_status_tecnico",
         "status_tecnico_obra",
         "statusTecnico",
         "status_tecnico"
@@ -438,7 +433,7 @@
 
       return {
         arquivo: arquivo,
-        titulo: titulo,
+        titulo: titulo.replace(/_/g, " "),
         autor: autorFinal,
         idioma: idioma,
         principal: principal,
@@ -465,8 +460,6 @@
       document.getElementById("a4Titulo").textContent = dados.titulo;
       document.getElementById("a4Autor").textContent = dados.autor;
       document.getElementById("a4Idioma").textContent = dados.idioma;
-      document.getElementById("a4Classificacao").textContent =
-        dados.principal + " / " + dados.secundaria + " / " + dados.terciaria;
 
       localStorage.setItem("matriz_editorial_titulo", dados.titulo);
       localStorage.setItem("matriz_editorial_autor", dados.autor);
@@ -490,6 +483,10 @@
       } else {
         document.getElementById("faixaMatrizWorkspace").style.display = "none";
       }
+    }
+
+    function abrirLeitorA4() {
+      window.location.href = "leitor_a4_matriz.html";
     }
 
     function seguirExecutor() {
