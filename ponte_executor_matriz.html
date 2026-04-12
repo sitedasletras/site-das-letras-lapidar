@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lapidar — Ponte Executor → Matriz</title>
+
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f4f1ea;color:#2d251b}
+
+.topo{
+background:#5c4320;
+color:#fff;
+padding:22px 18px
+}
+
+.topo h1{margin:0;font-size:1.8rem}
+
+.container{
+max-width:1180px;
+margin:auto;
+padding:20px
+}
+
+.card{
+background:#fff;
+border-radius:14px;
+padding:18px;
+margin-bottom:18px;
+border:1px solid #eadfce;
+box-shadow:0 4px 12px rgba(0,0,0,.07)
+}
+
+.card h2{
+margin-top:0;
+color:#5c4320
+}
+
+.preview{
+white-space:pre-wrap;
+background:#faf6ef;
+padding:16px;
+border-radius:12px;
+border:1px solid #eadfce;
+min-height:160px
+}
+
+button{
+border:none;
+padding:12px 18px;
+border-radius:10px;
+font-weight:bold;
+cursor:pointer
+}
+
+.btn-marrom{
+background:#5c4320;
+color:#fff
+}
+
+.btn-verde{
+background:#15803d;
+color:#fff
+}
+
+.status{
+margin-top:12px;
+padding:10px;
+border-radius:10px;
+display:none
+}
+
+.ok{
+background:#edf9ef;
+border:1px solid #b7e1c1;
+color:#166534
+}
+
+.erro{
+background:#fff1f1;
+border:1px solid #f0b9b9;
+color:#991b1b
+}
+
+</style>
+</head>
+
+<body>
+
+<header class="topo">
+<h1>Ponte Executor → Matriz Editorial</h1>
+</header>
+
+<main class="container">
+
+<section class="card">
+
+<h2>Estado do pipeline</h2>
+
+<div id="preview" class="preview">
+Verificando estrutura editorial...
+</div>
+
+<br>
+
+<button class="btn-marrom" onclick="irParaMatriz()">
+Abrir Matriz Editorial
+</button>
+
+<button class="btn-verde" onclick="seguirDiagramacao()">
+Seguir direto para Diagramação
+</button>
+
+<div id="statusOk" class="status ok"></div>
+<div id="statusErro" class="status erro"></div>
+
+</section>
+
+</main>
+
+
+<script>
+
+function mostrarOk(msg){
+const el=document.getElementById("statusOk")
+const er=document.getElementById("statusErro")
+
+er.style.display="none"
+el.textContent=msg
+el.style.display="block"
+}
+
+function mostrarErro(msg){
+const el=document.getElementById("statusOk")
+const er=document.getElementById("statusErro")
+
+el.style.display="none"
+er.textContent=msg
+er.style.display="block"
+}
+
+
+function carregarJSON(chave){
+
+try{
+return JSON.parse(localStorage.getItem(chave)||"null")
+}catch{
+return null
+}
+
+}
+
+
+function verificarPipeline(){
+
+const obra=carregarJSON("obraAtual")
+const matriz=carregarJSON("matriz_editorial")
+const diagramacao=carregarJSON("diagramacao_config")
+
+let status=[]
+
+if(obra){
+status.push("✔ Obra ativa detectada")
+}else{
+status.push("✘ Nenhuma obra ativa")
+}
+
+if(matriz){
+status.push("✔ Matriz editorial existente")
+}else{
+status.push("✘ Matriz editorial ainda não criada")
+}
+
+if(diagramacao){
+status.push("✔ Diagramação já configurada")
+}else{
+status.push("ℹ Diagramação ainda não iniciada")
+}
+
+document.getElementById("preview").textContent=status.join("\n")
+
+}
+
+
+function irParaMatriz(){
+
+window.location.href="matriz_a4_operacional.html"
+
+}
+
+
+function seguirDiagramacao(){
+
+const matriz=localStorage.getItem("matriz_editorial_pronta")
+
+if(matriz!=="true"){
+mostrarErro("Primeiro gere a matriz editorial.")
+return
+}
+
+mostrarOk("Abrindo módulo de diagramação...")
+
+setTimeout(()=>{
+
+window.location.href="modulo_diagramacao.html"
+
+},800)
+
+}
+
+
+verificarPipeline()
+
+</script>
+
+
+<script src="lapidar_inteligencia_core.js"></script>
+
+</body>
+</html>
