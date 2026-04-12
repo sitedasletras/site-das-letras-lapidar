@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lapidar — Matriz Editorial</title>
+<style>
+*{box-sizing:border-box} body{margin:0;font-family:Arial,sans-serif;background:#f6f1e8;color:#2d251b}
+header{background:#1f4e79;color:#fff;padding:20px}
+main{max-width:1200px;margin:auto;padding:20px}
+.card{background:#fff;border:1px solid #eadfce;border-radius:14px;padding:18px;margin-bottom:18px;box-shadow:0 4px 12px rgba(0,0,0,.07)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+label{display:block;font-size:13px;font-weight:bold;margin-bottom:6px;text-transform:uppercase;color:#1f4e79}
+select,input{width:100%;padding:12px;border:1px solid #d8cab3;border-radius:10px;background:#fffdfa}
+button{border:none;border-radius:10px;padding:12px 16px;font-weight:bold;cursor:pointer;margin-right:8px;margin-top:10px}
+.btn{background:#1f4e79;color:#fff}.btn2{background:#15803d;color:#fff}
+.preview{white-space:pre-wrap;line-height:1.6;background:#faf6ef;border:1px solid #eadfce;border-radius:12px;padding:16px;min-height:260px}
+.msg{display:none;margin-top:10px;padding:10px;border-radius:10px}.ok{background:#edf9ef;border:1px solid #b7e1c1;color:#166534}.er{background:#fff1f1;border:1px solid #f0b9b9;color:#991b1b}
+@media(max-width:900px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+<h1>Matriz Editorial</h1>
+<div>Organiza a estrutura técnica da obra antes da composição tipográfica.</div>
+</header>
+<main>
+<section class="card">
+<div class="grid">
+<div>
+<label for="formato">Formato</label>
+<select id="formato">
+<option>A5</option><option>14x21 cm</option><option>16x23 cm</option><option>16x24 cm</option><option>A4</option><option>Infantil</option>
+</select>
+<label for="miolo" style="margin-top:12px">Tipo de miolo</label>
+<select id="miolo">
+<option>Romance</option><option>Poesia</option><option>Receitas</option><option>Infantil</option><option>Técnico</option><option>Ensaios</option>
+</select>
+<label for="fonte" style="margin-top:12px">Fonte base</label>
+<select id="fonte">
+<option>Times New Roman</option><option>Garamond</option><option>Arial</option>
+</select>
+<label for="entrelinha" style="margin-top:12px">Entrelinha</label>
+<input id="entrelinha" type="number" value="1.6" step="0.1">
+</div>
+<div>
+<label for="capitulosImpares">Capítulos em página ímpar</label>
+<select id="capitulosImpares"><option value="sim">Sim</option><option value="nao">Não</option></select>
+<label for="hifenizacao" style="margin-top:12px">Hifenização</label>
+<select id="hifenizacao"><option>automatica</option><option>manual</option><option>desligada</option></select>
+<label for="saida" style="margin-top:12px">Saída</label>
+<select id="saida"><option>PDF físico</option><option>EPUB</option><option>PDF + EPUB</option></select>
+<label for="margem" style="margin-top:12px">Margem interna (mm)</label>
+<input id="margem" type="number" value="20">
+</div>
+</div>
+<button class="btn" onclick="gerarMatriz()">Gerar matriz editorial</button>
+<button class="btn2" onclick="seguirCompositor()">Seguir para composição</button>
+<div id="ok" class="msg ok"></div>
+<div id="er" class="msg er"></div>
+</section>
+<section class="card">
+<h2>Prévia da matriz</h2>
+<div class="preview" id="preview">Aguardando geração da matriz…</div>
+</section>
+</main>
+<script>
+function msgOk(t){const a=document.getElementById('ok'),b=document.getElementById('er');b.style.display='none';a.textContent=t;a.style.display='block';}
+function msgEr(t){const a=document.getElementById('ok'),b=document.getElementById('er');a.style.display='none';b.textContent=t;b.style.display='block';}
+function obra(){try{return JSON.parse(localStorage.getItem('obraAtual')||'null')}catch(e){return null}}
+function gerarMatriz(){
+  const o=obra(); if(!o){msgEr('Primeiro gere e salve a obra no parser.'); return;}
+  const m={
+    formato:document.getElementById('formato').value,
+    miolo:document.getElementById('miolo').value,
+    fonte:document.getElementById('fonte').value,
+    entrelinha:document.getElementById('entrelinha').value,
+    capitulosImpares:document.getElementById('capitulosImpares').value,
+    hifenizacao:document.getElementById('hifenizacao').value,
+    saida:document.getElementById('saida').value,
+    margemInterna:document.getElementById('margem').value,
+    geradoEm:new Date().toISOString()
+  };
+  localStorage.setItem('matriz_editorial', JSON.stringify(m));
+  localStorage.setItem('matriz_editorial_pronta','true');
+  document.getElementById('preview').textContent=
+    'Obra: '+(o.titulo||'--')+'\\n'+
+    'Autor: '+(o.autor||'--')+'\\n'+
+    'Formato: '+m.formato+'\\n'+
+    'Miolo: '+m.miolo+'\\n'+
+    'Fonte: '+m.fonte+'\\n'+
+    'Entrelinha: '+m.entrelinha+'\\n'+
+    'Capítulos em página ímpar: '+m.capitulosImpares+'\\n'+
+    'Hifenização: '+m.hifenizacao+'\\n'+
+    'Saída: '+m.saida+'\\n'+
+    'Margem interna: '+m.margemInterna+' mm';
+  msgOk('Matriz editorial gerada com sucesso.');
+}
+function seguirCompositor(){
+  if(localStorage.getItem('matriz_editorial_pronta')!=='true'){ msgEr('Primeiro gere a matriz editorial.'); return; }
+  window.location.href='compositor_diagramacao.html';
+}
+</script>
+<script src="lapidar_inteligencia_core.js"></script>
+</body>
+</html>
