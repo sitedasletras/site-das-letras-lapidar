@@ -2,189 +2,138 @@
 <html lang="pt-br">
 
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Lapidar — Login</title>
 
 <style>
-
 body {
-
-margin:0;
-height:100vh;
-
-display:flex;
-align-items:center;
-justify-content:center;
-
-background:#0f172a;
-
-font-family:Arial;
-
-color:white;
-
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #07153a;
+    font-family: Arial, sans-serif;
+    color: white;
 }
 
 .container {
-
-background:#111827;
-
-padding:40px;
-
-border-radius:18px;
-
-box-shadow:0px 0px 40px rgba(0,0,0,0.5);
-
-width:320px;
-
-text-align:center;
-
+    width: min(88vw, 360px);
+    background: #0b1638;
+    border-radius: 22px;
+    padding: 34px 24px;
+    box-shadow: 0 0 35px rgba(0, 0, 0, 0.35);
+    text-align: center;
 }
 
 h1 {
-
-margin-bottom:20px;
-
+    margin: 0 0 28px 0;
+    font-size: 2rem;
+    font-weight: 700;
 }
 
 input {
-
-width:100%;
-
-padding:12px;
-
-margin-top:10px;
-
-border-radius:8px;
-
-border:none;
-
-outline:none;
-
+    width: 100%;
+    box-sizing: border-box;
+    padding: 14px 16px;
+    margin-bottom: 14px;
+    border: none;
+    border-radius: 12px;
+    background: #dbe3ee;
+    color: #111827;
+    font-size: 1rem;
+    outline: none;
 }
 
 button {
-
-margin-top:20px;
-
-width:100%;
-
-padding:12px;
-
-border:none;
-
-border-radius:10px;
-
-background:#22c55e;
-
-color:white;
-
-font-weight:bold;
-
-cursor:pointer;
-
+    width: 100%;
+    padding: 14px 16px;
+    border: none;
+    border-radius: 14px;
+    background: #1fad49;
+    color: white;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
 }
 
 button:hover {
-
-background:#16a34a;
-
+    background: #17933d;
 }
 
 .erro {
-
-margin-top:10px;
-
-color:#ef4444;
-
-display:none;
-
+    margin-top: 16px;
+    color: #ff5c5c;
+    font-size: 0.98rem;
+    display: none;
 }
-
 </style>
-
 </head>
 
 <body>
 
-
 <div class="container">
+    <h1>Lapidar</h1>
 
-<h1>Lapidar</h1>
+    <input id="email" type="text" placeholder="email">
+    <input id="senha" type="password" placeholder="senha">
 
-<input id="email" placeholder="email">
+    <button onclick="login()">Entrar</button>
 
-<input id="senha" type="password" placeholder="senha">
-
-<button onclick="login()">Entrar</button>
-
-<div id="erro" class="erro">
-Usuário não reconhecido
+    <div id="erro" class="erro">Usuário não reconhecido</div>
 </div>
-
-</div>
-
 
 <script>
+function login() {
+    const email = document.getElementById("email").value.trim().toLowerCase();
+    const senha = document.getElementById("senha").value.trim();
+    const erro = document.getElementById("erro");
 
-function login(){
+    erro.style.display = "none";
 
-const email =
-document.getElementById("email").value.toLowerCase();
+    let perfil = "";
+    let emailRegistrado = email;
 
-const senha =
-document.getElementById("senha").value;
+    const adminEmails = [
+        "admin",
+        "admin@sitedasletras.com",
+        "planaswagner@gmail.com"
+    ];
 
+    const heteronimoEmails = [
+        "heteronimo",
+        "heteronimo@sitedasletras.com"
+    ];
 
-let perfil = "";
+    const adminSenhaValida = senha === "admin";
+    const heteronimoSenhaValida = senha === "heteronimo";
 
+    if (adminEmails.includes(email) && adminSenhaValida) {
+        perfil = "admin";
 
-/* PERFIS DO SISTEMA */
+        if (email === "admin") {
+            emailRegistrado = "admin@sitedasletras.com";
+        }
+    }
+    else if (heteronimoEmails.includes(email) && heteronimoSenhaValida) {
+        perfil = "heteronimo";
 
-if(email === "admin" && senha === "admin"){
+        if (email === "heteronimo") {
+            emailRegistrado = "heteronimo@sitedasletras.com";
+        }
+    }
+    else {
+        erro.style.display = "block";
+        return;
+    }
 
-perfil = "admin";
+    localStorage.setItem("perfilUsuario", perfil);
+    localStorage.setItem("emailUsuario", emailRegistrado);
 
+    window.location.href = "pagina_respiro.html";
 }
-
-else if(email === "heteronimo" && senha === "heteronimo"){
-
-perfil = "heteronimo";
-
-}
-
-else if(email === "planaswagner@gmail.com"){
-
-perfil = "admin";
-
-}
-
-else{
-
-document.getElementById("erro").style.display="block";
-return;
-
-}
-
-
-/* REGISTRO DE SESSÃO PARA NAS / FIIISAA */
-
-localStorage.setItem("perfilUsuario",perfil);
-
-localStorage.setItem("emailUsuario",email);
-
-
-/* REDIRECIONAMENTO CORRETO DO LAPIDAR */
-
-window.location.href="pagina_respiro.html";
-
-}
-
 </script>
 
-
 </body>
-
 </html>
