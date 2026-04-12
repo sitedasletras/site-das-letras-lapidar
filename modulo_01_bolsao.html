@@ -4,6 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Cofre Mestre da Obra</title>
+
+  <script src="https://unpkg.com/mammoth@1.8.0/mammoth.browser.min.js"></script>
+
   <style>
     * { box-sizing: border-box; }
 
@@ -543,6 +546,17 @@
         .trim();
     }
 
+    function limparTextoExtraido(texto) {
+      if (!texto) return "";
+      return texto
+        .replace(/\r/g, "")
+        .replace(/\t/g, " ")
+        .replace(/\u00A0/g, " ")
+        .replace(/[ ]{2,}/g, " ")
+        .replace(/\n{3,}/g, "\n\n")
+        .trim();
+    }
+
     function prepararCofre() {
       cofrePreparado = true;
       document.getElementById("barraPreparacao").style.width = "100%";
@@ -642,17 +656,22 @@
       var aviso = document.getElementById("mensagemTecnicaArquivo");
 
       if (textoIntegralObra && textoIntegralObra.trim() !== "") {
-        var textoPreview = textoIntegralObra.slice(0, 2500);
-        document.getElementById("previewConteudo").textContent = textoPreview;
+        document.getElementById("previewConteudo").textContent = textoIntegralObra.slice(0, 2500);
         aviso.classList.add("hidden");
         aviso.textContent = "";
       } else {
-        if (tipoArquivoAtual === "docx" || tipoArquivoAtual === "doc" || tipoArquivoAtual === "pdf") {
+        if (tipoArquivoAtual === "docx") {
           document.getElementById("previewConteudo").textContent =
-            "Leitura integral ainda não disponível no navegador para este tipo de arquivo. O Cofre registrou nome, título, autoria e metadados da obra sem exibir lixo binário.";
+            "O arquivo DOCX foi registrado com sucesso. A leitura integral está em processamento estruturado para alimentar a matriz editorial da obra.";
           aviso.classList.remove("hidden");
           aviso.textContent =
-            "Arquivo " + tipoArquivoAtual.toUpperCase() + " detectado. Nesta etapa, o Lapidar não tentará ler esse formato como texto cru. Isso evita caracteres quebrados e páginas com lixo visual.";
+            "Arquivo DOCX detectado. O Lapidar usará extração estruturada do conteúdo para evitar lixo binário e preservar o texto real da obra.";
+        } else if (tipoArquivoAtual === "pdf" || tipoArquivoAtual === "doc") {
+          document.getElementById("previewConteudo").textContent =
+            "Leitura integral ainda não disponível no navegador para este tipo de arquivo. O Cofre registrou nome, título, autoria e metadados sem exibir caracteres quebrados.";
+          aviso.classList.remove("hidden");
+          aviso.textContent =
+            "Arquivo " + tipoArquivoAtual.toUpperCase() + " detectado. Nesta etapa, o Lapidar não tentará ler esse formato como texto cru.";
         } else {
           document.getElementById("previewConteudo").textContent = "Texto ainda não carregado pelo Cofre.";
           aviso.classList.add("hidden");
@@ -670,15 +689,10 @@
         return { principal: principal, secundaria: secundaria, terciaria: terciaria };
       }
 
-      var linhasCurtas = texto.split("\n").filter(function(l) {
-        return l.trim().length > 0 && l.trim().length < 55;
-      }).length;
+      var linhas = texto.split("\n").filter(function(l) { return l.trim().length > 0; });
+      var linhasCurtas = linhas.filter(function(l) { return l.trim().length < 55; }).length;
 
-      var totalLinhas = texto.split("\n").filter(function(l) {
-        return l.trim().length > 0;
-      }).length;
-
-      if (totalLinhas > 0 && linhasCurtas / totalLinhas > 0.45) {
+      if (linhas.length > 0 && (linhasCurtas / linhas.length) > 0.45) {
         principal = "Poesia";
         secundaria = "Texto poético";
       }
@@ -873,11 +887,17 @@
 
       document.getElementById("uploadStatus").innerHTML =
         "Arquivo recebido: " + file.name + "<br>" +
-        "Leitura integral do conteúdo ficará para a camada de extração estruturada. " +
+        "Leitura integral do conteúdo ficará para a camada adequada. " +
         "Nesta etapa, o Lapidar registrou o arquivo sem exibir lixo binário.";
     }
 
-    document.getElementById("arquivoObra").addEventListener("change", function(event) {
+    async function extrairDocxComMammoth(file) {
+      const arrayBuffer = await file.arrayBuffer();
+      const resultado = await mammoth.extractRawText({ arrayBuffer: arrayBuffer });
+      return limparTextoExtraido(resultado.value || "");
+    }
+
+    document.getElementById("arquivoObra").addEventListener("change", async function(event) {
       if (!cofrePreparado && localStorage.getItem("cofre_preparado") !== "true") {
         alert("Prepare primeiro o Cofre para nova obra.");
         event.target.value = "";
@@ -896,53 +916,54 @@
 
       var nomeLower = file.name.toLowerCase();
 
-      if (nomeLower.endsWith(".txt")) {
-        tipoArquivoAtual = "txt";
-        var leitor = new FileReader();
-
-        leitor.onload = function(e) {
-          textoIntegralObra = (typeof e.target.result === "string" && e.target.result.trim() !== "")
-            ? e.target.result
-            : "";
+      try {
+        if (nomeLower.endsWith(".txt")) {
+          tipoArquivoAtual = "txt";
+          textoIntegralObra = limparTextoExtraido(await file.text());
           atualizarPreviewA4();
           salvarFichaBaseManual();
-        };
+          return;
+        }
 
-        leitor.onerror = function() {
-          textoIntegralObra = "";
+        if (nomeLower.endsWith(".docx")) {
+          tipoArquivoAtual = "docx";
+          document.getElementById("uploadStatus").textContent =
+            "Arquivo recebido: " + file.name + " — extraindo texto estrutural do DOCX...";
+          textoIntegralObra = await extrairDocxComMammoth(file);
           atualizarPreviewA4();
           salvarFichaBaseManual();
-        };
+          document.getElementById("uploadStatus").textContent =
+            "Arquivo recebido: " + file.name + " — texto estrutural extraído com sucesso.";
+          return;
+        }
 
-        leitor.readAsText(file, "UTF-8");
-        return;
-      }
+        if (nomeLower.endsWith(".doc")) {
+          tipoArquivoAtual = "doc";
+          registrarArquivoSemTextoCru(file);
+          salvarFichaBaseManual();
+          return;
+        }
 
-      if (nomeLower.endsWith(".docx")) {
-        tipoArquivoAtual = "docx";
-        registrarArquivoSemTextoCru(file);
+        if (nomeLower.endsWith(".pdf")) {
+          tipoArquivoAtual = "pdf";
+          registrarArquivoSemTextoCru(file);
+          salvarFichaBaseManual();
+          return;
+        }
+
+        tipoArquivoAtual = "desconhecido";
+        textoIntegralObra = "";
+        atualizarPreviewA4();
         salvarFichaBaseManual();
-        return;
-      }
-
-      if (nomeLower.endsWith(".doc")) {
-        tipoArquivoAtual = "doc";
-        registrarArquivoSemTextoCru(file);
+      } catch (erro) {
+        console.error("Erro ao processar arquivo:", erro);
+        textoIntegralObra = "";
+        atualizarPreviewA4();
         salvarFichaBaseManual();
-        return;
+        document.getElementById("uploadStatus").innerHTML =
+          "Arquivo recebido: " + file.name + "<br>" +
+          "Não foi possível extrair o texto deste arquivo nesta tentativa.";
       }
-
-      if (nomeLower.endsWith(".pdf")) {
-        tipoArquivoAtual = "pdf";
-        registrarArquivoSemTextoCru(file);
-        salvarFichaBaseManual();
-        return;
-      }
-
-      tipoArquivoAtual = "desconhecido";
-      textoIntegralObra = "";
-      atualizarPreviewA4();
-      salvarFichaBaseManual();
     });
 
     [
