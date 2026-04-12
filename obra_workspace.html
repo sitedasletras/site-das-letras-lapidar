@@ -160,6 +160,29 @@
       color: #61707d;
     }
 
+    .faixa-matriz {
+      background: #edf8ef;
+      border: 1px solid #cfe9d5;
+      border-left: 6px solid #2e8b57;
+      border-radius: 14px;
+      padding: 18px 20px;
+      margin-top: 18px;
+      display: none;
+    }
+
+    .faixa-matriz .selo {
+      font-size: 22px;
+      font-weight: 700;
+      color: #1f7a49;
+      margin-bottom: 8px;
+    }
+
+    .faixa-matriz .texto {
+      font-size: 17px;
+      line-height: 1.6;
+      color: #4c5a55;
+    }
+
     .acoes {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -211,7 +234,8 @@
 
       .linha,
       .texto-base,
-      .faixa-azul {
+      .faixa-azul,
+      .faixa-matriz .texto {
         font-size: 16px;
       }
 
@@ -289,8 +313,8 @@
           <h2>Base comum para múltiplos formatos</h2>
 
           <p>
-            A partir desta matriz, a obra poderá seguir para formatos como A5, 14x21, 16x23,
-            16x27, 6x9, A4 vertical, A4 horizontal, PDF digital e e-book, conforme a escolha
+            A partir desta matriz, a obra poderá seguir para formatos como A5, 14x21,
+            16x23, 16x27, 6x9, A4 vertical, A4 horizontal, PDF digital e e-book, conforme a escolha
             do autor ou a necessidade editorial dos módulos seguintes.
           </p>
 
@@ -313,6 +337,14 @@
       <div class="rodape-nota">
         Esta matriz A4 será reaproveitada pelos módulos seguintes como base editorial comum.
       </div>
+
+      <div id="faixaMatrizWorkspace" class="faixa-matriz">
+        <div class="selo">Matriz editorial ativa ✔</div>
+        <div class="texto">
+          Esta obra já possui matriz editorial A4 ativa dentro do Lapidar e está pronta
+          para seguir ao pipeline completo de produção editorial, visual e cultural.
+        </div>
+      </div>
     </div>
 
     <div class="card">
@@ -329,10 +361,12 @@
   </div>
 
   <script>
-    function obterPrimeiroValor(chaves, fallback = "") {
-      for (const chave of chaves) {
-        const valor = localStorage.getItem(chave);
-        if (valor && valor.trim()) return valor.trim();
+    function obterPrimeiroValor(chaves, fallback) {
+      for (var i = 0; i < chaves.length; i++) {
+        var valor = localStorage.getItem(chaves[i]);
+        if (valor && valor.trim() !== "") {
+          return valor.trim();
+        }
       }
       return fallback;
     }
@@ -345,7 +379,7 @@
     }
 
     function montarDadosObra() {
-      const arquivo = obterPrimeiroValor([
+      var arquivo = obterPrimeiroValor([
         "arquivo_obra_nome",
         "nome_arquivo_obra",
         "arquivoNome",
@@ -354,7 +388,7 @@
         "arquivo"
       ], "Arquivo não informado");
 
-      const titulo = obterPrimeiroValor([
+      var titulo = obterPrimeiroValor([
         "titulo_base_obra",
         "tituloBaseObra",
         "titulo_obra",
@@ -363,59 +397,59 @@
         "titulo"
       ], limparNomeArquivo(arquivo) || "Obra em preparação editorial");
 
-      const autorBruto = obterPrimeiroValor([
+      var autorBruto = obterPrimeiroValor([
         "autor_obra",
         "autorObra",
         "autor",
         "nome_autor"
       ], "Autor a confirmar");
 
-      const idioma = obterPrimeiroValor([
+      var idioma = obterPrimeiroValor([
         "idioma_obra",
         "idiomaObra",
         "idioma"
       ], "Português do Brasil");
 
-      const principal = obterPrimeiroValor([
+      var principal = obterPrimeiroValor([
         "classificacao_principal",
         "classPrincipal",
         "principal"
       ], "Prosa");
 
-      const secundaria = obterPrimeiroValor([
+      var secundaria = obterPrimeiroValor([
         "classificacao_secundaria",
         "classSecundaria",
         "secundaria"
       ], "Narrativa literária");
 
-      const terciaria = obterPrimeiroValor([
+      var terciaria = obterPrimeiroValor([
         "classificacao_terciaria",
         "classTerciaria",
         "terciaria"
       ], "A definir no Desbaste");
 
-      const statusTecnico = obterPrimeiroValor([
+      var statusTecnico = obterPrimeiroValor([
         "status_tecnico_obra",
         "statusTecnico",
         "status_tecnico"
       ], "Estrutura pronta para preparação editorial");
 
-      const autorFinal = autorBruto.trim() ? autorBruto : "Autor a confirmar";
+      var autorFinal = autorBruto.trim() ? autorBruto : "Autor a confirmar";
 
       return {
-        arquivo,
-        titulo,
+        arquivo: arquivo,
+        titulo: titulo,
         autor: autorFinal,
-        idioma,
-        principal,
-        secundaria,
-        terciaria,
-        statusTecnico
+        idioma: idioma,
+        principal: principal,
+        secundaria: secundaria,
+        terciaria: terciaria,
+        statusTecnico: statusTecnico
       };
     }
 
     function preencherTela() {
-      const dados = montarDadosObra();
+      var dados = montarDadosObra();
 
       document.getElementById("arquivoObra").textContent = dados.arquivo;
       document.getElementById("tituloBase").textContent = dados.titulo;
@@ -446,6 +480,18 @@
       localStorage.setItem("workspace_liberado", "true");
     }
 
+    function verificarMatrizWorkspace() {
+      var matrizAtiva =
+        localStorage.getItem("lapidar_matriz_a4_ativa") === "true" ||
+        localStorage.getItem("matriz_editorial_ativa") === "true";
+
+      if (matrizAtiva) {
+        document.getElementById("faixaMatrizWorkspace").style.display = "block";
+      } else {
+        document.getElementById("faixaMatrizWorkspace").style.display = "none";
+      }
+    }
+
     function seguirExecutor() {
       localStorage.setItem("executor_liberado", "true");
       localStorage.setItem("status_workspace", "ativo");
@@ -453,6 +499,7 @@
     }
 
     preencherTela();
+    verificarMatrizWorkspace();
   </script>
 </body>
 </html>
