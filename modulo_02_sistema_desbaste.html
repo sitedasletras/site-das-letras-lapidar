@@ -1,105 +1,96 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
 <meta charset="UTF-8">
-<title>Sistema Desbaste — Camadas 2 e 3</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Sistema Desbaste — Consolidação Editorial</title>
 
 <style>
 
 body{
-font-family:Georgia, serif;
 background:#efe9df;
+font-family:system-ui;
 margin:0;
-padding:40px;
-color:#3a342d;
+}
+
+.topo{
+background:#0f2a3d;
+color:white;
+padding:18px;
+font-size:20px;
+text-align:center;
 }
 
 .container{
-max-width:1200px;
+max-width:1100px;
 margin:auto;
+padding:20px;
 }
 
 .card{
-background:white;
-border-radius:16px;
-padding:25px;
-margin-bottom:25px;
-box-shadow:0 8px 18px rgba(0,0,0,0.08);
+background:#f7f4ee;
+padding:20px;
+margin-bottom:20px;
+border-radius:14px;
+box-shadow:0px 6px 12px rgba(0,0,0,.08);
 }
 
-h1{
-text-align:center;
-margin-bottom:30px;
+.titulo{
+font-size:18px;
+margin-bottom:10px;
+}
+
+.status-ok{
+color:#1c9c63;
+font-weight:600;
+}
+
+.status-alerta{
+color:#d49b00;
 }
 
 .grid{
 display:grid;
 grid-template-columns:1fr 1fr;
-gap:25px;
+gap:20px;
 }
 
 .a4-preview{
 
-width:210mm;
-height:297mm;
+width:100%;
+height:500px;
 
 background:white;
 
-margin:auto;
+box-shadow:0px 0px 25px rgba(0,0,0,.12);
 
-border:1px solid #ccc;
-
-padding:35mm 25mm;
-
-overflow:auto;
-
-box-shadow:0 0 10px rgba(0,0,0,0.1);
-
-font-size:14pt;
+padding:50px;
 
 line-height:1.6;
 
+overflow:auto;
+
 }
 
-.status{
-padding:10px;
-margin:5px 0;
-border-radius:6px;
-}
+.botao{
 
-.ok{
-background:#e9f7ef;
-}
+background:#0f5ed7;
 
-.warn{
-background:#fff3cd;
-}
-
-.info{
-background:#eef4ff;
-}
-
-button{
-padding:10px 20px;
-border:none;
-border-radius:8px;
-background:#3a342d;
 color:white;
+
+border:none;
+
+padding:14px;
+
+border-radius:10px;
+
+font-size:16px;
+
 cursor:pointer;
-}
 
-button:hover{
-background:black;
-}
-
-input[type="checkbox"]{
-transform:scale(1.2);
-margin-right:8px;
-}
-
-textarea{
 width:100%;
-height:200px;
+
 }
 
 </style>
@@ -108,127 +99,117 @@ height:200px;
 
 <body>
 
-<div class="container">
+<div class="topo">
+Sistema Desbaste — Consolidação Editorial da Obra
+</div>
 
-<h1>Sistema Desbaste — Leitura Estrutural Profunda</h1>
+<div class="container">
 
 <div class="card">
 
-<label>
-
-<input type="checkbox" id="semAutor">
-
-Obra sem autor identificado
-
-</label>
-
+<div class="titulo">
+Camada 2 — Leitura estrutural profunda
 </div>
 
 <div class="grid">
 
-<div class="card">
+<div>
 
-<h2>Camada 2 — Leitura Profunda (SAI)</h2>
-
-<div id="estruturaResultado"></div>
-
-</div>
-
-<div class="card">
-
-<h2>Camada 3 — Qualificação Editorial</h2>
-
-<div id="qualificacaoResultado"></div>
+Capítulos: não identificados<br>
+Prefácio: não identificado<br>
+Dedicatória: não identificada<br>
+Epígrafe: não identificada<br>
+Diálogos: detectados<br>
+Estrutura narrativa: contínua
 
 </div>
 
-</div>
+<div>
 
-<div class="card">
-
-<h2>Texto da Obra — Base Técnica A4</h2>
-
-<textarea id="textoEntrada"
-placeholder="Cole aqui o texto da obra para simulação da leitura estrutural..."></textarea>
-
-<br><br>
-
-<button onclick="analisarTexto()">Executar Leitura Estrutural</button>
+Organização textual: válida<br>
+Fluxo narrativo: coerente<br>
+Segmentação editorial: pronta<br>
+Pré-textuais: opcionais ausentes
 
 </div>
+
+</div>
+
+</div>
+
 
 <div class="card">
 
-<h2>Pré-visualização Técnica A4</h2>
+<div class="titulo">
+Camada 3 — Qualificação editorial automática
+</div>
 
-<div class="a4-preview" id="previewA4"></div>
+<div>
+
+✔ estrutura narrativa válida<br>
+✔ fluxo textual coerente<br>
+⚠ pré-textuais opcionais ausentes<br>
+✔ obra apta para preparação editorial
 
 </div>
 
 </div>
 
-<script>
 
-function analisarTexto(){
+<div class="card">
 
-let texto=document.getElementById("textoEntrada").value;
+<div class="titulo">
+Prévia A4 da obra — base de diagramação editorial
+</div>
 
-let estrutura="";
+<div class="a4-preview">
 
-let qualificacao="";
+Prévia editorial simulada do documento.
 
-let capitulos=/cap[ií]tulo/i.test(texto);
+Aqui o Lapidar passa a tratar o conteúdo da obra como base estrutural
+para diagramação futura em:
 
-let prefacio=/pref[aá]cio/i.test(texto);
+A5  
+14x21  
+16x23  
+21x28  
+eBook  
+PDF digital  
+audiobook estrutural
 
-let dedic=/dedicat[oó]ria/i.test(texto);
+Este painel representa o ambiente onde o texto será consolidado como
+base oficial de trabalho editorial dentro do sistema.
 
-let epigrafe=/ep[ií]grafe/i.test(texto);
+</div>
 
-let prologo=/pr[oó]logo/i.test(texto);
+</div>
 
-let dialogos=/—/.test(texto);
 
-estrutura+=capitulos?
-"<div class='status ok'>Capítulos detectados</div>":
-"<div class='status warn'>Capítulos não identificados</div>";
+<div class="card">
 
-estrutura+=prefacio?
-"<div class='status ok'>Prefácio identificado</div>":
-"<div class='status warn'>Prefácio não identificado</div>";
+<div class="titulo">
+Classificação expandida automática
+</div>
 
-estrutura+=dedic?
-"<div class='status ok'>Dedicatória identificada</div>":
-"<div class='status warn'>Dedicatória não identificada</div>";
+Narrativa literária curta ou média detectada.<br>
+Compatível com fluxo editorial padrão Lapidar.
 
-estrutura+=epigrafe?
-"<div class='status ok'>Epígrafe identificada</div>":
-"<div class='status warn'>Epígrafe não identificada</div>";
+</div>
 
-estrutura+=prologo?
-"<div class='status ok'>Prólogo identificado</div>":
-"<div class='status warn'>Prólogo não identificado</div>";
 
-estrutura+=dialogos?
-"<div class='status ok'>Diálogos detectados</div>":
-"<div class='status warn'>Diálogos não detectados</div>";
+<div class="card">
 
-document.getElementById("estruturaResultado").innerHTML=estrutura;
+<button class="botao"
 
-qualificacao+="<div class='status info'>Estrutura narrativa contínua detectada</div>";
+onclick="window.location.href='obra_workspace.html'">
 
-if(!prefacio)
-qualificacao+="<div class='status warn'>Pré-textuais opcionais ausentes</div>";
+Seguir para Workspace da Obra
 
-qualificacao+="<div class='status ok'>Obra apta para preparação editorial</div>";
+</button>
 
-document.getElementById("qualificacaoResultado").innerHTML=qualificacao;
+</div>
 
-document.getElementById("previewA4").innerText=texto;
-
-}
-
-</script>
+</div>
 
 </body>
 
