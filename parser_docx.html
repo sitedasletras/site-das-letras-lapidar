@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lapidar — Parser DOCX</title>
+<style>
+*{box-sizing:border-box} body{margin:0;font-family:Arial,sans-serif;background:#f5efe5;color:#2d251b}
+header{background:#5c4528;color:#fff;padding:20px}
+main{max-width:1200px;margin:auto;padding:20px}
+.card{background:#fff;border:1px solid #eadfce;border-radius:14px;padding:18px;margin-bottom:18px;box-shadow:0 4px 12px rgba(0,0,0,.07)}
+h1,h2{margin:0 0 12px 0} .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+label{display:block;font-size:13px;font-weight:bold;margin-bottom:6px;text-transform:uppercase;color:#6b4f1d}
+input[type="file"],input[type="text"],textarea,select{width:100%;padding:12px;border:1px solid #d8cab3;border-radius:10px;background:#fffdfa}
+textarea{min-height:220px;resize:vertical}
+button{border:none;border-radius:10px;padding:12px 16px;font-weight:bold;cursor:pointer;margin-right:8px;margin-top:10px}
+.btn{background:#6b4f1d;color:#fff}.btn2{background:#1f4e79;color:#fff}.btn3{background:#15803d;color:#fff}
+.preview{white-space:pre-wrap;line-height:1.6;background:#faf6ef;border:1px solid #eadfce;border-radius:12px;padding:16px;min-height:260px}
+.tag{display:inline-block;padding:8px 12px;border-radius:999px;font-size:12px;font-weight:bold;background:#f5eee1;color:#6b4f1d;border:1px solid #e8dcc4;margin:0 8px 8px 0}
+.msg{display:none;margin-top:10px;padding:10px;border-radius:10px}.ok{background:#edf9ef;border:1px solid #b7e1c1;color:#166534}.er{background:#fff1f1;border:1px solid #f0b9b9;color:#991b1b}
+@media(max-width:900px){.grid{grid-template-columns:1fr}}
+</style>
+<script src="https://unpkg.com/mammoth/mammoth.browser.min.js"></script>
+</head>
+<body>
+<header>
+<h1>Parser DOCX</h1>
+<div>Leitura real do DOCX/TXT e consolidação estrutural da obra.</div>
+</header>
+<main>
+<section class="card">
+<div class="grid">
+<div>
+<label for="arquivo">Arquivo da obra</label>
+<input id="arquivo" type="file" accept=".docx,.txt">
+<label for="tituloManual" style="margin-top:12px">Título manual</label>
+<input id="tituloManual" type="text" placeholder="Quando preenchido, tem prioridade total">
+<label for="autorManual" style="margin-top:12px">Autor manual</label>
+<input id="autorManual" type="text" placeholder="Quando preenchido, tem prioridade total">
+<label for="tipoManual" style="margin-top:12px">Tipo manual</label>
+<select id="tipoManual">
+<option value="">Detectar automaticamente</option>
+<option>Prosa</option>
+<option>Poesia</option>
+<option>Infantil</option>
+<option>Receitas</option>
+<option>Técnico</option>
+<option>Híbrido</option>
+</select>
+<div>
+<button class="btn" onclick="lerArquivo()">Ler arquivo</button>
+<button class="btn2" onclick="usarTextoColado()">Usar texto colado</button>
+<button class="btn3" onclick="salvarObra()">Salvar em obraAtual</button>
+</div>
+<div id="ok" class="msg ok"></div>
+<div id="er" class="msg er"></div>
+</div>
+<div>
+<label for="textoBruto">Texto bruto</label>
+<textarea id="textoBruto" placeholder="O texto extraído aparecerá aqui. Você também pode colar texto manualmente."></textarea>
+</div>
+</div>
+</section>
+
+<section class="card">
+<h2>Estrutura detectada</h2>
+<div>
+<span class="tag" id="tagTitulo">Título: --</span>
+<span class="tag" id="tagAutor">Autor: --</span>
+<span class="tag" id="tagTipo">Tipo: --</span>
+<span class="tag" id="tagCaps">Capítulos: 0</span>
+</div>
+<div class="preview" id="preview">Aguardando leitura da obra…</div>
+</section>
+</main>
+
+<script>
+function msgOk(t){const a=document.getElementById('ok'),b=document.getElementById('er');b.style.display='none';a.textContent=t;a.style.display='block';}
+function msgEr(t){const a=document.getElementById('ok'),b=document.getElementById('er');a.style.display='none';b.textContent=t;b.style.display='block';}
+function linhas(txt){return (txt||'').replace(/\r/g,'').split('\n').map(x=>x.trim()).filter(Boolean);}
+function pareceNomePessoa(l){
+  if(!l||l.length<4||l.length>80||/[0-9]/.test(l)||/[.!?;:]/.test(l)) return false;
+  const palavras=l.split(/\s+/).filter(Boolean); if(palavras.length<2||palavras.length>5) return false;
+  const pequenas=["de","da","do","dos","das","e"];
+  return palavras.every(p=>pequenas.includes(p.toLowerCase())||/^[A-ZÁÀÂÃÉÈÊÍÌÎÓÒÔÕÚÙÛÇ][A-Za-zÁÀÂÃÉÈÊÍÌÎÓÒÔÕÚÙÛÇáàâãéèêíìîóòôõúùûç'-]+$/.test(p));
+}
+function detectarTitulo(txt){
+  const l=linhas(txt).slice(0,12);
+  for(const x of l){ if(/^t[ií]tulo\s*[:\-]/i.test(x)) return x.replace(/^t[ií]tulo\s*[:\-]\s*/i,'').trim(); }
+  for(const x of l){ if(x.length>=4&&x.length<=120&&!pareceNomePessoa(x)) return x; }
+  return "Título não identificado";
+}
+function detectarAutor(txt){
+  const l=linhas(txt).slice(0,15);
+  for(const x of l){
+    if(/^autor\s*[:\-]/i.test(x)) return x.replace(/^autor\s*[:\-]\s*/i,'').trim();
+    if(/^by\s+/i.test(x)) return x.replace(/^by\s+/i,'').trim();
+  }
+  for(const x of l){ if(pareceNomePessoa(x)) return x; }
+  return "Autor não identificado";
+}
+function detectarTipo(txt){
+  const bruto=(txt||'').replace(/\r/g,''); const l=bruto.split('\n'); const nz=l.map(x=>x.trim()).filter(Boolean); if(!nz.length) return "Indefinido";
+  const capitulos=(bruto.match(/\b(cap[ií]tulo|capitulo|pr[oó]logo|ep[ií]logo|parte\s+[ivxlcdm0-9]+)\b/gi)||[]).length;
+  const receita=(bruto.match(/\b(ingredientes|modo de preparo|rendimento|porções|porcoes)\b/gi)||[]).length;
+  const infantil=(bruto.match(/\b(ilustra[cç][aã]o|ilustra[cç][oõ]es|crian[cç]a|crianças|infantil)\b/gi)||[]).length;
+  let curtas=0,longas=0,estrofes=0,pontuadas=0;
+  for(let i=0;i<l.length;i++){
+    const x=l[i].trim();
+    if(!x){ const a=i>0?l[i-1].trim():""; const p=i<l.length-1?l[i+1].trim():""; if(a&&p) estrofes++; continue; }
+    if(/[.!?;:]$/.test(x)) pontuadas++;
+    if(x.length<=45) curtas++; if(x.length>90) longas++;
+  }
+  const total=nz.length, propCurtas=curtas/total, propLongas=longas/total, propPontuadas=pontuadas/total;
+  if(receita>=2) return "Receitas";
+  if(infantil>=2) return "Infantil";
+  if(capitulos>=1 && propLongas>=0.20) return "Prosa";
+  const fortePoesia=total>=12&&propCurtas>=0.65&&propLongas<=0.10&&estrofes>=2&&propPontuadas<=0.55;
+  if(fortePoesia) return "Poesia";
+  return "Prosa";
+}
+function detectarCapitulos(txt){
+  return (txt.match(/\b(cap[ií]tulo|capitulo|pr[oó]logo|ep[ií]logo|parte\s+[ivxlcdm0-9]+)\b/gi)||[]).length;
+}
+function atualizar(txt, origem){
+  const tituloManual=document.getElementById('tituloManual').value.trim();
+  const autorManual=document.getElementById('autorManual').value.trim();
+  const tipoManual=document.getElementById('tipoManual').value.trim();
+  const titulo=tituloManual||detectarTitulo(txt);
+  const autor=autorManual||detectarAutor(txt);
+  const tipo=tipoManual||detectarTipo(txt);
+  const caps=detectarCapitulos(txt);
+
+  document.getElementById('tagTitulo').textContent='Título: '+titulo;
+  document.getElementById('tagAutor').textContent='Autor: '+autor;
+  document.getElementById('tagTipo').textContent='Tipo: '+tipo;
+  document.getElementById('tagCaps').textContent='Capítulos: '+caps;
+  document.getElementById('preview').textContent=
+    'Origem: '+origem+'\\n\\n'+
+    'Título: '+titulo+'\\n'+
+    'Autor: '+autor+'\\n'+
+    'Tipo: '+tipo+'\\n'+
+    'Capítulos detectados: '+caps+'\\n\\n'+
+    txt.slice(0,4000);
+
+  window.__lapidarParser = { titulo, autor, tipo, caps, texto: txt, origem };
+}
+async function lerArquivo(){
+  const file=document.getElementById('arquivo').files[0];
+  if(!file){ msgEr('Selecione um arquivo .docx ou .txt.'); return; }
+
+  try{
+    if(file.name.toLowerCase().endsWith('.txt')){
+      const txt=await file.text();
+      document.getElementById('textoBruto').value=txt;
+      atualizar(txt, file.name);
+      msgOk('TXT lido com sucesso.');
+      return;
+    }
+
+    if(file.name.toLowerCase().endsWith('.docx')){
+      const buffer=await file.arrayBuffer();
+      const result=await mammoth.extractRawText({arrayBuffer: buffer});
+      const txt=(result.value||'').trim();
+      document.getElementById('textoBruto').value=txt;
+      atualizar(txt, file.name);
+      msgOk('DOCX lido com sucesso.');
+      return;
+    }
+
+    msgEr('Formato não suportado nesta engine. Use DOCX ou TXT.');
+  }catch(e){
+    msgEr('Falha ao ler o arquivo. Verifique se o DOCX está íntegro.');
+  }
+}
+function usarTextoColado(){
+  const txt=document.getElementById('textoBruto').value.trim();
+  if(!txt){ msgEr('Cole um texto antes.'); return; }
+  atualizar(txt, 'texto colado');
+  msgOk('Texto colado analisado com sucesso.');
+}
+function salvarObra(){
+  if(!window.__lapidarParser){ msgEr('Primeiro leia um arquivo ou use texto colado.'); return; }
+  const p=window.__lapidarParser;
+  const obra={
+    titulo:p.titulo,
+    autor:p.autor,
+    tipo:p.tipo,
+    textoExtraido:p.texto,
+    estrutura:{titulo:p.titulo,autor:p.autor},
+    origem:'parser_docx.html',
+    dataRegistro:new Date().toISOString()
+  };
+  localStorage.setItem('obraAtual', JSON.stringify(obra));
+  localStorage.setItem('cofre_preparado','true');
+  localStorage.setItem('obraAtiva', p.titulo);
+  localStorage.setItem('matriz_editorial_ativa','true');
+  msgOk('Obra salva em obraAtual com sucesso.');
+}
+</script>
+<script src="lapidar_inteligencia_core.js"></script>
+</body>
+</html>
