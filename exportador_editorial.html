@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lapidar — Exportador Editorial</title>
+<style>
+*{box-sizing:border-box} body{margin:0;font-family:Arial,sans-serif;background:#f3f6fb;color:#1f2a44}
+header{background:#0f4c81;color:#fff;padding:20px}
+main{max-width:1180px;margin:auto;padding:20px}
+.card{background:#fff;border:1px solid #d9e4f5;border-radius:14px;padding:18px;margin-bottom:18px;box-shadow:0 4px 12px rgba(0,0,0,.07)}
+button{border:none;border-radius:10px;padding:12px 16px;font-weight:bold;cursor:pointer;margin-right:8px;margin-top:10px}
+.btn{background:#0f4c81;color:#fff}.btn2{background:#5b2d82;color:#fff}.btn3{background:#15803d;color:#fff}
+.preview{white-space:pre-wrap;background:#fafcff;padding:16px;border-radius:12px;border:1px solid #d9e4f5;min-height:180px;line-height:1.6}
+.msg{display:none;margin-top:10px;padding:10px;border-radius:10px}.ok{background:#edf9ef;border:1px solid #b7e1c1;color:#166534}.er{background:#fff1f1;border:1px solid #f0b9b9;color:#991b1b}
+.lista{margin:0;padding-left:18px;line-height:1.6}
+</style>
+</head>
+<body>
+<header>
+<h1>Exportador Editorial</h1>
+<div>Saída final da engine: PDF físico, EPUB ou ambos.</div>
+</header>
+<main>
+<section class="card">
+<button class="btn" onclick="prepararPDF()">Preparar PDF físico</button>
+<button class="btn2" onclick="prepararEPUB()">Preparar EPUB</button>
+<button class="btn3" onclick="finalizar()">Finalizar exportação</button>
+<div id="ok" class="msg ok"></div>
+<div id="er" class="msg er"></div>
+</section>
+<section class="card">
+<h2>Estado final</h2>
+<div class="preview" id="preview">Aguardando leitura final…</div>
+</section>
+<section class="card">
+<h2>Checklist</h2>
+<ul id="check" class="lista"><li>Aguardando validações.</li></ul>
+</section>
+</main>
+<script>
+function msgOk(t){const a=document.getElementById('ok'),b=document.getElementById('er');b.style.display='none';a.textContent=t;a.style.display='block';}
+function msgEr(t){const a=document.getElementById('ok'),b=document.getElementById('er');a.style.display='none';b.textContent=t;b.style.display='block';}
+function j(k){try{return JSON.parse(localStorage.getItem(k)||'null')}catch(e){return null}}
+function baseOk(){
+  if(!j('obraAtual')){msgEr('Obra ausente.'); return false;}
+  if(!j('matriz_editorial')){msgEr('Matriz ausente.'); return false;}
+  if(!j('diagramacao_config')){msgEr('Diagramação ausente.'); return false;}
+  return true;
+}
+function atualizar(){
+  const o=j('obraAtual'), m=j('matriz_editorial'), d=j('diagramacao_config');
+  const linhas=[
+    'Obra: '+(o?.titulo || 'não encontrada'),
+    'Autor: '+(o?.autor || 'não identificado'),
+    'Formato: '+(m?.formato || 'não definido'),
+    'Miolo: '+(m?.miolo || 'não definido'),
+    'Fonte: '+(d?.fonte || 'não definida'),
+    'Saída prevista: '+(m?.saida || 'não definida')
+  ];
+  document.getElementById('preview').textContent = linhas.join('\n');
+  const checklist=[
+    j('matriz_editorial') ? 'Matriz editorial validada.' : 'Matriz editorial ausente.',
+    j('diagramacao_config') ? 'Composição do miolo validada.' : 'Composição do miolo ausente.',
+    localStorage.getItem('exportacao_pdf_pronta')==='true' ? 'PDF físico preparado.' : 'PDF físico ainda não preparado.',
+    localStorage.getItem('exportacao_epub_pronta')==='true' ? 'EPUB preparado.' : 'EPUB ainda não preparado.',
+    localStorage.getItem('exportacao_concluida')==='true' ? 'Exportação concluída.' : 'Exportação ainda não concluída.'
+  ];
+  document.getElementById('check').innerHTML=checklist.map(x=>'<li>'+x+'</li>').join('');
+}
+function prepararPDF(){ if(!baseOk()) return; localStorage.setItem('exportacao_pdf_pronta','true'); msgOk('PDF físico preparado.'); atualizar(); }
+function prepararEPUB(){ if(!baseOk()) return; localStorage.setItem('exportacao_epub_pronta','true'); msgOk('EPUB preparado.'); atualizar(); }
+function finalizar(){
+  if(!baseOk()) return;
+  const pdf=localStorage.getItem('exportacao_pdf_pronta')==='true';
+  const epub=localStorage.getItem('exportacao_epub_pronta')==='true';
+  if(!pdf && !epub){ msgEr('Prepare ao menos uma saída antes de finalizar.'); return; }
+  localStorage.setItem('exportacao_concluida','true');
+  localStorage.setItem('pipeline_lapidar_finalizado','true');
+  localStorage.setItem('pipeline_lapidar_encerrado','true');
+  localStorage.setItem('exportacao_relatorio', JSON.stringify({data:new Date().toISOString(), pdf, epub, status:'concluida'}));
+  msgOk('Exportação finalizada com sucesso.');
+  atualizar();
+}
+atualizar();
+</script>
+<script src="lapidar_inteligencia_core.js"></script>
+</body>
+</html>
