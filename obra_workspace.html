@@ -151,6 +151,7 @@ button{
             <div class="acoes">
                 <button class="btn-claro" onclick="voltarDesbaste()">Voltar ao Desbaste</button>
                 <button class="btn-azul" onclick="ativarWorkspace()">Ativar Workspace</button>
+                <button class="btn-azul" onclick="abrirModoC()">Organizar trilho editorial (Modo C)</button>
                 <button class="btn-verde" onclick="seguirExecutor()">Seguir para o Executor</button>
             </div>
 
@@ -258,6 +259,15 @@ function ativarWorkspace(){
 
     localStorage.setItem("workspace_relatorio", JSON.stringify(estado));
     mostrarOk("Workspace ativado com sucesso. A obra está pronta para seguir ao Executor.");
+}
+
+function abrirModoC(){
+    if(localStorage.getItem("workspace_liberado") !== "true"){
+        mostrarErro("Antes de abrir o Modo C, ative o Workspace.");
+        return;
+    }
+
+    window.location.href = "orquestrador_modo_c.html";
 }
 
 function seguirExecutor(){
