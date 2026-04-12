@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lapidar — Matriz A4 Operacional</title>
+
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f6f1e8;color:#2d251b}
+
+.topo{
+background:#1f4e79;
+color:#fff;
+padding:22px 18px
+}
+
+.topo h1{margin:0;font-size:1.7rem}
+
+.container{
+max-width:1100px;
+margin:auto;
+padding:20px
+}
+
+.card{
+background:#fff;
+border-radius:14px;
+padding:18px;
+margin-bottom:18px;
+border:1px solid #eadfce;
+box-shadow:0 4px 12px rgba(0,0,0,.07)
+}
+
+.card h2{
+margin-top:0;
+color:#1f4e79
+}
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:16px
+}
+
+button{
+border:none;
+padding:12px 18px;
+border-radius:10px;
+font-weight:bold;
+cursor:pointer
+}
+
+.btn-primario{
+background:#1f4e79;
+color:#fff
+}
+
+.btn-verde{
+background:#15803d;
+color:#fff
+}
+
+.preview{
+white-space:pre-wrap;
+background:#faf6ef;
+padding:16px;
+border-radius:12px;
+border:1px solid #eadfce;
+min-height:140px
+}
+
+.status{
+margin-top:12px;
+padding:10px;
+border-radius:10px;
+display:none
+}
+
+.ok{
+background:#edf9ef;
+border:1px solid #b7e1c1;
+color:#166534
+}
+
+@media(max-width:800px){
+.grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+
+<body>
+
+<header class="topo">
+<h1>Matriz A4 Operacional</h1>
+<p>Base estrutural da diagramação editorial. Aqui nasce o miolo físico do livro 📘</p>
+</header>
+
+<main class="container">
+
+<section class="card">
+
+<h2>Estado estrutural da obra</h2>
+
+<div><strong>Título:</strong> <span id="titulo">—</span></div>
+<div><strong>Autor:</strong> <span id="autor">—</span></div>
+<div><strong>Formato selecionado:</strong> <span id="formato">A4 editorial padrão</span></div>
+
+</section>
+
+
+<section class="card">
+
+<h2>Configuração da matriz</h2>
+
+<div class="grid">
+
+<div>
+<label>Tamanho do livro:</label><br>
+<select id="tamanho">
+<option>A4</option>
+<option>A5</option>
+<option>14x21 cm</option>
+<option>16x23 cm</option>
+<option>Quadrado</option>
+<option>Infantil ilustrado</option>
+</select>
+</div>
+
+<div>
+<label>Tipo de miolo:</label><br>
+<select id="miolo">
+<option>Poesia</option>
+<option>Romance</option>
+<option>Receitas</option>
+<option>Infantil</option>
+<option>Técnico</option>
+</select>
+</div>
+
+</div>
+
+<br>
+
+<button class="btn-primario" onclick="gerarMatriz()">Gerar matriz editorial</button>
+
+<div id="statusOk" class="status ok"></div>
+
+</section>
+
+
+<section class="card">
+
+<h2>Prévia estrutural gerada</h2>
+
+<div id="preview" class="preview">
+
+Aguardando geração da matriz editorial…
+
+</div>
+
+<br>
+
+<button class="btn-verde" onclick="seguirDiagramacao()">Seguir para Diagramação</button>
+
+</section>
+
+</main>
+
+
+<script>
+
+function carregarObra(){
+
+try{
+
+return JSON.parse(localStorage.getItem("obraAtual")||"null")
+
+}catch{
+
+return null
+
+}
+
+}
+
+
+function preencherDados(){
+
+const obra=carregarObra()
+
+if(!obra) return
+
+document.getElementById("titulo").textContent=obra?.estrutura?.titulo || obra?.titulo || "—"
+
+document.getElementById("autor").textContent=obra?.estrutura?.autor || obra?.autor || "—"
+
+}
+
+
+function gerarMatriz(){
+
+const tamanho=document.getElementById("tamanho").value
+
+const miolo=document.getElementById("miolo").value
+
+const matriz={
+
+tamanho,
+
+miolo,
+
+geradoEm:new Date().toISOString()
+
+}
+
+localStorage.setItem("matriz_editorial",JSON.stringify(matriz))
+
+document.getElementById("preview").textContent=
+
+"Tamanho: "+tamanho+"\n"+
+
+"Tipo de miolo: "+miolo+"\n"+
+
+"Margens: padrão editorial\n"+
+
+"Tipografia base: definida automaticamente pelo Lapidar\n"+
+
+"Grid: pronto para diagramação"
+
+const ok=document.getElementById("statusOk")
+
+ok.textContent="Matriz editorial criada com sucesso ✅"
+
+ok.style.display="block"
+
+}
+
+
+function seguirDiagramacao(){
+
+const matriz=localStorage.getItem("matriz_editorial")
+
+if(!matriz){
+
+alert("Primeiro gere a matriz editorial")
+
+return
+
+}
+
+window.location.href="modulo_diagramacao.html"
+
+}
+
+
+preencherDados()
+
+</script>
+
+
+<script src="lapidar_inteligencia_core.js"></script>
+
+</body>
+</html>
