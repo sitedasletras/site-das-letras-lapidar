@@ -4,262 +4,275 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lapidar — Matriz A4 Operacional</title>
-
 <style>
 *{box-sizing:border-box}
 body{margin:0;font-family:Arial,sans-serif;background:#f6f1e8;color:#2d251b}
-
-.topo{
-background:#1f4e79;
-color:#fff;
-padding:22px 18px
-}
-
+.topo{background:#1f4e79;color:#fff;padding:22px 18px}
 .topo h1{margin:0;font-size:1.7rem}
-
-.container{
-max-width:1100px;
-margin:auto;
-padding:20px
-}
-
-.card{
-background:#fff;
-border-radius:14px;
-padding:18px;
-margin-bottom:18px;
-border:1px solid #eadfce;
-box-shadow:0 4px 12px rgba(0,0,0,.07)
-}
-
-.card h2{
-margin-top:0;
-color:#1f4e79
-}
-
-.grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:16px
-}
-
-button{
-border:none;
-padding:12px 18px;
-border-radius:10px;
-font-weight:bold;
-cursor:pointer
-}
-
-.btn-primario{
-background:#1f4e79;
-color:#fff
-}
-
-.btn-verde{
-background:#15803d;
-color:#fff
-}
-
-.preview{
-white-space:pre-wrap;
-background:#faf6ef;
-padding:16px;
-border-radius:12px;
-border:1px solid #eadfce;
-min-height:140px
-}
-
-.status{
-margin-top:12px;
-padding:10px;
-border-radius:10px;
-display:none
-}
-
-.ok{
-background:#edf9ef;
-border:1px solid #b7e1c1;
-color:#166534
-}
-
-@media(max-width:800px){
-.grid{grid-template-columns:1fr}
-}
+.topo p{margin:8px 0 0 0;line-height:1.45;opacity:.95}
+.container{max-width:1180px;margin:auto;padding:20px}
+.card{background:#fff;border-radius:14px;padding:18px;margin-bottom:18px;border:1px solid #eadfce;box-shadow:0 4px 12px rgba(0,0,0,.07)}
+.card h2{margin-top:0;color:#1f4e79}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+label{display:block;font-size:13px;font-weight:bold;margin-bottom:6px;color:#5a4b34;text-transform:uppercase}
+select,input[type="number"]{width:100%;border:1px solid #d8cab3;border-radius:10px;padding:12px 12px;font-size:15px;background:#fffdfa}
+button{border:none;padding:12px 18px;border-radius:10px;font-weight:bold;cursor:pointer}
+.btn-primario{background:#1f4e79;color:#fff}
+.btn-primario:hover{background:#183d5f}
+.btn-verde{background:#15803d;color:#fff}
+.btn-verde:hover{background:#11622f}
+.btn-claro{background:#dfe8f5;color:#1f3550}
+.btn-claro:hover{background:#cfdeec}
+.preview{white-space:pre-wrap;background:#faf6ef;padding:16px;border-radius:12px;border:1px solid #eadfce;min-height:180px;line-height:1.6}
+.status{margin-top:12px;padding:10px;border-radius:10px;display:none}
+.ok{background:#edf9ef;border:1px solid #b7e1c1;color:#166534}
+.erro{background:#fff1f1;border:1px solid #f0b9b9;color:#991b1b}
+.tag{display:inline-block;padding:8px 12px;border-radius:999px;font-size:12px;font-weight:bold;background:#eef4fb;color:#1f4e79;border:1px solid #d9e3f0;margin-right:8px;margin-bottom:8px}
+.lista{margin:0;padding-left:18px;line-height:1.6;font-size:14px}
+@media(max-width:900px){.grid,.grid-3{grid-template-columns:1fr}}
 </style>
 </head>
-
 <body>
 
 <header class="topo">
 <h1>Matriz A4 Operacional</h1>
-<p>Base estrutural da diagramação editorial. Aqui nasce o miolo físico do livro 📘</p>
+<p>Base estrutural da diagramação editorial. Aqui o Lapidar define o formato, o comportamento do miolo e entrega a obra pronta para o módulo de Diagramação.</p>
 </header>
 
 <main class="container">
 
 <section class="card">
-
 <h2>Estado estrutural da obra</h2>
 
+<div class="grid">
+<div>
 <div><strong>Título:</strong> <span id="titulo">—</span></div>
-<div><strong>Autor:</strong> <span id="autor">—</span></div>
-<div><strong>Formato selecionado:</strong> <span id="formato">A4 editorial padrão</span></div>
+<div style="margin-top:8px"><strong>Autor:</strong> <span id="autor">—</span></div>
+<div style="margin-top:8px"><strong>Tipo:</strong> <span id="tipo">—</span></div>
+</div>
 
+<div>
+<span class="tag" id="tagPacote">Pacote: aguardando</span>
+<span class="tag" id="tagSaida">Saída: aguardando</span>
+<span class="tag" id="tagStatus">Matriz: pendente</span>
+</div>
+</div>
 </section>
 
-
 <section class="card">
+<h2>Configuração da matriz editorial</h2>
 
-<h2>Configuração da matriz</h2>
-
-<div class="grid">
-
+<div class="grid-3">
 <div>
-<label>Tamanho do livro:</label><br>
+<label for="tamanho">Tamanho do livro</label>
 <select id="tamanho">
-<option>A4</option>
-<option>A5</option>
-<option>14x21 cm</option>
-<option>16x23 cm</option>
-<option>Quadrado</option>
-<option>Infantil ilustrado</option>
+<option value="A4">A4</option>
+<option value="A5">A5</option>
+<option value="14x21 cm">14x21 cm</option>
+<option value="16x23 cm">16x23 cm</option>
+<option value="16x24 cm">16x24 cm</option>
+<option value="Quadrado">Quadrado</option>
+<option value="Infantil ilustrado">Infantil ilustrado</option>
 </select>
 </div>
 
 <div>
-<label>Tipo de miolo:</label><br>
+<label for="miolo">Tipo de miolo</label>
 <select id="miolo">
-<option>Poesia</option>
-<option>Romance</option>
-<option>Receitas</option>
-<option>Infantil</option>
-<option>Técnico</option>
+<option value="Poesia">Poesia</option>
+<option value="Romance">Romance</option>
+<option value="Receitas">Receitas</option>
+<option value="Infantil">Infantil</option>
+<option value="Técnico">Técnico</option>
+<option value="Ensaios">Ensaios</option>
 </select>
 </div>
 
+<div>
+<label for="preset">Preset editorial</label>
+<select id="preset">
+<option value="Automatico">Automático do Lapidar</option>
+<option value="Classico">Clássico</option>
+<option value="Contemporaneo">Contemporâneo</option>
+<option value="Visual">Visual</option>
+<option value="Respirado">Respirado</option>
+</select>
+</div>
 </div>
 
-<br>
+<div class="grid-3" style="margin-top:14px">
+<div>
+<label for="capitulosImpares">Capítulos em página ímpar</label>
+<select id="capitulosImpares">
+<option value="sim">Sim</option>
+<option value="nao">Não</option>
+</select>
+</div>
 
+<div>
+<label for="hifenizacao">Hifenização</label>
+<select id="hifenizacao">
+<option value="automatica">Automática</option>
+<option value="manual">Manual</option>
+<option value="desligada">Desligada</option>
+</select>
+</div>
+
+<div>
+<label for="saida">Saída editorial</label>
+<select id="saida">
+<option value="PDF físico">PDF físico</option>
+<option value="EPUB">EPUB</option>
+<option value="PDF + EPUB">PDF + EPUB</option>
+</select>
+</div>
+</div>
+
+<div class="grid-3" style="margin-top:14px">
+<div>
+<label for="margemInterna">Margem interna (mm)</label>
+<input type="number" id="margemInterna" value="20">
+</div>
+
+<div>
+<label for="margemExterna">Margem externa (mm)</label>
+<input type="number" id="margemExterna" value="15">
+</div>
+
+<div>
+<label for="entrelinha">Entrelinha base</label>
+<input type="number" id="entrelinha" value="1.6" step="0.1">
+</div>
+</div>
+
+<div style="margin-top:16px">
 <button class="btn-primario" onclick="gerarMatriz()">Gerar matriz editorial</button>
+<button class="btn-claro" onclick="voltarExecutor()">Voltar ao Executor</button>
+<button class="btn-verde" onclick="seguirDiagramacao()">Seguir para Diagramação</button>
+</div>
 
 <div id="statusOk" class="status ok"></div>
-
+<div id="statusErro" class="status erro"></div>
 </section>
 
+<section class="card">
+<h2>Prévia estrutural gerada</h2>
+<div id="preview" class="preview">Aguardando geração da matriz editorial…</div>
+</section>
 
 <section class="card">
-
-<h2>Prévia estrutural gerada</h2>
-
-<div id="preview" class="preview">
-
-Aguardando geração da matriz editorial…
-
-</div>
-
-<br>
-
-<button class="btn-verde" onclick="seguirDiagramacao()">Seguir para Diagramação</button>
-
+<h2>Diagnóstico editorial da matriz</h2>
+<ul id="diagnostico" class="lista">
+<li>Aguardando configuração editorial.</li>
+</ul>
 </section>
 
 </main>
 
-
 <script>
-
+function mostrarOk(msg){
+  const ok=document.getElementById("statusOk");
+  const erro=document.getElementById("statusErro");
+  erro.style.display="none";
+  ok.textContent=msg;
+  ok.style.display="block";
+}
+function mostrarErro(msg){
+  const ok=document.getElementById("statusOk");
+  const erro=document.getElementById("statusErro");
+  ok.style.display="none";
+  erro.textContent=msg;
+  erro.style.display="block";
+}
 function carregarObra(){
-
-try{
-
-return JSON.parse(localStorage.getItem("obraAtual")||"null")
-
-}catch{
-
-return null
-
+  try{return JSON.parse(localStorage.getItem("obraAtual")||"null");}
+  catch(e){return null;}
 }
-
+function carregarPacote(){
+  try{return JSON.parse(localStorage.getItem("modo_c_pacote_editorial")||"null");}
+  catch(e){return null;}
 }
-
-
 function preencherDados(){
+  const obra=carregarObra();
+  const pacote=carregarPacote();
 
-const obra=carregarObra()
+  if(obra){
+    document.getElementById("titulo").textContent=obra?.estrutura?.titulo || obra?.titulo || "—";
+    document.getElementById("autor").textContent=obra?.estrutura?.autor || obra?.autor || "—";
+    document.getElementById("tipo").textContent=obra?.tipo || "—";
+  }
 
-if(!obra) return
-
-document.getElementById("titulo").textContent=obra?.estrutura?.titulo || obra?.titulo || "—"
-
-document.getElementById("autor").textContent=obra?.estrutura?.autor || obra?.autor || "—"
-
+  if(pacote){
+    document.getElementById("tagPacote").textContent="Pacote: " + (pacote.modulos || []).join(", ");
+    document.getElementById("tagSaida").textContent="Saída: " + (pacote.saida || "sob_demanda");
+  }
 }
-
-
 function gerarMatriz(){
+  const obra=carregarObra();
+  if(!obra){
+    mostrarErro("Não há obra ativa para gerar a matriz editorial.");
+    return;
+  }
 
-const tamanho=document.getElementById("tamanho").value
+  const matriz={
+    tamanho:document.getElementById("tamanho").value,
+    miolo:document.getElementById("miolo").value,
+    preset:document.getElementById("preset").value,
+    capitulosImpares:document.getElementById("capitulosImpares").value,
+    hifenizacao:document.getElementById("hifenizacao").value,
+    saida:document.getElementById("saida").value,
+    margemInterna:document.getElementById("margemInterna").value,
+    margemExterna:document.getElementById("margemExterna").value,
+    entrelinha:document.getElementById("entrelinha").value,
+    geradoEm:new Date().toISOString()
+  };
 
-const miolo=document.getElementById("miolo").value
+  localStorage.setItem("matriz_editorial", JSON.stringify(matriz));
+  localStorage.setItem("matriz_editorial_pronta", "true");
 
-const matriz={
+  document.getElementById("tagStatus").textContent="Matriz: pronta";
 
-tamanho,
+  document.getElementById("preview").textContent=
+    "Formato editorial: " + matriz.tamanho + "\n" +
+    "Tipo de miolo: " + matriz.miolo + "\n" +
+    "Preset aplicado: " + matriz.preset + "\n" +
+    "Capítulos em página ímpar: " + matriz.capitulosImpares + "\n" +
+    "Hifenização: " + matriz.hifenizacao + "\n" +
+    "Margens: interna " + matriz.margemInterna + " mm / externa " + matriz.margemExterna + " mm\n" +
+    "Entrelinha base: " + matriz.entrelinha + "\n" +
+    "Saída editorial: " + matriz.saida + "\n\n" +
+    "Matriz pronta para o módulo de Diagramação.";
 
-miolo,
+  const diagnostico=[
+    "Formato definido para o livro: " + matriz.tamanho,
+    "Tipo de miolo configurado: " + matriz.miolo,
+    "Preset editorial configurado: " + matriz.preset,
+    "Regra de capítulos configurada: " + matriz.capitulosImpares,
+    "Hifenização configurada: " + matriz.hifenizacao,
+    "Entrelinha e margens prontas para o miolo físico.",
+    "A obra já pode seguir para a Diagramação."
+  ];
 
-geradoEm:new Date().toISOString()
+  document.getElementById("diagnostico").innerHTML =
+    diagnostico.map(item => "<li>" + item + "</li>").join("");
 
+  mostrarOk("Matriz editorial criada com sucesso.");
 }
-
-localStorage.setItem("matriz_editorial",JSON.stringify(matriz))
-
-document.getElementById("preview").textContent=
-
-"Tamanho: "+tamanho+"\n"+
-
-"Tipo de miolo: "+miolo+"\n"+
-
-"Margens: padrão editorial\n"+
-
-"Tipografia base: definida automaticamente pelo Lapidar\n"+
-
-"Grid: pronto para diagramação"
-
-const ok=document.getElementById("statusOk")
-
-ok.textContent="Matriz editorial criada com sucesso ✅"
-
-ok.style.display="block"
-
-}
-
-
 function seguirDiagramacao(){
-
-const matriz=localStorage.getItem("matriz_editorial")
-
-if(!matriz){
-
-alert("Primeiro gere a matriz editorial")
-
-return
-
+  if(localStorage.getItem("matriz_editorial_pronta") !== "true"){
+    mostrarErro("Primeiro gere a matriz editorial.");
+    return;
+  }
+  window.location.href="modulo_diagramacao.html";
+}
+function voltarExecutor(){
+  window.location.href="modulo_executor.html";
 }
 
-window.location.href="modulo_diagramacao.html"
-
-}
-
-
-preencherDados()
-
+preencherDados();
 </script>
 
-
 <script src="lapidar_inteligencia_core.js"></script>
-
 </body>
 </html>
