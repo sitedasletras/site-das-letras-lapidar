@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Matriz Editorial A4 — Lapidar</title>
+
+<style>
+
+body{
+margin:0;
+background:#e6e9ed;
+font-family:Georgia, serif;
+}
+
+.topo{
+background:#243746;
+color:white;
+padding:18px;
+text-align:center;
+font-size:22px;
+font-weight:bold;
+}
+
+.container{
+display:flex;
+flex-direction:column;
+align-items:center;
+padding:20px;
+}
+
+.pagina{
+
+width:794px;
+min-height:1123px;
+
+background:white;
+
+padding:
+
+40px
+55px
+55px
+55px;
+
+margin-bottom:25px;
+
+box-shadow:0 6px 18px rgba(0,0,0,.12);
+
+line-height:1.6;
+
+font-size:17px;
+
+}
+
+.cabecalho{
+
+text-align:center;
+
+margin-bottom:40px;
+
+}
+
+.titulo{
+
+font-size:28px;
+font-weight:bold;
+
+}
+
+.autor{
+
+font-size:16px;
+margin-top:6px;
+color:#555;
+
+}
+
+.rodape{
+
+text-align:center;
+
+margin-top:40px;
+
+font-size:13px;
+
+color:#888;
+
+}
+
+.controles{
+
+position:fixed;
+
+bottom:0;
+
+left:0;
+
+right:0;
+
+background:white;
+
+padding:12px;
+
+box-shadow:0 -4px 10px rgba(0,0,0,.08);
+
+display:flex;
+
+justify-content:center;
+
+gap:10px;
+
+}
+
+.botao{
+
+border:none;
+
+padding:12px 20px;
+
+font-size:16px;
+
+border-radius:8px;
+
+cursor:pointer;
+
+font-weight:bold;
+
+}
+
+.azul{
+background:#0d63dd;
+color:white;
+}
+
+.cinza{
+background:#999;
+color:white;
+}
+
+.indicador{
+
+font-size:16px;
+
+padding-top:10px;
+
+}
+
+@media(max-width:900px){
+
+.pagina{
+
+width:95%;
+
+padding:35px;
+
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="topo">
+Matriz Editorial A4 — Base integral da obra
+</div>
+
+<div class="container" id="areaPaginas"></div>
+
+<div class="controles">
+
+<button class="botao cinza" onclick="paginaAnterior()">◀</button>
+
+<div class="indicador" id="contador"></div>
+
+<button class="botao azul" onclick="proximaPagina()">▶</button>
+
+</div>
+
+<script>
+
+function pegar(chaves,fallback){
+
+for(let chave of chaves){
+
+let valor=localStorage.getItem(chave);
+
+if(valor && valor.trim()!=="") return valor;
+
+}
+
+return fallback;
+
+}
+
+
+let titulo=pegar(
+
+["matriz_editorial_titulo","titulo_base_obra","titulo"],
+
+"Manuscrito em preparação"
+
+);
+
+titulo=titulo.replaceAll("_"," ");
+
+
+let autor=pegar(
+
+["matriz_editorial_autor","autor_obra","autor"],
+
+"Autor não informado"
+
+);
+
+
+let textoObra=pegar(
+
+["texto_obra_limpo","obra_texto_base","conteudo_obra"],
+
+"Texto da obra não encontrado. Envie o manuscrito pelo Cofre."
+
+);
+
+
+let paginas=[];
+
+let tamanhoPagina=3200;
+
+
+for(let i=0;i<textoObra.length;i+=tamanhoPagina){
+
+paginas.push(textoObra.slice(i,i+tamanhoPagina));
+
+}
+
+
+let indicePagina=0;
+
+
+function renderizarPagina(){
+
+let container=document.getElementById("areaPaginas");
+
+container.innerHTML="";
+
+
+let pagina=document.createElement("div");
+
+pagina.className="pagina";
+
+
+if(indicePagina===0){
+
+pagina.innerHTML+=`
+
+<div class="cabecalho">
+
+<div class="titulo">${titulo}</div>
+
+<div class="autor">${autor}</div>
+
+</div>
+
+`;
+
+}
+
+
+pagina.innerHTML+=paginas[indicePagina].replace(/\n/g,"<br>");
+
+
+pagina.innerHTML+=`
+
+<div class="rodape">
+
+Página ${indicePagina+1} de ${paginas.length}
+
+</div>
+
+`;
+
+
+container.appendChild(pagina);
+
+
+document.getElementById("contador").innerText=
+
+"Página "+(indicePagina+1)+" / "+paginas.length;
+
+}
+
+
+function proximaPagina(){
+
+if(indicePagina<paginas.length-1){
+
+indicePagina++;
+
+renderizarPagina();
+
+}
+
+}
+
+
+function paginaAnterior(){
+
+if(indicePagina>0){
+
+indicePagina--;
+
+renderizarPagina();
+
+}
+
+}
+
+
+renderizarPagina();
+
+</script>
+
+</body>
+</html>
