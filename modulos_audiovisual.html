@@ -1,221 +1,329 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Módulos Audiovisuais — Lapidar</title>
-
+<title>Lapidar — Silos Audiovisuais</title>
 <style>
+*{box-sizing:border-box}
 body{
-margin:0;
-font-family:Arial,sans-serif;
-background:#f8f1df;
-color:#2a2a2a;
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:#f4efe8;
+    color:#2d251b;
 }
-
-header{
-background:#9a7b13;
-color:white;
-padding:16px 20px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-font-size:18px;
+.topo{
+    background:#5b2d82;
+    color:#fff;
+    padding:22px 18px;
 }
-
+.topo h1{
+    margin:0;
+    font-size:1.8rem;
+}
+.topo p{
+    margin:8px 0 0 0;
+    line-height:1.45;
+    opacity:.95;
+}
 .container{
-max-width:960px;
-margin:auto;
-padding:28px;
+    max-width:1260px;
+    margin:0 auto;
+    padding:18px 14px 30px;
 }
-
 .card{
-background:white;
-border-radius:18px;
-padding:26px;
-box-shadow:0 8px 20px rgba(0,0,0,.08);
-border:1px solid #ead9a5;
+    background:#fff;
+    border:1px solid #eadfce;
+    border-radius:16px;
+    padding:18px;
+    box-shadow:0 4px 14px rgba(0,0,0,.08);
+    margin-bottom:18px;
 }
-
-h1{
-margin:0 0 12px 0;
-font-size:32px;
-color:#5a4600;
+.card h2{
+    margin:0 0 14px 0;
+    color:#5b2d82;
+    font-size:1.2rem;
 }
-
-p{
-margin:0 0 20px 0;
-font-size:18px;
-line-height:1.6;
-color:#66573a;
+.linha{
+    margin:10px 0;
+    line-height:1.5;
+    font-size:14px;
 }
-
-.botao{
-width:100%;
-padding:18px;
-margin-top:14px;
-border:none;
-border-radius:12px;
-font-size:18px;
-font-weight:bold;
-cursor:pointer;
-transition:0.2s;
+.grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:16px;
 }
-
-.amarelo{
-background:#c19b2e;
-color:white;
+.modulo{
+    background:#fff;
+    border:1px solid #ece0cc;
+    border-radius:14px;
+    padding:18px;
+    box-shadow:0 4px 14px rgba(0,0,0,.06);
+    min-height:220px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
 }
-
-.amarelo-escuro{
-background:#8c6f12;
-color:white;
+.modulo h3{
+    margin:0 0 10px 0;
+    font-size:1.05rem;
 }
-
-.ativo{
-outline:4px solid rgba(0,0,0,.18);
-transform:scale(1.01);
+.modulo p{
+    margin:0 0 12px 0;
+    font-size:14px;
+    line-height:1.5;
 }
-
+.tag{
+    display:inline-block;
+    padding:7px 10px;
+    border-radius:999px;
+    font-size:12px;
+    margin-bottom:12px;
+    border:1px solid rgba(0,0,0,.08);
+    background:#f3eafb;
+    color:#5b2d82;
+}
+.acoes{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-top:10px;
+}
+button{
+    border:none;
+    border-radius:10px;
+    padding:12px 16px;
+    font-size:15px;
+    cursor:pointer;
+    font-weight:bold;
+}
+.btn-roxo{background:#5b2d82;color:#fff}
+.btn-roxo:hover{background:#49236a}
+.btn-claro{background:#eadcf7;color:#42225d}
+.btn-claro:hover{background:#dfcff0}
+.btn-verde{background:#15803d;color:#fff}
+.btn-verde:hover{background:#11622f}
+.mensagem{
+    margin-top:14px;
+    padding:12px 14px;
+    border-radius:10px;
+    display:none;
+    font-size:14px;
+}
+.ok{background:#edf9ef;border:1px solid #b7e1c1;color:#166534}
+.erro{background:#fff1f1;border:1px solid #f0b9b9;color:#991b1b}
 .info{
-margin-top:20px;
-padding:14px 16px;
-border-radius:12px;
-background:#fff6d8;
-color:#6a5600;
-font-weight:bold;
-display:none;
+    background:#faf6ff;
+    border:1px solid #e7daf3;
+    border-radius:10px;
+    padding:12px;
+    margin-bottom:12px;
+    font-size:14px;
+    line-height:1.45;
+}
+.status{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-top:8px;
+}
+.pill{
+    display:inline-block;
+    padding:8px 12px;
+    border-radius:999px;
+    font-size:12px;
+    font-weight:bold;
+    background:#f3eafb;
+    color:#5b2d82;
+    border:1px solid #e3d2f4;
+}
+@media (max-width:1000px){
+    .grid{grid-template-columns:1fr 1fr;}
+}
+@media (max-width:700px){
+    .grid{grid-template-columns:1fr;}
 }
 </style>
 </head>
 <body>
 
-<header>
-<div>Módulos audiovisuais</div>
-<div>Lapidar</div>
+<header class="topo">
+    <h1>Silos Audiovisuais</h1>
+    <p>Camada multimídia oficial da espinha dorsal do Lapidar. A obra passa por produção sonora, cinematográfica e musical antes do Polir e do Mesário.</p>
 </header>
 
-<div class="container">
-<div class="card">
+<main class="container">
+    <section class="card">
+        <h2>Estado técnico da passagem pelos Silos</h2>
 
-<h1>Selecione os módulos audiovisuais</h1>
+        <div class="linha"><strong>Título:</strong> <span id="tituloObra">Carregando...</span></div>
+        <div class="linha"><strong>Autor:</strong> <span id="autorObra">Carregando...</span></div>
+        <div class="linha"><strong>Executor:</strong> <span id="estadoExecutor">Validando...</span></div>
 
-<p>
-Escolha quais etapas audiovisuais deseja executar agora.
-Você pode voltar depois e ativar novos módulos se quiser.
-</p>
+        <div class="info">
+            Os Silos só devem abrir depois do Executor estar liberado. Esta etapa marca oficialmente a passagem multimídia da obra para o núcleo de inteligência do Lapidar.
+        </div>
 
-<button class="botao amarelo" id="btnHistoria"
-onclick="toggleModuloAudiovisual('video_historia','btnHistoria','Vídeo da história selecionado')">
-Criar vídeo contando a história do livro
-</button>
+        <div class="status">
+            <span class="pill" id="pillSonoro">Silo Sonoro: pendente</span>
+            <span class="pill" id="pillCinema">Silo Cinematográfico: pendente</span>
+            <span class="pill" id="pillMusic">Silo Music: pendente</span>
+        </div>
 
-<button class="botao amarelo" id="btnCena"
-onclick="toggleModuloAudiovisual('video_cena','btnCena','Cena dramatizada selecionada')">
-Criar uma cena do livro em vídeo
-</button>
+        <div class="acoes">
+            <button class="btn-claro" onclick="voltarExecutor()">Voltar ao Executor</button>
+            <button class="btn-roxo" onclick="registrarPassagemSilos()">Registrar passagem pelos Silos</button>
+            <button class="btn-verde" onclick="seguirParaPolir()">Seguir para o Polir</button>
+        </div>
 
-<button class="botao amarelo" id="btnApresentacao"
-onclick="toggleModuloAudiovisual('video_apresentacao','btnApresentacao','Vídeo de apresentação selecionado')">
-Criar vídeo de apresentação do livro
-</button>
+        <div id="mensagemOk" class="mensagem ok"></div>
+        <div id="mensagemErro" class="mensagem erro"></div>
+    </section>
 
-<button class="botao amarelo" id="btnRedes"
-onclick="toggleModuloAudiovisual('video_redes','btnRedes','Vídeos curtos para redes sociais selecionados')">
-Criar vídeos curtos para Instagram, TikTok e YouTube
-</button>
+    <section class="grid">
+        <article class="modulo">
+            <div>
+                <span class="tag">Áudio narrativo</span>
+                <h3>Silo Sonoro</h3>
+                <p>Produção de leitura narrada, vozes, interpretação e desdobramento sonoro institucional da obra.</p>
+            </div>
+            <div class="acoes">
+                <button class="btn-roxo" onclick="marcarSilo('sonoro')">Marcar Sonoro</button>
+            </div>
+        </article>
 
-<button class="botao amarelo-escuro" onclick="continuarFluxoAudiovisual()">
-Continuar execução audiovisual
-</button>
+        <article class="modulo">
+            <div>
+                <span class="tag">Vídeo narrativo</span>
+                <h3>Silo Cinematográfico</h3>
+                <p>Produção de trailers, microvídeos, cenas e materiais de circulação audiovisual da obra.</p>
+            </div>
+            <div class="acoes">
+                <button class="btn-roxo" onclick="marcarSilo('cinema')">Marcar Cinematográfico</button>
+            </div>
+        </article>
 
-<div class="info" id="statusAudiovisual">
-Seleção registrada. Preparando execução audiovisual.
-</div>
+        <article class="modulo">
+            <div>
+                <span class="tag">Trilha e música</span>
+                <h3>Silo Music</h3>
+                <p>Produção musical, trilhas e ambientações sonoras derivadas do universo narrativo da obra.</p>
+            </div>
+            <div class="acoes">
+                <button class="btn-roxo" onclick="marcarSilo('music')">Marcar Music</button>
+            </div>
+        </article>
+    </section>
+</main>
 
-</div>
-</div>
-
-<script src="/auditoria.js"></script>
 <script>
-function marcarVisualInicial(){
-const modulos = [
-["video_historia","btnHistoria"],
-["video_cena","btnCena"],
-["video_apresentacao","btnApresentacao"],
-["video_redes","btnRedes"]
-];
-
-modulos.forEach(function(item){
-if(localStorage.getItem(item[0])==="sim"){
-document.getElementById(item[1]).classList.add("ativo");
-}
-});
+function mostrarOk(msg){
+    const ok = document.getElementById("mensagemOk");
+    const erro = document.getElementById("mensagemErro");
+    erro.style.display = "none";
+    ok.textContent = msg;
+    ok.style.display = "block";
 }
 
-async function toggleModuloAudiovisual(chave,idBotao,mensagem){
-const botao = document.getElementById(idBotao);
-
-if(localStorage.getItem(chave)==="sim"){
-localStorage.removeItem(chave);
-botao.classList.remove("ativo");
-
-await LapidarAuditoria.registrarEvento("Módulo audiovisual removido",{
-modulo:chave
-});
-}else{
-localStorage.setItem(chave,"sim");
-botao.classList.add("ativo");
-
-await LapidarAuditoria.registrarEvento(mensagem,{
-modulo:chave
-});
-}
+function mostrarErro(msg){
+    const ok = document.getElementById("mensagemOk");
+    const erro = document.getElementById("mensagemErro");
+    ok.style.display = "none";
+    erro.textContent = msg;
+    erro.style.display = "block";
 }
 
-async function continuarFluxoAudiovisual(){
-const selecionados = [
-"video_historia",
-"video_cena",
-"video_apresentacao",
-"video_redes"
-];
-
-let algumSelecionado=false;
-
-selecionados.forEach(function(mod){
-if(localStorage.getItem(mod)==="sim"){
-algumSelecionado=true;
-}
-});
-
-if(!algumSelecionado){
-alert("Selecione pelo menos um módulo audiovisual.");
-return;
+function carregarObra(){
+    try{
+        return JSON.parse(localStorage.getItem("obraAtual") || "null");
+    }catch(error){
+        return null;
+    }
 }
 
-document.getElementById("statusAudiovisual").style.display="block";
-
-await LapidarAuditoria.registrarEvento("Execução audiovisual iniciada",{
-videoHistoria:localStorage.getItem("video_historia")||"nao",
-videoCena:localStorage.getItem("video_cena")||"nao",
-videoApresentacao:localStorage.getItem("video_apresentacao")||"nao",
-videoRedes:localStorage.getItem("video_redes")||"nao"
-});
-
-await LapidarAuditoria.encerrarSessaoModulo("modulos_audiovisual");
-
-setTimeout(function(){
-window.location.href="/painel_execucao_obra.html";
-},800);
+function executorValido(){
+    return localStorage.getItem("executor_liberado") === "true";
 }
 
-window.onload = async function(){
-await LapidarAuditoria.iniciarSessaoModulo("modulos_audiovisual");
-await LapidarAuditoria.registrarEvento("Tela de módulos audiovisuais aberta",{});
-marcarVisualInicial();
-};
+function preencherSilos(){
+    const obra = carregarObra();
+
+    if(!obra){
+        document.getElementById("tituloObra").textContent = "Nenhuma obra ativa";
+        document.getElementById("autorObra").textContent = "—";
+    }else{
+        document.getElementById("tituloObra").textContent = obra?.estrutura?.titulo || obra?.titulo || "Título não identificado";
+        document.getElementById("autorObra").textContent = obra?.estrutura?.autor || obra?.autor || "Autor não identificado";
+    }
+
+    document.getElementById("estadoExecutor").textContent = executorValido() ? "Executor liberado" : "Executor não liberado";
+
+    atualizarPills();
+}
+
+function atualizarPills(){
+    const s = localStorage.getItem("silo_sonoro_marcado") === "true";
+    const c = localStorage.getItem("silo_cinema_marcado") === "true";
+    const m = localStorage.getItem("silo_music_marcado") === "true";
+
+    document.getElementById("pillSonoro").textContent = s ? "Silo Sonoro: marcado" : "Silo Sonoro: pendente";
+    document.getElementById("pillCinema").textContent = c ? "Silo Cinematográfico: marcado" : "Silo Cinematográfico: pendente";
+    document.getElementById("pillMusic").textContent = m ? "Silo Music: marcado" : "Silo Music: pendente";
+}
+
+function marcarSilo(tipo){
+    if(!executorValido()){
+        mostrarErro("Os Silos só podem ser usados depois do Executor estar liberado.");
+        return;
+    }
+
+    if(tipo === "sonoro") localStorage.setItem("silo_sonoro_marcado", "true");
+    if(tipo === "cinema") localStorage.setItem("silo_cinema_marcado", "true");
+    if(tipo === "music") localStorage.setItem("silo_music_marcado", "true");
+
+    atualizarPills();
+    mostrarOk("Marcação do silo registrada com sucesso.");
+}
+
+function registrarPassagemSilos(){
+    if(!executorValido()){
+        mostrarErro("Antes de registrar a passagem, o Executor precisa estar liberado.");
+        return;
+    }
+
+    localStorage.setItem("lapidar_passou_silos", "true");
+    localStorage.setItem("silos_concluidos", "true");
+
+    const relatorio = {
+        data: new Date().toISOString(),
+        etapa: "modulos_audiovisual.html",
+        sonoro: localStorage.getItem("silo_sonoro_marcado") === "true",
+        cinema: localStorage.getItem("silo_cinema_marcado") === "true",
+        music: localStorage.getItem("silo_music_marcado") === "true",
+        status: "registrado"
+    };
+
+    localStorage.setItem("silos_relatorio", JSON.stringify(relatorio));
+    mostrarOk("Passagem oficial pelos Silos registrada. A obra pode seguir para o Polir.");
+}
+
+function seguirParaPolir(){
+    if(localStorage.getItem("lapidar_passou_silos") !== "true"){
+        mostrarErro("Antes de seguir, registre oficialmente a passagem pelos Silos.");
+        return;
+    }
+
+    window.location.href = "modulo41_barracao_de_polimento_das_imagens.html";
+}
+
+function voltarExecutor(){
+    window.location.href = "modulo_executor.html";
+}
+
+preencherSilos();
 </script>
 
+<script src="lapidar_inteligencia_core.js"></script>
 </body>
 </html>
