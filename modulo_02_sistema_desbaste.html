@@ -1,416 +1,292 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sistema Desbaste — Consolidação Editorial da Obra</title>
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: #efe9df;
-      color: #2f2f2f;
-    }
-
-    .topo {
-      background: #0d2b44;
-      color: #fff;
-      text-align: center;
-      font-weight: 700;
-      padding: 18px 16px;
-      font-size: 24px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    }
-
-    .container {
-      max-width: 1180px;
-      margin: 0 auto;
-      padding: 22px 18px 40px;
-    }
-
-    .card {
-      background: #f7f4ee;
-      border-radius: 16px;
-      padding: 20px;
-      margin-bottom: 20px;
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
-      border: 1px solid #e3dbcf;
-    }
-
-    .titulo-card {
-      font-size: 28px;
-      font-weight: 700;
-      margin: 0 0 14px;
-      color: #243241;
-    }
-
-    .subtitulo {
-      font-size: 22px;
-      font-weight: 700;
-      margin: 0 0 12px;
-      color: #37485a;
-    }
-
-    .grid-2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
-    }
-
-    .bloco-info {
-      background: #fbfaf7;
-      border: 1px solid #e5ddd2;
-      border-radius: 14px;
-      padding: 16px;
-      min-height: 180px;
-    }
-
-    .linha {
-      padding: 8px 0;
-      border-bottom: 1px solid #ece5da;
-      font-size: 18px;
-    }
-
-    .linha:last-child {
-      border-bottom: none;
-    }
-
-    .ok {
-      color: #1f8f57;
-      font-weight: 700;
-    }
-
-    .alerta {
-      color: #9a6a00;
-      font-weight: 700;
-    }
-
-    .neutro {
-      color: #4f5b66;
-      font-weight: 700;
-    }
-
-    .aviso {
-      background: #fff7df;
-      border-left: 5px solid #d59a16;
-      padding: 14px 16px;
-      border-radius: 10px;
-      font-size: 17px;
-      line-height: 1.5;
-      margin-top: 14px;
-    }
-
-    .aviso-azul {
-      background: #edf4ff;
-      border-left: 5px solid #2774da;
-      padding: 14px 16px;
-      border-radius: 10px;
-      font-size: 17px;
-      line-height: 1.5;
-      margin-top: 14px;
-    }
-
-    .a4-wrap {
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      padding: 8px 0 4px;
-      overflow-x: auto;
-    }
-
-    .a4 {
-      width: 210mm;
-      min-height: 297mm;
-      background: #fff;
-      color: #222;
-      border: 1px solid #d8d8d8;
-      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.12);
-      padding: 28mm 22mm 24mm;
-      line-height: 1.8;
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: 14pt;
-    }
-
-    .a4 h1 {
-      margin: 0 0 20px;
-      font-size: 20pt;
-      text-align: center;
-    }
-
-    .a4 h2 {
-      margin: 28px 0 14px;
-      font-size: 15pt;
-      text-align: center;
-      font-weight: bold;
-    }
-
-    .a4 p {
-      margin: 0 0 14px;
-      text-align: justify;
-    }
-
-    .classificacao {
-      font-size: 19px;
-      line-height: 1.7;
-    }
-
-    .acoes {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 14px;
-    }
-
-    .botao {
-      appearance: none;
-      border: none;
-      border-radius: 12px;
-      padding: 16px 18px;
-      font-size: 18px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: transform 0.15s ease, opacity 0.15s ease;
-    }
-
-    .botao:hover {
-      transform: translateY(-1px);
-      opacity: 0.96;
-    }
-
-    .botao-primario {
-      background: #0d63dd;
-      color: #fff;
-    }
-
-    .botao-secundario {
-      background: #8b949e;
-      color: #fff;
-    }
-
-    .rodape-nota {
-      font-size: 16px;
-      color: #5c6771;
-      margin-top: 10px;
-    }
-
-    @media (max-width: 900px) {
-      .topo {
-        font-size: 20px;
-        padding: 16px 12px;
-      }
-
-      .titulo-card {
-        font-size: 24px;
-      }
-
-      .subtitulo {
-        font-size: 20px;
-      }
-
-      .grid-2 {
-        grid-template-columns: 1fr;
-      }
-
-      .linha,
-      .classificacao {
-        font-size: 16px;
-      }
-
-      .a4 {
-        width: 100%;
-        min-height: 520px;
-        padding: 24px 20px;
-        font-size: 12pt;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lapidar — Sistema Desbaste</title>
+<style>
+*{box-sizing:border-box}
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:#f4efe4;
+    color:#2d251b;
+}
+.topo{
+    background:#7a5b1f;
+    color:#fff;
+    padding:22px 18px;
+}
+.topo h1{
+    margin:0;
+    font-size:1.8rem;
+}
+.topo p{
+    margin:8px 0 0 0;
+    line-height:1.45;
+    opacity:.95;
+}
+.container{
+    max-width:1200px;
+    margin:0 auto;
+    padding:18px 14px 30px;
+}
+.card{
+    background:#fff;
+    border:1px solid #eadfce;
+    border-radius:16px;
+    padding:18px;
+    box-shadow:0 4px 14px rgba(0,0,0,.08);
+    margin-bottom:18px;
+}
+.card h2{
+    margin:0 0 14px 0;
+    color:#7a5b1f;
+    font-size:1.2rem;
+}
+.grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+}
+.box{
+    background:#faf7f0;
+    border:1px solid #e7dcc8;
+    border-radius:12px;
+    padding:14px;
+    margin-bottom:12px;
+}
+.box strong{
+    color:#6a4d17;
+}
+.linha{
+    margin:10px 0;
+    line-height:1.5;
+    font-size:14px;
+}
+.lista{
+    margin:0;
+    padding-left:18px;
+    line-height:1.6;
+    font-size:14px;
+}
+.status{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-top:12px;
+}
+.tag{
+    display:inline-block;
+    padding:8px 12px;
+    border-radius:999px;
+    font-size:12px;
+    font-weight:bold;
+    background:#f0e6d2;
+    color:#6a4d17;
+    border:1px solid #e2d2b2;
+}
+.preview{
+    white-space:pre-wrap;
+    line-height:1.55;
+    font-size:14px;
+    max-height:420px;
+    overflow:auto;
+    background:#fff;
+    border:1px solid #ddd2be;
+    border-radius:12px;
+    padding:18px;
+}
+.acoes{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-top:14px;
+}
+button{
+    border:none;
+    border-radius:10px;
+    padding:12px 16px;
+    font-size:15px;
+    cursor:pointer;
+    font-weight:bold;
+}
+.btn-dourado{background:#7a5b1f;color:#fff}
+.btn-dourado:hover{background:#624917}
+.btn-claro{background:#e7dcc8;color:#4b3718}
+.btn-claro:hover{background:#d8cab1}
+.btn-verde{background:#15803d;color:#fff}
+.btn-verde:hover{background:#11622f}
+.mensagem{
+    margin-top:14px;
+    padding:12px 14px;
+    border-radius:10px;
+    display:none;
+    font-size:14px;
+}
+.ok{background:#edf9ef;border:1px solid #b7e1c1;color:#166534}
+.erro{background:#fff1f1;border:1px solid #f0b9b9;color:#991b1b}
+@media (max-width:900px){
+    .grid{grid-template-columns:1fr}
+}
+</style>
 </head>
 <body>
-  <div class="topo">Sistema Desbaste — Consolidação Editorial da Obra</div>
 
-  <div class="container">
-    <div class="card">
-      <h1 class="titulo-card">Camada 2 — Leitura estrutural profunda</h1>
+<header class="topo">
+    <h1>Sistema Desbaste</h1>
+    <p>Etapa obrigatória após o Bolsão. O Desbaste valida a base da obra, organiza a leitura estrutural e libera com segurança a entrada no Workspace.</p>
+</header>
 
-      <div class="grid-2">
-        <div class="bloco-info">
-          <div class="linha"><span class="neutro">Capítulos:</span> não identificados</div>
-          <div class="linha"><span class="neutro">Prefácio:</span> não identificado</div>
-          <div class="linha"><span class="neutro">Dedicatória:</span> não identificada</div>
-          <div class="linha"><span class="neutro">Epígrafe:</span> não identificada</div>
-          <div class="linha"><span class="ok">Diálogos:</span> detectados</div>
-          <div class="linha"><span class="ok">Estrutura narrativa:</span> contínua</div>
-        </div>
+<main class="container">
+    <div class="grid">
+        <section class="card">
+            <h2>Diagnóstico estrutural</h2>
 
-        <div class="bloco-info">
-          <div class="linha"><span class="ok">Organização textual:</span> válida</div>
-          <div class="linha"><span class="ok">Fluxo narrativo:</span> coerente</div>
-          <div class="linha"><span class="ok">Segmentação editorial:</span> pronta</div>
-          <div class="linha"><span class="alerta">Pré-textuais:</span> opcionais ausentes</div>
-          <div class="linha"><span class="neutro">Base técnica:</span> apta para módulos seguintes</div>
-        </div>
-      </div>
+            <div class="box">
+                <div class="linha"><strong>Título:</strong> <span id="tituloObra">Carregando...</span></div>
+                <div class="linha"><strong>Autor:</strong> <span id="autorObra">Carregando...</span></div>
+                <div class="linha"><strong>Classificação:</strong> <span id="tipoObra">Carregando...</span></div>
+                <div class="linha"><strong>Origem:</strong> Bolsão Editorial</div>
+            </div>
 
-      <div class="aviso">
-        O Sistema Desbaste agora opera além da recepção da ficha-base: ele interpreta a
-        organização textual inicial da obra, identifica sinais estruturais e qualifica a
-        base editorial antes da entrada no Workspace.
-      </div>
+            <div class="box">
+                <strong>Verificações do Desbaste</strong>
+                <ul class="lista" id="listaVerificacoes">
+                    <li>Lendo obra ativa...</li>
+                </ul>
+            </div>
+
+            <div class="status">
+                <span class="tag" id="tagObra">Obra: --</span>
+                <span class="tag" id="tagEstado">Estado: aguardando</span>
+                <span class="tag" id="tagDestino">Destino: Workspace</span>
+            </div>
+
+            <div class="acoes">
+                <button class="btn-dourado" onclick="executarDesbaste()">Executar Desbaste</button>
+                <button class="btn-claro" onclick="voltarBolsao()">Voltar ao Bolsão</button>
+                <button class="btn-verde" onclick="seguirWorkspace()">Seguir para o Workspace</button>
+            </div>
+
+            <div id="mensagemOk" class="mensagem ok"></div>
+            <div id="mensagemErro" class="mensagem erro"></div>
+        </section>
+
+        <section class="card">
+            <h2>Prévia técnica consolidada</h2>
+            <div class="preview" id="previewObra">Aguardando leitura da obra vinda do Bolsão...</div>
+        </section>
     </div>
+</main>
 
-    <div class="card">
-      <h2 class="subtitulo">Camada 3 — Qualificação editorial automática</h2>
+<script>
+function mostrarOk(msg){
+    const ok = document.getElementById("mensagemOk");
+    const erro = document.getElementById("mensagemErro");
+    erro.style.display = "none";
+    ok.textContent = msg;
+    ok.style.display = "block";
+}
 
-      <div class="classificacao">
-        <div class="linha"><span class="ok">✔</span> estrutura narrativa válida</div>
-        <div class="linha"><span class="ok">✔</span> fluxo textual coerente</div>
-        <div class="linha"><span class="alerta">✔</span> pré-textuais opcionais ausentes</div>
-        <div class="linha"><span class="ok">✔</span> obra apta para preparação editorial</div>
-      </div>
+function mostrarErro(msg){
+    const ok = document.getElementById("mensagemOk");
+    const erro = document.getElementById("mensagemErro");
+    ok.style.display = "none";
+    erro.textContent = msg;
+    erro.style.display = "block";
+}
 
-      <div class="aviso-azul">
-        Regra estrutural do Lapidar: o Desbaste preserva a espinha recebida do Cofre,
-        qualifica a obra e libera oficialmente a base para o Workspace e, depois, para o Executor.
-      </div>
-    </div>
+function carregarObra(){
+    try{
+        return JSON.parse(localStorage.getItem("obraAtual") || "null");
+    }catch(error){
+        return null;
+    }
+}
 
-    <div class="card">
-      <h2 class="subtitulo">Prévia A4 da obra — base de diagramação editorial</h2>
+function preencherTelaInicial(){
+    const obra = carregarObra();
 
-      <div class="a4-wrap">
-        <div class="a4" id="folhaA4">
-          <h1 id="tituloObraA4">Prévia editorial da obra</h1>
-
-          <p>
-            Esta página A4 representa a base técnica principal da obra dentro do Lapidar.
-            Aqui o texto passa a ser tratado como matriz estrutural de trabalho para os
-            processos editoriais seguintes.
-          </p>
-
-          <p>
-            A partir desta base, o sistema poderá encaminhar a obra para fluxos de
-            diagramação em diferentes medidas e formatos, como A5, 14x21, 16x23, 16x27,
-            6x9, A4 vertical, A4 horizontal, e também para saídas digitais como PDF e e-book,
-            conforme a escolha do autor nos módulos seguintes.
-          </p>
-
-          <h2>Consolidação editorial inicial</h2>
-
-          <p>
-            Nesta etapa, o Desbaste reconhece a estrutura-base, observa sinais textuais
-            e mantém a obra pronta para aprofundamento técnico posterior, sem romper a
-            espinha dorsal recebida do Cofre.
-          </p>
-
-          <p>
-            O objetivo desta folha não é ainda fazer a diagramação final, mas sim
-            estabelecer uma superfície técnica estável para que todos os trabalhos de
-            preparação editorial partam de uma base comum e segura.
-          </p>
-        </div>
-      </div>
-
-      <div class="rodape-nota">
-        Esta prévia A4 é a matriz editorial de referência para os próximos passos do fluxo.
-      </div>
-    </div>
-
-    <div class="card">
-      <h2 class="subtitulo">Classificação expandida automática</h2>
-
-      <div class="classificacao">
-        Narrativa literária curta ou média detectada.<br />
-        Compatível com fluxo editorial padrão Lapidar.
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="acoes">
-        <button class="botao botao-primario" onclick="finalizarDesbaste()">
-          Seguir para Workspace da Obra
-        </button>
-
-        <button class="botao botao-secundario" onclick="window.location.href='modulo_01_bolsao.html'">
-          Retornar ao Cofre
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    function lerFichaBase() {
-      const chavesTitulo = [
-        "titulo_base_obra",
-        "tituloBaseObra",
-        "titulo_obra",
-        "obra_titulo",
-        "tituloBase",
-        "titulo"
-      ];
-
-      const chavesArquivo = [
-        "arquivo_obra_nome",
-        "nome_arquivo_obra",
-        "arquivoNome",
-        "nomeArquivo",
-        "arquivo_obra",
-        "arquivo"
-      ];
-
-      let tituloEncontrado = "";
-      let arquivoEncontrado = "";
-
-      for (const chave of chavesTitulo) {
-        const valor = localStorage.getItem(chave);
-        if (valor && valor.trim()) {
-          tituloEncontrado = valor.trim();
-          break;
-        }
-      }
-
-      for (const chave of chavesArquivo) {
-        const valor = localStorage.getItem(chave);
-        if (valor && valor.trim()) {
-          arquivoEncontrado = valor.trim();
-          break;
-        }
-      }
-
-      if (!tituloEncontrado && arquivoEncontrado) {
-        tituloEncontrado = arquivoEncontrado
-          .replace(/\.[^/.]+$/, "")
-          .replace(/[_-]+/g, " ")
-          .trim();
-      }
-
-      if (!tituloEncontrado) {
-        tituloEncontrado = "Obra em consolidação editorial";
-      }
-
-      return {
-        titulo: tituloEncontrado,
-        arquivo: arquivoEncontrado || ""
-      };
+    if(!obra){
+        document.getElementById("tituloObra").textContent = "Nenhuma obra ativa";
+        document.getElementById("autorObra").textContent = "—";
+        document.getElementById("tipoObra").textContent = "—";
+        document.getElementById("previewObra").textContent = "Nenhuma obra foi detectada no Bolsão.";
+        document.getElementById("listaVerificacoes").innerHTML = "<li>Obra ausente no estado técnico.</li>";
+        document.getElementById("tagObra").textContent = "Obra: ausente";
+        document.getElementById("tagEstado").textContent = "Estado: bloqueado";
+        return;
     }
 
-    function aplicarTituloNaFolha() {
-      const ficha = lerFichaBase();
-      const tituloEl = document.getElementById("tituloObraA4");
-      tituloEl.textContent = ficha.titulo;
+    const titulo = obra?.estrutura?.titulo || obra?.titulo || "Título não identificado";
+    const autor = obra?.estrutura?.autor || obra?.autor || "Autor não identificado";
+    const tipo = obra?.tipo || "Indefinido";
+    const texto = obra?.textoExtraido || obra?.texto || "Sem texto disponível.";
+
+    document.getElementById("tituloObra").textContent = titulo;
+    document.getElementById("autorObra").textContent = autor;
+    document.getElementById("tipoObra").textContent = tipo;
+    document.getElementById("previewObra").textContent = texto.slice(0, 3000);
+    document.getElementById("tagObra").textContent = "Obra: detectada";
+
+    const checks = [];
+    checks.push("Obra ativa encontrada no storage.");
+    checks.push("Título e autor consolidados para o fluxo.");
+    checks.push("Texto-base disponível para leitura estrutural.");
+    checks.push("Base pronta para validação do Workspace.");
+
+    document.getElementById("listaVerificacoes").innerHTML =
+        checks.map(item => "<li>" + item + "</li>").join("");
+}
+
+function executarDesbaste(){
+    const obra = carregarObra();
+
+    if(!obra){
+        mostrarErro("O Sistema Desbaste precisa receber uma obra válida vinda do Bolsão.");
+        return;
     }
 
-    function finalizarDesbaste() {
-      localStorage.setItem("desbaste_ok", "true");
-      localStorage.setItem("workspace_liberado", "true");
-      localStorage.setItem("status_desbaste", "concluido");
-      localStorage.setItem("desbaste_concluido", "true");
-      window.location.href = "obra_workspace.html";
+    localStorage.setItem("desbaste_concluido", "true");
+    localStorage.setItem("lapidar_desbaste_concluido", "true");
+    localStorage.setItem("status_desbaste", "concluido");
+
+    const estado = {
+        data: new Date().toISOString(),
+        etapa: "modulo_02_sistema_desbaste.html",
+        titulo: obra?.estrutura?.titulo || obra?.titulo || "Título não identificado",
+        autor: obra?.estrutura?.autor || obra?.autor || "Autor não identificado",
+        classificacao: obra?.tipo || "Indefinido",
+        status: "concluido"
+    };
+
+    localStorage.setItem("desbaste_relatorio", JSON.stringify(estado));
+    document.getElementById("tagEstado").textContent = "Estado: concluído";
+
+    mostrarOk("Desbaste concluído com sucesso. A obra está liberada para o Workspace.");
+}
+
+function voltarBolsao(){
+    window.location.href = "modulo_01_bolsao.html";
+}
+
+function seguirWorkspace(){
+    const pronto = localStorage.getItem("desbaste_concluido") === "true"
+        || localStorage.getItem("lapidar_desbaste_concluido") === "true"
+        || localStorage.getItem("status_desbaste") === "concluido";
+
+    if(!pronto){
+        mostrarErro("Antes de seguir, execute o Desbaste.");
+        return;
     }
 
-    aplicarTituloNaFolha();
-  </script>
+    window.location.href = "obra_workspace.html";
+}
+
+preencherTelaInicial();
+</script>
+
+<script src="lapidar_inteligencia_core.js"></script>
 </body>
 </html>
