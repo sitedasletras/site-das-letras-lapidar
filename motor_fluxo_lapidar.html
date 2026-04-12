@@ -1,116 +1,313 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Motor de Fluxo Lapidar</title>
-
 <style>
-
+*{box-sizing:border-box}
 body{
-
-margin:0;
-font-family:Arial, sans-serif;
-background:#0f1f13;
-color:white;
-
-display:flex;
-justify-content:center;
-align-items:center;
-
-height:100vh;
-
+    margin:0;
+    font-family:Arial, Helvetica, sans-serif;
+    background:#0f1113;
+    color:#ffffff;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
 }
-
 .card{
-
-background:#183321;
-
-padding:30px;
-
-border-radius:18px;
-
-text-align:center;
-
+    width:min(92vw,540px);
+    background:#181c22;
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:22px;
+    padding:28px 24px;
+    box-shadow:0 18px 40px rgba(0,0,0,.32);
+    text-align:center;
 }
-
-button{
-
-margin-top:20px;
-
-padding:16px 24px;
-
-border:none;
-
-border-radius:12px;
-
-background:#2e7d32;
-
-color:white;
-
-font-size:18px;
-
-cursor:pointer;
-
+h1{
+    margin:0 0 10px 0;
+    font-size:1.9rem;
 }
-
+p{
+    margin:8px 0;
+    opacity:.88;
+    line-height:1.45;
+}
+.loader{
+    margin:22px auto 0;
+    width:44px;
+    height:44px;
+    border-radius:50%;
+    border:4px solid rgba(255,255,255,.14);
+    border-top-color:#22c55e;
+    animation:giro 1s linear infinite;
+}
+.status{
+    margin-top:18px;
+    font-size:.95rem;
+    opacity:.92;
+}
+.painel-tecnico{
+    display:none;
+    margin-top:18px;
+    text-align:left;
+    background:#0f172a;
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:16px;
+    padding:14px;
+    font-size:.9rem;
+    line-height:1.5;
+}
+@keyframes giro{
+    from{transform:rotate(0deg)}
+    to{transform:rotate(360deg)}
+}
 </style>
-
 </head>
-
 <body>
 
 <div class="card">
+    <h1>Motor de Fluxo Lapidar</h1>
+    <p>Supervisionando a espinha dorsal oficial do sistema.</p>
+    <p id="fluxoOficial">Fluxo: Painel → Bolsão → Desbaste → Workspace → Executor → Silos → Polir → Mesário → Auditoria → Exportação</p>
+    <div class="loader"></div>
+    <div class="status" id="statusMotor">Preparando leitura estrutural do fluxo...</div>
 
-<h2>Motor Sequencial Lapidar</h2>
-
-<p>Preparando sequência de execução do projeto...</p>
-
-<button onclick="seguirFluxo()">
-
-Continuar
-
-</button>
-
+    <div class="painel-tecnico" id="painelTecnico">
+        <div><b>FIIISAA ativo</b></div>
+        <div id="linhaPerfil">Perfil: --</div>
+        <div id="linhaEmail">Email: --</div>
+        <div id="linhaEtapa">Etapa atual: --</div>
+        <div id="linhaScore">Score estrutural: --</div>
+        <div id="linhaRisco">Risco: --</div>
+        <div id="linhaHistorico">Relatórios NAS: --</div>
+    </div>
 </div>
 
-
 <script>
+(function(){
+"use strict";
 
-/* BLOQUEIO DE PRIMEIRO ACESSO */
+/* ==========================================
+   CONFIGURAÇÃO OFICIAL DA ESPINHA DORSAL
+========================================== */
+const ESPINHA_DORSAL = [
+    "painel_setores.html",
+    "modulo_01_bolsao.html",
+    "modulo_02_sistema_desbaste.html",
+    "obra_workspace.html",
+    "modulo_executor.html",
+    "modulos_audiovisual.html",
+    "modulo41_barracao_de_polimento.html",
+    "mesario.html",
+    "auditoria.html",
+    "exportar.html"
+];
 
-const respiracaoConfirmada =
-localStorage.getItem("lapidar_respiracao_ok")
+/* ==========================================
+   CAMADA FIIISAA
+========================================== */
+const FIIISAA = {
+    getPerfil(){
+        return (localStorage.getItem("perfilUsuario") || "").toLowerCase();
+    },
 
-if(!respiracaoConfirmada){
+    getEmail(){
+        return (localStorage.getItem("emailUsuario") || "").toLowerCase();
+    },
 
-window.location.href =
-"pagina_institucional_lapidar.html"
+    autorizado(){
+        const perfil = this.getPerfil();
+        const email = this.getEmail();
+        return perfil === "admin" || perfil === "heteronimo" || email === "planaswagner@gmail.com";
+    },
 
+    salvar(chave, valor){
+        localStorage.setItem(chave, JSON.stringify(valor));
+    },
+
+    ler(chave, fallback){
+        try{
+            const valor = JSON.parse(localStorage.getItem(chave));
+            return valor ?? fallback;
+        }catch(e){
+            return fallback;
+        }
+    }
+};
+
+/* ==========================================
+   CAMADA NAS
+========================================== */
+const NAS = {
+    etapaAtual(){
+        return (localStorage.getItem("lapidar_etapa_atual") || "painel_setores.html").trim();
+    },
+
+    validarSessao(relatorio){
+        const perfil = FIIISAA.getPerfil();
+        const email = FIIISAA.getEmail();
+
+        if(!perfil){
+            relatorio.checks.push("Perfil ausente");
+            relatorio.score -= 20;
+        }
+
+        if(!email){
+            relatorio.checks.push("Email ausente");
+            relatorio.score -= 10;
+        }
+    },
+
+    validarEspinha(relatorio){
+        const etapa = this.etapaAtual();
+
+        if(!ESPINHA_DORSAL.includes(etapa)){
+            relatorio.checks.push("Etapa fora da espinha dorsal: " + etapa);
+            relatorio.score -= 25;
+        }
+
+        const historicoFluxo = FIIISAA.ler("lapidar_fluxo_executado", []);
+        if(historicoFluxo.length > 1){
+            const ultima = historicoFluxo[0];
+            const anterior = historicoFluxo[1];
+
+            const iUltima = ESPINHA_DORSAL.indexOf(ultima.etapa);
+            const iAnterior = ESPINHA_DORSAL.indexOf(anterior.etapa);
+
+            if(iUltima !== -1 && iAnterior !== -1 && iUltima - iAnterior > 1){
+                relatorio.checks.push("Salto estrutural detectado entre " + anterior.etapa + " e " + ultima.etapa);
+                relatorio.score -= 20;
+            }
+        }
+    },
+
+    validarSilos(relatorio){
+        const etapa = this.etapaAtual();
+        if(etapa === "modulo41_barracao_de_polimento.html"){
+            const houveSilos = FIIISAA.ler("lapidar_passou_silos", false);
+            if(!houveSilos){
+                relatorio.checks.push("Polir alcançado sem marcação de passagem pelos Silos");
+                relatorio.score -= 15;
+            }
+        }
+    },
+
+    gerarRelatorio(){
+        const relatorio = {
+            data: new Date().toISOString(),
+            perfil: FIIISAA.getPerfil() || "desconhecido",
+            email: FIIISAA.getEmail() || "nao informado",
+            etapa: this.etapaAtual(),
+            score: 100,
+            risco: "baixo",
+            checks: []
+        };
+
+        this.validarSessao(relatorio);
+        this.validarEspinha(relatorio);
+        this.validarSilos(relatorio);
+
+        if(relatorio.score < 80){
+            relatorio.risco = "medio";
+        }
+        if(relatorio.score < 60){
+            relatorio.risco = "alto";
+        }
+
+        const historico = FIIISAA.ler("nasRelatoriosMotorFluxo", []);
+        historico.unshift(relatorio);
+        FIIISAA.salvar("nasRelatoriosMotorFluxo", historico.slice(0, 30));
+
+        return relatorio;
+    }
+};
+
+/* ==========================================
+   CAMADA FISA
+========================================== */
+const FISA = {
+    registrarPesquisaBase(){
+        const base = FIIISAA.ler("fisaPesquisaTecnologica", null);
+
+        if(!base){
+            FIIISAA.salvar("fisaPesquisaTecnologica", {
+                versao:"0.1",
+                ultimaAtualizacao:new Date().toISOString(),
+                monitoradas:[
+                    "Google AI Studio",
+                    "Google Stitch",
+                    "Google Flow",
+                    "Google Pomelli"
+                ],
+                objetivo:"Pesquisar diariamente tecnologias que fortaleçam o Lapidar sem quebrar a espinha dorsal."
+            });
+        }
+    },
+
+    registrarPassagemFluxo(){
+        const etapa = NAS.etapaAtual();
+        const historico = FIIISAA.ler("lapidar_fluxo_executado", []);
+        historico.unshift({
+            data:new Date().toISOString(),
+            etapa:etapa
+        });
+        FIIISAA.salvar("lapidar_fluxo_executado", historico.slice(0, 50));
+
+        if(etapa === "modulos_audiovisual.html"){
+            localStorage.setItem("lapidar_passou_silos", "true");
+        }
+    }
+};
+
+/* ==========================================
+   CAMADA DE INTERFACE
+========================================== */
+function atualizarPainel(relatorio){
+    document.getElementById("statusMotor").textContent =
+        "Etapa monitorada: " + relatorio.etapa;
+
+    if(FIIISAA.autorizado()){
+        const painel = document.getElementById("painelTecnico");
+        painel.style.display = "block";
+
+        document.getElementById("linhaPerfil").textContent =
+            "Perfil: " + (relatorio.perfil || "desconhecido");
+
+        document.getElementById("linhaEmail").textContent =
+            "Email: " + (relatorio.email || "nao informado");
+
+        document.getElementById("linhaEtapa").textContent =
+            "Etapa atual: " + relatorio.etapa;
+
+        document.getElementById("linhaScore").textContent =
+            "Score estrutural: " + relatorio.score;
+
+        document.getElementById("linhaRisco").textContent =
+            "Risco: " + relatorio.risco;
+
+        const historico = FIIISAA.ler("nasRelatoriosMotorFluxo", []);
+        document.getElementById("linhaHistorico").textContent =
+            "Relatórios NAS: " + historico.length;
+    }
 }
 
+/* ==========================================
+   BOOT OFICIAL
+========================================== */
+function bootMotorFluxo(){
+    FISA.registrarPesquisaBase();
+    FISA.registrarPassagemFluxo();
 
-/* ORDEM DE EXECUÇÃO */
-
-function seguirFluxo(){
-
-const ordem = [
-
-"entrada_obra.html",
-"selecionar_modulos.html",
-"motor_fluxo_lapidar.html"
-
-]
-
-window.location.href = ordem[0]
-
+    const relatorio = NAS.gerarRelatorio();
+    atualizarPainel(relatorio);
 }
 
+window.addEventListener("load", bootMotorFluxo);
+})();
 </script>
-
 
 </body>
 </html>
-
