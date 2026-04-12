@@ -1,73 +1,69 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Declaração de Apoio ao Autor Independente</title>
+<title>Lapidar — Inicializando ambiente simbiótico</title>
 
 <style>
 
-body{
+body {
+
 margin:0;
-font-family:Arial, sans-serif;
-background:#f4efe6;
+height:100vh;
+
 display:flex;
 align-items:center;
 justify-content:center;
-height:100vh;
-}
 
-.container{
+background:#0f172a;
 
-max-width:650px;
-background:white;
-padding:30px;
-border-radius:12px;
-box-shadow:0px 4px 12px rgba(0,0,0,0.12);
+font-family:Arial;
 
-}
-
-h1{
-
-color:#2f5a57;
-font-size:24px;
-margin-bottom:20px;
-
-}
-
-p{
-
-font-size:16px;
-line-height:1.6;
-color:#444;
-
-}
-
-button{
-
-margin-top:25px;
-padding:12px 28px;
-font-size:16px;
-background:#2f5a57;
 color:white;
-border:none;
-border-radius:6px;
-cursor:pointer;
 
 }
 
-button:hover{
+.container {
 
-background:#244846;
+background:#111827;
+
+padding:40px;
+
+border-radius:18px;
+
+box-shadow:0px 0px 40px rgba(0,0,0,0.5);
+
+text-align:center;
+
+width:420px;
 
 }
 
-.status{
+.loader {
 
-margin-top:15px;
-font-size:14px;
-color:#888;
+margin-top:20px;
+
+width:40px;
+height:40px;
+
+border-radius:50%;
+
+border:4px solid #374151;
+border-top:4px solid #22c55e;
+
+animation:giro 1s linear infinite;
+
+}
+
+@keyframes giro {
+
+0% { transform:rotate(0deg); }
+
+100% { transform:rotate(360deg); }
 
 }
 
@@ -79,73 +75,192 @@ color:#888;
 
 <div class="container">
 
-<h1>Manifesto de Apoio ao Autor Independente</h1>
+<h2>Lapidar iniciando ambiente simbiótico</h2>
 
-<p>
-O Lapidar é uma ferramenta de apoio ao escritor independente,
-permitindo organizar, estruturar e qualificar sua obra antes da
-produção editorial final.
-</p>
+<p>Preparando estrutura editorial...</p>
 
-<p>
-Autores que utilizam CPF ou CNPJ possuem caminhos diferentes dentro
-do processo editorial. Esta etapa garante transparência e preparo
-do material antes da entrada no Cofre Editorial.
-</p>
-
-<p>
-Esta página funciona como um momento de respiro técnico enquanto
-o sistema prepara o ambiente de leitura estrutural da obra.
-</p>
-
-<button id="botaoContinuar" onclick="aceitarRespiroManual()">
-Aceitar e continuar
-</button>
-
-<div class="status" id="statusMensagem">
-Preparando ambiente editorial...
-</div>
+<div class="loader"></div>
 
 </div>
 
 <script>
 
-const tempoRespiro = 5000;
 
-function aceitarRespiroManual(){
+/* ================================
+FIIISAA + NAS + FISA + ISC
+núcleo simbiótico do Lapidar
+=============================== */
 
-localStorage.setItem("respiro_confirmado","sim");
 
-document.getElementById("botaoContinuar").innerText =
-"Preparando entrada no Bolsão...";
+(function(){
 
-setTimeout(irParaBolsao, tempoRespiro);
+"use strict";
 
-}
 
-function irParaBolsao(){
+const perfil =
+localStorage.getItem("perfilUsuario");
 
-window.location.href = "modulo_01_bolsao_entrada.html";
+const email =
+localStorage.getItem("emailUsuario");
 
-}
 
-window.onload = function(){
+let score = 100;
+let risco = "baixo";
 
-const jaConfirmou =
-localStorage.getItem("respiro_confirmado");
 
-if(jaConfirmou === "sim"){
+if(!perfil){
 
-document.getElementById("botaoContinuar").innerText =
-"Preparando entrada no Bolsão...";
-
-setTimeout(irParaBolsao, tempoRespiro);
+score -= 20;
 
 }
 
-};
+
+if(!email){
+
+score -= 10;
+
+}
+
+
+if(score < 60){
+
+risco = "alto";
+
+}
+
+else if(score < 80){
+
+risco = "medio";
+
+}
+
+
+/* REGISTRO NAS */
+
+let historico =
+JSON.parse(localStorage.getItem("nasRelatorios")) || [];
+
+historico.unshift({
+
+data:new Date().toISOString(),
+
+perfil:perfil || "desconhecido",
+
+email:email || "nao informado",
+
+score:score,
+
+risco:risco
+
+});
+
+
+if(historico.length > 20){
+
+historico = historico.slice(0,20);
+
+}
+
+
+localStorage.setItem(
+
+"nasRelatorios",
+
+JSON.stringify(historico)
+
+);
+
+
+/* REGISTRO ISC FUTURO */
+
+if(!localStorage.getItem("iscRegistry")){
+
+localStorage.setItem(
+
+"iscRegistry",
+
+JSON.stringify({
+
+versao:"0.1",
+
+tools:[
+
+"Google AI Studio",
+
+"Google Stitch",
+
+"Google Flow",
+
+"Google Pomelli"
+
+]
+
+})
+
+);
+
+}
+
+
+/* PAINEL TÉCNICO SOMENTE PERFIS AUTORIZADOS */
+
+if(
+
+perfil === "admin"
+
+||
+
+perfil === "heteronimo"
+
+||
+
+email === "planaswagner@gmail.com"
+
+){
+
+const painel = document.createElement("div");
+
+painel.style.position="fixed";
+painel.style.bottom="10px";
+painel.style.right="10px";
+painel.style.width="300px";
+painel.style.background="#111";
+painel.style.color="#fff";
+painel.style.padding="12px";
+painel.style.borderRadius="12px";
+painel.style.fontSize="12px";
+painel.style.zIndex="99999";
+
+painel.innerHTML =
+
+"<b>FIIISAA ativo</b><br>" +
+
+"Perfil: " + perfil + "<br>" +
+
+"Score estrutural: " + score + "<br>" +
+
+"Nível de risco: " + risco;
+
+document.body.appendChild(painel);
+
+}
+
+
+/* CONTINUA FLUXO NORMAL */
+
+setTimeout(function(){
+
+window.location.href="painel_setores.html";
+
+},3000);
+
+
+})();
+
 
 </script>
 
+
 </body>
+
 </html>
