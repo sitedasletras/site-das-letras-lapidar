@@ -1,502 +1,281 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Workspace da Obra — Ambiente Editorial Central</title>
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: #eef1f5;
-      color: #24303c;
-    }
-
-    .topo {
-      background: #0d2b44;
-      color: #fff;
-      text-align: center;
-      padding: 18px 14px;
-      font-size: 24px;
-      font-weight: 700;
-      box-shadow: 0 2px 8px rgba(0,0,0,.08);
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 22px 18px 40px;
-    }
-
-    .card {
-      background: #ffffff;
-      border-radius: 16px;
-      padding: 20px;
-      margin-bottom: 20px;
-      box-shadow: 0 8px 20px rgba(0,0,0,.08);
-      border: 1px solid #dde5ed;
-    }
-
-    .status-verde {
-      color: #2e8b57;
-      font-weight: 700;
-      margin-bottom: 10px;
-    }
-
-    .titulo-principal {
-      margin: 0 0 10px;
-      font-size: 42px;
-      color: #1f2b36;
-    }
-
-    .texto-base {
-      font-size: 19px;
-      line-height: 1.6;
-      color: #53606c;
-    }
-
-    .grid-2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
-      margin-top: 18px;
-    }
-
-    .bloco {
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
-      border-radius: 14px;
-      padding: 16px;
-    }
-
-    .bloco h3 {
-      margin: 0 0 12px;
-      font-size: 24px;
-      color: #36485b;
-    }
-
-    .linha {
-      padding: 9px 0;
-      border-bottom: 1px solid #e7edf3;
-      font-size: 18px;
-      line-height: 1.5;
-      word-break: break-word;
-    }
-
-    .linha:last-child {
-      border-bottom: none;
-    }
-
-    .faixa-azul {
-      margin-top: 18px;
-      background: #eaf3ff;
-      border-left: 5px solid #2d74da;
-      border-radius: 10px;
-      padding: 14px 16px;
-      font-size: 18px;
-      line-height: 1.6;
-      color: #415263;
-    }
-
-    .subtitulo {
-      margin: 0 0 14px;
-      font-size: 30px;
-      color: #24303c;
-    }
-
-    .a4-wrap {
-      display: flex;
-      justify-content: center;
-      overflow-x: auto;
-      padding: 6px 0;
-    }
-
-    .a4 {
-      width: 210mm;
-      min-height: 297mm;
-      background: #fff;
-      border: 1px solid #d6d6d6;
-      box-shadow: 0 10px 26px rgba(0,0,0,.12);
-      padding: 18mm 16mm 18mm;
-      font-family: Georgia, "Times New Roman", serif;
-      color: #2e2e2e;
-      line-height: 1.75;
-      font-size: 13pt;
-    }
-
-    .a4 .meta {
-      text-align: center;
-      margin-bottom: 24px;
-      border-bottom: 1px solid #ececec;
-      padding-bottom: 14px;
-    }
-
-    .a4 .meta h1 {
-      margin: 0 0 10px;
-      font-size: 18pt;
-      line-height: 1.35;
-      word-break: break-word;
-    }
-
-    .a4 .meta .meta-linha {
-      margin: 4px 0;
-      font-size: 10.8pt;
-      color: #5f6870;
-    }
-
-    .a4 p {
-      margin: 0 0 14px;
-      text-align: justify;
-    }
-
-    .rodape-nota {
-      margin-top: 12px;
-      font-size: 16px;
-      color: #61707d;
-    }
-
-    .faixa-matriz {
-      background: #edf8ef;
-      border: 1px solid #cfe9d5;
-      border-left: 6px solid #2e8b57;
-      border-radius: 14px;
-      padding: 18px 20px;
-      margin-top: 18px;
-      display: none;
-    }
-
-    .faixa-matriz .selo {
-      font-size: 22px;
-      font-weight: 700;
-      color: #1f7a49;
-      margin-bottom: 8px;
-    }
-
-    .faixa-matriz .texto {
-      font-size: 17px;
-      line-height: 1.6;
-      color: #4c5a55;
-    }
-
-    .acoes {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 14px;
-    }
-
-    .botao {
-      border: none;
-      border-radius: 12px;
-      padding: 16px 18px;
-      font-size: 18px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: .15s ease;
-    }
-
-    .botao:hover {
-      transform: translateY(-1px);
-      opacity: .97;
-    }
-
-    .botao-primario {
-      background: #0d63dd;
-      color: #fff;
-    }
-
-    .botao-secundario {
-      background: #7a8591;
-      color: #fff;
-    }
-
-    .botao-verde {
-      background: #198754;
-      color: #fff;
-    }
-
-    @media (max-width: 900px) {
-      .topo {
-        font-size: 20px;
-      }
-
-      .titulo-principal {
-        font-size: 34px;
-      }
-
-      .subtitulo {
-        font-size: 24px;
-      }
-
-      .grid-2,
-      .acoes {
-        grid-template-columns: 1fr;
-      }
-
-      .linha,
-      .texto-base,
-      .faixa-azul,
-      .faixa-matriz .texto {
-        font-size: 16px;
-      }
-
-      .a4 {
-        width: 100%;
-        min-height: 560px;
-        padding: 24px 20px;
-        font-size: 12pt;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lapidar — Workspace da Obra</title>
+<style>
+*{box-sizing:border-box}
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:#f5f0e7;
+    color:#2d251b;
+}
+.topo{
+    background:#2f5e8f;
+    color:#fff;
+    padding:22px 18px;
+}
+.topo h1{
+    margin:0;
+    font-size:1.8rem;
+}
+.topo p{
+    margin:8px 0 0 0;
+    line-height:1.45;
+    opacity:.95;
+}
+.container{
+    max-width:1200px;
+    margin:0 auto;
+    padding:18px 14px 30px;
+}
+.card{
+    background:#fff;
+    border:1px solid #d9e2ee;
+    border-radius:16px;
+    padding:18px;
+    box-shadow:0 4px 14px rgba(0,0,0,.08);
+    margin-bottom:18px;
+}
+.card h2{
+    margin:0 0 14px 0;
+    color:#2f5e8f;
+    font-size:1.2rem;
+}
+.grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+}
+.box{
+    background:#f7fbff;
+    border:1px solid #dbe8f5;
+    border-radius:12px;
+    padding:14px;
+    margin-bottom:12px;
+}
+.linha{
+    margin:10px 0;
+    line-height:1.5;
+    font-size:14px;
+}
+.preview{
+    white-space:pre-wrap;
+    line-height:1.55;
+    font-size:14px;
+    max-height:420px;
+    overflow:auto;
+    background:#fff;
+    border:1px solid #dbe3ee;
+    border-radius:12px;
+    padding:18px;
+}
+.acoes{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-top:14px;
+}
+button{
+    border:none;
+    border-radius:10px;
+    padding:12px 16px;
+    font-size:15px;
+    cursor:pointer;
+    font-weight:bold;
+}
+.btn-azul{background:#2f5e8f;color:#fff}
+.btn-azul:hover{background:#244a70}
+.btn-claro{background:#dde9f5;color:#1f3550}
+.btn-claro:hover{background:#cfdeec}
+.btn-verde{background:#15803d;color:#fff}
+.btn-verde:hover{background:#11622f}
+.mensagem{
+    margin-top:14px;
+    padding:12px 14px;
+    border-radius:10px;
+    display:none;
+    font-size:14px;
+}
+.ok{background:#edf9ef;border:1px solid #b7e1c1;color:#166534}
+.erro{background:#fff1f1;border:1px solid #f0b9b9;color:#991b1b}
+.tag{
+    display:inline-block;
+    padding:8px 12px;
+    border-radius:999px;
+    font-size:12px;
+    font-weight:bold;
+    background:#e7f1fb;
+    color:#2f5e8f;
+    border:1px solid #cfe0f0;
+    margin-right:8px;
+    margin-bottom:8px;
+}
+@media (max-width:900px){
+    .grid{grid-template-columns:1fr}
+}
+</style>
 </head>
 <body>
-  <div class="topo">Workspace da Obra — Ambiente Editorial Central</div>
 
-  <div class="container">
-    <div class="card">
-      <div class="status-verde">Sistema Desbaste confirmado ✔</div>
-      <h1 class="titulo-principal">Workspace liberado</h1>
-      <div class="texto-base">
-        A obra foi consolidada estruturalmente pelo Sistema Desbaste e está pronta
-        para seguir aos módulos editoriais com uma matriz editorial persistente.
-      </div>
+<header class="topo">
+    <h1>Workspace da Obra</h1>
+    <p>Ambiente central de consolidação da obra após o Sistema Desbaste, mantendo a espinha dorsal intacta e preparando a entrada no Executor.</p>
+</header>
 
-      <div class="grid-2">
-        <div class="bloco">
-          <h3>Ficha-base da obra</h3>
-          <div class="linha"><strong>Arquivo:</strong> <span id="arquivoObra">—</span></div>
-          <div class="linha"><strong>Título-base:</strong> <span id="tituloBase">—</span></div>
-          <div class="linha"><strong>Autor:</strong> <span id="autorObra">—</span></div>
-          <div class="linha"><strong>Idioma:</strong> <span id="idiomaObra">—</span></div>
-          <div class="linha"><strong>Status técnico:</strong> <span id="statusTecnico">—</span></div>
-        </div>
+<main class="container">
+    <div class="grid">
+        <section class="card">
+            <h2>Consolidação do estado da obra</h2>
 
-        <div class="bloco">
-          <h3>Leitura consolidada</h3>
-          <div class="linha"><strong>Classificação principal:</strong> <span id="classPrincipal">—</span></div>
-          <div class="linha"><strong>Classificação secundária:</strong> <span id="classSecundaria">—</span></div>
-          <div class="linha"><strong>Classificação terciária:</strong> <span id="classTerciaria">—</span></div>
-          <div class="linha"><strong>Prontidão:</strong> <span id="statusProntidao">—</span></div>
-        </div>
-      </div>
+            <div class="box">
+                <div class="linha"><strong>Título:</strong> <span id="tituloObra">Carregando...</span></div>
+                <div class="linha"><strong>Autor:</strong> <span id="autorObra">Carregando...</span></div>
+                <div class="linha"><strong>Classificação:</strong> <span id="tipoObra">Carregando...</span></div>
+                <div class="linha"><strong>Origem técnica:</strong> Bolsão → Sistema Desbaste → Workspace</div>
+            </div>
 
-      <div class="faixa-azul">
-        O Workspace da Obra recebe a ficha-base consolidada pelo Sistema Desbaste e
-        passa a manter a <strong>matriz editorial persistente</strong> como referência oficial
-        para Diagramação, Segunda Língua(s), Avaliação, Analisador, Lapidação Literária e demais módulos.
-      </div>
+            <div class="box">
+                <div class="tag" id="tagDesbaste">Desbaste: aguardando</div>
+                <div class="tag" id="tagWorkspace">Workspace: ativo</div>
+                <div class="tag" id="tagExecutor">Próximo: Executor</div>
+            </div>
+
+            <div class="box">
+                <div class="linha"><strong>Leitura do Workspace</strong></div>
+                <div class="linha" id="textoResumo">Aguardando obra ativa...</div>
+            </div>
+
+            <div class="acoes">
+                <button class="btn-claro" onclick="voltarDesbaste()">Voltar ao Desbaste</button>
+                <button class="btn-azul" onclick="ativarWorkspace()">Ativar Workspace</button>
+                <button class="btn-verde" onclick="seguirExecutor()">Seguir para o Executor</button>
+            </div>
+
+            <div id="mensagemOk" class="mensagem ok"></div>
+            <div id="mensagemErro" class="mensagem erro"></div>
+        </section>
+
+        <section class="card">
+            <h2>Prévia técnica consolidada</h2>
+            <div class="preview" id="previewObra">Aguardando leitura consolidada...</div>
+        </section>
     </div>
+</main>
 
-    <div class="card">
-      <h2 class="subtitulo">Matriz editorial persistente — folha A4 oficial da obra</h2>
+<script>
+function mostrarOk(msg){
+    const ok = document.getElementById("mensagemOk");
+    const erro = document.getElementById("mensagemErro");
+    erro.style.display = "none";
+    ok.textContent = msg;
+    ok.style.display = "block";
+}
 
-      <div class="a4-wrap">
-        <div class="a4">
-          <div class="meta">
-            <h1 id="a4Titulo">Obra em preparação editorial</h1>
-            <div class="meta-linha"><strong>Autor:</strong> <span id="a4Autor">—</span></div>
-            <div class="meta-linha"><strong>Idioma:</strong> <span id="a4Idioma">—</span></div>
-          </div>
+function mostrarErro(msg){
+    const ok = document.getElementById("mensagemOk");
+    const erro = document.getElementById("mensagemErro");
+    ok.style.display = "none";
+    erro.textContent = msg;
+    erro.style.display = "block";
+}
 
-          <p id="a4Resumo1">
-            Esta folha A4 representa a matriz editorial oficial da obra dentro do Lapidar.
-          </p>
+function carregarObra(){
+    try{
+        return JSON.parse(localStorage.getItem("obraAtual") || "null");
+    }catch(error){
+        return null;
+    }
+}
 
-          <p id="a4Resumo2">
-            O texto integral da obra poderá ser visualizado no leitor editorial A4, com navegação por páginas,
-            mantendo o manuscrito como base universal para os demais departamentos.
-          </p>
+function desbasteValido(){
+    return localStorage.getItem("desbaste_concluido") === "true"
+        || localStorage.getItem("lapidar_desbaste_concluido") === "true"
+        || localStorage.getItem("status_desbaste") === "concluido";
+}
 
-          <p id="a4Resumo3">
-            A diagramação final, os elementos técnicos e os acabamentos do livro ficam reservados para a etapa
-            específica de diagramação editorial.
-          </p>
-        </div>
-      </div>
+function preencherWorkspace(){
+    const obra = carregarObra();
+    const desbasteOk = desbasteValido();
 
-      <div class="rodape-nota">
-        Esta matriz A4 será reaproveitada pelos módulos seguintes como base editorial comum.
-      </div>
-
-      <div id="faixaMatrizWorkspace" class="faixa-matriz">
-        <div class="selo">Matriz editorial ativa ✔</div>
-        <div class="texto">
-          Esta obra já possui matriz editorial A4 ativa dentro do Lapidar e está pronta
-          para seguir ao pipeline completo de produção editorial, visual e cultural.
-        </div>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="acoes">
-        <button class="botao botao-verde" onclick="abrirLeitorA4()">
-          Abrir matriz editorial A4
-        </button>
-
-        <button class="botao botao-primario" onclick="seguirExecutor()">
-          Seguir para Executor de Módulos
-        </button>
-
-        <button class="botao botao-secundario" onclick="window.location.href='modulo_02_sistema_desbaste.html'">
-          Retornar ao Sistema Desbaste
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    function obterPrimeiroValor(chaves, fallback) {
-      for (var i = 0; i < chaves.length; i++) {
-        var valor = localStorage.getItem(chaves[i]);
-        if (valor && valor.trim() !== "") {
-          return valor.trim();
-        }
-      }
-      return fallback;
+    if(!obra){
+        document.getElementById("tituloObra").textContent = "Nenhuma obra ativa";
+        document.getElementById("autorObra").textContent = "—";
+        document.getElementById("tipoObra").textContent = "—";
+        document.getElementById("previewObra").textContent = "Nenhuma obra foi recebida pelo Workspace.";
+        document.getElementById("textoResumo").textContent = "O Workspace precisa de uma obra válida vinda do Bolsão e do Desbaste.";
+        document.getElementById("tagDesbaste").textContent = "Desbaste: ausente";
+        return;
     }
 
-    function limparNomeArquivo(nome) {
-      return (nome || "")
-        .replace(/\.[^/.]+$/, "")
-        .replace(/[_-]+/g, " ")
-        .trim();
+    const titulo = obra?.estrutura?.titulo || obra?.titulo || "Título não identificado";
+    const autor = obra?.estrutura?.autor || obra?.autor || "Autor não identificado";
+    const tipo = obra?.tipo || "Indefinido";
+    const texto = obra?.textoExtraido || obra?.texto || "Sem texto disponível.";
+
+    document.getElementById("tituloObra").textContent = titulo;
+    document.getElementById("autorObra").textContent = autor;
+    document.getElementById("tipoObra").textContent = tipo;
+    document.getElementById("previewObra").textContent = texto.slice(0, 3200);
+    document.getElementById("textoResumo").textContent =
+        "A obra foi consolidada no Workspace e está sendo preparada para o Executor de Módulos.";
+
+    if(desbasteOk){
+        document.getElementById("tagDesbaste").textContent = "Desbaste: concluído";
+    }else{
+        document.getElementById("tagDesbaste").textContent = "Desbaste: pendente";
+    }
+}
+
+function ativarWorkspace(){
+    const obra = carregarObra();
+
+    if(!obra){
+        mostrarErro("Não há obra ativa para consolidar no Workspace.");
+        return;
     }
 
-    function montarDadosObra() {
-      var arquivo = obterPrimeiroValor([
-        "matriz_editorial_arquivo",
-        "arquivo_obra_nome",
-        "nome_arquivo_obra",
-        "arquivoNome",
-        "nomeArquivo",
-        "arquivo_obra",
-        "arquivo"
-      ], "Arquivo não informado");
-
-      var titulo = obterPrimeiroValor([
-        "matriz_editorial_titulo",
-        "titulo_base_obra",
-        "tituloBaseObra",
-        "titulo_obra",
-        "obra_titulo",
-        "tituloBase",
-        "titulo"
-      ], limparNomeArquivo(arquivo) || "Obra em preparação editorial");
-
-      var autorBruto = obterPrimeiroValor([
-        "matriz_editorial_autor",
-        "autor_obra",
-        "autorObra",
-        "autor",
-        "nome_autor"
-      ], "Autor a confirmar");
-
-      var idioma = obterPrimeiroValor([
-        "matriz_editorial_idioma",
-        "idioma_obra",
-        "idiomaObra",
-        "idioma"
-      ], "Português do Brasil");
-
-      var principal = obterPrimeiroValor([
-        "matriz_editorial_classificacao_principal",
-        "classificacao_principal",
-        "classPrincipal",
-        "principal"
-      ], "Prosa");
-
-      var secundaria = obterPrimeiroValor([
-        "matriz_editorial_classificacao_secundaria",
-        "classificacao_secundaria",
-        "classSecundaria",
-        "secundaria"
-      ], "Narrativa literária");
-
-      var terciaria = obterPrimeiroValor([
-        "matriz_editorial_classificacao_terciaria",
-        "classificacao_terciaria",
-        "classTerciaria",
-        "terciaria"
-      ], "A definir no Desbaste");
-
-      var statusTecnico = obterPrimeiroValor([
-        "matriz_editorial_status_tecnico",
-        "status_tecnico_obra",
-        "statusTecnico",
-        "status_tecnico"
-      ], "Estrutura pronta para preparação editorial");
-
-      var autorFinal = autorBruto.trim() ? autorBruto : "Autor a confirmar";
-
-      return {
-        arquivo: arquivo,
-        titulo: titulo.replace(/_/g, " "),
-        autor: autorFinal,
-        idioma: idioma,
-        principal: principal,
-        secundaria: secundaria,
-        terciaria: terciaria,
-        statusTecnico: statusTecnico
-      };
+    if(!desbasteValido()){
+        mostrarErro("O Workspace só pode ser ativado depois da conclusão do Sistema Desbaste.");
+        return;
     }
 
-    function preencherTela() {
-      var dados = montarDadosObra();
+    localStorage.setItem("workspace_liberado", "true");
+    localStorage.setItem("workspace_ativo", "true");
+    localStorage.setItem("obra_workspace_aberto", "true");
+    localStorage.setItem("matriz_editorial_ativa", "true");
 
-      document.getElementById("arquivoObra").textContent = dados.arquivo;
-      document.getElementById("tituloBase").textContent = dados.titulo;
-      document.getElementById("autorObra").textContent = dados.autor;
-      document.getElementById("idiomaObra").textContent = dados.idioma;
-      document.getElementById("statusTecnico").textContent = dados.statusTecnico;
+    const estado = {
+        data: new Date().toISOString(),
+        etapa: "obra_workspace.html",
+        titulo: obra?.estrutura?.titulo || obra?.titulo || "Título não identificado",
+        autor: obra?.estrutura?.autor || obra?.autor || "Autor não identificado",
+        classificacao: obra?.tipo || "Indefinido",
+        status: "ativo"
+    };
 
-      document.getElementById("classPrincipal").textContent = dados.principal;
-      document.getElementById("classSecundaria").textContent = dados.secundaria;
-      document.getElementById("classTerciaria").textContent = dados.terciaria;
-      document.getElementById("statusProntidao").textContent = "Obra pronta para módulos seguintes";
+    localStorage.setItem("workspace_relatorio", JSON.stringify(estado));
+    mostrarOk("Workspace ativado com sucesso. A obra está pronta para seguir ao Executor.");
+}
 
-      document.getElementById("a4Titulo").textContent = dados.titulo;
-      document.getElementById("a4Autor").textContent = dados.autor;
-      document.getElementById("a4Idioma").textContent = dados.idioma;
-
-      localStorage.setItem("matriz_editorial_titulo", dados.titulo);
-      localStorage.setItem("matriz_editorial_autor", dados.autor);
-      localStorage.setItem("matriz_editorial_idioma", dados.idioma);
-      localStorage.setItem("matriz_editorial_classificacao_principal", dados.principal);
-      localStorage.setItem("matriz_editorial_classificacao_secundaria", dados.secundaria);
-      localStorage.setItem("matriz_editorial_classificacao_terciaria", dados.terciaria);
-      localStorage.setItem("matriz_editorial_arquivo", dados.arquivo);
-      localStorage.setItem("matriz_editorial_status_tecnico", dados.statusTecnico);
-      localStorage.setItem("matriz_editorial_ativa", "true");
-      localStorage.setItem("workspace_liberado", "true");
+function seguirExecutor(){
+    if(localStorage.getItem("workspace_liberado") !== "true"){
+        mostrarErro("Antes de seguir, ative o Workspace.");
+        return;
     }
 
-    function verificarMatrizWorkspace() {
-      var matrizAtiva =
-        localStorage.getItem("lapidar_matriz_a4_ativa") === "true" ||
-        localStorage.getItem("matriz_editorial_ativa") === "true";
+    window.location.href = "modulo_executor.html";
+}
 
-      if (matrizAtiva) {
-        document.getElementById("faixaMatrizWorkspace").style.display = "block";
-      } else {
-        document.getElementById("faixaMatrizWorkspace").style.display = "none";
-      }
-    }
+function voltarDesbaste(){
+    window.location.href = "modulo_02_sistema_desbaste.html";
+}
 
-    function abrirLeitorA4() {
-      window.location.href = "leitor_a4_matriz.html";
-    }
+preencherWorkspace();
+</script>
 
-    function seguirExecutor() {
-      localStorage.setItem("executor_liberado", "true");
-      localStorage.setItem("status_workspace", "ativo");
-      window.location.href = "modulo_executor.html";
-    }
-
-    preencherTela();
-    verificarMatrizWorkspace();
-  </script>
+<script src="lapidar_inteligencia_core.js"></script>
 </body>
 </html>
