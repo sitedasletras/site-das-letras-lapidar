@@ -1,529 +1,897 @@
 <!DOCTYPE html>
-<html lang="pt-br">
-
+<html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lapidar — Módulo 19 | OKapista</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OKapista — Mesa Técnica da Capa</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-<style>
-body{
-margin:0;
-font-family:Arial, Helvetica, sans-serif;
-background:#f2f4f7;
-}
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #eef2f6;
+      color: #24303c;
+    }
 
-header{
-background:#102437;
-color:white;
-padding:22px;
-text-align:center;
-font-size:22px;
-font-weight:bold;
-}
+    .topo {
+      background: #5a4426;
+      color: #fff;
+      text-align: center;
+      padding: 18px 14px;
+      font-size: 24px;
+      font-weight: 700;
+      box-shadow: 0 2px 8px rgba(0,0,0,.08);
+    }
 
-.container{
-max-width:1180px;
-margin:auto;
-margin-top:40px;
-background:white;
-padding:40px;
-border-radius:14px;
-box-shadow:0px 6px 20px rgba(0,0,0,0.12);
-}
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 22px 18px 40px;
+    }
 
-.status-ok{
-color:#198754;
-font-weight:bold;
-}
+    .card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,.08);
+      border: 1px solid #dde5ed;
+    }
 
-.status-erro{
-color:#dc3545;
-font-weight:bold;
-}
+    .status-verde {
+      color: #2e8b57;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
 
-.bloqueio{
-text-align:center;
-padding:80px 20px;
-}
+    .titulo-principal {
+      margin: 0 0 10px;
+      font-size: 38px;
+      color: #1f2b36;
+    }
 
-.grid-topo{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:18px;
-margin-top:25px;
-margin-bottom:30px;
-}
+    .texto-base {
+      font-size: 18px;
+      line-height: 1.6;
+      color: #53606c;
+    }
 
-.card{
-background:#f8f9fa;
-border:1px solid #dee2e6;
-border-radius:12px;
-padding:20px;
-}
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-top: 18px;
+    }
 
-.card h3{
-margin-top:0;
-color:#102437;
-}
+    .bloco {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 16px;
+    }
 
-.linha{
-padding:10px 0;
-border-bottom:1px solid #e5e5e5;
-font-size:15px;
-}
+    .bloco h3 {
+      margin: 0 0 12px;
+      font-size: 24px;
+      color: #36485b;
+    }
 
-.linha:last-child{
-border-bottom:none;
-}
+    .linha {
+      padding: 9px 0;
+      border-bottom: 1px solid #e7edf3;
+      font-size: 17px;
+      line-height: 1.5;
+      word-break: break-word;
+    }
 
-.rotulo{
-font-weight:bold;
-color:#333;
-}
+    .linha:last-child {
+      border-bottom: none;
+    }
 
-.scene-grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:18px;
-margin-top:30px;
-}
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 18px;
+    }
 
-.scene-box{
-border-radius:14px;
-padding:22px;
-background:#fff7e8;
-border:1px solid rgba(0,0,0,0.08);
-box-shadow:0px 4px 10px rgba(0,0,0,0.05);
-}
+    .campo {
+      background: #fbfcfd;
+      border: 1px solid #e3e9ef;
+      border-radius: 12px;
+      padding: 14px;
+    }
 
-.scene-box h4{
-margin-top:0;
-margin-bottom:10px;
-font-size:20px;
-color:#102437;
-}
+    .campo label {
+      display: block;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #334250;
+      font-size: 15px;
+    }
 
-.scene-box p{
-margin-bottom:16px;
-line-height:1.5;
-color:#334155;
-}
+    .campo input,
+    .campo select,
+    .campo textarea {
+      width: 100%;
+      border: 1px solid #cfd8e3;
+      border-radius: 10px;
+      padding: 12px;
+      font-size: 15px;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #fff;
+    }
 
-.scene-box label{
-display:block;
-margin:10px 0 6px;
-font-weight:bold;
-color:#23384d;
-}
+    .campo textarea {
+      min-height: 130px;
+      resize: vertical;
+      line-height: 1.5;
+    }
 
-.scene-box textarea,
-.scene-box select,
-.scene-box input{
-width:100%;
-padding:12px;
-border:1px solid #cfd6dd;
-border-radius:10px;
-font-size:15px;
-background:white;
-}
+    .faixa-tecnica {
+      margin-top: 18px;
+      background: #fff8e5;
+      border-left: 5px solid #d39a11;
+      border-radius: 10px;
+      padding: 14px 16px;
+      font-size: 17px;
+      line-height: 1.6;
+      color: #5f5540;
+    }
 
-.scene-box textarea{
-min-height:120px;
-resize:vertical;
-}
+    .mesa-wrap {
+      overflow-x: auto;
+      padding-bottom: 8px;
+    }
 
-.preview-box{
-margin-top:28px;
-padding:18px;
-background:#eef6ff;
-border-left:5px solid #0b5ed7;
-border-radius:8px;
-line-height:1.6;
-color:#23384d;
-}
+    .mesa-a4 {
+      width: 1180px;
+      min-height: 820px;
+      margin: 0 auto;
+      background: #fff;
+      border: 1px solid #d6d6d6;
+      box-shadow: 0 10px 26px rgba(0,0,0,.12);
+      padding: 18px;
+    }
 
-.preview-item{
-padding:10px 0;
-border-bottom:1px solid #d7e6f7;
-}
+    .mesa-header {
+      text-align: center;
+      border-bottom: 1px solid #e6e6e6;
+      padding-bottom: 12px;
+      margin-bottom: 18px;
+    }
 
-.preview-item:last-child{
-border-bottom:none;
-}
+    .mesa-header h2 {
+      margin: 0 0 6px;
+      font-size: 28px;
+      color: #223142;
+    }
 
-.aviso{
-margin-top:28px;
-padding:18px;
-background:#fff8e1;
-border-left:5px solid #d97706;
-border-radius:8px;
-line-height:1.6;
-color:#6b4f00;
-}
+    .mesa-header .sub {
+      font-size: 15px;
+      color: #5d6975;
+    }
 
-.acoes{
-margin-top:28px;
-display:flex;
-gap:14px;
-flex-wrap:wrap;
-}
+    .canvas-area {
+      position: relative;
+      width: 1140px;
+      height: 650px;
+      margin: 0 auto;
+      background:
+        linear-gradient(to right, rgba(0,0,0,.04) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0,0,0,.04) 1px, transparent 1px);
+      background-size: 20px 20px;
+      border: 1px dashed #cfd8e3;
+      overflow: hidden;
+    }
 
-.botao{
-background:#0b5ed7;
-color:white;
-border:none;
-padding:18px 26px;
-font-size:18px;
-border-radius:10px;
-cursor:pointer;
-}
+    .peca {
+      position: absolute;
+      top: 120px;
+      height: 360px;
+      border: 2px solid rgba(0,0,0,.12);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 14px;
+      overflow: hidden;
+      background: #f7f1e3;
+    }
 
-.botao:hover{
-background:#084298;
-}
+    .orelha-traseira,
+    .orelha-dianteira {
+      background: #efe6d4;
+    }
 
-.botao-secundario{
-background:#6c757d;
-color:white;
-border:none;
-padding:18px 26px;
-font-size:18px;
-border-radius:10px;
-cursor:pointer;
-}
+    .contracapa {
+      background: #f6ecd8;
+    }
 
-.botao-secundario:hover{
-background:#565e64;
-}
+    .lombada {
+      background: #eadab9;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 10px 4px;
+    }
 
-.botao-verde{
-background:#198754;
-color:white;
-border:none;
-padding:18px 26px;
-font-size:18px;
-border-radius:10px;
-cursor:pointer;
-}
+    .capa {
+      background: #f2e3c1;
+    }
 
-.botao-verde:hover{
-background:#146c43;
-}
+    .rotulo-peca {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .4px;
+      color: #5f564a;
+      text-transform: uppercase;
+      background: rgba(255,255,255,.8);
+      padding: 5px 8px;
+      border-radius: 8px;
+      border: 1px solid rgba(0,0,0,.08);
+    }
 
-.tag{
-display:inline-block;
-padding:6px 10px;
-border-radius:999px;
-font-size:13px;
-font-weight:bold;
-background:#e8f4ea;
-color:#1f6f3d;
-margin-top:8px;
-}
+    .linha-corte,
+    .linha-seguranca {
+      position: absolute;
+      top: 95px;
+      height: 410px;
+      pointer-events: none;
+    }
 
-@media(max-width:900px){
-.grid-topo,
-.scene-grid{
-grid-template-columns:1fr;
-}
-.acoes{
-flex-direction:column;
-}
-.botao,
-.botao-secundario,
-.botao-verde{
-width:100%;
-}
-}
-</style>
+    .linha-corte {
+      border-left: 2px dashed #c65c5c;
+    }
+
+    .linha-seguranca {
+      border-left: 2px dotted #2d74da;
+    }
+
+    .titulo-capa {
+      font-size: 34px;
+      font-weight: 700;
+      line-height: 1.15;
+      color: #2f2a22;
+      word-break: break-word;
+    }
+
+    .autor-capa {
+      font-size: 20px;
+      color: #4d4334;
+      margin-top: 12px;
+      word-break: break-word;
+    }
+
+    .sinopse-box {
+      font-size: 15px;
+      line-height: 1.45;
+      color: #473f35;
+      margin-top: 48px;
+      white-space: pre-wrap;
+    }
+
+    .selo-box {
+      width: 92px;
+      height: 92px;
+      border: 2px solid rgba(0,0,0,.15);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 700;
+      color: #4a4135;
+      background: rgba(255,255,255,.55);
+    }
+
+    .isbn-box {
+      width: 150px;
+      height: 74px;
+      border: 2px dashed rgba(0,0,0,.24);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 12px;
+      line-height: 1.35;
+      color: #50483f;
+      background: rgba(255,255,255,.45);
+    }
+
+    .orelha-texto {
+      font-size: 13px;
+      line-height: 1.45;
+      color: #4c4338;
+      white-space: pre-wrap;
+    }
+
+    .lombada-texto {
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 1.2;
+      color: #473d31;
+      letter-spacing: .4px;
+      max-height: 320px;
+      overflow: hidden;
+      word-break: break-word;
+    }
+
+    .medidas-barra {
+      margin-top: 16px;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+    }
+
+    .medida {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 12px;
+      text-align: center;
+    }
+
+    .medida .r {
+      font-size: 13px;
+      color: #61707d;
+      margin-bottom: 6px;
+    }
+
+    .medida .v {
+      font-size: 18px;
+      font-weight: 700;
+      color: #233242;
+    }
+
+    .acoes {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 14px;
+    }
+
+    .botao {
+      border: none;
+      border-radius: 12px;
+      padding: 16px 18px;
+      font-size: 18px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: .15s ease;
+    }
+
+    .botao:hover {
+      transform: translateY(-1px);
+      opacity: .97;
+    }
+
+    .botao-primario {
+      background: #0d63dd;
+      color: #fff;
+    }
+
+    .botao-secundario {
+      background: #7a8591;
+      color: #fff;
+    }
+
+    .botao-verde {
+      background: #198754;
+      color: #fff;
+    }
+
+    .botao-marrom {
+      background: #7b5a2b;
+      color: #fff;
+    }
+
+    @media (max-width: 1000px) {
+      .grid-2,
+      .form-grid,
+      .acoes,
+      .medidas-barra {
+        grid-template-columns: 1fr;
+      }
+
+      .titulo-principal {
+        font-size: 30px;
+      }
+    }
+  </style>
 </head>
-
 <body>
+  <div class="topo">OKapista — Mesa Técnica Horizontal da Capa</div>
 
-<header>
-Módulo 19 — OKapista
-</header>
+  <div class="container">
+    <div class="card">
+      <div class="status-verde">Módulo de capa liberado ✔</div>
+      <h1 class="titulo-principal">Mesa técnica da capa aberta</h1>
+      <div class="texto-base">
+        Este ambiente representa a capa completa da obra em mesa horizontal técnica.
+        Aqui o autor consegue visualizar capa, contracapa, lombada e orelhas antes da exportação final.
+      </div>
 
-<div id="areaOkapista" class="container" style="display:none;">
+      <div class="grid-2">
+        <div class="bloco">
+          <h3>Dados da obra</h3>
+          <div class="linha"><strong>Arquivo:</strong> <span id="okArquivo">—</span></div>
+          <div class="linha"><strong>Título-base:</strong> <span id="okTitulo">—</span></div>
+          <div class="linha"><strong>Autor:</strong> <span id="okAutor">—</span></div>
+          <div class="linha"><strong>Status técnico:</strong> <span id="okStatus">—</span></div>
+        </div>
 
-<p class="status-ok">
-Ficha-base recebida do Sistema Desbaste ✓
-</p>
+        <div class="bloco">
+          <h3>Configuração da capa</h3>
+          <div class="linha"><strong>Formato:</strong> <span id="okFormatoResumo">—</span></div>
+          <div class="linha"><strong>Páginas:</strong> <span id="okPaginasResumo">—</span></div>
+          <div class="linha"><strong>Gramatura:</strong> <span id="okPapelResumo">—</span></div>
+          <div class="linha"><strong>Orelhas:</strong> <span id="okOrelhaResumo">—</span></div>
+        </div>
+      </div>
+    </div>
 
-<h2>
-Preparação visual editorial liberada
-</h2>
+    <div class="card">
+      <h2 style="margin:0 0 14px; font-size:30px; color:#24303c;">Parâmetros da montagem</h2>
 
-<p>
-O OKapista agora recebe a obra com base consolidada. Se o autor descrever a cena desejada, o sistema respeita a direção visual autoral. Se não descrever, o sistema segue a interpretação da obra a partir da ficha-base.
-</p>
+      <div class="form-grid">
+        <div class="campo">
+          <label for="formatoLivro">Formato do livro</label>
+          <select id="formatoLivro">
+            <option value="A5">A5</option>
+            <option value="14x21">14x21</option>
+            <option value="16x23">16x23</option>
+            <option value="16x27">16x27</option>
+            <option value="6x9">6x9</option>
+          </select>
+        </div>
 
-<div class="grid-topo">
+        <div class="campo">
+          <label for="numeroPaginas">Número de páginas</label>
+          <input type="number" id="numeroPaginas" min="20" value="100" />
+        </div>
 
-<div class="card">
-<h3>Ficha-base da obra</h3>
-<div class="linha"><span class="rotulo">Arquivo:</span> <span id="okArquivo">—</span></div>
-<div class="linha"><span class="rotulo">Título-base:</span> <span id="okTitulo">—</span></div>
-<div class="linha"><span class="rotulo">Autor:</span> <span id="okAutor">—</span></div>
-<div class="linha"><span class="rotulo">Status técnico:</span> <span id="okStatus">—</span></div>
-</div>
+        <div class="campo">
+          <label for="gramaturaPapel">Papel / gramatura</label>
+          <select id="gramaturaPapel">
+            <option value="75">Pólen / offset 75g</option>
+            <option value="80">Offset 80g</option>
+            <option value="90">Offset 90g</option>
+          </select>
+        </div>
 
-<div class="card">
-<h3>Leitura consolidada</h3>
-<div class="linha"><span class="rotulo">Principal:</span> <span id="okPrincipal">—</span></div>
-<div class="linha"><span class="rotulo">Secundário:</span> <span id="okSecundario">—</span></div>
-<div class="linha"><span class="rotulo">Terciário:</span> <span id="okTerciario">—</span></div>
-<div class="linha"><span class="rotulo">Modo de leitura visual:</span> <span id="okModoLeitura">Interpretação automática da obra disponível</span></div>
-</div>
+        <div class="campo">
+          <label for="larguraOrelha">Largura da orelha</label>
+          <select id="larguraOrelha">
+            <option value="0">Sem orelhas</option>
+            <option value="50">50 mm</option>
+            <option value="70" selected>70 mm</option>
+            <option value="100">100 mm</option>
+          </select>
+        </div>
 
-</div>
+        <div class="campo">
+          <label for="temISBN">ISBN</label>
+          <select id="temISBN">
+            <option value="nao">Não possui</option>
+            <option value="sim">Possui ISBN</option>
+            <option value="ainda_nao">Ainda não</option>
+          </select>
+        </div>
 
-<div class="scene-grid">
+        <div class="campo">
+          <label for="seloNome">Selo / marca</label>
+          <input type="text" id="seloNome" value="Site das Letras" />
+        </div>
+      </div>
 
-<div class="scene-box">
-<h4>Cena de Capa Desejada</h4>
-<p>Descreva a imagem principal da capa com linguagem editorial. Exemplo: campo florido, casa antiga ao fundo, pôr do sol dourado, clima nostálgico.</p>
-<label for="cenaCapa">Descrição visual da capa</label>
-<textarea id="cenaCapa" placeholder="Descreva a cena desejada para a capa..."></textarea>
-<div class="tag" id="tagCapa">Se vazio, o sistema interpretará a obra</div>
-</div>
+      <div class="form-grid">
+        <div class="campo">
+          <label for="tituloCapaInput">Título da capa</label>
+          <input type="text" id="tituloCapaInput" />
+        </div>
 
-<div class="scene-box">
-<h4>Cena de Contracapa Desejada</h4>
-<p>Descreva o ambiente visual da contracapa. Pode indicar sensação, atmosfera e relação com a sinopse.</p>
-<label for="cenaContracapa">Descrição visual da contracapa</label>
-<textarea id="cenaContracapa" placeholder="Descreva a cena desejada para a contracapa..."></textarea>
-<div class="tag" id="tagContracapa">Se vazio, o sistema interpretará a obra</div>
-</div>
+        <div class="campo">
+          <label for="autorCapaInput">Autor na capa</label>
+          <input type="text" id="autorCapaInput" />
+        </div>
 
-<div class="scene-box">
-<h4>Cena de Orelha Dianteira Desejada</h4>
-<p>Descreva o tom visual e textual da orelha dianteira.</p>
-<label for="cenaOrelhaDianteira">Descrição visual da orelha dianteira</label>
-<textarea id="cenaOrelhaDianteira" placeholder="Descreva a orelha dianteira..."></textarea>
-<div class="tag" id="tagOrelhaDianteira">Se vazio, o sistema interpretará a obra</div>
-</div>
+        <div class="campo">
+          <label for="trilogiaInput">Nome da série / trilogia</label>
+          <input type="text" id="trilogiaInput" placeholder="Opcional" />
+        </div>
+      </div>
 
-<div class="scene-box">
-<h4>Cena de Orelha Traseira Desejada</h4>
-<p>Descreva o tom biográfico, institucional ou emocional da orelha traseira.</p>
-<label for="cenaOrelhaTraseira">Descrição visual da orelha traseira</label>
-<textarea id="cenaOrelhaTraseira" placeholder="Descreva a orelha traseira..."></textarea>
-<div class="tag" id="tagOrelhaTraseira">Se vazio, o sistema interpretará a obra</div>
-</div>
+      <div class="form-grid">
+        <div class="campo" style="grid-column: span 2;">
+          <label for="sinopseInput">Sinopse da contracapa</label>
+          <textarea id="sinopseInput">Insira aqui a sinopse da obra. O sistema manterá a área inferior de segurança da contracapa.</textarea>
+        </div>
 
-<div class="scene-box">
-<h4>Cena de Lombada Desejada</h4>
-<p>Descreva a proposta visual da lombada. Exemplo: minimalista, clássica, dramática, com identidade de coleção.</p>
-<label for="cenaLombada">Descrição visual da lombada</label>
-<textarea id="cenaLombada" placeholder="Descreva a lombada desejada..."></textarea>
-<div class="tag" id="tagLombada">Se vazio, o sistema interpretará a obra</div>
-</div>
+        <div class="campo">
+          <label for="orelhaTraseiraInput">Orelha traseira</label>
+          <textarea id="orelhaTraseiraInput">Biografia do autor ou texto institucional.</textarea>
+        </div>
+      </div>
 
-<div class="scene-box">
-<h4>Parâmetros editoriais visuais</h4>
+      <div class="form-grid">
+        <div class="campo" style="grid-column: span 3;">
+          <label for="orelhaDianteiraInput">Orelha dianteira</label>
+          <textarea id="orelhaDianteiraInput">Frases de impacto, chamada de leitura ou texto de apoio da obra.</textarea>
+        </div>
+      </div>
 
-<label for="larguraOrelhas">Largura das orelhas</label>
-<select id="larguraOrelhas">
-<option value="70 mm">70 mm</option>
-<option value="50 mm">50 mm</option>
-<option value="100 mm">100 mm</option>
-</select>
+      <div class="faixa-tecnica">
+        Esta mesa horizontal é uma área técnica de montagem visual. A capa aberta mostra orelha traseira,
+        contracapa, lombada, capa e orelha dianteira em escala proporcional interna do sistema.
+      </div>
+    </div>
 
-<label for="seloEditorial">Selo editorial</label>
-<select id="seloEditorial">
-<option value="Inserir selo">Inserir selo</option>
-<option value="Não inserir selo">Não inserir selo</option>
-</select>
+    <div class="card">
+      <h2 style="margin:0 0 14px; font-size:30px; color:#24303c;">Mesa A4 horizontal da capa aberta</h2>
 
-<label for="isbnVisual">ISBN</label>
-<select id="isbnVisual">
-<option value="Reservar área de ISBN">Reservar área de ISBN</option>
-<option value="ISBN já informado pelo autor">ISBN já informado pelo autor</option>
-<option value="Sem ISBN por enquanto">Sem ISBN por enquanto</option>
-</select>
-</div>
+      <div class="mesa-wrap">
+        <div class="mesa-a4">
+          <div class="mesa-header">
+            <h2 id="mesaTitulo">Capa aberta da obra</h2>
+            <div class="sub" id="mesaSub">Simulação técnica horizontal para composição editorial</div>
+          </div>
 
-</div>
+          <div class="canvas-area" id="canvasArea">
+            <div class="linha-corte" id="corte1"></div>
+            <div class="linha-corte" id="corte2"></div>
+            <div class="linha-corte" id="corte3"></div>
+            <div class="linha-corte" id="corte4"></div>
 
-<div class="preview-box">
-<strong>Leitura visual orientadora do OKapista</strong>
+            <div class="linha-seguranca" id="seg1"></div>
+            <div class="linha-seguranca" id="seg2"></div>
+            <div class="linha-seguranca" id="seg3"></div>
+            <div class="linha-seguranca" id="seg4"></div>
+            <div class="linha-seguranca" id="seg5"></div>
+            <div class="linha-seguranca" id="seg6"></div>
 
-<div class="preview-item"><strong>Capa:</strong> <span id="previewCapa">Interpretação automática da obra</span></div>
-<div class="preview-item"><strong>Contracapa:</strong> <span id="previewContracapa">Interpretação automática da obra</span></div>
-<div class="preview-item"><strong>Orelha dianteira:</strong> <span id="previewOrelhaDianteira">Interpretação automática da obra</span></div>
-<div class="preview-item"><strong>Orelha traseira:</strong> <span id="previewOrelhaTraseira">Interpretação automática da obra</span></div>
-<div class="preview-item"><strong>Lombada:</strong> <span id="previewLombada">Interpretação automática da obra</span></div>
-<div class="preview-item"><strong>Base editorial:</strong> <span id="previewBaseEditorial">A obra será interpretada visualmente a partir da ficha-base consolidada.</span></div>
-</div>
+            <div class="peca orelha-traseira" id="boxOrelhaTraseira">
+              <div class="rotulo-peca">Orelha traseira</div>
+              <div class="orelha-texto" id="orelhaTraseiraPreview"></div>
+            </div>
 
-<div class="aviso">
-Se o autor não preencher os campos de cena desejada, o OKapista seguirá a interpretação da obra consolidada pelo Sistema Desbaste. Isso mantém o fluxo automático do Lapidar sem substituir a vontade do autor quando ela for expressa.
-</div>
+            <div class="peca contracapa" id="boxContracapa">
+              <div class="rotulo-peca">Contracapa</div>
+              <div class="sinopse-box" id="sinopsePreview"></div>
+              <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-top:18px;">
+                <div class="selo-box" id="seloPreview">SELO</div>
+                <div class="isbn-box" id="isbnPreview">Área reservada para ISBN</div>
+              </div>
+            </div>
 
-<div class="acoes">
-<button class="botao-verde" onclick="salvarConfiguracaoOkapista()">Salvar direção visual</button>
-<button class="botao" onclick="voltarExecutor()">Retornar ao Executor</button>
-<button class="botao-secundario" onclick="irMesario()">Ir para Mesário</button>
-</div>
+            <div class="peca lombada" id="boxLombada">
+              <div class="rotulo-peca">Lombada</div>
+              <div class="lombada-texto" id="lombadaPreview"></div>
+            </div>
 
-</div>
+            <div class="peca capa" id="boxCapa">
+              <div class="rotulo-peca">Capa</div>
+              <div>
+                <div style="font-size:15px; color:#5b5344; margin-bottom:8px;" id="trilogiaPreview"></div>
+                <div class="titulo-capa" id="tituloPreview"></div>
+                <div class="autor-capa" id="autorPreview"></div>
+              </div>
+              <div style="font-size:13px; color:#6b614f;">Área principal da arte da capa</div>
+            </div>
 
-<div id="bloqueioOkapista" class="container bloqueio" style="display:none;">
+            <div class="peca orelha-dianteira" id="boxOrelhaDianteira">
+              <div class="rotulo-peca">Orelha dianteira</div>
+              <div class="orelha-texto" id="orelhaDianteiraPreview"></div>
+            </div>
+          </div>
 
-<p class="status-erro">
-Acesso bloqueado
-</p>
+          <div class="medidas-barra">
+            <div class="medida">
+              <div class="r">Largura da lombada</div>
+              <div class="v" id="medLombada">—</div>
+            </div>
+            <div class="medida">
+              <div class="r">Largura da orelha</div>
+              <div class="v" id="medOrelha">—</div>
+            </div>
+            <div class="medida">
+              <div class="r">Formato</div>
+              <div class="v" id="medFormato">—</div>
+            </div>
+            <div class="medida">
+              <div class="r">Páginas</div>
+              <div class="v" id="medPaginas">—</div>
+            </div>
+            <div class="medida">
+              <div class="r">Papel</div>
+              <div class="v" id="medPapel">—</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-<h2>
-Sistema Desbaste obrigatório
-</h2>
+    <div class="card">
+      <div class="acoes">
+        <button class="botao botao-verde" onclick="salvarConfiguracaoOKapista()">
+          Salvar configuração da capa
+        </button>
 
-<p>
-Antes de acessar o OKapista, é necessário concluir o fluxo oficial do Lapidar: Cofre, Sistema Desbaste, Workspace e Executor.
-</p>
+        <button class="botao botao-marrom" onclick="atualizarMesa()">
+          Atualizar mesa técnica
+        </button>
 
-<button class="botao" onclick="voltarDesbaste()">
-Ir para Sistema Desbaste
-</button>
+        <button class="botao botao-secundario" onclick="window.location.href='modulo_executor.html'">
+          Retornar ao Executor
+        </button>
+      </div>
+    </div>
+  </div>
 
-</div>
+  <script>
+    function pegar(chaves, fallback) {
+      for (var i = 0; i < chaves.length; i++) {
+        var valor = localStorage.getItem(chaves[i]);
+        if (valor && valor.trim() !== "") {
+          return valor.trim();
+        }
+      }
+      return fallback;
+    }
 
-<script>
+    function montarDadosObra() {
+      return {
+        arquivo: pegar([
+          "matriz_editorial_arquivo",
+          "arquivo_obra_nome",
+          "nome_arquivo_obra",
+          "arquivoNome",
+          "nomeArquivo",
+          "arquivo"
+        ], "Arquivo não informado"),
 
-let fichaBaseAtual = null;
+        titulo: pegar([
+          "matriz_editorial_titulo",
+          "titulo_base_obra",
+          "tituloBaseObra",
+          "titulo_obra",
+          "titulo"
+        ], "Obra em preparação editorial").replace(/_/g, " "),
 
-function preencherComFichaBase(){
-let ficha = localStorage.getItem("lapidar_ficha_base_obra");
+        autor: pegar([
+          "matriz_editorial_autor",
+          "autor_obra",
+          "autorObra",
+          "autor"
+        ], "Autor a confirmar"),
 
-if(ficha){
-try{
-let dados = JSON.parse(ficha);
-fichaBaseAtual = dados;
+        statusTecnico: pegar([
+          "matriz_editorial_status_tecnico",
+          "status_tecnico_obra",
+          "statusTecnico"
+        ], "Matriz pronta para composição de capa")
+      };
+    }
 
-document.getElementById("okArquivo").innerText = dados.arquivo || "—";
-document.getElementById("okTitulo").innerText = dados.titulo_base || "—";
-document.getElementById("okAutor").innerText = dados.autor || "—";
-document.getElementById("okStatus").innerText = dados.status_tecnico || "—";
-document.getElementById("okPrincipal").innerText = dados.classificacao_principal || "—";
-document.getElementById("okSecundario").innerText = dados.classificacao_secundaria || "—";
-document.getElementById("okTerciario").innerText = dados.classificacao_terciaria || "—";
+    function preencherCabecalho() {
+      var dados = montarDadosObra();
+      document.getElementById("okArquivo").textContent = dados.arquivo;
+      document.getElementById("okTitulo").textContent = dados.titulo;
+      document.getElementById("okAutor").textContent = dados.autor;
+      document.getElementById("okStatus").textContent = dados.statusTecnico;
 
-atualizarPreviewOkapista();
+      document.getElementById("tituloCapaInput").value = dados.titulo;
+      document.getElementById("autorCapaInput").value = dados.autor;
+    }
 
-}catch(e){
-console.log("Erro ao ler ficha-base no OKapista:", e);
-}
-}
-}
+    function calcularLombadaMm(paginas, gramatura) {
+      var fator = 0.06;
+      if (gramatura === 80) fator = 0.064;
+      if (gramatura === 90) fator = 0.072;
+      return Math.max(3, paginas * fator);
+    }
 
-function textoAutomatico(tipo){
-if(!fichaBaseAtual){
-return "Interpretação automática da obra";
-}
+    function atualizarMesa() {
+      var formato = document.getElementById("formatoLivro").value;
+      var paginas = parseInt(document.getElementById("numeroPaginas").value || "100", 10);
+      var gramatura = parseInt(document.getElementById("gramaturaPapel").value || "75", 10);
+      var orelha = parseInt(document.getElementById("larguraOrelha").value || "0", 10);
+      var titulo = document.getElementById("tituloCapaInput").value.trim() || "Título da obra";
+      var autor = document.getElementById("autorCapaInput").value.trim() || "Autor";
+      var trilogia = document.getElementById("trilogiaInput").value.trim();
+      var sinopse = document.getElementById("sinopseInput").value.trim();
+      var orelhaTraseira = document.getElementById("orelhaTraseiraInput").value.trim();
+      var orelhaDianteira = document.getElementById("orelhaDianteiraInput").value.trim();
+      var isbn = document.getElementById("temISBN").value;
+      var selo = document.getElementById("seloNome").value.trim() || "Selo";
+      var lombadaMm = calcularLombadaMm(paginas, gramatura);
 
-const principal = fichaBaseAtual.classificacao_principal || "Obra";
-const secundario = fichaBaseAtual.classificacao_secundaria || "Narrativa";
-const terciario = fichaBaseAtual.classificacao_terciaria || "Literária";
-const titulo = fichaBaseAtual.titulo_base || "obra";
+      var escala = 2.2;
+      var altura = 360;
+      var larguraBase = 220;
+      if (formato === "14x21") larguraBase = 210;
+      if (formato === "16x23") larguraBase = 235;
+      if (formato === "16x27") larguraBase = 260;
+      if (formato === "6x9") larguraBase = 230;
 
-if(tipo === "capa"){
-return "Interpretação automática da obra: composição visual coerente com " + principal + ", " + secundario + " e " + terciario + ", alinhada ao título \"" + titulo + "\".";
-}
+      var orelhaPx = orelha > 0 ? Math.round(orelha / 2) : 0;
+      var lombadaPx = Math.max(18, Math.round(lombadaMm * escala));
+      var contracapaPx = larguraBase;
+      var capaPx = larguraBase;
 
-if(tipo === "contracapa"){
-return "Interpretação automática da obra: atmosfera visual coerente com o clima narrativo e com a função da sinopse.";
-}
+      var larguraTotal = orelhaPx + contracapaPx + lombadaPx + capaPx + orelhaPx;
+      var inicioX = Math.max(30, Math.round((1140 - larguraTotal) / 2));
+      var top = 120;
 
-if(tipo === "orelhaDianteira"){
-return "Interpretação automática da obra: orelha dianteira orientada pela identidade visual do livro.";
-}
+      var x1 = inicioX;
+      var x2 = x1 + orelhaPx;
+      var x3 = x2 + contracapaPx;
+      var x4 = x3 + lombadaPx;
+      var x5 = x4 + capaPx;
 
-if(tipo === "orelhaTraseira"){
-return "Interpretação automática da obra: orelha traseira orientada pela biografia e pelo tom institucional da obra.";
-}
+      configurarBox("boxOrelhaTraseira", x1, top, orelhaPx, altura, orelha > 0);
+      configurarBox("boxContracapa", x2, top, contracapaPx, altura, true);
+      configurarBox("boxLombada", x3, top, lombadaPx, altura, true);
+      configurarBox("boxCapa", x4, top, capaPx, altura, true);
+      configurarBox("boxOrelhaDianteira", x5, top, orelhaPx, altura, orelha > 0);
 
-if(tipo === "lombada"){
-return "Interpretação automática da obra: lombada coerente com o título, autoria e identidade editorial do projeto.";
-}
+      document.getElementById("tituloPreview").textContent = titulo;
+      document.getElementById("autorPreview").textContent = autor;
+      document.getElementById("trilogiaPreview").textContent = trilogia ? trilogia : "";
+      document.getElementById("sinopsePreview").textContent = limitarSinopse(sinopse);
+      document.getElementById("orelhaTraseiraPreview").textContent = orelha > 0 ? orelhaTraseira : "";
+      document.getElementById("orelhaDianteiraPreview").textContent = orelha > 0 ? orelhaDianteira : "";
+      document.getElementById("lombadaPreview").textContent = montarTextoLombada(titulo, autor, trilogia);
+      document.getElementById("seloPreview").textContent = selo.toUpperCase();
 
-return "Interpretação automática da obra";
-}
+      var isbnBox = document.getElementById("isbnPreview");
+      if (isbn === "sim") {
+        isbnBox.textContent = "Área de ISBN ativo";
+      } else if (isbn === "ainda_nao") {
+        isbnBox.textContent = "Área reservada\nISBN futuro";
+      } else {
+        isbnBox.textContent = "Área reservada para ISBN";
+      }
 
-function valorOuAutomatico(idCampo, tipo){
-const valor = document.getElementById(idCampo).value.trim();
-if(valor !== ""){
-return valor;
-}
-return textoAutomatico(tipo);
-}
+      posicionarLinhas(x1, x2, x3, x4, x5, orelhaPx, contracapaPx, lombadaPx, capaPx);
 
-function atualizarPreviewOkapista(){
-document.getElementById("previewCapa").innerText = valorOuAutomatico("cenaCapa", "capa");
-document.getElementById("previewContracapa").innerText = valorOuAutomatico("cenaContracapa", "contracapa");
-document.getElementById("previewOrelhaDianteira").innerText = valorOuAutomatico("cenaOrelhaDianteira", "orelhaDianteira");
-document.getElementById("previewOrelhaTraseira").innerText = valorOuAutomatico("cenaOrelhaTraseira", "orelhaTraseira");
-document.getElementById("previewLombada").innerText = valorOuAutomatico("cenaLombada", "lombada");
+      document.getElementById("medLombada").textContent = lombadaMm.toFixed(1).replace(".", ",") + " mm";
+      document.getElementById("medOrelha").textContent = orelha + " mm";
+      document.getElementById("medFormato").textContent = formato;
+      document.getElementById("medPaginas").textContent = paginas;
+      document.getElementById("medPapel").textContent = gramatura + "g";
 
-if(fichaBaseAtual){
-document.getElementById("previewBaseEditorial").innerText =
-"A obra será interpretada visualmente a partir da classificação " +
-(fichaBaseAtual.classificacao_principal || "—") + " / " +
-(fichaBaseAtual.classificacao_secundaria || "—") + " / " +
-(fichaBaseAtual.classificacao_terciaria || "—") + ".";
-}
-}
+      document.getElementById("okFormatoResumo").textContent = formato;
+      document.getElementById("okPaginasResumo").textContent = paginas + " páginas";
+      document.getElementById("okPapelResumo").textContent = gramatura + "g";
+      document.getElementById("okOrelhaResumo").textContent = orelha > 0 ? orelha + " mm" : "Sem orelhas";
 
-function salvarConfiguracaoOkapista(){
-const configuracao = {
-capa: valorOuAutomatico("cenaCapa", "capa"),
-contracapa: valorOuAutomatico("cenaContracapa", "contracapa"),
-orelhaDianteira: valorOuAutomatico("cenaOrelhaDianteira", "orelhaDianteira"),
-orelhaTraseira: valorOuAutomatico("cenaOrelhaTraseira", "orelhaTraseira"),
-lombada: valorOuAutomatico("cenaLombada", "lombada"),
-larguraOrelhas: document.getElementById("larguraOrelhas").value,
-seloEditorial: document.getElementById("seloEditorial").value,
-isbnVisual: document.getElementById("isbnVisual").value
-};
+      document.getElementById("mesaTitulo").textContent = titulo;
+      document.getElementById("mesaSub").textContent =
+        "Formato " + formato + " • " + paginas + " páginas • lombada estimada " +
+        lombadaMm.toFixed(1).replace(".", ",") + " mm";
+    }
 
-localStorage.setItem("lapidar_configuracao_okapista", JSON.stringify(configuracao));
-alert("Direção visual do OKapista salva com sucesso.");
-}
+    function configurarBox(id, left, top, width, height, visible) {
+      var el = document.getElementById(id);
+      el.style.display = visible ? "flex" : "none";
+      if (!visible) return;
+      el.style.left = left + "px";
+      el.style.top = top + "px";
+      el.style.width = width + "px";
+      el.style.height = height + "px";
+    }
 
-function verificarAcessoOkapista(){
-let desbaste = localStorage.getItem("desbaste_concluido");
-let desbasteLapidar = localStorage.getItem("lapidar_desbaste_concluido");
+    function posicionarLinhas(x1, x2, x3, x4, x5, orelhaPx, contracapaPx, lombadaPx, capaPx) {
+      var cortes = ["corte1", "corte2", "corte3", "corte4"];
+      var valores = [x2, x3, x4, x5];
+      for (var i = 0; i < cortes.length; i++) {
+        document.getElementById(cortes[i]).style.left = valores[i] + "px";
+      }
 
-if(desbaste === "true" || desbasteLapidar === "true"){
-document.getElementById("areaOkapista").style.display = "block";
-preencherComFichaBase();
-}else{
-document.getElementById("bloqueioOkapista").style.display = "block";
-}
-}
+      var segs = [
+        { id: "seg1", x: x1 + 12 },
+        { id: "seg2", x: x2 + 12 },
+        { id: "seg3", x: x3 - 12 },
+        { id: "seg4", x: x4 + 12 },
+        { id: "seg5", x: x5 - 12 },
+        { id: "seg6", x: x5 + Math.max(orelhaPx - 12, 0) }
+      ];
 
-function voltarExecutor(){
-window.location.href = "modulo_executor.html";
-}
+      for (var j = 0; j < segs.length; j++) {
+        document.getElementById(segs[j].id).style.left = segs[j].x + "px";
+      }
+    }
 
-function voltarDesbaste(){
-window.location.href = "modulo_02_sistema_desbaste.html";
-}
+    function limitarSinopse(texto) {
+      if (!texto) return "";
+      var max = 520;
+      if (texto.length <= max) return texto;
+      return texto.slice(0, max).trim() + "...";
+    }
 
-function irMesario(){
-window.location.href = "mesario.html";
-}
+    function montarTextoLombada(titulo, autor, trilogia) {
+      var partes = [];
+      if (trilogia) partes.push(trilogia);
+      partes.push(titulo);
+      partes.push(autor);
+      return partes.join(" • ");
+    }
 
-document.getElementById("cenaCapa").addEventListener("input", atualizarPreviewOkapista);
-document.getElementById("cenaContracapa").addEventListener("input", atualizarPreviewOkapista);
-document.getElementById("cenaOrelhaDianteira").addEventListener("input", atualizarPreviewOkapista);
-document.getElementById("cenaOrelhaTraseira").addEventListener("input", atualizarPreviewOkapista);
-document.getElementById("cenaLombada").addEventListener("input", atualizarPreviewOkapista);
+    function salvarConfiguracaoOKapista() {
+      var config = {
+        formato: document.getElementById("formatoLivro").value,
+        paginas: document.getElementById("numeroPaginas").value,
+        gramatura: document.getElementById("gramaturaPapel").value,
+        orelha: document.getElementById("larguraOrelha").value,
+        isbn: document.getElementById("temISBN").value,
+        selo: document.getElementById("seloNome").value,
+        titulo: document.getElementById("tituloCapaInput").value,
+        autor: document.getElementById("autorCapaInput").value,
+        trilogia: document.getElementById("trilogiaInput").value,
+        sinopse: document.getElementById("sinopseInput").value,
+        orelhaTraseira: document.getElementById("orelhaTraseiraInput").value,
+        orelhaDianteira: document.getElementById("orelhaDianteiraInput").value
+      };
 
-verificarAcessoOkapista();
+      localStorage.setItem("lapidar_config_okapista", JSON.stringify(config));
+      alert("Configuração da capa salva com sucesso.");
+    }
 
-</script>
+    function restaurarConfiguracao() {
+      var salvo = localStorage.getItem("lapidar_config_okapista");
+      if (!salvo) return;
+      try {
+        var c = JSON.parse(salvo);
+        document.getElementById("formatoLivro").value = c.formato || "A5";
+        document.getElementById("numeroPaginas").value = c.paginas || "100";
+        document.getElementById("gramaturaPapel").value = c.gramatura || "75";
+        document.getElementById("larguraOrelha").value = c.orelha || "70";
+        document.getElementById("temISBN").value = c.isbn || "nao";
+        document.getElementById("seloNome").value = c.selo || "Site das Letras";
+        document.getElementById("tituloCapaInput").value = c.titulo || document.getElementById("tituloCapaInput").value;
+        document.getElementById("autorCapaInput").value = c.autor || document.getElementById("autorCapaInput").value;
+        document.getElementById("trilogiaInput").value = c.trilogia || "";
+        document.getElementById("sinopseInput").value = c.sinopse || document.getElementById("sinopseInput").value;
+        document.getElementById("orelhaTraseiraInput").value = c.orelhaTraseira || document.getElementById("orelhaTraseiraInput").value;
+        document.getElementById("orelhaDianteiraInput").value = c.orelhaDianteira || document.getElementById("orelhaDianteiraInput").value;
+      } catch (e) {}
+    }
 
+    function ligarEventos() {
+      var ids = [
+        "formatoLivro",
+        "numeroPaginas",
+        "gramaturaPapel",
+        "larguraOrelha",
+        "temISBN",
+        "seloNome",
+        "tituloCapaInput",
+        "autorCapaInput",
+        "trilogiaInput",
+        "sinopseInput",
+        "orelhaTraseiraInput",
+        "orelhaDianteiraInput"
+      ];
+
+      ids.forEach(function(id) {
+        document.getElementById(id).addEventListener("input", atualizarMesa);
+        document.getElementById(id).addEventListener("change", atualizarMesa);
+      });
+    }
+
+    preencherCabecalho();
+    restaurarConfiguracao();
+    ligarEventos();
+    atualizarMesa();
+  </script>
 </body>
 </html>
