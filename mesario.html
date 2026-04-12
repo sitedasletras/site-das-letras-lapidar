@@ -188,6 +188,13 @@
       margin-top: 20px;
     }
 
+    .acoes-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 14px;
+    }
+
     .botao {
       border: none;
       border-radius: 12px;
@@ -218,6 +225,11 @@
       color: #fff;
     }
 
+    .botao-roxo {
+      background: #6f42c1;
+      color: #fff;
+    }
+
     .mensagem-final {
       display: none;
       background: #eef8ef;
@@ -239,6 +251,30 @@
       font-size: 17px;
       line-height: 1.6;
       color: #4c5a55;
+    }
+
+    .liberacao-redes {
+      display: none;
+      background: #f3edff;
+      border: 1px solid #ddd0ff;
+      border-left: 6px solid #6f42c1;
+      border-radius: 14px;
+      padding: 18px 20px;
+      margin-top: 18px;
+    }
+
+    .liberacao-redes .titulo {
+      font-size: 22px;
+      font-weight: 700;
+      color: #5c35a5;
+      margin-bottom: 8px;
+    }
+
+    .liberacao-redes .texto {
+      font-size: 17px;
+      line-height: 1.6;
+      color: #554f6a;
+      margin-bottom: 14px;
     }
 
     .bloqueio {
@@ -272,7 +308,8 @@
 
     @media (max-width: 900px) {
       .grid-2,
-      .acoes {
+      .acoes,
+      .acoes-2 {
         grid-template-columns: 1fr;
       }
 
@@ -386,6 +423,24 @@
           <div class="texto">
             A obra foi registrada com sucesso nesta etapa do fluxo editorial. Os dados da seção
             foram confirmados e o sistema está pronto para liberar as próximas continuidades da obra.
+          </div>
+        </div>
+
+        <div id="liberacaoRedes" class="liberacao-redes">
+          <div class="titulo">Caminhada pelas Redes liberada ✔</div>
+          <div class="texto">
+            Como o Mesário foi confirmado, a obra já pode seguir para a etapa de circulação inicial assistida,
+            com pacote social, legenda, hashtags e QR Code.
+          </div>
+
+          <div class="acoes-2">
+            <button class="botao botao-roxo" onclick="window.location.href='caminhada_pelas_redes.html'">
+              Iniciar Caminhada pelas Redes
+            </button>
+
+            <button class="botao botao-secundario" onclick="window.location.href='modulo_executor.html'">
+              Fazer isso depois
+            </button>
           </div>
         </div>
       </div>
@@ -502,12 +557,18 @@
 
     function calcularMesario() {
       var valorBase = 0;
-
-      if (localStorage.getItem("lapidar_matriz_a4_ativa") === "true") {
-        valorBase += 0;
-      }
-
       document.getElementById("valorMesario").textContent = "R$ " + valorBase.toFixed(2).replace(".", ",");
+    }
+
+    function verificarMesarioJaConfirmado() {
+      var confirmado =
+        localStorage.getItem("mesario_confirmado") === "true" ||
+        localStorage.getItem("status_mesario") === "confirmado";
+
+      if (confirmado) {
+        document.getElementById("mensagemFinal").style.display = "block";
+        document.getElementById("liberacaoRedes").style.display = "block";
+      }
     }
 
     function confirmarMesario() {
@@ -524,12 +585,14 @@
       localStorage.setItem("data_fluxo_mesario", new Date().toISOString());
 
       document.getElementById("mensagemFinal").style.display = "block";
+      document.getElementById("liberacaoRedes").style.display = "block";
     }
 
     if (validarAcesso()) {
       preencher();
       verificarMatriz();
       calcularMesario();
+      verificarMesarioJaConfirmado();
     }
   </script>
 </body>
