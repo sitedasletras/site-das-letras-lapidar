@@ -1,1000 +1,386 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cofre Mestre da Obra</title>
-
-  <script src="https://unpkg.com/mammoth@1.8.0/mammoth.browser.min.js"></script>
-
-  <style>
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: #efe9df;
-      color: #2f2f2f;
-    }
-
-    .topo {
-      background: #d5cab5;
-      text-align: center;
-      padding: 18px 14px 14px;
-      border-bottom: 1px solid rgba(0,0,0,.06);
-    }
-
-    .topo h1 {
-      margin: 0 0 6px;
-      font-size: 24px;
-      color: #3d342a;
-    }
-
-    .topo p {
-      margin: 0;
-      font-size: 14px;
-      color: #6b6257;
-    }
-
-    .container {
-      max-width: 1180px;
-      margin: 0 auto;
-      padding: 18px 10px 36px;
-    }
-
-    .card {
-      background: #f7f4ee;
-      border: 1px solid #e1d9cc;
-      border-radius: 16px;
-      padding: 18px;
-      margin-bottom: 18px;
-      box-shadow: 0 6px 16px rgba(0,0,0,.05);
-    }
-
-    .card h2 {
-      margin: 0 0 14px;
-      font-size: 22px;
-      color: #3f403f;
-    }
-
-    .alerta {
-      background: #fff8e6;
-      border-left: 5px solid #d18a0f;
-      padding: 12px 14px;
-      border-radius: 10px;
-      color: #6a5938;
-      line-height: 1.5;
-      margin-bottom: 14px;
-    }
-
-    .botao {
-      width: 100%;
-      border: none;
-      border-radius: 10px;
-      padding: 15px 16px;
-      font-size: 17px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    .botao-marrom {
-      background: #7a6f63;
-      color: #fff;
-    }
-
-    .botao-azul {
-      background: #0d63dd;
-      color: #fff;
-    }
-
-    .botao-cinza {
-      background: #9aa3ad;
-      color: #fff;
-    }
-
-    .barra {
-      height: 14px;
-      background: #ddd6cb;
-      border-radius: 999px;
-      overflow: hidden;
-      margin: 12px 0 8px;
-    }
-
-    .barra > div {
-      height: 100%;
-      width: 0%;
-      background: #179a59;
-      transition: width .3s ease;
-    }
-
-    .log {
-      background: #fbfaf7;
-      border: 1px solid #e6dfd2;
-      border-radius: 12px;
-      padding: 12px;
-      margin-top: 10px;
-    }
-
-    .log .linha-log {
-      padding: 8px 0;
-      border-bottom: 1px solid #ece4d9;
-      color: #72695d;
-      font-size: 15px;
-    }
-
-    .log .linha-log:last-child {
-      border-bottom: none;
-    }
-
-    .upload-box {
-      border: 2px dashed #d7cec0;
-      border-radius: 14px;
-      padding: 20px 16px;
-      text-align: center;
-      background: #faf8f3;
-    }
-
-    .upload-box strong {
-      display: block;
-      font-size: 18px;
-      color: #51463b;
-      margin-bottom: 6px;
-    }
-
-    .upload-box span {
-      color: #887d70;
-      font-size: 14px;
-    }
-
-    .upload-btn {
-      margin-top: 14px;
-      display: inline-block;
-      background: #7a6f63;
-      color: #fff;
-      padding: 12px 18px;
-      border-radius: 10px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    .upload-status {
-      margin-top: 14px;
-      color: #198754;
-      font-weight: 700;
-      word-break: break-word;
-      line-height: 1.5;
-    }
-
-    .grid-2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-
-    .subcard {
-      background: #fbfaf7;
-      border: 1px solid #e4dccf;
-      border-radius: 14px;
-      padding: 14px;
-    }
-
-    .campo {
-      margin-bottom: 12px;
-    }
-
-    .campo:last-child {
-      margin-bottom: 0;
-    }
-
-    .campo label {
-      display: block;
-      font-size: 14px;
-      font-weight: 700;
-      color: #4c463d;
-      margin-bottom: 6px;
-    }
-
-    .campo input,
-    .campo select,
-    .campo textarea {
-      width: 100%;
-      border: 1px solid #d3cbc0;
-      border-radius: 10px;
-      padding: 11px 12px;
-      font-size: 15px;
-      background: #fff;
-      color: #2f2f2f;
-      font-family: Arial, Helvetica, sans-serif;
-    }
-
-    .campo textarea {
-      min-height: 110px;
-      resize: vertical;
-      line-height: 1.5;
-    }
-
-    .check {
-      display: flex;
-      gap: 10px;
-      align-items: flex-start;
-      background: #f4f8ff;
-      border: 1px solid #d9e7fb;
-      padding: 10px 12px;
-      border-radius: 10px;
-      margin-top: 6px;
-      color: #516070;
-      font-size: 14px;
-    }
-
-    .check input {
-      margin-top: 3px;
-    }
-
-    .status-leitura {
-      margin-top: 12px;
-    }
-
-    .acoes {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-top: 12px;
-    }
-
-    .faixa-info {
-      margin-top: 12px;
-      background: #edf4ff;
-      border-left: 5px solid #2d74da;
-      border-radius: 10px;
-      padding: 12px 14px;
-      color: #4c5d72;
-      line-height: 1.5;
-    }
-
-    .faixa-aviso {
-      margin-top: 12px;
-      background: #fff7e9;
-      border-left: 5px solid #d39a11;
-      border-radius: 10px;
-      padding: 12px 14px;
-      color: #6b593a;
-      line-height: 1.5;
-    }
-
-    .ok {
-      color: #198754;
-      font-weight: 700;
-    }
-
-    .preview-a4-wrap {
-      overflow-x: auto;
-    }
-
-    .preview-a4 {
-      width: 210mm;
-      min-height: 297mm;
-      margin: 0 auto;
-      background: #fff;
-      border: 1px solid #d7d7d7;
-      box-shadow: 0 10px 24px rgba(0,0,0,.10);
-      padding: 18mm 16mm;
-      font-family: Georgia, "Times New Roman", serif;
-      color: #222;
-    }
-
-    .preview-a4 .meta {
-      text-align: center;
-      border-bottom: 1px solid #ececec;
-      padding-bottom: 12px;
-      margin-bottom: 18px;
-    }
-
-    .preview-a4 .meta h3 {
-      margin: 0 0 8px;
-      font-size: 18pt;
-      line-height: 1.35;
-      word-break: break-word;
-    }
-
-    .preview-a4 .meta .autor {
-      font-size: 11pt;
-      color: #666;
-      margin-bottom: 4px;
-    }
-
-    .preview-a4 .meta .idioma {
-      font-size: 10.5pt;
-      color: #777;
-    }
-
-    .preview-a4 .conteudo {
-      font-size: 12.5pt;
-      line-height: 1.75;
-      text-align: justify;
-      white-space: pre-wrap;
-      word-break: break-word;
-    }
-
-    .rodape-card {
-      margin-top: 10px;
-      color: #7a7267;
-      font-size: 14px;
-    }
-
-    .hidden {
-      display: none !important;
-    }
-
-    @media (max-width: 900px) {
-      .grid-2,
-      .acoes {
-        grid-template-columns: 1fr;
-      }
-
-      .preview-a4 {
-        width: 100%;
-        min-height: 560px;
-        padding: 24px 20px;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lapidar — Módulo 01 Bolsão</title>
+<style>
+*{box-sizing:border-box}
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:#f6f1e7;
+    color:#2d251b;
+}
+.topo{
+    background:#5c4528;
+    color:#fff;
+    padding:22px 18px;
+}
+.topo h1{
+    margin:0;
+    font-size:1.8rem;
+}
+.topo p{
+    margin:8px 0 0 0;
+    line-height:1.45;
+    opacity:.95;
+}
+.container{
+    max-width:1200px;
+    margin:0 auto;
+    padding:18px 14px 30px;
+}
+.card{
+    background:#fff;
+    border:1px solid #eadfce;
+    border-radius:16px;
+    padding:18px;
+    box-shadow:0 4px 14px rgba(0,0,0,.08);
+    margin-bottom:18px;
+}
+.card h2{
+    margin:0 0 14px 0;
+    color:#6d5027;
+    font-size:1.2rem;
+}
+.grid{
+    display:grid;
+    grid-template-columns:1.1fr .9fr;
+    gap:18px;
+}
+label{
+    display:block;
+    font-size:13px;
+    font-weight:bold;
+    margin-bottom:6px;
+    color:#805f31;
+    text-transform:uppercase;
+}
+input[type="text"], textarea, select{
+    width:100%;
+    border:1px solid #d8cab3;
+    border-radius:10px;
+    padding:12px 12px;
+    font-size:15px;
+    background:#fffdfa;
+}
+textarea{
+    min-height:160px;
+    resize:vertical;
+}
+input[type="file"]{
+    width:100%;
+    border:1px dashed #baa784;
+    border-radius:10px;
+    padding:12px;
+    background:#fffdf9;
+}
+.acoes{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-top:14px;
+}
+button{
+    border:none;
+    border-radius:10px;
+    padding:12px 16px;
+    font-size:15px;
+    cursor:pointer;
+    font-weight:bold;
+}
+.btn-marrom{background:#6d5027;color:#fff}
+.btn-marrom:hover{background:#573f1f}
+.btn-claro{background:#e7dcc8;color:#4b3718}
+.btn-claro:hover{background:#d8cab1}
+.btn-verde{background:#15803d;color:#fff}
+.btn-verde:hover{background:#11622f}
+.mensagem{
+    margin-top:14px;
+    padding:12px 14px;
+    border-radius:10px;
+    display:none;
+    font-size:14px;
+}
+.ok{background:#edf9ef;border:1px solid #b7e1c1;color:#166534}
+.erro{background:#fff1f1;border:1px solid #f0b9b9;color:#991b1b}
+.preview-a4{
+    width:100%;
+    min-height:520px;
+    background:#fff;
+    border:1px solid #d9d1c2;
+    border-radius:12px;
+    padding:28px 24px;
+    box-shadow:inset 0 0 0 1px #f0e7d9;
+    overflow:auto;
+}
+.preview-a4 h3{
+    margin-top:0;
+    color:#6d5027;
+}
+.info{
+    background:#faf6ef;
+    border:1px solid #eadfce;
+    border-radius:10px;
+    padding:12px;
+    margin-bottom:12px;
+    font-size:14px;
+    line-height:1.45;
+}
+.linha{
+    margin-bottom:12px;
+}
+@media (max-width:900px){
+    .grid{grid-template-columns:1fr}
+}
+</style>
 </head>
 <body>
-  <div class="topo">
-    <h1>Cofre Mestre da Obra</h1>
-    <p>Ambiente oficial de limpeza, entrada, registro e leitura inicial da obra dentro do Lapidar.</p>
-  </div>
 
-  <div class="container">
-    <div class="card">
-      <h2>Preparação obrigatória do ambiente</h2>
+<header class="topo">
+    <h1>Módulo 01 — Bolsão Editorial</h1>
+    <p>Ponto oficial de entrada da obra na espinha dorsal do Lapidar. Aqui a obra é recebida, lida, registrada e preparada para o Sistema Desbaste.</p>
+</header>
 
-      <div class="alerta">
-        Antes de subir uma nova obra, o Cofre Mestre precisa limpar resíduos editoriais,
-        memórias antigas e dados herdados de módulos anteriores. Sem essa preparação,
-        o upload permanece travado.
-      </div>
+<main class="container">
+    <div class="grid">
+        <section class="card">
+            <h2>Recebimento da obra</h2>
 
-      <button class="botao botao-marrom" id="btnPreparar" onclick="prepararCofre()">
-        Preparar Cofre para nova obra
-      </button>
+            <div class="linha">
+                <label for="arquivoObra">Arquivo da obra</label>
+                <input type="file" id="arquivoObra" accept=".txt,.doc,.docx,.pdf">
+            </div>
 
-      <div class="barra">
-        <div id="barraPreparacao"></div>
-      </div>
+            <div class="linha">
+                <label for="tituloManual">Título da obra</label>
+                <input type="text" id="tituloManual" placeholder="Se quiser, ajuste manualmente o título detectado">
+            </div>
 
-      <div id="statusPreparacao" class="ok">Status atual: Cofre ainda não preparado.</div>
+            <div class="linha">
+                <label for="autorManual">Autor da obra</label>
+                <input type="text" id="autorManual" placeholder="Se quiser, ajuste manualmente o autor detectado">
+            </div>
 
-      <div class="log">
-        <div class="linha-log">Iniciando limpeza estrutural do Cofre...</div>
-        <div class="linha-log">Removendo resíduos da obra anterior...</div>
-        <div class="linha-log">Limpando chaves editoriais herdadas dos módulos...</div>
-        <div class="linha-log">Reorganizando memória do sistema para nova obra...</div>
-        <div class="linha-log">Sincronizando ambiente com Desbaste, Workspace e Barracão...</div>
-      </div>
+            <div class="linha">
+                <label for="tipoManual">Classificação base</label>
+                <select id="tipoManual">
+                    <option value="">Detectar automaticamente</option>
+                    <option value="Prosa">Prosa</option>
+                    <option value="Poesia">Poesia</option>
+                    <option value="Híbrido">Híbrido</option>
+                </select>
+            </div>
+
+            <div class="linha">
+                <label for="textoBruto">Prévia do texto bruto</label>
+                <textarea id="textoBruto" placeholder="O texto detectado aparecerá aqui. Também é possível colar manualmente."></textarea>
+            </div>
+
+            <div class="acoes">
+                <button class="btn-marrom" onclick="lerObra()">Ler obra</button>
+                <button class="btn-claro" onclick="limparBolsao()">Limpar Bolsão</button>
+                <button class="btn-verde" onclick="seguirParaDesbaste()">Seguir para o Sistema Desbaste</button>
+            </div>
+
+            <div id="mensagemOk" class="mensagem ok"></div>
+            <div id="mensagemErro" class="mensagem erro"></div>
+        </section>
+
+        <section class="card">
+            <h2>Matriz editorial A4</h2>
+
+            <div class="info">
+                O Bolsão preserva a espinha dorsal. Ele recebe a obra, registra os dados principais e prepara o estado técnico para o Desbaste, sem pular etapas.
+            </div>
+
+            <div class="preview-a4" id="previewA4">
+                <h3>Prévia técnica da obra</h3>
+                <p>Nenhuma obra carregada ainda.</p>
+            </div>
+        </section>
     </div>
-
-    <div class="card">
-      <h2>Enviar obra</h2>
-
-      <div class="upload-box">
-        <strong>Clique aqui para enviar sua obra</strong>
-        <span>DOCX, DOC, PDF ou TXT. O envio só é liberado após a preparação do Cofre.</span>
-
-        <label for="arquivoObra" class="upload-btn">Selecionar manuscrito</label>
-        <input id="arquivoObra" type="file" accept=".doc,.docx,.pdf,.txt" class="hidden" />
-      </div>
-
-      <div id="uploadStatus" class="upload-status">Aguardando envio.</div>
-
-      <div class="rodape-card">
-        Ao receber a obra, o Cofre registra a ficha-base única do sistema e alimenta Desbaste, Workspace, Executor e módulos seguintes.
-      </div>
-    </div>
-
-    <div class="card">
-      <h2>Reconhecimento estrutural automático</h2>
-
-      <div class="grid-2">
-        <div class="subcard">
-          <div class="campo">
-            <label for="campoArquivo">Arquivo</label>
-            <input id="campoArquivo" type="text" readonly value="— aguardando envio —" />
-          </div>
-
-          <div class="campo">
-            <label for="campoTitulo">Título-base da obra</label>
-            <input id="campoTitulo" type="text" value="— aguardando envio —" />
-          </div>
-
-          <div class="campo">
-            <label for="tipoResponsavel">Responsável autoral da obra</label>
-            <select id="tipoResponsavel">
-              <option value="Autor">Autor</option>
-              <option value="Autores diversos">Autores diversos</option>
-              <option value="Organizador">Organizador</option>
-              <option value="Coautoria">Coautoria</option>
-              <option value="Obra sem autor identificado">Obra sem autor identificado</option>
-            </select>
-          </div>
-
-          <div class="campo">
-            <label for="campoAutor">Poste aqui o nome do autor da obra</label>
-            <input id="campoAutor" type="text" placeholder="Digite aqui o nome do autor da obra" />
-          </div>
-
-          <div class="check">
-            <input id="checkSemAutor" type="checkbox" />
-            <label for="checkSemAutor">Marque aqui se esta obra não tiver autor identificado ou se a autoria aparecer de forma coletiva.</label>
-          </div>
-
-          <div class="campo" style="margin-top:12px;">
-            <label for="campoIdioma">Idioma</label>
-            <input id="campoIdioma" type="text" value="Português do Brasil" />
-          </div>
-        </div>
-
-        <div class="subcard">
-          <div class="campo">
-            <label for="campoPrincipal">Classificação principal</label>
-            <input id="campoPrincipal" type="text" value="— aguardando leitura —" />
-          </div>
-
-          <div class="campo">
-            <label for="campoSecundaria">Classificação secundária</label>
-            <input id="campoSecundaria" type="text" value="— aguardando leitura —" />
-          </div>
-
-          <div class="campo">
-            <label for="campoTerciaria">Classificação terciária</label>
-            <input id="campoTerciaria" type="text" value="— aguardando leitura —" />
-          </div>
-
-          <div class="campo">
-            <label for="campoStatusTecnico">Status técnico</label>
-            <input id="campoStatusTecnico" type="text" value="Aguardando leitura estrutural" />
-          </div>
-
-          <div class="faixa-info">
-            O valor editado aqui passa a valer para os outros blocos e módulos do fluxo.
-            Isso evita retrabalho com autor, organizador, coautoria ou diversos autores.
-          </div>
-        </div>
-      </div>
-
-      <div class="acoes">
-        <button class="botao botao-marrom" onclick="iniciarLeituraEstrutural()">
-          Iniciar leitura estrutural
-        </button>
-
-        <button class="botao botao-cinza" onclick="salvarFichaBaseManual()">
-          Salvar ficha-base da obra
-        </button>
-      </div>
-    </div>
-
-    <div class="card">
-      <h2>Status da leitura editorial</h2>
-
-      <div class="barra">
-        <div id="barraLeitura"></div>
-      </div>
-
-      <div id="statusLeituraTexto" class="status-leitura">Leitura estrutural ainda não iniciada.</div>
-
-      <div class="log">
-        <div class="linha-log">Preparando leitura estrutural...</div>
-        <div class="linha-log">Separando elementos técnicos...</div>
-        <div class="linha-log">Organizando fluxo editorial...</div>
-        <div class="linha-log">Consolidando ficha-base da obra...</div>
-        <div class="linha-log">Leitura estrutural concluída com sucesso.</div>
-      </div>
-    </div>
-
-    <div class="card">
-      <h2>Prévia A4 da obra — base técnica inicial</h2>
-
-      <div class="preview-a4-wrap">
-        <div class="preview-a4">
-          <div class="meta">
-            <h3 id="previewTitulo">Obra ainda não recebida</h3>
-            <div class="autor" id="previewAutor">Autor a confirmar</div>
-            <div class="idioma" id="previewIdioma">Português do Brasil</div>
-          </div>
-
-          <div class="conteudo" id="previewConteudo">Texto ainda não carregado pelo Cofre.</div>
-        </div>
-      </div>
-
-      <div id="mensagemTecnicaArquivo" class="faixa-aviso hidden"></div>
-
-      <div class="rodape-card">
-        Esta prévia A4 alimenta a matriz editorial do sistema. O texto integral limpo será reutilizado pelos módulos seguintes.
-      </div>
-    </div>
-
-    <div class="card">
-      <h2>Próximo passo</h2>
-
-      <div class="faixa-info">
-        A ficha-base da obra foi consolidada no Cofre Mestre. O fluxo oficial segue agora para o Sistema Desbaste.
-      </div>
-
-      <div class="acoes">
-        <button class="botao botao-azul" onclick="seguirDesbaste()">
-          Seguir para o Sistema Desbaste
-        </button>
-
-        <button class="botao botao-cinza" onclick="resetarObra()">
-          Preparar nova obra novamente
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    var cofrePreparado = false;
-    var textoIntegralObra = "";
-    var tipoArquivoAtual = "";
-    var nomeArquivoAtual = "";
-
-    function limparTextoNomeArquivo(nome) {
-      return (nome || "")
-        .replace(/\.[^/.]+$/, "")
-        .replace(/[_-]+/g, " ")
-        .replace(/\s+/g, " ")
-        .trim();
-    }
-
-    function limparTextoExtraido(texto) {
-      if (!texto) return "";
-      return texto
-        .replace(/\r/g, "")
-        .replace(/\t/g, " ")
-        .replace(/\u00A0/g, " ")
-        .replace(/[ ]{2,}/g, " ")
-        .replace(/\n{3,}/g, "\n\n")
-        .trim();
-    }
-
-    function prepararCofre() {
-      cofrePreparado = true;
-      document.getElementById("barraPreparacao").style.width = "100%";
-      document.getElementById("statusPreparacao").textContent = "Status atual: Cofre preparado e liberado para upload.";
-      document.getElementById("statusPreparacao").className = "ok";
-      localStorage.setItem("cofre_preparado", "true");
-    }
-
-    function salvarFichaBaseEmTodasAsChaves(dados) {
-      var ficha = {
-        arquivo: dados.arquivo || "",
-        titulo_base: dados.titulo || "",
-        autor: dados.autor || "",
-        tipo_responsavel: dados.tipoResponsavel || "",
-        idioma: dados.idioma || "Português do Brasil",
-        classificacao_principal: dados.principal || "Prosa",
-        classificacao_secundaria: dados.secundaria || "Narrativa literária",
-        classificacao_terciaria: dados.terciaria || "A definir no Desbaste",
-        status_tecnico: dados.statusTecnico || "Estrutura pronta para preparação editorial"
-      };
-
-      localStorage.setItem("lapidar_ficha_base_obra", JSON.stringify(ficha));
-
-      localStorage.setItem("arquivo_obra_nome", ficha.arquivo);
-      localStorage.setItem("nome_arquivo_obra", ficha.arquivo);
-      localStorage.setItem("arquivoNome", ficha.arquivo);
-      localStorage.setItem("nomeArquivo", ficha.arquivo);
-      localStorage.setItem("arquivo", ficha.arquivo);
-      localStorage.setItem("matriz_editorial_arquivo", ficha.arquivo);
-
-      localStorage.setItem("titulo_base_obra", ficha.titulo_base);
-      localStorage.setItem("tituloBaseObra", ficha.titulo_base);
-      localStorage.setItem("titulo_obra", ficha.titulo_base);
-      localStorage.setItem("tituloBase", ficha.titulo_base);
-      localStorage.setItem("titulo", ficha.titulo_base);
-      localStorage.setItem("matriz_editorial_titulo", ficha.titulo_base);
-
-      localStorage.setItem("autor_obra", ficha.autor);
-      localStorage.setItem("autorObra", ficha.autor);
-      localStorage.setItem("autor", ficha.autor);
-      localStorage.setItem("nome_autor", ficha.autor);
-      localStorage.setItem("matriz_editorial_autor", ficha.autor);
-
-      localStorage.setItem("tipo_responsavel_obra", ficha.tipo_responsavel);
-
-      localStorage.setItem("idioma_obra", ficha.idioma);
-      localStorage.setItem("idiomaObra", ficha.idioma);
-      localStorage.setItem("idioma", ficha.idioma);
-      localStorage.setItem("matriz_editorial_idioma", ficha.idioma);
-
-      localStorage.setItem("classificacao_principal", ficha.classificacao_principal);
-      localStorage.setItem("classPrincipal", ficha.classificacao_principal);
-      localStorage.setItem("principal", ficha.classificacao_principal);
-      localStorage.setItem("matriz_editorial_classificacao_principal", ficha.classificacao_principal);
-
-      localStorage.setItem("classificacao_secundaria", ficha.classificacao_secundaria);
-      localStorage.setItem("classSecundaria", ficha.classificacao_secundaria);
-      localStorage.setItem("secundaria", ficha.classificacao_secundaria);
-      localStorage.setItem("matriz_editorial_classificacao_secundaria", ficha.classificacao_secundaria);
-
-      localStorage.setItem("classificacao_terciaria", ficha.classificacao_terciaria);
-      localStorage.setItem("classTerciaria", ficha.classificacao_terciaria);
-      localStorage.setItem("terciaria", ficha.classificacao_terciaria);
-      localStorage.setItem("matriz_editorial_classificacao_terciaria", ficha.classificacao_terciaria);
-
-      localStorage.setItem("status_tecnico_obra", ficha.status_tecnico);
-      localStorage.setItem("statusTecnico", ficha.status_tecnico);
-      localStorage.setItem("status_tecnico", ficha.status_tecnico);
-      localStorage.setItem("matriz_editorial_status_tecnico", ficha.status_tecnico);
-
-      localStorage.setItem("tipo_arquivo_obra", tipoArquivoAtual || "");
-      localStorage.setItem("nome_arquivo_atual", nomeArquivoAtual || ficha.arquivo);
-
-      if (textoIntegralObra && textoIntegralObra.trim() !== "") {
-        localStorage.setItem("texto_obra_limpo", textoIntegralObra);
-        localStorage.setItem("texto_obra", textoIntegralObra);
-        localStorage.setItem("obra_texto_base", textoIntegralObra);
-        localStorage.setItem("conteudo_obra", textoIntegralObra);
-      } else {
-        localStorage.removeItem("texto_obra_limpo");
-        localStorage.removeItem("texto_obra");
-        localStorage.removeItem("obra_texto_base");
-        localStorage.removeItem("conteudo_obra");
-      }
-    }
-
-    function atualizarPreviewA4() {
-      var titulo = document.getElementById("campoTitulo").value.trim() || "Obra ainda não recebida";
-      var idioma = document.getElementById("campoIdioma").value.trim() || "Português do Brasil";
-      var semAutor = document.getElementById("checkSemAutor").checked;
-      var autor = semAutor ? "Obra sem autor identificado" : (document.getElementById("campoAutor").value.trim() || "Autor a confirmar");
-
-      document.getElementById("previewTitulo").textContent = titulo;
-      document.getElementById("previewAutor").textContent = autor;
-      document.getElementById("previewIdioma").textContent = idioma;
-
-      var aviso = document.getElementById("mensagemTecnicaArquivo");
-
-      if (textoIntegralObra && textoIntegralObra.trim() !== "") {
-        document.getElementById("previewConteudo").textContent = textoIntegralObra.slice(0, 2500);
-        aviso.classList.add("hidden");
-        aviso.textContent = "";
-      } else {
-        if (tipoArquivoAtual === "docx") {
-          document.getElementById("previewConteudo").textContent =
-            "O arquivo DOCX foi registrado com sucesso. A leitura integral está em processamento estruturado para alimentar a matriz editorial da obra.";
-          aviso.classList.remove("hidden");
-          aviso.textContent =
-            "Arquivo DOCX detectado. O Lapidar usará extração estruturada do conteúdo para evitar lixo binário e preservar o texto real da obra.";
-        } else if (tipoArquivoAtual === "pdf" || tipoArquivoAtual === "doc") {
-          document.getElementById("previewConteudo").textContent =
-            "Leitura integral ainda não disponível no navegador para este tipo de arquivo. O Cofre registrou nome, título, autoria e metadados sem exibir caracteres quebrados.";
-          aviso.classList.remove("hidden");
-          aviso.textContent =
-            "Arquivo " + tipoArquivoAtual.toUpperCase() + " detectado. Nesta etapa, o Lapidar não tentará ler esse formato como texto cru.";
-        } else {
-          document.getElementById("previewConteudo").textContent = "Texto ainda não carregado pelo Cofre.";
-          aviso.classList.add("hidden");
-          aviso.textContent = "";
-        }
-      }
-    }
-
-    function detectarClassificacaoBasica(texto) {
-      var principal = "Prosa";
-      var secundaria = "Narrativa literária";
-      var terciaria = "A definir no Desbaste";
-
-      if (!texto || texto.trim() === "") {
-        return { principal: principal, secundaria: secundaria, terciaria: terciaria };
-      }
-
-      var linhas = texto.split("\n").filter(function(l) { return l.trim().length > 0; });
-      var linhasCurtas = linhas.filter(function(l) { return l.trim().length < 55; }).length;
-
-      if (linhas.length > 0 && (linhasCurtas / linhas.length) > 0.45) {
-        principal = "Poesia";
-        secundaria = "Texto poético";
-      }
-
-      return { principal: principal, secundaria: secundaria, terciaria: terciaria };
-    }
-
-    function iniciarLeituraEstrutural() {
-      var titulo = document.getElementById("campoTitulo").value.trim();
-      var semAutor = document.getElementById("checkSemAutor").checked;
-      var autorDigitado = document.getElementById("campoAutor").value.trim();
-      var tipoResponsavel = document.getElementById("tipoResponsavel").value;
-      var idioma = document.getElementById("campoIdioma").value.trim() || "Português do Brasil";
-      var arquivo = document.getElementById("campoArquivo").value.trim();
-
-      if (!arquivo || arquivo === "— aguardando envio —") {
-        alert("Envie primeiro o manuscrito da obra.");
-        return;
-      }
-
-      if (!titulo) {
-        alert("Preencha ou confirme o título-base da obra.");
-        return;
-      }
-
-      var autorFinal = semAutor ? "Obra sem autor identificado" : (autorDigitado || "Autor a confirmar");
-      var cls = detectarClassificacaoBasica(textoIntegralObra);
-
-      document.getElementById("campoPrincipal").value = cls.principal;
-      document.getElementById("campoSecundaria").value = cls.secundaria;
-      document.getElementById("campoTerciaria").value = cls.terciaria;
-      document.getElementById("campoStatusTecnico").value = "Estrutura pronta para preparação editorial";
-
-      document.getElementById("barraLeitura").style.width = "100%";
-      document.getElementById("statusLeituraTexto").textContent = "Leitura estrutural concluída com sucesso.";
-
-      salvarFichaBaseEmTodasAsChaves({
-        arquivo: arquivo,
+</main>
+
+<script>
+function mostrarOk(msg){
+    const ok = document.getElementById("mensagemOk");
+    const erro = document.getElementById("mensagemErro");
+    erro.style.display = "none";
+    ok.textContent = msg;
+    ok.style.display = "block";
+}
+
+function mostrarErro(msg){
+    const ok = document.getElementById("mensagemOk");
+    const erro = document.getElementById("mensagemErro");
+    ok.style.display = "none";
+    erro.textContent = msg;
+    erro.style.display = "block";
+}
+
+function detectarClassificacaoBasica(texto){
+    const t = (texto || "").toLowerCase();
+
+    if(!t.trim()) return "Indefinido";
+
+    const versos = t.split("\n").filter(l => l.trim().length > 0 && l.trim().length < 60).length;
+    const capitulos = (t.match(/cap[ií]tulo|chapter|pr[oó]logo|ep[ií]logo/g) || []).length;
+
+    if(versos > 20 && capitulos < 2) return "Poesia";
+    if(capitulos > 1) return "Prosa";
+    if(t.includes("poema") || t.includes("estrofe") || t.includes("verso")) return "Poesia";
+
+    return "Prosa";
+}
+
+function detectarTitulo(texto){
+    const linhas = (texto || "").split("\n").map(l => l.trim()).filter(Boolean);
+    return linhas.length ? linhas[0].slice(0,120) : "Título não identificado";
+}
+
+function detectarAutor(texto){
+    const linhas = (texto || "").split("\n").map(l => l.trim()).filter(Boolean).slice(0,10);
+    const autorLinha = linhas.find(l => /^autor[:\-]/i.test(l));
+    if(autorLinha) return autorLinha.replace(/^autor[:\-]\s*/i, "").trim();
+    return "Autor não identificado";
+}
+
+function atualizarPreview(titulo, autor, tipo, texto){
+    const alvo = document.getElementById("previewA4");
+    const trecho = (texto || "").slice(0, 600).replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    alvo.innerHTML = `
+        <h3>${titulo}</h3>
+        <p><b>Autor:</b> ${autor}</p>
+        <p><b>Classificação base:</b> ${tipo}</p>
+        <hr>
+        <div style="white-space:pre-wrap; line-height:1.55;">${trecho || "Sem prévia textual disponível."}</div>
+    `;
+}
+
+function persistirObra(titulo, autor, tipo, texto, nomeArquivo){
+    const obra = {
         titulo: titulo,
-        autor: autorFinal,
-        tipoResponsavel: tipoResponsavel,
-        idioma: idioma,
-        principal: cls.principal,
-        secundaria: cls.secundaria,
-        terciaria: cls.terciaria,
-        statusTecnico: "Estrutura pronta para preparação editorial"
-      });
+        autor: autor,
+        tipo: tipo,
+        nomeArquivo: nomeArquivo || "texto_manual",
+        textoExtraido: texto,
+        estrutura: {
+            titulo: titulo,
+            autor: autor
+        },
+        origem: "modulo_01_bolsao.html",
+        dataRegistro: new Date().toISOString()
+    };
 
-      localStorage.setItem("desbaste_concluido", "true");
-      localStorage.setItem("lapidar_desbaste_concluido", "true");
+    localStorage.setItem("obraAtual", JSON.stringify(obra));
+    localStorage.setItem("cofre_preparado", "true");
+    localStorage.setItem("obraAtiva", titulo);
+    localStorage.setItem("matriz_editorial_ativa", "true");
+}
 
-      atualizarPreviewA4();
+function extrairTextoDoArquivo(file){
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+
+        reader.onload = function(e){
+            try{
+                const resultado = e.target.result;
+
+                if(file.name.toLowerCase().endsWith(".txt")){
+                    resolve(resultado);
+                    return;
+                }
+
+                if(file.name.toLowerCase().endsWith(".pdf")){
+                    resolve("[PDF recebido no Bolsão]\n\n" + file.name + "\n\nA leitura técnica detalhada do PDF poderá ser refinada em etapa posterior.");
+                    return;
+                }
+
+                if(file.name.toLowerCase().endsWith(".doc") || file.name.toLowerCase().endsWith(".docx")){
+                    resolve("[DOC/DOCX recebido no Bolsão]\n\n" + file.name + "\n\nA extração textual completa dependerá do conversor configurado na sua versão local.");
+                    return;
+                }
+
+                resolve(String(resultado || ""));
+            }catch(error){
+                reject(error);
+            }
+        };
+
+        if(file.name.toLowerCase().endsWith(".txt")){
+            reader.readAsText(file, "utf-8");
+        }else{
+            reader.readAsArrayBuffer(file);
+        }
+    });
+}
+
+async function lerObra(){
+    try{
+        const inputArquivo = document.getElementById("arquivoObra");
+        const arquivo = inputArquivo.files[0];
+        const textoManual = document.getElementById("textoBruto").value.trim();
+
+        let texto = textoManual;
+        let nomeArquivo = "texto_manual";
+
+        if(arquivo){
+            texto = await extrairTextoDoArquivo(arquivo);
+            nomeArquivo = arquivo.name;
+            document.getElementById("textoBruto").value = texto;
+        }
+
+        if(!texto.trim()){
+            mostrarErro("Nenhum conteúdo foi encontrado. Envie um arquivo ou cole o texto manualmente.");
+            return;
+        }
+
+        let titulo = document.getElementById("tituloManual").value.trim() || detectarTitulo(texto);
+        let autor = document.getElementById("autorManual").value.trim() || detectarAutor(texto);
+        let tipo = document.getElementById("tipoManual").value || detectarClassificacaoBasica(texto);
+
+        document.getElementById("tituloManual").value = titulo;
+        document.getElementById("autorManual").value = autor;
+        if(!document.getElementById("tipoManual").value){
+            document.getElementById("tipoManual").value = tipo;
+        }
+
+        persistirObra(titulo, autor, tipo, texto, nomeArquivo);
+        atualizarPreview(titulo, autor, tipo, texto);
+        mostrarOk("Obra lida e registrada no Bolsão com sucesso. O estado técnico foi preparado para o Sistema Desbaste.");
+    }catch(error){
+        mostrarErro("Ocorreu um problema ao ler a obra no Bolsão.");
     }
+}
 
-    function salvarFichaBaseManual() {
-      var arquivo = document.getElementById("campoArquivo").value.trim();
-      var titulo = document.getElementById("campoTitulo").value.trim() || "Obra em preparação editorial";
-      var semAutor = document.getElementById("checkSemAutor").checked;
-      var autorDigitado = document.getElementById("campoAutor").value.trim();
-      var autorFinal = semAutor ? "Obra sem autor identificado" : (autorDigitado || "Autor a confirmar");
+function limparBolsao(){
+    document.getElementById("arquivoObra").value = "";
+    document.getElementById("tituloManual").value = "";
+    document.getElementById("autorManual").value = "";
+    document.getElementById("tipoManual").value = "";
+    document.getElementById("textoBruto").value = "";
+    document.getElementById("previewA4").innerHTML = "<h3>Prévia técnica da obra</h3><p>Nenhuma obra carregada ainda.</p>";
+    localStorage.removeItem("obraAtual");
+    localStorage.removeItem("cofre_preparado");
+    localStorage.removeItem("obraAtiva");
+    mostrarOk("Bolsão limpo com sucesso.");
+}
 
-      salvarFichaBaseEmTodasAsChaves({
-        arquivo: arquivo === "— aguardando envio —" ? "" : arquivo,
-        titulo: titulo,
-        autor: autorFinal,
-        tipoResponsavel: document.getElementById("tipoResponsavel").value,
-        idioma: document.getElementById("campoIdioma").value.trim() || "Português do Brasil",
-        principal: document.getElementById("campoPrincipal").value.trim() || "Prosa",
-        secundaria: document.getElementById("campoSecundaria").value.trim() || "Narrativa literária",
-        terciaria: document.getElementById("campoTerciaria").value.trim() || "A definir no Desbaste",
-        statusTecnico: document.getElementById("campoStatusTecnico").value.trim() || "Estrutura pronta para preparação editorial"
-      });
+function seguirParaDesbaste(){
+    const obra = localStorage.getItem("obraAtual");
+    const cofre = localStorage.getItem("cofre_preparado");
 
-      atualizarPreviewA4();
-      alert("Ficha-base salva e propagada para os outros módulos.");
-    }
-
-    function seguirDesbaste() {
-      salvarFichaBaseManual();
-      window.location.href = "modulo_02_sistema_desbaste.html";
-    }
-
-    function resetarObra() {
-      textoIntegralObra = "";
-      tipoArquivoAtual = "";
-      nomeArquivoAtual = "";
-
-      [
-        "lapidar_ficha_base_obra",
-        "texto_obra_limpo",
-        "texto_obra",
-        "obra_texto_base",
-        "conteudo_obra",
-        "desbaste_concluido",
-        "lapidar_desbaste_concluido",
-        "arquivo_obra_nome",
-        "nome_arquivo_obra",
-        "arquivoNome",
-        "nomeArquivo",
-        "arquivo",
-        "matriz_editorial_arquivo",
-        "titulo_base_obra",
-        "tituloBaseObra",
-        "titulo_obra",
-        "tituloBase",
-        "titulo",
-        "matriz_editorial_titulo",
-        "autor_obra",
-        "autorObra",
-        "autor",
-        "nome_autor",
-        "matriz_editorial_autor",
-        "tipo_responsavel_obra",
-        "idioma_obra",
-        "idiomaObra",
-        "idioma",
-        "matriz_editorial_idioma",
-        "classificacao_principal",
-        "classPrincipal",
-        "principal",
-        "matriz_editorial_classificacao_principal",
-        "classificacao_secundaria",
-        "classSecundaria",
-        "secundaria",
-        "matriz_editorial_classificacao_secundaria",
-        "classificacao_terciaria",
-        "classTerciaria",
-        "terciaria",
-        "matriz_editorial_classificacao_terciaria",
-        "status_tecnico_obra",
-        "statusTecnico",
-        "status_tecnico",
-        "matriz_editorial_status_tecnico",
-        "tipo_arquivo_obra",
-        "nome_arquivo_atual"
-      ].forEach(function(chave) {
-        localStorage.removeItem(chave);
-      });
-
-      window.location.reload();
-    }
-
-    function restaurarCamposDaMemoria() {
-      var arquivo = localStorage.getItem("matriz_editorial_arquivo") ||
-                    localStorage.getItem("arquivo_obra_nome") || "";
-      var titulo = localStorage.getItem("matriz_editorial_titulo") ||
-                   localStorage.getItem("titulo_base_obra") || "";
-      var autor = localStorage.getItem("matriz_editorial_autor") ||
-                  localStorage.getItem("autor_obra") || "";
-      var tipo = localStorage.getItem("tipo_responsavel_obra") || "Autor";
-      var idioma = localStorage.getItem("matriz_editorial_idioma") ||
-                   localStorage.getItem("idioma_obra") || "Português do Brasil";
-      var principal = localStorage.getItem("matriz_editorial_classificacao_principal") ||
-                      localStorage.getItem("classificacao_principal") || "— aguardando leitura —";
-      var secundaria = localStorage.getItem("matriz_editorial_classificacao_secundaria") ||
-                       localStorage.getItem("classificacao_secundaria") || "— aguardando leitura —";
-      var terciaria = localStorage.getItem("matriz_editorial_classificacao_terciaria") ||
-                      localStorage.getItem("classificacao_terciaria") || "— aguardando leitura —";
-      var statusTecnico = localStorage.getItem("matriz_editorial_status_tecnico") ||
-                          localStorage.getItem("status_tecnico_obra") || "Aguardando leitura estrutural";
-
-      if (arquivo) document.getElementById("campoArquivo").value = arquivo;
-      if (titulo) document.getElementById("campoTitulo").value = titulo;
-      if (autor) document.getElementById("campoAutor").value = autor;
-      document.getElementById("tipoResponsavel").value = tipo;
-      document.getElementById("campoIdioma").value = idioma;
-      document.getElementById("campoPrincipal").value = principal;
-      document.getElementById("campoSecundaria").value = secundaria;
-      document.getElementById("campoTerciaria").value = terciaria;
-      document.getElementById("campoStatusTecnico").value = statusTecnico;
-
-      textoIntegralObra =
-        localStorage.getItem("texto_obra_limpo") ||
-        localStorage.getItem("texto_obra") ||
-        localStorage.getItem("obra_texto_base") ||
-        localStorage.getItem("conteudo_obra") ||
-        "";
-
-      tipoArquivoAtual = localStorage.getItem("tipo_arquivo_obra") || "";
-      nomeArquivoAtual = localStorage.getItem("nome_arquivo_atual") || arquivo || "";
-
-      if (autor === "Obra sem autor identificado") {
-        document.getElementById("checkSemAutor").checked = true;
-      }
-
-      atualizarPreviewA4();
-    }
-
-    function registrarArquivoSemTextoCru(file) {
-      textoIntegralObra = "";
-      atualizarPreviewA4();
-
-      document.getElementById("uploadStatus").innerHTML =
-        "Arquivo recebido: " + file.name + "<br>" +
-        "Leitura integral do conteúdo ficará para a camada adequada. " +
-        "Nesta etapa, o Lapidar registrou o arquivo sem exibir lixo binário.";
-    }
-
-    async function extrairDocxComMammoth(file) {
-      const arrayBuffer = await file.arrayBuffer();
-      const resultado = await mammoth.extractRawText({ arrayBuffer: arrayBuffer });
-      return limparTextoExtraido(resultado.value || "");
-    }
-
-    document.getElementById("arquivoObra").addEventListener("change", async function(event) {
-      if (!cofrePreparado && localStorage.getItem("cofre_preparado") !== "true") {
-        alert("Prepare primeiro o Cofre para nova obra.");
-        event.target.value = "";
+    if(!obra || cofre !== "true"){
+        mostrarErro("Antes de seguir, a obra precisa ser lida e registrada no Bolsão.");
         return;
-      }
-
-      var file = event.target.files[0];
-      if (!file) return;
-
-      nomeArquivoAtual = file.name;
-      document.getElementById("campoArquivo").value = file.name;
-      document.getElementById("uploadStatus").textContent = "Arquivo recebido: " + file.name;
-
-      var tituloDetectado = limparTextoNomeArquivo(file.name);
-      document.getElementById("campoTitulo").value = tituloDetectado;
-
-      var nomeLower = file.name.toLowerCase();
-
-      try {
-        if (nomeLower.endsWith(".txt")) {
-          tipoArquivoAtual = "txt";
-          textoIntegralObra = limparTextoExtraido(await file.text());
-          atualizarPreviewA4();
-          salvarFichaBaseManual();
-          return;
-        }
-
-        if (nomeLower.endsWith(".docx")) {
-          tipoArquivoAtual = "docx";
-          document.getElementById("uploadStatus").textContent =
-            "Arquivo recebido: " + file.name + " — extraindo texto estrutural do DOCX...";
-          textoIntegralObra = await extrairDocxComMammoth(file);
-          atualizarPreviewA4();
-          salvarFichaBaseManual();
-          document.getElementById("uploadStatus").textContent =
-            "Arquivo recebido: " + file.name + " — texto estrutural extraído com sucesso.";
-          return;
-        }
-
-        if (nomeLower.endsWith(".doc")) {
-          tipoArquivoAtual = "doc";
-          registrarArquivoSemTextoCru(file);
-          salvarFichaBaseManual();
-          return;
-        }
-
-        if (nomeLower.endsWith(".pdf")) {
-          tipoArquivoAtual = "pdf";
-          registrarArquivoSemTextoCru(file);
-          salvarFichaBaseManual();
-          return;
-        }
-
-        tipoArquivoAtual = "desconhecido";
-        textoIntegralObra = "";
-        atualizarPreviewA4();
-        salvarFichaBaseManual();
-      } catch (erro) {
-        console.error("Erro ao processar arquivo:", erro);
-        textoIntegralObra = "";
-        atualizarPreviewA4();
-        salvarFichaBaseManual();
-        document.getElementById("uploadStatus").innerHTML =
-          "Arquivo recebido: " + file.name + "<br>" +
-          "Não foi possível extrair o texto deste arquivo nesta tentativa.";
-      }
-    });
-
-    [
-      "campoTitulo",
-      "campoAutor",
-      "campoIdioma",
-      "campoPrincipal",
-      "campoSecundaria",
-      "campoTerciaria",
-      "campoStatusTecnico",
-      "tipoResponsavel"
-    ].forEach(function(id) {
-      document.getElementById(id).addEventListener("input", atualizarPreviewA4);
-      document.getElementById(id).addEventListener("change", atualizarPreviewA4);
-    });
-
-    document.getElementById("checkSemAutor").addEventListener("change", function() {
-      if (this.checked) {
-        document.getElementById("campoAutor").value = "Obra sem autor identificado";
-      }
-      atualizarPreviewA4();
-    });
-
-    if (localStorage.getItem("cofre_preparado") === "true") {
-      cofrePreparado = true;
-      document.getElementById("barraPreparacao").style.width = "100%";
-      document.getElementById("statusPreparacao").textContent = "Status atual: Cofre preparado e liberado para upload.";
-      document.getElementById("statusPreparacao").className = "ok";
     }
 
-    restaurarCamposDaMemoria();
-  </script>
+    window.location.href = "modulo_02_sistema_desbaste.html";
+}
+</script>
+
+<script src="lapidar_inteligencia_core.js"></script>
 </body>
 </html>
