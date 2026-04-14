@@ -1,0 +1,177 @@
+// engine_lapidar.js
+// Motor de integração do Lapidar - versão mobile
+
+(function() {
+    // ============================================================
+    // LISTA DE MÓDULOS DO LAPIDAR (ajuste os caminhos conforme seus repositórios)
+    // ============================================================
+    const modulos = [
+        {
+            id: "inicio",
+            nome: "📖 Início",
+            caminho: "modulos/inicio.html",   // você pode criar um HTML simples de boas-vindas
+            ativo: true
+        },
+        {
+            id: "traducao",
+            nome: "🌐 Tradução",
+            caminho: "modulos/traducao.html", // ou o arquivo do repositório Lapidar-Traducao
+            ativo: true
+        },
+        {
+            id: "psicoestudo",
+            nome: "🧠 Psicoestudo",
+            caminho: "modulos/psicoestudo.html", // Lapidar-psicoestudo
+            ativo: true
+        },
+        {
+            id: "revisao",
+            nome: "✍️ Revisão Técnica",
+            caminho: "modulos/revisao.html",   // Lapidar-revis-o-Tecnica
+            ativo: true
+        },
+        {
+            id: "silos",
+            nome: "🏛️ Silos",
+            caminho: "modulos/silos.html",     // Lapidar-Silos
+            ativo: true
+        },
+        {
+            id: "cofre",
+            nome: "🔐 Cofre",
+            caminho: "modulos/cofre.html",     // Lapidar-Cofre
+            ativo: true
+        },
+        {
+            id: "portal",
+            nome: "🚪 Portal",
+            caminho: "modulos/portal.html",    // Lapidar-Portal
+            ativo: true
+        }
+    ];
+
+    // ============================================================
+    // ESTADO DA ENGINE
+    // ============================================================
+    let moduloAtual = null;
+    let iframe = null;
+
+    // ============================================================
+    // FUNÇÃO PARA CRIAR OS BOTÕES DINAMICAMENTE
+    // ============================================================
+    function criarBotoes() {
+        const container = document.getElementById("botoesModulos");
+        if (!container) return;
+        container.innerHTML = "";
+        
+        modulos.forEach(mod => {
+            if (!mod.ativo) return;
+            const btn = document.createElement("button");
+            btn.textContent = mod.nome;
+            btn.dataset.id = mod.id;
+            btn.dataset.caminho = mod.caminho;
+            btn.addEventListener("click", () => carregarModulo(mod.id, mod.caminho));
+            container.appendChild(btn);
+        });
+        
+        // carrega o primeiro módulo ativo (ou o primeiro da lista)
+        const primeiroAtivo = modulos.find(m => m.ativo === true);
+        if (primeiroAtivo) {
+            carregarModulo(primeiroAtivo.id, primeiroAtivo.caminho);
+        }
+    }
+
+    // ============================================================
+    // FUNÇÃO PARA CARREGAR UM MÓDULO DENTRO DO IFRAME
+    // ============================================================
+    function carregarModulo(id, caminho) {
+        if (moduloAtual === id) return;
+        
+        moduloAtual = id;
+        const painel = document.getElementById("painelPrincipal");
+        if (!painel) return;
+        
+        // remove iframe anterior se existir
+        if (iframe && iframe.parentNode) {
+            iframe.parentNode.removeChild(iframe);
+        }
+        
+        // cria um novo iframe
+        iframe = document.createElement("iframe");
+        iframe.style.height = "500px";
+        iframe.style.width = "100%";
+        iframe.style.border = "none";
+        iframe.style.borderRadius = "16px";
+        
+        // Mostra carregando enquanto o iframe carrega
+        const loadingDiv = document.createElement("div");
+        loadingDiv.className = "carregando";
+        loadingDiv.textContent = "⏳ carregando módulo...";
+        painel.innerHTML = "";
+        painel.appendChild(loadingDiv);
+        
+        // configura o src depois de um micro timeout para dar feedback
+        setTimeout(() => {
+            // resolve caminho relativo ou absoluto
+            let url = caminho;
+            if (!url.startsWith("http") && !url.startsWith("/")) {
+                // se for relativo, mantém
+                url = caminho;
+            }
+            iframe.src = url;
+            
+            // quando carregar, substitui o loading pelo iframe
+            iframe.onload = () => {
+                painel.innerHTML = "";
+                painel.appendChild(iframe);
+                // ajusta altura dinâmica (opcional)
+                try {
+                    const iframeDoc = iframe.contentWindow.document;
+                    const altura = iframeDoc.body.scrollHeight;
+                    if (altura) iframe.style.height = Math.max(400, altura + 40) + "px";
+                } catch(e) { /* cross-origin silencioso */ }
+            };
+            iframe.onerror = () => {
+                painel.innerHTML = `<div class="carregando" style="color:#b00020;">❌ Erro ao carregar ${url}<br><small>verifique se o arquivo existe no repositório</small></div>`;
+            };
+        }, 50);
+        
+        // marca botão ativo visualmente
+        document.querySelectorAll("#botoesModulos button").forEach(btn => {
+            if (btn.dataset.id === id) {
+                btn.classList.add("ativo");
+            } else {
+                btn.classList.remove("ativo");
+            }
+        });
+    }
+
+    // ============================================================
+    // CRIA UM MÓDULO PADRÃO "INÍCIO" CASO O ARQUIVO NÃO EXISTA
+    // ============================================================
+    function criarModuloInicioPadrao() {
+        // só cria se não existir, mas isso é apenas uma segurança
+        const conteudo = `<!DOCTYPE html>
+        <html>
+        <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Início Lapidar</title><style>body{font-family:system-ui; padding:20px; background:#fff8f0;}</style></head>
+        <body>
+        <h2>✨ Bem-vindo ao Lapidar</h2>
+        <p>Engine integrada. Selecione um módulo no menu superior.</p>
+        <p><strong>Módulos disponíveis:</strong> Tradução, Psicoestudo, Revisão, Silos, Cofre, Portal.</p>
+        <hr>
+        <small>Lapidar — ferramenta para escritores</small>
+        </body>
+        </html>`;
+        
+        // não dá pra escrever arquivo via JS puro, mas o usuário pode criar o arquivo modulos/inicio.html manualmente
+        console.log("Dica: crie a pasta /modulos/ e coloque os HTMLs de cada módulo");
+    }
+    
+    // ============================================================
+    // INICIALIZAÇÃO
+    // ============================================================
+    window.addEventListener("DOMContentLoaded", () => {
+        criarBotoes();
+        criarModuloInicioPadrao();
+    });
+})();
